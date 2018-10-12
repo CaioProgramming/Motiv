@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/theme"
+        android:title="@string/tema_escuro"
+        android:icon="@drawable/ic_brightness_6_black_24dp"/>
+    <item
+        android:id="@+id/exit"
+        android:title="@string/sair"
+        android:icon="@drawable/ic_exit_to_app_black_24dp" />
+
+</menu>

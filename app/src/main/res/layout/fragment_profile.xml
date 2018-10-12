@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".Fragments.HomeFragment"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <android.support.design.widget.CollapsingToolbarLayout
+        app:contentScrim="@color/colorPrimary"
+        android:id="@+id/collapsetoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+         app:expandedTitleTextAppearance="@color/black"
+        android:fitsSystemWindows="true"
+        >
+        <ImageView
+            android:src="@drawable/penguin"
+            android:tint="#ae000000"
+            android:id="@+id/profilepic"
+            android:scaleType="centerCrop"
+            android:contentDescription="profilepic"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
+        <TextView
+            android:id="@+id/username"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:text="@string/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:layout_collapseMode="parallax"
+            app:title="@string/username"
+            app:titleTextColor="@color/white"
+            app:popupTheme="@style/AppTheme"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+    </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+    <android.support.v7.widget.RecyclerView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/myquotes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.design.widget.CoordinatorLayout>

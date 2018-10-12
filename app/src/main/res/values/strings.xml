@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Motiv</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="voce">Você</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="m_sicas">Músicas</string>
+    <string name="cita_es">Citações</string>
+    <string name="motiva_o">Motivação</string>
+    <string name="amor">Amor</string>
+    <string name="postnumber">postnumber</string>
+    <string name="postagens">postagens</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="username">username</string>
+    <string name="salvar">Salvar</string>
+    <string name="tema_escuro">Tema Escuro</string>
+    <string name="sair">Sair</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="quote">I\'ve nothing without you</string>
+    <string name="author">Lana Del Rey</string>
+</resources>

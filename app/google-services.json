@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "307669618733",
+    "firebase_url": "https://motiv-d16d1.firebaseio.com",
+    "project_id": "motiv-d16d1",
+    "storage_bucket": "motiv-d16d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307669618733:android:393e6c507741b16c",
+        "android_client_info": {
+          "package_name": "com.creat.motiv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307669618733-hbaou11v33jb67a09mqnamoqjijgielj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creat.motiv",
+            "certificate_hash": "e52ea948ad8eb3370c325822e60b1550052192ac"
+          }
+        },
+        {
+          "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4P0aebcPu8w75EWl4wKoIazdYUIwU9-E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
