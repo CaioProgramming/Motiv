@@ -62,15 +62,19 @@ public class MainActivity extends AppCompatActivity {
     private android.support.design.widget.TabLayout tabs;
     private  RealtimeBlurView rootblur;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    private android.support.design.widget.FloatingActionButton floatingActionButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
          tabLayout = (TabLayout) findViewById(R.id.tabs);
-         container = (ViewPager) findViewById(R.id.container);
+        container = (ViewPager) findViewById(R.id.container);
 
-         maincontent = findViewById(R.id.main_content);
+        rootblur = findViewById(R.id.rootblur);
+
+
+        maincontent = findViewById(R.id.main_content);
 
 
 
@@ -116,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.exit){
             FirebaseAuth.getInstance().signOut();
             Snacky.builder().setActivity(this).info().setText("Voce encerrou sua sessão, o aplicativo será encerrado").show();
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -124,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
+
+
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this

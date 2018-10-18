@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
@@ -20,6 +18,11 @@ import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -52,6 +55,8 @@ public class HomeFragment extends Fragment {
     private android.support.v7.widget.Toolbar toolbar;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
     private android.support.design.widget.AppBarLayout appbarlayout;
+    private AdView madView;
+    FirebaseUser user;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -61,25 +66,30 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
+        user = FirebaseAuth.getInstance().getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-         appbarlayout = view.findViewById(R.id.appbarlayout);
-         collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
-         toolbar = view.findViewById(R.id.toolbar);
-         author = view.findViewById(R.id.author);
-         quote = view.findViewById(R.id.quote);
+         madView = (AdView) view.findViewById(R.id.adView);
+        MobileAds.initialize(getContext(),
+                "ca-app-pub-4979584089010597/3019321601");
+
+        madView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        madView.loadAd(adRequest);
+        appbarlayout = view.findViewById(R.id.appbarlayout);
+        collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
+        toolbar = view.findViewById(R.id.toolbar);
+        author = view.findViewById(R.id.author);
+        quote = view.findViewById(R.id.quote);
         blur = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
 
-         scroll = view.findViewById(R.id.scroll);
+        scroll = view.findViewById(R.id.scroll);
         composesrecycler = view.findViewById(R.id.composesrecycler);
-          quotesdb = FirebaseDatabase.getInstance().getReference();
+        quotesdb = FirebaseDatabase.getInstance().getReference();
 
 
         Carregar();
-
-
-
-
 
 
         return view;
@@ -94,14 +104,12 @@ public class HomeFragment extends Fragment {
         quotesdb.keepSynced(true);
 
 
-        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("data");
+        quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Quotes quotes = new Quotes();
-                    i++;
                     Quotes q = d.getValue(Quotes.class);
                     if (q != null) {
                         quotes.setId(d.getKey());
@@ -111,6 +119,8 @@ public class HomeFragment extends Fragment {
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
                         quotes.setLikes(q.getLikes());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
                         if (q.getTextcolor() == 0|| q.getBackgroundcolor() == 0){
                             quotes.setTextcolor(Color.BLACK);
                             quotes.setBackgroundcolor(Color.WHITE);
@@ -118,15 +128,11 @@ public class HomeFragment extends Fragment {
                         quotes.setTextcolor(q.getTextcolor());
                         quotes.setBackgroundcolor(q.getBackgroundcolor());}
                         quotesArrayList.add(quotes);
-                        System.out.println(i);
-                        if (i > 4){
-                            Quotes adquote = new Quotes();
-                            adquote.setQuote("Ad");
-                            quotesArrayList.add(adquote);
-                        }
-                        if (i == 4){
-                            i = 0;
-                        }
+                        if (q.getUserID().equals(user.getUid())){
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                             }
+
                         System.out.println("Quotes " + quotesArrayList.size());
 
                     }
@@ -136,17 +142,15 @@ public class HomeFragment extends Fragment {
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
                 composesrecycler.setHasFixedSize(true);
                 System.out.println(quotesArrayList.size());
-                final Animation myanim2 = AnimationUtils.loadAnimation(getContext(), R.anim.transition);
-                RecyclerAdapter myadapter = new RecyclerAdapter(quotesDB,getContext(), quotesArrayList, blur);
+                 RecyclerAdapter myadapter = new RecyclerAdapter(quotesDB, getContext(), quotesArrayList, blur, getActivity());
                 composesrecycler.setAdapter(myadapter);
                 composesrecycler.setLayoutManager(llm);
-                composesrecycler.startAnimation(myanim2);
+
 
 
                 ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
                 if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
 
 
                 }

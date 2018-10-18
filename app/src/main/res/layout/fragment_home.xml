@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/gradcitation"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment">
@@ -23,6 +24,7 @@
             android:fitsSystemWindows="true"
             >
             <LinearLayout
+                android:padding="15dp"
                 android:layout_margin="40dp"
                 android:layout_gravity="center"
                 android:orientation="vertical"
@@ -37,7 +39,7 @@
                     android:layout_gravity="center"
                     android:text="@string/quote"
                     android:textColor="@color/white"
-                    android:textSize="42sp" />
+                    android:textSize="32sp" />
 
                 <TextView
                     android:id="@+id/author"
@@ -63,12 +65,28 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.google.android.gms.ads.AdView
+        android:layout_marginBottom="5dp"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-4979584089010597/3019321601">
+    </com.google.android.gms.ads.AdView>
 
-        <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
             android:id="@+id/composesrecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
 
 
 

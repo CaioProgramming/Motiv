@@ -1,5 +1,6 @@
 package com.creat.motiv.Adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,20 +16,28 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+
+import de.mateware.snacky.Snacky;
+
+import static com.creat.motiv.Database.QuotesDB.path;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>  {
     private QuotesDB quotesDB;
@@ -36,14 +45,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private Dialog myDialog;
     private List<Quotes> mData;
     private RealtimeBlurView blurView;
+    private Activity mActivity;
     private GestureDetectorCompat mDetector;
 
 
-    public RecyclerAdapter(QuotesDB quotesDB, Context mContext, List<Quotes> mData, RealtimeBlurView blurView) {
+    public RecyclerAdapter(QuotesDB quotesDB, Context mContext, List<Quotes> mData, RealtimeBlurView blurView, Activity mActivity) {
         this.quotesDB = quotesDB;
         this.mContext = mContext;
         this.mData = mData;
         this.blurView = blurView;
+        this.mActivity = mActivity;
      }
 
     @NonNull
@@ -58,19 +69,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.cardView.setVisibility(View.VISIBLE);
-            if (mData.get(position).getQuote().equals("Ad")){
-                AdView adView = new AdView(mContext);
-                adView.setAdSize(AdSize.BANNER);
-                adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-                AdRequest adRequest = new AdRequest.Builder().build();
-               holder.adView.loadAd(adRequest);
-                holder.adView.setVisibility(View.VISIBLE);
-                holder.data.setVisibility(View.INVISIBLE);
+        Animation in = AnimationUtils.loadAnimation(mContext,R.anim.pop_in);
+        holder.cardView.startAnimation(in);
+        if (mData.get(position).getUsername() != null || mData.get(position).getUserphoto() != null ){
+            System.out.println(mData.get(position).getUserphoto());
+            System.out.println(mData.get(position).getUsername());
+            Glide.with(mContext).load(mData.get(position).getUserphoto()).into(holder.userpic);
+            holder.username.setText(mData.get(position).getUsername());
+        }else {
+            holder.username.setVisibility(View.INVISIBLE);
+            holder.userpic.setVisibility(View.INVISIBLE);
+
+        }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (mData.get(position).getUserID().equals(user.getUid())){
+                holder.remove.setVisibility(View.VISIBLE);
+            }else{
+                holder.remove.setVisibility(View.INVISIBLE);
             }
         Animation faAnimation = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
             if (mData.get(position).getBackgroundcolor() != 0){
-                holder.cardView.setBackgroundColor(mData.get(position).getBackgroundcolor());
+                holder.back.setBackgroundColor(mData.get(position).getBackgroundcolor());
             }
             if (mData.get(position).getTextcolor() != 0){
                 holder.quote.setTextColor(mData.get(position).getTextcolor());
@@ -80,46 +99,36 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.author.setText(mData.get(position).getAuthor());
             holder.quote.startAnimation(faAnimation);
             holder.author.startAnimation(faAnimation);
-            if(mData.get(position).getCategoria().equals("Musica")){
-                    holder.category.setBackgroundResource(R.color.md_deep_purple_300);
+        switch (mData.get(position).getCategoria()) {
+            case "Musica":
+                holder.category.setBackgroundResource(R.color.md_deep_purple_300);
 
-            }else if(mData.get(position).getCategoria().equals("Citação")){
+                break;
+            case "Citação":
                 holder.category.setBackgroundResource(R.color.md_grey_300);
-            }else if(mData.get(position).getCategoria().equals("Amor")){
+                break;
+            case "Amor":
                 holder.category.setBackgroundResource(R.color.md_red_300);
 
-            }else if(mData.get(position).getCategoria().equals("Motivação")){
+                break;
+            case "Motivação":
                 holder.category.setBackgroundResource(R.color.md_deep_orange_300);
 
-            }else if(mData.get(position).getCategoria().equals("Nenhum")){
+                break;
+            case "Nenhum":
                 holder.category.setBackgroundResource(R.color.black);
 
-            }
+                break;
+        }
 
-            holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (holder.cardView.isPressed()){
-                    Popup(position);
-                    return true;}
-                    return false;
-                }
-            });
 
-            holder.content.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (holder.content.isPressed()){
-                        Popup(position);
-                        return true;}
-                    return false;
-                }
-            });
 
             holder.remove.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
-                    quotesDB.Remover();
+                    Remover(position, holder);
+
                 }
             });
 
@@ -128,6 +137,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
 
+    }
+
+    private void Remover(final int position, @NonNull final MyViewHolder holder) {
+        DatabaseReference raiz;
+        raiz = FirebaseDatabase.getInstance().getReference(path);
+        raiz.child(mData.get(position).getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                Animation out = AnimationUtils.loadAnimation(mContext, R.anim.pop_out);
+                holder.cardView.startAnimation(out);
+                holder.cardView.setVisibility(View.INVISIBLE);
+                }else {
+                    Snacky.builder().setActivity(mActivity).error().setText("Erro " + task.getException().getMessage()).show();
+
+                }
+
+            }
+        });
     }
 
     private void Popup(int position) {
@@ -169,12 +197,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        AdView adView;
         CheckBox like;
         ImageButton remove;
         ScrollView data;
-        TextView quote,author;
-        RelativeLayout back;
+        ImageView userpic;
+        TextView quote,author,username;
+        LinearLayout back;
         LinearLayout content,category;
 
         public MyViewHolder(View view) {
@@ -186,8 +214,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             back = view.findViewById(R.id.background);
             content = view.findViewById(R.id.content);
             category = view.findViewById(R.id.category);
-            adView = view.findViewById(R.id.adView);
-            data = view.findViewById(R.id.data);
+            username = view.findViewById(R.id.username);
+            userpic = view.findViewById(R.id.userpic);
+
 
 
 

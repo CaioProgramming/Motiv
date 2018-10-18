@@ -1,17 +1,13 @@
 package com.creat.motiv;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -31,24 +27,11 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         final RelativeLayout layout = findViewById(R.id.layout);
         ImageView applogo = findViewById(R.id.applogo);
-        final TextView appname = findViewById(R.id.appname);
-        final Animation animation = AnimationUtils.loadAnimation(this,R.anim.slide_in_bottom);
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
-        int colorFrom = getResources().getColor(R.color.black);
-        int colorTo = getResources().getColor(R.color.white);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setDuration(5000);
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                layout.setBackgroundColor((Integer) valueAnimator.getAnimatedValue());
-            }
-        });
-        // milliseconds
-        colorAnimation.start();
 
-        CountDownTimer countDownTimer = new CountDownTimer(6000,100) {
+
+        CountDownTimer countDownTimer = new CountDownTimer(3000,100) {
             @Override
             public void onTick(long l) {
 
@@ -56,19 +39,8 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                appname.setVisibility(View.VISIBLE);
-                appname.startAnimation(animation);
-                CountDownTimer countDownTimer1 = new CountDownTimer(2000,100) {
-                    @Override
-                    public void onTick(long l) {
+              SignIn();
 
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        SignIn();
-                    }
-                }.start();
             }
         }.start();
 
@@ -88,7 +60,6 @@ public class Splash extends AppCompatActivity {
                     .setTheme(R.style.AppTheme)
                     .build(),RC_SIGN_IN);
         }else{
-            Snacky.builder().setActivity(this).success().setText("Bem vindo " + user.getDisplayName()).show();
             Intent i = new Intent(this,MainActivity.class);
             startActivity(i);
             this.finish();

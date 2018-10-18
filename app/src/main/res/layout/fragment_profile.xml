@@ -4,60 +4,114 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@drawable/gradcitation"
     tools:context=".Fragments.HomeFragment"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <android.support.design.widget.CollapsingToolbarLayout
-        app:contentScrim="@color/colorPrimary"
-        android:id="@+id/collapsetoolbar"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-         app:expandedTitleTextAppearance="@color/black"
-        android:fitsSystemWindows="true"
-        >
-        <ImageView
-            android:src="@drawable/penguin"
-            android:tint="#ae000000"
-            android:id="@+id/profilepic"
-            android:scaleType="centerCrop"
-            android:contentDescription="profilepic"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="right|top">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsetoolbar"
             android:layout_width="match_parent"
-            android:layout_height="350dp" />
-        <TextView
-            android:id="@+id/username"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            android:text="@string/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:layout_collapseMode="parallax"
-            app:title="@string/username"
-            app:titleTextColor="@color/white"
-            app:popupTheme="@style/AppTheme"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-    </android.support.design.widget.CollapsingToolbarLayout>
+            android:layout_height="350dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleGravity="center_horizontal|center_vertical"
+            app:expandedTitleTextAppearance="@color/white"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
+            app:title="@string/username">
+
+            <ImageView
+                android:id="@+id/profilepic"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:contentDescription="profilepic"
+                android:scaleType="centerCrop"
+                android:src="@drawable/penguin" />
+
+            <com.github.mmin18.widget.RealtimeBlurView
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                app:realtimeBlurRadius="75dp"
+                app:realtimeOverlayColor="@color/transparent" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="parallax"
+                app:popupTheme="@style/AppTheme"
+                app:title="@string/username"
+                app:titleTextColor="@color/white" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-
-
-
-    <android.support.v7.widget.RecyclerView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/myquotes"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myquotes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
+
+
+
+    <android.support.design.widget.FloatingActionButton
+
+        android:id="@+id/floatingActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        android:tint="@color/colorPrimary"
+        app:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        android:elevation="4dp"
+        app:fabSize="normal"
+        app:layout_anchor="@+id/linearLayout"
+        app:layout_anchorGravity="right|top" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userpictwo"
+        app:layout_anchor="@+id/linearLayout"
+        app:layout_anchorGravity="center|top"
+        android:src="@drawable/penguin"
+        android:layout_width="155dp"
+        android:layout_height="155dp" />
+
+
+        <TextView
+            android:textAlignment="center"
+            android:padding="10dp"
+            android:background="@drawable/circle"
+            app:layout_anchor="@+id/linearLayout"
+            app:layout_anchorGravity="left|top"
+            android:id="@+id/postnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/postnumber"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

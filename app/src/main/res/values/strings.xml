@@ -13,8 +13,8 @@
     <string name="cita_es">Citações</string>
     <string name="motiva_o">Motivação</string>
     <string name="amor">Amor</string>
-    <string name="postnumber">postnumber</string>
-    <string name="postagens">postagens</string>
+    <string name="postnumber">0</string>
+    <string name="postagens">Postagens</string>
     <string name="editar_perfil">Editar Perfil</string>
     <string name="username">username</string>
     <string name="salvar">Salvar</string>

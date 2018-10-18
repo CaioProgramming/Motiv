@@ -1,6 +1,7 @@
 package com.creat.motiv.Fragments;
 
 
+import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -14,9 +15,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
 
+import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
@@ -45,15 +47,22 @@ public class NewQuoteFragment extends Fragment {
     private  RadioButton citation;
     private  RadioButton motivation;
     private  RadioButton love;
-     private ScrollView background;
      String categoria = "Nenhum";
      int textcolorstring;
      int backgoundcolor;
     FirebaseUser user;
     QuotesDB quotesDB;
     DatabaseReference raiz;
+    private android.support.v7.widget.CardView preview;
     private Button textcolor;
     private Button backcolor;
+    private LinearLayout options;
+    private de.hdodenhof.circleimageview.CircleImageView userpic;
+    private android.widget.TextView username;
+    private LinearLayout category;
+    private EditText quote;
+    private LinearLayout background;
+    private android.support.v7.widget.CardView card;
     public NewQuoteFragment() {
         // Required empty public constructor
     }
@@ -65,17 +74,23 @@ public class NewQuoteFragment extends Fragment {
         // Inflate the layout for this fragment
          user = FirebaseAuth.getInstance().getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_newquote, container, false);
-        backcolor = view.findViewById(R.id.backcolor);
-        textcolor = view.findViewById(R.id.textcolor);
-        background = view.findViewById(R.id.background);
 
+         username = view.findViewById(R.id.username);
+         userpic = view.findViewById(R.id.userpic);
+         username.setText(user.getDisplayName());
+         Glide.with(this).load(user.getPhotoUrl()).into(userpic);
+        preview = view.findViewById(R.id.card);
+        background  = view.findViewById(R.id.background);
+        Button backcolor = view.findViewById(R.id.backcolor);
+        Button textcolor = view.findViewById(R.id.textcolor);
+        final LinearLayout category = view.findViewById(R.id.category);
          love = view.findViewById(R.id.love);
          motivation = view.findViewById(R.id.motivation);
          citation = view.findViewById(R.id.citation);
          music = view.findViewById(R.id.music);
          save = view.findViewById(R.id.save);
           author = view.findViewById(R.id.author);
-         frase = view.findViewById(R.id.frase);
+        frase = view.findViewById(R.id.quote);
 
 
 
@@ -92,8 +107,7 @@ public class NewQuoteFragment extends Fragment {
                      public void onColorChosen(int color) {
                          Log.d("Pure Hex", Integer.toHexString(color));
                          int colorFrom = frase.getCurrentTextColor();
-                         int colorTo = color;
-                         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, color);
                          colorAnimation.setDuration(2000); // milliseconds
                          colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -125,59 +139,97 @@ public class NewQuoteFragment extends Fragment {
                  cp.setCallback(new ColorPickerCallback() {
                      @Override
                      public void onColorChosen(int color) {
-                         Log.d("Pure Hex", Integer.toHexString(color));
-                         int colorFrom = background.getSolidColor();
-                         int colorTo = color;
-                         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-                         colorAnimation.setDuration(2000); // milliseconds
-                         colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                             @Override
-                             public void onAnimationUpdate(ValueAnimator animator) {
-                                 background.setBackgroundColor((int) animator.getAnimatedValue());
-
-                             }
-
-                         });
-                         colorAnimation.start();
-                        backgoundcolor = color;
+                         background.setVisibility(View.INVISIBLE);
+                         background.setBackgroundColor(color);
+                         int cx = background.getRight();
+                         int cy = background.getTop();
+                         int radius = Math.max(background.getWidth(), background.getHeight());
+                         Animator anim = android.view.ViewAnimationUtils.createCircularReveal(background, cx, cy,
+                                 0, radius);
+                         background.setVisibility(View.VISIBLE);
+                         anim.start();
+                         backgoundcolor = color;
                      }
                  });
              }
          });
 
 
-         music.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
+        music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), category.getSolidColor(), R.color.md_deep_purple_300);
+                colorAnimation.setDuration(2000); // milliseconds
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-                 categoria = "Musica";
-             }
-         });
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        category.setBackgroundColor((int) animator.getAnimatedValue());
 
-         love.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
+                    }
 
-                 categoria = "Amor";
-             }
-         });
+                });
+                colorAnimation.start();
+                categoria = "Musica";
+            }
+        });
 
-         citation.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
+        love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), category.getSolidColor(), R.color.md_red_300);
+                colorAnimation.setDuration(2000); // milliseconds
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-                 categoria = "Citação";
-             }
-         });
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        category.setBackgroundColor((int) animator.getAnimatedValue());
 
-         motivation.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
+                    }
 
-                 categoria = "Motivação";
-             }
-         });
+                });
+                colorAnimation.start();
+                categoria = "Amor";
+            }
+        });
+
+        citation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), category.getSolidColor(), R.color.md_grey_300);
+                colorAnimation.setDuration(2000); // milliseconds
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        category.setBackgroundColor((int) animator.getAnimatedValue());
+
+                    }
+
+                });
+                colorAnimation.start();
+                categoria = "Citação";
+            }
+        });
+
+        motivation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), category.getSolidColor(), R.color.md_orange_300);
+                colorAnimation.setDuration(2000); // milliseconds
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        category.setBackgroundColor((int) animator.getAnimatedValue());
+
+                    }
+
+                });
+                colorAnimation.start();
+                categoria = "Motivação";
+            }
+        });
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -242,7 +294,14 @@ public class NewQuoteFragment extends Fragment {
             Date datenow = Calendar.getInstance().getTime();
             String dia = datenow.toString();
 
-            Quotes quotes = new Quotes(null, frase.getText().toString(), author.getText().toString(), dia, categoria, user.getUid(),0,backgoundcolor, textcolorstring);
+            Quotes quotes = new Quotes(null, frase.getText().toString(),
+                    author.getText().toString(),
+                    dia, categoria,
+                    user.getUid(),
+                    user.getDisplayName(),
+                    String.valueOf(user.getPhotoUrl()),
+                    0, backgoundcolor,
+                    textcolorstring);
             if (author.getText().toString().equals("")){
                 quotes.setAuthor(user.getDisplayName());
             }
@@ -255,24 +314,6 @@ public class NewQuoteFragment extends Fragment {
         }
     }
 
-    public String categoria(){
-
-        String categoria = "Nenhuma";
-        if (music.isSelected()){
-            categoria = "Musica";
-            return categoria;
-        }else if (citation.isSelected()){
-            categoria = "Citação";
-            return categoria;
-        }else if(love.isSelected()){
-            categoria = "Amor";
-            return categoria;
-        }else if(motivation.isSelected()){
-            categoria = "Motivação";
-            return categoria;
-        }
-        return categoria;
-    }
 
 
 
