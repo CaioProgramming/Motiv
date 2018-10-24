@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.creat.motiv.Fragments.HomeFragment;
@@ -54,23 +57,34 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.home,
             R.drawable.user
     };
+    private int[] tabIconsnight = {
+            R.drawable.writenight,
+            R.drawable.homenight,
+            R.drawable.usernight
+    };
     private Toolbar toolbar;
     private android.support.design.widget.TabLayout tabLayout;
     private ViewPager container;
     private RelativeLayout maincontent;
     private android.widget.EditText search;
-    private android.support.design.widget.TabLayout tabs;
-    private  RealtimeBlurView rootblur;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private android.support.design.widget.FloatingActionButton floatingActionButton2;
+    public static final String PREFS_NAME = "MyPrefsFile";
+    private SharedPreferences setings;
+    RealtimeBlurView rootblur;
+    ProgressBar progressBar;
+    Pref preferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        container = (ViewPager) findViewById(R.id.container);
-
+        preferences = new Pref(this);
+         tabLayout = findViewById(R.id.tabs);
+        container = findViewById(R.id.container);
+        progressBar = findViewById(R.id.progress_bar);
         rootblur = findViewById(R.id.rootblur);
 
 
@@ -82,21 +96,45 @@ public class MainActivity extends AppCompatActivity {
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
+        if (preferences.nightmodestate() == true){
+            ConfigNightViewPager();
+        }else {
+            ConfigViewPager();
+        }
+
+
+
+    }
+
+    private void ConfigViewPager() {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1,true);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
+        tabLayout.setBackgroundResource(R.color.white);
         setupTabIcons();
+    }
 
-
-
+    private void ConfigNightViewPager() {
+        mViewPager = findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1,true);
+        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
+        tabLayout.setBackgroundResource(R.color.grey_900);
+        setupTabIconsnight();
     }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+    }
+    private void setupTabIconsnight() {
+        tabLayout.getTabAt(0).setIcon(tabIconsnight[0]);
+        tabLayout.getTabAt(1).setIcon(tabIconsnight[1]);
+        tabLayout.getTabAt(2).setIcon(tabIconsnight[2]);
     }
 
 
@@ -116,8 +154,53 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.theme) {
-            Snacky.builder().setActivity(this).info().setText("Em desenvolvimento").show();
-        }else if (id == R.id.exit){
+            setings = PreferenceManager.getDefaultSharedPreferences(this);
+
+            if (preferences.nightmodestate()){
+                preferences.setNight(false);
+                rootblur.setBlurRadius(50);
+                progressBar.setVisibility(View.VISIBLE);
+                ConfigViewPager();
+                CountDownTimer timer = new CountDownTimer(3000,100) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        rootblur.setBlurRadius(0 );
+                        rootblur.setOverlayColor(Color.TRANSPARENT);
+                    }
+                }.start();
+
+            }else {
+                preferences.setNight(true);
+                ConfigNightViewPager();
+                rootblur.setBlurRadius(50);
+                progressBar.setVisibility(View.VISIBLE);
+                  CountDownTimer timer = new CountDownTimer(3000,100) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        ConfigNightViewPager();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        rootblur.setBlurRadius(0);
+                        rootblur.setOverlayColor(Color.TRANSPARENT);
+                    }
+                }.start();
+
+
+
+            }
+            // Commit the edits!
+
+         }else if (id == R.id.exit){
             FirebaseAuth.getInstance().signOut();
             Snacky.builder().setActivity(this).info().setText("Voce encerrou sua sessão, o aplicativo será encerrado").show();
             this.finish();

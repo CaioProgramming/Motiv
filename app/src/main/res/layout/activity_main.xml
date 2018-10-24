@@ -28,5 +28,13 @@
         android:id="@+id/rootblur"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+    <ProgressBar
+        android:visibility="invisible"
+        android:indeterminateDrawable="@mipmap/ic_launcher"
+        android:id="@+id/progress_bar"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

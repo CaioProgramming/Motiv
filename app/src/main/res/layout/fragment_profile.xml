@@ -100,6 +100,7 @@
             android:textAlignment="center"
             android:padding="10dp"
             android:background="@drawable/circle"
+
             app:layout_anchor="@+id/linearLayout"
             app:layout_anchorGravity="left|top"
             android:id="@+id/postnumber"

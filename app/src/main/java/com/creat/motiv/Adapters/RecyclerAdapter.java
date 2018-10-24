@@ -2,6 +2,8 @@ package com.creat.motiv.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -18,7 +20,6 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import de.mateware.snacky.Snacky;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static com.creat.motiv.Database.QuotesDB.path;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>  {
@@ -133,11 +135,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             });
 
 
+            holder.copy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("frase", mData.get(position).getQuote());
+                    clipboard.setPrimaryClip(clip);
+                    Snacky.builder().setActivity(mActivity).success().setText("Frase " + mData.get(position).getQuote() +
+                            "copiado para área de transferência").show();
+                }
+            });
+
+
+
+
 
 
 
 
     }
+
+
 
     private void Remover(final int position, @NonNull final MyViewHolder holder) {
         DatabaseReference raiz;
@@ -198,15 +216,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         CheckBox like;
-        ImageButton remove;
-        ScrollView data;
-        ImageView userpic;
+        ImageButton remove,share,copy;
+         ImageView userpic;
         TextView quote,author,username;
         LinearLayout back;
         LinearLayout content,category;
 
         public MyViewHolder(View view) {
             super(view);
+            like = view.findViewById(R.id.like);
+            share = view.findViewById(R.id.share);
+            copy = view.findViewById(R.id.copy);
             remove = view.findViewById(R.id.remove);
             quote = view.findViewById(R.id.quote);
             author = view.findViewById(R.id.author);

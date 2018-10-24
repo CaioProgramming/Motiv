@@ -24,4 +24,16 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="quote">I\'ve nothing without you</string>
     <string name="author">Lana Del Rey</string>
+    <string name="Welcome">Bem-vindo ao Motiv</string>
+    <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
+    <string name="connected">Sempre conectado</string>
+    <string name="security">Segurança</string>
+    <string name="safe">Seus dados estão seguros e não são compartilhadas com nenhum usuário, fique tranquilo é um ambiente seguro</string>
+    <string name="you">Seu mundo</string>
+    <string name="share">Compartilhe tudo o que imaginar, esse espaço é seu!</string>
+    <string name="Imagine">Imagine</string>
+    <string name="create">Use a imaginação e criatividade sem medo com a ferramenta de edição</string>
+    <string name="sync">O Motiv está sempre sincronizado,sempre que um novo usuário posta algo,você pode visualiar no mesmo momento</string>
+    <string name="start">Hora de começar</string>
+    <string name="sharequotes">Já são centenas de frases compartilhadas no mundo!</string>
 </resources>

@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/home"
     android:background="@drawable/gradcitation"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
-            app:expandedTitleTextAppearance="@color/black"
+            app:expandedTitleTextAppearance="@color/white"
             android:fitsSystemWindows="true"
             >
             <LinearLayout
@@ -37,7 +38,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/quote"
                     android:textColor="@color/white"
                     android:textSize="32sp" />
 
@@ -46,7 +46,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="@string/author"
                     android:textColor="@color/white"
                     android:textSize="32sp"
                     android:textStyle="bold" />

@@ -1,5 +1,7 @@
 package com.creat.motiv;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import de.mateware.snacky.Snacky;
@@ -23,6 +26,17 @@ public class Splash extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
      @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,23);
+        calendar.set(Calendar.MINUTE,10);
+        calendar.set(Calendar.SECOND,30);
+         Intent intent = new Intent(getApplicationContext(),Notification_reciever.class);
+         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         final RelativeLayout layout = findViewById(R.id.layout);
@@ -61,6 +75,7 @@ public class Splash extends AppCompatActivity {
                     .build(),RC_SIGN_IN);
         }else{
             Intent i = new Intent(this,MainActivity.class);
+            i.putExtra("novo",false);
             startActivity(i);
             this.finish();
         }
@@ -75,10 +90,8 @@ public class Splash extends AppCompatActivity {
            IdpResponse response = IdpResponse.fromResultIntent(data);
            if (resultCode == RESULT_OK){
                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-               Snacky.builder().setActivity(this).success().setText("Bem vindo " + user.getDisplayName()).show();
-               Intent i = new Intent(this,MainActivity.class);
-               startActivity(i);
-               this.finish();
+                 newuser();
+
 
 
            }else{
@@ -87,5 +100,11 @@ public class Splash extends AppCompatActivity {
            }
 
         }
+    }
+
+     private void newuser() {
+        Intent i = new Intent(this,NewUser.class);
+         startActivity(i);
+        this.finish();
     }
 }

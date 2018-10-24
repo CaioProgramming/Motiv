@@ -3,6 +3,7 @@ package com.creat.motiv.Fragments;
 
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.creat.motiv.Adapters.RecyclerPicAdapter;
 import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
+import com.creat.motiv.Pref;
 import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +43,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.wooplr.spotlight.SpotlightView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,10 +73,11 @@ public class ProfileFragment extends Fragment {
     QuotesDB quotesDB;
     private de.hdodenhof.circleimageview.CircleImageView userpictwo;
     private Toolbar toolbar;
-    private CollapsingToolbarLayout collapsetoolbar;
+    CollapsingToolbarLayout collapsingToolbarLayout;
     private android.support.design.widget.AppBarLayout appBarLayout;
-    private android.widget.LinearLayout linearLayout;
-    private android.support.design.widget.FloatingActionButton floatingActionButton;
+    private SharedPreferences setings;
+    FloatingActionButton floatingActionButton;
+    Pref preferences;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -83,21 +87,21 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        preferences = new Pref(getContext());
          blur = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         user = FirebaseAuth.getInstance().getCurrentUser();
         quotesdb = FirebaseDatabase.getInstance().getReference();
 
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-         appBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
-        this.collapsetoolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsetoolbar);
-        this.toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+
+        appBarLayout = view.findViewById(R.id.appBarLayout);
+        toolbar = view.findViewById(R.id.toolbar);
         userpictwo = view.findViewById(R.id.userpictwo);
         postnumber = view.findViewById(R.id.postnumber);
-
-        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        collapsingToolbarLayout = view.findViewById(R.id.collapsetoolbar);
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
         myquotesrecycler = view.findViewById(R.id.myquotes);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
         profilepic = view.findViewById(R.id.profilepic);
 
 
@@ -107,8 +111,8 @@ public class ProfileFragment extends Fragment {
                 userEdit();
             }
         });
-
-
+        Tutorial(view);
+        nightmode(view);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
@@ -135,9 +139,7 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-
         Carregar();
-
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setTitle(user.getDisplayName());
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
@@ -146,10 +148,7 @@ public class ProfileFragment extends Fragment {
 
         }
 
-        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsetoolbar);
-        collapsingToolbarLayout.setTitle(user.getDisplayName());
-        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
-        collapsingToolbarLayout.setCollapsedTitleGravity(START);
+        Toolbarconfig(view);
 
         // Set collapsing tool bar image.
 
@@ -160,10 +159,54 @@ public class ProfileFragment extends Fragment {
                 Picalert();
             }
         });
-
         userinfo();
         return view;
 
+    }
+
+    private void Toolbarconfig(View view) {
+        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsetoolbar);
+        collapsingToolbarLayout.setTitle(user.getDisplayName());
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+        collapsingToolbarLayout.setCollapsedTitleGravity(START);
+    }
+
+    private void Tutorial(View view) {
+        Boolean novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
+
+        if (novo){
+            new SpotlightView.Builder(getActivity())
+                    .introAnimationDuration(400)
+                    .enableRevealAnimation(true)
+                    .performClick(true)
+                    .fadeinTextDuration(400)
+                    .headingTvColor(R.color.colorPrimary)
+                    .headingTvSize(32)
+                    .headingTvText("Perfil")
+                    .subHeadingTvColor(Color.parseColor("#ffffff"))
+                    .subHeadingTvSize(16)
+                    .subHeadingTvText("Aqui é o seu perfil, onde poderá ver todas suas postagens e se quiser apagá-las,alterar seu nome e foto de perfil")
+                    .maskColor(Color.parseColor("#dc000000"))
+                    .target(view)
+                    .lineAnimDuration(400)
+                    .lineAndArcColor(R.color.colorPrimaryDark)
+                    .dismissOnTouch(true)
+                    .dismissOnBackPress(true)
+                     .usageId("createscreen") //UNIQUE ID
+                    .show();}
+    }
+
+    private void nightmode(View view) {
+        System.out.println(preferences.nightmodestate());
+        if (preferences.nightmodestate()){
+            view.setBackgroundResource(R.drawable.gradnight);
+            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.grey_800));
+            collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+            floatingActionButton.setBackgroundColor(getResources().getColor(R.color.grey_800));
+            postnumber.setTextColor(getResources().getColor(R.color.colorPrimary));
+            floatingActionButton.setBackgroundResource(R.color.grey_900);
+            postnumber.setBackgroundResource(R.drawable.nightcircle);}
     }
 
     private void userinfo() {
@@ -290,8 +333,6 @@ public class ProfileFragment extends Fragment {
 
 
     private void Carregar() {
-        myquotes = new ArrayList<>();
-        myquotes.clear();
 
 
         quotesdb.keepSynced(true);
@@ -299,12 +340,13 @@ public class ProfileFragment extends Fragment {
 
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         quotesdb.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                myquotes = new ArrayList<>();
+                myquotes.clear();
+                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Quotes quotes = new Quotes();
-                    i++;
                     Quotes q = d.getValue(Quotes.class);
                     if (q != null) {
                         quotes.setId(d.getKey());
@@ -328,7 +370,6 @@ public class ProfileFragment extends Fragment {
                             quotes.setUsername(user.getDisplayName());
                             quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
                         myquotes.add(quotes);
-                        System.out.println(i);
 
                         System.out.println("Quotes " + myquotes.size());}
 
