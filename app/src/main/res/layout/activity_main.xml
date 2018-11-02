@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <android.support.v4.view.ViewPager
+        android:layout_above="@id/tabs"
           android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <com.github.mmin18.widget.RealtimeBlurView
+        app:realtimeOverlayColor="#97ffffff"
         app:realtimeBlurRadius="0dp"
         android:id="@+id/rootblur"
         android:layout_width="fill_parent"
@@ -36,5 +38,28 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <LinearLayout
+        android:visibility="invisible"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:id="@+id/offline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/offlinemssage"
+            android:textAlignment="center"
+            android:textSize="42sp"
+            android:text="Ish, sem internet você não consegue fazer nada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:adjustViewBounds="true"
+            android:id="@+id/offlineimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
 </RelativeLayout>

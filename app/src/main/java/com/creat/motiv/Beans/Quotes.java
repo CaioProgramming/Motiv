@@ -3,7 +3,7 @@ package com.creat.motiv.Beans;
 public class Quotes {
 
 
-    public Quotes(String id, String quote, String author, String data, String categoria, String userID, String username, String userphoto, int likes, int backgroundcolor, int textcolor) {
+    public Quotes(String id, String quote, String author, String data, String categoria, String userID, String username, String userphoto, int likes, int backgroundcolor, int textcolor, boolean italic, boolean bold, Integer font) {
         this.id = id;
         this.quote = quote;
         this.author = author;
@@ -15,10 +15,15 @@ public class Quotes {
         this.likes = likes;
         this.backgroundcolor = backgroundcolor;
         this.textcolor = textcolor;
+        this.italic = italic;
+        this.bold = bold;
+        this.fontnumber = font;
     }
 
     public Quotes() {
     }
+
+
 
 
     public String getId() {
@@ -111,6 +116,36 @@ public class Quotes {
 
     String id,quote,author,data,categoria,userID,username,userphoto;
     int likes,backgroundcolor,textcolor;
+
+    public boolean isItalic() {
+        return italic;
+    }
+
+    public void setItalic(boolean italic) {
+        this.italic = italic;
+    }
+
+    public boolean isBold() {
+        return bold;
+    }
+
+    public void setBold(boolean bold) {
+        this.bold = bold;
+    }
+
+
+
+    boolean italic,bold;
+
+    public Integer getFont() {
+        return fontnumber;
+    }
+
+    public void setFont(Integer font) {
+        this.fontnumber = font;
+    }
+
+    Integer fontnumber;
 
 
 

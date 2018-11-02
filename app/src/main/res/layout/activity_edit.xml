@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:fillViewport="true"
+    android:id="@+id/edit"
+    android:background="@drawable/gradcitation"
+    tools:context=".Fragments.HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/options"
+            android:elevation="2dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/colorlibrary"
+                android:padding="5dp"
+                android:layout_width="130dp"
+                android:layout_height="120dp">
+
+            </android.support.v7.widget.RecyclerView>
+            <RadioGroup
+                android:layout_gravity="end"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/music"
+                    android:text="Música"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/citation"
+                    android:text="Citação"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/motivation"
+                    android:text="Motivação"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/love"
+                    android:text="Amor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_below="@id/options"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card"
+                android:hapticFeedbackEnabled="false"
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="15dp"
+                android:elevation="2dp"
+                android:layout_width="match_parent"
+                android:layout_gravity="center|top"
+                android:layout_height="wrap_content"
+                >
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:background="@color/transparent"
+                        android:layout_margin="3dp"
+                        android:elevation="3dp"
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/userpic"
+                            android:src="@drawable/penguin"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:padding="10dp"
+                            android:text="@string/username"
+                            android:textSize="16sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@color/black"
+                        android:id="@+id/category"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:orientation="horizontal" />
+                    <LinearLayout
+                        android:padding="25dp"
+                        android:orientation="vertical"
+                        android:id="@+id/background"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:typeface="normal"
+                            android:backgroundTint="@color/transparent"
+                            android:id="@+id/quote"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textSize="18sp"
+                            android:hint="@string/quote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <EditText
+                            android:typeface="normal"
+                            android:backgroundTint="@color/transparent"
+                            android:id="@+id/author"
+                            android:padding="5dp"
+                            android:textAlignment="textEnd"
+                            android:textSize="16sp"
+                            android:hint="@string/author"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:visibility="invisible"
+                                android:id="@+id/fontid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:text="0"
+                                android:visibility="invisible"
+                                android:id="@+id/texcolorid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:text="0"
+                                android:visibility="invisible"
+                                android:id="@+id/backcolorid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:background="@color/transparent"
+                        android:layout_margin="5dp"
+                        android:elevation="1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:layout_marginStart="5dp"
+                            android:padding="5dp"
+                            android:button="@drawable/favoritecheck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageButton
+                            android:src="@drawable/delete"
+                            android:background="@color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageButton
+                            android:src="@drawable/share"
+                            android:background="@color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageButton
+                            android:src="@drawable/copy"
+                            android:background="@color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+
+
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+        </LinearLayout>
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/material_design_android_floating_action_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            fab:menu_animationDelayPerItem="55"
+            fab:menu_backgroundColor="@android:color/transparent"
+            fab:menu_buttonSpacing="0dp"
+            fab:menu_colorNormal="@color/colorPrimary"
+            fab:menu_colorPressed="@color/colorPrimaryDark"
+            fab:menu_colorRipple="@color/white"
+            fab:menu_fab_label="Editor"
+            fab:menu_fab_size="normal"
+            fab:menu_icon="@drawable/ic_mode_edit_black_24dp"
+            fab:menu_labels_colorNormal="#333"
+            fab:menu_labels_colorPressed="#444"
+            fab:menu_labels_colorRipple="@color/white"
+            fab:menu_labels_cornerRadius="3dp"
+            fab:menu_labels_ellipsize="none"
+            fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            fab:menu_labels_margin="0dp"
+            fab:menu_labels_maxLines="-1"
+            fab:menu_labels_padding="8dp"
+            fab:menu_labels_position="left"
+            fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            fab:menu_labels_singleLine="false"
+            fab:menu_labels_textColor="@color/white"
+            fab:menu_labels_textSize="15sp"
+            fab:menu_openDirection="up"
+
+            >
+
+
+            <com.github.clans.fab.FloatingActionButton
+                app:fab_colorNormal="@color/colorPrimary"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                android:id="@+id/textcolorfab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_format_color_text_black_24dp"
+                fab:fab_label="Cor do texto"
+                android:background="@color/colorPrimary"
+                android:tint="@color/white"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                app:fab_colorNormal="@color/colorPrimary"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                android:tint="@color/white"
+                android:id="@+id/backcolorfab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_format_color_fill_white_24dp"
+                fab:fab_label="Cor do plano de fundo"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                app:fab_colorNormal="@color/colorPrimary"
+                app:fab_colorPressed="@color/colorPrimaryDark"                android:tint="@color/white"
+                android:id="@+id/fontpickerfab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_font_download_black_24dp"
+                fab:fab_label="Escolher fonte"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                app:fab_colorNormal="@color/colorPrimary"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                android:id="@+id/italicfab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_format_italic_black_24dp"
+                fab:fab_label="Texto itálico"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                app:fab_colorNormal="@color/colorPrimary"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                android:id="@+id/boldfab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_format_bold_black_24dp"
+                fab:fab_label="Texto em negrito"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                app:fab_colorNormal="@color/colorPrimary"
+                app:fab_colorPressed="@color/colorPrimaryDark"                 android:id="@+id/salvar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check_white_24dp"
+                fab:fab_label="Salvar"
+                fab:fab_size="mini" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/blur"
+            app:realtimeBlurRadius="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:textColor="@color/grey_200"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/quoteID"
+            android:text="quoteID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/gradcitation"
+    android:animateLayoutChanges="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/creatorlayout"
+            android:elevation="2dp"
+            android:background="@color/white"
+            android:padding="2dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                    <CheckBox
+                        android:checked="true"
+                        android:drawableStart="@mipmap/creators"
+                        android:id="@+id/creators"
+                        android:button="@drawable/expand"
+                        android:text="Criadores"
+                        android:textSize="24sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/creatorsrecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+        <LinearLayout
+            android:background="@color/white"
+            android:id="@+id/referenceslayout"
+            android:elevation="2dp"
+            android:padding="2dp"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:drawableStart="@mipmap/references"
+                android:id="@+id/designreferences"
+                android:button="@drawable/expand"
+                android:text="Referências de design"
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/designrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/white"
+            android:id="@+id/artistslayout"
+            android:elevation="2dp"
+            android:padding="2dp"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:drawableStart="@mipmap/artists"
+                android:id="@+id/artistsreferences"
+                android:button="@drawable/expand"
+                android:text="Artistas"
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/artistsrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/white"
+            android:id="@+id/supportlayout"
+            android:elevation="2dp"
+            android:padding="2dp"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:drawableStart="@mipmap/support"
+                android:id="@+id/support"
+                android:textColor="@color/grey_600"
+                android:button="@drawable/expand"
+                android:text="Suporte"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:animateLayoutChanges="true"
+                        android:id="@+id/helpad"
+                        style="@style/AppTheme"
+                        android:textSize="18sp"
+                        android:text="Anúncio para ajudar o aplicativo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:elevation="2dp"
+            android:padding="2dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/grey_600"
+
+                android:drawableTop="@mipmap/ic_launcher"
+                android:textSize="18sp"
+                style="@style/AppTheme"
+                android:textAlignment="center"
+                android:text="Motiv desenvolvido em 2018, todos os direitos reservados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/grey_600"
+                android:drawableBottom="@mipmap/firebase"
+                android:textSize="12sp"
+                style="@style/AppTheme"
+                android:textAlignment="center"
+                android:text="Desenvolvido com a ferramenta Firebase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -27,10 +29,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.creat.motiv.Fragments.AboutFragment;
 import com.creat.motiv.Fragments.HomeFragment;
 import com.creat.motiv.Fragments.NewQuoteFragment;
 import com.creat.motiv.Fragments.ProfileFragment;
+import com.creat.motiv.Fragments.SearchFragment;
+import com.creat.motiv.Utils.Pref;
+import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -53,14 +61,21 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private int[] tabIcons = {
-            R.drawable.write,
             R.drawable.home,
-            R.drawable.user
+            R.drawable.search,
+            R.drawable.write,
+            R.drawable.user,
+            R.drawable.about
+
     };
     private int[] tabIconsnight = {
-            R.drawable.writenight,
             R.drawable.homenight,
-            R.drawable.usernight
+            R.drawable.searchnight,
+            R.drawable.writenight,
+            R.drawable.usernight,
+            R.drawable.aboutnight
+
+
     };
     private Toolbar toolbar;
     private android.support.design.widget.TabLayout tabLayout;
@@ -74,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
     RealtimeBlurView rootblur;
     ProgressBar progressBar;
     Pref preferences;
+    private ProgressBar progressbar;
+    private android.widget.ImageView offlineimage;
+    private android.widget.LinearLayout offline;
+    TextView offlinemessage;
 
 
 
@@ -81,13 +100,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         offline = findViewById(R.id.offline);
+         offlineimage = findViewById(R.id.offlineimage);
         preferences = new Pref(this);
          tabLayout = findViewById(R.id.tabs);
         container = findViewById(R.id.container);
         progressBar = findViewById(R.id.progress_bar);
         rootblur = findViewById(R.id.rootblur);
-
-
+        offlinemessage = findViewById(R.id.offlinemssage);
         maincontent = findViewById(R.id.main_content);
 
 
@@ -96,20 +116,58 @@ public class MainActivity extends AppCompatActivity {
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        if (preferences.nightmodestate() == true){
+        if (preferences.nightmodestate()){
             ConfigNightViewPager();
         }else {
             ConfigViewPager();
         }
 
 
+        internetconnection();
 
+    }
+
+    private void internetconnection() {
+        if (!isNetworkAvailable()) {
+            offline.setVisibility(View.VISIBLE);
+            offlinemessage.setText(Tools.offlinemessage());
+            Glide.with(this).asGif().load(R.drawable.spaceguy).into(offlineimage);
+            tabLayout.setVisibility(View.INVISIBLE); }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        internetconnection();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internetconnection();
+    }
+
+
+
+
+
+
+
+
+
+    @Override
+    public void onBackPressed() {
+        if (mViewPager.getCurrentItem() != 0) {
+            mViewPager.setCurrentItem(0, true);
+        } else {
+            this.finish();
+        }
     }
 
     private void ConfigViewPager() {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1,true);
+        mViewPager.setCurrentItem(0, true);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
         tabLayout.setBackgroundResource(R.color.white);
@@ -119,23 +177,29 @@ public class MainActivity extends AppCompatActivity {
     private void ConfigNightViewPager() {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1,true);
+        mViewPager.setCurrentItem(0, true);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
         tabLayout.setBackgroundResource(R.color.grey_900);
         setupTabIconsnight();
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        for (int i = 0 ;i < tabIcons.length;i++){
+        tabLayout.getTabAt(i).setIcon(tabIcons[i]); }
     }
     private void setupTabIconsnight() {
-        tabLayout.getTabAt(0).setIcon(tabIconsnight[0]);
-        tabLayout.getTabAt(1).setIcon(tabIconsnight[1]);
-        tabLayout.getTabAt(2).setIcon(tabIconsnight[2]);
+        for (int i = 0 ;i < tabIcons.length;i++){
+            tabLayout.getTabAt(i).setIcon(tabIconsnight[i]); }
     }
+
 
 
     @Override
@@ -266,7 +330,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         checkPermissionREAD_EXTERNAL_STORAGE(this);
+         internetconnection();
+
     }
+
+
 
     public boolean checkPermissionREAD_EXTERNAL_STORAGE(
             final Context context) {
@@ -310,14 +378,24 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
            switch (position){
                case 0:
-                   NewQuoteFragment newQuoteFragment = new NewQuoteFragment();
-                   return  newQuoteFragment;
-               case 1:
                    HomeFragment homeFragment = new HomeFragment();
                    return  homeFragment;
+               case 1:
+                   SearchFragment searchFragment = new SearchFragment();
+                   return searchFragment;
+
+
                case 2:
+                   NewQuoteFragment newQuoteFragment = new NewQuoteFragment();
+                   return newQuoteFragment;
+               case 3:
                    ProfileFragment profileFragment = new ProfileFragment();
                    return profileFragment;
+               case 4:
+                   AboutFragment aboutFragment = new AboutFragment();
+                   return aboutFragment;
+
+
 
            }
            return null;
@@ -326,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+           return tabIcons.length;
         }
     }
 }

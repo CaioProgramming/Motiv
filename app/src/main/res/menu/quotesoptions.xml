@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Copiar" android:id="@+id/Copiar"></item>
+    <item  android:title="Denunciar"  android:id="@+id/denunciar"></item>
+    <item android:title="Compartilhar" android:id="@+id/compartilhar"></item>
+</menu>

@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher" />
     <com.github.silvestrpredko.dotprogressbar.DotProgressBar
-        android:id="@+id/progress"
         app:animationDirection="right"
         app:duration="500"
         app:amount="4"

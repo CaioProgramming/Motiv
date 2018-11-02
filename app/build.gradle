@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:17.0.0'
     implementation 'com.github.wooplr:Spotlight:1.2.3'
 
+    implementation 'com.github.clans:fab:1.6.2'
     implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
 //    implementation 'agency.tango.android:material-intro-screen:{latest_release}'
     implementation 'com.github.dimorinny:show-case-card-view:0.0.4'

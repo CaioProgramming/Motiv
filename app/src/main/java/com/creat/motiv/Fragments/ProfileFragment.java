@@ -3,7 +3,6 @@ package com.creat.motiv.Fragments;
 
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -30,8 +30,8 @@ import com.creat.motiv.Adapters.RecyclerPicAdapter;
 import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
-import com.creat.motiv.Pref;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.Pref;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +54,7 @@ import de.mateware.snacky.Snacky;
 
 import static android.view.Gravity.START;
 import static com.creat.motiv.Database.QuotesDB.path;
+import static com.creat.motiv.Database.QuotesDB.searcharg;
 
 
 /**
@@ -75,7 +76,7 @@ public class ProfileFragment extends Fragment {
     private Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
     private android.support.design.widget.AppBarLayout appBarLayout;
-    private SharedPreferences setings;
+    private boolean tuto = true;
     FloatingActionButton floatingActionButton;
     Pref preferences;
     public ProfileFragment() {
@@ -86,11 +87,15 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         preferences = new Pref(getContext());
          blur = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         user = FirebaseAuth.getInstance().getCurrentUser();
         quotesdb = FirebaseDatabase.getInstance().getReference();
+
+
 
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -152,6 +157,13 @@ public class ProfileFragment extends Fragment {
 
         // Set collapsing tool bar image.
 
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Tutorial(view);
+                return false;
+            }
+        });
 
         userpictwo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,7 +206,10 @@ public class ProfileFragment extends Fragment {
                     .dismissOnTouch(true)
                     .dismissOnBackPress(true)
                      .usageId("createscreen") //UNIQUE ID
-                    .show();}
+                    .show();
+
+        }
+         novo = false;
     }
 
     private void nightmode(View view) {
@@ -206,10 +221,14 @@ public class ProfileFragment extends Fragment {
             floatingActionButton.setBackgroundColor(getResources().getColor(R.color.grey_800));
             postnumber.setTextColor(getResources().getColor(R.color.colorPrimary));
             floatingActionButton.setBackgroundResource(R.color.grey_900);
-            postnumber.setBackgroundResource(R.drawable.nightcircle);}
+             postnumber.setBackgroundResource(R.drawable.nightcircle);}
     }
 
     private void userinfo() {
+        if (user.getPhotoUrl() == null){
+            Glide.with(this).load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/fantastic_planet_001.jpg?alt=media&token=03f77356-b17a-45f4-ac31-baf0bc9f87f5").into(profilepic);
+            Glide.with(this).asGif().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/luna3.gif?alt=media&token=ad8ed0f1-f115-41dc-89ca-b4d424156ea4").into(userpictwo);
+        }
         Glide.with(this).load(user.getPhotoUrl()).into(profilepic);
         Glide.with(this).load(user.getPhotoUrl()).into(userpictwo);
 
@@ -225,6 +244,12 @@ public class ProfileFragment extends Fragment {
         save = bottomSheetDialog.findViewById(R.id.save);
         username = bottomSheetDialog.findViewById(R.id.username);
         userpic = bottomSheetDialog.findViewById(R.id.userpic);
+        userpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Picalert();
+            }
+        });
         if (username != null) {
             username.setHint(user.getDisplayName());
         }
@@ -242,8 +267,11 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setText("Nome alterado, " + user.getDisplayName() + " que nome bonito hein!").
-                                            success().show();
+                                    for (int i =0; i < myquotes.size(); i++){
+                                        quotesDB = new QuotesDB();
+                                        quotesDB.AlterarNome(getActivity(),myquotes.get(i).getId());
+
+                                    }
                                     bottomSheetDialog.dismiss();
                                 } else {
                                     Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setText("putz deu esse erro aqui " + Objects.requireNonNull(task.getException()).getMessage())
@@ -253,6 +281,7 @@ public class ProfileFragment extends Fragment {
                                 }
                             }
                         });
+
 
 
                     } else {
@@ -279,7 +308,6 @@ public class ProfileFragment extends Fragment {
         final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         Picslist = new ArrayList<>();
         final BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
-        myDialog.setTitle("Escolha uma foto");
         myDialog.setContentView(R.layout.profilepicselect);
         final RecyclerView picrecycler;
         picrecycler = myDialog.findViewById(R.id.picsrecycler);
@@ -287,6 +315,7 @@ public class ProfileFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference("images").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Picslist.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Pics pic = postSnapshot.getValue(Pics.class);
                     Pics p = new Pics();
@@ -301,7 +330,7 @@ public class ProfileFragment extends Fragment {
                 Objects.requireNonNull(picrecycler).setHasFixedSize(true);
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
                 RecyclerPicAdapter recyclerPicAdapter = new RecyclerPicAdapter(quotesDB, getContext(), Picslist,
-                        blurView, getActivity(), myDialog);
+                        blurView, getActivity(), myDialog,myquotes);
                 picrecycler.setAdapter(recyclerPicAdapter);
                 picrecycler.setLayoutManager(llm);
             }
@@ -313,14 +342,20 @@ public class ProfileFragment extends Fragment {
         });
 
         myDialog.show();
+        Animation in = AnimationUtils.loadAnimation(getContext(),R.anim.fade_in);
         blurView.setBlurRadius(40);
         blurView.setOverlayColor(R.color.lwhite);
+        blurView.setVisibility(View.VISIBLE);
+        blurView.startAnimation(in);
+
 
         myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                blurView.setBlurRadius(0);
+                Animation out = AnimationUtils.loadAnimation(getContext(),R.anim.mi_fade_out);
+                blurView.startAnimation(out);
                 blurView.setOverlayColor(Color.TRANSPARENT);
+                blurView.setBlurRadius(0);
                 userinfo();
 
             }
@@ -338,7 +373,9 @@ public class ProfileFragment extends Fragment {
         quotesdb.keepSynced(true);
 
 
-        quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
+        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("userID")
+        .startAt(user.getUid())
+        .endAt(user.getUid() + searcharg);
         quotesdb.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -359,7 +396,7 @@ public class ProfileFragment extends Fragment {
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
                         quotes.setLikes(q.getLikes());
-
+                        quotes.setFont(q.getFont());
                         if (q.getTextcolor() == 0|| q.getBackgroundcolor() == 0){
                             quotes.setTextcolor(Color.BLACK);
                             quotes.setBackgroundcolor(Color.WHITE);
@@ -382,7 +419,7 @@ public class ProfileFragment extends Fragment {
                 myquotesrecycler.setHasFixedSize(true);
                 System.out.println(myquotes.size());
                 final Animation myanim2 = AnimationUtils.loadAnimation(getContext(), R.anim.transition);
-                RecyclerAdapter myadapter = new RecyclerAdapter(quotesDB, getContext(), myquotes, blur, getActivity());
+                RecyclerAdapter myadapter = new RecyclerAdapter( getContext(), myquotes,  getActivity());
                 myquotesrecycler.setAdapter(myadapter);
                 myquotesrecycler.setLayoutManager(llm);
                 myquotesrecycler.startAnimation(myanim2);

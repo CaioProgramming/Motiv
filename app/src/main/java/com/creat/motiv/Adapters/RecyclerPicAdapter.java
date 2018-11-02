@@ -7,15 +7,17 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Pics;
+import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,19 +37,21 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     private QuotesDB quotesDB;
     private Context mContext;
     private List<Pics> mData;
+    private ArrayList<Quotes> myquotes;
     private RealtimeBlurView blurView;
     private BottomSheetDialog myDialog;
     private Activity mActivity;
 
 
     public RecyclerPicAdapter(QuotesDB quotesDB, Context mContext, List<Pics> mData, RealtimeBlurView blurView,
-                              Activity mActivity,BottomSheetDialog myDialog) {
+                              Activity mActivity,BottomSheetDialog myDialog,ArrayList<Quotes> myquotes) {
         this.quotesDB = quotesDB;
         this.mContext = mContext;
         this.mData = mData;
         this.blurView = blurView;
         this.mActivity = mActivity;
         this.myDialog = myDialog;
+        this.myquotes = myquotes;
      }
 
     @NonNull
@@ -66,7 +71,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
 
 
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
+            holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -76,11 +81,17 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    for (int i = 0; i< myquotes.size();i++){
+                                        quotesDB = new QuotesDB();
+                                        quotesDB.AlterarFoto(mActivity,myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
+                                    }
                                     Snacky.builder().setActivity(Objects.requireNonNull(mActivity)).success().setText("Foto de perfil alterada").show();
                                     myDialog.dismiss();
                                     myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                         @Override
                                         public void onDismiss(DialogInterface dialogInterface) {
+                                            Animation out = AnimationUtils.loadAnimation(mContext,R.anim.mi_fade_out);
+                                            blurView.startAnimation(out);
                                             blurView.setOverlayColor(Color.TRANSPARENT);
                                             blurView.setBlurRadius(0);
                                         }
@@ -93,6 +104,9 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
                             }
                         });
+
+
+
                     }
                  }
             });
@@ -111,13 +125,11 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
         ImageView pic;
 
         public MyViewHolder(View view) {
             super(view);
             pic = itemView.findViewById(R.id.pic);
-            cardView = itemView.findViewById(R.id.card);
 
 
 

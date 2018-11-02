@@ -138,12 +138,12 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.newuser, container, false);
-        TextView text = (TextView) view.findViewById(R.id.text);
-        RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.layout);
-        TextView textView2 = (TextView) view.findViewById(R.id.textView2);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        TextView text = view.findViewById(R.id.text);
+        RelativeLayout layout = view.findViewById(R.id.layout);
+        TextView textView2 = view.findViewById(R.id.textView2);
+        ImageView imageView = view.findViewById(R.id.imageView);
         Button start = view.findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,0 +1,476 @@
+package com.creat.motiv;
+
+import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.widget.LinearLayout;
+
+import com.bumptech.glide.Glide;
+import com.creat.motiv.Adapters.RecyclerColorAdapter;
+import com.creat.motiv.Adapters.RecyclerFontAdapter;
+import com.creat.motiv.Beans.Color;
+import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.Database.QuotesDB;
+import com.creat.motiv.Utils.Pref;
+import com.github.mmin18.widget.RealtimeBlurView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class EditActivity extends AppCompatActivity {
+    QuotesDB quotesDB;
+    private android.support.v7.widget.RecyclerView colorlibrary;
+    private android.widget.RadioButton music;
+    private android.widget.RadioButton citation;
+    private android.widget.RadioButton motivation;
+    private android.widget.RadioButton love;
+    private android.widget.LinearLayout options;
+    private de.hdodenhof.circleimageview.CircleImageView userpic;
+    private android.widget.TextView username;
+    private android.widget.LinearLayout category;
+    private android.widget.EditText quote;
+    private android.widget.EditText author;
+    private android.widget.TextView fontid;
+    private android.widget.TextView texcolorid;
+    private android.widget.TextView backcolorid;
+    private android.widget.LinearLayout background;
+    private android.support.v7.widget.CardView card;
+    private com.github.clans.fab.FloatingActionButton textcolorfab;
+    private com.github.clans.fab.FloatingActionButton backcolorfab;
+    private com.github.clans.fab.FloatingActionButton fontpickerfab;
+    private com.github.clans.fab.FloatingActionButton italicfab;
+    private com.github.clans.fab.FloatingActionButton boldfab;
+    private com.github.clans.fab.FloatingActionButton salvar;
+    private com.github.clans.fab.FloatingActionMenu materialdesignandroidfloatingactionmenu;
+    private FirebaseUser user;
+    private String categoria, id;
+    private boolean boldb, italicb;
+    private Activity activity = this;
+    private Context context = this;
+    private RealtimeBlurView blur;
+    private android.widget.ScrollView edit;
+    private Query quotesdb;
+    Quotes quotes;
+    private android.widget.TextView quoteID;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        quotes = new Quotes();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit);
+        this.quoteID = findViewById(R.id.quoteID);
+        this.edit = findViewById(R.id.edit);
+        this.blur = findViewById(R.id.blur);
+        this.materialdesignandroidfloatingactionmenu = findViewById(R.id.material_design_android_floating_action_menu);
+        this.salvar = findViewById(R.id.salvar);
+        this.boldfab = findViewById(R.id.boldfab);
+        this.italicfab = findViewById(R.id.italicfab);
+        this.fontpickerfab = findViewById(R.id.fontpickerfab);
+        this.backcolorfab = findViewById(R.id.backcolorfab);
+        this.textcolorfab = findViewById(R.id.textcolorfab);
+        this.card = findViewById(R.id.card);
+        this.background = findViewById(R.id.background);
+        this.backcolorid = findViewById(R.id.backcolorid);
+        this.texcolorid = findViewById(R.id.texcolorid);
+        this.fontid = findViewById(R.id.fontid);
+        this.author = findViewById(R.id.author);
+        this.quote = findViewById(R.id.quote);
+        this.category = findViewById(R.id.category);
+        this.username = findViewById(R.id.username);
+        this.userpic = findViewById(R.id.userpic);
+        this.options = findViewById(R.id.options);
+        this.love = findViewById(R.id.love);
+        this.motivation = findViewById(R.id.motivation);
+        this.citation = findViewById(R.id.citation);
+        this.music = findViewById(R.id.music);
+        this.colorlibrary = findViewById(R.id.colorlibrary);
+
+        CategorySeleect(category);
+        colorgallery();
+        theme();
+        fabclicks();
+        loadquote();
+
+
+    }
+
+    private void loadquote() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Intent i = getIntent();
+        quotes.setId(i.getExtras().getString("id"));
+        quotes.setQuote(i.getExtras().getString("quote"));
+        quotes.setAuthor(i.getExtras().getString("author"));
+        quotes.setUsername(user.getDisplayName());
+        quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+        quotes.setUserID(user.getUid());
+        quotes.setData(i.getExtras().getString("data"));
+        quotes.setTextcolor(i.getExtras().getInt("texcolor"));
+        quotes.setFont(i.getExtras().getInt("font"));
+        quotes.setBackgroundcolor(i.getExtras().getInt("backcolor"));
+        quotes.setBold(i.getExtras().getBoolean("bold"));
+        quotes.setItalic(i.getExtras().getBoolean("italic"));
+        quotes.setLikes(i.getExtras().getInt("likes"));
+        quotes.setCategoria(i.getExtras().getString("categoria"));
+
+        quoteID.setText(quotes.getId());
+        quote.setText(quotes.getQuote());
+        author.setText(quotes.getAuthor());
+        username.setText(quotes.getUsername());
+        background.setBackgroundColor(quotes.getBackgroundcolor());
+        quote.setTextColor(quotes.getTextcolor());
+        author.setTextColor(quotes.getTextcolor());
+        texcolorid.setText(String.valueOf(quotes.getTextcolor()));
+        backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
+        switch (quotes.getCategoria()) {
+            case "Musica":
+                category.setBackgroundResource(R.color.purple_300);
+
+                break;
+            case "Citação":
+                category.setBackgroundResource(R.color.grey_300);
+                break;
+            case "Amor":
+                category.setBackgroundResource(R.color.red_300);
+
+                break;
+            case "Motivação":
+                category.setBackgroundResource(R.color.orange_300);
+
+                break;
+            case "Nenhum":
+                category.setBackgroundResource(R.color.black);
+
+                break;
+        }
+
+
+        Glide.with(this).load(quotes.getUserphoto()).into(userpic);
+
+
+    }
+
+    private void fabclicks() {
+        backcolorfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BackColorpicker();
+            }
+        });
+        textcolorfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Textocolorpicker();
+            }
+        });
+        salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                salvar();
+            }
+        });
+        fontpickerfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fontpicker();
+            }
+        });
+        boldfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boldtext();
+            }
+        });
+        italicfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                italic();
+            }
+        });
+    }
+
+
+    public void salvar() {
+        Integer fonti = null;
+        if (fontid.getText() != "") {
+            fonti = Integer.parseInt(fontid.getText().toString());
+        }
+        if (author.getText().toString().equals("")) {
+            quotes.setAuthor(user.getDisplayName());
+        }
+
+        quotes.setQuote(quote.getText().toString());
+        quotes.setAuthor(author.getText().toString());
+        quotes.setFont(fonti);
+        quotes.setItalic(italicb);
+        quotes.setBold(boldb);
+        quotes.setBackgroundcolor(Integer.parseInt(backcolorid.getText().toString()));
+        quotes.setTextcolor(Integer.parseInt(texcolorid.getText().toString()));
+        quotesDB = new QuotesDB(quotes, this);
+        quotesDB.Editar();
+        CountDownTimer timer = new CountDownTimer(2000, 100) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                activity.finish();
+            }
+        }.start();
+
+
+    }
+
+    public void colorgallery() {
+        final ArrayList<Color> ColorList;
+        ColorList = new ArrayList<>();
+        ValueEventListener databaseReference = FirebaseDatabase.getInstance().getReference("Colors").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ColorList.clear();
+                Integer i = 0;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    i++;
+                    com.creat.motiv.Beans.Color color = postSnapshot.getValue(com.creat.motiv.Beans.Color.class);
+                    com.creat.motiv.Beans.Color c = new com.creat.motiv.Beans.Color();
+                    System.out.println("Color Hex " + color.getValue());
+                    c.setValue(color.getValue());
+                    ColorList.add(color);
+                    System.out.println(ColorList.size() + "   Colors");
+
+                }
+                System.out.println("Load " + ColorList.size() + " colors");
+                Collections.shuffle(ColorList);
+                colorlibrary.setHasFixedSize(true);
+                GridLayoutManager llm = new GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false);
+                RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(ColorList, context,
+                        background, quote, author, activity, texcolorid, backcolorid);
+                colorlibrary.setAdapter(recyclerColorAdapter);
+                colorlibrary.setLayoutManager(llm);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void CategorySeleect(final LinearLayout category) {
+        music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                category.setVisibility(View.INVISIBLE);
+                category.setBackgroundResource(R.color.purple_300);
+                int cx = category.getRight();
+                int cy = category.getTop();
+                int radius = Math.max(category.getWidth(), category.getHeight());
+                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
+                        0, radius);
+                category.setVisibility(View.VISIBLE);
+                anim.start();
+
+                quotes.setCategoria("Musica");
+            }
+        });
+
+        love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                category.setVisibility(View.INVISIBLE);
+                category.setBackgroundResource(R.color.red_300);
+                int cx = category.getRight();
+                int cy = category.getTop();
+                int radius = Math.max(category.getWidth(), category.getHeight());
+                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
+                        0, radius);
+                category.setVisibility(View.VISIBLE);
+                anim.start();
+                quotes.setCategoria("Amor");
+
+            }
+        });
+
+        citation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                category.setVisibility(View.INVISIBLE);
+                category.setBackgroundResource(R.color.grey_300);
+                int cx = category.getRight();
+                int cy = category.getTop();
+                int radius = Math.max(category.getWidth(), category.getHeight());
+                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
+                        0, radius);
+                category.setVisibility(View.VISIBLE);
+                anim.start();
+                quotes.setCategoria("Citação");
+            }
+        });
+
+        motivation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                category.setVisibility(View.INVISIBLE);
+                category.setBackgroundResource(R.color.orange_300);
+                int cx = category.getRight();
+                int cy = category.getTop();
+                int radius = Math.max(category.getWidth(), category.getHeight());
+                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
+                        0, radius);
+                category.setVisibility(View.VISIBLE);
+                anim.start();
+                quotes.setCategoria("Motivação");
+            }
+        });
+    }
+
+    private void theme() {
+        Pref preferences = new Pref(this);
+        if (preferences.nightmodestate()) {
+            options.setBackgroundResource(R.color.grey_800);
+            love.setTextColor(android.graphics.Color.WHITE);
+            motivation.setTextColor(android.graphics.Color.WHITE);
+            motivation.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
+            love.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
+            citation.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
+            music.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
+            citation.setTextColor(android.graphics.Color.WHITE);
+            music.setTextColor(android.graphics.Color.WHITE);
+            edit.setBackgroundResource(R.drawable.gradnight);
+        }
+    }
+
+    private void italic() {
+        if (boldb) {
+            quote.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
+            author.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
+        }
+        if (italicb) {
+            quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
+            author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
+            italicb = false;
+        } else {
+            quote.setTypeface(quote.getTypeface(), Typeface.ITALIC);
+            author.setTypeface(quote.getTypeface(), Typeface.ITALIC);
+            italicb = true;
+        }
+    }
+
+    private void boldtext() {
+        if (italicb && boldb) {
+            quote.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
+            author.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
+        }
+        if (boldb) {
+            quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
+            author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
+            boldb = false;
+        } else {
+            quote.setTypeface(quote.getTypeface(), Typeface.BOLD);
+            author.setTypeface(quote.getTypeface(), Typeface.BOLD);
+            boldb = true;
+        }
+    }
+
+    private void BackColorpicker() {
+        final ColorPicker cp = new ColorPicker(this);
+        cp.show();
+        cp.enableAutoClose();
+        cp.setCallback(new ColorPickerCallback() {
+            @Override
+            public void onColorChosen(int color) {
+                background.setVisibility(View.INVISIBLE);
+                background.setBackgroundColor(color);
+                int cx = background.getRight();
+                int cy = background.getTop();
+                int radius = Math.max(background.getWidth(), background.getHeight());
+                Animator anim = ViewAnimationUtils.createCircularReveal(background, cx, cy,
+                        0, radius);
+                background.setVisibility(View.VISIBLE);
+                anim.start();
+                backcolorid.setText(String.valueOf(color));
+            }
+        });
+    }
+
+    private void Textocolorpicker() {
+        final ColorPicker cp = new ColorPicker(this);
+        cp.show();
+        cp.enableAutoClose();
+        cp.setCallback(new ColorPickerCallback() {
+            @Override
+            public void onColorChosen(final int color) {
+                Log.d("Pure Hex", Integer.toHexString(color));
+                int colorFrom = quote.getCurrentTextColor();
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, color);
+                colorAnimation.setDuration(2000); // milliseconds
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        quote.setTextColor(color);
+                        author.setTextColor(color);
+
+                    }
+
+                });
+                colorAnimation.start();
+
+                texcolorid.setText(String.valueOf(color));
+                quotes.setTextcolor(color);
+
+
+            }
+        });
+    }
+
+    private void Fontpicker() {
+        BottomSheetDialog myDialog = new BottomSheetDialog(this);
+        final RealtimeBlurView blurView = findViewById(R.id.blur);
+        blurView.setBlurRadius(20);
+        myDialog.setContentView(R.layout.profilepicselect);
+        RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);
+        GridLayoutManager llm = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(llm);
+        RecyclerFontAdapter recyclerFontAdapter = new RecyclerFontAdapter(this, blurView, myDialog, quote, author, fontid);
+        recyclerView.setAdapter(recyclerFontAdapter);
+        myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                blurView.setBlurRadius(0);
+                blurView.setOverlayColor(android.graphics.Color.TRANSPARENT);
+
+            }
+        });
+        myDialog.show();
+    }
+
+
+}

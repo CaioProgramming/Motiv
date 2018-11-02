@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.creat.motiv.Utils.Notification_reciever;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,15 +28,7 @@ public class Splash extends AppCompatActivity {
      @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,23);
-        calendar.set(Calendar.MINUTE,10);
-        calendar.set(Calendar.SECOND,30);
-         Intent intent = new Intent(getApplicationContext(),Notification_reciever.class);
-         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
@@ -43,7 +36,7 @@ public class Splash extends AppCompatActivity {
         ImageView applogo = findViewById(R.id.applogo);
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
-
+        setalarm();
 
         CountDownTimer countDownTimer = new CountDownTimer(3000,100) {
             @Override
@@ -62,6 +55,20 @@ public class Splash extends AppCompatActivity {
 
     }
 
+    private void setalarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,9);
+        Intent intent = new Intent(getApplicationContext(),Notification_reciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,
+                intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES,pendingIntent);
+
+    }
+
     private void SignIn() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null){
@@ -76,6 +83,7 @@ public class Splash extends AppCompatActivity {
         }else{
             Intent i = new Intent(this,MainActivity.class);
             i.putExtra("novo",false);
+            i.putExtra("notification",true);
             startActivity(i);
             this.finish();
         }
