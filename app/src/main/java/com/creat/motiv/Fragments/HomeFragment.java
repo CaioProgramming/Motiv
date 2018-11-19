@@ -4,24 +4,27 @@ package com.creat.motiv.Fragments;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.Beans.Tutorial;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -61,12 +64,14 @@ public class HomeFragment extends Fragment {
     FirebaseUser user;
     Boolean novo;
     private AdView adView;
+
+
     private android.support.design.widget.CoordinatorLayout home;
     public HomeFragment() {
         // Required empty public constructor
     }
 
-
+    ArrayList<Tutorial> tutorialArrayList = new ArrayList<>();
     RealtimeBlurView blur;
     Pref preferences;
     @Override
@@ -80,7 +85,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
          home = view.findViewById(R.id.home);
 
-         madView = view.findViewById(R.id.adView);
+
+        madView = view.findViewById(R.id.adView);
         MobileAds.initialize(getContext(),
                 "ca-app-pub-3940256099942544/1033173712");
 
@@ -95,7 +101,6 @@ public class HomeFragment extends Fragment {
         author = view.findViewById(R.id.author);
         quote = view.findViewById(R.id.quote);
         blur = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
-
         composesrecycler = view.findViewById(R.id.composesrecycler);
         quotesdb = FirebaseDatabase.getInstance().getReference();
 
@@ -108,13 +113,9 @@ public class HomeFragment extends Fragment {
             collapsetoolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimaryDark));
             collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE); }
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                tutorial(view);
-                return false;
-            }
-        });
+        if (novo) {
+            tutorial(view);
+        }
 
         return view;
 
@@ -124,34 +125,41 @@ public class HomeFragment extends Fragment {
     private void tutorial(View view) {
 
         if (novo) {
-            new SpotlightView.Builder(getActivity())
-                    .introAnimationDuration(400)
-                    .enableRevealAnimation(true)
-                    .performClick(true)
-                    .fadeinTextDuration(400)
-                    .headingTvColor(R.color.colorPrimary)
-                    .headingTvSize(32)
-                    .headingTvText("Tela inicial")
-                    .subHeadingTvColor(Color.parseColor("#ffffff"))
-                    .subHeadingTvSize(16)
-                    .subHeadingTvText("Esta é sua tela inicial, onde poderá ver todas as postagens ja feitas no motiv")
-                    .maskColor(Color.parseColor("#dc000000"))
-                    .target(view)
-                    .lineAnimDuration(400)
-                    .lineAndArcColor(R.color.colorPrimaryDark)
-                    .dismissOnTouch(true)
-                    .dismissOnBackPress(true)
-                    .usageId("homescreen") //UNIQUE ID
-                    .show();
+             Spotlight(view);
+
+
         }
         novo = false;
     }
 
+
+    private void Spotlight(View view) {
+        new SpotlightView.Builder(getActivity())
+                .introAnimationDuration(400)
+                .enableRevealAnimation(true)
+                .performClick(true)
+                .fadeinTextDuration(400)
+                .headingTvColor(R.color.colorPrimary)
+                .headingTvSize(32)
+                .headingTvText("Tela inicial")
+                .subHeadingTvColor(Color.parseColor("#ffffff"))
+                .subHeadingTvSize(16)
+                .subHeadingTvText("Esta é sua tela inicial, onde poderá ver todas as postagens ja feitas no motiv")
+                .maskColor(Color.parseColor("#dc000000"))
+                .target(view)
+                .lineAnimDuration(400)
+                .lineAndArcColor(R.color.colorPrimaryDark)
+                .dismissOnTouch(true)
+                .dismissOnBackPress(true)
+                .usageId("homescreen") //UNIQUE ID
+                .show();
+    }
+
     private void Carregar() {
         final RealtimeBlurView blur = getActivity().findViewById(R.id.rootblur);
-        final ProgressBar progressBar = getActivity().findViewById(R.id.progress_bar);
+        final DotProgressBar progressBar = getActivity().findViewById(R.id.progress_bar);
 
-        blur.setBlurRadius(50);
+        blur.setBlurRadius(70);
         progressBar.setVisibility(View.VISIBLE);
 
         quotesdb.keepSynced(true);
@@ -175,9 +183,9 @@ public class HomeFragment extends Fragment {
                         quotes.setUserID(q.getUserID());
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
-                        quotes.setLikes(q.getLikes());
-                        quotes.setUsername(q.getUsername());
+                         quotes.setUsername(q.getUsername());
                         quotes.setUserphoto(q.getUserphoto());
+                        quotes.setReport(q.isReport());
                         if (q.getFont() != null){
                             quotes.setFont(q.getFont());
                         }else{
@@ -197,6 +205,7 @@ public class HomeFragment extends Fragment {
                             quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
                         }
                         System.out.println("Quotes " + quotesArrayList.size());
+                        System.out.println("Quote  " + quotes.getId());
 
                     }
                 }
@@ -257,10 +266,24 @@ public class HomeFragment extends Fragment {
 
 
                 quotesArrayList.remove(q);
+                final Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.mi_fade_out);
 
-                blur.setBlurRadius(0);
-                blur.setOverlayColor(Color.TRANSPARENT);
-                progressBar.setVisibility(View.INVISIBLE);
+                CountDownTimer timer = new CountDownTimer(3000,100) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        progressBar.setAnimation(out);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        blur.setBlurRadius(0);
+                        blur.setOverlayColor(Color.TRANSPARENT);
+
+                    }
+                }.start();
+
 
             }
 

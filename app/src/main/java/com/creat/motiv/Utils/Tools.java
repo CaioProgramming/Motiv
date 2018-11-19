@@ -38,7 +38,7 @@ public class Tools {
             "Ilya Polutis",
             "Jordan Jenkins ",
             "Davs Doodles",
-            "Brenttton","Smashicons"};
+            "Brenttton","Smashicons","cheesano"};
 
     public static String artistslinks[]
             ={"https://dribbble.com/vaneltia",
@@ -58,9 +58,10 @@ public class Tools {
             "https://dribbble.com/jkane",
             "https://dribbble.com/davsdoodles",
             "Anano Miminoshvili",
-            "https://dribbble.com/Breton-cn","https://www.flaticon.com/authors/smashicons"
+            "https://dribbble.com/Breton-cn","https://www.flaticon.com/authors/smashicons","https://dribbble.com/cheesano"
 
     };
+    public static String loader = "https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/astrodribble.gif?alt=media&token=65f55a1b-0e3b-4d1f-a015-cd6c46b0b125";
 
     public static String adId = "ca-app-pub-4979584089010597/3019321601";
 

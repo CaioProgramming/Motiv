@@ -9,7 +9,7 @@
   <TextView
       android:id="@+id/reference"
       android:padding="5dp"
-      android:textSize="24sp"
+      android:textSize="14sp"
       style="@style/AppTheme"
       android:clickable="true"
       android:text="reference"

@@ -149,49 +149,18 @@
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                <TextView
+                                   android:visibility="gone"
                                    android:text="0"
-                                   android:visibility="invisible"
                                    android:id="@+id/texcolorid"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                <TextView
                                    android:text="0"
-                                   android:visibility="invisible"
+                                   android:visibility="gone"
                                    android:id="@+id/backcolorid"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                </LinearLayout>
-
-                           </LinearLayout>
-                           <LinearLayout
-                               android:background="@color/transparent"
-                               android:layout_margin="5dp"
-                               android:elevation="1dp"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content">
-                               <CheckBox
-                                   android:layout_marginStart="5dp"
-                                   android:padding="5dp"
-                                   android:button="@drawable/favoritecheck"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content" />
-                               <ImageButton
-                                   android:src="@drawable/delete"
-                                   android:background="@color/transparent"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content" />
-
-                               <ImageButton
-                                   android:src="@drawable/share"
-                                   android:background="@color/transparent"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content" />
-                               <ImageButton
-                                   android:src="@drawable/copy"
-                                   android:background="@color/transparent"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content" />
-
 
                            </LinearLayout>
 
@@ -276,26 +245,6 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_font_download_black_24dp"
                 fab:fab_label="Escolher fonte"
-                fab:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                android:id="@+id/italicfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_italic_black_24dp"
-                fab:fab_label="Texto itálico"
-                fab:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                android:id="@+id/boldfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_bold_black_24dp"
-                fab:fab_label="Texto em negrito"
                 fab:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton

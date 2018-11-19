@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/removepic"
+        android:drawableTint="@color/red_500"
+        android:drawableEnd="@drawable/delete"
+        android:textColor="@color/red_400"
+        style="@style/RobotoTextView"
+        android:textAlignment="center"
+        android:text="Remover foto de perfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+<android.support.v7.widget.RecyclerView
+    android:layout_marginTop="5dp"
+     android:id="@+id/picsrecycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+</android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

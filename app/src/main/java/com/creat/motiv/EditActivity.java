@@ -28,8 +28,8 @@ import com.creat.motiv.Beans.Color;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.Utils.Pref;
+import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +41,8 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static com.creat.motiv.Database.QuotesDB.path;
 
 public class EditActivity extends AppCompatActivity {
     QuotesDB quotesDB;
@@ -120,56 +122,85 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void loadquote() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Intent i = getIntent();
+         Intent i = getIntent();
         quotes.setId(i.getExtras().getString("id"));
-        quotes.setQuote(i.getExtras().getString("quote"));
-        quotes.setAuthor(i.getExtras().getString("author"));
-        quotes.setUsername(user.getDisplayName());
-        quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
-        quotes.setUserID(user.getUid());
-        quotes.setData(i.getExtras().getString("data"));
-        quotes.setTextcolor(i.getExtras().getInt("texcolor"));
-        quotes.setFont(i.getExtras().getInt("font"));
-        quotes.setBackgroundcolor(i.getExtras().getInt("backcolor"));
-        quotes.setBold(i.getExtras().getBoolean("bold"));
-        quotes.setItalic(i.getExtras().getBoolean("italic"));
-        quotes.setLikes(i.getExtras().getInt("likes"));
-        quotes.setCategoria(i.getExtras().getString("categoria"));
+        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("id").startAt(quotes.getId()).endAt(quotes.getId() + "\uf8ff");
 
-        quoteID.setText(quotes.getId());
-        quote.setText(quotes.getQuote());
-        author.setText(quotes.getAuthor());
-        username.setText(quotes.getUsername());
-        background.setBackgroundColor(quotes.getBackgroundcolor());
-        quote.setTextColor(quotes.getTextcolor());
-        author.setTextColor(quotes.getTextcolor());
-        texcolorid.setText(String.valueOf(quotes.getTextcolor()));
-        backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
-        switch (quotes.getCategoria()) {
-            case "Musica":
-                category.setBackgroundResource(R.color.purple_300);
-
-                break;
-            case "Citação":
-                category.setBackgroundResource(R.color.grey_300);
-                break;
-            case "Amor":
-                category.setBackgroundResource(R.color.red_300);
-
-                break;
-            case "Motivação":
-                category.setBackgroundResource(R.color.orange_300);
-
-                break;
-            case "Nenhum":
-                category.setBackgroundResource(R.color.black);
-
-                break;
-        }
+        quotesdb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q!= null){
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setUserphoto(q.getUserphoto());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setData(q.getData());
+                        quotes.setBold(q.isBold());
+                        quotes.setItalic(q.isItalic());
+                        quotes.setLikes(q.getLikes());
+                        quotes.setTextcolor(q.getTextcolor());
+                        quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        quotes.setFont(q.getFont());
+                        quotes.setReport(q.isReport());
 
 
-        Glide.with(this).load(quotes.getUserphoto()).into(userpic);
+                        quoteID.setText(quotes.getId());
+                        quote.setText(quotes.getQuote());
+                        author.setText(quotes.getAuthor());
+                        username.setText(quotes.getUsername());
+                        background.setBackgroundColor(quotes.getBackgroundcolor());
+                        quote.setTextColor(quotes.getTextcolor());
+                        if (quotes.getFont() != null){
+                            quote.setTypeface(Tools.fonts(context).get(quotes.getFont()).getFont());
+                        }else{
+                            quote.setTypeface(Typeface.DEFAULT);
+                        }
+                        author.setTextColor(quotes.getTextcolor());
+                        texcolorid.setText(String.valueOf(quotes.getTextcolor()));
+                        backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
+                        switch (quotes.getCategoria()) {
+                            case "Musica":
+                                category.setBackgroundResource(R.color.purple_300);
+
+                                break;
+                            case "Citação":
+                                category.setBackgroundResource(R.color.grey_300);
+                                break;
+                            case "Amor":
+                                category.setBackgroundResource(R.color.red_300);
+
+                                break;
+                            case "Motivação":
+                                category.setBackgroundResource(R.color.orange_300);
+
+                                break;
+                            case "Nenhum":
+                                category.setBackgroundResource(R.color.black);
+
+                                break;
+                        }
+
+
+                        Glide.with(context).load(quotes.getUserphoto()).into(userpic);
+
+
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
     }

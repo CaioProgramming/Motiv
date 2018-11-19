@@ -72,13 +72,15 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     public ViewPagerAdapter(Context context) {
         this.context = context;
+        quotesArrayList = new ArrayList<>();
+        Carregar();
 
 
     }
 
     private void Carregar() {
 
-        quotesdb.keepSynced(true);
+
 
 
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
@@ -145,6 +147,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         TextView textView2 = view.findViewById(R.id.textView2);
         ImageView imageView = view.findViewById(R.id.imageView);
         Button start = view.findViewById(R.id.start);
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,11 +161,12 @@ public class ViewPagerAdapter extends PagerAdapter {
             Glide.with(context).load(slide_images[position]).into(imageView);
 
         }
-        if (position > 6){
-            start.setVisibility(View.VISIBLE);
-        }
+
+
         text.setText(slide_text[position]);
         textView2.setText(slide_titles[position]);
+        if (position == 1) { text.setText("Já são " + quotesArrayList.size() + " frases postadas no motiv");}
+
         container.addView(view);
 
         return view;

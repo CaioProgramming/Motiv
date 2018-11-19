@@ -140,7 +140,22 @@
 
 
     </LinearLayout>
-
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/report"
+        android:background="@color/red_400"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:text="Esta frase foi denunciada, até que seja analisada, não será exibida no feed!"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 

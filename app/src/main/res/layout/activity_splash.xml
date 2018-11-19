@@ -19,7 +19,7 @@
         android:id="@+id/applogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/ic_saturn_and_other_planets" />
     <com.github.silvestrpredko.dotprogressbar.DotProgressBar
         app:animationDirection="right"
         app:duration="500"

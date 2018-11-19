@@ -42,7 +42,7 @@ public class Notifications extends FirebaseMessagingService{
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         notificationBuilder.setVibrate(new long[] { 100, 1000});
         notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.plucky));
-        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification);
         notificationBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

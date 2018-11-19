@@ -98,7 +98,7 @@ public class Notification_reciever extends BroadcastReceiver {
             notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
             notificationBuilder.setVibrate(new long[] { 100, 500});
             notificationBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            notificationBuilder.setSmallIcon(R.drawable.ic_notification);
             notificationBuilder.setContentIntent(pendingIntent);
             notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.light));
             notificationManager.notify(0,notificationBuilder.build());

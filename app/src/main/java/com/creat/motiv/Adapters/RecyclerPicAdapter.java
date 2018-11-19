@@ -70,7 +70,6 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
         Glide.with(mActivity).load(mData.get(position).getUri()).into(holder.pic);
 
 
-
             holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,7 +125,6 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView pic;
-
         public MyViewHolder(View view) {
             super(view);
             pic = itemView.findViewById(R.id.pic);

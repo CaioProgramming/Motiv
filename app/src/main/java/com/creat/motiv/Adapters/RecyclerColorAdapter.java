@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.creat.motiv.Beans.Color;
 import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,9 +29,8 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
     private Context mContext;
     private LinearLayout background;
     private TextView textView,author;
-    private ValueEventListener databaseReference;
     private Activity mActivity;
-   TextView textcolor,backcolor;
+   private TextView textcolor,backcolor;
 
     public RecyclerColorAdapter(ArrayList<Color> colorsList, Context mContext, LinearLayout background, TextView textView, TextView author,
                                   Activity mActivity,TextView texcolor,TextView backcolor) {

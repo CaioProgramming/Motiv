@@ -24,10 +24,11 @@ import com.creat.motiv.Beans.Developers;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,7 +67,7 @@ public class AboutFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private InterstitialAd mInterstitialAd;
+    private RewardedVideoAd rewardedVideoAd;
 
 
     @Override
@@ -88,35 +89,48 @@ public class AboutFragment extends Fragment {
         this.creators = view.findViewById(R.id.creators);
         MobileAds.initialize(getActivity(),
                 "ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-        mInterstitialAd.setAdListener(new AdListener() {
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
+        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
+            public void onRewardedVideoAdLoaded() {
+
             }
 
             @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
+            public void onRewardedVideoAdOpened() {
+
             }
 
             @Override
-            public void onAdOpened() {
-                // Code to be executed when the ad is displayed.
+            public void onRewardedVideoStarted() {
+
             }
 
             @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
+            public void onRewardedVideoAdClosed() {
+
             }
 
             @Override
-            public void onAdClosed() {
-                Snacky.builder().setActivity(getActivity()).setBackgroundColor(getResources().getColor(R.color.colorPrimary))
-                        .setText("Obrigado pela ajuda! Você é demais").setTextColor(Color.WHITE).build().show();
+            public void onRewarded(RewardItem rewardItem) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+                Snacky.builder().setActivity(getActivity()).warning().setText("Saindo do aplicativo fica díficil...").show();
+
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int i) {
+                    Snacky.builder().setActivity(getActivity()).error().setText("Deu erro carregando o anúncio, foi mal!").show();
+            }
+
+            @Override
+            public void onRewardedVideoCompleted() {
+                Snacky.builder().setActivity(getActivity()).setBackgroundColor(getResources().getColor(R.color.colorPrimary)).setTextColor(Color.WHITE)
+                        .setIcon(R.mipmap.ic_launcher).setText("Obrigado pela ajuda, você é demais!").build().show();
             }
         });
 
@@ -125,7 +139,7 @@ public class AboutFragment extends Fragment {
 
         expandlisteners();
         Theme(view);
-
+        loadAd();
         return view;
     }
 
@@ -172,7 +186,7 @@ public class AboutFragment extends Fragment {
                         .setPositiveButton("Sim, quero ajudar!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                loadAd();
+                                loadRewardedVideoAd();
                             }
                         });
                 builder.show();
@@ -208,19 +222,13 @@ public class AboutFragment extends Fragment {
 
         }
     }
-
+    private void loadRewardedVideoAd() {
+        rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                new AdRequest.Builder().build());
+    }
     private void loadAd() {
-        Snacky.builder().setText("Eba! Obrigado pela ajuda, seu anúncio está carregando").
-                setTextColor(getResources().getColor(R.color.white)).setActivity(getActivity()).
-                setBackgroundColor(android.graphics.Color.BLACK).setDuration(5000).build().show();
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            Snacky.builder().setText("Parece que está demorando muito para carregar... ").
-                    setTextColor(getResources().getColor(R.color.white)).setActivity(getActivity()).
-                    setBackgroundColor(Color.LTGRAY).setDuration(5000).build().show();
-        }
 
+ 
     }
 
     Pref preferences;

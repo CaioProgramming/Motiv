@@ -19,15 +19,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                     <CheckBox
-                        android:checked="true"
+                        android:checked="false"
                         android:drawableStart="@mipmap/creators"
                         android:id="@+id/creators"
                         android:button="@drawable/expand"
                         android:text="Criadores"
-                        android:textSize="24sp"
+                        android:textSize="16sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 <android.support.v7.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/creatorsrecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -44,11 +45,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:checked="false"
                 android:drawableStart="@mipmap/references"
                 android:id="@+id/designreferences"
                 android:button="@drawable/expand"
                 android:text="Referências de design"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -70,11 +72,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:checked="false"
                 android:drawableStart="@mipmap/artists"
                 android:id="@+id/artistsreferences"
                 android:button="@drawable/expand"
                 android:text="Artistas"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -96,20 +99,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:checked="false"
                 android:drawableStart="@mipmap/support"
                 android:id="@+id/support"
                 android:textColor="@color/grey_600"
                 android:button="@drawable/expand"
                 android:text="Suporte"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
                     <TextView
+                        android:visibility="gone"
+                        android:drawableStart="@drawable/ic_favorite_black_24dp"
                         android:layout_margin="5dp"
                         android:animateLayoutChanges="true"
                         android:id="@+id/helpad"
                         style="@style/AppTheme"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:text="Anúncio para ajudar o aplicativo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

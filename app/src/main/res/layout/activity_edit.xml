@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:fillViewport="true"
     android:id="@+id/edit"
-    android:background="@drawable/gradcitation"
+    android:background="@color/grey_100"
     tools:context=".Fragments.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -182,16 +182,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
-                        <ImageButton
-                            android:src="@drawable/share"
-                            android:background="@color/transparent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <ImageButton
-                            android:src="@drawable/copy"
-                            android:background="@color/transparent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>

@@ -4,6 +4,7 @@ package com.creat.motiv.Fragments;
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
 import com.creat.motiv.Adapters.RecyclerFontAdapter;
 import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.Beans.Tutorial;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
@@ -92,6 +94,9 @@ public class NewQuoteFragment extends Fragment {
     private com.github.clans.fab.FloatingActionButton salvar;
     private com.github.clans.fab.FloatingActionMenu materialdesignandroidfloatingactionmenu;
     private RecyclerView colorlibrary;
+    ArrayList<Tutorial> tutorialArrayList = new ArrayList<>();
+    private EditText quote;
+    private CardView card;
     public NewQuoteFragment() {
         // Required empty public constructor
     }
@@ -106,11 +111,11 @@ public class NewQuoteFragment extends Fragment {
         preferences = new Pref(getContext());
         user = FirebaseAuth.getInstance().getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_newquote, container, false);
+
          colorlibrary = view.findViewById(R.id.colorlibrary);
         materialdesignandroidfloatingactionmenu = view.findViewById(R.id.material_design_android_floating_action_menu);
         salvar = view.findViewById(R.id.salvar);
-        boldfab = view.findViewById(R.id.boldfab);
-        italicfab = view.findViewById(R.id.italicfab);
+
         fontpickerfab = view.findViewById(R.id.fontpickerfab);
         backcolorfab = view.findViewById(R.id.backcolorfab);
         textcolorfab = view.findViewById(R.id.textcolorfab);
@@ -165,19 +170,6 @@ public class NewQuoteFragment extends Fragment {
         });
 
 
-        boldfab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boldtext();
-            }
-        });
-
-        italicfab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                italic();
-            }
-        });
 
 
         frase.setOnKeyListener(new View.OnKeyListener() {
@@ -393,7 +385,6 @@ public class NewQuoteFragment extends Fragment {
 
                 });
                 colorAnimation.start();
-
                 texcolorid.setText(String.valueOf(color));
 
 
@@ -426,28 +417,33 @@ public class NewQuoteFragment extends Fragment {
     private void Tutorial() {
         Boolean novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
         if (novo){
-            new SpotlightView.Builder(getActivity())
-                    .introAnimationDuration(400)
-                    .enableRevealAnimation(true)
-                    .performClick(true)
-                    .fadeinTextDuration(400)
-                    .headingTvColor(R.color.colorPrimary)
-                    .headingTvSize(32)
-                    .headingTvText("Criação de frases")
-                    .subHeadingTvColor(Color.parseColor("#ffffff"))
-                    .subHeadingTvSize(16)
-                    .subHeadingTvText("Aqui é o seu cantinho mágico, onde poderá criar suas frases! ")
-                    .maskColor(Color.parseColor("#dc000000"))
-                    .target(preview)
-                    .lineAnimDuration(400)
-                    .lineAndArcColor(Color.parseColor("#eb273f"))
-                    .dismissOnTouch(true)
-                    .dismissOnBackPress(true)
-                    .enableDismissAfterShown(true)
-                    .usageId("createscreen") //UNIQUE ID
-                    .show();
+            Spotlight();
+            //getData();
         }
         tuto = false;
+    }
+
+    private void Spotlight() {
+        new SpotlightView.Builder(getActivity())
+                .introAnimationDuration(400)
+                .enableRevealAnimation(true)
+                .performClick(true)
+                .fadeinTextDuration(400)
+                .headingTvColor(R.color.colorPrimary)
+                .headingTvSize(32)
+                .headingTvText("Criação de frases")
+                .subHeadingTvColor(Color.parseColor("#ffffff"))
+                .subHeadingTvSize(16)
+                .subHeadingTvText("Aqui é o seu cantinho mágico, onde poderá criar suas frases! ")
+                .maskColor(Color.parseColor("#dc000000"))
+                .target(preview)
+                .lineAnimDuration(400)
+                .lineAndArcColor(Color.parseColor("#eb273f"))
+                .dismissOnTouch(true)
+                .dismissOnBackPress(true)
+                .enableDismissAfterShown(true)
+                .usageId("createscreen") //UNIQUE ID
+                .show();
     }
 
     public void salvar(){
@@ -461,25 +457,63 @@ public class NewQuoteFragment extends Fragment {
             fonti = Integer.parseInt(fontid.getText().toString());
 
         }
-        Quotes quotes = new Quotes(null, frase.getText().toString(),
+        if (texcolorid.getText() == ""){
+            texcolorid.setText(String.valueOf(Color.BLACK));
+        }
+        if (backcolorid.getText() == ""){
+            backcolorid.setText(String.valueOf(Color.WHITE)  );
+        }
+
+        Quotes quotes = new Quotes(null,
+                frase.getText().toString(),
                 author.getText().toString(),
                 dia, categoria,
                 user.getUid(),
                 user.getDisplayName(),
                 String.valueOf(user.getPhotoUrl()),
-                0, Integer.parseInt(texcolorid.getText().toString()),
-                Integer.parseInt(backcolorid.getText().toString()), italicb, boldb, fonti);
-        System.out.println("font" + quotes.getFont() + "backcolor e textcolor " + backgoundcolor + textcolorstring);
+                0,
+                Integer.parseInt(backcolorid.getText().toString()),
+                Integer.parseInt(texcolorid.getText().toString()),
+                italicb,
+                boldb,
+                fonti,
+                false);
+        System.out.println("font " + quotes.getFont() + "backcolor e textcolor " + quotes.getBackgroundcolor() + " "+ quotes.getTextcolor());
 
         if (author.getText().toString().equals("")){
             quotes.setAuthor(user.getDisplayName());
         }
+        if (user.isEmailVerified()){
         quotesDB = new QuotesDB(quotes, Objects.requireNonNull(getActivity()));
         quotesDB.Inserir();
+        }else{
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setMessage("Email não verificado");
+            builder.setMessage("Seu email não foi verificado, então não vai poder compartilhar frases.");
+            builder.setPositiveButton("Então me envia esse email meu consagrado", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    user.sendEmailVerification();
+                }
+            });
+            builder.setNegativeButton("Beleza então, não vou postar nada", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            builder.show();
+
+
+
+        }
 
 
 
     }
+
+
 
     public void colorgallery(){
         final ArrayList<com.creat.motiv.Beans.Color> ColorList;

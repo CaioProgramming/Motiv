@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -12,7 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,14 +20,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,7 +36,11 @@ import com.creat.motiv.Fragments.SearchFragment;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 import de.mateware.snacky.Snacky;
 
@@ -77,20 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     };
-    private Toolbar toolbar;
     private android.support.design.widget.TabLayout tabLayout;
-    private ViewPager container;
-    private RelativeLayout maincontent;
-    private android.widget.EditText search;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-    private android.support.design.widget.FloatingActionButton floatingActionButton2;
-    public static final String PREFS_NAME = "MyPrefsFile";
-    private SharedPreferences setings;
     RealtimeBlurView rootblur;
-    ProgressBar progressBar;
+     DotProgressBar progressBar;
     Pref preferences;
-    private ProgressBar progressbar;
-    private android.widget.ImageView offlineimage;
+     private android.widget.ImageView offlineimage;
     private android.widget.LinearLayout offline;
     TextView offlinemessage;
 
@@ -104,11 +96,29 @@ public class MainActivity extends AppCompatActivity {
          offlineimage = findViewById(R.id.offlineimage);
         preferences = new Pref(this);
          tabLayout = findViewById(R.id.tabs);
-        container = findViewById(R.id.container);
         progressBar = findViewById(R.id.progress_bar);
         rootblur = findViewById(R.id.rootblur);
         offlinemessage = findViewById(R.id.offlinemssage);
-        maincontent = findViewById(R.id.main_content);
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (!user.isEmailVerified()){
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this).setMessage("Email não verificado");
+            builder.setMessage("Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases");
+            builder.setPositiveButton("Manda esse email aí po", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    user.sendEmailVerification();
+                }
+            });
+            builder.setNegativeButton("Não to afim meu camarada", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            builder.show();}
+
+
 
 
 
@@ -187,19 +197,21 @@ public class MainActivity extends AppCompatActivity {
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo activeNetworkInfo = null;
+        if (connectivityManager != null) {
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        }
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void setupTabIcons() {
         for (int i = 0 ;i < tabIcons.length;i++){
-        tabLayout.getTabAt(i).setIcon(tabIcons[i]); }
+        Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(tabIcons[i]); }
     }
     private void setupTabIconsnight() {
         for (int i = 0 ;i < tabIcons.length;i++){
-            tabLayout.getTabAt(i).setIcon(tabIconsnight[i]); }
+            Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(tabIconsnight[i]); }
     }
-
 
 
     @Override
@@ -218,8 +230,6 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.theme) {
-            setings = PreferenceManager.getDefaultSharedPreferences(this);
-
             if (preferences.nightmodestate()){
                 preferences.setNight(false);
                 rootblur.setBlurRadius(50);
@@ -237,7 +247,8 @@ public class MainActivity extends AppCompatActivity {
                         rootblur.setBlurRadius(0 );
                         rootblur.setOverlayColor(Color.TRANSPARENT);
                     }
-                }.start();
+                };
+                timer.start();
 
             }else {
                 preferences.setNight(true);
@@ -257,7 +268,9 @@ public class MainActivity extends AppCompatActivity {
                         rootblur.setBlurRadius(0);
                         rootblur.setOverlayColor(Color.TRANSPARENT);
                     }
-                }.start();
+                } ;
+
+                  timer.start();
 
 
 
@@ -301,10 +314,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-             return rootView;
+            return inflater.inflate(R.layout.fragment_home, container, false);
         }
     }
 
@@ -336,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public boolean checkPermissionREAD_EXTERNAL_STORAGE(
+    public void checkPermissionREAD_EXTERNAL_STORAGE(
             final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
@@ -355,13 +367,8 @@ public class MainActivity extends AppCompatActivity {
                                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 }
-                return false;
-            } else {
-                return true;
             }
 
-        } else {
-            return true;
         }
     }
     /**
@@ -370,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -378,22 +385,17 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
            switch (position){
                case 0:
-                   HomeFragment homeFragment = new HomeFragment();
-                   return  homeFragment;
+                   return new HomeFragment();
                case 1:
-                   SearchFragment searchFragment = new SearchFragment();
-                   return searchFragment;
+                   return new SearchFragment();
 
 
                case 2:
-                   NewQuoteFragment newQuoteFragment = new NewQuoteFragment();
-                   return newQuoteFragment;
+                   return new NewQuoteFragment();
                case 3:
-                   ProfileFragment profileFragment = new ProfileFragment();
-                   return profileFragment;
+                   return new ProfileFragment();
                case 4:
-                   AboutFragment aboutFragment = new AboutFragment();
-                   return aboutFragment;
+                   return new AboutFragment();
 
 
 

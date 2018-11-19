@@ -55,15 +55,28 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+        <TextView
+            android:id="@+id/postnumber"
+            style="@style/RobotoTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:padding="10dp"
+            android:text="@string/postnumber"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
 
         <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="4dp"
             android:id="@+id/myquotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,7 +92,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_edit"
+        android:src="@drawable/ic_edit_black_24dp"
         android:tint="@color/colorPrimary"
         app:backgroundTint="@color/white"
         app:borderWidth="0dp"
@@ -87,29 +100,36 @@
         app:fabSize="normal"
         app:layout_anchor="@+id/linearLayout"
         app:layout_anchorGravity="right|top" />
+
+    <android.support.design.widget.FloatingActionButton
+
+        android:id="@+id/floatingActionButtoncamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+
+        android:elevation="3dp"
+        android:src="@android:drawable/ic_menu_camera"
+        android:tint="@color/black"
+        app:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/userpictwo"
+        app:layout_anchorGravity="right|bottom" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userpictwo"
-        app:layout_anchor="@+id/linearLayout"
-        app:layout_anchorGravity="center|top"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:src="@drawable/penguin"
-        android:layout_width="155dp"
-        android:layout_height="155dp" />
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="bottom|center" />
 
 
-        <TextView
-            android:textAlignment="center"
-            android:padding="10dp"
-            android:background="@drawable/circle"
 
-            app:layout_anchor="@+id/linearLayout"
-            app:layout_anchorGravity="left|top"
-            android:id="@+id/postnumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/postnumber"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            android:textStyle="bold" />
 
 
 

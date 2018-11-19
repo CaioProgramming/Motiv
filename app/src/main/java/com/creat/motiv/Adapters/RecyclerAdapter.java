@@ -1,9 +1,11 @@
 package com.creat.motiv.Adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.EditActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Tools;
@@ -34,9 +37,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +78,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.menu.setOnClickListener(new View.OnClickListener() {
+        loadLikes(holder, position);
+
+
+         holder.like.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Like(position, holder);
+             }
+         });
+
+        if (mData.get(position).isReport()){
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            reported(holder);
+        }else{ holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
@@ -96,15 +121,32 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         case R.id.compartilhar:
                             Intent share = new Intent(Intent.ACTION_SEND);
                             share.setType("text/pain");
-                            share.putExtra(Intent.EXTRA_SUBJECT,"My app");
+                            share.putExtra(Intent.EXTRA_SUBJECT,"Motiv");
                             share.putExtra(Intent.EXTRA_TEXT,mData.get(position).getQuote() + " -" +mData.get(position).getAuthor());
                             mContext.startActivity(Intent.createChooser(share,"Escolha onde quer compartilhar"));
                             return true;
                         case R.id.denunciar:
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
+                                .setNegativeButton("Não vou mais denunciar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .setPositiveButton("Sim, quero denunciar esta frase", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        QuotesDB quotesDB = new QuotesDB(mActivity,mData.get(position));
+                                        quotesDB.Denunciar();
+                                    }
+                                }) ;
+                                builder.show();
+
                             Snacky.builder().setActivity(mActivity)
                                     .setText("Em desenvolvimento")
                                     .setBackgroundColor(Color.BLACK)
                                     .setTextColor(Color.WHITE).build().show();
+                            return true;
                             case R.id.Copiar:
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("frase", mData.get(position).getQuote());
@@ -164,28 +206,44 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             dayCount = dayCount/30;
             if (dayCount == 1){
                 holder.dia.setText("Há " + dayCount + " mês");
-            }else{
-                holder.dia.setText("Há " + dayCount + " meses");
-            }
+            }else{ holder.dia.setText("Há " + dayCount + " meses");}
             }
         }
 
         if (mData.get(position).isBold()){
-            holder.quote.setTypeface(holder.quote.getTypeface(), Typeface.BOLD);
-            holder.author.setTypeface(holder.quote.getTypeface(), Typeface.BOLD);
+            if (mData.get(position).getFont() != null){
+                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD);
+                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD);
 
+            }else {
+                holder.quote.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+                holder.author.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            }
 
         }
         if (mData.get(position).isItalic()){
-            holder.quote.setTypeface(holder.quote.getTypeface(), Typeface.ITALIC);
-            holder.author.setTypeface(holder.quote.getTypeface(), Typeface.ITALIC);
+            if (mData.get(position).getFont() != null){
+                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.ITALIC);
+                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.ITALIC);
+
+            }else {
+                holder.quote.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+                holder.author.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+            }
+
         }
 
-        if (mData.get(position).isItalic() && mData.get(position).isBold()){
-            holder.quote.setTypeface(holder.quote.getTypeface(), Typeface.BOLD_ITALIC);
-            holder.author.setTypeface(holder.quote.getTypeface(), Typeface.BOLD_ITALIC);
-        }
+        if (mData.get(position).isBold() && mData.get(position).isBold()){
+            if (mData.get(position).getFont() != null){
+                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD_ITALIC);
+                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD_ITALIC);
 
+            }else {
+                holder.quote.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
+                holder.author.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
+            }
+
+        }
 
         if (mData.get(position).getUsername() != null || mData.get(position).getUserphoto() != null ){
             System.out.println(mData.get(position).getUserphoto());
@@ -276,6 +334,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
                 }
             });
+        }
 
 
 
@@ -288,6 +347,57 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
 
+
+
+
+    }
+
+    private void reported(@NonNull MyViewHolder holder) {
+        holder.quote.setText(R.string.reported);
+        holder.author.setVisibility(View.GONE);
+        holder.quote.setTextColor(Color.WHITE);
+        holder.back.setBackgroundColor(Color.RED);
+        holder.category.setBackgroundColor(Color.RED);
+        holder.category.setBackgroundColor(Color.RED);
+        holder.cardView.setBackgroundColor(Color.RED);
+        holder.cardView.setRadius(0);
+        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.slide_in_top);
+        holder.cardView.startAnimation(animation);
+    }
+
+    private void Like(int position, @NonNull MyViewHolder holder) {
+        QuotesDB quotesDB = new QuotesDB(mActivity,mData.get(position));
+
+        if (holder.like.isChecked()){
+            quotesDB.deslike();
+        }else{
+            quotesDB.like();
+        }
+    }
+
+    private void loadLikes(@NonNull final MyViewHolder holder, int position) {
+        final ArrayList<String> likes = new ArrayList<>();
+        final FirebaseUser userdb = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference quotedb = FirebaseDatabase.getInstance().getReference();
+        quotedb.child(path).child(mData.get(position).getId()).child("likes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                likes.clear();
+                for (DataSnapshot d: dataSnapshot.getChildren()){
+                String users = dataSnapshot.getValue(String.class);
+                likes.add(users);
+                if (users.equals(userdb.getUid())){
+                    holder.like.setChecked(true);
+                }
+                holder.like.setText(likes.size());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void Usermenu(@NonNull MyViewHolder holder, final int position) {
@@ -305,10 +415,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         mContext.startActivity(Intent.createChooser(share,"Escolha onde quer compartilhar"));
                         return true;
                     case R.id.denunciar:
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
+                                .setNegativeButton("Não vou mais denunciar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .setPositiveButton("Sim, quero denunciar esta frase", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        QuotesDB quotesDB = new QuotesDB(mActivity,mData.get(position));
+                                        quotesDB.Denunciar();
+                                    }
+                                }) ;
+                        builder.show();
                         Snacky.builder().setActivity(mActivity)
                                 .setText("Em desenvolvimento")
                                 .setBackgroundColor(Color.BLACK)
                                 .setTextColor(Color.WHITE).build().show();
+                        return true;
+
                     case R.id.Copiar:
                         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("frase", mData.get(position).getQuote());
@@ -323,18 +450,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
                     case R.id.editar:
                         Intent e = new Intent(mActivity, EditActivity.class);
-                        e.putExtra("id",mData.get(position).getUserID());
-                        e.putExtra("quote",mData.get(position).getQuote());
-                        e.putExtra("author",mData.get(position).getAuthor());
-                        e.putExtra("texcolor",mData.get(position).getTextcolor());
-                        e.putExtra("backcolor",mData.get(position).getBackgroundcolor());
-                        e.putExtra("font",mData.get(position).getFont());
-                        e.putExtra("italic",mData.get(position).isBold());
-                        e.putExtra("bold",mData.get(position).isItalic());
-                        e.putExtra("data",mData.get(position).getData());
-                        e.putExtra("likes",mData.get(position).getLikes());
-                        e.putExtra("categoria",mData.get(position).getCategoria());
-                        e.putExtra("userid",mData.get(position).getUserID());
+                        e.putExtra("id",mData.get(position).getId());
+
 
                         mActivity.startActivity(e);
 
@@ -395,7 +512,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
          ImageView userpic;
         TextView quote,author,username,dia;
         LinearLayout back;
-        LinearLayout content,category;
+        LinearLayout content,category,report;
         RelativeLayout userdata,quotedata;
 
 
@@ -415,7 +532,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             category = view.findViewById(R.id.category);
             username = view.findViewById(R.id.username);
             userpic = view.findViewById(R.id.userpic);
-
+            report = view.findViewById(R.id.report);
 
 
 
