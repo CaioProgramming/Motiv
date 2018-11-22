@@ -20,9 +20,9 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/userdata"
             android:visibility="gone"
-            android:animateLayoutChanges="true"
+            android:id="@+id/userdata"
+             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -37,11 +37,10 @@
                 android:src="@drawable/penguin" />
 
             <TextView
-
+                android:textColor="@color/black"
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:text="@string/username"
                 android:textSize="14sp" />
             </LinearLayout>
@@ -81,7 +80,7 @@
                 android:hint="@string/quote"
                 android:padding="5dp"
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:typeface="normal" />
 
             <TextView
@@ -92,7 +91,7 @@
                 android:hint="@string/author"
                 android:padding="5dp"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:typeface="normal" />
         </LinearLayout>
 
@@ -139,22 +138,6 @@
         </RelativeLayout>
 
 
-    </LinearLayout>
-    <LinearLayout
-        android:visibility="invisible"
-        android:id="@+id/report"
-        android:background="@color/red_400"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:text="Esta frase foi denunciada, até que seja analisada, não será exibida no feed!"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

@@ -87,6 +87,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                  Like(position, holder);
              }
          });
+        holder.like.setVisibility(View.GONE);
+
 
         if (mData.get(position).isReport()){
             holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -172,8 +174,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.cardView.startAnimation(in);
         System.out.println("Quote " +mData.get(position).getQuote()+ " selected font: " + mData.get(position).getFont());
          if (mData.get(position).getFont() != null){
-            holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont());
-            holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont());
+            holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
+            holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
 
 
         }else{
@@ -199,7 +201,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             }else{
                 holder.dia.setText("Há " + dayCount + " semanas");
             }
+        }else{
+            dayCount = dayCount/7;
+            holder.dia.setText("Há " + dayCount + " semanas");
         }
+
         }
         if (dayCount >= 30){
         if (dayCount % 30 == 0){
@@ -207,43 +213,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             if (dayCount == 1){
                 holder.dia.setText("Há " + dayCount + " mês");
             }else{ holder.dia.setText("Há " + dayCount + " meses");}
-            }
+            }else{ dayCount = dayCount/30;
+            holder.dia.setText("Há " + dayCount + " meses"); }
         }
 
-        if (mData.get(position).isBold()){
-            if (mData.get(position).getFont() != null){
-                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD);
-                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD);
 
-            }else {
-                holder.quote.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-                holder.author.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-            }
-
-        }
-        if (mData.get(position).isItalic()){
-            if (mData.get(position).getFont() != null){
-                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.ITALIC);
-                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.ITALIC);
-
-            }else {
-                holder.quote.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
-                holder.author.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
-            }
-
-        }
-
-        if (mData.get(position).isBold() && mData.get(position).isBold()){
-            if (mData.get(position).getFont() != null){
-                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD_ITALIC);
-                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()).getFont(), Typeface.BOLD_ITALIC);
-
-            }else {
-                holder.quote.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
-                holder.author.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
-            }
-
-        }
 
         if (mData.get(position).getUsername() != null || mData.get(position).getUserphoto() != null ){
             System.out.println(mData.get(position).getUserphoto());
@@ -303,11 +277,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation bottom = AnimationUtils.loadAnimation(mContext,R.anim.slide_in_bottom);
-                Animation top = AnimationUtils.loadAnimation(mContext,R.anim.slide_in_top);
+                Animation bottom = AnimationUtils.loadAnimation(mContext,R.anim.pop_in);
+                Animation top = AnimationUtils.loadAnimation(mContext,R.anim.pop_in);
 
-                Animation bottomout = AnimationUtils.loadAnimation(mContext,R.anim.slide_out_bottom);
-                Animation topout = AnimationUtils.loadAnimation(mContext,R.anim.slide_out_top);
 
                 if (holder.quotedata.getVisibility() == View.GONE && holder.userdata.getVisibility() == View.GONE){
                     holder.quotedata.setVisibility(View.VISIBLE);
@@ -315,8 +287,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     holder.quotedata.startAnimation(bottom);
                     holder.userdata.startAnimation(top);
                 }else{
-                    holder.quotedata.startAnimation(bottomout);
-                    holder.userdata.startAnimation(topout);
                     holder.quotedata.setVisibility(View.GONE);
                     holder.userdata.setVisibility(View.GONE);
 
@@ -451,9 +421,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     case R.id.editar:
                         Intent e = new Intent(mActivity, EditActivity.class);
                         e.putExtra("id",mData.get(position).getId());
-
-
                         mActivity.startActivity(e);
+
+
 
                         return true;
 
@@ -512,7 +482,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
          ImageView userpic;
         TextView quote,author,username,dia;
         LinearLayout back;
-        LinearLayout content,category,report;
+        LinearLayout content,category;
         RelativeLayout userdata,quotedata;
 
 
@@ -532,7 +502,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             category = view.findViewById(R.id.category);
             username = view.findViewById(R.id.username);
             userpic = view.findViewById(R.id.userpic);
-            report = view.findViewById(R.id.report);
 
 
 

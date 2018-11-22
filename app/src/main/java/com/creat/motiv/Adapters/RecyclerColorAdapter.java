@@ -18,22 +18,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.creat.motiv.Beans.Color;
 import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
 
 import java.util.ArrayList;
 
 public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder> {
-    ArrayList<Color> ColorsList;
+    ArrayList<Integer> ColorsList;
     private Context mContext;
     private LinearLayout background;
     private TextView textView,author;
     private Activity mActivity;
    private TextView textcolor,backcolor;
 
-    public RecyclerColorAdapter(ArrayList<Color> colorsList, Context mContext, LinearLayout background, TextView textView, TextView author,
-                                  Activity mActivity,TextView texcolor,TextView backcolor) {
+    public RecyclerColorAdapter(ArrayList<Integer> colorsList, Context mContext, LinearLayout background, TextView textView, TextView author,
+                                Activity mActivity, TextView texcolor, TextView backcolor) {
         ColorsList = colorsList;
         this.mContext = mContext;
         this.background = background;
@@ -63,11 +62,10 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-            final int color = android.graphics.Color.parseColor(""+ColorsList.get(position).getValue()+"");
-            System.out.println(color);
-        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.pop_out);
+             System.out.println(ColorsList.get(position));
+        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.slide_in_bottom);
 
-            holder.colorcard.setBackgroundColor(color);
+            holder.colorcard.setBackgroundColor(ColorsList.get(position));
             holder.colorcard.startAnimation(animation);
         holder.colorcard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +76,7 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
                   "Texto",
                   "Plano de fundo"
                 };
-                final int color = android.graphics.Color.parseColor(ColorsList.get(position).getValue());
+                final int color =  ColorsList.get(position);
 
                 AlertDialog.Builder builder= new AlertDialog.Builder(mActivity);
                 builder.setTitle("Plano de fundo ou texto")
@@ -109,18 +107,7 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
                             }
                         });
                 builder.show();
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        blurView.setBlurRadius(0);
-                    }
-                });
-                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        blurView.setBlurRadius(0);
-                    }
-                });
+
 
             }
         });

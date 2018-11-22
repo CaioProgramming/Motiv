@@ -73,8 +73,8 @@ public class Splash extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null){
             List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.EmailBuilder().build(),
-                    new AuthUI.IdpConfig.GoogleBuilder().build());
+                    new AuthUI.IdpConfig.GoogleBuilder().build(),
+                    new AuthUI.IdpConfig.EmailBuilder().build());
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
                     .setLogo(R.mipmap.ic_launcher)
                     .setAvailableProviders(providers)
@@ -85,8 +85,7 @@ public class Splash extends AppCompatActivity {
             i.putExtra("novo",false);
             i.putExtra("notification",true);
             startActivity(i);
-            this.finish();
-        }
+         }
     }
 
 

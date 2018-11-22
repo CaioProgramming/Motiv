@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
 import com.creat.motiv.Adapters.RecyclerFontAdapter;
-import com.creat.motiv.Beans.Color;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.Utils.Pref;
@@ -39,8 +38,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Objects;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
@@ -85,13 +85,11 @@ public class EditActivity extends AppCompatActivity {
         quotes = new Quotes();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        this.quoteID = findViewById(R.id.quoteID);
         this.edit = findViewById(R.id.edit);
         this.blur = findViewById(R.id.blur);
+
         this.materialdesignandroidfloatingactionmenu = findViewById(R.id.material_design_android_floating_action_menu);
         this.salvar = findViewById(R.id.salvar);
-        this.boldfab = findViewById(R.id.boldfab);
-        this.italicfab = findViewById(R.id.italicfab);
         this.fontpickerfab = findViewById(R.id.fontpickerfab);
         this.backcolorfab = findViewById(R.id.backcolorfab);
         this.textcolorfab = findViewById(R.id.textcolorfab);
@@ -113,7 +111,13 @@ public class EditActivity extends AppCompatActivity {
         this.colorlibrary = findViewById(R.id.colorlibrary);
 
         CategorySeleect(category);
-        colorgallery();
+        try {
+            colorgallery();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         theme();
         fabclicks();
         loadquote();
@@ -149,14 +153,15 @@ public class EditActivity extends AppCompatActivity {
                         quotes.setReport(q.isReport());
 
 
-                        quoteID.setText(quotes.getId());
+                        //quoteID.setText(quotes.getId());
                         quote.setText(quotes.getQuote());
                         author.setText(quotes.getAuthor());
                         username.setText(quotes.getUsername());
                         background.setBackgroundColor(quotes.getBackgroundcolor());
+
                         quote.setTextColor(quotes.getTextcolor());
                         if (quotes.getFont() != null){
-                            quote.setTypeface(Tools.fonts(context).get(quotes.getFont()).getFont());
+                            quote.setTypeface(Tools.fonts(context).get(quotes.getFont()));
                         }else{
                             quote.setTypeface(Typeface.DEFAULT);
                         }
@@ -186,7 +191,7 @@ public class EditActivity extends AppCompatActivity {
                         }
 
 
-                        Glide.with(context).load(quotes.getUserphoto()).into(userpic);
+                        Glide.with(getApplicationContext()).load(quotes.getUserphoto()).into(userpic);
 
 
                     }
@@ -230,7 +235,7 @@ public class EditActivity extends AppCompatActivity {
                 Fontpicker();
             }
         });
-        boldfab.setOnClickListener(new View.OnClickListener() {
+        /*boldfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boldtext();
@@ -241,7 +246,7 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 italic();
             }
-        });
+        });*/
     }
 
 
@@ -271,46 +276,36 @@ public class EditActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                activity.finish();
+                Intent back = new Intent(activity,Splash.class);
+                back.putExtra("novo",false);
+                startActivity(back);
+                finish();
+
             }
         }.start();
 
 
     }
 
-    public void colorgallery() {
-        final ArrayList<Color> ColorList;
-        ColorList = new ArrayList<>();
-        ValueEventListener databaseReference = FirebaseDatabase.getInstance().getReference("Colors").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ColorList.clear();
-                Integer i = 0;
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    i++;
-                    com.creat.motiv.Beans.Color color = postSnapshot.getValue(com.creat.motiv.Beans.Color.class);
-                    com.creat.motiv.Beans.Color c = new com.creat.motiv.Beans.Color();
-                    System.out.println("Color Hex " + color.getValue());
-                    c.setValue(color.getValue());
-                    ColorList.add(color);
-                    System.out.println(ColorList.size() + "   Colors");
+    public void colorgallery() throws ClassNotFoundException, IllegalAccessException {
+        ArrayList<Integer> colors = new ArrayList<>();
+        Field[] fields = Class.forName(Objects.requireNonNull(getPackageName() + ".R$color")).getDeclaredFields();
+        for (Field field : fields) {
+            String colorName = field.getName();
+            int colorId = field.getInt(null);
+            int color = getResources().getColor(colorId);
+            System.out.println("color " + colorName + " " + color);
+            colors.add(color);
 
-                }
-                System.out.println("Load " + ColorList.size() + " colors");
-                Collections.shuffle(ColorList);
-                colorlibrary.setHasFixedSize(true);
-                GridLayoutManager llm = new GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false);
-                RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(ColorList, context,
-                        background, quote, author, activity, texcolorid, backcolorid);
-                colorlibrary.setAdapter(recyclerColorAdapter);
-                colorlibrary.setLayoutManager(llm);
-            }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        System.out.println("Load " + colors.size() + " colors");
+        colorlibrary.setHasFixedSize(true);
+        GridLayoutManager llm = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+        RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors, this,
+                background, quote, author, this, texcolorid, backcolorid);
+        colorlibrary.setAdapter(recyclerColorAdapter);
+        colorlibrary.setLayoutManager(llm);
     }
 
     private void CategorySeleect(final LinearLayout category) {
@@ -487,7 +482,7 @@ public class EditActivity extends AppCompatActivity {
         blurView.setBlurRadius(20);
         myDialog.setContentView(R.layout.profilepicselect);
         RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);
-        GridLayoutManager llm = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager llm = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(llm);
         RecyclerFontAdapter recyclerFontAdapter = new RecyclerFontAdapter(this, blurView, myDialog, quote, author, fontid);

@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
     android:fillViewport="true"
+    android:background="@drawable/gradcitation"
     android:id="@+id/edit"
-    android:background="@color/grey_100"
-    tools:context=".Fragments.HomeFragment">
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -28,7 +27,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/colorlibrary"
                 android:padding="5dp"
-                android:layout_width="130dp"
+                android:layout_width="250dp"
                 android:layout_height="120dp">
 
             </android.support.v7.widget.RecyclerView>
@@ -75,7 +74,7 @@
                 android:hapticFeedbackEnabled="false"
                 app:cardBackgroundColor="@color/white"
                 android:layout_margin="15dp"
-                app:cardCornerRadius="15dp"
+                app:cardCornerRadius="10dp"
                 android:elevation="2dp"
                 android:layout_width="match_parent"
                 android:layout_gravity="center|top"
@@ -150,39 +149,18 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
-                                android:text="0"
                                 android:visibility="invisible"
+                                android:text="0"
                                 android:id="@+id/texcolorid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
-                                android:text="0"
                                 android:visibility="invisible"
+                                android:text="0"
                                 android:id="@+id/backcolorid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:background="@color/transparent"
-                        android:layout_margin="5dp"
-                        android:elevation="1dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <CheckBox
-                            android:layout_marginStart="5dp"
-                            android:padding="5dp"
-                            android:button="@drawable/favoritecheck"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <ImageButton
-                            android:src="@drawable/delete"
-                            android:background="@color/transparent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-
 
                     </LinearLayout>
 
@@ -271,26 +249,6 @@
 
             <com.github.clans.fab.FloatingActionButton
                 app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                android:id="@+id/italicfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_italic_black_24dp"
-                fab:fab_label="Texto itálico"
-                fab:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                android:id="@+id/boldfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_bold_black_24dp"
-                fab:fab_label="Texto em negrito"
-                fab:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
                 app:fab_colorPressed="@color/colorPrimaryDark"                 android:id="@+id/salvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -300,20 +258,13 @@
 
 
         </com.github.clans.fab.FloatingActionMenu>
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:id="@+id/blur"
-            app:realtimeBlurRadius="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-        <TextView
-            android:textColor="@color/grey_200"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/quoteID"
-            android:text="quoteID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <com.github.mmin18.widget.RealtimeBlurView
+        app:realtimeBlurRadius="0dp"
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     </RelativeLayout>
+
 
 </ScrollView>

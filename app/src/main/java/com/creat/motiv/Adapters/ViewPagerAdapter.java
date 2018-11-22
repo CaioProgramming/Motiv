@@ -62,11 +62,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     public String[] slide_text = {
 
             "A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!",
-            "Já são inúmeras  frases compartilhadas no mundo!",
             "O Motiv é sincronizado em tempo real,sempre que um novo usuário posta algo,você pode visualizar no mesmo momento.",
             "Seus dados estão seguros e não são compartilhados, fique tranquilo é um ambiente seguro.",
             "Compartilhe tudo o que imaginar, esse espaço é seu!",
             "Use a imaginação e criatividade sem medo com a ferramenta de edição.",
+            "Já são inúmeras  frases compartilhadas no mundo!",
             "Agora que sabe onde se meteu " + user.getDisplayName() + ",é hora de explorar comunidade do motiv, veja o que os usuários estão compartilhando, compartilhe,explore!"
     };
 
@@ -165,7 +165,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         text.setText(slide_text[position]);
         textView2.setText(slide_titles[position]);
-        if (position == 1) { text.setText("Já são " + quotesArrayList.size() + " frases postadas no motiv");}
+        if (position == 6) { text.setText("Já são " + quotesArrayList.size() + " frases postadas no motiv");}
 
         container.addView(view);
 

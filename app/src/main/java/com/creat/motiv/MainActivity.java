@@ -10,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -36,7 +35,6 @@ import com.creat.motiv.Fragments.SearchFragment;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -80,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private android.support.design.widget.TabLayout tabLayout;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     RealtimeBlurView rootblur;
-     DotProgressBar progressBar;
     Pref preferences;
      private android.widget.ImageView offlineimage;
     private android.widget.LinearLayout offline;
@@ -96,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
          offlineimage = findViewById(R.id.offlineimage);
         preferences = new Pref(this);
          tabLayout = findViewById(R.id.tabs);
-        progressBar = findViewById(R.id.progress_bar);
         rootblur = findViewById(R.id.rootblur);
         offlinemessage = findViewById(R.id.offlinemssage);
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -142,7 +138,11 @@ public class MainActivity extends AppCompatActivity {
             offline.setVisibility(View.VISIBLE);
             offlinemessage.setText(Tools.offlinemessage());
             Glide.with(this).asGif().load(R.drawable.spaceguy).into(offlineimage);
-            tabLayout.setVisibility(View.INVISIBLE); }
+            tabLayout.setVisibility(View.INVISIBLE);
+        }else{
+            offline.setVisibility(View.INVISIBLE);
+            tabLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -232,45 +232,14 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.theme) {
             if (preferences.nightmodestate()){
                 preferences.setNight(false);
-                rootblur.setBlurRadius(50);
-                progressBar.setVisibility(View.VISIBLE);
+
                 ConfigViewPager();
-                CountDownTimer timer = new CountDownTimer(3000,100) {
-                    @Override
-                    public void onTick(long l) {
 
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        rootblur.setBlurRadius(0 );
-                        rootblur.setOverlayColor(Color.TRANSPARENT);
-                    }
-                };
-                timer.start();
 
             }else {
                 preferences.setNight(true);
                 ConfigNightViewPager();
-                rootblur.setBlurRadius(50);
-                progressBar.setVisibility(View.VISIBLE);
-                  CountDownTimer timer = new CountDownTimer(3000,100) {
-                    @Override
-                    public void onTick(long l) {
 
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        ConfigNightViewPager();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        rootblur.setBlurRadius(0);
-                        rootblur.setOverlayColor(Color.TRANSPARENT);
-                    }
-                } ;
-
-                  timer.start();
 
 
 

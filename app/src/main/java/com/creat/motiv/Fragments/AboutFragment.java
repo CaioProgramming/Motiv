@@ -148,9 +148,10 @@ public class AboutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (support.isChecked()) {
-                    helpad.setVisibility(View.GONE);
-                } else {
                     helpad.setVisibility(View.VISIBLE);
+                } else {
+
+                    helpad.setVisibility(View.GONE);
                 }
             }
         });
@@ -236,9 +237,10 @@ public class AboutFragment extends Fragment {
 
     private void expand(RecyclerView layout, CheckBox checkBox) {
         if (checkBox.isChecked()) {
-            layout.setVisibility(View.GONE);
-        } else {
             layout.setVisibility(View.VISIBLE);
+        } else {
+
+            layout.setVisibility(View.GONE);
         }
 
 

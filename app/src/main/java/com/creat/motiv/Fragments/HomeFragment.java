@@ -15,7 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Beans.Tutorial;
@@ -24,7 +28,6 @@ import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -67,6 +70,9 @@ public class HomeFragment extends Fragment {
 
 
     private android.support.design.widget.CoordinatorLayout home;
+    private android.widget.TextView offlinemssage;
+    private android.widget.ImageView offlineimage;
+    private android.widget.LinearLayout loading;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -83,8 +89,12 @@ public class HomeFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(getContext());
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        this.loading = (LinearLayout) view.findViewById(R.id.loading);
+        this.offlineimage = (ImageView) view.findViewById(R.id.offlineimage);
+        this.offlinemssage = (TextView) view.findViewById(R.id.offlinemssage);
+        this.adView = (AdView) view.findViewById(R.id.adView);
          home = view.findViewById(R.id.home);
-
+        Glide.with(this).asGif().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/render.gif?alt=media&token=90c5f0a7-cbc5-41bd-8623-283141447a63").into(offlineimage);
 
         madView = view.findViewById(R.id.adView);
         MobileAds.initialize(getContext(),
@@ -103,7 +113,7 @@ public class HomeFragment extends Fragment {
         blur = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         composesrecycler = view.findViewById(R.id.composesrecycler);
         quotesdb = FirebaseDatabase.getInstance().getReference();
-
+        collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
 
 
         Carregar();
@@ -139,8 +149,8 @@ public class HomeFragment extends Fragment {
                 .enableRevealAnimation(true)
                 .performClick(true)
                 .fadeinTextDuration(400)
-                .headingTvColor(R.color.colorPrimary)
-                .headingTvSize(32)
+                .headingTvColor(R.color.white)
+                .headingTvSize(22)
                 .headingTvText("Tela inicial")
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
                 .subHeadingTvSize(16)
@@ -156,17 +166,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void Carregar() {
-        final RealtimeBlurView blur = getActivity().findViewById(R.id.rootblur);
-        final DotProgressBar progressBar = getActivity().findViewById(R.id.progress_bar);
+        final Animation out = AnimationUtils.loadAnimation(getContext(),R.anim.slide_out);
 
-        blur.setBlurRadius(70);
-        progressBar.setVisibility(View.VISIBLE);
 
         quotesdb.keepSynced(true);
 
 
 
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
+        if (this.isAdded()) {
         quotesdb.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -187,7 +195,8 @@ public class HomeFragment extends Fragment {
                         quotes.setUserphoto(q.getUserphoto());
                         quotes.setReport(q.isReport());
                         if (q.getFont() != null){
-                            quotes.setFont(q.getFont());
+
+                                quotes.setFont(q.getFont());
                         }else{
                             quotes.setFont(null);
                         }
@@ -217,9 +226,13 @@ public class HomeFragment extends Fragment {
                 RecyclerAdapter myadapter = new RecyclerAdapter( getContext(), quotesArrayList,  getActivity());
                 composesrecycler.setAdapter(myadapter);
                 composesrecycler.setLayoutManager(llm);
-                ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-                if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
+                if (getActivity() != null) {
+                    ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+                    if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
+                    }
+                }else{
+                    getActivity().recreate();
                 }
 
                 Random r = new Random();
@@ -227,8 +240,8 @@ public class HomeFragment extends Fragment {
 
                 quote.setText(quotesArrayList.get(q).getQuote());
                 if (quotesArrayList.get(q).getFont() != null){
-                quote.setTypeface(Tools.fonts(getContext()).get(quotesArrayList.get(q).getFont()).getFont());
-                author.setTypeface(Tools.fonts(getContext()).get(quotesArrayList.get(q).getFont()).getFont());
+                    quote.setTypeface(Tools.fonts(getContext()).get(quotesArrayList.get(q).getFont()));
+                    author.setTypeface(Tools.fonts(getContext()).get(quotesArrayList.get(q).getFont()));
                 }else{
                     quote.setTypeface(Typeface.DEFAULT);
                 }
@@ -263,12 +276,8 @@ public class HomeFragment extends Fragment {
                 author.setTextColor(quotesArrayList.get(q).getTextcolor());
                 collapsetoolbar.setExpandedTitleColor(quotesArrayList.get(q).getTextcolor());
                 collapsetoolbar.setBackgroundColor(quotesArrayList.get(q).getBackgroundcolor());
-
-
-                quotesArrayList.remove(q);
-                final Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.mi_fade_out);
-
-                CountDownTimer timer = new CountDownTimer(3000,100) {
+                composesrecycler.smoothScrollToPosition(q);
+                CountDownTimer timer = new CountDownTimer(5000,100) {
                     @Override
                     public void onTick(long l) {
 
@@ -276,13 +285,13 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFinish() {
-                        progressBar.setAnimation(out);
-                        progressBar.setVisibility(View.INVISIBLE);
-                        blur.setBlurRadius(0);
-                        blur.setOverlayColor(Color.TRANSPARENT);
 
+                        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.fab_scale_down);
+                        loading.startAnimation(animation);
+                        loading.setVisibility(View.INVISIBLE);
                     }
                 }.start();
+
 
 
             }
@@ -292,6 +301,7 @@ public class HomeFragment extends Fragment {
                 System.out.println(databaseError.getMessage());
             }
         });
+        }
 
 
 

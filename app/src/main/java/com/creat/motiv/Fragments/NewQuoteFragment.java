@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
@@ -40,14 +39,11 @@ import com.creat.motiv.Utils.Pref;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 import com.wooplr.spotlight.SpotlightView;
 
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -223,7 +219,13 @@ public class NewQuoteFragment extends Fragment {
             }
         });
 
-        colorgallery();
+        try {
+            colorgallery();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -310,37 +312,6 @@ public class NewQuoteFragment extends Fragment {
         }
     }
 
-    private void italic() {
-        if (boldb) {
-            frase.setTypeface(frase.getTypeface(), Typeface.BOLD_ITALIC);
-            author.setTypeface(frase.getTypeface(), Typeface.BOLD_ITALIC);
-        }
-        if (italicb) {
-            frase.setTypeface(frase.getTypeface(), Typeface.NORMAL);
-            author.setTypeface(frase.getTypeface(), Typeface.NORMAL);
-            italicb = false;
-        } else {
-            frase.setTypeface(frase.getTypeface(), Typeface.ITALIC);
-            author.setTypeface(frase.getTypeface(), Typeface.ITALIC);
-            italicb = true;
-        }
-    }
-
-    private void boldtext() {
-        if (italicb && boldb) {
-            frase.setTypeface(frase.getTypeface(), Typeface.BOLD_ITALIC);
-            author.setTypeface(frase.getTypeface(), Typeface.BOLD_ITALIC);
-        }
-        if (boldb) {
-            frase.setTypeface(frase.getTypeface(), Typeface.NORMAL);
-            author.setTypeface(frase.getTypeface(), Typeface.NORMAL);
-            boldb = false;
-        } else {
-            frase.setTypeface(frase.getTypeface(), Typeface.BOLD);
-            author.setTypeface(frase.getTypeface(), Typeface.BOLD);
-            boldb = true;
-        }
-    }
 
     private void BackColorpicker() {
         final ColorPicker cp = new ColorPicker(getActivity());
@@ -393,12 +364,13 @@ public class NewQuoteFragment extends Fragment {
     }
 
     private void Fontpicker() {
-        BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
+         BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
         final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
-        blurView.setBlurRadius(20);
+        blurView.setBlurRadius(50);
+        blurView.setVisibility(View.VISIBLE);
         myDialog.setContentView(R.layout.profilepicselect);
         RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);
-        GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(llm);
         RecyclerFontAdapter recyclerFontAdapter = new RecyclerFontAdapter(getContext(), blurView, myDialog, frase, author, fontid);
@@ -473,7 +445,7 @@ public class NewQuoteFragment extends Fragment {
                 String.valueOf(user.getPhotoUrl()),
                 0,
                 Integer.parseInt(backcolorid.getText().toString()),
-                Integer.parseInt(texcolorid.getText().toString()),
+                Integer.parseInt( texcolorid.getText().toString()),
                 italicb,
                 boldb,
                 fonti,
@@ -515,39 +487,26 @@ public class NewQuoteFragment extends Fragment {
 
 
 
-    public void colorgallery(){
-        final ArrayList<com.creat.motiv.Beans.Color> ColorList;
-        ColorList = new ArrayList<>();
-        ValueEventListener databaseReference = FirebaseDatabase.getInstance().getReference("Colors").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ColorList.clear();
-                Integer i = 0;
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    i++;
-                    com.creat.motiv.Beans.Color color = postSnapshot.getValue(com.creat.motiv.Beans.Color.class);
-                    com.creat.motiv.Beans.Color c = new com.creat.motiv.Beans.Color();
-                    System.out.println("Color Hex " + color.getValue());
-                    c.setValue(color.getValue());
-                    ColorList.add(color);
-                    System.out.println(ColorList.size() + "   Colors");
+    public void colorgallery() throws ClassNotFoundException, IllegalAccessException {
+        ArrayList<Integer> colors = new ArrayList<>();
+        Field[] fields = Class.forName(Objects.requireNonNull(getContext()).getPackageName() +".R$color").getDeclaredFields();
+        for(Field field : fields) {
+            String colorName = field.getName();
+            int colorId = field.getInt(null);
+            int color = getResources().getColor(colorId);
+            System.out.println("color " + colorName + " " + color);
+            colors.add(color);
 
-                }
-                System.out.println("Load " + ColorList.size() + " colors");
-                Collections.shuffle(ColorList);
-                colorlibrary.setHasFixedSize(true);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
-                RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(ColorList,getContext(),
-                        background,frase,author,getActivity(),backcolorid,texcolorid);
-                colorlibrary.setAdapter(recyclerColorAdapter);
-                colorlibrary.setLayoutManager(llm);
-            }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        System.out.println("Load " + colors.size() + " colors");
+        Collections.reverse(colors);
+        colorlibrary.setHasFixedSize(true);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
+        RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors,getContext(),
+                background,frase,author,getActivity(),texcolorid,backcolorid);
+        colorlibrary.setAdapter(recyclerColorAdapter);
+        colorlibrary.setLayoutManager(llm);
     }
 
     @Override

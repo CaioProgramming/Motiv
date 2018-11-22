@@ -19,7 +19,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                     <CheckBox
-                        android:checked="false"
                         android:drawableStart="@mipmap/creators"
                         android:id="@+id/creators"
                         android:button="@drawable/expand"
@@ -45,7 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
-                android:checked="false"
                 android:drawableStart="@mipmap/references"
                 android:id="@+id/designreferences"
                 android:button="@drawable/expand"
@@ -72,7 +70,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
-                android:checked="false"
                 android:drawableStart="@mipmap/artists"
                 android:id="@+id/artistsreferences"
                 android:button="@drawable/expand"
@@ -99,8 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
-                android:checked="false"
-                android:drawableStart="@mipmap/support"
+                 android:drawableStart="@mipmap/support"
                 android:id="@+id/support"
                 android:textColor="@color/grey_600"
                 android:button="@drawable/expand"

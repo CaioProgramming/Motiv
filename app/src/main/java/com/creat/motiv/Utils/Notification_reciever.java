@@ -44,6 +44,7 @@ public class Notification_reciever extends BroadcastReceiver {
              act = new Intent(context, MainActivity.class);
              act.putExtra("notification", true);
              quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
+
              quotesdb.addValueEventListener(new ValueEventListener() {
                  @Override
                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

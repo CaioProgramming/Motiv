@@ -2,9 +2,7 @@ package com.creat.motiv.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.net.Uri;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
@@ -20,18 +18,11 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
+import com.creat.motiv.Updateuseract;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import de.mateware.snacky.Snacky;
 
 public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.MyViewHolder>  {
     private QuotesDB quotesDB;
@@ -66,48 +57,18 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        Animation in = AnimationUtils.loadAnimation(mContext,R.anim.slide_in);
 
         Glide.with(mActivity).load(mData.get(position).getUri()).into(holder.pic);
-
+        holder.pic.startAnimation(in);
 
             holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
-                    if (user != null) {
-                        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    for (int i = 0; i< myquotes.size();i++){
-                                        quotesDB = new QuotesDB();
-                                        quotesDB.AlterarFoto(mActivity,myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
-                                    }
-                                    Snacky.builder().setActivity(Objects.requireNonNull(mActivity)).success().setText("Foto de perfil alterada").show();
-                                    myDialog.dismiss();
-                                    myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialogInterface) {
-                                            Animation out = AnimationUtils.loadAnimation(mContext,R.anim.mi_fade_out);
-                                            blurView.startAnimation(out);
-                                            blurView.setOverlayColor(Color.TRANSPARENT);
-                                            blurView.setBlurRadius(0);
-                                        }
-                                    });
-
-                                } else {
-                                    Snacky.builder().setActivity(Objects.requireNonNull(mActivity)).success().setText("Erro " + task.getException()).show();
-                                }
-
-
-                            }
-                        });
-
-
-
-                    }
-                 }
+                    Intent update = new Intent(mActivity, Updateuseract.class);
+                    update.putExtra("photouri",mData.get(position).getUri());
+                    mContext.startActivity(update);
+                  }
             });
     }
 

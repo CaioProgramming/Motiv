@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
     android:fillViewport="true"
     android:background="@drawable/gradcitation"
      >
@@ -27,7 +26,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/colorlibrary"
                 android:padding="5dp"
-                android:layout_width="130dp"
+                android:layout_width="250dp"
                 android:layout_height="120dp">
 
             </android.support.v7.widget.RecyclerView>
@@ -149,15 +148,15 @@
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                <TextView
-                                   android:visibility="gone"
-                                   android:text="0"
+                                   android:visibility="invisible"
+                                     android:text="0"
                                    android:id="@+id/texcolorid"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                <TextView
+                                   android:visibility="invisible"
                                    android:text="0"
-                                   android:visibility="gone"
-                                   android:id="@+id/backcolorid"
+                                    android:id="@+id/backcolorid"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                </LinearLayout>

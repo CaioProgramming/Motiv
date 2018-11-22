@@ -3,8 +3,10 @@ package com.creat.motiv.Fragments;
 
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
@@ -23,7 +25,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +38,7 @@ import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Beans.Tutorial;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
+import com.creat.motiv.Updateuseract;
 import com.creat.motiv.Utils.Pref;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -86,6 +91,10 @@ public class ProfileFragment extends Fragment {
     private android.widget.LinearLayout linearLayout;
     private android.widget.LinearLayout postlayout;
     private FloatingActionButton floatingActionButtoncamera;
+    private android.widget.RelativeLayout pic;
+    private TextView offlinemssage;
+    private android.widget.ImageView offlineimage;
+    private LinearLayout loading;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -104,9 +113,12 @@ public class ProfileFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        this.loading = (LinearLayout) view.findViewById(R.id.loading);
+        this.offlineimage = (ImageView) view.findViewById(R.id.offlineimage);
+        this.offlinemssage = (TextView) view.findViewById(R.id.offlinemssage);
+        this.pic = (RelativeLayout) view.findViewById(R.id.pic);
         this.floatingActionButtoncamera = (FloatingActionButton) view.findViewById(R.id.floatingActionButtoncamera);
         this.linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
-        this.postlayout = view.findViewById(R.id.postlayout);
         this.collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
         appBarLayout = view.findViewById(R.id.appBarLayout);
         toolbar = view.findViewById(R.id.toolbar);
@@ -116,6 +128,11 @@ public class ProfileFragment extends Fragment {
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
         myquotesrecycler = view.findViewById(R.id.myquotes);
         profilepic = view.findViewById(R.id.profilepic);
+
+        Glide.with(getContext()).asGif()
+                .load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/01_websiteloop.gif?alt=media&token=308b438b-409d-49aa-8996-fcaee4721d7c")
+                .into(offlineimage);
+
         floatingActionButtoncamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,24 +151,32 @@ public class ProfileFragment extends Fragment {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
+            Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.pop_in);
+            Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.pop_out);
+
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    Animation out = AnimationUtils.loadAnimation(getContext(),R.anim.pop_out);
-                    userpictwo.startAnimation(out);
 
-                    userpictwo.setVisibility(View.GONE);
+                    postnumber.setVisibility(View.VISIBLE);
+                    postnumber.startAnimation(in);
+                    pic.startAnimation(out);
+
+                    pic.setVisibility(View.GONE);
 
 
                     isShow = true;
-                } else if(isShow) {
-                    Animation in = AnimationUtils.loadAnimation(getContext(),R.anim.pop_in);
-                    userpictwo.setVisibility(View.VISIBLE);
+                } else if (isShow) {
+                    postnumber.startAnimation(out);
+                    postnumber.setVisibility(View.GONE);
+                    pic.setVisibility(View.VISIBLE);
 
-                    userpictwo.startAnimation(in);//carefull there should a space between double quote otherwise it wont work
+                    pic.startAnimation(in);
+                    floatingActionButton.startAnimation(in);
+                    //carefull there should a space between double quote otherwise it wont work
                     isShow = false;
                 }
             }
@@ -231,7 +256,7 @@ public class ProfileFragment extends Fragment {
         System.out.println(preferences.nightmodestate());
         if (preferences.nightmodestate()){
             view.setBackgroundResource(R.drawable.gradnight);
-            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.grey_800));
+            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryDark));
             collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
             floatingActionButton.setBackgroundColor(getResources().getColor(R.color.grey_800));
             postnumber.setTextColor(Color.WHITE);
@@ -260,25 +285,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!Objects.equals(username.getText().toString(), "")) {
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
-                    user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                for (int i = 0; i < myquotes.size(); i++) {
-                                    quotesDB = new QuotesDB();
-                                    quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
-
-                                }
-                            } else {
-                                Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setText("putz deu esse erro aqui " + Objects.requireNonNull(task.getException()).getMessage())
-                                        .error().show();
-
-
-                            }
-                        }
-                    });
-
+                    Intent update = new Intent(getActivity(), Updateuseract.class);
+                    update.putExtra("nome", username.getText().toString());
+                    startActivity(update);
 
                 } else {
                     Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setText("Não pode salvar o nome vazio, isso aqui não é festa").error().show();
@@ -449,8 +458,8 @@ public class ProfileFragment extends Fragment {
                             quotes.setTextcolor(q.getTextcolor());
                             quotes.setBackgroundcolor(q.getBackgroundcolor());}
                             if (q.getUserID().equals(user.getUid())){
-                            quotes.setUsername(user.getDisplayName());
-                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                                quotes.setUsername(q.getUsername());
+                                quotes.setUserphoto(q.getUserphoto());
                         myquotes.add(quotes);
 
                         System.out.println("Quotes " + myquotes.size());}
@@ -477,6 +486,22 @@ public class ProfileFragment extends Fragment {
                     }
                 });
                 animator.start();
+                CountDownTimer timer = new CountDownTimer(4000,100) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.fab_scale_down);
+                        Animation animation1 = AnimationUtils.loadAnimation(getContext(),R.anim.fab_scale_up);
+                        loading.startAnimation(animation);
+                        loading.setVisibility(View.INVISIBLE);
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.startAnimation(animation1);
+                    }
+                }.start();
             }
 
 

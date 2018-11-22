@@ -16,14 +16,13 @@
         android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout
 
-            app:contentScrim="@color/white"
+            app:contentScrim="@color/colorPrimary"
             android:id="@+id/collapsetoolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@color/white"
-            android:fitsSystemWindows="true"
-            >
+            android:fitsSystemWindows="true">
             <LinearLayout
                 android:padding="15dp"
                 android:layout_margin="40dp"
@@ -52,12 +51,13 @@
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
+
                 app:collapseIcon="@drawable/ic_saturn_and_other_planets"
                 app:title="@string/app_name"
                 app:navigationIcon="@drawable/ic_notification"
                 android:id="@+id/toolbar"
-                app:layout_collapseMode="parallax"
-                app:titleTextColor="@color/black"
+                app:layout_collapseMode="pin"
+                app:titleTextColor="@color/white"
                 app:popupTheme="@style/AppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
@@ -69,13 +69,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
     <com.google.android.gms.ads.AdView
         android:layout_marginBottom="5dp"
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-4979584089010597/3019321601">
     </com.google.android.gms.ads.AdView>
@@ -86,12 +86,32 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
-    <com.huxq17.swipecardsview.SwipeCardsView
-        android:background="@color/lwhite"
-        android:visibility="invisible"
-        android:id="@+id/tutorialcards"
+    <LinearLayout
+         android:background="@color/white"
+        android:orientation="vertical"
+        android:id="@+id/loading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:id="@+id/offlinemssage"
+            android:textAlignment="center"
+            android:textSize="32sp"
+            android:text="Tá carregando, relaxa..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/offlineimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+
+    </LinearLayout>
+
+
 
 
 

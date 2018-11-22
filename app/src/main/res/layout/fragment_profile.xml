@@ -46,7 +46,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="parallax"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme"
                 app:title="@string/username"
                 app:titleTextColor="@color/white" />
@@ -55,8 +55,8 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:id="@+id/linearLayout"
+
+         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -68,7 +68,6 @@
             style="@style/RobotoTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
             android:padding="10dp"
             android:text="@string/postnumber"
             android:textAlignment="center"
@@ -86,7 +85,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-
+        android:visibility="invisible"
         android:id="@+id/floatingActionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,32 +100,63 @@
         app:layout_anchor="@+id/linearLayout"
         app:layout_anchorGravity="right|top" />
 
-    <android.support.design.widget.FloatingActionButton
-
-        android:id="@+id/floatingActionButtoncamera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-
-        android:elevation="3dp"
-        android:src="@android:drawable/ic_menu_camera"
-        android:tint="@color/black"
-        app:backgroundTint="@color/white"
-        app:borderWidth="0dp"
-        app:fabSize="mini"
-        app:layout_anchor="@+id/userpictwo"
-        app:layout_anchorGravity="right|bottom" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userpictwo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/penguin"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"
+    <RelativeLayout
+        android:id="@+id/pic"
+        android:layout_width="135dp"
+        android:layout_height="130dp"
         app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="bottom|center" />
+        app:layout_anchorGravity="bottom|center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/userpictwo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@color/transparent"
+            android:src="@drawable/penguin"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButtoncamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/userpictwo"
+            android:layout_alignParentEnd="true"
+            android:background="@color/white"
+            android:clickable="true"
+            android:elevation="3dp"
+            android:src="@android:drawable/ic_menu_camera"
+            android:tint="@color/colorPrimary"
+            app:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:fabSize="mini" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:id="@+id/offlinemssage"
+            android:textAlignment="center"
+            android:textSize="32sp"
+            android:text="Estamos procurando suas coisas, tenha paciência..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/offlineimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+
+    </LinearLayout>
 
 
 

@@ -16,6 +16,11 @@
 
 
     </style>
+    <style name="LinearProgress" parent="Theme.AppCompat.Light">
+
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:progressBackgroundTint">@color/white</item>
+    </style>
     <style name="RobotoTextView" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:color">@drawable/text_hover</item>
