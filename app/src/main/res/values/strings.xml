@@ -8,10 +8,8 @@
 
     <string name="fb_login_protocol_scheme">fb259084328108067</string>
 
-    <string name="postnumber">0 publicações</string>
     <string name="username">username</string>
-    <string name="salvar">Salvar</string>
-    <string name="tema_escuro">Tema Escuro</string>
+    <string name="tema_escuro">Mudar tema</string>
     <string name="sair">Sair</string>
     <string name="quote">Escreva uma frase</string>
     <string name="author">Autor</string>
@@ -28,7 +26,7 @@
     <string name="start">Hora de começar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="reported">Esta frase foi denunciada, até que seja analisada, não será exibida no feed!</string>
     <string name="sucess_update">Dados alterados com sucesso... Vamos te levar de volta para a tela inicial</string>
+    <string name="title_home">Home</string>
 </resources>

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.creat.motiv.Utils.Notification_reciever;
+import com.creat.motiv.Utils.Pref;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,16 +57,19 @@ public class Splash extends AppCompatActivity {
     }
 
     private void setalarm() {
+        Pref preferences = new Pref(this);
+        preferences.setAlarm(true);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY,9);
         Intent intent = new Intent(getApplicationContext(),Notification_reciever.class);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,
                 intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES,pendingIntent);
+                AlarmManager.INTERVAL_HALF_HOUR,pendingIntent);
 
     }
 
@@ -85,6 +89,7 @@ public class Splash extends AppCompatActivity {
             i.putExtra("novo",false);
             i.putExtra("notification",true);
             startActivity(i);
+            this.finish();
          }
     }
 

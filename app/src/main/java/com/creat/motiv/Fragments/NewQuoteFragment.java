@@ -268,7 +268,7 @@ public class NewQuoteFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.grey_300);
+                category.setBackgroundResource(R.color.black);
                 int cx = background.getRight();
                 int cy = background.getTop();
                 int radius = Math.max(category.getWidth(), category.getHeight());
@@ -308,7 +308,7 @@ public class NewQuoteFragment extends Fragment {
             music.setButtonTintList(ColorStateList.valueOf(Color.WHITE));
             citation.setTextColor(Color.WHITE);
             music.setTextColor(Color.WHITE);
-            view.setBackgroundResource(R.drawable.gradnight);
+
         }
     }
 
@@ -366,8 +366,8 @@ public class NewQuoteFragment extends Fragment {
     private void Fontpicker() {
          BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
         final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
-        blurView.setBlurRadius(50);
         blurView.setVisibility(View.VISIBLE);
+        blurView.setBlurRadius(50);
         myDialog.setContentView(R.layout.profilepicselect);
         RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);
         GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
@@ -402,10 +402,10 @@ public class NewQuoteFragment extends Fragment {
                 .performClick(true)
                 .fadeinTextDuration(400)
                 .headingTvColor(R.color.colorPrimary)
-                .headingTvSize(32)
+                .headingTvSize(22)
                 .headingTvText("Criação de frases")
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(16)
+                .subHeadingTvSize(14)
                 .subHeadingTvText("Aqui é o seu cantinho mágico, onde poderá criar suas frases! ")
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(preview)
@@ -443,7 +443,6 @@ public class NewQuoteFragment extends Fragment {
                 user.getUid(),
                 user.getDisplayName(),
                 String.valueOf(user.getPhotoUrl()),
-                0,
                 Integer.parseInt(backcolorid.getText().toString()),
                 Integer.parseInt( texcolorid.getText().toString()),
                 italicb,

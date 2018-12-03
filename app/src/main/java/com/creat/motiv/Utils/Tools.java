@@ -1,16 +1,18 @@
 package com.creat.motiv.Utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 
 import com.creat.motiv.Beans.Artists;
-import com.creat.motiv.Beans.Category;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
@@ -19,109 +21,81 @@ public class Tools {
     public  static int sixhourinterval = 21600000;
     public static String iconssite[] ={ "https://flaticon.com","https://dribbble.com","https://material.io"};
 
-    public static String artists[] ={
-            "Alfrey Davilla",
-            "Aleksandar Savic",
-            "Alex Dixon",
-            "Thunder Rockets",
-            "Elena Maykhrych",
-            "Ioana Şopov",
-            "Agnese Lo",
-            "Holden Kao",
-            "Gigi Meburishvili",
-            "Jess Dove",
-            "Judith",
-            "Nick Slater",
-            "Mohamed Chahin",
-            "Alexa Erkaeva",
-            "Ilya Polutis",
-            "Jordan Jenkins ",
-            "Davs Doodles",
-            "Anano Miminoshvili",
-            "Brenttton",
-            "Smashicons",
-            "cheesano",
-            "Burnt Toast Creative",
-            "Peter Laudermilch ",
-            "Jonathan Sullivan",
-            "Li Aladin",
-            "Antonija Golić",
-            "Rick Calzi",
-            "Evgeny Polukhin",
-            "Andrii Nhuien",
-            "Nastia Zubova",
-            "Mario Nikolic",
-            "Camille Magnan",
-            "Cami",
-            "Tushar Saini",
-            "Vy Tat",
-            "Prajwal Mangrulkar"
+    public static Artists artist[] ={
+        new Artists("M. EDNOKO Marinov","https://dribbble.com/ednoko"),
+        new Artists("Cynthia Tizcareno","https://dribbble.com/cynthiatiz"),
+        new Artists("Rounded Rectangle","https://dribbble.com/yxarcher"),
+        new Artists("Zayn","https://dribbble.com/zaynkylo"),
+        new Artists("Nick Slater","https://dribbble.com/slaterdesign"),
+        new Artists("Yashika ","https://dribbble.com/amazingdesigner"),
+        new Artists("Marta Zubieta","https://dribbble.com/martazubieta"),
+        new Artists("Diana Stoyanova","https://dribbble.com/dianaxstoyanova"),
+        new Artists("Maryia","https://dribbble.com/kulinskaya"),
+        new Artists("Tyler Pate","https://dribbble.com/Ty_poe"),
+        new Artists("Chris Fernandez","https://dribbble.com/c_illustrates"),
+        new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
+        new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
+        new Artists("https://dribbble.com/andrewfelix","https://dribbble.com/NewhouseDesigns"),
+        new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
+        new Artists("Ssilbi NG","https://dribbble.com/ssilbing"),
+        new Artists("Jetpacks and Rollerskates","https://dribbble.com/blakestevenson"),
+        new Artists("volcanic ash","https://dribbble.com/volcanicash"),
+        new Artists("Ksenia Vega","https://dribbble.com/LittleVega"),
+        new Artists("Evgeny Polukhin ","https://dribbble.com/Pioneer"),
+        new Artists("Rick Calzi","https://dribbble.com/rickcalzi"),
+        new Artists("Antonija Golić","https://dribbble.com/SilverAG"),
+        new Artists("Li Aladin","https://dribbble.com/Li_Aladin"),
+        new Artists("Aleksandar Savic","https://dribbble.com/almigor"),
+        new Artists("Jonathan Sullivan","https://dribbble.com/Sk8Gnarley"),
+        new Artists("Peter Laudermilch","https://dribbble.com/peterlaudermilch"),
+        new Artists("Burnt Toast Creative","https://dribbble.com/BurntToast"),
+        new Artists("Thunder Rockets","https://dribbble.com/thunderockets"),
+        new Artists("Nick Slater","https://dribbble.com/slaterdesign"),
+        new Artists("Alfrey Davilla | vaneltia","https://dribbble.com/vaneltia"),
+        new Artists("Brenttton","https://dribbble.com/Breton-cn"),
+        new Artists("Mohamed Chahin","https://dribbble.com/MohChahin"),
+        new Artists("Alex Dixon","https://dribbble.com/alexdixon"),
+        new Artists("Alexa Erkaeva","https://dribbble.com/erkaeva"),
+        new Artists("Ilya Polutis","https://dribbble.com/Polutis"),
+        new Artists("Jordan Jenkins ","https://dribbble.com/jkane"),
+        new Artists("Anano Miminoshvili","https://dribbble.com/Anano"),
+        new Artists("Davs Doodles","https://dribbble.com/davsdoodles"),
+        new Artists("Kong_Family","https://dribbble.com/godesignme"),
+        new Artists("Andrii Nhuien","https://dribbble.com/bassadz"),
+        new Artists("Judith","https://dribbble.com/judag"),
+        new Artists("Fahiz","https://dribbble.com/Fahiz"),
+        new Artists("Gigi Meburishvili","https://dribbble.com/GigiM"),
 
     };
 
-    public static String artistslinks[]
-            ={"https://dribbble.com/vaneltia",
-            "https://dribbble.com/almigor",
-             "https://dribbble.com/alexdixon",
-            "https://dribbble.com/thunderockets",
-            "https://dribbble.com/elenmay",
-            "https://dribbble.com/agneselodesign",
-            "https://dribbble.com/ioanasopov",
-            "https://dribbble.com/holdenkaodesign",
-            "https://dribbble.com/GigiM",
-            "https://dribbble.com/judag",
-            "https://dribbble.com/slaterdesign",
-            "https://dribbble.com/MohChahin",
-            "https://dribbble.com/erkaeva",
-            "https://dribbble.com/Polutis",
-            "https://dribbble.com/jkane",
-            "https://dribbble.com/davsdoodles",
-            "https://dribbble.com/Anano",
-            "https://dribbble.com/Breton-cn",
-            "https://www.flaticon.com/authors/smashicons",
-            "https://dribbble.com/cheesano",
-            "https://dribbble.com/BurntToast",
-            "https://dribbble.com/peterlaudermilch",
-            "https://dribbble.com/Sk8Gnarley",
-            "https://dribbble.com/Li_Aladin",
-            "https://dribbble.com/SilverAG",
-            "https://dribbble.com/rickcalzi",
-            "https://dribbble.com/Pioneer",
-            "https://dribbble.com/bassadz",
-            "https://dribbble.com/mynameisnastia",
-            "https://dribbble.com/mariomovement",
-            "https://dribbble.com/camillemagnan",
-            "https://dribbble.com/camidobrin",
-            "https://dribbble.com/tusharsainii",
-            "https://dribbble.com/mooandidesign",
-            "https://dribbble.com/prajwalmangrulkar"
 
-    };
-    public static String loader = "https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/astrodribble.gif?alt=media&token=65f55a1b-0e3b-4d1f-a015-cd6c46b0b125";
 
-    public static String adId = "ca-app-pub-4979584089010597/3019321601";
-
+    public static int spancount = 1;
 
     public static ArrayList<Artists> artists(){
-        System.out.println("artists " + artists.length + " with " + artistslinks.length + " links");
         ArrayList<Artists> artistslist = new ArrayList<>();
-        for (int i = 0; i <artistslinks.length;i++){
-            Artists a = new Artists(artists[i], artistslinks[i]);
-            artistslist.add(a);
-            System.out.println("artist " + artists[i] + " link " + artistslinks[i]);
-        }
+        artistslist.addAll(Arrays.asList(artist));
+        Collections.sort(artistslist, new Comparator<Artists>() {
+            @Override
+            public int compare(Artists artists, Artists t1) {
+                return artists.getNome().compareToIgnoreCase(t1.getNome());
+            }
+        });
         return artistslist;
     }
 
 
 
-    public static Category categories[] ={
-            new Category("Música","https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/categories%2Flazy_wednesday_d_2x.png?alt=media&token=e22443c8-5ac0-4501-9597-a83d550f3daa"),
-            new Category("Citação","https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/categories%2Fcopywritter.jpg?alt=media&token=2fb62421-55da-403f-b16a-16f8ec88384f"),
-            new Category("Amor","https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/categories%2Fartboard_2x.png?alt=media&token=6b28e4c1-bfa1-4dc7-aa1b-858c3fd85bba"),
-            new Category("Motivação","https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/categories%2F3.jpg?alt=media&token=ed80018b-1101-4b58-8fe0-d2cebb2ddfec")
+    public static boolean isColorDark(int color) {
+        double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+        if (darkness < 0.5) {
+            return false; // It's a light color
+        } else {
+            return true; // It's a dark color
+        }
+    }
 
-    };
+
 
 
     public static String offlinefrases[] = {"Ish, sem internet você não consegue fazer nada",
@@ -227,7 +201,6 @@ public class Tools {
         return result;
 
     }
-
 
 
 }

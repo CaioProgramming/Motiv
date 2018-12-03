@@ -22,77 +22,68 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
 public class Notification_reciever extends BroadcastReceiver {
     private Query quotesdb;
+    Quotes quotes;
     ArrayList<Quotes> quotesArrayList;
 
 
 
     @Override
-    public void onReceive(final Context context, Intent intent) {
-        quotesdb = FirebaseDatabase.getInstance().getReference();
-         if (quotesArrayList != null){
-             return;
-         }else {
-             quotesArrayList = new ArrayList<>();
-             final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-             final Intent act;
-             act = new Intent(context, MainActivity.class);
-             act.putExtra("notification", true);
-             quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
+    public void onReceive(final Context context, final Intent intent) {
+        Pref preferences = new Pref(context);
+        if (preferences.alarm()) {
+            quotesdb = FirebaseDatabase.getInstance().getReference();
+            quotesdb.keepSynced(false);
+                final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                final Intent act;
+                act = new Intent(context, MainActivity.class);
+                act.putExtra("notification", true);
+                quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
 
-             quotesdb.addValueEventListener(new ValueEventListener() {
-                 @Override
-                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                     quotesArrayList.clear();
-                     for (DataSnapshot d : dataSnapshot.getChildren()) {
-                         Quotes quotes = new Quotes();
-                         Quotes q = d.getValue(Quotes.class);
-                         if (q != null) {
-                             quotes.setId(d.getKey());
-                             quotes.setAuthor(q.getAuthor());
-                             quotes.setQuote(q.getQuote());
-                             quotes.setUsername(q.getUsername());
-                             quotesArrayList.add(quotes);
-                             System.out.println("Quotes " + quotesArrayList.size());
+                quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Random random = new Random();
+                        int questionCount = (int) dataSnapshot.getChildrenCount();
+                        int rand = random.nextInt(questionCount);
+                        Iterator itr = dataSnapshot.getChildren().iterator();
+                        for(int i = 0; i < rand; i++) {
+                            itr.next();
+                        }
+                        DataSnapshot childSnapshot = (DataSnapshot) itr.next();
 
+                        quotes = childSnapshot.getValue(Quotes.class);
+                        Notification(context,notificationManager,intent);
+                    }
 
-                         }
-                     }
-                     Notification(context, notificationManager, act);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
 
-                 }
+            }
+        }
 
-                 @Override
-                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                     System.out.println(databaseError.getMessage());
-                 }
-             });
-         }
-
-    }
 
     private void Notification(Context context, NotificationManager notificationManager, Intent act) {
         PendingIntent pendingIntent = PendingIntent.getActivity(context,100,act,PendingIntent.FLAG_UPDATE_CURRENT);
-        Random r = new Random();
-        System.out.println("Notify quotes " + quotesArrayList.size());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 // Adds the back stack for the Intent (but not the Intent itself)
         stackBuilder.addParentStack(Splash.class);
 // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(act);
-        if (quotesArrayList.size() > 0){
-        int q = r.nextInt(quotesArrayList.size());
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-            notificationBuilder.setContentText(quotesArrayList.get(q).getQuote());
-            notificationBuilder.setContentTitle(quotesArrayList.get(q).getAuthor());
-            if (quotesArrayList.get(q).getUsername() != null){
-            notificationBuilder.setSubText("Postado por " + quotesArrayList.get(q).getUsername());}
+            notificationBuilder.setContentText(quotes.getQuote());
+            notificationBuilder.setContentTitle(quotes.getAuthor());
+            if (quotes.getUsername() != null){
+            notificationBuilder.setSubText("Postado por " + quotes.getUsername());}
             notificationBuilder.setAutoCancel(true);
             notificationBuilder.setColor(context.getResources().getColor(R.color.colorPrimary));
             notificationBuilder.setStyle(new NotificationCompat.BigTextStyle());
@@ -103,7 +94,6 @@ public class Notification_reciever extends BroadcastReceiver {
             notificationBuilder.setContentIntent(pendingIntent);
             notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.light));
             notificationManager.notify(0,notificationBuilder.build());
-        }
 
     }
 }

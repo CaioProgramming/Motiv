@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    android:background="@drawable/gradcitation"
+    android:background="@color/transparent"
      >
 
     <!-- TODO: Update blank fragment layout -->
@@ -128,6 +128,8 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="wrap_content" />
                                <EditText
+                                   android:imeOptions="actionDone"
+                                   android:inputType="text"
                                    android:typeface="normal"
                                    android:backgroundTint="@color/transparent"
                                    android:id="@+id/author"

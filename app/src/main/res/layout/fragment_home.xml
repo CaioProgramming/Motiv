@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/home"
-    android:background="@drawable/gradcitation"
+    android:background="@color/transparent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment">
 
     <android.support.design.widget.AppBarLayout
+        android:elevation="4dp"
         android:id="@+id/appbarlayout"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme"
@@ -54,16 +55,19 @@
 
                 app:collapseIcon="@drawable/ic_saturn_and_other_planets"
                 app:title="@string/app_name"
-                app:navigationIcon="@drawable/ic_notification"
+                app:navigationIcon="@drawable/ic_saturn_and_other_planets"
                 android:id="@+id/toolbar"
                 app:layout_collapseMode="pin"
                 app:titleTextColor="@color/white"
                 app:popupTheme="@style/AppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
+
     <LinearLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical"
@@ -81,32 +85,36 @@
     </com.google.android.gms.ads.AdView>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/composesrecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/composesrecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+             />
     </LinearLayout>
+
     <LinearLayout
-         android:background="@color/white"
+
         android:orientation="vertical"
         android:id="@+id/loading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
 
         <TextView
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/black"
             android:id="@+id/offlinemssage"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:text="Tá carregando, relaxa..."
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Tá carregando, relaxa..."
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
         <ImageView
             android:id="@+id/offlineimage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>

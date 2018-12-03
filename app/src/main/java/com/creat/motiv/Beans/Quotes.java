@@ -11,7 +11,6 @@ public class Quotes {
                   String userID,
                   String username,
                   String userphoto,
-                  int likes,
                   int backgroundcolor,
                   int textcolor,
                   boolean italic,
@@ -26,7 +25,6 @@ public class Quotes {
         this.userID = userID;
         this.username = username;
         this.userphoto = userphoto;
-        this.likes = likes;
         this.backgroundcolor = backgroundcolor;
         this.textcolor = textcolor;
         this.italic = italic;
@@ -105,13 +103,6 @@ public class Quotes {
         this.userphoto = userphoto;
     }
 
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
 
     public int getBackgroundcolor() {
         return backgroundcolor;
@@ -130,7 +121,7 @@ public class Quotes {
     }
 
     String id,quote,author,data,categoria,userID,username,userphoto;
-     int backgroundcolor,likes;
+     int backgroundcolor ;
     int textcolor;
 
     public boolean isItalic() {

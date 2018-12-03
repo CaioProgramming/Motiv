@@ -9,6 +9,10 @@ public class Likes {
         this.userpic = userpic;
     }
 
+    public Likes() {
+
+    }
+
     public String getUserid() {
         return userid;
     }

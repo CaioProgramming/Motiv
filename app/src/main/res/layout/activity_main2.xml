@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container">
+
+
+
+        <FrameLayout
+            android:fitsSystemWindows="true"
+            android:layout_above="@id/navigation"
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        android:id="@+id/navigation"
+        app:menu="@menu/navigation">
+
+
+    </android.support.design.widget.BottomNavigationView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/newquote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:elevation="10dp"
+        app:fabSize="normal" />
+    <com.github.mmin18.widget.RealtimeBlurView
+        app:realtimeBlurRadius="0dp"
+        android:id="@+id/rootblur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:background="@color/white"
+        android:visibility="gone"
+        android:id="@+id/offline"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/offlinemssage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="..."
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+        <Button
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:background="@color/blue_500"
+            android:text="Tentar novamente"
+            android:layout_gravity="center"
+            android:id="@+id/reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/offlineimage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</RelativeLayout>

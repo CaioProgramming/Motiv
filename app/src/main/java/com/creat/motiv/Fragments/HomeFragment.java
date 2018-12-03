@@ -16,14 +16,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Beans.Tutorial;
-import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
@@ -56,14 +54,12 @@ public class HomeFragment extends Fragment {
     private RecyclerView composesrecycler;
     private Query quotesdb;
 
-    QuotesDB quotesDB;
     ArrayList<Quotes> quotesArrayList;
     private android.widget.TextView quote;
     private android.widget.TextView author;
     private android.support.v7.widget.Toolbar toolbar;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
     private android.support.design.widget.AppBarLayout appbarlayout;
-    private AdView madView;
     FirebaseUser user;
     Boolean novo;
     private AdView adView;
@@ -73,6 +69,7 @@ public class HomeFragment extends Fragment {
     private android.widget.TextView offlinemssage;
     private android.widget.ImageView offlineimage;
     private android.widget.LinearLayout loading;
+    private TextView title;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -89,53 +86,55 @@ public class HomeFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(getContext());
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        this.loading = (LinearLayout) view.findViewById(R.id.loading);
         this.offlineimage = (ImageView) view.findViewById(R.id.offlineimage);
-        this.offlinemssage = (TextView) view.findViewById(R.id.offlinemssage);
-        this.adView = (AdView) view.findViewById(R.id.adView);
-         home = view.findViewById(R.id.home);
-        Glide.with(this).asGif().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/render.gif?alt=media&token=90c5f0a7-cbc5-41bd-8623-283141447a63").into(offlineimage);
+        this.loading = view.findViewById(R.id.loading);
 
-        madView = view.findViewById(R.id.adView);
+        this.offlinemssage = view.findViewById(R.id.offlinemssage);
+        this.adView = view.findViewById(R.id.adView);
+         home = view.findViewById(R.id.home);
+        Glide.with(this).asBitmap()
+                .load("https://cdn.dribbble.com/users/4852/screenshots/4949739/monstermind.jpg").into(offlineimage);
         MobileAds.initialize(getContext(),
                 "ca-app-pub-3940256099942544/1033173712");
 
-        madView = view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        madView.loadAd(adRequest);
+        adView.loadAd(adRequest);
         novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
-        tutorial(view);
+
         appbarlayout = view.findViewById(R.id.appbarlayout);
         collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
         toolbar = view.findViewById(R.id.toolbar);
         author = view.findViewById(R.id.author);
         quote = view.findViewById(R.id.quote);
-        blur = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
+
         composesrecycler = view.findViewById(R.id.composesrecycler);
         quotesdb = FirebaseDatabase.getInstance().getReference();
         collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
+        tutorial();
 
 
-        Carregar();
+        //Carregar();
 
         if (preferences.nightmodestate()) {
-            home.setBackgroundResource(R.drawable.gradnight);
+
             collapsetoolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimaryDark));
             collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE); }
 
         if (novo) {
-            tutorial(view);
+            tutorial();
         }
-
+        Carregar();
+        show();
         return view;
 
 
     }
 
-    private void tutorial(View view) {
+
+    private void tutorial() {
 
         if (novo) {
-             Spotlight(view);
+             Spotlight();
 
 
         }
@@ -143,20 +142,22 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void Spotlight(View view) {
+
+
+    private void Spotlight() {
         new SpotlightView.Builder(getActivity())
                 .introAnimationDuration(400)
                 .enableRevealAnimation(true)
                 .performClick(true)
                 .fadeinTextDuration(400)
                 .headingTvColor(R.color.white)
-                .headingTvSize(22)
+                .headingTvSize(16)
                 .headingTvText("Tela inicial")
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(16)
+                .subHeadingTvSize(14)
                 .subHeadingTvText("Esta é sua tela inicial, onde poderá ver todas as postagens ja feitas no motiv")
                 .maskColor(Color.parseColor("#dc000000"))
-                .target(view)
+                .target(composesrecycler)
                 .lineAnimDuration(400)
                 .lineAndArcColor(R.color.colorPrimaryDark)
                 .dismissOnTouch(true)
@@ -166,8 +167,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void Carregar() {
-        final Animation out = AnimationUtils.loadAnimation(getContext(),R.anim.slide_out);
-
+        if (getActivity() == null || getContext() == null){
+            return;
+        }
 
         quotesdb.keepSynced(true);
 
@@ -209,10 +211,7 @@ public class HomeFragment extends Fragment {
                             quotes.setTextcolor(q.getTextcolor());
                             quotes.setBackgroundcolor(q.getBackgroundcolor());}
                         quotesArrayList.add(quotes);
-                        if (q.getUserID().equals(user.getUid())){
-                            quotes.setUsername(user.getDisplayName());
-                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
-                        }
+
                         System.out.println("Quotes " + quotesArrayList.size());
                         System.out.println("Quote  " + quotes.getId());
 
@@ -220,10 +219,13 @@ public class HomeFragment extends Fragment {
                 }
                 Collections.reverse(quotesArrayList);
                 composesrecycler.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
+                GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
                 composesrecycler.setHasFixedSize(true);
                 System.out.println(quotesArrayList.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter( getContext(), quotesArrayList,  getActivity());
+                if (getContext() == null){
+                    return;
+                }
+                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(),composesrecycler);
                 composesrecycler.setAdapter(myadapter);
                 composesrecycler.setLayoutManager(llm);
                 if (getActivity() != null) {
@@ -231,8 +233,6 @@ public class HomeFragment extends Fragment {
                     if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
                         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
                     }
-                }else{
-                    getActivity().recreate();
                 }
 
                 Random r = new Random();
@@ -240,8 +240,13 @@ public class HomeFragment extends Fragment {
 
                 quote.setText(quotesArrayList.get(q).getQuote());
                 if (quotesArrayList.get(q).getFont() != null){
-                    quote.setTypeface(Tools.fonts(getContext()).get(quotesArrayList.get(q).getFont()));
-                    author.setTypeface(Tools.fonts(getContext()).get(quotesArrayList.get(q).getFont()));
+                    if (getActivity() == null){
+                        quote.setText("Atualizando...");
+
+                        return;
+                    }
+                    quote.setTypeface(Tools.fonts(getActivity()).get(quotesArrayList.get(q).getFont()));
+                    author.setTypeface(Tools.fonts(getActivity()).get(quotesArrayList.get(q).getFont()));
                 }else{
                     quote.setTypeface(Typeface.DEFAULT);
                 }
@@ -276,22 +281,6 @@ public class HomeFragment extends Fragment {
                 author.setTextColor(quotesArrayList.get(q).getTextcolor());
                 collapsetoolbar.setExpandedTitleColor(quotesArrayList.get(q).getTextcolor());
                 collapsetoolbar.setBackgroundColor(quotesArrayList.get(q).getBackgroundcolor());
-                composesrecycler.smoothScrollToPosition(q);
-                CountDownTimer timer = new CountDownTimer(5000,100) {
-                    @Override
-                    public void onTick(long l) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.fab_scale_down);
-                        loading.startAnimation(animation);
-                        loading.setVisibility(View.INVISIBLE);
-                    }
-                }.start();
-
 
 
             }
@@ -304,13 +293,27 @@ public class HomeFragment extends Fragment {
         }
 
 
-
-
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Carregar();
+    private void show() {
+
+        CountDownTimer timer = new CountDownTimer(9000, 100) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (getContext() == null){
+                    return;
+                }
+                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
+                loading.startAnimation(animation);
+                loading.setVisibility(View.GONE);
+            }
+        }.start();
     }
+
+
 }

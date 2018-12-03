@@ -1,8 +1,10 @@
 package com.creat.motiv.Adapters;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +20,13 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
-import com.creat.motiv.Updateuseract;
+import com.creat.motiv.Utils.Notifications;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +72,32 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
             holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent update = new Intent(mActivity, Updateuseract.class);
-                    update.putExtra("photouri",mData.get(position).getUri());
-                    mContext.startActivity(update);
-                  }
+                    ComponentName receiver = new ComponentName(mActivity, Notifications.class);
+                    PackageManager pm = mActivity.getPackageManager();
+                    pm.setComponentEnabledSetting(receiver,
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
+                   UserProfileChangeRequest  profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
+                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    for (int i = 0; i < myquotes.size(); i++) {
+                                        QuotesDB quotesDB = new QuotesDB(mActivity, null);
+                                        quotesDB.AlterarFoto(mActivity, myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
+
+                                    }
+
+                                }
+
+                            }
+                        });
+
+                    }
+
+                }
             });
     }
 

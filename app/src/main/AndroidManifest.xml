@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-             android:name=".MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
         <activity
@@ -85,7 +85,7 @@
             android:resource="@color/colorPrimaryDark" />
 
         <activity android:name=".EditActivity" />
-        <activity android:name=".Updateuseract"></activity>
+
     </application>
 
 </manifest>

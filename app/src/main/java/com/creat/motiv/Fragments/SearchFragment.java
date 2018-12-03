@@ -4,6 +4,7 @@ package com.creat.motiv.Fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,12 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
+import com.creat.motiv.Utils.Tools;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +38,6 @@ import static com.creat.motiv.Database.QuotesDB.path;
  */
 public class SearchFragment extends Fragment {
 
-
     private android.widget.EditText search;
     private android.support.v7.widget.Toolbar searchtool;
 
@@ -46,17 +46,31 @@ public class SearchFragment extends Fragment {
     FirebaseUser user;
     private ArrayList<Quotes> quotesearch;
     private Query quotesdb;
-    private android.widget.ImageView music;
-    private android.widget.ImageView motivation;
-    private android.widget.ImageView love;
-    private android.widget.ImageView citation;
-    private android.widget.GridLayout categoriesgrid;
     private android.widget.ImageButton close;
+    private android.support.v7.widget.Toolbar toolbar;
+    private android.support.design.widget.TabLayout searchoptions;
+    private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
+    private android.support.design.widget.AppBarLayout appbarlayout;
 
 
     public SearchFragment() {
         // Required empty public constructor
     }
+    String arg = "quote";
+    private int[] tabIcons = {
+            R.drawable.ic_favorite_white_24dp,
+            R.drawable.ic_turned_in_black_24dp,
+            R.drawable.ic_music_note_black_24dp,
+            R.drawable.ic_filter_vintage_black_24dp
+
+    };
+
+    private int[] tabIconsfocus = {
+            R.drawable.ic_author_sign,
+            R.drawable.ic_person_white_24dp,
+
+    };
+
 
 
     @Override
@@ -65,15 +79,12 @@ public class SearchFragment extends Fragment {
         quotesearch = new ArrayList<>();
         quotesdb = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
+        preferences = new Pref(getContext());
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        this.close = (ImageButton) view.findViewById(R.id.close);
-        this.categoriesgrid = view.findViewById(R.id.categoriesgrid);
-        this.citation = view.findViewById(R.id.citation);
-        this.love = view.findViewById(R.id.love);
-        this.motivation = view.findViewById(R.id.motivation);
-        this.music = view.findViewById(R.id.music);
+        this.searchoptions = view.findViewById(R.id.searchoptions);
+        this.toolbar = view.findViewById(R.id.toolbar);
+        this.close = view.findViewById(R.id.close);
         searchresult = view.findViewById(R.id.searchresult);
-        searchtool = view.findViewById(R.id.searchtool);
         search = view.findViewById(R.id.search);
         ((AppCompatActivity)getActivity()).setSupportActionBar(searchtool);
         preferences = new Pref(getContext());
@@ -82,55 +93,57 @@ public class SearchFragment extends Fragment {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation out = AnimationUtils.loadAnimation(getContext(),R.anim.fab_scale_down);
-                Animation in = AnimationUtils.loadAnimation(getContext(),R.anim.fab_scale_up);
                 search.getText().clear();
-                categoriesgrid.setVisibility(View.VISIBLE);
-                categoriesgrid.startAnimation(in);
-                searchresult.startAnimation(out);
-                searchresult.setVisibility(View.GONE);
                 quotesearch.clear();
+                search.setHint("Pesquisar frases...");
+                setupicons();
+
 
              }
         });
 
 
-        music.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+
+        search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                Categories("Musica");
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                   setupiconsfocus();
+                   searchoptions.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                       @Override
+                       public void onTabSelected(TabLayout.Tab tab) {
+                           switch (searchoptions.getSelectedTabPosition()){
+                               case 0:
+                                   arg = "autor";
+                                   search.setHint("Pesquisar autor...");
+                                   break;
+
+                               case 1:
+                                   arg = "username";
+                                   search.setHint("Pesquisar posts de usuário...");
+                                   break;
+                           }
+                       }
+
+                       @Override
+                       public void onTabUnselected(TabLayout.Tab tab) {
+
+                       }
+
+                       @Override
+                       public void onTabReselected(TabLayout.Tab tab) {
+
+                       }
+                   });
+
+                }
             }
         });
-
-        citation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Categories("Citação");
-            }
-        });
-
-        love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Categories("Amor");
-            }
-        });
-
-        motivation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Categories("Motivação");
-            }
-        });
-
-
-        if (preferences.nightmodestate()){
-            view.setBackgroundResource(R.drawable.gradnight);
-            searchtool.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-
-
-        }
-
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,13 +158,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.pop_out);
                 Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
 
                 if (!editable.toString().isEmpty()){
-
-                    categoriesgrid.startAnimation(out);
-                    categoriesgrid.setVisibility(View.GONE);
                     searchresult.setVisibility(View.VISIBLE);
                     searchresult.startAnimation(in);
                     Pesquisar(editable.toString());
@@ -160,11 +169,61 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-
+        setupicons();
+        if (preferences.nightmodestate()) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
         return view;
     }
 
+
+    private void setupicons(){
+        searchoptions.removeAllTabs();
+        for (int i =0;i< tabIcons.length;i++){
+            searchoptions.addTab(searchoptions.newTab().setIcon(tabIcons[i]));
+        }
+        searchoptions.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (searchoptions.getSelectedTabPosition()){
+                    case 0:
+                        Categories("Amor");
+                        break;
+                    case 1:
+                        Categories("Citação");
+                        break;
+                    case 2:
+                        Categories("Musica");
+                        break;
+                    case 3:
+                        Categories("Motivação");
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+    }
+    private void setupiconsfocus(){
+        searchoptions.removeAllTabs();
+        for (int i =0;i< tabIconsfocus.length;i++){
+            searchoptions.addTab(searchoptions.newTab().setIcon(tabIconsfocus[i]));
+        }
+    }
+
     private void Categories(String categorie) {
+        if (getContext() == null || getActivity() == null){
+            return;
+        }
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("categoria")
                 .startAt(categorie)
                 .endAt(categorie + "\uf8ff");
@@ -182,7 +241,6 @@ public class SearchFragment extends Fragment {
                         quotes.setUserID(q.getUserID());
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
-                        quotes.setLikes(q.getLikes());
                         quotes.setUsername(q.getUsername());
                         quotes.setUserphoto(q.getUserphoto());
                         if (q.getFont() != null) {
@@ -209,19 +267,14 @@ public class SearchFragment extends Fragment {
 
                     }
                 }
-                Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.pop_out);
-                Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
-                categoriesgrid.startAnimation(out);
-                categoriesgrid.setVisibility(View.GONE);
                 searchresult.setVisibility(View.VISIBLE);
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
                 searchresult.setHasFixedSize(true);
                 System.out.println(quotesearch.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesearch, getActivity());
+                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesearch, getActivity(), searchresult);
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
                 searchresult.setLayoutManager(llm);
-                searchresult.startAnimation(in);
             }
 
             @Override
@@ -232,9 +285,13 @@ public class SearchFragment extends Fragment {
     }
 
     private void Pesquisar(final String pesquisa) {
-        quotesdb =   FirebaseDatabase.getInstance().getReference().child(path).orderByChild("quote")
-                .startAt(pesquisa)
-                .endAt(pesquisa + "\uf8ff");
+        if (getContext() == null || getActivity() == null){
+            return;
+        }
+        quotesdb =   FirebaseDatabase.getInstance().getReference().child(path).orderByChild(arg)
+                    .startAt(pesquisa)
+                    .endAt(pesquisa + "\uf8ff");
+
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -249,7 +306,6 @@ public class SearchFragment extends Fragment {
                         quotes.setUserID(q.getUserID());
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
-                        quotes.setLikes(q.getLikes());
                         quotes.setUsername(q.getUsername());
                         quotes.setUserphoto(q.getUserphoto());
                         if (q.getFont() != null){
@@ -282,7 +338,7 @@ public class SearchFragment extends Fragment {
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
                 searchresult.setHasFixedSize(true);
                 System.out.println(quotesearch.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter( getContext(), quotesearch,  getActivity());
+                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesearch, getActivity(), searchresult);
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
                 searchresult.setLayoutManager(llm);
@@ -293,9 +349,16 @@ public class SearchFragment extends Fragment {
                 System.out.println("Erro " + databaseError.getMessage());
             }
         });
+        if (quotesearch.size() == 0) {
+            Pesquisarauthor(pesquisa);
+        }
 
     }
+
     private void Pesquisarauthor(String pesquisa) {
+        if (getActivity() == null || getContext() == null) {
+            return;
+        }
         quotesdb =   FirebaseDatabase.getInstance().getReference().child(path).orderByChild("author")
                 .startAt(pesquisa)
                 .endAt(pesquisa + "\uf8ff");
@@ -313,7 +376,6 @@ public class SearchFragment extends Fragment {
                         quotes.setUserID(q.getUserID());
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
-                        quotes.setLikes(q.getLikes());
                         quotes.setUsername(q.getUsername());
                         quotes.setUserphoto(q.getUserphoto());
                         if (q.getFont() != null){
@@ -341,10 +403,10 @@ public class SearchFragment extends Fragment {
                 }
 
                 searchresult.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
+                GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
                 searchresult.setHasFixedSize(true);
                 System.out.println(quotesearch.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter( getContext(), quotesearch,  getActivity());
+                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesearch, getActivity(), searchresult);
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
                 searchresult.setLayoutManager(llm);

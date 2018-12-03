@@ -24,8 +24,8 @@
         app:animationDirection="right"
         app:duration="500"
         app:amount="4"
-        app:startColor="@color/colorPrimary"
-        app:endColor="@color/colorPrimaryDark"
+        app:startColor="@color/transparent"
+        app:endColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="80dp" />
     </LinearLayout>

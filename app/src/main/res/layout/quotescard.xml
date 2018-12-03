@@ -18,36 +18,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/quotedata"
             android:visibility="gone"
-            android:id="@+id/userdata"
-             android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+
+            android:padding="10dp"
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:background="@color/transparent">
+            android:background="@drawable/bottom_line">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/userpic"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/penguin" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:padding="5dp"
+                    android:id="@+id/userpic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/penguin" />
 
-            <TextView
-                android:textColor="@color/black"
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/username"
-                android:textSize="14sp" />
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textSize="14sp" />
             </LinearLayout>
             <ImageButton
+                android:layout_centerInParent="true"
                 android:tint="@color/grey_800"
                 android:id="@+id/menu"
-                android:layout_margin="5dp"
                 android:background="@color/transparent"
                 android:src="@drawable/ic_more_vert_black_24dp"
                 android:layout_alignParentEnd="true"
@@ -56,6 +62,47 @@
 
 
         </RelativeLayout>
+        <RelativeLayout
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/transparent"
+                android:elevation="2dp">
+
+                <CheckBox
+                    android:id="@+id/like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:button="@drawable/favoritecheck"
+                    android:padding="5dp" />
+                <ImageButton
+                    android:background="@color/transparent"
+                    android:src="@drawable/delete"
+                    android:id="@+id/remove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/dia"
+                android:layout_margin="5dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|end"
+                android:text="dia"
+                android:textColor="@color/grey_300" />
+        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/category"
@@ -95,47 +142,6 @@
                 android:typeface="normal" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/quotedata"
-            android:visibility="gone"
-            android:animateLayoutChanges="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@color/transparent"
-                android:elevation="2dp">
-
-                <CheckBox
-                    android:id="@+id/like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:button="@drawable/favoritecheck"
-                    android:padding="5dp" />
-                <ImageButton
-                    android:background="@color/transparent"
-                    android:src="@drawable/delete"
-                    android:id="@+id/remove"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/dia"
-                android:layout_margin="5dp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|end"
-                android:text="dia"
-                android:textColor="@color/grey_300" />
-        </RelativeLayout>
 
 
     </LinearLayout>

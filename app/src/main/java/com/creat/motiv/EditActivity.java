@@ -146,7 +146,6 @@ public class EditActivity extends AppCompatActivity {
                         quotes.setData(q.getData());
                         quotes.setBold(q.isBold());
                         quotes.setItalic(q.isItalic());
-                        quotes.setLikes(q.getLikes());
                         quotes.setTextcolor(q.getTextcolor());
                         quotes.setBackgroundcolor(q.getBackgroundcolor());
                         quotes.setFont(q.getFont());

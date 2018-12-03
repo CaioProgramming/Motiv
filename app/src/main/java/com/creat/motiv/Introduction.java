@@ -54,7 +54,6 @@ public class Introduction extends IntroActivity{
                         quotes.setUserID(q.getUserID());
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
-                        quotes.setLikes(q.getLikes());
                         quotes.setUsername(q.getUsername());
                         quotes.setUserphoto(q.getUserphoto());
                         if (q.getTextcolor() == 0|| q.getBackgroundcolor() == 0){

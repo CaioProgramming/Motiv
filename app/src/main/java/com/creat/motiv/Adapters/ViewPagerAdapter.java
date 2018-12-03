@@ -98,7 +98,6 @@ public class ViewPagerAdapter extends PagerAdapter {
                         quotes.setUserID(q.getUserID());
                         quotes.setCategoria(q.getCategoria());
                         quotes.setData(q.getData());
-                        quotes.setLikes(q.getLikes());
                         quotes.setUsername(q.getUsername());
                         quotes.setUserphoto(q.getUserphoto());
                         if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
@@ -160,6 +159,11 @@ public class ViewPagerAdapter extends PagerAdapter {
         if (position > 0) {
             Glide.with(context).load(slide_images[position]).into(imageView);
 
+        }
+        if (position < 6){
+            start.setVisibility(View.GONE);
+        }else{
+            start.setVisibility(View.VISIBLE);
         }
 
 
