@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "2.5"
+        versionName "2.8.1"
         renderscriptTargetApi 19
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

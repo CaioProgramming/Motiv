@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="true">
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.creativ.fileprovider"
@@ -51,7 +52,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".Splash">
+        <activity
+            android:name=".Splash"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,6 +63,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
@@ -67,18 +72,18 @@
             android:theme="@style/Theme.Intro" />
         <activity android:name=".NewUser" />
 
-        <service android:name=".Utils.Notifications">
+        <service android:name=".Utils$Notifications">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".Utils.Token">
+        <service android:name=".Utils$Token">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".Utils.Notification_reciever" />
+        <receiver android:name=".Utils$Notification_reciever" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"

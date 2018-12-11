@@ -19,9 +19,9 @@ import java.util.Random;
 
 public class Tools {
     public  static int sixhourinterval = 21600000;
-    public static String iconssite[] ={ "https://flaticon.com","https://dribbble.com","https://material.io"};
+    public static String iconssite[] = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co"};
 
-    public static Artists artist[] ={
+    private static Artists artist[] ={
         new Artists("M. EDNOKO Marinov","https://dribbble.com/ednoko"),
         new Artists("Cynthia Tizcareno","https://dribbble.com/cynthiatiz"),
         new Artists("Rounded Rectangle","https://dribbble.com/yxarcher"),
@@ -35,7 +35,7 @@ public class Tools {
         new Artists("Chris Fernandez","https://dribbble.com/c_illustrates"),
         new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
         new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
-        new Artists("https://dribbble.com/andrewfelix","https://dribbble.com/NewhouseDesigns"),
+            new Artists("Jessie Maisonneuve", "https://dribbble.com/NewhouseDesigns"),
         new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
         new Artists("Ssilbi NG","https://dribbble.com/ssilbing"),
         new Artists("Jetpacks and Rollerskates","https://dribbble.com/blakestevenson"),
@@ -73,8 +73,7 @@ public class Tools {
     public static int spancount = 1;
 
     public static ArrayList<Artists> artists(){
-        ArrayList<Artists> artistslist = new ArrayList<>();
-        artistslist.addAll(Arrays.asList(artist));
+        ArrayList<Artists> artistslist = new ArrayList<>(Arrays.asList(artist));
         Collections.sort(artistslist, new Comparator<Artists>() {
             @Override
             public int compare(Artists artists, Artists t1) {
@@ -88,17 +87,13 @@ public class Tools {
 
     public static boolean isColorDark(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
-        if (darkness < 0.5) {
-            return false; // It's a light color
-        } else {
-            return true; // It's a dark color
-        }
+        return !(darkness < 0.5);
     }
 
 
 
 
-    public static String offlinefrases[] = {"Ish, sem internet você não consegue fazer nada",
+    private static String offlinefrases[] = {"Ish, sem internet você não consegue fazer nada",
             "Parece que você está desconectado. Aproveita e cria uma conexão com alguém",
             "Bom... Parece que você tá sem internet, então acho que você vai ter que aceitar esse gif"
     };
@@ -117,7 +112,7 @@ public class Tools {
     };
 
 
-    public static String empyquotes[] = {"Você não vai escrever nada? Tá achando que é festa?",
+    private static String empyquotes[] = {"Você não vai escrever nada? Tá achando que é festa?",
             "O vazio da sua existência não necessariamente precisa ser o vazio do bloco de texto, escreva algo!",
             "Você não quer ver o feed e ver um texto vazio né? Então por favor escreve algo aí",
             "Eu sei que as vezes você se sente vazio, " +
@@ -165,8 +160,7 @@ public class Tools {
         int q;
         Random x =new Random( );
         q = x.nextInt(empyquotes.length);
-        String quote = empyquotes[q];
-        return quote;
+        return empyquotes[q];
     }
 
 
@@ -175,8 +169,7 @@ public class Tools {
         int q;
         Random x =new Random();
         q = x.nextInt(offlinefrases.length);
-        String offline = offlinefrases[q];
-        return offline;
+        return offlinefrases[q];
     }
 
     public static Date convertDate(String dia) {

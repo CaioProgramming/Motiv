@@ -30,6 +30,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
@@ -46,11 +47,8 @@ public class SearchFragment extends Fragment {
     FirebaseUser user;
     private ArrayList<Quotes> quotesearch;
     private Query quotesdb;
-    private android.widget.ImageButton close;
-    private android.support.v7.widget.Toolbar toolbar;
     private android.support.design.widget.TabLayout searchoptions;
-    private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
-    private android.support.design.widget.AppBarLayout appbarlayout;
+    private android.widget.LinearLayout empty;
 
 
     public SearchFragment() {
@@ -74,19 +72,20 @@ public class SearchFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         quotesearch = new ArrayList<>();
         quotesdb = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        preferences = new Pref(getContext());
+        preferences = new Pref(Objects.requireNonNull(getContext()));
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        this.empty = view.findViewById(R.id.empty);
         this.searchoptions = view.findViewById(R.id.searchoptions);
-        this.toolbar = view.findViewById(R.id.toolbar);
-        this.close = view.findViewById(R.id.close);
+        android.support.v7.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
+        android.widget.ImageButton close = view.findViewById(R.id.close);
         searchresult = view.findViewById(R.id.searchresult);
         search = view.findViewById(R.id.search);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(searchtool);
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(searchtool);
         preferences = new Pref(getContext());
         quotesdb.keepSynced(true);
 
@@ -114,7 +113,7 @@ public class SearchFragment extends Fragment {
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                    setupiconsfocus();
-                   searchoptions.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                   searchoptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                        @Override
                        public void onTabSelected(TabLayout.Tab tab) {
                            switch (searchoptions.getSelectedTabPosition()){
@@ -179,10 +178,10 @@ public class SearchFragment extends Fragment {
 
     private void setupicons(){
         searchoptions.removeAllTabs();
-        for (int i =0;i< tabIcons.length;i++){
-            searchoptions.addTab(searchoptions.newTab().setIcon(tabIcons[i]));
+        for (int tabIcon : tabIcons) {
+            searchoptions.addTab(searchoptions.newTab().setIcon(tabIcon));
         }
-        searchoptions.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        searchoptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (searchoptions.getSelectedTabPosition()){
@@ -215,8 +214,8 @@ public class SearchFragment extends Fragment {
     }
     private void setupiconsfocus(){
         searchoptions.removeAllTabs();
-        for (int i =0;i< tabIconsfocus.length;i++){
-            searchoptions.addTab(searchoptions.newTab().setIcon(tabIconsfocus[i]));
+        for (int tabIconsfocu : tabIconsfocus) {
+            searchoptions.addTab(searchoptions.newTab().setIcon(tabIconsfocu));
         }
     }
 
@@ -275,6 +274,10 @@ public class SearchFragment extends Fragment {
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
                 searchresult.setLayoutManager(llm);
+                empty.setVisibility(View.GONE);
+                if (quotesearch.size() == 0) {
+                    empty.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -342,6 +345,7 @@ public class SearchFragment extends Fragment {
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
                 searchresult.setLayoutManager(llm);
+                empty.setVisibility(View.GONE);
             }
 
             @Override
@@ -350,8 +354,9 @@ public class SearchFragment extends Fragment {
             }
         });
         if (quotesearch.size() == 0) {
-            Pesquisarauthor(pesquisa);
+            empty.setVisibility(View.VISIBLE);
         }
+
 
     }
 
@@ -410,6 +415,10 @@ public class SearchFragment extends Fragment {
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
                 searchresult.setLayoutManager(llm);
+                empty.setVisibility(View.GONE);
+                if (quotesearch.size() == 0) {
+                    empty.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

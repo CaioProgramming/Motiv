@@ -3,19 +3,15 @@ package com.creat.motiv.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 
 import com.creat.motiv.Adapters.RecyclerArtistsAdapter;
 import com.creat.motiv.Adapters.RecyclerCreatorsAdapter;
@@ -38,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 import de.mateware.snacky.Snacky;
 
@@ -49,19 +46,15 @@ import static com.creat.motiv.Utils.Tools.iconssite;
 public class AboutFragment extends Fragment {
 
 
-    private android.widget.CheckBox creators;
     private android.support.v7.widget.RecyclerView creatorsrecycler;
-    private android.widget.CheckBox designreferences;
     private android.support.v7.widget.RecyclerView designrecycler;
-    private android.widget.CheckBox artistsreferences;
     private android.support.v7.widget.RecyclerView artistsrecycler;
-    private android.widget.CheckBox support;
     private android.widget.TextView helpad;
     private Query quotesdb;
-    private android.widget.LinearLayout creatorlayout;
-    private android.widget.LinearLayout referenceslayout;
-    private android.widget.LinearLayout artistslayout;
-    private android.widget.LinearLayout supportlayout;
+    private android.widget.TextView creatorstitle;
+    private android.widget.TextView referencestitle;
+    private android.widget.TextView artiststitle;
+    private android.widget.TextView suportitle;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -71,24 +64,37 @@ public class AboutFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         quotesdb = FirebaseDatabase.getInstance().getReference();
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-        this.supportlayout = (LinearLayout) view.findViewById(R.id.supportlayout);
-        this.artistslayout = (LinearLayout) view.findViewById(R.id.artistslayout);
-        this.referenceslayout = (LinearLayout) view.findViewById(R.id.referenceslayout);
-        this.creatorlayout = (LinearLayout) view.findViewById(R.id.creatorlayout);
+        this.suportitle = view.findViewById(R.id.suportitle);
+        this.artiststitle = view.findViewById(R.id.artiststitle);
+        this.referencestitle = view.findViewById(R.id.referencestitle);
+        this.creatorstitle = view.findViewById(R.id.creatorstitle);
         this.helpad = view.findViewById(R.id.helpad);
-        this.support = view.findViewById(R.id.support);
         this.artistsrecycler = view.findViewById(R.id.artistsrecycler);
-        this.artistsreferences = view.findViewById(R.id.artistsreferences);
         this.designrecycler = view.findViewById(R.id.designrecycler);
-        this.designreferences = view.findViewById(R.id.designreferences);
         this.creatorsrecycler = view.findViewById(R.id.creatorsrecycler);
-        this.creators = view.findViewById(R.id.creators);
         MobileAds.initialize(getActivity(),
                 "ca-app-pub-3940256099942544/1033173712");
+        helpad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setTitle("Ajude o motiv a crescer")
+
+                        .setMessage("Veja esse anúncio para que nos ajude a melhorar mais nosso aplicativo")
+                        .setPositiveButton("Sim, quero ajudar!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                loadRewardedVideoAd();
+                            }
+                        });
+                builder.show();
+
+
+            }
+        });
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
@@ -118,18 +124,18 @@ public class AboutFragment extends Fragment {
 
             @Override
             public void onRewardedVideoAdLeftApplication() {
-                Snacky.builder().setActivity(getActivity()).warning().setText("Saindo do aplicativo fica díficil...").show();
+                Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).warning().setText("Saindo do aplicativo fica díficil...").show();
 
             }
 
             @Override
             public void onRewardedVideoAdFailedToLoad(int i) {
-                    Snacky.builder().setActivity(getActivity()).error().setText("Deu erro carregando o anúncio, foi mal!").show();
+                    Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).error().setText("Deu erro carregando o anúncio, foi mal!").show();
             }
 
             @Override
             public void onRewardedVideoCompleted() {
-                Snacky.builder().setActivity(getActivity()).setBackgroundColor(getResources().getColor(R.color.colorPrimary)).setTextColor(Color.WHITE)
+                Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setBackgroundColor(getResources().getColor(R.color.colorPrimary)).setTextColor(Color.WHITE)
                         .setIcon(R.mipmap.ic_launcher).setText("Obrigado pela ajuda, você é demais!").build().show();
             }
         });
@@ -137,88 +143,26 @@ public class AboutFragment extends Fragment {
 
         CarregarAll();
 
-        expandlisteners();
-        Theme(view);
+        Theme();
         loadAd();
         return view;
     }
 
-    private void expandlisteners() {
-        support.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (support.isChecked()) {
-                    helpad.setVisibility(View.VISIBLE);
-                } else {
 
-                    helpad.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        artistsreferences.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                expand(artistsrecycler, artistsreferences);
-            }
-        });
-
-        creators.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                expand(creatorsrecycler, creators);
-            }
-        });
-
-
-        designreferences.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                expand(designrecycler, designreferences);
-            }
-        });
-
-        helpad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setTitle("Ajude o motiv a crescer")
-
-                        .setMessage("Veja esse anúncio para que nos ajude a melhorar mais nosso aplicativo")
-                        .setPositiveButton("Sim, quero ajudar!", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                loadRewardedVideoAd();
-                            }
-                        });
-                builder.show();
-
-
-            }
-        });
-    }
-
-    private void Theme(View view) {
-        preferences = new Pref(getContext());
+    private void Theme() {
+        preferences = new Pref(Objects.requireNonNull(getContext()));
         int white = Color.WHITE;
         if (preferences.nightmodestate()) {
-            view.setBackgroundResource(R.drawable.gradnight);
-            artistsreferences.setTextColor(white);
-            artistsreferences.setButtonTintList(ColorStateList.valueOf(white));
-            artistslayout.setBackgroundColor(getResources().getColor(R.color.grey_900));
+            artiststitle.setTextColor(white);
 
 
-            creators.setTextColor(white);
-            creators.setButtonTintList(ColorStateList.valueOf(white));
-            creatorlayout.setBackgroundColor(getResources().getColor(R.color.grey_900));
+            creatorstitle.setTextColor(white);
+
             helpad.setTextColor(white);
-            support.setTextColor(white);
-            supportlayout.setBackgroundColor(getResources().getColor(R.color.grey_900));
-            support.setButtonTintList(ColorStateList.valueOf(white));
+            suportitle.setTextColor(white);
 
 
-            designreferences.setTextColor(white);
-            referenceslayout.setBackgroundColor(getResources().getColor(R.color.grey_900));
-            designreferences.setButtonTintList(ColorStateList.valueOf(white));
+            referencestitle.setTextColor(white);
 
 
         }
@@ -235,16 +179,6 @@ public class AboutFragment extends Fragment {
     Pref preferences;
 
 
-    private void expand(RecyclerView layout, CheckBox checkBox) {
-        if (checkBox.isChecked()) {
-            layout.setVisibility(View.VISIBLE);
-        } else {
-
-            layout.setVisibility(View.GONE);
-        }
-
-
-    }
 
     private void CarregarCreators() {
         final ArrayList<Developers> developersArrayList = new ArrayList<>();
@@ -274,7 +208,7 @@ public class AboutFragment extends Fragment {
                 }
                 Collections.shuffle(developersArrayList);
                 RecyclerCreatorsAdapter recyclerCreatorsAdapter = new RecyclerCreatorsAdapter(getContext(), developersArrayList, getActivity());
-                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.HORIZONTAL, false);
+                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
                 creatorsrecycler.setAdapter(recyclerCreatorsAdapter);
                 creatorsrecycler.setHasFixedSize(true);
                 creatorsrecycler.setLayoutManager(layoutManager);

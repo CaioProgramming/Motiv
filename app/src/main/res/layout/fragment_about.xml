@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@drawable/gradcitation"
     android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,33 +8,35 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/creatorlayout"
-            android:elevation="2dp"
-            android:background="@color/white"
-            android:padding="2dp"
-                android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/creatorstitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                    <CheckBox
-                        android:drawableStart="@mipmap/creators"
-                        android:id="@+id/creators"
-                        android:button="@drawable/expand"
-                        android:text="Criadores"
-                        android:textSize="16sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                <android.support.v7.widget.RecyclerView
-                    android:visibility="gone"
-                    android:id="@+id/creatorsrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/bottom_line"
+                android:backgroundTint="@color/black"
+                android:text="@string/criadores"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/creatorsrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false" />
 
 
-            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
-            android:background="@color/white"
             android:id="@+id/referenceslayout"
             android:elevation="2dp"
             android:padding="2dp"
@@ -43,17 +44,22 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <CheckBox
-                android:drawableStart="@mipmap/references"
-                android:id="@+id/designreferences"
-                android:button="@drawable/expand"
-                android:text="Referências de design"
-                android:textSize="16sp"
+
+            <TextView
+                android:id="@+id/referencestitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/bottom_line"
+                android:backgroundTint="@color/black"
+                android:text="@string/refer_ncias"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
                 android:id="@+id/designrecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -61,25 +67,27 @@
 
         </LinearLayout>
         <LinearLayout
-            android:background="@color/white"
             android:id="@+id/artistslayout"
-            android:elevation="2dp"
-            android:padding="2dp"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <CheckBox
-                android:drawableStart="@mipmap/artists"
-                android:id="@+id/artistsreferences"
-                android:button="@drawable/expand"
-                android:text="Artistas"
-                android:textSize="16sp"
+
+            <TextView
+                android:id="@+id/artiststitle"
+                android:layout_margin="15dp"
+                android:background="@drawable/bottom_line"
+                android:backgroundTint="@color/black"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:text="@string/artistas"
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
                 android:id="@+id/artistsrecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -87,7 +95,6 @@
 
         </LinearLayout>
         <LinearLayout
-            android:background="@color/white"
             android:id="@+id/supportlayout"
             android:elevation="2dp"
             android:padding="2dp"
@@ -95,32 +102,32 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <CheckBox
-                 android:drawableStart="@mipmap/support"
-                android:id="@+id/support"
-                android:textColor="@color/grey_600"
-                android:button="@drawable/expand"
-                android:text="Suporte"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
+
+            <TextView
+                android:id="@+id/suportitle"
+                android:layout_width="match_parent"
+                android:layout_margin="15dp"
+                android:background="@drawable/bottom_line"
+                android:textAlignment="center"
+                android:text="@string/suporte"
+                android:textSize="24sp"
                 android:layout_height="wrap_content" />
-                    <TextView
-                        android:visibility="gone"
-                        android:drawableStart="@drawable/ic_favorite_black_24dp"
-                        android:layout_margin="5dp"
-                        android:animateLayoutChanges="true"
-                        android:id="@+id/helpad"
-                        style="@style/AppTheme"
-                        android:textSize="14sp"
-                        android:text="Anúncio para ajudar o aplicativo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/helpad"
+                style="@style/AppTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:animateLayoutChanges="true"
+                android:drawableStart="@drawable/ic_favorite_black_24dp"
+                android:text="@string/suporrt_ad"
+                android:textSize="20sp" />
 
         </LinearLayout>
         <LinearLayout
             android:elevation="2dp"
-            android:padding="2dp"
-            android:layout_gravity="bottom"
+            android:padding="5dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -131,7 +138,7 @@
                 android:textSize="18sp"
                 style="@style/AppTheme"
                 android:textAlignment="center"
-                android:text="Motiv desenvolvido em 2018, todos os direitos reservados"
+                android:text="@string/motiv_desenvolvido_por_inlustris_em_2018_todos_os_direitos_reservados"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
@@ -140,7 +147,7 @@
                 android:textSize="12sp"
                 style="@style/AppTheme"
                 android:textAlignment="center"
-                android:text="Desenvolvido com a ferramenta Firebase"
+                android:text="@string/firebase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -156,4 +163,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

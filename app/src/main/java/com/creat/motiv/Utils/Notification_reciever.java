@@ -40,10 +40,7 @@ public class Notification_reciever extends BroadcastReceiver {
         if (preferences.alarm()) {
             quotesdb = FirebaseDatabase.getInstance().getReference();
             quotesdb.keepSynced(false);
-                final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                final Intent act;
-                act = new Intent(context, MainActivity.class);
-                act.putExtra("notification", true);
+
                 quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
 
                 quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -59,7 +56,7 @@ public class Notification_reciever extends BroadcastReceiver {
                         DataSnapshot childSnapshot = (DataSnapshot) itr.next();
 
                         quotes = childSnapshot.getValue(Quotes.class);
-                        Notification(context,notificationManager,intent);
+                        Notification(context);
                     }
 
                     @Override
@@ -72,8 +69,12 @@ public class Notification_reciever extends BroadcastReceiver {
         }
 
 
-    private void Notification(Context context, NotificationManager notificationManager, Intent act) {
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,100,act,PendingIntent.FLAG_UPDATE_CURRENT);
+    private void Notification(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent act;
+        act = new Intent(context, MainActivity.class);
+        act.putExtra("notification", true);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, act, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 // Adds the back stack for the Intent (but not the Intent itself)
         stackBuilder.addParentStack(Splash.class);
@@ -93,7 +94,9 @@ public class Notification_reciever extends BroadcastReceiver {
             notificationBuilder.setSmallIcon(R.drawable.ic_notification);
             notificationBuilder.setContentIntent(pendingIntent);
             notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.light));
+        if (notificationManager != null) {
             notificationManager.notify(0,notificationBuilder.build());
+        }
 
     }
 }

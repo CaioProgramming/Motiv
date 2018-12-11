@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,8 +20,6 @@ import com.creat.motiv.Beans.Developers;
 import com.creat.motiv.R;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreatorsAdapter.MyViewHolder>  {
     private Context mContext;
@@ -48,13 +47,16 @@ public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreato
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         Animation in = AnimationUtils.loadAnimation(mContext,R.anim.pop_in);
-        Glide.with(mActivity).asGif().load(mData.get(position).getBackgif()).into(holder.backgif);
         Glide.with(mActivity).load(mData.get(position).getPhotouri()).into(holder.profilepic);
+        holder.profilepic.startAnimation(in);
         holder.nome.setText(mData.get(position).getNome());
         holder.cargo.setText(mData.get(position).getCargo());
         holder.linkedin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mActivity == null) {
+                    return;
+                }
                 Uri uri = Uri.parse(mData.get(position).getLinkedin());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 mActivity.startActivity(intent);
@@ -76,15 +78,14 @@ public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreato
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView backgif;
-        CircleImageView profilepic;
-        TextView nome,cargo,linkedin;
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView profilepic;
+        TextView nome, cargo;
+        ImageButton linkedin;
 
 
-        public MyViewHolder(View view) {
+        private MyViewHolder(View view) {
             super(view);
-            backgif = view.findViewById(R.id.backgif);
             profilepic = view.findViewById(R.id.profilepic);
             nome = view.findViewById(R.id.nome);
             cargo = view.findViewById(R.id.cargo);

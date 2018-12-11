@@ -2,7 +2,6 @@ package com.creat.motiv.Fragments;
 
 
 import android.animation.ValueAnimator;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,25 +11,27 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Adapters.RecyclerPicAdapter;
+import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
@@ -56,6 +58,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -76,9 +79,8 @@ import static com.creat.motiv.Database.QuotesDB.searcharg;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-
-
-    ArrayList<Quotes> myquotes;
+    ArrayList<Quotes> myquotes, likequotes, allquotes;
+    ArrayList<Likes> likesArrayList;
     ValueEventListener databaseReference;
     QuotesDB quotesDB;
     Pref preferences;
@@ -113,18 +115,26 @@ public class ProfileFragment extends Fragment {
 
     private void setupicons() {
         profiletab.removeAllTabs();
-        for (int i = 0; i < tabIcons.length; i++) {
-            profiletab.addTab(profiletab.newTab().setIcon(tabIcons[i]));
+        for (int tabIcon : tabIcons) {
+            profiletab.addTab(profiletab.newTab().setIcon(tabIcon));
         }
-        profiletab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (profiletab.getSelectedTabPosition()) {
                     case 0:
-                        Carregar();
+                        if (myquotes == null) {
+                            Carregar();
+                        } else {
+                            recycler(myquotes);
+                        }
                         break;
                     case 1:
-                        CarregarLikes();
+                        if (likequotes == null) {
+                            CarregarLikes();
+                        } else {
+                            recycler(likequotes);
+                        }
                         break;
 
                 }
@@ -137,26 +147,51 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                switch (profiletab.getSelectedTabPosition()) {
+                    case 0:
+                        if (myquotes == null) {
+                            Carregar();
+                        } else {
+                            recycler(myquotes);
+                        }
+                        break;
+                    case 1:
+                        if (likequotes == null) {
+                            CarregarLikes();
+                        } else {
+                            recycler(likequotes);
+                        }
+                        break;
 
+                }
             }
         });
 
     }
+
 
     private void setupblackicons() {
         profiletab.removeAllTabs();
-        for (int i = 0; i < tabIconsblack.length; i++) {
-            profiletab.addTab(profiletab.newTab().setIcon(tabIconsblack[i]));
+        for (int aTabIconsblack : tabIconsblack) {
+            profiletab.addTab(profiletab.newTab().setIcon(aTabIconsblack));
         }
-        profiletab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (profiletab.getSelectedTabPosition()) {
                     case 0:
-                        Carregar();
+                        if (myquotes == null) {
+                            Carregar();
+                        } else {
+                            recycler(myquotes);
+                        }
                         break;
                     case 1:
-                        CarregarLikes();
+                        if (likequotes == null) {
+                            CarregarLikes();
+                        } else {
+                            recycler(likequotes);
+                        }
                         break;
 
                 }
@@ -174,14 +209,6 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-
-    private void Likes() {
-        Snacky.builder().setText("Em breve...").setActivity(getActivity()).setBackgroundColor(Color.BLACK).setTextColor(Color.WHITE).build().show();
-    }
-
-
-
-
 
 
     @Override
@@ -190,7 +217,10 @@ public class ProfileFragment extends Fragment {
 
         // Inflate the layout for this fragment
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        preferences = new Pref(getContext());
+        if (getContext() == null){
+            return null;
+        }
+        preferences = new Pref(Objects.requireNonNull(getContext()));
         user = FirebaseAuth.getInstance().getCurrentUser();
         quotesdb = FirebaseDatabase.getInstance().getReference();
 
@@ -230,143 +260,88 @@ public class ProfileFragment extends Fragment {
 
 
         settings.setOnClickListener(new View.OnClickListener() {
-            private android.widget.LinearLayout deletecount;
-            private Button removeacount;
-            private android.widget.LinearLayout deleteposts;
-            private Button removeallposts;
-            private android.widget.LinearLayout namelayout;
-            private android.widget.LinearLayout editname;
-            private Button changename;
-            private EditText username;
-
             @Override
             public void onClick(View view) {
-                final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
-                blurView.setBlurRadius(50);
-                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
-                bottomSheetDialog.setContentView(R.layout.settings);
-                this.deletecount = bottomSheetDialog.findViewById(R.id.deletecount);
-                this.removeacount = bottomSheetDialog.findViewById(R.id.removeacount);
-                this.deleteposts = bottomSheetDialog.findViewById(R.id.deleteposts);
-                this.removeallposts = bottomSheetDialog.findViewById(R.id.removeallposts);
-                this.namelayout = bottomSheetDialog.findViewById(R.id.namelayout);
-                this.editname = bottomSheetDialog.findViewById(R.id.editname);
-                this.changename = bottomSheetDialog.findViewById(R.id.changename);
-                this.username = bottomSheetDialog.findViewById(R.id.username);
-
-                bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                PopupMenu popup = new PopupMenu(getContext(), settings);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.useroptions);
+                popup.show();
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        blurView.setBlurRadius(0);
-                        blurView.setOverlayColor(Color.TRANSPARENT);
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.changename:
+                                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+                                bottomSheetDialog.setContentView(R.layout.settings);
+                                final TextView message = bottomSheetDialog.findViewById(R.id.message);
+                                final LinearLayout namelayout = bottomSheetDialog.findViewById(R.id.namelayout);
+                                final LinearLayout saving = bottomSheetDialog.findViewById(R.id.saving);
+                                Button changename = bottomSheetDialog.findViewById(R.id.changename);
+                                final TextInputLayout inputlayout = bottomSheetDialog.findViewById(R.id.inputlayout);
+                                final EditText username = bottomSheetDialog.findViewById(R.id.username);
+
+                                assert inputlayout != null;
+                                inputlayout.setHint(user.getDisplayName());
+                                assert changename != null;
+                                changename.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+                                        Animation scaledown = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
+                                        Animation scaleup = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
+                                        assert saving != null;
+                                        saving.setVisibility(View.VISIBLE);
+                                        saving.startAnimation(fade);
+                                        assert namelayout != null;
+                                        namelayout.startAnimation(scaledown);
+                                        namelayout.setVisibility(View.GONE);
+                                        assert username != null;
+                                        if (username.getText().toString().isEmpty()) {
+                                            inputlayout.setError("Um nome vazio? Você tá brincando comigo. só pode.");
+                                            namelayout.setVisibility(View.VISIBLE);
+                                            namelayout.startAnimation(scaleup);
+                                            saving.startAnimation(scaledown);
+                                            saving.setVisibility(View.GONE);
+                                        } else {
+                                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
+                                            user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (int i = 0; i < myquotes.size(); i++) {
+                                                            QuotesDB quotesDB = new QuotesDB();
+                                                            quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
+                                                        }
+                                                        assert message != null;
+                                                        message.setText(String.format("Nome alterado %s Muito bonito meus parabéns!", user.getDisplayName()));
+
+
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                                bottomSheetDialog.show();
+
+                                return true;
+
+                            case R.id.deleposts:
+                                removepostsalert();
+                                return true;
+                            case R.id.deleaccount:
+                                removeaccountalert();
+                                return true;
+                            default:
+                                return false;
+
+
+                        }
                     }
                 });
-                username.setHint(user.getDisplayName());
-                changename.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setTitle("Salvando");
-                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
-                        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                for (int i = 0; i < myquotes.size(); i++) {
-                                    QuotesDB quotesDB = new QuotesDB(getActivity(), null);
-                                    quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
-
-                                }
-                                progressDialog.setMessage("Salvo!");
-                                progressDialog.dismiss();
-                                bottomSheetDialog.dismiss();
-                            }
-                        });
-
-                        removeacount.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                bottomSheetDialog.dismiss();
-                                Snacky.builder().setActivity(getActivity())
-                                        .setText("Tem certeza que quer apagar sua conta?")
-                                        .setBackgroundColor(Color.RED)
-                                        .setTextColor(Color.WHITE)
-                                        .setActionTextColor(getContext().getResources().getColor(R.color.white))
-                                        .setActionText("Sim")
-                                        .setIcon(getContext().getDrawable(R.drawable.ic_warning_black_24dp))
-                                        .setActionClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                ProgressDialog progressDialog = new ProgressDialog(getContext());
-                                                progressDialog.show();
-
-                                                for (int i3 = 0; i3 < myquotes.size(); i3++) {
-                                                    QuotesDB quotesDB = new QuotesDB(getActivity(), null);
-                                                    quotesDB.Removerposts(getActivity(), myquotes.get(i3).getId());
-
-                                                }
-                                                progressDialog.dismiss();
-                                            }
-                                        }).build().show();
-
-                            }
-                        });
-
-                        removeallposts.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                bottomSheetDialog.dismiss();
-                                Snacky.builder().setActivity(getActivity())
-                                        .setText("Tem certeza que quer remover todos seus posts?")
-                                        .setBackgroundColor(Color.WHITE)
-                                        .setTextColor(Color.BLACK)
-                                        .setActionTextColor(getContext().getResources().getColor(R.color.colorPrimaryDark))
-                                        .setActionText("Sim")
-                                        .setActionClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                ProgressDialog progressDialog = new ProgressDialog(getContext());
-                                                progressDialog.show();
-
-                                                for (int i3 = 0; i3 < myquotes.size(); i3++) {
-                                                    QuotesDB quotesDB = new QuotesDB(getActivity(), null);
-                                                    quotesDB.Removerposts(getActivity(), myquotes.get(i3).getId());
-
-                                                }
-                                                progressDialog.dismiss();
-                                            }
-                                        }).build().show();
-                            }
-                        });
-
-
-                    }
-                });
-                bottomSheetDialog.show();
             }
         });
 
-
-        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = true;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsetoolbar.setTitle(user.getDisplayName());
-                    collapsetoolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    collapsetoolbar.setCollapsedTitleGravity(Gravity.CENTER);
-                    isShow = true;
-                } else if (isShow) {
-                    collapsetoolbar.setTitle(" ");
-                    //carefull there should a space between double quote otherwise it wont work
-                    isShow = false;
-                }
-            }
-        });
 
         username.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -424,24 +399,17 @@ public class ProfileFragment extends Fragment {
 
         Tutorial(view);
         //Carregar();
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setTitle(user.getDisplayName());
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
             Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-
+            toolbar.setTitle(" ");
 
         }
 
 
         // Set collapsing tool bar image.
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Tutorial(view);
-                return false;
-            }
-        });
 
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -451,9 +419,75 @@ public class ProfileFragment extends Fragment {
         });
 
         Carregar();
+        CarregarLikes();
         userinfo();
         return view;
 
+    }
+
+    private void removepostsalert() {
+        if (getContext() == null){
+            return;
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext())).setTitle("Apagar posts?");
+        builder.setMessage("Tem certeza disso  Quer perder tudo? Não tem como voltar atrás depois...");
+        builder.setNegativeButton("Cliquei errado calma aí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setPositiveButton("Isso aí apaga todos os meus posts!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                for (int y = 0; y < myquotes.size(); y++) {
+                    QuotesDB quotesDB = new QuotesDB();
+                    quotesDB.Removerposts(getActivity(), myquotes.get(y).getId());
+                }
+                builder.setMessage("Parabéns apagou tudo");
+            }
+        }).show();
+    }
+
+    private void removeaccountalert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext())).setTitle("Apagar a conta?");
+        builder.setMessage("Nossa... Apagar a conta? TEM CERTEZA?," +
+                " você não pode desfazer essa ação e perderá tudo que já fez aqui");
+        builder.setPositiveButton("Sim, cansei do motiv", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                for (int y = 0; y < myquotes.size(); y++) {
+                    QuotesDB quotesDB = new QuotesDB();
+                    quotesDB.Apagarconta(getActivity(), myquotes.get(y).getId());
+                }
+                for (int y = 0; y < myquotes.size(); y++) {
+                    QuotesDB quotesDB = new QuotesDB();
+                    quotesDB.Apagarlikes(getActivity(), likequotes.get(y).getId());
+                }
+                builder.setMessage("Pronto, você apagou sua conta, pode sair já, não é o que você queria?");
+                CountDownTimer timer = new CountDownTimer(5000, 100) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        user.delete();
+                        FirebaseAuth.getInstance().signOut();
+
+                        Objects.requireNonNull(getActivity()).finish();
+                    }
+                };
+                timer.start();
+            }
+        });
+        builder.setNegativeButton("Só quis dar um susto", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).show();
     }
 
 
@@ -463,11 +497,13 @@ public class ProfileFragment extends Fragment {
         if (novo){
             Spotlight(view);
         }
-        novo = false;
     }
 
     private void Spotlight(View view) {
-        new SpotlightView.Builder(getActivity())
+        if (getActivity() == null){
+            return;
+        }
+        new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
                 .introAnimationDuration(400)
                 .enableRevealAnimation(true)
                 .performClick(true)
@@ -595,6 +631,13 @@ public class ProfileFragment extends Fragment {
                                     GradientDrawable.Orientation.TOP_BOTTOM, colors);
                             collapsetoolbar.setBackground(gd);
                         }
+                        Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.pop_in);
+                        Animation in2 = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
+                        Animation in3 = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_bottom);
+                        profilepic.startAnimation(in);
+                        camerafab.startAnimation(in);
+                        username.startAnimation(in2);
+                        profiletab.startAnimation(in3);
                         return true;
                     } else {
                         return false;
@@ -607,49 +650,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void userEdit() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("Mudar o nome de usuário");
-        final EditText username = new EditText(getContext());
-        username.setHint(user.getDisplayName());
-        builder.setView(username);
-        builder.setPositiveButton("Sim, quero mudar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (!Objects.equals(username.getText().toString(), "")) {
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
-                    user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                for (int i = 0; i < myquotes.size(); i++) {
-
-                                    QuotesDB quotesDB = new QuotesDB();
-                                    quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
-                                }
-
-
-                            }
-                        }
-                    });
-
-                } else {
-                    Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setText("Não pode salvar o nome vazio, isso aqui não é festa").error().show();
-                }
-
-            }
-        });
-
-        builder.setNegativeButton("Não quero mais mudar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-
-        builder.show();
-
-
-    }
 
 
     private void Picalert() {
@@ -658,10 +658,13 @@ public class ProfileFragment extends Fragment {
         Picslist = new ArrayList<>();
         final BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
         myDialog.setContentView(R.layout.profilepicselect_);
+        final TextView message = myDialog.findViewById(R.id.message);
+        final ProgressBar pb = myDialog.findViewById(R.id.pb);
         final RecyclerView picrecycler;
         final TextView remove;
 
         remove = myDialog.findViewById(R.id.removepic);
+        assert remove != null;
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -715,7 +718,7 @@ public class ProfileFragment extends Fragment {
                 Objects.requireNonNull(picrecycler).setHasFixedSize(true);
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
                 RecyclerPicAdapter recyclerPicAdapter = new RecyclerPicAdapter(quotesDB, getContext(), Picslist,
-                        blurView, getActivity(), myDialog,myquotes);
+                        blurView, getActivity(), myDialog, myquotes, message, remove, pb, picrecycler);
                 picrecycler.setAdapter(recyclerPicAdapter);
                 picrecycler.setLayoutManager(llm);
             }
@@ -754,24 +757,22 @@ public class ProfileFragment extends Fragment {
 
 
     private void CarregarLikes() {
+        if (getActivity() == null) {
+            return;
+        }
+        allquotes = new ArrayList<>();
+        likequotes = new ArrayList<>();
 
 
-
-
-
-        quotesdb.keepSynced(true);
-
-
-        quotesdb = FirebaseDatabase.getInstance().getReference().child(path)
-                .orderByChild("likes")
-                .startAt(user.getUid())
-                .endAt(user.getUid() + searcharg);
-        quotesdb.addValueEventListener(new ValueEventListener() {
+        Query quotesdb2;
+        quotesdb2 = FirebaseDatabase.getInstance().getReference().child(path);
+        quotesdb2.keepSynced(true);
+        quotesdb2.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                myquotes = new ArrayList<>();
-                myquotes.clear();
+                likequotes.clear();
+                allquotes.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Quotes quotes = new Quotes();
                     Quotes q = d.getValue(Quotes.class);
@@ -797,29 +798,18 @@ public class ProfileFragment extends Fragment {
                         }else{
                             quotes.setTextcolor(q.getTextcolor());
                             quotes.setBackgroundcolor(q.getBackgroundcolor());}
-                        if (q.getUserID().equals(user.getUid())) {
-                            quotes.setUsername(q.getUsername());
-                            quotes.setUserphoto(q.getUserphoto());
-                            myquotes.add(quotes);
-
-                            System.out.println("Quotes " + myquotes.size());
-                        }
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        allquotes.add(quotes);
+                        like(quotes);
+                        System.out.println("Quotes " + myquotes.size());
 
                     }
                 }
-                if (getActivity() == null) {
-                    return;
-                }
-                Collections.reverse(myquotes);
-                myquotesrecycler.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
-                myquotesrecycler.setHasFixedSize(true);
-                System.out.println(myquotes.size());
-                final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
-                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), myquotes, getActivity(), myquotesrecycler);
-                myquotesrecycler.setAdapter(myadapter);
-                myquotesrecycler.setLayoutManager(llm);
-                myquotesrecycler.startAnimation(myanim2);
+
+
+                //Collections.reverse(likequotes);
+                //recycler(likequotes);
 
 
             }
@@ -827,15 +817,53 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Snacky.builder().setActivity(getActivity()).error().setText("Erro " + databaseError.getMessage()).show();
             }
         });
 
 ///        userinfo();
-        show();
-    }
-    private void Carregar() {
+        //show();
 
+
+    }
+
+    private void like(final Quotes position) {
+        if (getActivity() == null) {
+            return;
+        }
+        //loading.setVisibility(View.VISIBLE);
+        likesArrayList = new ArrayList<>();
+        DatabaseReference likedb = FirebaseDatabase.getInstance().getReference();
+        likedb.child(path).child(position.getId()).child("likes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Likes l = d.getValue(Likes.class);
+                    Likes likes = null;
+                    if (l != null) {
+                        likes = new Likes(l.getUserid(), l.getUsername(), l.getUserpic());
+                    }
+                    likesArrayList.add(likes);
+                    if (l != null && l.getUserid().equals(user.getUid())) {
+                        likequotes.add(position);
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void Carregar() {
+        loading.setVisibility(View.VISIBLE);
         quotesdb.keepSynced(true);
 
 
@@ -886,16 +914,8 @@ public class ProfileFragment extends Fragment {
                 if (getActivity() == null) {
                     return;
                 }
-                Collections.reverse(myquotes);
-                myquotesrecycler.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
-                myquotesrecycler.setHasFixedSize(true);
-                System.out.println(myquotes.size());
-                final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
-                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), myquotes, getActivity(), myquotesrecycler);
-                myquotesrecycler.setAdapter(myadapter);
-                myquotesrecycler.setLayoutManager(llm);
-                myquotesrecycler.startAnimation(myanim2);
+                //Collections.reverse(myquotes);
+                recycler(myquotes);
 
 
             }
@@ -908,7 +928,21 @@ public class ProfileFragment extends Fragment {
         });
 
 ///        userinfo();
+
         show();
+    }
+
+    private void recycler(ArrayList<Quotes> quotes) {
+        Collections.reverse(quotes);
+        myquotesrecycler.setVisibility(View.VISIBLE);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
+        myquotesrecycler.setHasFixedSize(true);
+        System.out.println(quotes);
+        final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
+        RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotes, getActivity(), myquotesrecycler);
+        myquotesrecycler.setAdapter(myadapter);
+        myquotesrecycler.setLayoutManager(llm);
+        myquotesrecycler.startAnimation(myanim2);
     }
 
     private void show() {
@@ -941,7 +975,8 @@ public class ProfileFragment extends Fragment {
                 });
                 animator.start();
             }
-        }.start();
+        };
+        timer.start();
     }
 
 

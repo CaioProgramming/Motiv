@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Version;
@@ -37,11 +38,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
 
-    private android.widget.FrameLayout frame;
     private BottomNavigationView navigation;
     Version version;
     Context context = this;
@@ -86,36 +88,32 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-    private com.github.mmin18.widget.RealtimeBlurView rootblur;
     private android.widget.TextView offlinemessage;
-    private android.support.v7.widget.AppCompatButton reload;
+    private Button reload;
     private android.widget.ImageView offlineimage;
     private android.widget.LinearLayout offline;
     Pref preferences;
-    private android.widget.TextView offlinemssage;
     private android.widget.RelativeLayout container;
-    private FloatingActionButton newquote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        this.offlinemssage = findViewById(R.id.offlinemssage);
-        this.newquote = findViewById(R.id.newquote);
+        findViewById(R.id.offlinemssage);
+        FloatingActionButton newquote = findViewById(R.id.newquote);
         this.container = findViewById(R.id.container);
         this.offline = findViewById(R.id.offline);
         this.offlineimage = findViewById(R.id.offlineimage);
         this.reload = findViewById(R.id.reload);
         this.offlinemessage = findViewById(R.id.offlinemssage);
-        this.rootblur = findViewById(R.id.rootblur);
+        findViewById(R.id.rootblur);
         this.navigation = findViewById(R.id.navigation);
-        this.frame = findViewById(R.id.frame);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationHelper.disableShiftMode(navigation);
         newquote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 getSupportFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new NewQuoteFragment())
                         .commit();
@@ -125,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         if (!user.isEmailVerified()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Email não verificado");
             builder.setMessage("Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases");
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                   for (DataSnapshot d : dataSnapshot.getChildren()) {
 
                       if (d != null){
-                          version.setVersion(d.getValue().toString());
+                          version.setVersion(Objects.requireNonNull(d.getValue()).toString());
                       }
 
 
@@ -199,33 +199,6 @@ public class MainActivity extends AppCompatActivity {
 
               }
           });
-    }
-
-    private boolean verifyversion(String versionName, Version version) {
-        if (!version.getVersion().equals(versionName)){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("Atualize seu app!")
-
-                    .setMessage("Sua versão está desatualizada, não quer atualizar para ter acesso as últimas novidades?" +
-                            " O motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
-                    .setNegativeButton("Vo atualiza e te aviso", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .setPositiveButton("Sim, quero atualizar!", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Uri uri = Uri.parse("https://motiv-d16d1.firebaseapp.com");
-                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            startActivity(intent);
-                        }
-                    });
-            builder.show();
-            return false;
-        }
-
-        return true;
     }
 
     private void theme() {

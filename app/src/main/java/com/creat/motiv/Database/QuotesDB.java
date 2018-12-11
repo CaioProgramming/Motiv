@@ -2,7 +2,6 @@ package com.creat.motiv.Database;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import android.support.annotation.NonNull;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 import de.mateware.snacky.Snacky;
 
@@ -49,45 +49,48 @@ public class QuotesDB {
         this.quotesdb = FirebaseDatabase.getInstance().getReference(path);
         this.quotes = quotes;
     }
-    private void cancelalarm(Context context) {
-        Pref preferences = new Pref(context);
-        preferences.setAlarm(false);
-    }
 
     public void Inserir(){
-        cancelalarm(qActivity);
+        final ProgressDialog progressDialog = new ProgressDialog(qActivity);
+        progressDialog.setMessage("Salvando");
+        progressDialog.setIndeterminate(true);
         String id = quotesdb.push().getKey();
         this.quotes.setId(id);
         if (quotes.getQuote().isEmpty()){
 
             Snacky.builder().setActivity(qActivity).error().setText(Tools.emptyquote()).setDuration(5000).show();
         }else{
-            quotesdb.child(id).setValue(this.quotes).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
+            if (id != null) {
+                quotesdb.child(id).setValue(this.quotes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
-                    if (task.isSuccessful()){
-                        CountDownTimer timer = new CountDownTimer(3000,100) {
-                            @Override
-                            public void onTick(long l) {
+                        if (task.isSuccessful()){
+                            CountDownTimer timer = new CountDownTimer(3000,100) {
+                                @Override
+                                public void onTick(long l) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onFinish() {
-                                Snacky.builder().setActivity(qActivity).setText("Frase salva!").success().show();
-                            }
-                        }.start();
+                                @Override
+                                public void onFinish() {
+                                    Snacky.builder().setActivity(qActivity).setText("Frase salva!").success().show();
+                                    progressDialog.dismiss();
+                                }
+                            };timer.start();
 
-                    }else{
-                        Snacky.builder().setActivity(qActivity).error().setText("Erro " + task.getException().getMessage()).show();
+                        }else{
+                            Snacky.builder().setActivity(qActivity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
+                            progressDialog.dismiss();
+                        }
                     }
-                }
-            });}
+                });
+            }
+        }
+        progressDialog.show();
     }
 
     public void Editar(){
-        cancelalarm(qActivity);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (quotes.getQuote().isEmpty()){
 
@@ -96,8 +99,13 @@ public class QuotesDB {
             final ProgressDialog progressDialog = new ProgressDialog(qActivity);
             progressDialog.setTitle("Salvando");
             progressDialog.show();
-            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
-            quotes.setUsername(user.getDisplayName());
+            if (user != null) {
+                quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+            }
+            if (user != null) {
+                quotes.setUsername(user.getDisplayName());
+            }
+            assert user != null;
             quotes.setUserID(user.getUid());
             System.out.println("Edited quote id " + this.quotes.getId());
             quotesdb.child(this.quotes.getId()).setValue(this.quotes).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -116,10 +124,10 @@ public class QuotesDB {
                             public void onFinish() {
                                 progressDialog.dismiss();
                             }
-                        }.start();
+                        };timer.start();
 
                     }else{
-                        Snacky.builder().setActivity(qActivity).error().setText("Erro " + task.getException().getMessage()).show();
+                        Snacky.builder().setActivity(qActivity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                     }
                 }
             });}
@@ -134,7 +142,7 @@ public class QuotesDB {
                 if (task.isSuccessful()){
                     Snacky.builder().setActivity(qActivity).setText("A frase foi denúnciada e será analisada").success().show();
 
-                }else{Snacky.builder().setActivity(qActivity).setText("Erro " + task.getException().getMessage()).success().show();}
+                }else{Snacky.builder().setActivity(qActivity).setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).success().show();}
             }
         });
 
@@ -182,7 +190,6 @@ public class QuotesDB {
     public void AlterarFoto(final Activity activity,String id,String photourl ){
 
 
-        cancelalarm(activity);
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
@@ -191,9 +198,10 @@ public class QuotesDB {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
 
+                    assert user != null;
                     Snacky.builder().setActivity(activity).setText("Foto alterada, " + user.getDisplayName() + "!").
                             success().show();                    }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + task.getException().getMessage()).show();
+                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                 }
             }
         });
@@ -203,18 +211,17 @@ public class QuotesDB {
     public void Removerposts(final Activity activity,String id){
 
 
-        cancelalarm(activity);
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        quotesdb.child(path).child(id).child("userphoto").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        quotesdb.child(path).child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
 
-                    Snacky.builder().setActivity(activity).setText("Posts removidos" + user.getDisplayName() + "!").
+                    Snacky.builder().setActivity(activity).setText("Posts removidos" + Objects.requireNonNull(user).getDisplayName() + "!").
                             success().show();                    }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + task.getException().getMessage()).show();
+                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                 }
             }
         });
@@ -224,22 +231,45 @@ public class QuotesDB {
     public void Apagarconta(final Activity activity,String id){
 
 
-        cancelalarm(activity);
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        quotesdb.child(path).child(id).child("userphoto").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        quotesdb.child(path).child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
+                    Snacky.builder().setActivity(activity).success().setText("Conta apagada").show();
 
-                }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + task.getException().getMessage()).show();
+                } else {
+                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                 }
             }
         });
 
+
+    }
+
+    public void Apagarlikes(final Activity activity, String id) {
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
+
+        assert user != null;
+        quotesdb.child(path).child(id).child("likes").child(user.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Snacky.builder().setActivity(activity).success().setText("Conta apagada").show();
+
+                }else{
+                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
+                }
+            }
+        });
+
+
         user.delete();
+        FirebaseAuth.getInstance().signOut();
 
     }
 
@@ -248,13 +278,14 @@ public class QuotesDB {
     public void AlterarNome(final Activity activity,String id){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
+        assert user != null;
         quotesdb.child(path).child(id).child("username").setValue(user.getDisplayName()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     Snacky.builder().setActivity(activity).success().setText("Alteração conluída").show();
                 }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + task.getException().getMessage()).show();
+                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                 }
             }
         });

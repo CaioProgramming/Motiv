@@ -15,17 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
-import com.creat.motiv.Beans.Tutorial;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
-import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -59,39 +55,30 @@ public class HomeFragment extends Fragment {
     private android.widget.TextView author;
     private android.support.v7.widget.Toolbar toolbar;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
-    private android.support.design.widget.AppBarLayout appbarlayout;
     FirebaseUser user;
     Boolean novo;
-    private AdView adView;
 
 
-    private android.support.design.widget.CoordinatorLayout home;
-    private android.widget.TextView offlinemssage;
-    private android.widget.ImageView offlineimage;
     private android.widget.LinearLayout loading;
-    private TextView title;
+
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    ArrayList<Tutorial> tutorialArrayList = new ArrayList<>();
-    RealtimeBlurView blur;
     Pref preferences;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        preferences = new Pref(getContext());
+        preferences = new Pref(Objects.requireNonNull(getContext()));
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        this.offlineimage = (ImageView) view.findViewById(R.id.offlineimage);
+        android.widget.ImageView offlineimage = view.findViewById(R.id.offlineimage);
         this.loading = view.findViewById(R.id.loading);
 
-        this.offlinemssage = view.findViewById(R.id.offlinemssage);
-        this.adView = view.findViewById(R.id.adView);
-         home = view.findViewById(R.id.home);
+        AdView adView = view.findViewById(R.id.adView);
         Glide.with(this).asBitmap()
                 .load("https://cdn.dribbble.com/users/4852/screenshots/4949739/monstermind.jpg").into(offlineimage);
         MobileAds.initialize(getContext(),
@@ -101,7 +88,6 @@ public class HomeFragment extends Fragment {
         adView.loadAd(adRequest);
         novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
 
-        appbarlayout = view.findViewById(R.id.appbarlayout);
         collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
         toolbar = view.findViewById(R.id.toolbar);
         author = view.findViewById(R.id.author);
@@ -145,7 +131,7 @@ public class HomeFragment extends Fragment {
 
 
     private void Spotlight() {
-        new SpotlightView.Builder(getActivity())
+        new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
                 .introAnimationDuration(400)
                 .enableRevealAnimation(true)
                 .performClick(true)
@@ -231,7 +217,7 @@ public class HomeFragment extends Fragment {
                 if (getActivity() != null) {
                     ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
                     if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
+                        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setTitle(getString(R.string.app_name));
                     }
                 }
 
@@ -241,7 +227,7 @@ public class HomeFragment extends Fragment {
                 quote.setText(quotesArrayList.get(q).getQuote());
                 if (quotesArrayList.get(q).getFont() != null){
                     if (getActivity() == null){
-                        quote.setText("Atualizando...");
+                        quote.setText(R.string.atuazlizando);
 
                         return;
                     }
@@ -312,7 +298,7 @@ public class HomeFragment extends Fragment {
                 loading.startAnimation(animation);
                 loading.setVisibility(View.GONE);
             }
-        }.start();
+        };timer.start();
     }
 
 

@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.creat.motiv.Adapters.ViewPagerAdapter;
 
+import java.util.Objects;
+
 public class NewUser extends AppCompatActivity {
     ViewPagerAdapter adapter;
     TabLayout tabs;
@@ -22,7 +24,7 @@ public class NewUser extends AppCompatActivity {
           tabs = findViewById(R.id.tabs);
         ViewPager slides = findViewById(R.id.slides);
         tabs.setupWithViewPager(slides,true);
-        adapter = new ViewPagerAdapter(this);
+        adapter = new ViewPagerAdapter(this, this);
         slides.setAdapter(adapter);
         setupTabIcons();
          start.setVisibility(View.INVISIBLE);
@@ -60,7 +62,7 @@ public class NewUser extends AppCompatActivity {
         tabs.setSelectedTabIndicatorColor(Color.TRANSPARENT);
 
         for (int i = 0; i  < 7; i++){
-            tabs.getTabAt(i).setIcon(R.drawable.dot);
+            Objects.requireNonNull(tabs.getTabAt(i)).setIcon(R.drawable.dot);
         }
 
     }

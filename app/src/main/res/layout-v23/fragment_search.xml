@@ -37,10 +37,11 @@
                     android:inputType="textCapWords"
                     android:id="@+id/search"
                     android:drawableEnd="@drawable/ic_search_black_24dp"
+                    android:drawableTint="@color/white"
                     android:backgroundTint="@color/transparent"
                     android:textColorHint="@color/white"
                     android:textColor="@color/white"
-                    android:hint="@string/pesquisar"
+                    android:hint="Pesquisar..."
                     android:imeOptions="actionSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -72,12 +73,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/vai_l_procura_o_que_quiser"
+            android:text="Vai lá procura o que quiser"
             android:textAlignment="center"
             android:textSize="28sp" />
 
         <ImageView
-            android:contentDescription="@string/empty_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/undraw_book_lover_mkck" />

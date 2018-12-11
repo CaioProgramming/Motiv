@@ -1,106 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@drawable/gradcitation"
-    android:animateLayoutChanges="true"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/namelayout"
     android:layout_width="match_parent"
-    android:padding="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
+        android:id="@+id/editname"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/namelayout"
-            android:elevation="2dp"
-            android:background="@drawable/bottom_line"
-            android:padding="10dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/editname"
-                android:orientation="vertical"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+
+            android:foregroundTint="@color/colorPrimaryDark"
+            android:hint="@string/username"
+            android:textColorHint="@color/colorPrimaryDark">
+
+
+            <EditText
+                android:labelFor="@id/inputlayout"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/username"
-                    android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/ic_person_black_24dp"
-                    android:backgroundTint="@color/transparent"
-                    android:hint="@string/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:id="@+id/changename"
-                    android:background="@color/transparent"
-                     android:textColor="@color/colorPrimaryDark"
-                    android:text="Alterar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:background="@drawable/bottom_line"
-            android:id="@+id/deleteposts"
-            android:elevation="2dp"
-            android:padding="10dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:padding="5dp"
-                android:drawableTint="@color/yellow_700"
-                android:drawableStart="@drawable/ic_error_outline_black_24dp"
-                android:background="@color/grey_100"
-                 android:id="@+id/removeallposts"
-                android:text="Apagar todos os posts"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorPrimaryDark"
                 android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:inputType="textCapWords" />
+        </android.support.design.widget.TextInputLayout>
 
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:background="@drawable/bottom_line"
-            android:backgroundTint="@color/red_400"
-            android:id="@+id/deletecount"
-            android:elevation="2dp"
-            android:padding="2dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
+        <Button
+            android:id="@+id/changename"
+            style="@style/FirebaseUI.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:background="@color/grey_100"
-                android:drawableStart="@drawable/ic_warning_black_24dp"
-                android:drawableTint="@color/red_400"
-                android:id="@+id/removeacount"
-                android:text="Apagar conta"
-                android:textColor="@color/red_400"
-                android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-
-        </LinearLayout>
-
-
-
-
-
-
-
-
-
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/alterar"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-</ScrollView>
+    <LinearLayout
+        android:id="@+id/saving"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/salvando"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+

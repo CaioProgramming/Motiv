@@ -1,5 +1,6 @@
 package com.creat.motiv.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,19 +28,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
 public class ViewPagerAdapter extends PagerAdapter {
-    Context context;
-    LayoutInflater layoutInflater;
-    private Query quotesdb;
-    ArrayList<Quotes> quotesArrayList;
+    private Context context;
+    private Activity activity;
+    private ArrayList<Quotes> quotesArrayList;
     private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-    public int[] slide_images = {
+    private int[] slide_images = {
             R.mipmap.ic_launcher,
             R.drawable.undraw_missed_chances_k3cq,
             R.drawable.undraw_in_sync_xwsa,
@@ -49,7 +50,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             R.drawable.undraw_outer_space_3v6n
     };
 
-    public String[] slide_titles = {
+    private String[] slide_titles = {
             "Bem-vindo ao Motiv",
             "Motiv",
             "Sempre conectado",
@@ -59,7 +60,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             "Hora de começar!"
     };
 
-    public String[] slide_text = {
+    private String[] slide_text = {
 
             "A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!",
             "O Motiv é sincronizado em tempo real,sempre que um novo usuário posta algo,você pode visualizar no mesmo momento.",
@@ -70,8 +71,9 @@ public class ViewPagerAdapter extends PagerAdapter {
             "Agora que sabe onde se meteu " + user.getDisplayName() + ",é hora de explorar comunidade do motiv, veja o que os usuários estão compartilhando, compartilhe,explore!"
     };
 
-    public ViewPagerAdapter(Context context) {
+    public ViewPagerAdapter(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
         quotesArrayList = new ArrayList<>();
         Carregar();
 
@@ -81,9 +83,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private void Carregar() {
 
 
-
-
-        quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
+        Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -139,10 +139,13 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.newuser, container, false);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = null;
+        if (layoutInflater != null) {
+            view = layoutInflater.inflate(R.layout.newuser, container, false);
+        }
+        assert view != null;
         TextView text = view.findViewById(R.id.text);
-        RelativeLayout layout = view.findViewById(R.id.layout);
         TextView textView2 = view.findViewById(R.id.textView2);
         ImageView imageView = view.findViewById(R.id.imageView);
         Button start = view.findViewById(R.id.start);
@@ -169,7 +172,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         text.setText(slide_text[position]);
         textView2.setText(slide_titles[position]);
-        if (position == 6) { text.setText("Já são " + quotesArrayList.size() + " frases postadas no motiv");}
+        if (position == 6) { text.setText(MessageFormat.format("Já são {0} frases postadas no motiv", quotesArrayList.size()));}
 
         container.addView(view);
 
@@ -186,6 +189,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         Intent i = new Intent(context,MainActivity.class);
         i.putExtra("novo",true);
         context.startActivity(i);
+        activity.finish();
+
 
     }
 

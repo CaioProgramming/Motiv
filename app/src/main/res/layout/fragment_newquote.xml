@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    android:background="@color/transparent"
-     >
+    android:background="@color/transparent">
 
     <!-- TODO: Update blank fragment layout -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
          >
 
         <LinearLayout
@@ -37,22 +35,22 @@
                 android:layout_height="wrap_content">
                 <RadioButton
                     android:id="@+id/music"
-                    android:text="Música"
+                    android:text="@string/m_sica"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <RadioButton
                     android:id="@+id/citation"
-                    android:text="Citação"
+                    android:text="@string/cita_o"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <RadioButton
                     android:id="@+id/motivation"
-                    android:text="Motivação"
+                    android:text="@string/motiva_o"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <RadioButton
                     android:id="@+id/love"
-                    android:text="Amor"
+                    android:text="@string/amor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RadioGroup>
@@ -126,7 +124,8 @@
                                    android:textSize="18sp"
                                    android:hint="@string/quote"
                                    android:layout_width="match_parent"
-                                   android:layout_height="wrap_content" />
+                                   android:layout_height="wrap_content"
+                                   android:inputType="text" />
                                <EditText
                                    android:imeOptions="actionDone"
                                    android:inputType="text"
@@ -151,13 +150,13 @@
                                    android:layout_height="wrap_content" />
                                <TextView
                                    android:visibility="invisible"
-                                     android:text="0"
+                                     android:text="@string/_0"
                                    android:id="@+id/texcolorid"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
                                <TextView
                                    android:visibility="invisible"
-                                   android:text="0"
+                                   android:text="@string/_0"
                                     android:id="@+id/backcolorid"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content" />
@@ -183,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginBottom="11dp"
             android:layout_marginLeft="11dp"
             android:layout_marginRight="11dp"
@@ -195,7 +194,7 @@
             fab:menu_colorRipple="@color/white"
             fab:menu_fab_label="Editor"
             fab:menu_fab_size="normal"
-            fab:menu_icon="@drawable/ic_mode_edit_black_24dp"
+            fab:menu_icon="@drawable/ic_mode_edit_white_24dp"
             fab:menu_labels_colorNormal="#333"
             fab:menu_labels_colorPressed="#444"
             fab:menu_labels_colorRipple="@color/white"
