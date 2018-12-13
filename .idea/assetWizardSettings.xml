@@ -111,7 +111,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/alert/ic_warning_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_music_note_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -121,11 +121,13 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_linkedin_sign" />
+                            <entry key="height" value="15" />
+                            <entry key="outputName" value="ic_music_note_black_15dp" />
+                            <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\cacai\Downloads\linkedin-sign.psd" />
+                            <entry key="width" value="15" />
                           </map>
                         </option>
                       </PersistentState>

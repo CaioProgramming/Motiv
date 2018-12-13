@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -54,7 +53,6 @@ public class EditActivity extends AppCompatActivity {
     private android.widget.LinearLayout options;
     private de.hdodenhof.circleimageview.CircleImageView userpic;
     private android.widget.TextView username;
-    private android.widget.LinearLayout category;
     private android.widget.EditText quote;
     private android.widget.EditText author;
     private android.widget.TextView fontid;
@@ -74,40 +72,52 @@ public class EditActivity extends AppCompatActivity {
     private boolean boldb, italicb;
     private Activity activity = this;
     private Context context = this;
-    private RealtimeBlurView blur;
+    private RealtimeBlurView blurView;
     private android.widget.ScrollView edit;
     private Query quotesdb;
     Quotes quotes;
     private android.widget.TextView quoteID;
+    private android.widget.RadioGroup categories;
+    private LinearLayout quotedata;
+    private android.widget.TextView backcoloridid;
+    private com.github.clans.fab.FloatingActionButton categoryfab;
+    private android.widget.ImageButton menu;
+    private android.widget.CheckBox like;
+    private android.widget.ImageButton remove;
+    private android.widget.TextView dia;
+    private LinearLayout category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         quotes = new Quotes();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        this.blurView = findViewById(R.id.blur);
         this.edit = findViewById(R.id.edit);
-        this.blur = findViewById(R.id.blur);
-
         this.materialdesignandroidfloatingactionmenu = findViewById(R.id.material_design_android_floating_action_menu);
         this.salvar = findViewById(R.id.salvar);
         this.fontpickerfab = findViewById(R.id.fontpickerfab);
         this.backcolorfab = findViewById(R.id.backcolorfab);
         this.textcolorfab = findViewById(R.id.textcolorfab);
+        this.categoryfab = findViewById(R.id.categoryfab);
         this.card = findViewById(R.id.card);
-        this.background = findViewById(R.id.background);
         this.backcolorid = findViewById(R.id.backcolorid);
         this.texcolorid = findViewById(R.id.texcolorid);
         this.fontid = findViewById(R.id.fontid);
+        this.background = findViewById(R.id.background);
         this.author = findViewById(R.id.author);
         this.quote = findViewById(R.id.quote);
         this.category = findViewById(R.id.category);
+        this.quotedata = findViewById(R.id.quotedata);
+        this.menu = findViewById(R.id.menu);
         this.username = findViewById(R.id.username);
         this.userpic = findViewById(R.id.userpic);
         this.options = findViewById(R.id.options);
-        this.love = findViewById(R.id.love);
+        this.categories = findViewById(R.id.categories);
+        this.music = findViewById(R.id.music);
         this.motivation = findViewById(R.id.motivation);
         this.citation = findViewById(R.id.citation);
-        this.music = findViewById(R.id.music);
+        this.love = findViewById(R.id.love);
         this.colorlibrary = findViewById(R.id.colorlibrary);
 
         CategorySeleect(category);
@@ -161,25 +171,34 @@ public class EditActivity extends AppCompatActivity {
                         quote.setTextColor(quotes.getTextcolor());
                         if (quotes.getFont() != null){
                             quote.setTypeface(Tools.fonts(context).get(quotes.getFont()));
+                            author.setTypeface(Tools.fonts(context).get(quotes.getFont()));
                         }else{
                             quote.setTypeface(Typeface.DEFAULT);
+                            author.setTypeface(Typeface.DEFAULT);
                         }
                         author.setTextColor(quotes.getTextcolor());
                         texcolorid.setText(String.valueOf(quotes.getTextcolor()));
                         backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
                         switch (quotes.getCategoria()) {
                             case "Musica":
-                                category.setBackgroundResource(R.color.purple_300);
+                                music.setChecked(true);
+                                love.setBackgroundResource(R.color.purple_300);
 
                                 break;
                             case "Citação":
+                                love.setChecked(true);
+
                                 category.setBackgroundResource(R.color.grey_300);
                                 break;
                             case "Amor":
+                                love.setChecked(true);
+
                                 category.setBackgroundResource(R.color.red_300);
 
                                 break;
                             case "Motivação":
+                                motivation.setChecked(true);
+
                                 category.setBackgroundResource(R.color.orange_300);
 
                                 break;
@@ -232,6 +251,14 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Fontpicker();
+            }
+        });
+        categoryfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categories.clearCheck();
+                categoria = "Nenhum";
+                quotes.setCategoria(categoria);
             }
         });
         /*boldfab.setOnClickListener(new View.OnClickListener() {
@@ -320,7 +347,7 @@ public class EditActivity extends AppCompatActivity {
                         0, radius);
                 category.setVisibility(View.VISIBLE);
                 anim.start();
-
+                music.setChecked(true);
                 quotes.setCategoria("Musica");
             }
         });
@@ -337,6 +364,7 @@ public class EditActivity extends AppCompatActivity {
                         0, radius);
                 category.setVisibility(View.VISIBLE);
                 anim.start();
+                love.setChecked(true);
                 quotes.setCategoria("Amor");
 
             }
@@ -354,6 +382,7 @@ public class EditActivity extends AppCompatActivity {
                         0, radius);
                 category.setVisibility(View.VISIBLE);
                 anim.start();
+                citation.setChecked(true);
                 quotes.setCategoria("Citação");
             }
         });
@@ -370,6 +399,7 @@ public class EditActivity extends AppCompatActivity {
                         0, radius);
                 category.setVisibility(View.VISIBLE);
                 anim.start();
+                motivation.setChecked(true);
                 quotes.setCategoria("Motivação");
             }
         });
@@ -379,14 +409,6 @@ public class EditActivity extends AppCompatActivity {
         Pref preferences = new Pref(this);
         if (preferences.nightmodestate()) {
             options.setBackgroundResource(R.color.grey_800);
-            love.setTextColor(android.graphics.Color.WHITE);
-            motivation.setTextColor(android.graphics.Color.WHITE);
-            motivation.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
-            love.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
-            citation.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
-            music.setButtonTintList(ColorStateList.valueOf(android.graphics.Color.WHITE));
-            citation.setTextColor(android.graphics.Color.WHITE);
-            music.setTextColor(android.graphics.Color.WHITE);
             edit.setBackgroundResource(R.drawable.gradnight);
         }
     }
@@ -477,7 +499,6 @@ public class EditActivity extends AppCompatActivity {
 
     private void Fontpicker() {
         BottomSheetDialog myDialog = new BottomSheetDialog(this);
-        final RealtimeBlurView blurView = findViewById(R.id.blur);
         blurView.setBlurRadius(20);
         myDialog.setContentView(R.layout.profilepicselect);
         RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);

@@ -8,7 +8,6 @@
         android:id="@+id/removepic"
         android:drawableEnd="@drawable/delete"
         android:textColor="@color/red_400"
-        style="@style/RobotoTextView"
         android:textAlignment="center"
         android:text="@string/remover_foto_de_perfil"
         android:layout_width="match_parent"

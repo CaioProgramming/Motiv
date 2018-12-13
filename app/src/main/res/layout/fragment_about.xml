@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/creatorlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -37,7 +36,6 @@
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/referenceslayout"
             android:elevation="2dp"
             android:padding="2dp"
             android:animateLayoutChanges="true"
@@ -67,7 +65,6 @@
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/artistslayout"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -95,7 +92,6 @@
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/supportlayout"
             android:elevation="2dp"
             android:padding="2dp"
             android:animateLayoutChanges="true"

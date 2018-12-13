@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,17 +15,15 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.creat.motiv.R;
-import com.github.mmin18.widget.RealtimeBlurView;
 
 import java.util.ArrayList;
 
 public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder> {
-    ArrayList<Integer> ColorsList;
+    private ArrayList<Integer> ColorsList;
     private Context mContext;
     private LinearLayout background;
     private TextView textView,author;
@@ -54,7 +53,6 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
         return new RecyclerColorAdapter.MyViewHolder(view);
     }
 
-    @NonNull
 
 
 
@@ -63,14 +61,13 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
              System.out.println(ColorsList.get(position));
-        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.slide_in_bottom);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
 
-            holder.colorcard.setBackgroundColor(ColorsList.get(position));
+        holder.colorcard.setBackgroundTintList(ColorStateList.valueOf(ColorsList.get(position)));
             holder.colorcard.startAnimation(animation);
         holder.colorcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               final RealtimeBlurView blurView = mActivity.findViewById(R.id.rootblur);
 
                 String options[]={
                   "Texto",
@@ -124,13 +121,12 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
         }
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         CardView colorcard;
-        Button morecolors;
-        public MyViewHolder(View itemView) {
+
+        MyViewHolder(View itemView) {
             super(itemView);
             colorcard = itemView.findViewById(R.id.colorcard);
-            morecolors = itemView.findViewById(R.id.morecolors);
         }
     }
 }

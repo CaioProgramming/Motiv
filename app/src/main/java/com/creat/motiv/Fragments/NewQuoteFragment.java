@@ -4,9 +4,9 @@ package com.creat.motiv.Fragments;
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,12 +18,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -32,7 +32,6 @@ import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
 import com.creat.motiv.Adapters.RecyclerFontAdapter;
 import com.creat.motiv.Beans.Quotes;
-import com.creat.motiv.Beans.Tutorial;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
@@ -60,39 +59,39 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NewQuoteFragment extends Fragment {
 
 
-    private  EditText frase;
-    private EditText author;
-    private RadioButton music;
-    private  RadioButton citation;
-    private  RadioButton motivation;
-    private  RadioButton love;
      String categoria = "Nenhum";
-     int textcolorstring;
-     int backgoundcolor;
     FirebaseUser user;
     QuotesDB quotesDB;
-    private CardView preview;
 
+    Pref preferences;
+    boolean tuto = true;
+    private RecyclerView colorlibrary;
+    private RadioButton love;
+    private RadioButton citation;
+    private RadioButton motivation;
+    private RadioButton music;
     private LinearLayout options;
     private CircleImageView userpic;
     private TextView username;
+    private ImageButton menu;
+    private LinearLayout quotedata;
     private LinearLayout category;
+    private EditText frase;
+    private EditText author;
     private LinearLayout background;
-    Pref preferences;
-    private boolean italicb, boldb;
-    boolean tuto = true;
-    TextView fontid,texcolorid,backcolorid;
+    private TextView fontid;
+    private TextView texcolorid;
+    private TextView backcolorid;
+    private CardView card;
+    private com.github.clans.fab.FloatingActionButton categoryfab;
     private com.github.clans.fab.FloatingActionButton textcolorfab;
     private com.github.clans.fab.FloatingActionButton backcolorfab;
     private com.github.clans.fab.FloatingActionButton fontpickerfab;
-    private com.github.clans.fab.FloatingActionButton italicfab;
-    private com.github.clans.fab.FloatingActionButton boldfab;
     private com.github.clans.fab.FloatingActionButton salvar;
     private com.github.clans.fab.FloatingActionMenu materialdesignandroidfloatingactionmenu;
-    private RecyclerView colorlibrary;
-    ArrayList<Tutorial> tutorialArrayList = new ArrayList<>();
+    private android.widget.RadioGroup categories;
     private EditText quote;
-    private CardView card;
+
     public NewQuoteFragment() {
         // Required empty public constructor
     }
@@ -101,40 +100,38 @@ public class NewQuoteFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        italicb = false;
-        boldb = false;
-        preferences = new Pref(getContext());
+        preferences = new Pref(Objects.requireNonNull(getContext()));
         user = FirebaseAuth.getInstance().getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_newquote, container, false);
+        this.categories = view.findViewById(R.id.categories);
+        this.materialdesignandroidfloatingactionmenu = view.findViewById(R.id.material_design_android_floating_action_menu);
+        this.salvar = view.findViewById(R.id.salvar);
+        this.fontpickerfab = view.findViewById(R.id.fontpickerfab);
+        this.backcolorfab = view.findViewById(R.id.backcolorfab);
+        this.textcolorfab = view.findViewById(R.id.textcolorfab);
+        this.categoryfab = view.findViewById(R.id.categoryfab);
+        this.card = view.findViewById(R.id.card);
+        this.backcolorid = view.findViewById(R.id.backcolorid);
+        this.texcolorid = view.findViewById(R.id.texcolorid);
+        this.fontid = view.findViewById(R.id.fontid);
+        this.background = view.findViewById(R.id.background);
+        this.author = view.findViewById(R.id.author);
+        this.frase = view.findViewById(R.id.quote);
+        this.category = view.findViewById(R.id.category);
+        this.quotedata = view.findViewById(R.id.quotedata);
+        this.menu = view.findViewById(R.id.menu);
+        this.username = view.findViewById(R.id.username);
+        this.userpic = view.findViewById(R.id.userpic);
+        this.options = view.findViewById(R.id.options);
+        this.music = view.findViewById(R.id.music);
+        this.motivation = view.findViewById(R.id.motivation);
+        this.citation = view.findViewById(R.id.citation);
+        this.love = view.findViewById(R.id.love);
+        this.colorlibrary = view.findViewById(R.id.colorlibrary);
 
-         colorlibrary = view.findViewById(R.id.colorlibrary);
-        materialdesignandroidfloatingactionmenu = view.findViewById(R.id.material_design_android_floating_action_menu);
-        salvar = view.findViewById(R.id.salvar);
-
-        fontpickerfab = view.findViewById(R.id.fontpickerfab);
-        backcolorfab = view.findViewById(R.id.backcolorfab);
-        textcolorfab = view.findViewById(R.id.textcolorfab);
-        texcolorid = view.findViewById(R.id.texcolorid);
-        backcolorid = view.findViewById(R.id.backcolorid);
-
-        username = view.findViewById(R.id.username);
-        userpic = view.findViewById(R.id.userpic);
         username.setText(user.getDisplayName());
         Glide.with(this).load(user.getPhotoUrl()).into(userpic);
-        preview = view.findViewById(R.id.card);
-        background  = view.findViewById(R.id.background);
-        options = view.findViewById(R.id.options);
-        category = view.findViewById(R.id.category);
-        love = view.findViewById(R.id.love);
-        motivation = view.findViewById(R.id.motivation);
-        citation = view.findViewById(R.id.citation);
-        music = view.findViewById(R.id.music);
-        author = view.findViewById(R.id.author);
-        frase = view.findViewById(R.id.quote);
-        fontid = view.findViewById(R.id.fontid);
-
-        theme(view);
+        theme();
         CategorySeleect(category);
 
         backcolorfab.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +162,13 @@ public class NewQuoteFragment extends Fragment {
             }
         });
 
+        categoryfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categories.clearCheck();
+                categoria = "Nenhum";
+            }
+        });
 
 
 
@@ -211,19 +215,11 @@ public class NewQuoteFragment extends Fragment {
             }
         });
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Tutorial();
-                return false;
-            }
-        });
+
 
         try {
             colorgallery();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return view;
@@ -297,17 +293,10 @@ public class NewQuoteFragment extends Fragment {
         });
     }
 
-    private void theme(View view) {
+    private void theme() {
         if (preferences.nightmodestate()) {
             options.setBackgroundResource(R.color.grey_800);
-            love.setTextColor(Color.WHITE);
-            motivation.setTextColor(Color.WHITE);
-            motivation.setButtonTintList(ColorStateList.valueOf(Color.WHITE));
-            love.setButtonTintList(ColorStateList.valueOf(Color.WHITE));
-            citation.setButtonTintList(ColorStateList.valueOf(Color.WHITE));
-            music.setButtonTintList(ColorStateList.valueOf(Color.WHITE));
-            citation.setTextColor(Color.WHITE);
-            music.setTextColor(Color.WHITE);
+
 
         }
     }
@@ -371,6 +360,7 @@ public class NewQuoteFragment extends Fragment {
         myDialog.setContentView(R.layout.profilepicselect);
         RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);
         GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
+        assert recyclerView != null;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(llm);
         RecyclerFontAdapter recyclerFontAdapter = new RecyclerFontAdapter(getContext(), blurView, myDialog, frase, author, fontid);
@@ -396,21 +386,21 @@ public class NewQuoteFragment extends Fragment {
     }
 
     private void Spotlight() {
-        new SpotlightView.Builder(getActivity())
+        new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
                 .introAnimationDuration(400)
                 .enableRevealAnimation(true)
                 .performClick(true)
                 .fadeinTextDuration(400)
-                .headingTvColor(R.color.colorPrimary)
-                .headingTvSize(22)
                 .headingTvText("Criação de frases")
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
                 .subHeadingTvSize(14)
                 .subHeadingTvText("Aqui é o seu cantinho mágico, onde poderá criar suas frases! ")
                 .maskColor(Color.parseColor("#dc000000"))
-                .target(preview)
+                .target(card)
                 .lineAnimDuration(400)
-                .lineAndArcColor(Color.parseColor("#eb273f"))
+                .lineAndArcColor(R.color.white)
+                .headingTvColor(R.color.white)
+                .headingTvSize(28)
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
                 .enableDismissAfterShown(true)
@@ -418,10 +408,10 @@ public class NewQuoteFragment extends Fragment {
                 .show();
     }
 
-    public void salvar(){
+    public void salvar() {
 
         Date datenow = Calendar.getInstance().getTime();
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String dia = df.format(datenow);
         System.out.println(dia);
         Integer fonti = null;
@@ -445,8 +435,8 @@ public class NewQuoteFragment extends Fragment {
                 String.valueOf(user.getPhotoUrl()),
                 Integer.parseInt(backcolorid.getText().toString()),
                 Integer.parseInt( texcolorid.getText().toString()),
-                italicb,
-                boldb,
+                false,
+                false,
                 fonti,
                 false);
         System.out.println("font " + quotes.getFont() + "backcolor e textcolor " + quotes.getBackgroundcolor() + " "+ quotes.getTextcolor());

@@ -79,7 +79,8 @@ import static com.creat.motiv.Database.QuotesDB.searcharg;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-    ArrayList<Quotes> myquotes, likequotes, allquotes;
+    ArrayList<Quotes> likequotes, allquotes;
+    ArrayList<Quotes> myquotes = new ArrayList<>();
     ArrayList<Likes> likesArrayList;
     ValueEventListener databaseReference;
     QuotesDB quotesDB;
@@ -329,9 +330,6 @@ public class ProfileFragment extends Fragment {
                             case R.id.deleposts:
                                 removepostsalert();
                                 return true;
-                            case R.id.deleaccount:
-                                removeaccountalert();
-                                return true;
                             default:
                                 return false;
 
@@ -460,9 +458,12 @@ public class ProfileFragment extends Fragment {
                     QuotesDB quotesDB = new QuotesDB();
                     quotesDB.Apagarconta(getActivity(), myquotes.get(y).getId());
                 }
-                for (int y = 0; y < myquotes.size(); y++) {
-                    QuotesDB quotesDB = new QuotesDB();
-                    quotesDB.Apagarlikes(getActivity(), likequotes.get(y).getId());
+
+                if (likequotes.size() > 0) {
+                    for (int y = 0; y < likequotes.size(); y++) {
+                        QuotesDB quotesDB = new QuotesDB();
+                        quotesDB.Apagarlikes(getActivity(), likequotes.get(y).getId());
+                    }
                 }
                 builder.setMessage("Pronto, você apagou sua conta, pode sair já, não é o que você queria?");
                 CountDownTimer timer = new CountDownTimer(5000, 100) {
@@ -508,8 +509,6 @@ public class ProfileFragment extends Fragment {
                 .enableRevealAnimation(true)
                 .performClick(true)
                 .fadeinTextDuration(400)
-                .headingTvColor(R.color.colorPrimary)
-                .headingTvSize(32)
                 .headingTvText("Perfil")
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
                 .subHeadingTvSize(16)
@@ -517,7 +516,9 @@ public class ProfileFragment extends Fragment {
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(view)
                 .lineAnimDuration(400)
-                .lineAndArcColor(R.color.colorPrimaryDark)
+                .lineAndArcColor(R.color.white)
+                .headingTvColor(R.color.white)
+                .headingTvSize(28)
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
                 .usageId("createscreen") //UNIQUE ID
@@ -740,7 +741,7 @@ public class ProfileFragment extends Fragment {
         myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                Animation out = AnimationUtils.loadAnimation(getContext(),R.anim.mi_fade_out);
+                Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
                 blurView.startAnimation(out);
                 blurView.setOverlayColor(Color.TRANSPARENT);
                 blurView.setBlurRadius(0);
@@ -850,6 +851,7 @@ public class ProfileFragment extends Fragment {
                     }
 
                 }
+                Collections.reverse(likequotes);
 
 
             }
@@ -914,7 +916,7 @@ public class ProfileFragment extends Fragment {
                 if (getActivity() == null) {
                     return;
                 }
-                //Collections.reverse(myquotes);
+                Collections.reverse(myquotes);
                 recycler(myquotes);
 
 
@@ -933,7 +935,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void recycler(ArrayList<Quotes> quotes) {
-        Collections.reverse(quotes);
+        // Collections.reverse(quotes);
         myquotesrecycler.setVisibility(View.VISIBLE);
         GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
         myquotesrecycler.setHasFixedSize(true);

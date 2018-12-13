@@ -145,7 +145,8 @@ public class HomeFragment extends Fragment {
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(composesrecycler)
                 .lineAnimDuration(400)
-                .lineAndArcColor(R.color.colorPrimaryDark)
+                .lineAnimDuration(400)
+                .lineAndArcColor(R.color.white)
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
                 .usageId("homescreen") //UNIQUE ID

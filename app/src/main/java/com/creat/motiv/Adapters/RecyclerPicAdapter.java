@@ -1,9 +1,7 @@
 package com.creat.motiv.Adapters;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -30,7 +28,6 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.Notifications;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -82,7 +79,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        Animation in = AnimationUtils.loadAnimation(mContext,R.anim.slide_in);
+        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_bottom);
 
         Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
             @Override
@@ -108,11 +105,8 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                 @Override
                 public void onClick(View view) {
                     progressBar.setVisibility(View.VISIBLE);
-                    ComponentName receiver = new ComponentName(mActivity, Notifications.class);
-                    PackageManager pm = mActivity.getPackageManager();
-                    pm.setComponentEnabledSetting(receiver,
-                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP);
+                    recyclerView.setVisibility(View.GONE);
+                    remove.setVisibility(View.GONE);
                     CountDownTimer timer = new CountDownTimer(3000, 100) {
                         @Override
                         public void onTick(long l) {
@@ -151,7 +145,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                                             message.setBackgroundColor(Color.WHITE);
                                             message.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
                                             progressBar.setVisibility(View.GONE);
-                                            Animation out = AnimationUtils.loadAnimation(mContext, R.anim.pop_out);
+                                            Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
                                             Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
                                             message.startAnimation(in);
                                             recyclerView.startAnimation(out);

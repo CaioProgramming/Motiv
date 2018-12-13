@@ -55,7 +55,7 @@ public class RecyclerFontAdapter extends RecyclerView.Adapter<RecyclerFontAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.slide_in);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_bottom);
         Animation animation2 = AnimationUtils.loadAnimation(mContext,R.anim.pop_in);
         holder.layout.startAnimation(animation);
         holder.fontview.startAnimation(animation2);

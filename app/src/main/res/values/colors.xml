@@ -45,21 +45,6 @@
     <color name="purple_A400">#d500f9</color>
     <color name="purple_A700">#aa00ff</color>
 
-    <color name="dark_purple_50">#ede7f6</color>
-    <color name="dark_purple_100">#d1c4e9</color>
-    <color name="dark_purple_200">#b39ddb</color>
-    <color name="dark_purple_300">#9575cd</color>
-    <color name="dark_purple_400">#7e57c2</color>
-    <color name="dark_purple_500">#673ab7</color>
-    <color name="dark_purple_600">#5e35b1</color>
-    <color name="dark_purple_700">#512da8</color>
-    <color name="dark_purple_800">#4527a0</color>
-    <color name="dark_purple_900">#311b92</color>
-    <color name="dark_purple_A100">#b388ff</color>
-    <color name="dark_purple_A200">#7c4dff</color>
-    <color name="dark_purple_A400">#651fff</color>
-    <color name="dark_purple_A700">#6200ea</color>
-
     <color name="indigo_50">#e8eaf6</color>
     <color name="indigo_100">#c5cae9</color>
     <color name="indigo_200">#9fa8da</color>
@@ -261,8 +246,6 @@
     <color name="grey_700">#616161</color>
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
-    <color name="grey_black_1000">#000000</color>
-    <color name="grey_white_1000">#ffffff</color>
 
     <color name="blue_grey_50">#eceff1</color>
     <color name="blue_grey_100">#cfd8dc</color>
@@ -281,7 +264,6 @@
     <color name="colorPrimaryDark">#6a1b9a</color>
     <color name="colorAccent">#212121</color>
     <color name="black">#000000</color>
-    <color name="lblack">#64000000</color>
     <color name="white">#FFFFFF</color>
     <color name="lwhite">#64ffffff</color>
     <color name="transparent">#00ffffff</color>

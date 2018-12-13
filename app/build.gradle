@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "2.8.1"
+        versionName "3.0"
         renderscriptTargetApi 19
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -42,33 +42,33 @@ dependencies {
     //Firebase libs
     //implementation 'com.google.firebase:firebase-admin:6.4.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
-    implementation 'com.google.firebase:firebase-appindexing:16.0.2'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-appindexing:17.1.0'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.firebaseui:firebase-ui-database:1.0.1'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
-    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
-    implementation 'com.google.android.gms:play-services-ads:17.1.1'
+    implementation 'com.google.android.gms:play-services-ads:17.1.2'
 
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
 
 
 
-    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+    //implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     implementation 'com.github.wooplr:Spotlight:1.2.3'
-    implementation 'com.huxq17.android:SwipeCardsView:1.3.4'
+    //implementation 'com.huxq17.android:SwipeCardsView:1.3.4'
     implementation 'com.github.clans:fab:1.6.2'
-    implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
+    //implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
 //    implementation 'agency.tango.android:material-intro-screen:{latest_release}'
-    implementation 'com.github.dimorinny:show-case-card-view:0.0.4'
+    //implementation 'com.github.dimorinny:show-case-card-view:0.0.4'
 
     implementation 'com.pes.materialcolorpicker:library:1.2.4'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
     //implementation 'com.github.abdularis:androidbuttonprogress:v0.1-alpha5'
-    implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.1'
+    //implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //implementation 'com.github.takusemba:cropme:1.0.0'
     //implementation 'com.github.jrvansuita:GaussianBlur:1.0.0'

@@ -9,7 +9,6 @@
         android:drawableTint="@color/red_500"
         android:drawableEnd="@drawable/delete"
         android:textColor="@color/red_400"
-        style="@style/RobotoTextView"
         android:textAlignment="center"
         android:text="Remover foto de perfil"
         android:layout_width="match_parent"

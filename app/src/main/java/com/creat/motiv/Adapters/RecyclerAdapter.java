@@ -93,6 +93,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        holder.like.setChecked(false);
         loadLikes(holder, position);
 
 
@@ -405,7 +406,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         quote.setTypeface(holder.quote.getTypeface());
         Animation in = AnimationUtils.loadAnimation(mContext,R.anim.fab_scale_up);
         final Animation out = AnimationUtils.loadAnimation(mContext,R.anim.fab_scale_down);
-
+        m_dialog = new Dialog(mContext);
         m_dialog.setContentView(m_view);
         m_view.startAnimation(in);
         m_dialog.show();
@@ -539,10 +540,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         popup.show();
     }
 
-    public boolean isColorDark(int color){
-        double darkness = 1-(0.299*Color.red(color) + 0.587*Color.green(color) + 0.114*Color.blue(color))/255;
-        return !(darkness < 0.5);
-    }
 
 
     private void Remover(final int position, @NonNull final MyViewHolder holder) {
@@ -552,7 +549,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Animation out = AnimationUtils.loadAnimation(mContext, R.anim.pop_out);
+                    Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
                     holder.cardView.startAnimation(out);
                     holder.cardView.setVisibility(View.INVISIBLE);
                 }else {
@@ -582,7 +579,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         ImageView userpic;
         TextView quote,author,username,dia;
         LinearLayout back;
-        LinearLayout  category, quotedata;
+        LinearLayout quotedata, category;
 
 
         public MyViewHolder(View view) {
@@ -596,10 +593,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             author = view.findViewById(R.id.author);
             cardView = view.findViewById(R.id.card);
             back = view.findViewById(R.id.background);
-            category = view.findViewById(R.id.category);
             username = view.findViewById(R.id.username);
             userpic = view.findViewById(R.id.userpic);
-
+            category = view.findViewById(R.id.category);
 
 
 

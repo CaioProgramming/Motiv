@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">Motiv</string>
     <string name="title_activity_main">MainActivity</string>
@@ -27,7 +28,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="reported">Esta frase foi denunciada, até que seja analisada, não será exibida no feed!</string>
-    <string name="sucess_update">Dados alterados com sucesso... Vamos te levar de volta para a tela inicial</string>
     <string name="title_home">Home</string>
     <string name="icon_info">user icon</string>
     <string name="alterar_nome">Alterar nome</string>
@@ -43,7 +43,6 @@
     <string name="cita_o">Citação</string>
     <string name="motiva_o">Motivação</string>
     <string name="amor">Amor</string>
-    <string name="_0">0</string>
     <string name="_0">0</string>
     <string name="reference">reference</string>
     <string name="alterar">Alterar</string>

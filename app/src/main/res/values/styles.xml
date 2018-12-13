@@ -10,18 +10,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textViewStyle">@style/RobotoTextView</item>
         <item name="android:editTextStyle">@style/RobotoEditText</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
 
 
     </style>
 
-    <style name="RobotoTextView" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:color">@drawable/text_hover</item>
-        <item name="android:padding">4dp</item>
-    </style>
 
     <style name="RobotoEditText" parent="android:Widget.EditText">
         <item name="android:fontFamily">@font/roboto_regular</item>

@@ -11,10 +11,4 @@
         android:icon="@drawable/ic_delete_black_24dp"
         android:title="@string/apagar_posts"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/deleaccount"
-        android:icon="@drawable/ic_warning_black_24dp"
-
-        android:title="@string/apagar_conta"
-        app:showAsAction="ifRoom" />
 </menu>

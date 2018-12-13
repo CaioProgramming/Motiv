@@ -19,13 +19,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/quotedata"
             android:visibility="gone"
+            android:id="@+id/quotedata"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <RelativeLayout
-
             android:padding="10dp"
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
@@ -43,12 +42,14 @@
                     android:src="@drawable/penguin" />
 
                 <TextView
+                    android:layout_gravity="center"
                     android:textColor="@color/black"
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/username"
                     android:textSize="14sp" />
+
             </LinearLayout>
             <ImageButton
                 android:layout_centerInParent="true"
