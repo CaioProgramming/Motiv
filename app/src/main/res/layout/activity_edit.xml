@@ -1,335 +1,345 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
+    android:background="@color/transparent"
     android:id="@+id/edit"
-    android:background="@color/grey_200">
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:id="@+id/options"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/colorlibrary"
-                android:layout_width="match_parent"
-                android:layout_height="120dp">
-
-            </android.support.v7.widget.RecyclerView>
-            <RadioGroup
-                android:id="@+id/categories"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:padding="3dp"
-                android:layout_height="wrap_content">
-                <RadioButton
-
-                    android:id="@+id/love"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/radio_button_love"
-                    android:button="@color/transparent"
-                    android:drawableStart="@drawable/ic_favorite_white_24dp"
-                    android:padding="5dp"
-                    android:text="@string/amor"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:layout_margin="2dp"
-                    android:background="@drawable/radio_button_citation"
-                    android:button="@color/transparent"
-                    android:drawableStart="@drawable/ic_turned_in_black_24dp"
-                    android:padding="5dp"
-                    android:text="@string/cita_o"
-                    android:id="@+id/citation"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:layout_margin="2dp"
-                    android:background="@drawable/radio_button_motivation"
-                    android:button="@color/transparent"
-                    android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
-                    android:padding="5dp"
-                    android:text="@string/motiva_o"
-                    android:id="@+id/motivation"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:id="@+id/music"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/radio_button_music"
-                    android:button="@color/transparent"
-                    android:drawableStart="@drawable/ic_music_note_black_24dp"
-                    android:padding="5dp"
-                    android:text="@string/m_sica"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_below="@id/options"
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/card"
-                android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/white"
-                android:animateLayoutChanges="true"
-                app:cardCornerRadius="10dp"
-                android:elevation="1dp"
-                android:hapticFeedbackEnabled="true"
+            <Toolbar
+                android:id="@+id/options"
                 android:layout_width="match_parent"
-                android:layout_gravity="center|top"
                 android:layout_height="wrap_content"
-                app:cardElevation="1dp"
-                >
+                android:background="@color/white">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/colorlibrary"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <RadioGroup
+                        android:id="@+id/categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp">
+
+                        <RadioButton
+
+                            android:id="@+id/love"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:background="@drawable/radio_button_love"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_favorite_white_24dp"
+                            android:padding="5dp"
+                            android:text="@string/amor"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/citation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@drawable/radio_button_citation"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_turned_in_black_24dp"
+                            android:padding="5dp"
+                            android:text="@string/cita_o"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/motivation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@drawable/radio_button_motivation"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
+                            android:padding="5dp"
+                            android:text="@string/motiva_o"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+
+                            android:id="@+id/music"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:background="@drawable/radio_button_music"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_music_note_black_24dp"
+                            android:padding="5dp"
+                            android:text="@string/m_sica"
+                            android:textColor="@color/white" />
+                    </RadioGroup>
+                </LinearLayout>
+            </Toolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_margin="10dp"
+                    android:animateLayoutChanges="true"
+                    android:elevation="1dp"
+                    android:hapticFeedbackEnabled="true"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="1dp">
+
                     <LinearLayout
-                        android:id="@+id/quotedata"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <RelativeLayout
+                        <LinearLayout
+                            android:id="@+id/quotedata"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="3dp"
-                            android:animateLayoutChanges="true"
-                            android:padding="10dp">
+                            android:orientation="vertical">
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="3dp"
+                                android:animateLayoutChanges="true"
+                                android:padding="10dp">
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/userpic"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:padding="5dp"
-                                    android:src="@drawable/penguin" />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
 
-                                <TextView
-                                    android:id="@+id/username"
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/userpic"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:padding="5dp"
+                                        android:src="@drawable/penguin" />
+
+                                    <TextView
+                                        android:id="@+id/username"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="@string/username"
+                                        android:textColor="@color/black"
+                                        android:textSize="14sp" />
+
+                                </LinearLayout>
+
+                                <ImageButton
+                                    android:id="@+id/menu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="@string/username"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp" />
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerInParent="true"
+                                    android:background="@color/transparent"
+                                    android:src="@drawable/ic_more_vert_black_24dp"
+                                    android:tint="@color/grey_800" />
 
-                            </LinearLayout>
 
-                            <ImageButton
-                                android:id="@+id/menu"
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/category"
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:background="@color/black"
+                            android:orientation="horizontal" />
+
+                        <LinearLayout
+
+                            android:id="@+id/background"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="25dp">
+
+                            <EditText
+                                android:id="@+id/quote"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/transparent"
+                                android:hint="@string/quote"
+                                android:padding="5dp"
+                                android:textAlignment="center"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
+
+                            <EditText
+                                android:id="@+id/author"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/transparent"
+                                android:hint="@string/author"
+                                android:padding="5dp"
+                                android:textAlignment="textEnd"
+                                android:textSize="20sp"
+                                android:typeface="normal" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/fontid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerInParent="true"
-                                android:background="@color/transparent"
-                                android:src="@drawable/ic_more_vert_black_24dp"
-                                android:tint="@color/grey_800" />
+                                android:visibility="invisible" />
+
+                            <TextView
+                                android:id="@+id/texcolorid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:visibility="invisible" />
+
+                            <TextView
+                                android:id="@+id/backcolorid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:visibility="invisible" />
+                        </LinearLayout>
 
 
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/category"
-                        android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/black"
-                        android:orientation="horizontal" />
-
-                    <LinearLayout
-
-                        android:id="@+id/background"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="25dp">
-
-                        <EditText
-                            android:id="@+id/quote"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/transparent"
-                            android:hint="@string/quote"
-                            android:padding="5dp"
-                            android:textAlignment="center"
-                            android:textSize="24sp"
-                            android:typeface="normal" />
-
-                        <EditText
-                            android:id="@+id/author"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/transparent"
-                            android:hint="@string/author"
-                            android:padding="5dp"
-                            android:textAlignment="textEnd"
-                            android:textSize="20sp"
-                            android:typeface="normal" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/fontid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/texcolorid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/backcolorid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:visibility="invisible" />
                     </LinearLayout>
 
 
-                </LinearLayout>
+                </android.support.v7.widget.CardView>
 
 
-
-
-
-            </android.support.v7.widget.CardView>
-
-
-
+            </LinearLayout>
         </LinearLayout>
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/material_design_android_floating_action_menu"
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/material_design_android_floating_action_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        fab:menu_animationDelayPerItem="55"
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_buttonSpacing="0dp"
+        fab:menu_colorNormal="@color/colorPrimary"
+        fab:menu_colorPressed="@color/colorPrimaryDark"
+        fab:menu_colorRipple="@color/white"
+        fab:menu_fab_label="Editor"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/ic_mode_edit_white_24dp"
+        fab:menu_labels_colorNormal="#333"
+        fab:menu_labels_colorPressed="#444"
+        fab:menu_labels_colorRipple="@color/white"
+        fab:menu_labels_cornerRadius="3dp"
+        fab:menu_labels_ellipsize="none"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_margin="0dp"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_padding="8dp"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_labels_singleLine="false"
+
+        fab:menu_labels_textColor="@color/white"
+        fab:menu_labels_textSize="15sp"
+        fab:menu_openDirection="up">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/categoryfab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="11dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
-            fab:menu_animationDelayPerItem="55"
-            fab:menu_backgroundColor="@android:color/transparent"
-            fab:menu_buttonSpacing="0dp"
-            fab:menu_colorNormal="@color/colorPrimary"
-            fab:menu_colorPressed="@color/colorPrimaryDark"
-            fab:menu_colorRipple="@color/white"
-            fab:menu_fab_label="Editor"
-            fab:menu_fab_size="normal"
-            fab:menu_icon="@drawable/ic_mode_edit_white_24dp"
-            fab:menu_labels_colorNormal="#333"
-            fab:menu_labels_colorPressed="#444"
-            fab:menu_labels_colorRipple="@color/white"
-            fab:menu_labels_cornerRadius="3dp"
-            fab:menu_labels_ellipsize="none"
-            fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-            fab:menu_labels_margin="0dp"
-            fab:menu_labels_maxLines="-1"
-            fab:menu_labels_padding="8dp"
-            fab:menu_labels_position="left"
-            fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
-            fab:menu_labels_singleLine="false"
-            fab:menu_labels_textColor="@color/white"
-            fab:menu_labels_textSize="15sp"
-            fab:menu_openDirection="up"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_close_white_24dp"
+            android:tint="@color/white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_label="Nenhuma categoria"
+            fab:fab_size="mini" />
 
-            >
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/textcolorfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_format_color_text_black_24dp"
+            android:tint="@color/white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_label="Cor do texto"
+            fab:fab_size="mini" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/categoryfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/ic_close_white_24dp"
-                android:tint="@color/white"
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                fab:fab_label="Nenhuma categoria"
-                fab:fab_size="mini" />
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                android:id="@+id/textcolorfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_color_text_black_24dp"
-                fab:fab_label="Cor do texto"
-                android:background="@color/colorPrimary"
-                android:tint="@color/white"
-                fab:fab_size="mini" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/backcolorfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_color_fill_white_24dp"
+            android:tint="@color/white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_label="Cor do plano de fundo"
+            fab:fab_size="mini" />
 
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                android:tint="@color/white"
-                android:id="@+id/backcolorfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_format_color_fill_white_24dp"
-                fab:fab_label="Cor do plano de fundo"
-                fab:fab_size="mini" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fontpickerfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_font_download_black_24dp"
+            android:tint="@color/white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_label="Escolher fonte"
+            fab:fab_size="mini" />
 
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"                android:tint="@color/white"
-                android:id="@+id/fontpickerfab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_font_download_black_24dp"
-                fab:fab_label="Escolher fonte"
-                fab:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorPressed="@color/colorPrimaryDark"                 android:id="@+id/salvar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_check_white_24dp"
-                fab:fab_label="Salvar"
-                fab:fab_size="mini" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/salvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_white_24dp"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_label="Salvar"
+            fab:fab_size="mini" />
 
 
-        </com.github.clans.fab.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
 
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:id="@+id/blur"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:realtimeBlurRadius="0dp" />
-    </RelativeLayout>
-
-
-</ScrollView>
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="0dp" />
+</RelativeLayout>

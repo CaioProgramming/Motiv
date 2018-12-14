@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -103,7 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 Like(position, holder);
             }
         });
-       // holder.like.setVisibility(View.GONE);
+        // holder.like.setVisibility(View.GONE);
 
 
         if (mData.get(position).isReport()){
@@ -144,7 +145,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                                     mContext.startActivity(Intent.createChooser(share, "Escolha onde quer compartilhar"));
                                     return true;
                                 case R.id.denunciar:
-                                    /*final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
                                             .setNegativeButton("Não vou mais denunciar", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -159,7 +160,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                                                 }
                                             }) ;
                                     builder.show();
-*/
                                     Snacky.builder().setActivity(mActivity)
                                             .setText("Em desenvolvimento")
                                             .setBackgroundColor(Color.BLACK)
@@ -213,18 +213,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             }
             System.out.println("Day counter " + dayCount);
             if (dayCount >= 7) {
-                if (dayCount % 7 == 0) {
-                    dayCount = dayCount / 7;
-                    if (dayCount == 1) {
-                        holder.dia.setText("Há " + dayCount + " semana");
-                    } else {
-                        holder.dia.setText("Há " + dayCount + " semanas");
-                    }
+                dayCount = dayCount / 7;
+                if (dayCount == 1) {
+                    holder.dia.setText("Há " + dayCount + " semana");
                 } else {
-                    dayCount = dayCount / 7;
                     holder.dia.setText("Há " + dayCount + " semanas");
                 }
+                if (dayCount > 4) {
+                    dayCount = (int) ((now.getTime() - postdia.getTime()) / 1000 / 60 / 60 / 24);
+                    dayCount = dayCount / 30;
 
+
+                }
             }
             if (dayCount >= 30) {
                 if (dayCount % 30 == 0) {
@@ -339,7 +339,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             @Override
             public boolean onLongClick(View view) {
 
-                 dialog(position, holder);
+                dialog(position, holder);
                 //return longpress;
                 return false;
 
@@ -379,10 +379,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     private void dialog(int position, @NonNull MyViewHolder holder) {
         longpress = true;
-          blur = mActivity.findViewById(R.id.rootblur);
-        blur.setVisibility(View.VISIBLE);
+        blur = mActivity.findViewById(R.id.rootblur);
         blur.setBlurRadius(50);
-
+        m_dialog = new Dialog(mActivity, R.style.Dialog_No_Border);
+        m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Quotes q = mData.get(position);
 
@@ -406,7 +406,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         quote.setTypeface(holder.quote.getTypeface());
         Animation in = AnimationUtils.loadAnimation(mContext,R.anim.fab_scale_up);
         final Animation out = AnimationUtils.loadAnimation(mContext,R.anim.fab_scale_down);
-        m_dialog = new Dialog(mContext);
+
         m_dialog.setContentView(m_view);
         m_view.startAnimation(in);
         m_dialog.show();
@@ -416,13 +416,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 m_view.startAnimation(out);
                 m_view.setVisibility(View.GONE);
                 m_dialog.dismiss();
-                blur.setVisibility(View.INVISIBLE);
                 blur.setBlurRadius(0);
             }
         });
         m_dialog.setCanceledOnTouchOutside(true);
 
-     }
+    }
 
     private void reported(@NonNull MyViewHolder holder) {
         holder.quote.setText(R.string.reported);
@@ -439,7 +438,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     private void Like(int position, @NonNull MyViewHolder holder) {
         QuotesDB quotesDB = new QuotesDB(mActivity,mData.get(position));
-         if (!holder.like.isChecked()){
+        if (!holder.like.isChecked()) {
             quotesDB.deslike();
         }else{
             quotesDB.like();
@@ -490,7 +489,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         mContext.startActivity(Intent.createChooser(share,"Escolha onde quer compartilhar"));
                         return true;
                     case R.id.denunciar:
-                      /*  final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
                                 .setNegativeButton("Não vou mais denunciar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -504,7 +503,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                                         quotesDB.Denunciar();
                                     }
                                 }) ;
-                        builder.show();*/
+                        builder.show();
                         Snacky.builder().setActivity(mActivity)
                                 .setText("Em desenvolvimento")
                                 .setBackgroundColor(Color.BLACK)

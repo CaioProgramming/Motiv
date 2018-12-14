@@ -42,8 +42,8 @@
                         app:civ_border_width="1dp"
                         android:padding="15dp"
                         android:id="@+id/profilepic"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
                         android:src="@drawable/ic_person_black_24dp" />
 
                     <com.github.clans.fab.FloatingActionButton
@@ -71,30 +71,6 @@
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_gravity="center"
-                        android:id="@+id/postnumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="0"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/post"
-                        android:textSize="14sp"
-                        android:text="Publicações"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
                 <TextView
                     android:visibility="invisible"
                     android:layout_gravity="center"
@@ -133,7 +109,7 @@
                 <android.support.design.widget.TabLayout
                     android:id="@+id/profiletab"
                     app:tabIndicatorColor="@color/white"
-                    app:tabIndicatorHeight="4dp"
+                    app:tabIndicatorHeight="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

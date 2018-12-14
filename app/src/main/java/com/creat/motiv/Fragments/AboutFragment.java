@@ -2,6 +2,7 @@ package com.creat.motiv.Fragments;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -55,7 +56,7 @@ public class AboutFragment extends Fragment {
     private android.widget.TextView referencestitle;
     private android.widget.TextView artiststitle;
     private android.widget.TextView suportitle;
-
+    ProgressDialog progressDialog;
     public AboutFragment() {
         // Required empty public constructor
     }
@@ -88,6 +89,7 @@ public class AboutFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 loadRewardedVideoAd();
+
                             }
                         });
                 builder.show();
@@ -99,7 +101,7 @@ public class AboutFragment extends Fragment {
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
-
+                progressDialog.dismiss();
             }
 
             @Override
@@ -168,11 +170,14 @@ public class AboutFragment extends Fragment {
         }
     }
     private void loadRewardedVideoAd() {
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Carregando...");
         rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
                 new AdRequest.Builder().build());
+
     }
     private void loadAd() {
-
+        loadRewardedVideoAd();
  
     }
 

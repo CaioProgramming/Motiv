@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/layout"
+<RelativeLayout android:id="@+id/layout"
     android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
@@ -42,6 +39,18 @@
         android:layout_marginTop="43dp"
         android:text="@string/titleone"
         android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/politics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/start"
+        android:layout_centerInParent="true"
+        android:background="@drawable/button"
+        android:text="Políticas de uso e políticas de dados"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary" />
+
 
     <Button
         android:id="@+id/start"

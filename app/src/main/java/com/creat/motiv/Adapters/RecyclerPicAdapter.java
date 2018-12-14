@@ -84,16 +84,27 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
         Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                holder.pic.setVisibility(View.GONE);
+                holder.message.setVisibility(View.VISIBLE);
                 return false;
             }
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
+
+                holder.loading.setVisibility(View.VISIBLE);
+
                 if (resource != null) {
-                    Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
+                    Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
+                    holder.loading.startAnimation(out);
+                    holder.loading.setVisibility(View.GONE);
                     holder.pic.setImageDrawable(resource);
                     holder.pic.startAnimation(in);
+
                     return true;
+                } else {
+                    holder.loading.setVisibility(View.VISIBLE);
                 }
 
                 return false;
@@ -178,9 +189,13 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView pic;
+        TextView message;
+        ProgressBar loading;
         MyViewHolder(View view) {
             super(view);
             pic = itemView.findViewById(R.id.pic);
+            message = itemView.findViewById(R.id.error);
+            loading = itemView.findViewById(R.id.loading);
 
 
 

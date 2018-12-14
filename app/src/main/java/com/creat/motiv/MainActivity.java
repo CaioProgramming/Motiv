@@ -1,6 +1,7 @@
 package com.creat.motiv;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,9 +16,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
     Version version;
     Context context = this;
-
+    FloatingActionButton newquote;
+    FirebaseUser user;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    newquotebutton();
                     BottomNavigationHelper.disableShiftMode(navigation);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_search:
+                    newquotebutton();
                     BottomNavigationHelper.disableShiftMode(navigation);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_user:
+                    newquotebutton();
                     BottomNavigationHelper.disableShiftMode(navigation);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -78,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 case R.id.navigation_about:
+                    newquotebutton();
                     BottomNavigationHelper.disableShiftMode(navigation);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -88,19 +97,35 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
     private android.widget.TextView offlinemessage;
     private Button reload;
     private android.widget.ImageView offlineimage;
     private android.widget.LinearLayout offline;
     Pref preferences;
     private android.widget.RelativeLayout container;
+    private Dialog m_dialog;
+
+    private void newquotebutton() {
+        if (newquote.getVisibility() == View.GONE) {
+            newquote.setVisibility(View.VISIBLE);
+            Animation in = AnimationUtils.loadAnimation(context, R.anim.pop_in);
+            newquote.startAnimation(in);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Intent i = new Intent(this, Splash.class);
+            startActivity(i);
+            this.finish();
+        }
         setContentView(R.layout.activity_main2);
         findViewById(R.id.offlinemssage);
-        FloatingActionButton newquote = findViewById(R.id.newquote);
+        newquote = findViewById(R.id.newquote);
         this.container = findViewById(R.id.container);
         this.offline = findViewById(R.id.offline);
         this.offlineimage = findViewById(R.id.offlineimage);
@@ -110,25 +135,27 @@ public class MainActivity extends AppCompatActivity {
         this.navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationHelper.disableShiftMode(navigation);
+        final Animation out = AnimationUtils.loadAnimation(this, R.anim.fab_scale_down);
         newquote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new NewQuoteFragment())
                         .commit();
+                newquote.startAnimation(out);
+                newquote.setVisibility(View.GONE);
+
             }
         });
 
 
-
-
-
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         if (!user.isEmailVerified()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Email não verificado");
-            builder.setMessage("Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases");
+            builder.setMessage("Eai Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases");
+
             builder.setPositiveButton("Manda esse email aí po", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -138,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton("Não to afim meu camarada", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                    dialogInterface.dismiss();
                 }
             });
 
@@ -148,8 +175,40 @@ public class MainActivity extends AppCompatActivity {
         internetconnection();
         navigation.setSelectedItemId(R.id.navigation_home);
         version();
+        agree();
+
+    }
 
 
+    private void agree() {
+        preferences = new Pref(context);
+        m_dialog = new Dialog(this, R.style.Dialog_No_Border);
+        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
+        LayoutInflater m_inflater = LayoutInflater.from(context);
+        View m_view = m_inflater.inflate(R.layout.politics, null);
+        m_dialog.setContentView(m_view);
+        Button agreebutton = m_view.findViewById(R.id.agreebutton);
+        agreebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_dialog.dismiss();
+                preferences.setAgree(true);
+
+            }
+        });
+        m_view.startAnimation(in);
+        if (!preferences.agreestate()) {
+            Snacky.builder().setActivity(this).warning()
+                    .setText("Você precisa concordar com os termos de uso para usar o aplicativo!")
+                    .setAction("Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            m_dialog.show();
+                        }
+                    }).setDuration(20000).show();
+        }
+        m_dialog.setCanceledOnTouchOutside(false);
+        m_dialog.setCancelable(false);
     }
 
 

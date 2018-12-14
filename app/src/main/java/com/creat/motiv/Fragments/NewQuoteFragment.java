@@ -6,6 +6,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,7 +22,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -52,6 +56,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import de.mateware.snacky.Snacky;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,7 +75,6 @@ public class NewQuoteFragment extends Fragment {
     private RadioButton citation;
     private RadioButton motivation;
     private RadioButton music;
-    private LinearLayout options;
     private CircleImageView userpic;
     private TextView username;
     private ImageButton menu;
@@ -91,6 +95,8 @@ public class NewQuoteFragment extends Fragment {
     private com.github.clans.fab.FloatingActionMenu materialdesignandroidfloatingactionmenu;
     private android.widget.RadioGroup categories;
     private EditText quote;
+    private android.widget.Toolbar options;
+    private Dialog m_dialog;
 
     public NewQuoteFragment() {
         // Required empty public constructor
@@ -103,6 +109,7 @@ public class NewQuoteFragment extends Fragment {
         preferences = new Pref(Objects.requireNonNull(getContext()));
         user = FirebaseAuth.getInstance().getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_newquote, container, false);
+        this.options = view.findViewById(R.id.options);
         this.categories = view.findViewById(R.id.categories);
         this.materialdesignandroidfloatingactionmenu = view.findViewById(R.id.material_design_android_floating_action_menu);
         this.salvar = view.findViewById(R.id.salvar);
@@ -122,7 +129,6 @@ public class NewQuoteFragment extends Fragment {
         this.menu = view.findViewById(R.id.menu);
         this.username = view.findViewById(R.id.username);
         this.userpic = view.findViewById(R.id.userpic);
-        this.options = view.findViewById(R.id.options);
         this.music = view.findViewById(R.id.music);
         this.motivation = view.findViewById(R.id.motivation);
         this.citation = view.findViewById(R.id.citation);
@@ -222,6 +228,10 @@ public class NewQuoteFragment extends Fragment {
         } catch (ClassNotFoundException | IllegalAccessException e) {
             e.printStackTrace();
         }
+        if (getActivity() == null) {
+            return null;
+        }
+        Objects.requireNonNull(getActivity()).setActionBar(options);
         return view;
     }
 
@@ -291,6 +301,37 @@ public class NewQuoteFragment extends Fragment {
                 categoria = "Motivação";
             }
         });
+    }
+
+    private void agree() {
+        preferences = new Pref(getContext());
+        m_dialog = new Dialog(getContext(), R.style.Dialog_No_Border);
+        Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
+        LayoutInflater m_inflater = LayoutInflater.from(getContext());
+        View m_view = m_inflater.inflate(R.layout.politics, null);
+        m_dialog.setContentView(m_view);
+        Button agreebutton = m_view.findViewById(R.id.agreebutton);
+        agreebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_dialog.dismiss();
+                preferences.setAgree(true);
+
+            }
+        });
+        m_view.startAnimation(in);
+        if (!preferences.agreestate()) {
+            Snacky.builder().setActivity(getActivity()).warning()
+                    .setText("Você precisa concordar com os termos de uso para usar o aplicativo!")
+                    .setAction("Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            m_dialog.show();
+                        }
+                    }).show();
+        }
+        m_dialog.setCanceledOnTouchOutside(false);
+        m_dialog.setCancelable(false);
     }
 
     private void theme() {
@@ -388,22 +429,21 @@ public class NewQuoteFragment extends Fragment {
     private void Spotlight() {
         new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
                 .introAnimationDuration(400)
+                .lineAndArcColor(Color.WHITE)
+                .headingTvColor(Color.WHITE)
+                .subHeadingTvColor(Color.WHITE)
                 .enableRevealAnimation(true)
                 .performClick(true)
                 .fadeinTextDuration(400)
                 .headingTvText("Criação de frases")
-                .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(14)
-                .subHeadingTvText("Aqui é o seu cantinho mágico, onde poderá criar suas frases! ")
-                .maskColor(Color.parseColor("#dc000000"))
+                .subHeadingTvSize(16)
+                .subHeadingTvText(getString(R.string.new_quoteintro))
+                .maskColor(getContext().getResources().getColor(R.color.lblack))
                 .target(card)
                 .lineAnimDuration(400)
-                .lineAndArcColor(R.color.white)
-                .headingTvColor(R.color.white)
                 .headingTvSize(28)
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
-                .enableDismissAfterShown(true)
                 .usageId("createscreen") //UNIQUE ID
                 .show();
     }

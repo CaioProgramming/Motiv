@@ -15,16 +15,27 @@ public class Pref {
         editor.commit();
     }
 
+    public boolean nightmodestate() {
+        Boolean state = mySharedPreferences.getBoolean("NightMode", false);
+        return state;
+    }
+
+    public void setAgree(boolean state) {
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putBoolean("Terms", state);
+        editor.commit();
+    }
+
+    public boolean agreestate() {
+        return mySharedPreferences.getBoolean("Terms", false);
+    }
+
     public void setAlarm(boolean state){
         SharedPreferences.Editor editor = mySharedPreferences.edit();
         editor.putBoolean("Alarm",state);
         editor.commit();
     }
 
-    public boolean nightmodestate(){
-        Boolean state = mySharedPreferences.getBoolean("NightMode",false);
-        return state;
-    }
 
     public boolean alarm(){
         Boolean alarm =mySharedPreferences.getBoolean("Alarm",true);

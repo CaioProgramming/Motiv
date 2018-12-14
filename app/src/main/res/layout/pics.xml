@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentDescription="@string/icon_info"
-    android:hapticFeedbackEnabled="true"
-    android:layout_margin="2dp"
-    android:adjustViewBounds="true"
-    android:id="@+id/pic"
-    android:src="@drawable/penguin"
-    android:scaleType="centerCrop"
-    android:layout_width="100dp"
-    android:layout_height="100dp" />
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="2dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/icon_info"
+        android:hapticFeedbackEnabled="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/penguin" />
 
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Erro ao encontrar ícone"
+        android:textColor="@color/red_300"
+        android:visibility="gone" />
+</LinearLayout>
 

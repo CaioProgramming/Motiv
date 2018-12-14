@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
     QuotesDB quotesDB;
     Pref preferences;
     private CircleImageView profilepic;
-    private android.widget.TextView postnumber;
     private android.support.v7.widget.RecyclerView myquotesrecycler;
     private Query quotesdb;
     private Toolbar toolbar;
@@ -96,17 +95,16 @@ public class ProfileFragment extends Fragment {
     private com.github.clans.fab.FloatingActionButton camerafab;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
     private android.support.design.widget.AppBarLayout appbarlayout;
-    private TextView post;
     private android.support.design.widget.TabLayout profiletab;
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     private int[] tabIcons = {
-            R.drawable.ic_person_white_24dp,
-            R.drawable.ic_favorite_white_24dp,
+            R.drawable.ic_person_white_15dp,
+            R.drawable.ic_favorite_white_15dp,
 
     };
     private int[] tabIconsblack = {
-            R.drawable.ic_person_black_24dp,
-            R.drawable.ic_favorite2_black_24dp,
+            R.drawable.ic_person_black_15dp,
+            R.drawable.ic_favorite_black_15dp,
 
     };
     private android.widget.ImageButton settings;
@@ -118,6 +116,7 @@ public class ProfileFragment extends Fragment {
         profiletab.removeAllTabs();
         for (int tabIcon : tabIcons) {
             profiletab.addTab(profiletab.newTab().setIcon(tabIcon));
+            profiletab.setTabTextColors(Color.BLACK, (getContext().getResources().getColor(R.color.grey_100)));
         }
         profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -175,6 +174,8 @@ public class ProfileFragment extends Fragment {
         profiletab.removeAllTabs();
         for (int aTabIconsblack : tabIconsblack) {
             profiletab.addTab(profiletab.newTab().setIcon(aTabIconsblack));
+            profiletab.setTabTextColors(Color.WHITE, (getContext().getResources().getColor(R.color.grey_200)));
+
         }
         profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -229,7 +230,6 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         this.settings = view.findViewById(R.id.settings);
         this.profiletab = view.findViewById(R.id.profiletab);
-        this.post = view.findViewById(R.id.post);
         this.appbarlayout = view.findViewById(R.id.appbarlayout);
         this.collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
         this.camerafab = view.findViewById(R.id.camerafab);
@@ -237,7 +237,6 @@ public class ProfileFragment extends Fragment {
         this.loading = view.findViewById(R.id.loading);
         this.offlineimage = view.findViewById(R.id.offlineimage);
         toolbar = view.findViewById(R.id.toolbar);
-        postnumber = view.findViewById(R.id.postnumber);
         myquotesrecycler = view.findViewById(R.id.myquotesrecycler);
         profilepic = view.findViewById(R.id.profilepic);
 
@@ -506,22 +505,22 @@ public class ProfileFragment extends Fragment {
         }
         new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
                 .introAnimationDuration(400)
+                .lineAndArcColor(Color.WHITE)
+                .headingTvColor(Color.WHITE)
+                .subHeadingTvColor(Color.WHITE)
                 .enableRevealAnimation(true)
                 .performClick(true)
                 .fadeinTextDuration(400)
                 .headingTvText("Perfil")
-                .subHeadingTvColor(Color.parseColor("#ffffff"))
                 .subHeadingTvSize(16)
-                .subHeadingTvText("Aqui é o seu perfil, onde poderá ver todas suas postagens e se quiser apagá-las,alterar seu nome e foto de perfil")
-                .maskColor(Color.parseColor("#dc000000"))
-                .target(view)
+                .subHeadingTvText(getString(R.string.profile_intro))
+                .maskColor(getContext().getResources().getColor(R.color.lblack))
+                .target(profilepic)
                 .lineAnimDuration(400)
-                .lineAndArcColor(R.color.white)
-                .headingTvColor(R.color.white)
                 .headingTvSize(28)
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
-                .usageId("createscreen") //UNIQUE ID
+                .usageId("profilescreen") //UNIQUE ID
                 .show();
     }
 
@@ -570,12 +569,9 @@ public class ProfileFragment extends Fragment {
                 public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                     if (resource != null) {
                         int color = ColorUtils.getDominantColor(resource);
-
-
                         profilepic.setImageBitmap(resource);
                         if (Tools.isColorDark(color)) {
                             int[] colors = {color, ColorUtils.lighten(color, 0.8f)};
-
                             //create a new gradient color
                             collapsetoolbar.setContentScrimColor(ColorUtils.lighten(color, 0.8f));
                             GradientDrawable gd = new GradientDrawable(
@@ -585,45 +581,15 @@ public class ProfileFragment extends Fragment {
                             toolbar.setTitleTextColor(Color.WHITE);
                             collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
                             username.setTextColor(Color.WHITE);
-                            postnumber.setTextColor(Color.WHITE);
-                            post.setTextColor(Color.WHITE);
-
                             setupicons();
+                            countinganimation();
                             profiletab.setSelectedTabIndicatorColor(Color.WHITE);
-
-
-                   /*         quotesdb.keepSynced(true);
-
-
-                            quotesdb = FirebaseDatabase.getInstance().getReference().child(path)
-                                    .child("likes")
-                                    .orderByChild("userid")
-                                    .startAt(user.getUid())
-                                    .endAt(user.getUid() + searcharg);
-                            quotesdb.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    profiletab.getTabAt(1).setText(dataSnapshot.getChildrenCount() + " Favoritos");
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });*/
-
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-
-// finally change the color
                         } else {
-                            toolbar.setTitleTextColor(Color.BLACK);
-                            toolbar.setTitleTextColor(Color.BLACK);
+
                             collapsetoolbar.setCollapsedTitleTextColor(Color.BLACK);
                             username.setTextColor(Color.BLACK);
-                            postnumber.setTextColor(Color.BLACK);
-                            post.setTextColor(Color.BLACK);
                             setupblackicons();
+                            countinganimation();
                             profiletab.setSelectedTabIndicatorColor(Color.BLACK);
                             int[] colors = {color, ColorUtils.lighten(color, 0.5f)};
                             collapsetoolbar.setContentScrimColor(ColorUtils.lighten(color, 0.5f));
@@ -651,6 +617,31 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    private void countinganimation() {
+        ValueAnimator animator = ValueAnimator.ofInt(0, myquotes.size());
+        animator.setDuration(2500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                profiletab.getTabAt(0).setText(valueAnimator.getAnimatedValue().toString() + " publicações");
+            }
+        });
+        animator.start();
+
+        profiletab.getTabAt(1).setText("Favoritos");
+//        int finalcount = likequotes.size();
+//        ValueAnimator animator2 = ValueAnimator.ofInt(0, finalcount);
+//        animator2.setDuration(2500);
+//        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+//                profiletab.getTabAt(1).setText(valueAnimator.
+//                        getAnimatedValue().toString() + " favoritos");
+//            }
+//        });
+//        animator2.start();
+    }
 
 
     private void Picalert() {
@@ -803,7 +794,7 @@ public class ProfileFragment extends Fragment {
                         quotes.setUserphoto(q.getUserphoto());
                         allquotes.add(quotes);
                         like(quotes);
-                        System.out.println("Quotes " + myquotes.size());
+                        System.out.println("Quotes " + likequotes.size());
 
                     }
                 }
@@ -818,7 +809,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Snacky.builder().setActivity(getActivity()).error().setText("Erro " + databaseError.getMessage()).show();
+                //Snacky.builder().setActivity(getActivity()).error().setText("Erro " + databaseError.getMessage()).show();
             }
         });
 
@@ -838,6 +829,7 @@ public class ProfileFragment extends Fragment {
         likedb.child(path).child(position.getId()).child("likes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                likesArrayList.clear();
 
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Likes l = d.getValue(Likes.class);
@@ -967,15 +959,14 @@ public class ProfileFragment extends Fragment {
                 profilepic.startAnimation(animation1);
                 appbarlayout.setVisibility(View.VISIBLE);
                 appbarlayout.startAnimation(animation2);
-                final ValueAnimator animator = ValueAnimator.ofInt(0, myquotes.size());
-                animator.setDuration(2500);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        postnumber.setText(valueAnimator.getAnimatedValue().toString());
-                    }
-                });
-                animator.start();
+                if (myquotes == null) {
+                    Carregar();
+                }
+                if (likequotes == null) {
+                    CarregarLikes();
+                }
+                userinfo();
+
             }
         };
         timer.start();

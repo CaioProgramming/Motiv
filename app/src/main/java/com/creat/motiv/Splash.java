@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.creat.motiv.Utils.Notification_reciever;
 import com.creat.motiv.Utils.Pref;
@@ -21,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import de.mateware.snacky.Snacky;
 
@@ -33,7 +33,6 @@ public class Splash extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        final RelativeLayout layout = findViewById(R.id.layout);
         ImageView applogo = findViewById(R.id.applogo);
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
@@ -67,7 +66,9 @@ public class Splash extends AppCompatActivity {
                 intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
+        if (alarmManager == null) {
+            return;
+        }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_HALF_HOUR,pendingIntent);
 
@@ -101,13 +102,14 @@ public class Splash extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN){
            IdpResponse response = IdpResponse.fromResultIntent(data);
            if (resultCode == RESULT_OK){
-               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                  newuser();
 
 
 
            }else{
-               Snacky.builder().setActivity(this).error().setText("Erro " + response.getError().getErrorCode()).show();
+               if (response != null) {
+                   Snacky.builder().setActivity(this).error().setText("Erro " + Objects.requireNonNull(response.getError()).getMessage() + " causa " + response.getError().getCause()).show();
+               }
 
            }
 

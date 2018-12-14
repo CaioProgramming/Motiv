@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
@@ -50,7 +51,6 @@ public class EditActivity extends AppCompatActivity {
     private android.widget.RadioButton citation;
     private android.widget.RadioButton motivation;
     private android.widget.RadioButton love;
-    private android.widget.LinearLayout options;
     private de.hdodenhof.circleimageview.CircleImageView userpic;
     private android.widget.TextView username;
     private android.widget.EditText quote;
@@ -73,7 +73,7 @@ public class EditActivity extends AppCompatActivity {
     private Activity activity = this;
     private Context context = this;
     private RealtimeBlurView blurView;
-    private android.widget.ScrollView edit;
+    private RelativeLayout edit;
     private Query quotesdb;
     Quotes quotes;
     private android.widget.TextView quoteID;
@@ -86,12 +86,14 @@ public class EditActivity extends AppCompatActivity {
     private android.widget.ImageButton remove;
     private android.widget.TextView dia;
     private LinearLayout category;
+    private android.widget.Toolbar options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         quotes = new Quotes();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        this.options = findViewById(R.id.options);
         this.blurView = findViewById(R.id.blur);
         this.edit = findViewById(R.id.edit);
         this.materialdesignandroidfloatingactionmenu = findViewById(R.id.material_design_android_floating_action_menu);
@@ -131,7 +133,7 @@ public class EditActivity extends AppCompatActivity {
         theme();
         fabclicks();
         loadquote();
-
+        setActionBar(options);
 
     }
 
@@ -160,8 +162,6 @@ public class EditActivity extends AppCompatActivity {
                         quotes.setBackgroundcolor(q.getBackgroundcolor());
                         quotes.setFont(q.getFont());
                         quotes.setReport(q.isReport());
-
-
                         //quoteID.setText(quotes.getId());
                         quote.setText(quotes.getQuote());
                         author.setText(quotes.getAuthor());
@@ -179,6 +179,7 @@ public class EditActivity extends AppCompatActivity {
                         author.setTextColor(quotes.getTextcolor());
                         texcolorid.setText(String.valueOf(quotes.getTextcolor()));
                         backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
+                        fontid.setText(String.valueOf(quotes.getFont()));
                         switch (quotes.getCategoria()) {
                             case "Musica":
                                 music.setChecked(true);
