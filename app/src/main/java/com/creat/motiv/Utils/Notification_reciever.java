@@ -1,5 +1,6 @@
 package com.creat.motiv.Utils;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -91,7 +92,9 @@ public class Notification_reciever extends BroadcastReceiver {
             notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
             notificationBuilder.setVibrate(new long[] { 100, 500});
             notificationBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-            notificationBuilder.setSmallIcon(R.drawable.ic_notification);
+        notificationBuilder.setCategory(Notification.CATEGORY_MESSAGE);
+
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification);
             notificationBuilder.setContentIntent(pendingIntent);
             notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.light));
         if (notificationManager != null) {

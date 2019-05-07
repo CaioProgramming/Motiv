@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
@@ -33,6 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 
 import de.mateware.snacky.Snacky;
 
@@ -40,10 +44,11 @@ import static com.creat.motiv.Database.QuotesDB.path;
 
 public class ViewPagerAdapter extends PagerAdapter {
     Dialog m_dialog;
-
+    String uri;
     private Context context;
     private Activity activity;
     private ArrayList<Quotes> quotesArrayList;
+    private Query quotesdb;
     private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -217,8 +222,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 start.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(null).build();
-                        user.updateProfile(profileChangeRequest);
+
                         i.putExtra("novo", true);
                         context.startActivity(i);
                         activity.finish();
@@ -269,7 +273,34 @@ public class ViewPagerAdapter extends PagerAdapter {
         });
         m_view.startAnimation(in);
         if (preferences.agreestate()) {
-            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(null).build();
+
+            quotesdb = FirebaseDatabase.getInstance().getReference();
+            quotesdb.keepSynced(false);
+
+            quotesdb = FirebaseDatabase.getInstance().getReference().child("images");
+
+            quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Random random = new Random();
+                    int questionCount = (int) dataSnapshot.getChildrenCount();
+                    int rand = random.nextInt(questionCount);
+                    Iterator itr = dataSnapshot.getChildren().iterator();
+                    for (int i = 0; i < rand; i++) {
+                        itr.next();
+                    }
+                    DataSnapshot childSnapshot = (DataSnapshot) itr.next();
+
+                    Pics p = childSnapshot.getValue(Pics.class);
+                    uri = p.getUri();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(uri)).build();
             user.updateProfile(profileChangeRequest);
             i.putExtra("novo", true);
             context.startActivity(i);

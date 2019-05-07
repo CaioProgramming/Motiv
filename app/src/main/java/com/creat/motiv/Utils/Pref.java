@@ -30,6 +30,37 @@ public class Pref {
         return mySharedPreferences.getBoolean("Terms", false);
     }
 
+
+    public void setHomeTutorial(boolean state) {
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putBoolean("Home", state);
+        editor.commit();
+    }
+
+    public boolean hometutorialstate() {
+        return mySharedPreferences.getBoolean("Home", false);
+    }
+
+    public void setWriteTutorial(boolean state) {
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putBoolean("Write", state);
+        editor.commit();
+    }
+
+    public boolean writetutorialstate() {
+        return mySharedPreferences.getBoolean("Write", false);
+    }
+
+    public void setProfileTutorial(boolean state) {
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putBoolean("Profile", state);
+        editor.commit();
+    }
+
+    public boolean profiletutorialstate() {
+        return mySharedPreferences.getBoolean("Profile", false);
+    }
+
     public void setAlarm(boolean state){
         SharedPreferences.Editor editor = mySharedPreferences.edit();
         editor.putBoolean("Alarm",state);

@@ -1,5 +1,6 @@
 package com.creat.motiv.Utils;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -22,11 +23,14 @@ public class Notifications extends FirebaseMessagingService{
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
-      notification(remoteMessage);
+        if (remoteMessage != null) {
+            notification(remoteMessage);
+        }
 
 
 
     }
+
 
     private void notification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this,Splash.class);
@@ -41,6 +45,7 @@ public class Notifications extends FirebaseMessagingService{
         notificationBuilder.setStyle(new NotificationCompat.BigTextStyle());
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         notificationBuilder.setVibrate(new long[] { 100, 1000});
+        notificationBuilder.setCategory(Notification.CATEGORY_PROMO);
         notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.plucky));
         notificationBuilder.setSmallIcon(R.drawable.ic_notification);
         notificationBuilder.setContentIntent(pendingIntent);

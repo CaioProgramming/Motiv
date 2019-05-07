@@ -6,8 +6,7 @@
     android:id="@+id/container">
 
 
-
-        <FrameLayout
+    <FrameLayout
             android:fitsSystemWindows="true"
             android:layout_above="@id/navigation"
             android:id="@+id/frame"
@@ -15,11 +14,12 @@
             android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
+        android:elevation="0dp"
+        app:elevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         android:id="@+id/navigation"
         app:menu="@menu/navigation">
@@ -32,12 +32,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/white"
-        app:borderWidth="0dp"
+        app:borderWidth="2dp"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:useCompatPadding="true"
         app:elevation="10dp"
         app:fabSize="normal" />
     <com.github.mmin18.widget.RealtimeBlurView

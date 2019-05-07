@@ -10,10 +10,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,7 +28,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +37,9 @@ import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.EditActivity;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.ColorUtils;
 import com.creat.motiv.Utils.Tools;
+import com.devs.readmoreoption.ReadMoreOption;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -67,6 +69,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private boolean longpress = false;
     Dialog m_dialog;
     RealtimeBlurView blur;
+    boolean expandable = false;
+    boolean expand = false;
 
 
     public RecyclerAdapter( Context mContext, List<Quotes> mData,  Activity mActivity,RecyclerView view) {
@@ -79,6 +83,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         this.view = view;
         m_dialog= new Dialog(mActivity, R.style.Dialog_No_Border) ;
         m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        blur = mActivity.findViewById(R.id.rootblur);
+
 
     }
 
@@ -98,6 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         loadLikes(holder, position);
 
 
+
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,14 +115,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
         if (mData.get(position).isReport()){
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    holder.quotedata.setVisibility(View.VISIBLE);
-                }
-            });
             reported(holder);
-        }else{ holder.menu.setOnClickListener(new View.OnClickListener() {
+        }
+        holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
@@ -160,10 +162,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                                                 }
                                             }) ;
                                     builder.show();
-                                    Snacky.builder().setActivity(mActivity)
-                                            .setText("Em desenvolvimento")
-                                            .setBackgroundColor(Color.BLACK)
-                                            .setTextColor(Color.WHITE).build().show();
                                     return true;
                                 case R.id.Copiar:
                                     ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
@@ -259,14 +257,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             }
             Animation faAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
             if (mData.get(position).getBackgroundcolor() != 0){
-                holder.back.setBackgroundColor(mData.get(position).getBackgroundcolor());
+                holder.back.setBackgroundTintList(ColorStateList.valueOf(mData.get(position).getBackgroundcolor()));
 
             }
             if (mData.get(position).getTextcolor() != 0){
                 holder.quote.setTextColor(mData.get(position).getTextcolor());
                 holder.author.setTextColor(mData.get(position).getTextcolor());
             }
-            Animation animationtext = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
+
+
+        Animation animationtext = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
             holder.quote.setText(mData.get(position).getQuote());
             holder.quote.startAnimation(animationtext);
             holder.author.startAnimation(animationtext);
@@ -275,33 +275,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.author.startAnimation(faAnimation);
             switch (mData.get(position).getCategoria()) {
                 case "Musica":
-                    holder.category.setBackgroundResource(R.color.purple_300);
+                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_music);
 
                     break;
                 case "Citação":
-                    holder.category.setBackgroundResource(R.color.grey_300);
+                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_citation);
                     break;
                 case "Amor":
-                    holder.category.setBackgroundResource(R.color.red_300);
+                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_love);
 
                     break;
                 case "Motivação":
-                    holder.category.setBackgroundResource(R.color.orange_300);
+                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_motivation);
 
                     break;
                 case "Nenhum":
-                    holder.category.setBackgroundResource(R.color.black);
+                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_none);
 
                     break;
             }
 
 
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showmore(holder);
-                }
-            });
+
 
 
 
@@ -313,7 +308,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
                 }
             });
-        }
 
 
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -349,7 +343,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         });
 
 
+        // OR using options to customize
+        int color = ColorUtils.getTransparentColor(mData.get(position).getTextcolor());
 
+        ReadMoreOption readMoreOption = new ReadMoreOption.Builder(mContext)
+                .textLength(205, ReadMoreOption.TYPE_CHARACTER)
+                .moreLabel(" Ver mais...")
+                .lessLabel(" Ver menos")
+                .moreLabelColor(color)
+                .lessLabelColor(color)
+                .expandAnimation(true)
+                .build();
+
+        readMoreOption.addReadMoreTo(holder.quote, mData.get(position).getQuote());
 
 
 
@@ -378,20 +384,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     private void dialog(int position, @NonNull MyViewHolder holder) {
+        Quotes q = mData.get(position);
         longpress = true;
-        blur = mActivity.findViewById(R.id.rootblur);
         blur.setBlurRadius(50);
+
         m_dialog = new Dialog(mActivity, R.style.Dialog_No_Border);
         m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        Quotes q = mData.get(position);
 
 
         LayoutInflater m_inflater = LayoutInflater.from(mActivity);
         final View m_view = m_inflater.inflate(R.layout.quotepopup, null);
 
 
-        ScrollView background = m_view.findViewById(R.id.background);
         TextView author = m_view.findViewById(R.id.author);
         TextView quote = m_view.findViewById(R.id.quote);
         LinearLayout lt = m_view.findViewById(R.id.popup);
@@ -424,16 +428,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     private void reported(@NonNull MyViewHolder holder) {
-        holder.quote.setText(R.string.reported);
-        holder.author.setVisibility(View.GONE);
-        holder.quote.setTextColor(Color.WHITE);
-        holder.back.setBackgroundColor(Color.RED);
-        holder.category.setBackgroundColor(Color.RED);
-        holder.category.setBackgroundColor(Color.RED);
-        holder.cardView.setBackgroundColor(Color.RED);
-        holder.cardView.setRadius(0);
-        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.slide_in_top);
-        holder.cardView.startAnimation(animation);
+        holder.report.setVisibility(View.VISIBLE);
+        holder.report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                blur.setBlurRadius(50);
+                blur.setVisibility(View.VISIBLE);
+                m_dialog = new Dialog(mActivity, R.style.Dialog_No_Border);
+                m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                m_dialog.setCanceledOnTouchOutside(true);
+                LayoutInflater m_inflater = LayoutInflater.from(mActivity);
+                final View m_view = m_inflater.inflate(R.layout.quotepopup, null);
+                m_dialog.setContentView(m_view);
+                LinearLayout popup = m_view.findViewById(R.id.popup);
+                TextView author = m_view.findViewById(R.id.author);
+                TextView quote = m_view.findViewById(R.id.quote);
+                quote.setText(R.string.reported);
+                quote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_flag_black_24dp, 0, 0, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    quote.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
+                }
+                quote.setTextSize(16);
+                quote.setTextColor(Color.WHITE);
+                author.setVisibility(View.GONE);
+                popup.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+                m_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        blur.setBlurRadius(0);
+                    }
+                });
+                m_dialog.show();
+            }
+        });
     }
 
     private void Like(int position, @NonNull MyViewHolder holder) {
@@ -572,19 +599,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
+        RelativeLayout cardView;
         CheckBox like;
-        ImageButton remove,menu;
+        ImageButton remove, menu, report;
         ImageView userpic;
         TextView quote,author,username,dia;
         LinearLayout back;
-        LinearLayout quotedata, category;
-
+        LinearLayout quotedata;
 
         public MyViewHolder(View view) {
             super(view);
             quotedata = view.findViewById(R.id.quotedata);
             menu = view.findViewById(R.id.menu);
+            report = view.findViewById(R.id.reported);
             dia = view.findViewById(R.id.dia);
             like = view.findViewById(R.id.like);
             remove = view.findViewById(R.id.remove);
@@ -594,8 +621,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             back = view.findViewById(R.id.background);
             username = view.findViewById(R.id.username);
             userpic = view.findViewById(R.id.userpic);
-            category = view.findViewById(R.id.category);
-
 
 
         }

@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
@@ -47,10 +46,6 @@ import static com.creat.motiv.Database.QuotesDB.path;
 public class EditActivity extends AppCompatActivity {
     QuotesDB quotesDB;
     private android.support.v7.widget.RecyclerView colorlibrary;
-    private android.widget.RadioButton music;
-    private android.widget.RadioButton citation;
-    private android.widget.RadioButton motivation;
-    private android.widget.RadioButton love;
     private de.hdodenhof.circleimageview.CircleImageView userpic;
     private android.widget.TextView username;
     private android.widget.EditText quote;
@@ -59,75 +54,52 @@ public class EditActivity extends AppCompatActivity {
     private android.widget.TextView texcolorid;
     private android.widget.TextView backcolorid;
     private android.widget.LinearLayout background;
-    private android.support.v7.widget.CardView card;
     private com.github.clans.fab.FloatingActionButton textcolorfab;
     private com.github.clans.fab.FloatingActionButton backcolorfab;
     private com.github.clans.fab.FloatingActionButton fontpickerfab;
-    private com.github.clans.fab.FloatingActionButton italicfab;
-    private com.github.clans.fab.FloatingActionButton boldfab;
     private com.github.clans.fab.FloatingActionButton salvar;
-    private com.github.clans.fab.FloatingActionMenu materialdesignandroidfloatingactionmenu;
     private FirebaseUser user;
-    private String categoria, id;
-    private boolean boldb, italicb;
+    private String categoria;
     private Activity activity = this;
     private Context context = this;
     private RealtimeBlurView blurView;
-    private RelativeLayout edit;
-    private Query quotesdb;
     Quotes quotes;
     private android.widget.TextView quoteID;
-    private android.widget.RadioGroup categories;
-    private LinearLayout quotedata;
     private android.widget.TextView backcoloridid;
     private com.github.clans.fab.FloatingActionButton categoryfab;
-    private android.widget.ImageButton menu;
-    private android.widget.CheckBox like;
-    private android.widget.ImageButton remove;
-    private android.widget.TextView dia;
-    private LinearLayout category;
-    private android.widget.Toolbar options;
+    private android.support.design.widget.TabLayout categories;
+    private LinearLayout card;
+    private android.widget.RelativeLayout edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         quotes = new Quotes();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        this.options = findViewById(R.id.options);
-        this.blurView = findViewById(R.id.blur);
         this.edit = findViewById(R.id.edit);
-        this.materialdesignandroidfloatingactionmenu = findViewById(R.id.material_design_android_floating_action_menu);
+        this.card = findViewById(R.id.card);
+        this.categories = findViewById(R.id.categories);
+        android.widget.Toolbar options;
+        this.blurView = findViewById(R.id.blur);
         this.salvar = findViewById(R.id.salvar);
         this.fontpickerfab = findViewById(R.id.fontpickerfab);
         this.backcolorfab = findViewById(R.id.backcolorfab);
         this.textcolorfab = findViewById(R.id.textcolorfab);
         this.categoryfab = findViewById(R.id.categoryfab);
-        this.card = findViewById(R.id.card);
         this.backcolorid = findViewById(R.id.backcolorid);
         this.texcolorid = findViewById(R.id.texcolorid);
         this.fontid = findViewById(R.id.fontid);
         this.background = findViewById(R.id.background);
         this.author = findViewById(R.id.author);
         this.quote = findViewById(R.id.quote);
-        this.category = findViewById(R.id.category);
-        this.quotedata = findViewById(R.id.quotedata);
-        this.menu = findViewById(R.id.menu);
         this.username = findViewById(R.id.username);
         this.userpic = findViewById(R.id.userpic);
-        this.options = findViewById(R.id.options);
-        this.categories = findViewById(R.id.categories);
-        this.music = findViewById(R.id.music);
-        this.motivation = findViewById(R.id.motivation);
-        this.citation = findViewById(R.id.citation);
-        this.love = findViewById(R.id.love);
+        options = findViewById(R.id.options);
         this.colorlibrary = findViewById(R.id.colorlibrary);
 
-        CategorySeleect(category);
         try {
             colorgallery();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | IllegalAccessException e) {
             e.printStackTrace();
         }
         theme();
@@ -139,8 +111,8 @@ public class EditActivity extends AppCompatActivity {
 
     private void loadquote() {
          Intent i = getIntent();
-        quotes.setId(i.getExtras().getString("id"));
-        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("id").startAt(quotes.getId()).endAt(quotes.getId() + "\uf8ff");
+        quotes.setId(Objects.requireNonNull(i.getExtras()).getString("id"));
+        Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("id").startAt(quotes.getId()).endAt(quotes.getId() + "\uf8ff");
 
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -182,29 +154,20 @@ public class EditActivity extends AppCompatActivity {
                         fontid.setText(String.valueOf(quotes.getFont()));
                         switch (quotes.getCategoria()) {
                             case "Musica":
-                                music.setChecked(true);
-                                love.setBackgroundResource(R.color.purple_300);
+                                card.setBackgroundResource(R.drawable.bottom_line_music);
 
                                 break;
                             case "Citação":
-                                love.setChecked(true);
-
-                                category.setBackgroundResource(R.color.grey_300);
+                                card.setBackgroundResource(R.drawable.bottom_line_citation);
                                 break;
                             case "Amor":
-                                love.setChecked(true);
-
-                                category.setBackgroundResource(R.color.red_300);
-
+                                card.setBackgroundResource(R.drawable.bottom_line_love);
                                 break;
                             case "Motivação":
-                                motivation.setChecked(true);
-
-                                category.setBackgroundResource(R.color.orange_300);
-
+                                card.setBackgroundResource(R.drawable.bottom_line_motivation);
                                 break;
                             case "Nenhum":
-                                category.setBackgroundResource(R.color.black);
+                                card.setBackgroundResource(R.drawable.bottom_line_none);
 
                                 break;
                         }
@@ -257,7 +220,7 @@ public class EditActivity extends AppCompatActivity {
         categoryfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categories.clearCheck();
+                card.setBackgroundResource(R.drawable.bottom_line_none);
                 categoria = "Nenhum";
                 quotes.setCategoria(categoria);
             }
@@ -289,8 +252,6 @@ public class EditActivity extends AppCompatActivity {
         quotes.setQuote(quote.getText().toString());
         quotes.setAuthor(author.getText().toString());
         quotes.setFont(fonti);
-        quotes.setItalic(italicb);
-        quotes.setBold(boldb);
         quotes.setBackgroundcolor(Integer.parseInt(backcolorid.getText().toString()));
         quotes.setTextcolor(Integer.parseInt(texcolorid.getText().toString()));
         quotesDB = new QuotesDB(quotes, this);
@@ -335,116 +296,17 @@ public class EditActivity extends AppCompatActivity {
         colorlibrary.setLayoutManager(llm);
     }
 
-    private void CategorySeleect(final LinearLayout category) {
-        music.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.purple_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-                music.setChecked(true);
-                quotes.setCategoria("Musica");
-            }
-        });
-
-        love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.red_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-                love.setChecked(true);
-                quotes.setCategoria("Amor");
-
-            }
-        });
-
-        citation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.grey_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-                citation.setChecked(true);
-                quotes.setCategoria("Citação");
-            }
-        });
-
-        motivation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.orange_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-                motivation.setChecked(true);
-                quotes.setCategoria("Motivação");
-            }
-        });
-    }
 
     private void theme() {
         Pref preferences = new Pref(this);
         if (preferences.nightmodestate()) {
-            options.setBackgroundResource(R.color.grey_800);
-            edit.setBackgroundResource(R.drawable.gradnight);
+            edit.setBackgroundResource(R.color.grey_800);
+            categories.setTabTextColors(getResources().getColor(R.color.lwhite), getResources().getColor(R.color.colorPrimary));
+            categories.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimary));
         }
     }
 
-    private void italic() {
-        if (boldb) {
-            quote.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
-            author.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
-        }
-        if (italicb) {
-            quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-            author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-            italicb = false;
-        } else {
-            quote.setTypeface(quote.getTypeface(), Typeface.ITALIC);
-            author.setTypeface(quote.getTypeface(), Typeface.ITALIC);
-            italicb = true;
-        }
-    }
 
-    private void boldtext() {
-        if (italicb && boldb) {
-            quote.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
-            author.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
-        }
-        if (boldb) {
-            quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-            author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-            boldb = false;
-        } else {
-            quote.setTypeface(quote.getTypeface(), Typeface.BOLD);
-            author.setTypeface(quote.getTypeface(), Typeface.BOLD);
-            boldb = true;
-        }
-    }
 
     private void BackColorpicker() {
         final ColorPicker cp = new ColorPicker(this);
@@ -504,6 +366,7 @@ public class EditActivity extends AppCompatActivity {
         myDialog.setContentView(R.layout.profilepicselect);
         RecyclerView recyclerView = myDialog.findViewById(R.id.picsrecycler);
         GridLayoutManager llm = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
+        assert recyclerView != null;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(llm);
         RecyclerFontAdapter recyclerFontAdapter = new RecyclerFontAdapter(this, blurView, myDialog, quote, author, fontid);

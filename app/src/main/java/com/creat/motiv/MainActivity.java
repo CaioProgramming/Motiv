@@ -263,15 +263,21 @@ public class MainActivity extends AppCompatActivity {
     private void theme() {
         preferences = new Pref(this);
         if (preferences.nightmodestate()) {
-            navigation.setBackgroundColor(Color.BLACK);
-            navigation.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
+
+            navigation.setBackgroundColor(getResources().getColor(R.color.black));
             navigation.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
-            container.setBackgroundColor(getResources().getColor( R.color.grey_900) );
+            navigation.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
+            container.setBackgroundColor(getResources().getColor(R.color.black));
+            newquote.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+            setTheme(R.style.AppTheme_Night);
+
         }else{
             navigation.setBackgroundColor(Color.WHITE);
-            navigation.setItemIconTintList(ColorStateList.valueOf(Color.BLACK));
             navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
-            container.setBackgroundColor(getResources().getColor( R.color.grey_100) );
+            navigation.setItemIconTintList(ColorStateList.valueOf(Color.BLACK));
+            container.setBackgroundColor(Color.WHITE);
+            newquote.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            setTheme(R.style.AppTheme);
 
 
         }
@@ -281,6 +287,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        switch (navigation.getSelectedItemId()) {
+            case R.id.navigation_home:
+                newquotebutton();
+                BottomNavigationHelper.disableShiftMode(navigation);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, new HomeFragment())
+                        .commit();
+                break;
+            case R.id.navigation_search:
+                newquotebutton();
+                BottomNavigationHelper.disableShiftMode(navigation);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, new SearchFragment())
+                        .commit();
+                break;
+            case R.id.navigation_user:
+                newquotebutton();
+                BottomNavigationHelper.disableShiftMode(navigation);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, new ProfileFragment())
+                        .commit();
+                break;
+
+
+            case R.id.navigation_about:
+                newquotebutton();
+                BottomNavigationHelper.disableShiftMode(navigation);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, new AboutFragment())
+                        .commit();
+                break;
+        }
         internetconnection();
     }
 

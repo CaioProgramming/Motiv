@@ -1,20 +1,59 @@
 package com.creat.motiv.Utils;
 
-import com.creat.motiv.Beans.Tutorial;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.CountDownTimer;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.creat.motiv.R;
+import com.github.mmin18.widget.RealtimeBlurView;
 
 public class Info {
-    public static Tutorial tutorialhome = new Tutorial("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/_20181102_234800.JPG?alt=media&token=a28c6287-8c34-4b61-9d2e-560cdad30a6e",
-            "Este é feed principal, aqui você pode ver todas as frases já postadas no motiv, então aproveite!");
+    public static void tutorial(String tutorial, Activity activity) {
+        final RealtimeBlurView blur = activity.findViewById(R.id.rootblur);
+        blur.setBlurRadius(50);
+        blur.setVisibility(View.VISIBLE);
+        final Dialog m_dialog = new Dialog(activity, R.style.Dialog_No_Border);
+        m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        m_dialog.setCanceledOnTouchOutside(true);
+        LayoutInflater m_inflater = LayoutInflater.from(activity);
+        final View m_view = m_inflater.inflate(R.layout.quotepopup, null);
+        m_dialog.setContentView(m_view);
+        LinearLayout popup = m_view.findViewById(R.id.popup);
+        TextView author = m_view.findViewById(R.id.author);
+        TextView quote = m_view.findViewById(R.id.quote);
+        quote.setText(tutorial);
+        quote.setTextSize(16);
+        quote.setTextColor(Color.WHITE);
+        author.setVisibility(View.GONE);
+        popup.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        m_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                blur.setBlurRadius(0);
+            }
+        });
+        m_dialog.show();
+        CountDownTimer timer = new CountDownTimer(5000, 100) {
+            @Override
+            public void onTick(long l) {
 
-    public static Tutorial tutorialprofile = new Tutorial("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/_20181102_234955.JPG?alt=media&token=538fb51c-9117-45fd-9c70-975a741bc10f",
-            "Este é o seu perfil, todas suas frases   postadas estão aqui!");
+            }
 
-    public static Tutorial tutorialprofile2 = new Tutorial("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/_20181102_235018.JPG?alt=media&token=effd586b-58fe-47b9-9242-8d5f45bdc1fe",
-            "");
+            @Override
+            public void onFinish() {
+                m_dialog.dismiss();
+            }
+        }.start();
+    }
 
-    public static Tutorial tutorialedit = new Tutorial("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/_20181102_234930.JPG?alt=media&token=98f4fb7f-aab1-4889-8178-bbbfb31674c5",
-            "Onde a mágica acontece... Este é o seu templo para adicionar suas frases," +
-                    " tá vendo aquele botão roxo com um lápis? Não tenha medo de ver as funções dele!");
 
 
 }

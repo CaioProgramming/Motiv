@@ -2,6 +2,7 @@ package com.creat.motiv.Fragments;
 
 
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -48,6 +51,7 @@ import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.ColorUtils;
+import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
@@ -62,7 +66,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.wooplr.spotlight.SpotlightView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,11 +115,13 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
+    View v;
+
     private void setupicons() {
         profiletab.removeAllTabs();
         for (int tabIcon : tabIcons) {
             profiletab.addTab(profiletab.newTab().setIcon(tabIcon));
-            profiletab.setTabTextColors(Color.BLACK, (getContext().getResources().getColor(R.color.grey_100)));
+            profiletab.setTabTextColors(Color.WHITE, ColorUtils.getTransparentColor(Color.WHITE));
         }
         profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -168,13 +173,12 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-
 
     private void setupblackicons() {
         profiletab.removeAllTabs();
         for (int aTabIconsblack : tabIconsblack) {
             profiletab.addTab(profiletab.newTab().setIcon(aTabIconsblack));
-            profiletab.setTabTextColors(Color.WHITE, (getContext().getResources().getColor(R.color.grey_200)));
+            profiletab.setTabTextColors(Color.BLACK, ColorUtils.getTransparentColor(Color.BLACK));
 
         }
         profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -211,7 +215,6 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -226,19 +229,20 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         quotesdb = FirebaseDatabase.getInstance().getReference();
 
-
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        this.settings = view.findViewById(R.id.settings);
-        this.profiletab = view.findViewById(R.id.profiletab);
-        this.appbarlayout = view.findViewById(R.id.appbarlayout);
-        this.collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
-        this.camerafab = view.findViewById(R.id.camerafab);
-        this.username = view.findViewById(R.id.username);
-        this.loading = view.findViewById(R.id.loading);
-        this.offlineimage = view.findViewById(R.id.offlineimage);
-        toolbar = view.findViewById(R.id.toolbar);
-        myquotesrecycler = view.findViewById(R.id.myquotesrecycler);
-        profilepic = view.findViewById(R.id.profilepic);
+        if (v == null) {
+            v = inflater.inflate(R.layout.fragment_profile, container, false);
+        }
+        this.settings = v.findViewById(R.id.settings);
+        this.profiletab = v.findViewById(R.id.profiletab);
+        this.appbarlayout = v.findViewById(R.id.appbarlayout);
+        this.collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
+        this.camerafab = v.findViewById(R.id.camerafab);
+        this.username = v.findViewById(R.id.username);
+        this.loading = v.findViewById(R.id.loading);
+        this.offlineimage = v.findViewById(R.id.offlineimage);
+        toolbar = v.findViewById(R.id.toolbar);
+        myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
+        profilepic = v.findViewById(R.id.profilepic);
 
 
         camerafab.setOnClickListener(new View.OnClickListener() {
@@ -262,80 +266,7 @@ public class ProfileFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popup = new PopupMenu(getContext(), settings);
-                //inflating menu from xml resource
-                popup.inflate(R.menu.useroptions);
-                popup.show();
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.changename:
-                                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
-                                bottomSheetDialog.setContentView(R.layout.settings);
-                                final TextView message = bottomSheetDialog.findViewById(R.id.message);
-                                final LinearLayout namelayout = bottomSheetDialog.findViewById(R.id.namelayout);
-                                final LinearLayout saving = bottomSheetDialog.findViewById(R.id.saving);
-                                Button changename = bottomSheetDialog.findViewById(R.id.changename);
-                                final TextInputLayout inputlayout = bottomSheetDialog.findViewById(R.id.inputlayout);
-                                final EditText username = bottomSheetDialog.findViewById(R.id.username);
-
-                                assert inputlayout != null;
-                                inputlayout.setHint(user.getDisplayName());
-                                assert changename != null;
-                                changename.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-                                        Animation scaledown = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
-                                        Animation scaleup = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
-                                        assert saving != null;
-                                        saving.setVisibility(View.VISIBLE);
-                                        saving.startAnimation(fade);
-                                        assert namelayout != null;
-                                        namelayout.startAnimation(scaledown);
-                                        namelayout.setVisibility(View.GONE);
-                                        assert username != null;
-                                        if (username.getText().toString().isEmpty()) {
-                                            inputlayout.setError("Um nome vazio? Você tá brincando comigo. só pode.");
-                                            namelayout.setVisibility(View.VISIBLE);
-                                            namelayout.startAnimation(scaleup);
-                                            saving.startAnimation(scaledown);
-                                            saving.setVisibility(View.GONE);
-                                        } else {
-                                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
-                                            user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        for (int i = 0; i < myquotes.size(); i++) {
-                                                            QuotesDB quotesDB = new QuotesDB();
-                                                            quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
-                                                        }
-                                                        assert message != null;
-                                                        message.setText(String.format("Nome alterado %s Muito bonito meus parabéns!", user.getDisplayName()));
-
-
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                                bottomSheetDialog.show();
-
-                                return true;
-
-                            case R.id.deleposts:
-                                removepostsalert();
-                                return true;
-                            default:
-                                return false;
-
-
-                        }
-                    }
-                });
+                settingsmenu();
             }
         });
 
@@ -394,11 +325,11 @@ public class ProfileFragment extends Fragment {
                 .into(offlineimage);
 
 
-        Tutorial(view);
+        Tutorial(v);
         //Carregar();
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null){
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
             toolbar.setTitle(" ");
 
@@ -418,8 +349,108 @@ public class ProfileFragment extends Fragment {
         Carregar();
         CarregarLikes();
         userinfo();
-        return view;
+        return v;
 
+    }
+
+    private void settingsmenu() {
+        PopupMenu popup = new PopupMenu(getContext(), settings);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.useroptions);
+        popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.changename:
+                        final Dialog bottomSheetDialog = new Dialog(getActivity(), R.style.Dialog_No_Border);
+                        bottomSheetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        bottomSheetDialog.setContentView(R.layout.settings);
+                        bottomSheetDialog.setCanceledOnTouchOutside(true);
+                        final TextView message = bottomSheetDialog.findViewById(R.id.message);
+                        final LinearLayout namelayout = bottomSheetDialog.findViewById(R.id.namelayout);
+                        final LinearLayout saving = bottomSheetDialog.findViewById(R.id.saving);
+                        Button changename = bottomSheetDialog.findViewById(R.id.changename);
+                        final TextInputLayout inputlayout = bottomSheetDialog.findViewById(R.id.inputlayout);
+                        final EditText username = bottomSheetDialog.findViewById(R.id.username);
+                        final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
+
+                        assert inputlayout != null;
+                        inputlayout.setHint(user.getDisplayName());
+                        assert changename != null;
+                        changename.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+                                Animation scaledown = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
+                                Animation scaleup = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
+                                blurView.setBlurRadius(40);
+                                blurView.setVisibility(View.VISIBLE);
+                                assert saving != null;
+                                saving.setVisibility(View.VISIBLE);
+                                saving.startAnimation(fade);
+                                assert namelayout != null;
+                                namelayout.startAnimation(scaledown);
+                                namelayout.setVisibility(View.GONE);
+                                assert username != null;
+                                if (username.getText().toString().isEmpty()) {
+                                    inputlayout.setError("Um nome vazio? Você tá brincando comigo. só pode.");
+                                    namelayout.setVisibility(View.VISIBLE);
+                                    namelayout.startAnimation(scaleup);
+                                    saving.startAnimation(scaledown);
+                                    saving.setVisibility(View.GONE);
+                                } else {
+                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
+                                    user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                for (int i = 0; i < myquotes.size(); i++) {
+                                                    QuotesDB quotesDB = new QuotesDB();
+                                                    quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
+                                                }
+                                                assert message != null;
+                                                message.setText(String.format("Nome alterado %s Muito bonito meus parabéns!", user.getDisplayName()));
+                                                CountDownTimer timer = new CountDownTimer(3000, 100) {
+                                                    @Override
+                                                    public void onTick(long l) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFinish() {
+                                                        bottomSheetDialog.dismiss();
+
+                                                    }
+                                                }.start();
+
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                                userinfo();
+                                blurView.setBlurRadius(0);
+                            }
+                        });
+                        bottomSheetDialog.show();
+
+                        return true;
+
+                    case R.id.deleposts:
+                        removepostsalert();
+                        return true;
+                    default:
+                        return false;
+
+
+                }
+            }
+        });
     }
 
     private void removepostsalert() {
@@ -495,34 +526,23 @@ public class ProfileFragment extends Fragment {
         Boolean novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
 
         if (novo){
-            Spotlight(view);
+            if (myquotes.size() > 0) {
+                if (!preferences.profiletutorialstate()) {
+                    preferences.setProfileTutorial(true);
+                    Info.tutorial("Você de novo" + user.getDisplayName(), getActivity());
+                }
+
+            } else {
+                Pref preferences = new Pref(getContext());
+                if (!preferences.profiletutorialstate()) {
+                    preferences.setProfileTutorial(true);
+                    Info.tutorial(getString(R.string.profile_intro), getActivity());
+                }
+            }
+
         }
     }
 
-    private void Spotlight(View view) {
-        if (getActivity() == null){
-            return;
-        }
-        new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
-                .introAnimationDuration(400)
-                .lineAndArcColor(Color.WHITE)
-                .headingTvColor(Color.WHITE)
-                .subHeadingTvColor(Color.WHITE)
-                .enableRevealAnimation(true)
-                .performClick(true)
-                .fadeinTextDuration(400)
-                .headingTvText("Perfil")
-                .subHeadingTvSize(16)
-                .subHeadingTvText(getString(R.string.profile_intro))
-                .maskColor(getContext().getResources().getColor(R.color.lblack))
-                .target(profilepic)
-                .lineAnimDuration(400)
-                .headingTvSize(28)
-                .dismissOnTouch(true)
-                .dismissOnBackPress(true)
-                .usageId("profilescreen") //UNIQUE ID
-                .show();
-    }
 
 
     private void userinfo() {
@@ -581,6 +601,7 @@ public class ProfileFragment extends Fragment {
                             toolbar.setTitleTextColor(Color.WHITE);
                             collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
                             username.setTextColor(Color.WHITE);
+
                             setupicons();
                             countinganimation();
                             profiletab.setSelectedTabIndicatorColor(Color.WHITE);
@@ -605,6 +626,8 @@ public class ProfileFragment extends Fragment {
                         camerafab.startAnimation(in);
                         username.startAnimation(in2);
                         profiletab.startAnimation(in3);
+                        Window window = getActivity().getWindow();
+                        window.setStatusBarColor(ColorUtils.darken(color, 0.3));
                         return true;
                     } else {
                         return false;
@@ -648,12 +671,17 @@ public class ProfileFragment extends Fragment {
         final ArrayList<Pics> Picslist;
         final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         Picslist = new ArrayList<>();
-        final BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
+        final BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()), R.style.Dialog_No_Border);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.setContentView(R.layout.settings);
+        myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.profilepicselect_);
+        final CardView back = myDialog.findViewById(R.id.back);
+        final TextView title = myDialog.findViewById(R.id.title);
         final TextView message = myDialog.findViewById(R.id.message);
         final ProgressBar pb = myDialog.findViewById(R.id.pb);
         final RecyclerView picrecycler;
-        final TextView remove;
+        final Button remove;
 
         remove = myDialog.findViewById(R.id.removepic);
         assert remove != null;
@@ -710,7 +738,7 @@ public class ProfileFragment extends Fragment {
                 Objects.requireNonNull(picrecycler).setHasFixedSize(true);
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
                 RecyclerPicAdapter recyclerPicAdapter = new RecyclerPicAdapter(quotesDB, getContext(), Picslist,
-                        blurView, getActivity(), myDialog, myquotes, message, remove, pb, picrecycler);
+                        blurView, getActivity(), myDialog, myquotes, message, remove, pb, picrecycler, title, back);
                 picrecycler.setAdapter(recyclerPicAdapter);
                 picrecycler.setLayoutManager(llm);
             }
@@ -758,7 +786,7 @@ public class ProfileFragment extends Fragment {
 
         Query quotesdb2;
         quotesdb2 = FirebaseDatabase.getInstance().getReference().child(path);
-        quotesdb2.keepSynced(true);
+        quotesdb2.keepSynced(false);
         quotesdb2.addValueEventListener(new ValueEventListener() {
 
             @Override

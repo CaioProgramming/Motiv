@@ -17,6 +17,17 @@ public class ColorUtils {
         return randomColor;
     }
 
+    public static int getTransparentColor(int color) {
+        int alpha = Color.alpha(color);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+
+        // Set alpha based on your logic, here I'm making it 25% of it's initial value.
+        alpha *= 0.75;
+
+        return Color.argb(alpha, red, green, blue);
+    }
     public static int getDominantColor(Bitmap bitmap) {
 
         List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();

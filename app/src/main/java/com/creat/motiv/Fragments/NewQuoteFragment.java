@@ -12,8 +12,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,9 +27,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,13 +36,13 @@ import com.creat.motiv.Adapters.RecyclerFontAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.Pref;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
-import com.wooplr.spotlight.SpotlightView;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -71,32 +69,14 @@ public class NewQuoteFragment extends Fragment {
     Pref preferences;
     boolean tuto = true;
     private RecyclerView colorlibrary;
-    private RadioButton love;
-    private RadioButton citation;
-    private RadioButton motivation;
-    private RadioButton music;
-    private CircleImageView userpic;
-    private TextView username;
-    private ImageButton menu;
-    private LinearLayout quotedata;
-    private LinearLayout category;
     private EditText frase;
     private EditText author;
     private LinearLayout background;
     private TextView fontid;
     private TextView texcolorid;
     private TextView backcolorid;
-    private CardView card;
-    private com.github.clans.fab.FloatingActionButton categoryfab;
-    private com.github.clans.fab.FloatingActionButton textcolorfab;
-    private com.github.clans.fab.FloatingActionButton backcolorfab;
-    private com.github.clans.fab.FloatingActionButton fontpickerfab;
-    private com.github.clans.fab.FloatingActionButton salvar;
-    private com.github.clans.fab.FloatingActionMenu materialdesignandroidfloatingactionmenu;
-    private android.widget.RadioGroup categories;
-    private EditText quote;
-    private android.widget.Toolbar options;
     private Dialog m_dialog;
+    private android.support.design.widget.TabLayout categories;
 
     public NewQuoteFragment() {
         // Required empty public constructor
@@ -109,36 +89,26 @@ public class NewQuoteFragment extends Fragment {
         preferences = new Pref(Objects.requireNonNull(getContext()));
         user = FirebaseAuth.getInstance().getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_newquote, container, false);
-        this.options = view.findViewById(R.id.options);
         this.categories = view.findViewById(R.id.categories);
-        this.materialdesignandroidfloatingactionmenu = view.findViewById(R.id.material_design_android_floating_action_menu);
-        this.salvar = view.findViewById(R.id.salvar);
-        this.fontpickerfab = view.findViewById(R.id.fontpickerfab);
-        this.backcolorfab = view.findViewById(R.id.backcolorfab);
-        this.textcolorfab = view.findViewById(R.id.textcolorfab);
-        this.categoryfab = view.findViewById(R.id.categoryfab);
-        this.card = view.findViewById(R.id.card);
+        android.widget.Toolbar options = view.findViewById(R.id.options);
+        com.github.clans.fab.FloatingActionButton salvar = view.findViewById(R.id.salvar);
+        com.github.clans.fab.FloatingActionButton fontpickerfab = view.findViewById(R.id.fontpickerfab);
+        com.github.clans.fab.FloatingActionButton backcolorfab = view.findViewById(R.id.backcolorfab);
+        com.github.clans.fab.FloatingActionButton textcolorfab = view.findViewById(R.id.textcolorfab);
+        com.github.clans.fab.FloatingActionButton categoryfab = view.findViewById(R.id.categoryfab);
         this.backcolorid = view.findViewById(R.id.backcolorid);
         this.texcolorid = view.findViewById(R.id.texcolorid);
         this.fontid = view.findViewById(R.id.fontid);
         this.background = view.findViewById(R.id.background);
         this.author = view.findViewById(R.id.author);
         this.frase = view.findViewById(R.id.quote);
-        this.category = view.findViewById(R.id.category);
-        this.quotedata = view.findViewById(R.id.quotedata);
-        this.menu = view.findViewById(R.id.menu);
-        this.username = view.findViewById(R.id.username);
-        this.userpic = view.findViewById(R.id.userpic);
-        this.music = view.findViewById(R.id.music);
-        this.motivation = view.findViewById(R.id.motivation);
-        this.citation = view.findViewById(R.id.citation);
-        this.love = view.findViewById(R.id.love);
+        TextView username = view.findViewById(R.id.username);
+        CircleImageView userpic = view.findViewById(R.id.userpic);
         this.colorlibrary = view.findViewById(R.id.colorlibrary);
 
         username.setText(user.getDisplayName());
         Glide.with(this).load(user.getPhotoUrl()).into(userpic);
         theme();
-        CategorySeleect(category);
 
         backcolorfab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +141,43 @@ public class NewQuoteFragment extends Fragment {
         categoryfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categories.clearCheck();
                 categoria = "Nenhum";
+                categories.setSelected(false);
+            }
+        });
+
+        categories.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        categoria = "Amor";
+                        break;
+                    case 1:
+                        categoria = "Música";
+                        break;
+                    case 2:
+                        categoria = "Citação";
+
+                        break;
+                    case 3:
+                        categoria = "Motivação";
+
+                        break;
+                    default:
+                        categoria = "Nenhuma";
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 
@@ -232,78 +237,14 @@ public class NewQuoteFragment extends Fragment {
             return null;
         }
         Objects.requireNonNull(getActivity()).setActionBar(options);
+
+
         return view;
     }
 
-    private void CategorySeleect(final LinearLayout category) {
-        music.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.purple_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-
-                categoria = "Musica";
-            }
-        });
-
-        love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.red_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-
-                categoria = "Amor";
-            }
-        });
-
-        citation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.black);
-                int cx = background.getRight();
-                int cy = background.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-                categoria = "Citação";
-            }
-        });
-
-        motivation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                category.setVisibility(View.INVISIBLE);
-                category.setBackgroundResource(R.color.orange_300);
-                int cx = category.getRight();
-                int cy = category.getTop();
-                int radius = Math.max(category.getWidth(), category.getHeight());
-                Animator anim = ViewAnimationUtils.createCircularReveal(category, cx, cy,
-                        0, radius);
-                category.setVisibility(View.VISIBLE);
-                anim.start();
-                categoria = "Motivação";
-            }
-        });
-    }
 
     private void agree() {
+        if (getContext() == null) throw new AssertionError();
         preferences = new Pref(getContext());
         m_dialog = new Dialog(getContext(), R.style.Dialog_No_Border);
         Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
@@ -321,7 +262,7 @@ public class NewQuoteFragment extends Fragment {
         });
         m_view.startAnimation(in);
         if (!preferences.agreestate()) {
-            Snacky.builder().setActivity(getActivity()).warning()
+            Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).warning()
                     .setText("Você precisa concordar com os termos de uso para usar o aplicativo!")
                     .setAction("Ok", new View.OnClickListener() {
                         @Override
@@ -336,9 +277,11 @@ public class NewQuoteFragment extends Fragment {
 
     private void theme() {
         if (preferences.nightmodestate()) {
-            options.setBackgroundResource(R.color.grey_800);
-
-
+            categories.setTabTextColors(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.lwhite), getActivity().getResources().getColor(R.color.white));
+            categories.setSelectedTabIndicatorColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.white));
+            frase.setTextColor(Color.BLACK);
+            frase.setHintTextColor(Color.LTGRAY);
+            author.setHintTextColor(Color.LTGRAY);
         }
     }
 
@@ -420,36 +363,20 @@ public class NewQuoteFragment extends Fragment {
     private void Tutorial() {
         Boolean novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
         if (novo){
-            Spotlight();
+            Pref preferences = new Pref(Objects.requireNonNull(getContext()));
+            if (!preferences.writetutorialstate()) {
+                preferences.setWriteTutorial(true);
+                Info.tutorial(getString(R.string.new_quoteintro), getActivity());
+            }
+
             //getData();
         }
         tuto = false;
     }
 
-    private void Spotlight() {
-        new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
-                .introAnimationDuration(400)
-                .lineAndArcColor(Color.WHITE)
-                .headingTvColor(Color.WHITE)
-                .subHeadingTvColor(Color.WHITE)
-                .enableRevealAnimation(true)
-                .performClick(true)
-                .fadeinTextDuration(400)
-                .headingTvText("Criação de frases")
-                .subHeadingTvSize(16)
-                .subHeadingTvText(getString(R.string.new_quoteintro))
-                .maskColor(getContext().getResources().getColor(R.color.lblack))
-                .target(card)
-                .lineAnimDuration(400)
-                .headingTvSize(28)
-                .dismissOnTouch(true)
-                .dismissOnBackPress(true)
-                .usageId("createscreen") //UNIQUE ID
-                .show();
-    }
 
     public void salvar() {
-
+        agree();
         Date datenow = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String dia = df.format(datenow);
@@ -522,7 +449,7 @@ public class NewQuoteFragment extends Fragment {
         for(Field field : fields) {
             String colorName = field.getName();
             int colorId = field.getInt(null);
-            int color = getResources().getColor(colorId);
+            int color = getContext().getResources().getColor(colorId);
             System.out.println("color " + colorName + " " + color);
             colors.add(color);
 

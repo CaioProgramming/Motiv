@@ -3,10 +3,7 @@
     package="com.creat.motiv">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -65,22 +62,23 @@
         <activity
             android:exported="true"
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
         <activity android:name=".NewUser" />
 
-        <service android:name=".Utils$Notifications">
+        <service android:name=".Utils.Notifications">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".Utils$Token">
+        <service android:name=".Utils.Token">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".Utils$Notification_reciever" />
+        <receiver android:name=".Utils.Notification_reciever" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"

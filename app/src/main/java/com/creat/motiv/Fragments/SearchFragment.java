@@ -1,6 +1,7 @@
 package com.creat.motiv.Fragments;
 
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +9,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
@@ -37,37 +36,26 @@ import static com.creat.motiv.Database.QuotesDB.path;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 
-    private android.widget.EditText search;
-    private android.support.v7.widget.Toolbar searchtool;
 
-    private android.support.v7.widget.RecyclerView searchresult;
     Pref preferences;
     FirebaseUser user;
     private ArrayList<Quotes> quotesearch;
     private Query quotesdb;
-    private android.support.design.widget.TabLayout searchoptions;
     private android.widget.LinearLayout empty;
+    private android.support.v7.widget.RecyclerView searchresult;
+    private android.support.v7.widget.SearchView search;
+    private TabLayout searchoptions;
+    private Toolbar toolbar;
+    private android.widget.ImageView icon;
 
 
     public SearchFragment() {
         // Required empty public constructor
     }
     String arg = "quote";
-    private int[] tabIcons = {
-            R.drawable.ic_favorite_white_24dp,
-            R.drawable.ic_turned_in_black_24dp,
-            R.drawable.ic_music_note_black_24dp,
-            R.drawable.ic_filter_vintage_black_24dp
 
-    };
-
-    private int[] tabIconsfocus = {
-            R.drawable.ic_author_sign,
-            R.drawable.ic_person_white_24dp,
-
-    };
 
 
 
@@ -79,130 +67,53 @@ public class SearchFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(Objects.requireNonNull(getContext()));
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        this.empty = view.findViewById(R.id.empty);
+        this.icon = view.findViewById(R.id.icon);
+        this.toolbar = view.findViewById(R.id.toolbar);
         this.searchoptions = view.findViewById(R.id.searchoptions);
-        android.support.v7.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
-        android.widget.ImageButton close = view.findViewById(R.id.close);
-        searchresult = view.findViewById(R.id.searchresult);
-        search = view.findViewById(R.id.search);
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(searchtool);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        this.search = view.findViewById(R.id.search);
+        this.empty = view.findViewById(R.id.empty);
+        this.searchresult = view.findViewById(R.id.searchresult);
+        TabLayout searchoptions = view.findViewById(R.id.searchoptions);
+
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         preferences = new Pref(getContext());
-        quotesdb.keepSynced(true);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search.getText().clear();
-                quotesearch.clear();
-                search.setHint("Pesquisar frases...");
-                setupicons();
+        quotesdb.keepSynced(false);
 
 
-             }
-        });
-
-
-
-
-
-
-
-
-        search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                   setupiconsfocus();
-                   searchoptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                       @Override
-                       public void onTabSelected(TabLayout.Tab tab) {
-                           switch (searchoptions.getSelectedTabPosition()){
-                               case 0:
-                                   arg = "autor";
-                                   search.setHint("Pesquisar autor...");
-                                   break;
-
-                               case 1:
-                                   arg = "username";
-                                   search.setHint("Pesquisar posts de usuário...");
-                                   break;
-                           }
-                       }
-
-                       @Override
-                       public void onTabUnselected(TabLayout.Tab tab) {
-
-                       }
-
-                       @Override
-                       public void onTabReselected(TabLayout.Tab tab) {
-
-                       }
-                   });
-
-                }
-            }
-        });
-
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
-
-                if (!editable.toString().isEmpty()){
-                    searchresult.setVisibility(View.VISIBLE);
-                    searchresult.startAnimation(in);
-                    Pesquisar(editable.toString());
-                }else{
-                    Pesquisar("");
-                }
-            }
-        });
-        setupicons();
-        if (preferences.nightmodestate()) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-        return view;
-    }
-
-
-    private void setupicons(){
-        searchoptions.removeAllTabs();
-        for (int tabIcon : tabIcons) {
-            searchoptions.addTab(searchoptions.newTab().setIcon(tabIcon));
-        }
         searchoptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (searchoptions.getSelectedTabPosition()){
+                switch (tab.getPosition()) {
                     case 0:
-                        Categories("Amor");
+                        arg = "author";
+                        search.setQueryHint("Pesquisar author...");
+                        //Pesquisar(search.getText().toString());
                         break;
                     case 1:
-                        Categories("Citação");
+                        arg = "username";
+                        search.setQueryHint("Pesquisar posts de usuário...");
+                        //Pesquisar(search.getText().toString());
                         break;
                     case 2:
-                        Categories("Musica");
+                        Categories("Amor");
                         break;
                     case 3:
+                        Categories("Citação");
+                        break;
+                    case 4:
+                        Categories("Musica");
+                        break;
+                    case 5:
                         Categories("Motivação");
                         break;
                 }
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                Pesquisar("");
             }
 
             @Override
@@ -211,13 +122,19 @@ public class SearchFragment extends Fragment {
             }
         });
 
-    }
-    private void setupiconsfocus(){
-        searchoptions.removeAllTabs();
-        for (int tabIconsfocu : tabIconsfocus) {
-            searchoptions.addTab(searchoptions.newTab().setIcon(tabIconsfocu));
+
+        if (preferences.nightmodestate()) {
+            icon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+            search.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey_700)));
+            searchoptions.setTabTextColors(getActivity().getResources().getColor(R.color.lwhite), getActivity().getResources().getColor(R.color.white));
+            searchoptions.setSelectedTabIndicatorColor(getContext().getResources().getColor(R.color.colorPrimary));
         }
+        Categories("Amor");
+
+        search.setOnQueryTextListener(this);
+        return view;
     }
+
 
     private void Categories(String categorie) {
         if (getContext() == null || getActivity() == null){
@@ -430,4 +347,25 @@ public class SearchFragment extends Fragment {
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (!query.isEmpty()) {
+            Pesquisar(query);
+            return true;
+        } else {
+            Pesquisar("");
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (!newText.isEmpty()) {
+            Pesquisar(newText);
+            return true;
+        } else {
+            Pesquisar("");
+            return false;
+        }
+    }
 }

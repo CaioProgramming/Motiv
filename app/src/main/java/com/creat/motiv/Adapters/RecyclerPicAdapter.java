@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,15 +46,16 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     private ArrayList<Quotes> myquotes;
     private RealtimeBlurView blurView;
     private BottomSheetDialog myDialog;
-    private TextView message, remove;
+    CardView back;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private Activity mActivity;
+    private TextView message, remove, title;
 
 
     public RecyclerPicAdapter(QuotesDB quotesDB, Context mContext, List<Pics> mData, RealtimeBlurView blurView,
                               Activity mActivity, BottomSheetDialog myDialog, ArrayList<Quotes> myquotes,
-                              TextView message, TextView remove, ProgressBar progressBar, RecyclerView recyclerView) {
+                              TextView message, TextView remove, ProgressBar progressBar, RecyclerView recyclerView, TextView title, CardView back) {
         this.quotesDB = quotesDB;
         this.mContext = mContext;
         this.mData = mData;
@@ -65,6 +67,8 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
         this.remove = remove;
         this.progressBar = progressBar;
         this.recyclerView = recyclerView;
+        this.title = title;
+        this.back = back;
      }
 
     @NonNull
@@ -79,7 +83,8 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_bottom);
+        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_up);
+        holder.loading.setVisibility(View.VISIBLE);
 
         Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
             @Override
@@ -93,7 +98,6 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                 Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
 
-                holder.loading.setVisibility(View.VISIBLE);
 
                 if (resource != null) {
                     Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
@@ -117,6 +121,8 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                 public void onClick(View view) {
                     progressBar.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    back.setVisibility(View.GONE);
+                    title.setVisibility(View.GONE);
                     remove.setVisibility(View.GONE);
                     CountDownTimer timer = new CountDownTimer(3000, 100) {
                         @Override
@@ -131,48 +137,73 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                     }.start();
                    UserProfileChangeRequest  profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
                     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user != null) {
-                        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    for (int i = 0; i < myquotes.size(); i++) {
-                                        quotesDB = new QuotesDB(mActivity, null);
-                                        quotesDB.AlterarFoto(mActivity, myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
+                    if (user.getPhotoUrl() == Uri.parse(mData.get(position).getUri())) {
+                        message.setText("Seu ícone de perfil já é este!");
+                        message.setVisibility(View.VISIBLE);
+                        remove.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
+                        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+                        message.startAnimation(in);
+                        recyclerView.startAnimation(out);
+                        recyclerView.setVisibility(View.GONE);
+
+                    } else {
+                        if (user != null) {
+                            user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        for (int i = 0; i < myquotes.size(); i++) {
+                                            quotesDB = new QuotesDB(mActivity, null);
+                                            quotesDB.AlterarFoto(mActivity, myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
+
+                                        }
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        CountDownTimer timer = new CountDownTimer(6000, 100) {
+                                            @Override
+                                            public void onTick(long l) {
+
+                                            }
+
+                                            @Override
+                                            public void onFinish() {
+
+                                                remove.setVisibility(View.GONE);
+                                                message.setVisibility(View.VISIBLE);
+                                                message.setBackgroundColor(Color.TRANSPARENT);
+                                                message.setTextColor(Color.WHITE);
+                                                progressBar.setVisibility(View.GONE);
+                                                Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
+                                                Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+                                                message.startAnimation(in);
+                                                recyclerView.startAnimation(out);
+                                                recyclerView.setVisibility(View.GONE);
+                                                CountDownTimer timer2 = new CountDownTimer(5000, 100) {
+                                                    @Override
+                                                    public void onTick(long l) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFinish() {
+                                                        myDialog.dismiss();
+                                                    }
+                                                }.start();
+                                            }
+                                        }.start();
 
                                     }
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    CountDownTimer timer = new CountDownTimer(6000, 100) {
-                                        @Override
-                                        public void onTick(long l) {
-
-                                        }
-
-                                        @Override
-                                        public void onFinish() {
-
-                                            remove.setVisibility(View.GONE);
-                                            message.setVisibility(View.VISIBLE);
-                                            message.setBackgroundColor(Color.WHITE);
-                                            message.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-                                            progressBar.setVisibility(View.GONE);
-                                            Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
-                                            Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-                                            message.startAnimation(in);
-                                            recyclerView.startAnimation(out);
-                                            recyclerView.setVisibility(View.GONE);
-                                        }
-                                    }.start();
 
                                 }
+                            });
 
-                            }
-                        });
-
+                        }
                     }
 
                 }
             });
+
     }
 
 

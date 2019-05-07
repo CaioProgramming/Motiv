@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "307669618733-el9t086kpmn485ld33qk3hprql6t6vit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creat.motiv",
+            "certificate_hash": "bee11ea238332ce1bcb62a999bbb2ea360d3eae9"
+          }
+        },
+        {
+          "client_id": "307669618733-fh2e1gfes9nfgad797jtq66kmguml2gf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creat.motiv",
+            "certificate_hash": "eb0d9afcb3a04748160227aae2b8c969db272ef2"
+          }
+        },
+        {
           "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -44,6 +60,38 @@
               "client_type": 3
             }
           ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      },
+      "admob_app_id": "ca-app-pub-4979584089010597~4181793255"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307669618733:android:d90be7106b81eb98",
+        "android_client_info": {
+          "package_name": "com.creat.motivadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4P0aebcPu8w75EWl4wKoIazdYUIwU9-E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

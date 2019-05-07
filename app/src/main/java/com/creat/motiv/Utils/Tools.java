@@ -3,6 +3,7 @@ package com.creat.motiv.Utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.View;
 
 import com.creat.motiv.Beans.Artists;
 
@@ -118,6 +119,15 @@ public class Tools {
             "Eu sei que as vezes você se sente vazio, " +
                     "mas esse bloco de texto te ajuda a mostrar que ainda tem alguma coisa aí, então escreve por favor"
     };
+
+
+    public static void setLightStatusBar(View view) {
+        int flags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        view.setSystemUiVisibility(flags);
+    }
+
+
+
     public static ArrayList<Typeface> fonts(Context context){
         Typeface fontsarchieves[] = {
                 Typeface.createFromAsset(context.getAssets(),"fonts/Arvo-Regular_201.ttf"),

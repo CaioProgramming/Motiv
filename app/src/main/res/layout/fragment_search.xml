@@ -6,8 +6,9 @@
     android:background="@color/transparent"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
+        android:layout_margin="10dp"
+        android:background="@color/transparent"
+        android:elevation="0dp"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,43 +18,60 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:animateLayoutChanges="true"
-                android:orientation="horizontal"
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageButton
-                    android:contentDescription="@string/clear"
-                    android:tint="@color/white"
-                    android:layout_gravity="center|end"
-                    android:background="@color/transparent"
-                    android:id="@+id/close"
-                    android:src="@drawable/ic_close_black_24dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <EditText
-                    android:textSize="22sp"
-                    android:inputType="text"
-                    android:id="@+id/search"
-                    android:drawableEnd="@drawable/ic_search_black_24dp"
-                    android:backgroundTint="@color/transparent"
-                    android:textColorHint="@color/white"
-                    android:textColor="@color/white"
-                    android:hint="@string/pesquisar"
-                    android:imeOptions="actionSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/grey_200"
+                android:focusedByDefault="true"
+                app:defaultQueryHint="Busque o que seu coração quiser..."
+                app:iconifiedByDefault="false"
+                app:queryBackground="@color/transparent"
+                app:submitBackground="@color/transparent" />
             <android.support.design.widget.TabLayout
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                app:tabIndicatorColor="@color/colorPrimary"
+                app:tabMode="scrollable"
                 app:tabIndicatorHeight="2dp"
-
-                app:tabIndicatorColor="@color/white"
+                app:tabSelectedTextColor="@color/colorPrimaryDark"
                 android:id="@+id/searchoptions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                app:tabTextColor="@color/lblack">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/author" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="usuário" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amor" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cita_o" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/m_sica" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/motiva_o" />
+
+            </android.support.design.widget.TabLayout>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
@@ -63,25 +81,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-
     <LinearLayout
         android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/vai_l_procura_o_que_quiser"
-            android:textAlignment="center"
-            android:textSize="28sp" />
-
         <ImageView
+            android:id="@+id/icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
             android:contentDescription="@string/empty_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/undraw_book_lover_mkck" />
+            android:adjustViewBounds="true"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_start_up" />
     </LinearLayout>
 </LinearLayout>

@@ -27,7 +27,7 @@
     <string name="start">Hora de começar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="reported">Esta frase foi denunciada, até que seja analisada, não será exibida no feed!</string>
+    <string name="reported">Esta frase foi denunciada e está sendo analisada.</string>
     <string name="title_home">Home</string>
     <string name="icon_info">user icon</string>
     <string name="alterar_nome">Alterar nome</string>
@@ -65,5 +65,9 @@
     <string name="privacypolicytitle">Políticas de privacidade</string>
     <string name="profile_intro">Aqui é o seu perfil, onde poderá ver todas suas postagens e se quiser apagá-las,alterar seu nome e foto de perfil</string>
     <string name="new_quoteintro">Aqui é o seu cantinho mágico, onde poderá criar suas frases!</string>
-    <string name="home_intro">Esta é sua tela inicial, onde poderá ver todas as postagens ja feitas no motiv</string>
+    <string name="home_intro">Esta é sua tela inicial, onde poderá ver todas as postagens ja feitas no motiv. Não esqueça, se quiser saber mais detalhes sobre as frases basta clicar nelas e caso queira ver a frase que gostou de forma única pressione ela.</string>
+    <string name="undrawlogo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/apple-touch-icon.png?alt=media&token=453a25a6-4233-4775-80f5-ba2199646c2c]]></string>
+    <string name="dribblelogo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/dribbble-ball-icon.png?alt=media&token=e1807e28-a1f1-4b08-ba68-9fe147a992e2]]></string>
+    <string name="flaticonlogo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/q9RLNioS_400x400.jpg?alt=media&token=2355c614-790e-457e-a35f-ed2b858586e0]]></string>
+    <string name="materialiologo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/ucVTUoPg_400x400.jpg?alt=media&token=80b85935-95d1-4ca8-9bca-9a84e8899e52]]></string>
 </resources>

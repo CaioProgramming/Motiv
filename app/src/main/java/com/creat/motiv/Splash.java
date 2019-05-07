@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -36,7 +38,9 @@ public class Splash extends AppCompatActivity {
         ImageView applogo = findViewById(R.id.applogo);
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
+         Window window = getWindow();
         setalarm();
+         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         CountDownTimer countDownTimer = new CountDownTimer(3000,100) {
             @Override
@@ -78,6 +82,8 @@ public class Splash extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null){
             List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.FacebookBuilder().build(),
+                    //new AuthUI.IdpConfig.TwitterBuilder().build(),
                     new AuthUI.IdpConfig.GoogleBuilder().build(),
                     new AuthUI.IdpConfig.EmailBuilder().build());
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()

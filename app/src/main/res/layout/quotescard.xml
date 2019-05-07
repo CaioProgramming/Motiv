@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card"
     android:hapticFeedbackEnabled="true"
-    app:cardBackgroundColor="@color/white"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="1dp"
-    android:elevation="1dp"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_gravity="center|top"
-    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
     android:animateLayoutChanges="true"
-    >
+    android:layout_height="wrap_content"
+    android:background="@drawable/roundedstroke">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
-            android:visibility="gone"
+            android:layout_margin="10dp"
             android:id="@+id/quotedata"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <RelativeLayout
-            android:padding="10dp"
-            android:animateLayoutChanges="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/bottom_line">
             <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -42,7 +33,6 @@
                     android:src="@drawable/penguin" />
 
                 <TextView
-                    android:layout_gravity="center"
                     android:textColor="@color/black"
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
@@ -50,20 +40,67 @@
                     android:text="@string/username"
                     android:textSize="14sp" />
 
+                <ImageButton
+                    android:id="@+id/menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_more_vert_black_24dp"
+                    android:tint="@color/grey_800" />
+
+                <ImageButton
+                    android:id="@+id/reported"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_flag_black_24dp"
+                    android:visibility="gone" />
             </LinearLayout>
-            <ImageButton
-                android:layout_centerInParent="true"
-                android:tint="@color/grey_800"
-                android:id="@+id/menu"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_more_vert_black_24dp"
-                android:layout_alignParentEnd="true"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/round"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/quote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/transparent"
+                    android:hint="@string/quote"
+                    android:padding="5dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:typeface="normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/author"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/transparent"
+                android:hint="@string/author"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:typeface="normal" />
+        </LinearLayout>
 
 
-        </RelativeLayout>
         <RelativeLayout
+            android:layout_margin="10dp"
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -72,7 +109,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:background="@color/transparent"
                 android:elevation="2dp">
 
@@ -103,52 +139,9 @@
                 android:text="dia"
                 android:textColor="@color/grey_300" />
         </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/category"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/black"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="25dp">
-
-            <TextView
-                android:id="@+id/quote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                android:hint="@string/quote"
-                android:padding="5dp"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:typeface="normal" />
-
-            <TextView
-                android:id="@+id/author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                android:hint="@string/author"
-                android:padding="5dp"
-                android:textAlignment="textEnd"
-                android:textSize="20sp"
-                android:typeface="normal" />
-        </LinearLayout>
-
 
 
     </LinearLayout>
 
 
-
-
-
-</android.support.v7.widget.CardView>
+</RelativeLayout>

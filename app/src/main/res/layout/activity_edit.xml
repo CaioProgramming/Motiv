@@ -2,241 +2,187 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/edit"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    android:background="@color/transparent"
-    android:id="@+id/edit"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <Toolbar
+                android:layout_height="wrap_content"
                 android:id="@+id/options"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:elevation="0dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/colorlibrary"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp">
+                        android:layout_height="120dp" />
 
-                    </android.support.v7.widget.RecyclerView>
-
-                    <RadioGroup
-                        android:id="@+id/categories"
-                        android:layout_width="match_parent"
+                    <android.support.design.widget.TabLayout
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="1dp">
+                        android:layout_margin="1dp"
+                        android:id="@+id/categories"
+                        app:tabIndicatorColor="@color/colorPrimary"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        app:tabTextColor="@color/lblack">
 
-                        <RadioButton
-
-                            android:id="@+id/love"
-                            android:layout_width="wrap_content"
+                        <android.support.design.widget.TabItem
                             android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            android:background="@drawable/radio_button_love"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_favorite_white_24dp"
-                            android:padding="5dp"
-                            android:text="@string/amor"
-                            android:textColor="@color/white" />
-
-                        <RadioButton
-                            android:id="@+id/citation"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@drawable/radio_button_citation"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_turned_in_black_24dp"
-                            android:padding="5dp"
-                            android:text="@string/cita_o"
-                            android:textColor="@color/white" />
+                            android:text="amor" />
 
-                        <RadioButton
-                            android:id="@+id/motivation"
+                        <android.support.design.widget.TabItem
+                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:text="Música" />
+
+                        <android.support.design.widget.TabItem
                             android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@drawable/radio_button_motivation"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
-                            android:padding="5dp"
-                            android:text="@string/motiva_o"
-                            android:textColor="@color/white" />
-
-                        <RadioButton
-
-                            android:id="@+id/music"
                             android:layout_width="wrap_content"
+                            android:text="Citação" />
+
+                        <android.support.design.widget.TabItem
                             android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:background="@drawable/radio_button_music"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_music_note_black_24dp"
-                            android:padding="5dp"
-                            android:text="@string/m_sica"
-                            android:textColor="@color/white" />
-                    </RadioGroup>
+                            android:layout_width="wrap_content"
+                            android:text="Motivação" />
+
+
+                    </android.support.design.widget.TabLayout>
                 </LinearLayout>
             </Toolbar>
-
             <LinearLayout
+                android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/roundedstroke"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/card"
+                <LinearLayout
+                    android:id="@+id/quotedata"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|top"
                     android:layout_margin="10dp"
-                    android:animateLayoutChanges="true"
-                    android:elevation="1dp"
-                    android:hapticFeedbackEnabled="true"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="1dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_gravity="center"
+                        android:gravity="center">
 
-                        <LinearLayout
-                            android:id="@+id/quotedata"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/userpic"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="5dp"
+                            android:src="@drawable/penguin" />
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="3dp"
-                                android:animateLayoutChanges="true"
-                                android:padding="10dp">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <de.hdodenhof.circleimageview.CircleImageView
-                                        android:id="@+id/userpic"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
-                                        android:padding="5dp"
-                                        android:src="@drawable/penguin" />
-
-                                    <TextView
-                                        android:id="@+id/username"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:text="@string/username"
-                                        android:textColor="@color/black"
-                                        android:textSize="14sp" />
-
-                                </LinearLayout>
-
-                                <ImageButton
-                                    android:id="@+id/menu"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerInParent="true"
-                                    android:background="@color/transparent"
-                                    android:src="@drawable/ic_more_vert_black_24dp"
-                                    android:tint="@color/grey_800" />
-
-
-                            </RelativeLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/category"
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/black"
-                            android:orientation="horizontal" />
-
-                        <LinearLayout
-
-                            android:id="@+id/background"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="25dp">
-
-                            <EditText
-                                android:id="@+id/quote"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:hint="@string/quote"
-                                android:padding="5dp"
-                                android:textAlignment="center"
-                                android:textSize="24sp"
-                                android:typeface="normal" />
-
-                            <EditText
-                                android:id="@+id/author"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:hint="@string/author"
-                                android:padding="5dp"
-                                android:textAlignment="textEnd"
-                                android:textSize="20sp"
-                                android:typeface="normal" />
-                        </LinearLayout>
-
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:text="@string/username"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
-                            <TextView
-                                android:id="@+id/fontid"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:visibility="invisible" />
+                        <ImageButton
+                            android:id="@+id/menu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:src="@drawable/ic_more_vert_black_24dp"
+                            android:tint="@color/grey_800" />
 
-                            <TextView
-                                android:id="@+id/texcolorid"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:visibility="invisible" />
-
-                            <TextView
-                                android:id="@+id/backcolorid"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:visibility="invisible" />
-                        </LinearLayout>
-
-
+                        <ImageButton
+                            android:id="@+id/reported"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:src="@drawable/ic_flag_black_24dp"
+                            android:visibility="gone" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:id="@+id/background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="25dp">
+
+                    <EditText
+                        android:id="@+id/quote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/transparent"
+                        android:hint="@string/quote"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:typeface="normal" />
+
+                    <EditText
+                        android:id="@+id/author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/transparent"
+                        android:hint="@string/author"
+                        android:padding="5dp"
+                        android:textAlignment="textEnd"
+                        android:textSize="20sp"
+                        android:typeface="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/fontid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/texcolorid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/backcolorid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:visibility="invisible" />
+                </LinearLayout>
 
 
-                </android.support.v7.widget.CardView>
+
+
 
 
             </LinearLayout>
@@ -336,7 +282,6 @@
 
 
     </com.github.clans.fab.FloatingActionMenu>
-
     <com.github.mmin18.widget.RealtimeBlurView
         android:id="@+id/blur"
         android:layout_width="match_parent"

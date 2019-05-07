@@ -4,6 +4,7 @@ package com.creat.motiv.Fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.creat.motiv.Adapters.RecyclerArtistsAdapter;
 import com.creat.motiv.Adapters.RecyclerCreatorsAdapter;
@@ -50,7 +52,6 @@ public class AboutFragment extends Fragment {
     private android.support.v7.widget.RecyclerView creatorsrecycler;
     private android.support.v7.widget.RecyclerView designrecycler;
     private android.support.v7.widget.RecyclerView artistsrecycler;
-    private android.widget.TextView helpad;
     private Query quotesdb;
     private android.widget.TextView creatorstitle;
     private android.widget.TextView referencestitle;
@@ -73,12 +74,13 @@ public class AboutFragment extends Fragment {
         this.artiststitle = view.findViewById(R.id.artiststitle);
         this.referencestitle = view.findViewById(R.id.referencestitle);
         this.creatorstitle = view.findViewById(R.id.creatorstitle);
-        this.helpad = view.findViewById(R.id.helpad);
+        android.widget.TextView helpad = view.findViewById(R.id.helpad);
         this.artistsrecycler = view.findViewById(R.id.artistsrecycler);
         this.designrecycler = view.findViewById(R.id.designrecycler);
         this.creatorsrecycler = view.findViewById(R.id.creatorsrecycler);
+
         MobileAds.initialize(getActivity(),
-                "ca-app-pub-3940256099942544/1033173712");
+                "ca-app-pub-4979584089010597~4181793255");
         helpad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,6 +91,9 @@ public class AboutFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 loadRewardedVideoAd();
+                                progressDialog = new ProgressDialog(getContext());
+                                progressDialog.setMessage("Carregando");
+                                progressDialog.show();
 
                             }
                         });
@@ -102,6 +107,7 @@ public class AboutFragment extends Fragment {
             @Override
             public void onRewardedVideoAdLoaded() {
                 progressDialog.dismiss();
+                rewardedVideoAd.show();
             }
 
             @Override
@@ -138,7 +144,8 @@ public class AboutFragment extends Fragment {
             @Override
             public void onRewardedVideoCompleted() {
                 Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).setBackgroundColor(getResources().getColor(R.color.colorPrimary)).setTextColor(Color.WHITE)
-                        .setIcon(R.mipmap.ic_launcher).setText("Obrigado pela ajuda, você é demais!").build().show();
+                        .setIcon(R.drawable.ic_saturn_and_other_planets).setText("Obrigado pela ajuda, você é demais!").setDuration(10000).build().show();
+
             }
         });
 
@@ -146,8 +153,16 @@ public class AboutFragment extends Fragment {
         CarregarAll();
 
         Theme();
-        loadAd();
+
+        statusbar();
         return view;
+    }
+
+    private void statusbar() {
+        Window window = getActivity().getWindow();
+        if (window.getStatusBarColor() != getContext().getResources().getColor(R.color.colorPrimaryDark)) {
+            window.setStatusBarColor(getContext().getResources().getColor(R.color.colorPrimaryDark));
+        }
     }
 
 
@@ -156,11 +171,12 @@ public class AboutFragment extends Fragment {
         int white = Color.WHITE;
         if (preferences.nightmodestate()) {
             artiststitle.setTextColor(white);
-
+            artiststitle.setBackgroundTintList(ColorStateList.valueOf(white));
+            creatorstitle.setBackgroundTintList(ColorStateList.valueOf(white));
+            suportitle.setBackgroundTintList(ColorStateList.valueOf(white));
 
             creatorstitle.setTextColor(white);
 
-            helpad.setTextColor(white);
             suportitle.setTextColor(white);
 
 
@@ -170,16 +186,11 @@ public class AboutFragment extends Fragment {
         }
     }
     private void loadRewardedVideoAd() {
-        ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Carregando...");
-        rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        rewardedVideoAd.loadAd("ca-app-pub-4979584089010597/9410101997",
                 new AdRequest.Builder().build());
 
     }
-    private void loadAd() {
-        loadRewardedVideoAd();
- 
-    }
+
 
     Pref preferences;
 

@@ -193,18 +193,7 @@ public class QuotesDB {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        quotesdb.child(path).child(id).child("userphoto").setValue(photourl).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-
-                    assert user != null;
-                    Snacky.builder().setActivity(activity).setText("Foto alterada, " + user.getDisplayName() + "!").
-                            success().show();                    }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
-                }
-            }
-        });
+        quotesdb.child(path).child(id).child("userphoto").setValue(photourl);
 
     }
 
@@ -214,17 +203,7 @@ public class QuotesDB {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        quotesdb.child(path).child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-
-                    Snacky.builder().setActivity(activity).setText("Posts removidos" + Objects.requireNonNull(user).getDisplayName() + "!").
-                            success().show();                    }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
-                }
-            }
-        });
+        quotesdb.child(path).child(id).removeValue();
 
     }
 
@@ -279,16 +258,7 @@ public class QuotesDB {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
         assert user != null;
-        quotesdb.child(path).child(id).child("username").setValue(user.getDisplayName()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Snacky.builder().setActivity(activity).success().setText("Alteração conluída").show();
-                }else{
-                    Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
-                }
-            }
-        });
+        quotesdb.child(path).child(id).child("username").setValue(user.getDisplayName());
 
     }
 

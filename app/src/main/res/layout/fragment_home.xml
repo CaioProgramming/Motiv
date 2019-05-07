@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/home"
@@ -8,92 +8,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment">
 
-    <android.support.design.widget.AppBarLayout
-        android:elevation="4dp"
-        android:id="@+id/appbarlayout"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.design.widget.CollapsingToolbarLayout
-
-            app:contentScrim="@color/colorPrimary"
-            android:id="@+id/collapsetoolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
-            app:expandedTitleTextAppearance="@color/white"
-            android:fitsSystemWindows="true">
-            <LinearLayout
-                android:padding="15dp"
-                android:layout_margin="40dp"
-                android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:textAlignment="center"
-                    android:id="@+id/quote"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="32sp" />
-
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/white"
-                    android:textSize="32sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <android.support.v7.widget.Toolbar
-
-                app:collapseIcon="@drawable/ic_saturn_and_other_planets"
-                app:title="@string/app_name"
-                app:navigationIcon="@drawable/ic_saturn_and_other_planets"
-                android:id="@+id/toolbar"
-                app:layout_collapseMode="pin"
-                app:titleTextColor="@color/white"
-                app:popupTheme="@style/AppTheme"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
 
     <LinearLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <com.google.android.gms.ads.AdView
-        android:layout_marginBottom="5dp"
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-4979584089010597/3019321601">
-    </com.google.android.gms.ads.AdView>
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.v7.widget.RecyclerView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/composesrecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-             />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="1dp"
+            android:textAlignment="center"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/colorPrimaryDark" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:animateLayoutChanges="true"
+            android:background="@color/transparent"
+            app:cardCornerRadius="20dp">
+
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-4979584089010597/3019321601"></com.google.android.gms.ads.AdView>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/composesrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 
     <LinearLayout
-
         android:orientation="vertical"
         android:id="@+id/loading"
         android:layout_width="match_parent"
@@ -120,14 +75,4 @@
     </LinearLayout>
 
 
-
-
-
-
-
-
-
-
-
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
