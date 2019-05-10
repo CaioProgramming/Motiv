@@ -84,8 +84,7 @@ public class HomeFragment extends Fragment {
         this.loading = v.findViewById(R.id.loading);
 
         AdView adView = v.findViewById(R.id.adView);
-        Glide.with(this).asBitmap()
-                .load("https://cdn.dribbble.com/users/4852/screenshots/4949739/monstermind.jpg").into(offlineimage);
+
         MobileAds.initialize(getContext(),
                 "ca-app-pub-4979584089010597/9177000416");
 
@@ -105,15 +104,7 @@ public class HomeFragment extends Fragment {
 
 
         //Carregar();
-        Window window = Objects.requireNonNull(getActivity()).getWindow();
-        if (!preferences.nightmodestate()) {
-            window.setStatusBarColor(getContext().getResources().getColor(R.color.white));
-            Tools.setLightStatusBar(v);
-        } else {
-            window.setStatusBarColor(getContext().getResources().getColor(R.color.black));
-            toolbar.setTitleTextColor(Color.WHITE);
 
-        }
 
 
         Carregar();

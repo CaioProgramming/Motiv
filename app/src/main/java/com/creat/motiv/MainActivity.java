@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             this.finish();
         }
+        preferences = new Pref(context);
         setContentView(R.layout.activity_main2);
         findViewById(R.id.offlinemssage);
         newquote = findViewById(R.id.newquote);
@@ -171,7 +172,8 @@ public class MainActivity extends AppCompatActivity {
 
             builder.show();}
 
-        theme();
+        //theme();
+        preferences.nightmodestate();
         internetconnection();
         navigation.setSelectedItemId(R.id.navigation_home);
         version();
@@ -180,8 +182,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void restart(){
+        Intent i = new Intent(this,MainActivity.class);
+        startActivity(i);
+
+    }
+
     private void agree() {
-        preferences = new Pref(context);
         m_dialog = new Dialog(this, R.style.Dialog_No_Border);
         Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
         LayoutInflater m_inflater = LayoutInflater.from(context);
@@ -260,29 +267,6 @@ public class MainActivity extends AppCompatActivity {
           });
     }
 
-    private void theme() {
-        preferences = new Pref(this);
-        if (preferences.nightmodestate()) {
-
-            navigation.setBackgroundColor(getResources().getColor(R.color.black));
-            navigation.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
-            navigation.setItemIconTintList(ColorStateList.valueOf(Color.WHITE));
-            container.setBackgroundColor(getResources().getColor(R.color.black));
-            newquote.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
-            setTheme(R.style.AppTheme_Night);
-
-        }else{
-            navigation.setBackgroundColor(Color.WHITE);
-            navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
-            navigation.setItemIconTintList(ColorStateList.valueOf(Color.BLACK));
-            container.setBackgroundColor(Color.WHITE);
-            newquote.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-            setTheme(R.style.AppTheme);
-
-
-        }
-
-    }
 
     @Override
     protected void onResume() {
@@ -338,15 +322,17 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.theme) {
+            preferences = new Pref(context);
             if (preferences.nightmodestate()){
                 preferences.setNight(false);
-
-                theme();
+                restart();
+                //theme();
 
 
             }else {
                 preferences.setNight(true);
-                theme();
+                restart();
+                //theme();
 
 
 

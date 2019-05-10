@@ -21,9 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_gravity="start"
+                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:padding="5dp"
@@ -33,20 +32,22 @@
                     android:src="@drawable/penguin" />
 
                 <TextView
-                    android:textColor="@color/black"
+                    android:layout_gravity="center"
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/username"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <ImageButton
+                    android:layout_gravity="center"
                     android:id="@+id/menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:src="@drawable/ic_more_vert_black_24dp"
-                    android:tint="@color/grey_800" />
+                    android:tint="@color/grey_900" />
 
                 <ImageButton
                     android:id="@+id/reported"
@@ -117,6 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:textColor="?attr/textcolor"
                     android:button="@drawable/favoritecheck"
                     android:padding="5dp" />
                 <ImageButton

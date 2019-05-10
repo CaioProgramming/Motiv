@@ -152,40 +152,16 @@ public class AboutFragment extends Fragment {
 
         CarregarAll();
 
-        Theme();
+        //Theme();
 
-        statusbar();
+       // statusbar();
         return view;
     }
 
-    private void statusbar() {
-        Window window = getActivity().getWindow();
-        if (window.getStatusBarColor() != getContext().getResources().getColor(R.color.colorPrimaryDark)) {
-            window.setStatusBarColor(getContext().getResources().getColor(R.color.colorPrimaryDark));
-        }
-    }
 
 
-    private void Theme() {
-        preferences = new Pref(Objects.requireNonNull(getContext()));
-        int white = Color.WHITE;
-        if (preferences.nightmodestate()) {
-            artiststitle.setTextColor(white);
-            artiststitle.setBackgroundTintList(ColorStateList.valueOf(white));
-            creatorstitle.setBackgroundTintList(ColorStateList.valueOf(white));
-            suportitle.setBackgroundTintList(ColorStateList.valueOf(white));
 
-            creatorstitle.setTextColor(white);
-
-            suportitle.setTextColor(white);
-
-
-            referencestitle.setTextColor(white);
-
-
-        }
-    }
-    private void loadRewardedVideoAd() {
+     private void loadRewardedVideoAd() {
         rewardedVideoAd.loadAd("ca-app-pub-4979584089010597/9410101997",
                 new AdRequest.Builder().build());
 

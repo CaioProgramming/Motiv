@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "307669618733-hbaou11v33jb67a09mqnamoqjijgielj.apps.googleusercontent.com",
+          "client_id": "307669618733-j81oeaj5139t6ri6fim5gb465rsv2e3a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.creat.motiv",
-            "certificate_hash": "e52ea948ad8eb3370c325822e60b1550052192ac"
+            "certificate_hash": "27f9c3e4d6329afb5ec5c475f97e4c1a6fe0f664"
+          }
+        },
+        {
+          "client_id": "307669618733-fh2e1gfes9nfgad797jtq66kmguml2gf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creat.motiv",
+            "certificate_hash": "eb0d9afcb3a04748160227aae2b8c969db272ef2"
           }
         },
         {
@@ -31,11 +39,11 @@
           }
         },
         {
-          "client_id": "307669618733-fh2e1gfes9nfgad797jtq66kmguml2gf.apps.googleusercontent.com",
+          "client_id": "307669618733-hbaou11v33jb67a09mqnamoqjijgielj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.creat.motiv",
-            "certificate_hash": "eb0d9afcb3a04748160227aae2b8c969db272ef2"
+            "certificate_hash": "e52ea948ad8eb3370c325822e60b1550052192ac"
           }
         },
         {
@@ -49,20 +57,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       },
       "admob_app_id": "ca-app-pub-4979584089010597~4181793255"
@@ -86,15 +87,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

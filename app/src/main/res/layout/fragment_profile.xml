@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:background="@color/transparent"
-    tools:context=".Fragments.HomeFragment"
+     tools:context=".Fragments.HomeFragment"
     android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
         android:elevation="4dp"

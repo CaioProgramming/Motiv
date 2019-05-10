@@ -6,6 +6,7 @@
     android:layout_height="60dp"
     android:layout_margin="5dp"
     android:elevation="4dp"
+    android:background="?attr/backgroundcolor"
     android:orientation="horizontal"
     app:cardCornerRadius="10dp">
 
@@ -19,7 +20,7 @@
       android:id="@+id/reference"
       android:fontFamily="serif"
       android:padding="10dp"
-      android:textColor="@color/black"
+      android:textColor="?attr/textcolor"
       android:textSize="24sp"
       android:text="@string/reference"
       android:layout_width="wrap_content"

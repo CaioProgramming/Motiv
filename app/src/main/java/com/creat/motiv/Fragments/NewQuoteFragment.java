@@ -108,7 +108,7 @@ public class NewQuoteFragment extends Fragment {
 
         username.setText(user.getDisplayName());
         Glide.with(this).load(user.getPhotoUrl()).into(userpic);
-        theme();
+        //theme();
 
         backcolorfab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,15 +275,6 @@ public class NewQuoteFragment extends Fragment {
         m_dialog.setCancelable(false);
     }
 
-    private void theme() {
-        if (preferences.nightmodestate()) {
-            categories.setTabTextColors(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.lwhite), getActivity().getResources().getColor(R.color.white));
-            categories.setSelectedTabIndicatorColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.white));
-            frase.setTextColor(Color.BLACK);
-            frase.setHintTextColor(Color.LTGRAY);
-            author.setHintTextColor(Color.LTGRAY);
-        }
-    }
 
 
     private void BackColorpicker() {

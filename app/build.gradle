@@ -4,12 +4,7 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'mtvky'
-            keyPassword 'inlustris1810'
-            storeFile file('C:/Users/cacai/Documents/programas/motiv/motiv_keystr.jks')
-            storePassword 'inlustris1810'
-        }
+
     }
     compileSdkVersion 27
     defaultConfig {
@@ -31,8 +26,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
-            signingConfig signingConfigs.config
-        }
+         }
     }
 }
 

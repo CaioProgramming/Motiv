@@ -65,8 +65,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         quotesearch = new ArrayList<>();
         quotesdb = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        preferences = new Pref(Objects.requireNonNull(getContext()));
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+         View view = inflater.inflate(R.layout.fragment_search, container, false);
         this.icon = view.findViewById(R.id.icon);
         this.toolbar = view.findViewById(R.id.toolbar);
         this.searchoptions = view.findViewById(R.id.searchoptions);
@@ -123,12 +122,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         });
 
 
-        if (preferences.nightmodestate()) {
-            icon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-            search.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey_700)));
-            searchoptions.setTabTextColors(getActivity().getResources().getColor(R.color.lwhite), getActivity().getResources().getColor(R.color.white));
-            searchoptions.setSelectedTabIndicatorColor(getContext().getResources().getColor(R.color.colorPrimary));
-        }
+
         Categories("Amor");
 
         search.setOnQueryTextListener(this);

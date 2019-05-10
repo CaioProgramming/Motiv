@@ -74,10 +74,7 @@ public class RecyclerReferencesAdapter extends RecyclerView.Adapter<RecyclerRefe
         }
         Pref preferences = new Pref(mContext);
         int white = Color.WHITE;
-        if (preferences.nightmodestate()) {
-            holder.nome.setTextColor(white);
 
-        }
 
     }
 

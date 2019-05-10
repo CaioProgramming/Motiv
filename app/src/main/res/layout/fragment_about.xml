@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:animateLayoutChanges="true"
     android:layout_width="match_parent"
+    android:background="?attr/backgroundcolor"
     android:layout_height="match_parent">
     <LinearLayout
         android:animateLayoutChanges="true"
@@ -23,7 +24,7 @@
                 android:layout_margin="15dp"
                 android:text="@string/criadores"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="?attr/textcolor"
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
@@ -51,7 +52,7 @@
                 android:layout_margin="15dp"
                 android:text="@string/refer_ncias"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="?attr/textcolor"
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
@@ -73,7 +74,7 @@
                 android:id="@+id/artiststitle"
                 android:layout_margin="15dp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="?attr/textcolor"
                 android:textSize="26sp"
                 android:text="@string/artistas"
                 android:textStyle="bold"

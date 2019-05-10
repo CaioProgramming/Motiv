@@ -82,7 +82,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimaryDark" />
+            android:resource="@drawable/ic_saturn_and_other_planets" />
 
         <activity android:name=".EditActivity" />
 

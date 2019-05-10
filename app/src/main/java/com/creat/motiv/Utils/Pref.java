@@ -2,22 +2,46 @@ package com.creat.motiv.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatDelegate;
+
+import com.creat.motiv.R;
 
 public class Pref {
     SharedPreferences mySharedPreferences;
-
+    Context context;
     public Pref(Context context){
         mySharedPreferences = context.getSharedPreferences("filename",Context.MODE_PRIVATE);
+        this.context = context;
     }
     public void setNight(boolean state){
-        SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putBoolean("NightMode",state);
-        editor.commit();
+
+        if (state) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            context.setTheme(R.style.AppTheme_Night);
+            SharedPreferences.Editor editor = mySharedPreferences.edit();
+            editor.putBoolean("NightMode", state);
+            editor.commit();
+
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            context.setTheme(R.style.AppTheme);
+            SharedPreferences.Editor editor = mySharedPreferences.edit();
+            editor.putBoolean("NightMode", state);
+            editor.commit();
+        }
     }
 
     public boolean nightmodestate() {
-        Boolean state = mySharedPreferences.getBoolean("NightMode", false);
-        return state;
+
+         if (!mySharedPreferences.getBoolean("NightMode", false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            return true;
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            return false;
+
+        }
+
     }
 
     public void setAgree(boolean state) {

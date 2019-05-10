@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true"
-    android:orientation="vertical"
-    android:background="@color/transparent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
+    android:fillViewport="false"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.NestedScrollView
@@ -19,9 +19,9 @@
             android:orientation="vertical">
 
             <Toolbar
-                android:layout_height="wrap_content"
                 android:id="@+id/options"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:elevation="0dp">
 
                 <LinearLayout
@@ -35,33 +35,33 @@
                         android:layout_height="120dp" />
 
                     <android.support.design.widget.TabLayout
+                        android:id="@+id/categories"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="1dp"
-                        android:id="@+id/categories"
-                        app:tabIndicatorColor="@color/colorPrimary"
+                        app:tabIndicatorColor="?attr/titlecolor"
                         app:tabMode="scrollable"
-                        app:tabSelectedTextColor="@color/colorPrimaryDark"
-                        android:layout_width="match_parent"
+                        app:tabSelectedTextColor="?attr/textcolor"
                         app:tabTextColor="@color/lblack">
 
                         <android.support.design.widget.TabItem
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="amor" />
 
                         <android.support.design.widget.TabItem
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Música" />
 
                         <android.support.design.widget.TabItem
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Citação" />
 
                         <android.support.design.widget.TabItem
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Motivação" />
 
 
@@ -86,7 +86,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="start"
                         android:gravity="center">
 
                         <de.hdodenhof.circleimageview.CircleImageView
@@ -138,6 +138,7 @@
                         android:hint="@string/quote"
                         android:padding="5dp"
                         android:textAlignment="center"
+                        android:textColorHint="?attr/hintcolor"
                         android:textSize="24sp"
                         android:typeface="normal" />
 
@@ -190,8 +191,8 @@
         android:id="@+id/material_design_android_floating_action_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"

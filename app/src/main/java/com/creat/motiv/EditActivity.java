@@ -102,8 +102,7 @@ public class EditActivity extends AppCompatActivity {
         } catch (ClassNotFoundException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        theme();
-        fabclicks();
+         fabclicks();
         loadquote();
         setActionBar(options);
 
@@ -297,14 +296,6 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
-    private void theme() {
-        Pref preferences = new Pref(this);
-        if (preferences.nightmodestate()) {
-            edit.setBackgroundResource(R.color.grey_800);
-            categories.setTabTextColors(getResources().getColor(R.color.lwhite), getResources().getColor(R.color.colorPrimary));
-            categories.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimary));
-        }
-    }
 
 
 

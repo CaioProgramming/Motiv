@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:id="@+id/layout"
-    android:background="@color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="?attr/backgroundcolor"
     android:layout_height="match_parent">
     <ImageView
         android:layout_below="@id/text"

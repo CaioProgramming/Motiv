@@ -59,11 +59,7 @@ public class RecyclerArtistsAdapter extends RecyclerView.Adapter<RecyclerArtists
 
         Pref preferences = new Pref(mContext);
         int white = Color.WHITE;
-        if (preferences.nightmodestate()) {
-            holder.nome.setTextColor(white);
-            holder.layout.setBackgroundTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.grey_800)));
 
-        }
         holder.colors.setBackgroundColor(ColorUtils.getRandomColor());
 
 

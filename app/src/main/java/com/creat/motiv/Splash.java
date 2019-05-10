@@ -38,8 +38,7 @@ public class Splash extends AppCompatActivity {
         ImageView applogo = findViewById(R.id.applogo);
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
-         Window window = getWindow();
-        setalarm();
+         setalarm();
          getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         CountDownTimer countDownTimer = new CountDownTimer(3000,100) {
