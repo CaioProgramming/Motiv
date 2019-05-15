@@ -91,8 +91,7 @@ public class NewQuoteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_newquote, container, false);
         this.categories = view.findViewById(R.id.categories);
         android.widget.Toolbar options = view.findViewById(R.id.options);
-        com.github.clans.fab.FloatingActionButton salvar = view.findViewById(R.id.salvar);
-        com.github.clans.fab.FloatingActionButton fontpickerfab = view.findViewById(R.id.fontpickerfab);
+         com.github.clans.fab.FloatingActionButton fontpickerfab = view.findViewById(R.id.fontpickerfab);
         com.github.clans.fab.FloatingActionButton backcolorfab = view.findViewById(R.id.backcolorfab);
         com.github.clans.fab.FloatingActionButton textcolorfab = view.findViewById(R.id.textcolorfab);
         com.github.clans.fab.FloatingActionButton categoryfab = view.findViewById(R.id.categoryfab);
@@ -105,7 +104,7 @@ public class NewQuoteFragment extends Fragment {
         TextView username = view.findViewById(R.id.username);
         CircleImageView userpic = view.findViewById(R.id.userpic);
         this.colorlibrary = view.findViewById(R.id.colorlibrary);
-
+        Button salvar = view.findViewById(R.id.salvar);
         username.setText(user.getDisplayName());
         Glide.with(this).load(user.getPhotoUrl()).into(userpic);
         //theme();
@@ -328,7 +327,7 @@ public class NewQuoteFragment extends Fragment {
     }
 
     private void Fontpicker() {
-         BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
+        BottomSheetDialog myDialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
         final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         blurView.setVisibility(View.VISIBLE);
         blurView.setBlurRadius(50);

@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
 
 
     private RecyclerView composesrecycler;
-    private Query quotesdb;
 
     ArrayList<Quotes> quotesArrayList;
     private android.support.v7.widget.Toolbar toolbar;
@@ -80,8 +79,7 @@ public class HomeFragment extends Fragment {
         v.findViewById(R.id.home);
         v.findViewById(R.id.appbarlayout);
 
-        ImageView offlineimage = v.findViewById(R.id.offlineimage);
-        this.loading = v.findViewById(R.id.loading);
+         this.loading = v.findViewById(R.id.loading);
 
         AdView adView = v.findViewById(R.id.adView);
 
@@ -98,7 +96,6 @@ public class HomeFragment extends Fragment {
         toolbar = v.findViewById(R.id.toolbar);
 
         composesrecycler = v.findViewById(R.id.composesrecycler);
-        quotesdb = FirebaseDatabase.getInstance().getReference();
         //collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
         tutorial();
 
@@ -183,6 +180,10 @@ public class HomeFragment extends Fragment {
         if (getActivity() == null || getContext() == null){
             return;
         }
+        Query quotesdb;
+
+        quotesdb = FirebaseDatabase.getInstance().getReference();
+
         quotesdb.keepSynced(false);
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         if (this.isAdded()) {
@@ -307,7 +308,7 @@ public class HomeFragment extends Fragment {
 
     private void show() {
 
-        CountDownTimer timer = new CountDownTimer(9000, 100) {
+        CountDownTimer timer = new CountDownTimer(2000, 100) {
             @Override
             public void onTick(long l) {
 

@@ -50,6 +50,8 @@ public class QuotesDB {
         this.quotes = quotes;
     }
 
+
+
     public void Inserir(){
         final ProgressDialog progressDialog = new ProgressDialog(qActivity);
         progressDialog.setMessage("Salvando");

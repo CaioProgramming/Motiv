@@ -35,7 +35,7 @@ public class Notifications extends FirebaseMessagingService{
     private void notification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this,Splash.class);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setContentTitle("Ei " + user.getDisplayName());
@@ -45,7 +45,7 @@ public class Notifications extends FirebaseMessagingService{
         notificationBuilder.setStyle(new NotificationCompat.BigTextStyle());
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         notificationBuilder.setVibrate(new long[] { 100, 1000});
-        notificationBuilder.setCategory(Notification.CATEGORY_PROMO);
+        notificationBuilder.setCategory(Notification.CATEGORY_MESSAGE);
         notificationBuilder.setSound(Uri.parse("android.resource://com.creat.motiv/"+R.raw.plucky));
         notificationBuilder.setSmallIcon(R.drawable.ic_notification);
         notificationBuilder.setContentIntent(pendingIntent);

@@ -66,8 +66,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         quotesdb = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
          View view = inflater.inflate(R.layout.fragment_search, container, false);
-        this.icon = view.findViewById(R.id.icon);
-        this.toolbar = view.findViewById(R.id.toolbar);
+         this.toolbar = view.findViewById(R.id.toolbar);
         this.searchoptions = view.findViewById(R.id.searchoptions);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         this.search = view.findViewById(R.id.search);

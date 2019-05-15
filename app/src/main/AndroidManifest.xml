@@ -26,6 +26,11 @@
             <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id" />
+            <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/ic_notification" />
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/colorPrimaryDark" />
         </provider>
 
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
@@ -80,9 +85,7 @@
 
         <receiver android:name=".Utils.Notification_reciever" />
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@drawable/ic_saturn_and_other_planets" />
+
 
         <activity android:name=".EditActivity" />
 

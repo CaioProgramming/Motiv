@@ -92,7 +92,7 @@ public class Notification_reciever extends BroadcastReceiver {
             notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
             notificationBuilder.setVibrate(new long[] { 100, 500});
             notificationBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-        notificationBuilder.setCategory(Notification.CATEGORY_MESSAGE);
+            notificationBuilder.setCategory(Notification.CATEGORY_MESSAGE);
 
         notificationBuilder.setSmallIcon(R.drawable.ic_notification);
             notificationBuilder.setContentIntent(pendingIntent);

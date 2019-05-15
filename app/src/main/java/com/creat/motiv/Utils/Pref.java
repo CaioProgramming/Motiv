@@ -33,14 +33,7 @@ public class Pref {
 
     public boolean nightmodestate() {
 
-         if (!mySharedPreferences.getBoolean("NightMode", false)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            return true;
-        }else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            return false;
-
-        }
+        return mySharedPreferences.getBoolean("NightMode", false);
 
     }
 

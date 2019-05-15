@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.creat.motiv.Utils.Notification_reciever;
 import com.creat.motiv.Utils.Pref;
@@ -18,9 +19,12 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,17 +32,26 @@ import de.mateware.snacky.Snacky;
 
 public class Splash extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
+    
      @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+
+         Pref preferences = new Pref(this);
+
+         setContentView(R.layout.activity_splash);
         ImageView applogo = findViewById(R.id.applogo);
+         TextView brand = findViewById(R.id.inlustrisbrand);
+         Date datenow = Calendar.getInstance().getTime();
+         Calendar calendar = new GregorianCalendar();
+         calendar.setTime(datenow);
+         brand.setText("Inlustris 2018 - " + String.valueOf(calendar.get(Calendar.YEAR)));
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
-         setalarm();
+         //setalarm();
          getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         CountDownTimer countDownTimer = new CountDownTimer(3000,100) {

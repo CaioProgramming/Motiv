@@ -3,11 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-
-        <item name="android:statusBarColor">@color/grey_200</item>
-        <item name="titlecolor">@color/colorPrimary</item>
+          <item name="titlecolor">@color/colorPrimary</item>
         <item name="textcolor">@color/black</item>
-        <item name="hintcolor">@color/grey_400</item>
+        <item name="hintcolor">@color/grey_300</item>
         <item name="backgroundcolor">@color/white</item>
         <item name="android:textColorHighlight">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -20,12 +18,10 @@
     <style name="AppTheme.Night" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="hintcolor">@color/grey_700</item>
-
-          <item name="android:statusBarColor">@color/grey_900</item>
-        <item name="titlecolor">#BA68C8</item>
+         <item name="titlecolor">#BA68C8</item>
         <item name="textcolor">@color/white</item>
-         <item name="backgroundcolor">@color/grey_800</item>
-         <item name="android:textColorHighlight">@color/colorPrimary</item>
+        <item name="backgroundcolor">@color/grey_800</item>
+        <item name="android:textColorHighlight">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

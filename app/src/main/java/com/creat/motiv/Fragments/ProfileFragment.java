@@ -92,8 +92,7 @@ public class ProfileFragment extends Fragment {
     private android.support.v7.widget.RecyclerView myquotesrecycler;
     private Query quotesdb;
     private Toolbar toolbar;
-    private android.widget.ImageView offlineimage;
-    private RelativeLayout loading;
+     private RelativeLayout loading;
     private TextView username;
     private com.github.clans.fab.FloatingActionButton camerafab;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
@@ -239,8 +238,7 @@ public class ProfileFragment extends Fragment {
         this.camerafab = v.findViewById(R.id.camerafab);
         this.username = v.findViewById(R.id.username);
         this.loading = v.findViewById(R.id.loading);
-        this.offlineimage = v.findViewById(R.id.offlineimage);
-        toolbar = v.findViewById(R.id.toolbar);
+         toolbar = v.findViewById(R.id.toolbar);
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
         profilepic = v.findViewById(R.id.profilepic);
 
@@ -307,22 +305,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        Glide.with(getContext())
-                .load("http://www.fubiz.net/wp-content/uploads/2016/07/funnysurreal-12.jpg").listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                return false;
-            }
 
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                offlineimage.setImageDrawable(resource);
-                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-                offlineimage.startAnimation(animation);
-                return true;
-            }
-        })
-                .into(offlineimage);
 
 
         Tutorial(v);
@@ -968,7 +951,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void show() {
-        CountDownTimer timer = new CountDownTimer(5000, 100) {
+        CountDownTimer timer = new CountDownTimer(2000, 100) {
             @Override
             public void onTick(long l) {
 

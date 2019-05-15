@@ -14,15 +14,19 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Version;
@@ -32,8 +36,10 @@ import com.creat.motiv.Fragments.NewQuoteFragment;
 import com.creat.motiv.Fragments.ProfileFragment;
 import com.creat.motiv.Fragments.SearchFragment;
 import com.creat.motiv.Utils.BottomNavigationHelper;
+import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,8 +53,9 @@ import java.util.Objects;
 import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
-
+    static boolean calledAlready = false;
     private BottomNavigationView navigation;
+    BottomSheetDialog myDialog;
     Version version;
     Context context = this;
     FloatingActionButton newquote;
@@ -105,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     Pref preferences;
     private android.widget.RelativeLayout container;
     private Dialog m_dialog;
-
+    RealtimeBlurView blurView;
     private void newquotebutton() {
         if (newquote.getVisibility() == View.GONE) {
             newquote.setVisibility(View.VISIBLE);
@@ -117,6 +124,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!calledAlready)
+        {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Intent i = new Intent(this, Splash.class);
@@ -132,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         this.offlineimage = findViewById(R.id.offlineimage);
         this.reload = findViewById(R.id.reload);
         this.offlinemessage = findViewById(R.id.offlinemssage);
-        findViewById(R.id.rootblur);
+        blurView = findViewById(R.id.rootblur);
         this.navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationHelper.disableShiftMode(navigation);
@@ -141,13 +156,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame, new NewQuoteFragment())
-                        .commit();
-                newquote.startAnimation(out);
-                newquote.setVisibility(View.GONE);
-
+               NewQuoteDialog();
             }
         });
 
@@ -171,15 +180,30 @@ public class MainActivity extends AppCompatActivity {
             });
 
             builder.show();}
-
+        if (preferences.nightmodestate()){
+            setTheme(R.style.AppTheme_Night);
+        }
         //theme();
-        preferences.nightmodestate();
+
         internetconnection();
         navigation.setSelectedItemId(R.id.navigation_home);
         version();
         agree();
 
     }
+
+    private void NewQuoteDialog(){
+
+        NewQuotepopup newQuotepopup = new NewQuotepopup(this);
+        newQuotepopup.showup();
+
+
+
+
+
+
+    }
+
 
 
     private void restart(){
@@ -222,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
     private void version() {
         final String versionName = BuildConfig.VERSION_NAME;
         version = new Version();
+
         Query versioncheck;
         versioncheck = FirebaseDatabase.getInstance().getReference().child("version");
 
@@ -323,15 +348,14 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.theme) {
             preferences = new Pref(context);
-            if (preferences.nightmodestate()){
-                preferences.setNight(false);
-                restart();
-                //theme();
-
-
-            }else {
+            if (!preferences.nightmodestate()){
                 preferences.setNight(true);
                 restart();
+                return false;
+            }else {
+                preferences.setNight(false);
+                restart();
+                return false;
                 //theme();
 
 
@@ -392,21 +416,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void internetconnection() {
-        if (!isNetworkAvailable()) {
-            offline.setVisibility(View.VISIBLE);
-            offlinemessage.setText(Tools.offlinemessage());
-            Glide.with(this).asGif().load(R.drawable.spaceguy).into(offlineimage);
-            reload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    internetconnection();
+        if (myDialog == null) {
+            myDialog = new BottomSheetDialog(Objects.requireNonNull(this), R.style.Dialog_No_Border);
+            myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            if (!isNetworkAvailable()) {
+                myDialog.setContentView(R.layout.noconnectioncard);
+                myDialog.setCanceledOnTouchOutside(true);
+                TextView message = myDialog.findViewById(R.id.offlinemssage);
+                message.setText(Tools.offlinemessage());
+                if (!myDialog.isShowing()) {
+                    myDialog.show();
                 }
-            });
-            navigation.setVisibility(View.GONE);
-        } else {
-            offline.setVisibility(View.GONE);
-            navigation.setVisibility(View.VISIBLE);
+            } else {
+
+                myDialog.dismiss();
+            }
         }
+
+
     }
 
 }

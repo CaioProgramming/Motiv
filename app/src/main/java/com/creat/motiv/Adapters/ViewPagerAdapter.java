@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,14 +44,13 @@ import de.mateware.snacky.Snacky;
 import static com.creat.motiv.Database.QuotesDB.path;
 
 public class ViewPagerAdapter extends PagerAdapter {
-    Dialog m_dialog;
+    BottomSheetDialog m_dialog;
     String uri;
     private Context context;
     private Activity activity;
-    private ArrayList<Quotes> quotesArrayList;
-    private Query quotesdb;
+     private Query quotesdb;
     private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+    private long count;
 
     private int[] slide_images = {
             R.mipmap.ic_launcher,
@@ -86,7 +86,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     public ViewPagerAdapter(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
-        quotesArrayList = new ArrayList<>();
+
         Carregar();
 
 
@@ -101,33 +101,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                quotesArrayList.clear();
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Quotes quotes = new Quotes();
-                    Quotes q = d.getValue(Quotes.class);
-                    if (q != null) {
-                        quotes.setId(d.getKey());
-                        quotes.setAuthor(q.getAuthor());
-                        quotes.setQuote(q.getQuote());
-                        quotes.setUserID(q.getUserID());
-                        quotes.setCategoria(q.getCategoria());
-                        quotes.setData(q.getData());
-                        quotes.setUsername(q.getUsername());
-                        quotes.setUserphoto(q.getUserphoto());
-                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
-                            quotes.setTextcolor(Color.BLACK);
-                            quotes.setBackgroundcolor(Color.WHITE);
-                        } else {
-                            quotes.setTextcolor(q.getTextcolor());
-                            quotes.setBackgroundcolor(q.getBackgroundcolor());
-                        }
-                        quotesArrayList.add(quotes);
-
-
-                        System.out.println("Quotes " + quotesArrayList.size());
-
-                    }
-                }
+              count= dataSnapshot.getChildrenCount();
 
             }
 
@@ -138,6 +112,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         });
 
     }
+
 
 
     @Override
@@ -196,13 +171,13 @@ public class ViewPagerAdapter extends PagerAdapter {
         text.setText(slide_text[position]);
         textView2.setText(slide_titles[position]);
         if (position == 6) {
-            text.setText(MessageFormat.format("Já são {0} frases postadas no motiv", quotesArrayList.size()));
+            text.setText(MessageFormat.format("Já são {0} frases postadas no motiv", count));
 
 
             final Intent i = new Intent(context, MainActivity.class);
 
             preferences = new Pref(context);
-            m_dialog = new Dialog(activity, R.style.Dialog_No_Border);
+            m_dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
             Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
             LayoutInflater m_inflater = LayoutInflater.from(context);
             View m_view = m_inflater.inflate(R.layout.politics, null);
@@ -253,13 +228,14 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
 
+
+
     private void Comecar(){
         final Intent i = new Intent(context, MainActivity.class);
 
         preferences = new Pref(context);
-        m_dialog = new Dialog(activity, R.style.Dialog_No_Border);
-        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
-        LayoutInflater m_inflater = LayoutInflater.from(context);
+        m_dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+         LayoutInflater m_inflater = LayoutInflater.from(context);
         View m_view = m_inflater.inflate(R.layout.politics, null);
         m_dialog.setContentView(m_view);
         Button agreebutton = m_view.findViewById(R.id.agreebutton);
@@ -271,8 +247,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             }
         });
-        m_view.startAnimation(in);
-        if (preferences.agreestate()) {
+         if (preferences.agreestate()) {
 
             quotesdb = FirebaseDatabase.getInstance().getReference();
             quotesdb.keepSynced(false);
@@ -292,6 +267,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                     DataSnapshot childSnapshot = (DataSnapshot) itr.next();
 
                     Pics p = childSnapshot.getValue(Pics.class);
+                    System.out.println(uri);
                     uri = p.getUri();
                 }
 

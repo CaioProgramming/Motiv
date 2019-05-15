@@ -4,25 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundcolor"
-      android:id="@+id/container">
+    android:id="@+id/container">
 
 
     <FrameLayout
-             android:layout_above="@id/navigation"
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_above="@id/navigation"
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
-        android:elevation="0dp"
-        app:elevation="0dp"
-        app:itemTextColor="?attr/textcolor"
+        app:elevation="4dp"
+        style="@style/AppTheme"
         android:background="?attr/backgroundcolor"
+        android:backgroundTint="?attr/backgroundcolor"
+        app:itemBackground="?attr/backgroundcolor"
+        app:itemTextColor="?attr/textcolor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-         android:id="@+id/navigation"
-         app:menu="@menu/navigation">
+        android:id="@+id/navigation"
+        app:menu="@menu/navigation">
 
 
     </android.support.design.widget.BottomNavigationView>
@@ -33,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="?attr/backgroundcolor"
         app:borderWidth="2dp"

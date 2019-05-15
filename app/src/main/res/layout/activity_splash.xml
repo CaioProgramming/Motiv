@@ -16,9 +16,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <ImageView
+        android:tint="@color/white"
         android:id="@+id/applogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
         android:src="@drawable/ic_saturn_and_other_planets" />
     <com.github.silvestrpredko.dotprogressbar.DotProgressBar
         app:animationDirection="right"
@@ -27,6 +28,15 @@
         app:startColor="@color/transparent"
         app:endColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="15dp" />
     </LinearLayout>
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:textColor="@color/lwhite"
+        android:id="@+id/inlustrisbrand"
+        android:text="Inlustris 2018- "
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

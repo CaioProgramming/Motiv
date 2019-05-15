@@ -70,6 +70,7 @@
             </Toolbar>
 
             <LinearLayout
+                android:id="@+id/quotecard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -182,21 +183,31 @@
 
 
             </LinearLayout>
+            <Button
+                android:layout_gravity="end"
+                android:layout_margin="15dp"
+                android:textColor="@color/white"
+                android:background="@drawable/ripple_button"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="salvar" />
+
         </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/material_design_android_floating_action_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        fab:menu_animationDelayPerItem="55"
+        android:layout_margin="1dp"
+         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"
-        fab:menu_buttonSpacing="0dp"
+        fab:menu_buttonSpacing="2dp"
         fab:menu_colorNormal="@color/colorPrimary"
         fab:menu_colorPressed="@color/colorPrimaryDark"
         fab:menu_colorRipple="@color/white"
@@ -212,10 +223,9 @@
         fab:menu_labels_margin="0dp"
         fab:menu_labels_maxLines="-1"
         fab:menu_labels_padding="8dp"
-        fab:menu_labels_position="left"
+        fab:menu_labels_position="right"
         fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
         fab:menu_labels_singleLine="false"
-
         fab:menu_labels_textColor="@color/white"
         fab:menu_labels_textSize="15sp"
         fab:menu_openDirection="up">
@@ -266,17 +276,10 @@
             fab:fab_label="Escolher fonte"
             fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/salvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_white_24dp"
-            app:fab_colorNormal="@color/colorPrimary"
-            app:fab_colorPressed="@color/colorPrimaryDark"
-            fab:fab_label="Salvar"
-            fab:fab_size="mini" />
+
 
 
     </com.github.clans.fab.FloatingActionMenu>
+
 
 </RelativeLayout>

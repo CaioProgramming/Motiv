@@ -48,8 +48,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
-        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+         android:orientation="vertical"
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,6 +58,9 @@
         >
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+            android:padding="10dp"
+            android:textStyle="bold"
             android:id="@+id/offlinemssage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,12 +68,13 @@
             android:fontFamily="@font/roboto_regular"
             android:text="Tá carregando, relaxa..."
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
+             android:textSize="24sp" />
         <ImageView
+            android:padding="10dp"
             android:id="@+id/offlineimage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/ic_dog_monochrome"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
 
 
     </LinearLayout>

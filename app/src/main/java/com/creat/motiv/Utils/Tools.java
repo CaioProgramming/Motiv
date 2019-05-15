@@ -94,9 +94,9 @@ public class Tools {
 
 
 
-    private static String offlinefrases[] = {"Ish, sem internet você não consegue fazer nada",
-            "Parece que você está desconectado. Aproveita e cria uma conexão com alguém",
-            "Bom... Parece que você tá sem internet, então acho que você vai ter que aceitar esse gif"
+    private static String offlinefrases[] = {"Sem internet é? Ainda bem que a gente gosta de você e salva tudo offline",
+            "Parece que você está desconectado. Mas as frases ainda estão aqui, quem sabe quando sua conexão voltar tenham mais",
+            "Bom... Parece que você tá sem internet, então acho que você vai ter que ver as frases que ja tinham..."
     };
 
 
