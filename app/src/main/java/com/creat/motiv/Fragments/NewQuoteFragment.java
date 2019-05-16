@@ -450,7 +450,7 @@ public class NewQuoteFragment extends Fragment {
         colorlibrary.setHasFixedSize(true);
         GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
         RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors,getContext(),
-                background,frase,author,getActivity(),texcolorid,backcolorid);
+                background,frase,author,getActivity(),texcolorid,backcolorid,null,null);
         colorlibrary.setAdapter(recyclerColorAdapter);
         colorlibrary.setLayoutManager(llm);
     }

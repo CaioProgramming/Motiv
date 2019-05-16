@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
                 "ca-app-pub-4979584089010597/9177000416");
 
         AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+         adView.loadAd(adRequest);
 
 
         novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");

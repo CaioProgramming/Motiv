@@ -53,8 +53,7 @@ import java.util.Objects;
 import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
-    static boolean calledAlready = false;
-    private BottomNavigationView navigation;
+     private BottomNavigationView navigation;
     BottomSheetDialog myDialog;
     Version version;
     Context context = this;
@@ -125,13 +124,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!calledAlready)
-        {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-            calledAlready = true;
-        }
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Intent i = new Intent(this, Splash.class);

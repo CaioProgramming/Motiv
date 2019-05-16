@@ -27,10 +27,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
+import com.creat.motiv.Adapters.SpinnerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
@@ -72,36 +74,41 @@ public class NewQuotepopup {
     private TextView fontid;
     private TextView texcolorid;
     private TextView backcolorid;
+    private LinearLayout popup;
+    ImageButton backcolorfab,texcolorfab;
+
      private android.support.design.widget.TabLayout categories;
+     private Spinner fonts;
 
 
      public void showup(){
 
          LayoutInflater inflater = LayoutInflater.from(activity);
          BottomSheetDialog myDialog = new BottomSheetDialog(activity);
+         myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
          myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-         myDialog.setContentView(R.layout.settings);
          myDialog.setCanceledOnTouchOutside(true);
          myDialog.setContentView(R.layout.newquotepopup);
          myDialog.show();
          categories = myDialog.findViewById(R.id.categories);
-         ImageButton backcolorfab = myDialog.findViewById(R.id.backcolorfab);
-         ImageButton textcolorfab = myDialog.findViewById(R.id.textcolorfab);
+         this.popup = myDialog.findViewById(R.id.popup);
+         this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
+         this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
          this.backcolorid = myDialog.findViewById(R.id.backcolorid);
          this.texcolorid = myDialog.findViewById(R.id.texcolorid);
          this.fontid = myDialog.findViewById(R.id.fontid);
          this.background = myDialog.findViewById(R.id.background);
          this.author = myDialog.findViewById(R.id.author);
          this.frase = myDialog.findViewById(R.id.quote);
+         this.fonts = myDialog.findViewById(R.id.fonts);
          TextView username = myDialog.findViewById(R.id.username);
          CircleImageView userpic = myDialog.findViewById(R.id.userpic);
          this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
          Button salvar = myDialog.findViewById(R.id.salvar);
          username.setText(user.getDisplayName());
          Glide.with(activity).load(user.getPhotoUrl()).into(userpic);
-
-
-
+         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(activity,frase,author,fontid,fonts);
+         fonts.setAdapter(spinnerAdapter);
          //theme();
          try {
              colorgallery();
@@ -118,7 +125,7 @@ public class NewQuotepopup {
              }
          });
 
-         textcolorfab.setOnClickListener(new View.OnClickListener() {
+         texcolorfab.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  Textocolorpicker();
@@ -141,20 +148,28 @@ public class NewQuotepopup {
                  switch (tab.getPosition()) {
                      case 0:
                          categoria = "Amor";
+                        popup.setBackgroundResource(R.drawable.bottom_line_love);
+
                          break;
                      case 1:
                          categoria = "Música";
+                         popup.setBackgroundResource(R.drawable.bottom_line_music);
+
                          break;
                      case 2:
                          categoria = "Citação";
+                         popup.setBackgroundResource(R.drawable.bottom_line_citation);
 
                          break;
                      case 3:
                          categoria = "Motivação";
+                         popup.setBackgroundResource(R.drawable.bottom_line_motivation);
 
                          break;
                      case 4:
                          categoria = "Nenhuma";
+                         popup.setBackgroundResource(R.drawable.bottom_line_none);
+
                          break;
                      default:
                          categoria = "Nenhuma";
@@ -217,7 +232,13 @@ public class NewQuotepopup {
 
              }
          });
-
+        Tutorial();
+        myDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                activity.findViewById(R.id.blur);
+            }
+        });
 
 
 
@@ -226,24 +247,7 @@ public class NewQuotepopup {
      }
 
 
-    public void configure(View view){
-         user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-
-
-
-        try {
-            colorgallery();
-        } catch (ClassNotFoundException | IllegalAccessException e) {
-            System.out.println("erro ao carregar cores" +  e.getCause());
-        }
-
-        Tutorial();
-
-
-
-    }
 
     private void BackColorpicker() {
         final ColorPicker cp = new ColorPicker(activity);
@@ -429,13 +433,15 @@ public class NewQuotepopup {
         colorlibrary.setHasFixedSize(true);
         GridLayoutManager llm = new GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false);
         RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors,activity,
-                background,frase,author,activity,texcolorid,backcolorid);
+                background,frase,author,activity,texcolorid,backcolorid,texcolorfab,backcolorfab);
         recyclerColorAdapter.notifyDataSetChanged();
 
         colorlibrary.setAdapter(recyclerColorAdapter);
         colorlibrary.setLayoutManager(llm);
 
     }
+
+
 
 
 

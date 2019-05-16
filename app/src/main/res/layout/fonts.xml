@@ -2,28 +2,29 @@
 <android.support.v7.widget.CardView
     android:id="@+id/layout"
      android:elevation="10dp"
-    app:cardCornerRadius="0dp"
+    app:cardCornerRadius="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?attr/backgroundcolor"
+    android:foreground="?attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
          android:padding="2dp"
         android:layout_margin="10dp"
          android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
             android:textAlignment="center"
              android:textColor="?attr/textcolor"
             android:layout_gravity="center"
             android:id="@+id/fonttest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change is a powerful thing"
-            android:textSize="26sp" />
-
+            android:text="@string/app_name"
+             />
 
     </LinearLayout>
 

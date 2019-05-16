@@ -15,6 +15,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,9 +30,10 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
     private TextView textView,author;
     private Activity mActivity;
    private TextView textcolor,backcolor;
+   ImageButton textbutton,backgroundbutton;
 
     public RecyclerColorAdapter(ArrayList<Integer> colorsList, Context mContext, LinearLayout background, TextView textView, TextView author,
-                                Activity mActivity, TextView texcolor, TextView backcolor) {
+                                Activity mActivity, TextView texcolor, TextView backcolor,ImageButton textbutton,ImageButton backgroundbutton) {
         ColorsList = colorsList;
         this.mContext = mContext;
         this.background = background;
@@ -40,6 +42,8 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
         this.author = author;
         this.textcolor = texcolor;
         this.backcolor = backcolor;
+        this.textbutton = textbutton;
+        this.backgroundbutton = backgroundbutton;
     }
 
 
@@ -85,7 +89,7 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
                                     textView.setTextColor(color);
                                     author.setTextColor(color);
                                     textcolor.setText(String.valueOf(color));
-
+                                    textbutton.setImageTintList(ColorStateList.valueOf(color));
                                     System.out.println(textcolor.getText());
                                 }else{
                                     background.setVisibility(View.INVISIBLE);
@@ -98,6 +102,8 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
                                     background.setVisibility(View.VISIBLE);
                                     anim.start();
                                     background.setBackgroundColor(color);
+                                    backgroundbutton.setImageTintList(ColorStateList.valueOf(color));
+
                                     backcolor.setText(String.valueOf(color));
                                     System.out.println(backcolor.getText());
                                 }

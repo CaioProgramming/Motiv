@@ -290,7 +290,7 @@ public class EditActivity extends AppCompatActivity {
         colorlibrary.setHasFixedSize(true);
         GridLayoutManager llm = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
         RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors, this,
-                background, quote, author, this, texcolorid, backcolorid);
+                background, quote, author, this, texcolorid, backcolorid,null,null);
         colorlibrary.setAdapter(recyclerColorAdapter);
         colorlibrary.setLayoutManager(llm);
     }

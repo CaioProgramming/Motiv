@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Random;
 
 import de.mateware.snacky.Snacky;
@@ -96,7 +98,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private void Carregar() {
 
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -252,32 +254,8 @@ public class ViewPagerAdapter extends PagerAdapter {
             quotesdb = FirebaseDatabase.getInstance().getReference();
             quotesdb.keepSynced(false);
 
-            quotesdb = FirebaseDatabase.getInstance().getReference().child("images");
 
-            quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Random random = new Random();
-                    int questionCount = (int) dataSnapshot.getChildrenCount();
-                    int rand = random.nextInt(questionCount);
-                    Iterator itr = dataSnapshot.getChildren().iterator();
-                    for (int i = 0; i < rand; i++) {
-                        itr.next();
-                    }
-                    DataSnapshot childSnapshot = (DataSnapshot) itr.next();
-
-                    Pics p = childSnapshot.getValue(Pics.class);
-                    System.out.println(uri);
-                    uri = p.getUri();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(uri)).build();
-            user.updateProfile(profileChangeRequest);
+            setnewpicture();
             i.putExtra("novo", true);
             context.startActivity(i);
             activity.finish();
@@ -292,6 +270,44 @@ public class ViewPagerAdapter extends PagerAdapter {
                     }).show();
         }
 
+
+    }
+    private void setnewpicture(){
+        Query picsdb = FirebaseDatabase.getInstance().getReference().child("images");
+
+        picsdb.keepSynced(false);
+        picsdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Random random = new Random();
+                int questionCount = (int) dataSnapshot.getChildrenCount();
+                int rand = random.nextInt(questionCount);
+                Iterator itr = dataSnapshot.getChildren().iterator();
+                for(int i = 0; i < rand; i++) {
+                    itr.next();
+                }
+                DataSnapshot childSnapshot = (DataSnapshot) itr.next();
+                Pics pic = childSnapshot.getValue(Pics.class);
+                Pics p = new Pics();
+                if (pic != null) {
+                    p.setUri(pic.getUri());
+                }
+                System.out.println("photo " + uri);
+                uri = p.getUri();
+
+                UserProfileChangeRequest profileChangeRequest = null;
+                if (p.getUri() != null || !p.getUri().isEmpty()) {
+                    profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(p.getUri())).build();
+                    user.updateProfile(profileChangeRequest);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

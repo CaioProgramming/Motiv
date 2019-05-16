@@ -3,236 +3,262 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_margin="4dp"
     app:cardCornerRadius="10dp"
-    android:layout_margin="3dp"
-    android:layout_height="match_parent"
+     android:layout_height="wrap_content"
      android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
-
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/popup"
+            android:background="@drawable/bottom_line_love"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
+                android:layout_margin="1dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:padding="5dp"
-                    android:isScrollContainer="true"
-                    android:background="?attr/backgroundcolor"
-                    android:id="@+id/options"
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    app:cardBackgroundColor="?attr/backgroundcolor"
+                    app:cardCornerRadius="10dp"
+                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="2dp">
-
+                    >
                     <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/colorlibrary"
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp" />
-
-                        <android.support.design.widget.TabLayout
-                            android:id="@+id/categories"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:isScrollContainer="true"
+                            android:id="@+id/options"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="1dp"
-                            app:tabIndicatorColor="?attr/titlecolor"
-                            app:tabMode="scrollable"
-                            app:tabSelectedTextColor="?attr/textcolor"
-                            app:tabTextColor="@color/lblack">
+                            >
 
-                            <android.support.design.widget.TabItem
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="amor" />
+                                android:orientation="vertical">
 
-                            <android.support.design.widget.TabItem
+                                <android.support.v7.widget.RecyclerView
+                                    android:layout_margin="5dp"
+                                    android:id="@+id/colorlibrary"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="110dp" />
+
+                                <android.support.design.widget.TabLayout
+                                    android:id="@+id/categories"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    app:tabIndicatorColor="?attr/titlecolor"
+                                    app:tabMode="scrollable"
+                                    app:tabSelectedTextColor="?attr/textcolor"
+                                    app:tabTextColor="@color/lblack">
+
+                                    <android.support.design.widget.TabItem
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="amor" />
+
+                                    <android.support.design.widget.TabItem
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Música" />
+
+                                    <android.support.design.widget.TabItem
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Citação" />
+
+                                    <android.support.design.widget.TabItem
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Motivação" />
+
+                                    <android.support.design.widget.TabItem
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Nenhuma categoria" />
+
+
+                                </android.support.design.widget.TabLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:gravity="center"
+                                android:orientation="horizontal"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Música" />
+                                android:layout_height="wrap_content">
+                                <Spinner
+                                    android:foreground="?attr/selectableItemBackground"
+                                    android:foregroundTint="?attr/backgroundcolor"
+                                      android:elevation="0dp"
+                                    android:id="@+id/fonts"
+                                    android:layout_margin="1dp"
+                                    android:padding="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
 
-                            <android.support.design.widget.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Citação" />
+                                <ImageButton
+                                    android:padding="10dp"
+                                    android:id="@+id/textcolorfab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/transparent"
+                                    android:src="@drawable/ic_format_color_text_black_24dp"
+                                    android:tint="?attr/hintcolor" />
 
-                            <android.support.design.widget.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Motivação" />
+                                <ImageButton
+                                    android:padding="10dp"
+                                    android:id="@+id/backcolorfab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_format_color_fill_white_24dp"
+                                    android:tint="?attr/hintcolor"
+                                    android:background="@color/transparent"
+                                    />
 
-                            <android.support.design.widget.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nenhuma categoria" />
+                            </LinearLayout>
+                        </LinearLayout>
 
-
-                        </android.support.design.widget.TabLayout>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <android.support.v7.widget.AppCompatSpinner
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageButton
-                        android:padding="10dp"
-                        android:id="@+id/textcolorfab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:src="@drawable/ic_format_color_text_black_24dp"
-                        android:tint="@color/colorPrimaryDark" />
-
-                    <ImageButton
-                        android:padding="10dp"
-                        android:id="@+id/backcolorfab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_format_color_fill_white_24dp"
-                        android:tint="@color/colorPrimaryDark"
-                        android:background="@color/transparent"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/quotecard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/quotedata"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/quotecard"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:gravity="center">
+                            android:orientation="vertical">
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/userpic"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:padding="5dp"
-                                android:src="@drawable/penguin" />
-
-                            <TextView
-                                android:id="@+id/username"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:id="@+id/quotedata"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/username"
-                                android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:layout_margin="10dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:gravity="center">
+
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/userpic"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:padding="5dp"
+                                        android:src="@drawable/penguin" />
+
+                                    <TextView
+                                        android:id="@+id/username"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/username"
+                                        android:textColor="@color/black"
+                                        android:textSize="14sp" />
 
 
 
-                            <ImageButton
-                                android:id="@+id/reported"
-                                android:layout_width="wrap_content"
+                                    <ImageButton
+                                        android:id="@+id/reported"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/transparent"
+                                        android:src="@drawable/ic_flag_black_24dp"
+                                        android:visibility="gone" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+
+                                android:id="@+id/background"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:src="@drawable/ic_flag_black_24dp"
-                                android:visibility="gone" />
+                                android:orientation="vertical"
+                                android:padding="25dp">
+
+                                <EditText
+
+                                    android:id="@+id/quote"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/transparent"
+                                    android:hint="@string/quote"
+                                    android:padding="5dp"
+                                    android:textAlignment="center"
+                                    android:textColorHint="?attr/hintcolor"
+                                    android:textSize="24sp"
+                                    android:typeface="normal" />
+
+                                <EditText
+                                    android:id="@+id/author"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/transparent"
+                                    android:hint="@string/author"
+                                    android:padding="5dp"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="20sp"
+                                    android:typeface="normal" />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/fontid"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:visibility="invisible" />
+
+                                    <TextView
+                                        android:id="@+id/texcolorid"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"
+                                        android:visibility="invisible" />
+
+                                    <TextView
+                                        android:id="@+id/backcolorid"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"
+                                        android:visibility="invisible" />
+                                </LinearLayout>
+                                <Button
+                                    android:id="@+id/salvar"
+                                    android:layout_gravity="end"
+                                    android:layout_margin="15dp"
+                                    android:textColor="@color/white"
+                                    android:background="@drawable/ripple_button"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAllCaps="true"
+                                    android:textStyle="bold"
+                                    android:text="Publicar" />
+                            </LinearLayout>
+
+
+
+
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-
-                        android:id="@+id/background"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="25dp">
-
-                        <EditText
-                            android:id="@+id/quote"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/transparent"
-                            android:hint="@string/quote"
-                            android:padding="5dp"
-                            android:textAlignment="center"
-                            android:textColorHint="?attr/hintcolor"
-                            android:textSize="24sp"
-                            android:typeface="normal" />
-
-                        <EditText
-                            android:id="@+id/author"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/transparent"
-                            android:hint="@string/author"
-                            android:padding="5dp"
-                            android:textAlignment="textEnd"
-                            android:textSize="20sp"
-                            android:typeface="normal" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/fontid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/texcolorid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/backcolorid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:visibility="invisible" />
-                    </LinearLayout>
 
 
-                </LinearLayout>
-                <Button
-                    android:id="@+id/salvar"
-                    android:layout_gravity="end"
-                    android:layout_margin="15dp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/ripple_button"
-                    android:layout_marginBottom="10dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:text="Publicar" />
-
-            </LinearLayout>
+                </android.support.v7.widget.CardView>
 
 
-        </android.support.v4.widget.NestedScrollView>
+            </android.support.v4.widget.NestedScrollView>
+
+
+        </LinearLayout>
+
 
 
 
