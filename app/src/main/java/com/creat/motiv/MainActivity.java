@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,7 +15,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,11 +26,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Version;
 import com.creat.motiv.Fragments.AboutFragment;
 import com.creat.motiv.Fragments.HomeFragment;
-import com.creat.motiv.Fragments.NewQuoteFragment;
 import com.creat.motiv.Fragments.ProfileFragment;
 import com.creat.motiv.Fragments.SearchFragment;
 import com.creat.motiv.Utils.BottomNavigationHelper;
@@ -330,6 +326,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        MenuItem mSearch = menu.findItem(R.id.action_search);
+        SearchView mSearchView = (SearchView) mSearch.getActionView();
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 

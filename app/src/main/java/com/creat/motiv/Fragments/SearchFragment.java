@@ -1,7 +1,6 @@
 package com.creat.motiv.Fragments;
 
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -104,6 +103,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                         break;
                     case 5:
                         Categories("Motivação");
+                        break;
+                    default:
+                        arg = "author";
+                        search.setQueryHint("Pesquisar author...");
                         break;
                 }
 

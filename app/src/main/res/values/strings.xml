@@ -3,6 +3,7 @@
     <string name="app_name">Motiv</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <style name="stroke_width">2</style>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="facebook_app_id">259084328108067</string>
     <string name="facebook_application_id">259084328108067</string>

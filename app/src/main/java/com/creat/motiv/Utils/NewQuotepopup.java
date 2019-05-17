@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.design.widget.BottomSheetDialog;
@@ -84,8 +83,7 @@ public class NewQuotepopup {
      public void showup(){
 
          LayoutInflater inflater = LayoutInflater.from(activity);
-         BottomSheetDialog myDialog = new BottomSheetDialog(activity);
-         myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+         BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
          myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
          myDialog.setCanceledOnTouchOutside(true);
          myDialog.setContentView(R.layout.newquotepopup);
@@ -245,6 +243,166 @@ public class NewQuotepopup {
 
 
      }
+
+    public void showedit(String id) {
+
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.setCanceledOnTouchOutside(true);
+        myDialog.setContentView(R.layout.newquotepopup);
+        myDialog.show();
+        categories = myDialog.findViewById(R.id.categories);
+        this.popup = myDialog.findViewById(R.id.popup);
+        this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
+        this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
+        this.backcolorid = myDialog.findViewById(R.id.backcolorid);
+        this.texcolorid = myDialog.findViewById(R.id.texcolorid);
+        this.fontid = myDialog.findViewById(R.id.fontid);
+        this.background = myDialog.findViewById(R.id.background);
+        this.author = myDialog.findViewById(R.id.author);
+        this.frase = myDialog.findViewById(R.id.quote);
+        this.fonts = myDialog.findViewById(R.id.fonts);
+        TextView username = myDialog.findViewById(R.id.username);
+        CircleImageView userpic = myDialog.findViewById(R.id.userpic);
+        this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
+        Button salvar = myDialog.findViewById(R.id.salvar);
+        username.setText(user.getDisplayName());
+        Glide.with(activity).load(user.getPhotoUrl()).into(userpic);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(activity, frase, author, fontid, fonts);
+        fonts.setAdapter(spinnerAdapter);
+        //theme();
+        try {
+            colorgallery();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        backcolorfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BackColorpicker();
+            }
+        });
+
+        texcolorfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Textocolorpicker();
+            }
+        });
+
+        salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                salvar();
+            }
+        });
+
+
+        categories.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        categoria = "Amor";
+                        popup.setBackgroundResource(R.drawable.bottom_line_love);
+
+                        break;
+                    case 1:
+                        categoria = "Música";
+                        popup.setBackgroundResource(R.drawable.bottom_line_music);
+
+                        break;
+                    case 2:
+                        categoria = "Citação";
+                        popup.setBackgroundResource(R.drawable.bottom_line_citation);
+
+                        break;
+                    case 3:
+                        categoria = "Motivação";
+                        popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+
+                        break;
+                    case 4:
+                        categoria = "Nenhuma";
+                        popup.setBackgroundResource(R.drawable.bottom_line_none);
+
+                        break;
+                    default:
+                        categoria = "Nenhuma";
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        frase.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_NEXT) {
+                    if (!keyEvent.isShiftPressed()) {
+                        Log.v("AndroidEnterKeyActivity", "Enter Key Pressed!");
+                        switch (view.getId()) {
+                            case 1:
+                                author.requestFocus();
+                                break;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        author.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH ||
+                        i == EditorInfo.IME_ACTION_DONE ||
+                        keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                    if (!keyEvent.isShiftPressed()) {
+                        System.out.println("Enter key pressed");
+                        switch (view.getId()) {
+                            case 1:
+                                salvar();
+                                break;
+                        }
+                        return true;
+                    }
+
+                }
+                return false; // pass on to other listeners.
+
+            }
+        });
+        Tutorial();
+        myDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                activity.findViewById(R.id.blur);
+            }
+        });
+
+
+    }
+
+
 
 
 

@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/grey_700"
             android:text="Tá carregando, relaxa..."
             android:textAlignment="center"
              android:textSize="24sp" />
