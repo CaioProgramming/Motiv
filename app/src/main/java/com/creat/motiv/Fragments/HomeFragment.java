@@ -214,7 +214,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(), composesrecycler);
                 myadapter.notifyDataSetChanged();
                 composesrecycler.setAdapter(myadapter);
-                if (arg == "") {
+                if (arg.equals("")) {
                     FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
                     layoutManager.setFlexDirection(FlexDirection.COLUMN);
                     layoutManager.setJustifyContent(JustifyContent.CENTER);
@@ -603,15 +603,23 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     break;
                 case 2:
                     Categories("Amor");
+                    search.setQueryHint("Pesquisar posts de amor");
+
                     break;
                 case 3:
                     Categories("Citação");
+                    search.setQueryHint("Pesquisar citações");
+
                     break;
                 case 4:
                     Categories("Musica");
+                    search.setQueryHint("Pesquisar músicas");
+
                     break;
                 case 5:
                     Categories("Motivação");
+                    search.setQueryHint("Pesquisar posts motivacionais");
+
                     break;
                 default:
                     Carregar();

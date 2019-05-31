@@ -35,9 +35,9 @@ import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
-import com.creat.motiv.EditActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.ColorUtils;
+import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Tools;
 import com.devs.readmoreoption.ReadMoreOption;
 import com.github.mmin18.widget.RealtimeBlurView;
@@ -550,12 +550,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         return false;
 
                     case R.id.editar:
-                        Intent e = new Intent(mActivity, EditActivity.class);
-                        e.putExtra("id",mData.get(position).getId());
-                        mActivity.startActivity(e);
-
-
-
+                        NewQuotepopup newQuotepopup = new NewQuotepopup(mActivity, blur);
+                        newQuotepopup.showedit(mData.get(position).getId());
                         return true;
 
 

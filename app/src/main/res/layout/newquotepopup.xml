@@ -93,7 +93,7 @@
                                 <Spinner
                                     android:foreground="?attr/selectableItemBackground"
                                     android:foregroundTint="?attr/backgroundcolor"
-                                      android:elevation="0dp"
+                                    android:elevation="0dp"
                                     android:id="@+id/fonts"
                                     android:layout_margin="1dp"
                                     android:padding="5dp"

@@ -651,8 +651,10 @@ public class ProfileFragment extends Fragment {
 
     private void Picalert() {
         final ArrayList<Pics> Picslist;
+
         final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
         Picslist = new ArrayList<>();
+        Picslist.add(null);
         final BottomSheetDialog myDialog = new BottomSheetDialog(getActivity(), R.style.Dialog_No_Border);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);

@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,8 +37,14 @@ import com.creat.motiv.Adapters.SpinnerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
@@ -52,12 +60,16 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 import de.mateware.snacky.Snacky;
 
-public class NewQuotepopup {
-    public NewQuotepopup(Activity activity) {
+import static com.creat.motiv.Database.QuotesDB.path;
+
+public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
+    private RealtimeBlurView realtimeBlurView;
+
+    public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
         this.activity = activity;
          user = FirebaseAuth.getInstance().getCurrentUser();
+        this.realtimeBlurView = blurView;
     }
-
     private Activity activity;
     String categoria = "Nenhum";
     FirebaseUser user;
@@ -79,15 +91,17 @@ public class NewQuotepopup {
      private android.support.design.widget.TabLayout categories;
      private Spinner fonts;
 
-
      public void showup(){
 
-         LayoutInflater inflater = LayoutInflater.from(activity);
          BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
          myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
          myDialog.setCanceledOnTouchOutside(true);
          myDialog.setContentView(R.layout.newquotepopup);
          myDialog.show();
+         myDialog.setOnShowListener(this);
+         myDialog.setOnDismissListener(this);
+
+
          categories = myDialog.findViewById(R.id.categories);
          this.popup = myDialog.findViewById(R.id.popup);
          this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
@@ -246,7 +260,6 @@ public class NewQuotepopup {
 
     public void showedit(String id) {
 
-        LayoutInflater inflater = LayoutInflater.from(activity);
         BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
@@ -263,8 +276,8 @@ public class NewQuotepopup {
         this.author = myDialog.findViewById(R.id.author);
         this.frase = myDialog.findViewById(R.id.quote);
         this.fonts = myDialog.findViewById(R.id.fonts);
-        TextView username = myDialog.findViewById(R.id.username);
-        CircleImageView userpic = myDialog.findViewById(R.id.userpic);
+        final TextView username = myDialog.findViewById(R.id.username);
+        final CircleImageView userpic = myDialog.findViewById(R.id.userpic);
         this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
         Button salvar = myDialog.findViewById(R.id.salvar);
         username.setText(user.getDisplayName());
@@ -294,12 +307,6 @@ public class NewQuotepopup {
             }
         });
 
-        salvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                salvar();
-            }
-        });
 
 
         categories.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -392,19 +399,118 @@ public class NewQuotepopup {
             }
         });
         Tutorial();
-        myDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                activity.findViewById(R.id.blur);
-            }
-        });
+        myDialog.setOnShowListener(this);
+        LoadQuote(id, username, userpic, salvar);
+        myDialog.show();
 
 
     }
 
 
+    public void atualizar(Quotes quote) {
+        Integer fonti = null;
+        if (fontid.getText() != "") {
+            fonti = Integer.parseInt(fontid.getText().toString());
+        }
+        if (author.getText().toString().equals("")) {
+            quote.setAuthor(user.getDisplayName());
+        }
+
+        quote.setQuote(frase.getText().toString());
+        quote.setAuthor(author.getText().toString());
+        quote.setFont(fonti);
+        quote.setBackgroundcolor(Integer.parseInt(backcolorid.getText().toString()));
+        quote.setTextcolor(Integer.parseInt(texcolorid.getText().toString()));
+        quotesDB = new QuotesDB(activity, quote);
+        quotesDB.Editar();
 
 
+    }
+
+
+    private void LoadQuote(String id, final TextView username, final CircleImageView userpic, final Button salvar) {
+        Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("id").startAt(id).endAt(id + "\uf8ff");
+
+
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    final Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setUserphoto(q.getUserphoto());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setData(q.getData());
+                        quotes.setBold(q.isBold());
+                        quotes.setItalic(q.isItalic());
+                        quotes.setTextcolor(q.getTextcolor());
+                        quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        quotes.setFont(q.getFont());
+                        quotes.setReport(q.isReport());
+                        //quoteID.setText(quotes.getId());
+                        frase.setText(quotes.getQuote());
+                        author.setText(quotes.getAuthor());
+                        username.setText(quotes.getUsername());
+                        background.setBackgroundColor(quotes.getBackgroundcolor());
+
+                        frase.setTextColor(quotes.getTextcolor());
+                        if (quotes.getFont() != null) {
+                            frase.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
+                            author.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
+                        } else {
+                            frase.setTypeface(Typeface.DEFAULT);
+                            author.setTypeface(Typeface.DEFAULT);
+                        }
+                        author.setTextColor(quotes.getTextcolor());
+                        texcolorid.setText(String.valueOf(quotes.getTextcolor()));
+                        backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
+                        fontid.setText(String.valueOf(quotes.getFont()));
+                        switch (quotes.getCategoria()) {
+                            case "Musica":
+                                popup.setBackgroundResource(R.drawable.bottom_line_music);
+
+                                break;
+                            case "Citação":
+                                popup.setBackgroundResource(R.drawable.bottom_line_citation);
+                                break;
+                            case "Amor":
+                                popup.setBackgroundResource(R.drawable.bottom_line_love);
+                                break;
+                            case "Motivação":
+                                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+                                break;
+                            case "Nenhum":
+                                popup.setBackgroundResource(R.drawable.bottom_line_none);
+
+                                break;
+                        }
+
+
+                        Glide.with(activity).load(quotes.getUserphoto()).into(userpic);
+                        salvar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                atualizar(quotes);
+                            }
+                        });
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
     private void BackColorpicker() {
@@ -473,7 +579,7 @@ public class NewQuotepopup {
     }
 
 
-    public void salvar() {
+    private void salvar() {
         agree();
         Date datenow = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -600,7 +706,15 @@ public class NewQuotepopup {
     }
 
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        realtimeBlurView.setBlurRadius(0);
 
+    }
 
+    @Override
+    public void onShow(DialogInterface dialog) {
+        realtimeBlurView.setBlurRadius(20);
 
+    }
 }

@@ -4,12 +4,14 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="1dp"
+    android:background="@color/transparent"
     app:cardCornerRadius="15dp"
     app:cardElevation="1dp"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/pic"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
@@ -18,6 +20,16 @@
         android:hapticFeedbackEnabled="true"
         android:scaleType="centerCrop"
         android:src="@drawable/penguin" />
+
+    <ImageButton
+        android:id="@+id/delete"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/transparent"
+        android:foreground="?attr/selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:src="@drawable/delete"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/loading"

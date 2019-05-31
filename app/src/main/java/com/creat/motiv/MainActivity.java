@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void NewQuoteDialog(){
-        NewQuotepopup newQuotepopup = new NewQuotepopup(this);
+        NewQuotepopup newQuotepopup = new NewQuotepopup(this, blurView);
         newQuotepopup.showup();
 
     }
