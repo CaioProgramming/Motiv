@@ -15,12 +15,8 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
-        app:elevation="4dp"
-        style="@style/AppTheme"
-        android:background="?attr/backgroundcolor"
-        android:backgroundTint="?attr/backgroundcolor"
-        app:itemBackground="?attr/backgroundcolor"
-        app:itemTextColor="?attr/textcolor"
+        android:background="@drawable/actionbarbackground"
+        android:backgroundTint="?attr/actionbarcolor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -35,11 +31,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        app:backgroundTint="?attr/actionbarcolor"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_add_black_24dp"
-        app:backgroundTint="?attr/backgroundcolor"
         app:borderWidth="2dp"
-        app:rippleColor="@color/colorPrimaryDark"
+        app:rippleColor="@color/colorAccent"
         app:useCompatPadding="true"
         app:elevation="10dp"
         app:fabSize="normal" />

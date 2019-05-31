@@ -6,8 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
      android:orientation="vertical">
     <android.support.v7.widget.Toolbar
-        android:layout_margin="10dp"
-        android:background="@color/transparent"
+        android:background="@drawable/bottom_line"
         android:elevation="0dp"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,14 +15,13 @@
         <LinearLayout
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round"
                 android:backgroundTint="?attr/hintcolor"
                 android:focusedByDefault="true"
                 app:defaultQueryHint="Busque o que seu coração quiser..."
@@ -31,12 +29,11 @@
                 app:queryBackground="@color/transparent"
                 app:submitBackground="@color/transparent" />
             <android.support.design.widget.TabLayout
+
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                app:tabIndicatorColor="?attr/titlecolor"
                 app:tabMode="scrollable"
-                app:tabIndicatorHeight="2dp"
-                app:tabSelectedTextColor="?attr/textcolor"
+                app:tabIndicatorColor="?attr/textcolor"
+                app:tabIndicatorHeight="1dp"
                 android:id="@+id/searchoptions"
                 android:layout_width="match_parent"
                 app:tabTextColor="?attr/hintcolor">
@@ -44,40 +41,40 @@
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/author" />
+                    android:icon="@drawable/ic_author_sign" />
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="usuário" />
+                    android:layout_width="wrap_content"
+                    android:icon="@drawable/ic_person_black_24dp" />
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/amor" />
+                    android:layout_width="wrap_content"
+                    android:icon="@drawable/ic_favorite2_black_24dp" />
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cita_o" />
+                    android:layout_width="wrap_content"
+                    android:icon="@drawable/ic_bookmark_black_15dp" />
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/m_sica" />
+                    android:layout_width="wrap_content"
+                    android:icon="@drawable/ic_music_note_black_24dp" />
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/motiva_o" />
+                    android:layout_width="wrap_content"
+                    android:icon="@drawable/ic_filter_vintage_black_24dp" />
 
             </android.support.design.widget.TabLayout>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
         android:id="@+id/searchresult"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

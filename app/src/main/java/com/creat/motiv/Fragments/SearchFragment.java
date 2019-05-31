@@ -19,6 +19,9 @@ import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -105,8 +108,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                         Categories("Motivação");
                         break;
                     default:
-                        arg = "author";
-                        search.setQueryHint("Pesquisar author...");
+                        Pesquisar("");
                         break;
                 }
 
@@ -257,7 +259,14 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesearch, getActivity(), searchresult);
                 myadapter.notifyDataSetChanged();
                 searchresult.setAdapter(myadapter);
-                searchresult.setLayoutManager(llm);
+                if (arg == "") {
+                    FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
+                    layoutManager.setFlexDirection(FlexDirection.COLUMN);
+                    layoutManager.setJustifyContent(JustifyContent.CENTER);
+                    searchresult.setLayoutManager(layoutManager);
+                } else {
+                    searchresult.setLayoutManager(llm);
+                }
                 empty.setVisibility(View.GONE);
             }
 

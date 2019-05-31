@@ -54,7 +54,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="1dp"
-                                    app:tabIndicatorColor="?attr/titlecolor"
+                                    app:tabIndicatorColor="?attr/textcolor"
                                     app:tabMode="scrollable"
                                     app:tabSelectedTextColor="?attr/textcolor"
                                     app:tabTextColor="@color/lblack">
@@ -62,27 +62,32 @@
                                     <android.support.design.widget.TabItem
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="amor" />
+                                        android:icon="@drawable/ic_author_sign" />
+
+                                    <android.support.design.widget.TabItem
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:icon="@drawable/ic_person_black_24dp" />
 
                                     <android.support.design.widget.TabItem
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Música" />
+                                        android:icon="@drawable/ic_favorite2_black_24dp" />
 
                                     <android.support.design.widget.TabItem
-                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Citação" />
+                                        android:layout_width="wrap_content"
+                                        android:icon="@drawable/ic_bookmark_black_15dp" />
 
                                     <android.support.design.widget.TabItem
-                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Motivação" />
+                                        android:layout_width="wrap_content"
+                                        android:icon="@drawable/ic_music_note_black_24dp" />
 
                                     <android.support.design.widget.TabItem
-                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Nenhuma categoria" />
+                                        android:layout_width="wrap_content"
+                                        android:icon="@drawable/ic_filter_vintage_black_24dp" />
 
 
                                 </android.support.design.widget.TabLayout>
@@ -93,7 +98,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
                                 <Spinner
-
                                     android:foreground="?attr/selectableItemBackground"
                                     android:foregroundTint="?attr/backgroundcolor"
                                       android:elevation="0dp"
