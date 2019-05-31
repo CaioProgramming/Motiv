@@ -29,7 +29,6 @@ import com.creat.motiv.Beans.Version;
 import com.creat.motiv.Fragments.AboutFragment;
 import com.creat.motiv.Fragments.HomeFragment;
 import com.creat.motiv.Fragments.ProfileFragment;
-import com.creat.motiv.Fragments.SearchFragment;
 import com.creat.motiv.Utils.BottomNavigationHelper;
 import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
@@ -48,12 +47,13 @@ import java.util.Objects;
 import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
-     private BottomNavigationView navigation;
+    Pref preferences;
     BottomSheetDialog myDialog;
     Version version;
     Context context = this;
     FloatingActionButton newquote;
     FirebaseUser user;
+    private BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -68,14 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             .replace(R.id.frame, new HomeFragment())
                             .commit();
                     return true;
-                case R.id.navigation_search:
-                    newquotebutton();
-                    BottomNavigationHelper.disableShiftMode(navigation);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame, new SearchFragment())
-                            .commit();
-                    return true;
+
                 case R.id.navigation_user:
                     newquotebutton();
                     BottomNavigationHelper.disableShiftMode(navigation);
@@ -86,25 +79,10 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
 
-                case R.id.navigation_about:
-                    newquotebutton();
-                    BottomNavigationHelper.disableShiftMode(navigation);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame, new AboutFragment())
-                            .commit();
-                    return true;
             }
             return false;
         }
     };
-
-    private android.widget.TextView offlinemessage;
-    private Button reload;
-    private android.widget.ImageView offlineimage;
-    private android.widget.LinearLayout offline;
-    Pref preferences;
-    private android.widget.RelativeLayout container;
     private Dialog m_dialog;
     RealtimeBlurView blurView;
     private void newquotebutton() {
@@ -129,20 +107,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         findViewById(R.id.offlinemssage);
         newquote = findViewById(R.id.newquote);
-        this.container = findViewById(R.id.container);
-        this.offline = findViewById(R.id.offline);
-        this.offlineimage = findViewById(R.id.offlineimage);
-        this.reload = findViewById(R.id.reload);
-        this.offlinemessage = findViewById(R.id.offlinemssage);
         blurView = findViewById(R.id.rootblur);
         this.navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationHelper.disableShiftMode(navigation);
-        final Animation out = AnimationUtils.loadAnimation(this, R.anim.fab_scale_down);
         newquote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                NewQuoteDialog();
             }
         });
@@ -180,14 +151,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void NewQuoteDialog(){
-
         NewQuotepopup newQuotepopup = new NewQuotepopup(this);
         newQuotepopup.showup();
-
-
-
-
-
 
     }
 
@@ -292,14 +257,7 @@ public class MainActivity extends AppCompatActivity {
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
                 break;
-            case R.id.navigation_search:
-                newquotebutton();
-                BottomNavigationHelper.disableShiftMode(navigation);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame, new SearchFragment())
-                        .commit();
-                break;
+
             case R.id.navigation_user:
                 newquotebutton();
                 BottomNavigationHelper.disableShiftMode(navigation);
@@ -366,6 +324,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }.start();
             this.finish();
+        } else if (id == R.id.navigation_about) {
+            BottomNavigationHelper.disableShiftMode(navigation);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame, new AboutFragment())
+                    .commit();
+            return false;
         }
 
         return super.onOptionsItemSelected(item);

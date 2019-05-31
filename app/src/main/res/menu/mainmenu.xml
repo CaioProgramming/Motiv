@@ -8,6 +8,9 @@
         android:id="@+id/exit"
         android:title="@string/sair"
         android:icon="@drawable/ic_exit_to_app_black_24dp" />
-
+    <item
+        android:id="@+id/navigation_about"
+        android:icon="@drawable/about"
+        android:title="Sobre" />
 
 </menu>

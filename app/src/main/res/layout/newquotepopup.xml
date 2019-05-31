@@ -50,8 +50,9 @@
                                     android:layout_height="110dp" />
 
                                 <android.support.design.widget.TabLayout
+                                    android:layout_width="wrap_content"
                                     android:id="@+id/categories"
-                                    android:layout_width="match_parent"
+                                    android:layout_gravity="center"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="1dp"
                                     app:tabIndicatorColor="?attr/textcolor"
@@ -59,15 +60,7 @@
                                     app:tabSelectedTextColor="?attr/textcolor"
                                     app:tabTextColor="@color/lblack">
 
-                                    <android.support.design.widget.TabItem
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:icon="@drawable/ic_author_sign" />
 
-                                    <android.support.design.widget.TabItem
-                                        android:layout_height="wrap_content"
-                                        android:layout_width="wrap_content"
-                                        android:icon="@drawable/ic_person_black_24dp" />
 
                                     <android.support.design.widget.TabItem
                                         android:layout_width="wrap_content"

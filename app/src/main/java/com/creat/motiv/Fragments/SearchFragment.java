@@ -121,7 +121,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
