@@ -15,8 +15,7 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
-        android:background="@drawable/actionbarbackground"
-        android:backgroundTint="?attr/actionbarcolor"
+        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -40,8 +39,9 @@
         app:elevation="10dp"
         app:fabSize="normal" />
     <com.github.mmin18.widget.RealtimeBlurView
-        app:realtimeOverlayColor="@color/transparent"
-        app:realtimeBlurRadius="0dp"
+        android:visibility="gone"
+        app:realtimeBlurRadius="20dp"
+        app:realtimeOverlayColor="?attr/overlaycolor"
         android:id="@+id/rootblur"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

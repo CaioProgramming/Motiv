@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="25dp">
+
+    android:layout_margin="10dp">
 
     <LinearLayout
+
         android:id="@+id/saving"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -37,11 +39,11 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
+            android:background="@drawable/round"
             android:id="@+id/inputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/round"
+            android:padding="15dp"
             android:backgroundTint="@color/lwhite"
             android:hint="@string/username"
             android:textColorHint="@color/colorPrimaryDark"
@@ -49,12 +51,13 @@
 
 
             <EditText
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
                 android:drawablePadding="10dp"
-                android:drawableStart="@drawable/ic_person_black_24dp"
                 android:inputType="textCapWords"
                 android:labelFor="@id/inputlayout"
                 android:maxLength="10"
@@ -65,15 +68,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:background="@drawable/ripple_button"
             android:id="@+id/changename"
-            style="@style/FirebaseUI.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
-            android:layout_marginStart="50dp"
-            android:backgroundTint="@color/transparent"
             android:text="@string/alterar"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
 

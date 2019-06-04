@@ -17,7 +17,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -366,7 +365,6 @@ public class ProfileFragment extends Fragment {
                                 Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
                                 Animation scaledown = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
                                 Animation scaleup = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
-                                blurView.setBlurRadius(40);
                                 blurView.setVisibility(View.VISIBLE);
                                 assert saving != null;
                                 saving.setVisibility(View.VISIBLE);
@@ -416,7 +414,7 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onDismiss(DialogInterface dialogInterface) {
                                 userinfo();
-                                blurView.setBlurRadius(0);
+                                blurView.setVisibility(View.GONE);
                             }
                         });
                         bottomSheetDialog.show();
@@ -660,7 +658,7 @@ public class ProfileFragment extends Fragment {
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.profilepicselect_);
         myDialog.show();
-        final CardView back = myDialog.findViewById(R.id.back);
+        final LinearLayout back = myDialog.findViewById(R.id.back);
         final TextView title = myDialog.findViewById(R.id.title);
         final TextView message = myDialog.findViewById(R.id.message);
         final ProgressBar pb = myDialog.findViewById(R.id.pb);
@@ -703,7 +701,7 @@ public class ProfileFragment extends Fragment {
 
         picrecycler = myDialog.findViewById(R.id.picsrecycler);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("images").addValueEventListener(new ValueEventListener() {
+        databaseReference = FirebaseDatabase.getInstance().getReference("images").orderByKey().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Picslist.clear();
@@ -735,7 +733,6 @@ public class ProfileFragment extends Fragment {
 
         myDialog.show();
         Animation in = AnimationUtils.loadAnimation(getContext(),R.anim.fade_in);
-        blurView.setBlurRadius(40);
         blurView.setOverlayColor(R.color.lwhite);
         blurView.setVisibility(View.VISIBLE);
         blurView.startAnimation(in);
@@ -746,8 +743,7 @@ public class ProfileFragment extends Fragment {
             public void onDismiss(DialogInterface dialogInterface) {
                 Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
                 blurView.startAnimation(out);
-                blurView.setOverlayColor(Color.TRANSPARENT);
-                blurView.setBlurRadius(0);
+                blurView.setVisibility(View.GONE);
                 userinfo();
 
 

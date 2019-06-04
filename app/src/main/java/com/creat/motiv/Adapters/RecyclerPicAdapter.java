@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -49,7 +49,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     private List<Pics> mData;
     private ArrayList<Quotes> myquotes;
     private BottomSheetDialog myDialog;
-    CardView back;
+    LinearLayout back;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private Activity mActivity;
@@ -58,7 +58,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     public RecyclerPicAdapter(QuotesDB quotesDB, Context mContext, List<Pics> mData, RealtimeBlurView blurView,
                               Activity mActivity, BottomSheetDialog myDialog, ArrayList<Quotes> myquotes,
-                              TextView message, TextView remove, ProgressBar progressBar, RecyclerView recyclerView, TextView title, CardView back) {
+                              TextView message, TextView remove, ProgressBar progressBar, RecyclerView recyclerView, TextView title, LinearLayout back) {
         this.quotesDB = quotesDB;
         this.mContext = mContext;
         this.mData = mData;

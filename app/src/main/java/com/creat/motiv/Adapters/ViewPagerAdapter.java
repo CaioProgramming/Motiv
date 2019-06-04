@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Beans.Pics;
-import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
@@ -36,9 +33,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Random;
 
 import de.mateware.snacky.Snacky;
@@ -46,7 +41,7 @@ import de.mateware.snacky.Snacky;
 import static com.creat.motiv.Database.QuotesDB.path;
 
 public class ViewPagerAdapter extends PagerAdapter {
-    BottomSheetDialog m_dialog;
+    Dialog m_dialog;
     String uri;
     private Context context;
     private Activity activity;
@@ -236,7 +231,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         final Intent i = new Intent(context, MainActivity.class);
 
         preferences = new Pref(context);
-        m_dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        m_dialog = new Dialog(activity, R.style.AppTheme);
          LayoutInflater m_inflater = LayoutInflater.from(context);
         View m_view = m_inflater.inflate(R.layout.politics, null);
         m_dialog.setContentView(m_view);

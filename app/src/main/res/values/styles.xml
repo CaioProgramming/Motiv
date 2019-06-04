@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="overlaycolor">@color/lwhite</item>
            <item name="titlecolor">@color/colorPrimary</item>
         <item name="dialogbackcolor">@color/white</item>
         <item name="actionbarcolor">@color/white</item>
@@ -13,13 +14,14 @@
          <item name="android:textColorHighlight">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#DF947CE9</item>
     </style>
 
 
 
     <style name="AppTheme.Night" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="overlaycolor">@color/lblack</item>
         <item name="android:statusBarColor">@color/grey_900</item>
         <item name="dialogbackcolor">@color/grey_800</item>
 

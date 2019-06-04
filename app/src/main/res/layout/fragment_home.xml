@@ -32,22 +32,23 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.SearchView
+                    app:iconifiedByDefault="true"
                     android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/hintcolor"
                     app:defaultQueryHint="Busque o que seu coração quiser..."
-                    app:iconifiedByDefault="true"
                     app:queryBackground="@color/transparent"
                     app:submitBackground="@color/transparent" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/searchoptions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:tabIndicatorColor="?attr/textcolor"
-                    app:tabIndicatorHeight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorHeight="2dp"
+                    app:tabPaddingBottom="-15dp"
                     app:tabMode="scrollable"
                     app:tabTextColor="?attr/hintcolor">
 

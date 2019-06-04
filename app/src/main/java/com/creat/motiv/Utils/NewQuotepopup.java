@@ -708,7 +708,7 @@ public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInte
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        realtimeBlurView.setBlurRadius(0);
+        realtimeBlurView.setVisibility(View.GONE);
 
     }
 

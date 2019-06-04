@@ -29,7 +29,6 @@ import com.creat.motiv.Beans.Version;
 import com.creat.motiv.Fragments.AboutFragment;
 import com.creat.motiv.Fragments.HomeFragment;
 import com.creat.motiv.Fragments.ProfileFragment;
-import com.creat.motiv.Utils.BottomNavigationHelper;
 import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     newquotebutton();
-                    BottomNavigationHelper.disableShiftMode(navigation);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, new HomeFragment())
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.navigation_user:
                     newquotebutton();
-                    BottomNavigationHelper.disableShiftMode(navigation);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame, new ProfileFragment())
@@ -110,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         blurView = findViewById(R.id.rootblur);
         this.navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        BottomNavigationHelper.disableShiftMode(navigation);
         newquote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
     private void NewQuoteDialog(){
         NewQuotepopup newQuotepopup = new NewQuotepopup(this, blurView);
         newQuotepopup.showup();
+        blurView.setVisibility(View.VISIBLE);
 
     }
 
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
                   }
                   if (!version.getVersion().equals(versionName)){
-                  AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Atualize seu app!")
+                      AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppTheme).setTitle("Atualize seu app!")
 
                           .setMessage("Sua versão está desatualizada, não quer atualizar para ter acesso as últimas novidades?" +
                                   " O motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
@@ -251,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
         switch (navigation.getSelectedItemId()) {
             case R.id.navigation_home:
                 newquotebutton();
-                BottomNavigationHelper.disableShiftMode(navigation);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new HomeFragment())
@@ -260,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.navigation_user:
                 newquotebutton();
-                BottomNavigationHelper.disableShiftMode(navigation);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new ProfileFragment())
@@ -270,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.navigation_about:
                 newquotebutton();
-                BottomNavigationHelper.disableShiftMode(navigation);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new AboutFragment())
@@ -325,7 +319,6 @@ public class MainActivity extends AppCompatActivity {
             }.start();
             this.finish();
         } else if (id == R.id.navigation_about) {
-            BottomNavigationHelper.disableShiftMode(navigation);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame, new AboutFragment())
