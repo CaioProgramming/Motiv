@@ -62,7 +62,7 @@ import de.mateware.snacky.Snacky;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
-public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
+public class NewQuotepopup {
     private RealtimeBlurView realtimeBlurView;
 
     public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
@@ -98,8 +98,6 @@ public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInte
          myDialog.setCanceledOnTouchOutside(true);
          myDialog.setContentView(R.layout.newquotepopup);
          myDialog.show();
-         myDialog.setOnShowListener(this);
-         myDialog.setOnDismissListener(this);
 
 
          categories = myDialog.findViewById(R.id.categories);
@@ -245,12 +243,13 @@ public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInte
              }
          });
         Tutorial();
-        myDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+         myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onShow(DialogInterface dialog) {
-                activity.findViewById(R.id.blur);
+            public void onDismiss(DialogInterface dialog) {
+                realtimeBlurView.setVisibility(View.GONE);
             }
         });
+
 
 
 
@@ -399,7 +398,6 @@ public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInte
             }
         });
         Tutorial();
-        myDialog.setOnShowListener(this);
         LoadQuote(id, username, userpic, salvar);
         myDialog.show();
 
@@ -706,15 +704,5 @@ public class NewQuotepopup implements DialogInterface.OnShowListener, DialogInte
     }
 
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        realtimeBlurView.setVisibility(View.GONE);
 
-    }
-
-    @Override
-    public void onShow(DialogInterface dialog) {
-        realtimeBlurView.setBlurRadius(20);
-
-    }
 }

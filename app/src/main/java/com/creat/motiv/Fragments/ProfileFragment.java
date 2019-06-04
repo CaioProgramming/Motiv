@@ -733,7 +733,6 @@ public class ProfileFragment extends Fragment {
 
         myDialog.show();
         Animation in = AnimationUtils.loadAnimation(getContext(),R.anim.fade_in);
-        blurView.setOverlayColor(R.color.lwhite);
         blurView.setVisibility(View.VISIBLE);
         blurView.startAnimation(in);
 
