@@ -354,7 +354,7 @@ public class NewQuotepopup {
             }
         });
 
-
+        categories.setSelected(false);
         frase.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {

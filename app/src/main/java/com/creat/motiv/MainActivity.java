@@ -60,17 +60,17 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    newquotebutton();
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
                             .replace(R.id.frame, new HomeFragment())
                             .commit();
                     return true;
 
                 case R.id.navigation_user:
-                    newquotebutton();
                     getSupportFragmentManager()
                             .beginTransaction()
+                            .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
                             .replace(R.id.frame, new ProfileFragment())
                             .commit();
                     return true;
@@ -321,6 +321,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.navigation_about) {
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
+
                     .replace(R.id.frame, new AboutFragment())
                     .commit();
             return false;

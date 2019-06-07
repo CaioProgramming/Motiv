@@ -9,12 +9,14 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="true">
+        android:theme="@style/AppTheme">
+        <activity android:name=".UserActivity"></activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.creativ.fileprovider"
@@ -26,14 +28,13 @@
             <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id" />
-            <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
                 android:resource="@drawable/ic_notification" />
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/colorPrimaryDark" />
-        </provider>
-
-        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        </provider> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4979584089010597~4181793255" />
@@ -57,7 +58,6 @@
         <activity
             android:name=".Splash"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,8 +65,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:exported="true"
             android:name=".MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
@@ -85,10 +85,7 @@
 
         <receiver android:name=".Utils.Notification_reciever" />
 
-
-
         <activity android:name=".EditActivity" />
-
     </application>
 
 </manifest>

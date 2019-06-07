@@ -2,45 +2,34 @@ package com.creat.motiv.Fragments;
 
 
 import android.animation.ValueAnimator;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Adapters.RecyclerPicAdapter;
 import com.creat.motiv.Beans.Likes;
@@ -48,7 +37,6 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.ColorUtils;
 import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
@@ -91,126 +79,16 @@ public class ProfileFragment extends Fragment {
     private Query quotesdb;
     private Toolbar toolbar;
      private RelativeLayout loading;
-    private TextView username;
-    private com.github.clans.fab.FloatingActionButton camerafab;
+    View v;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
     private android.support.design.widget.AppBarLayout appbarlayout;
     private android.support.design.widget.TabLayout profiletab;
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-    private int[] tabIcons = {
-            R.drawable.ic_person_white_15dp,
-            R.drawable.ic_favorite_white_15dp,
+    Fragment fragment = this;
+    private com.github.clans.fab.FloatingActionButton camerafab;
 
-    };
-    private int[] tabIconsblack = {
-            R.drawable.ic_person_black_15dp,
-            R.drawable.ic_favorite_black_15dp,
-
-    };
-    private android.widget.ImageButton settings;
     public ProfileFragment() {
         // Required empty public constructor
-    }
-
-    View v;
-
-    private void setupicons() {
-        profiletab.removeAllTabs();
-        for (int tabIcon : tabIcons) {
-            profiletab.addTab(profiletab.newTab().setIcon(tabIcon));
-            profiletab.setTabTextColors(Color.WHITE, ColorUtils.getTransparentColor(Color.WHITE));
-        }
-        profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (profiletab.getSelectedTabPosition()) {
-                    case 0:
-                        if (myquotes == null) {
-                            Carregar();
-                        } else {
-                            recycler(myquotes);
-                        }
-                        break;
-                    case 1:
-                        if (likequotes == null) {
-                            CarregarLikes();
-                        } else {
-                            recycler(likequotes);
-                        }
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                switch (profiletab.getSelectedTabPosition()) {
-                    case 0:
-                        if (myquotes == null) {
-                            Carregar();
-                        } else {
-                            recycler(myquotes);
-                        }
-                        break;
-                    case 1:
-                        if (likequotes == null) {
-                            CarregarLikes();
-                        } else {
-                            recycler(likequotes);
-                        }
-                        break;
-
-                }
-            }
-        });
-
-    }
-
-    private void setupblackicons() {
-        profiletab.removeAllTabs();
-        for (int aTabIconsblack : tabIconsblack) {
-            profiletab.addTab(profiletab.newTab().setIcon(aTabIconsblack));
-            profiletab.setTabTextColors(Color.BLACK, ColorUtils.getTransparentColor(Color.BLACK));
-
-        }
-        profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (profiletab.getSelectedTabPosition()) {
-                    case 0:
-                        if (myquotes == null) {
-                            Carregar();
-                        } else {
-                            recycler(myquotes);
-                        }
-                        break;
-                    case 1:
-                        if (likequotes == null) {
-                            CarregarLikes();
-                        } else {
-                            recycler(likequotes);
-                        }
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
     }
 
     @Override
@@ -229,12 +107,10 @@ public class ProfileFragment extends Fragment {
         if (v == null) {
             v = inflater.inflate(R.layout.fragment_profile, container, false);
         }
-        this.settings = v.findViewById(R.id.settings);
         this.profiletab = v.findViewById(R.id.profiletab);
         this.appbarlayout = v.findViewById(R.id.appbarlayout);
         this.collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
         this.camerafab = v.findViewById(R.id.camerafab);
-        this.username = v.findViewById(R.id.username);
         this.loading = v.findViewById(R.id.loading);
          toolbar = v.findViewById(R.id.toolbar);
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
@@ -249,59 +125,11 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                username.setEnabled(true);
-
-                username.requestFocus();
-            }
-        });
 
 
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                settingsmenu();
-            }
-        });
 
 
-        username.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent event) {
 
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    switch (keyCode) {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-
-                            UserProfileChangeRequest profileChangeRequest;
-
-                            profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
-                            if (user != null) {
-                                user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            for (int i = 0; i < myquotes.size(); i++) {
-
-                                                QuotesDB quotesDB = new QuotesDB();
-                                                quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
-                                            }
-
-                                        }
-                                    }
-                                });
-                            }
-                            return true;
-                        default:
-                            break;
-                    }
-                }
-                return false;
-            }
-        });
 
 
 
@@ -311,9 +139,12 @@ public class ProfileFragment extends Fragment {
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             toolbar.setTitle(" ");
 
+        } else {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
 
@@ -330,109 +161,80 @@ public class ProfileFragment extends Fragment {
         Carregar();
         CarregarLikes();
         userinfo();
-        return v;
+        setupTabIcons();
+        countinganimation();
 
-    }
 
-    private void settingsmenu() {
-        PopupMenu popup = new PopupMenu(getContext(), settings);
-        //inflating menu from xml resource
-        popup.inflate(R.menu.useroptions);
-        popup.show();
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.changename:
-                        final Dialog bottomSheetDialog = new Dialog(getActivity(), R.style.Dialog_No_Border);
-                        bottomSheetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        bottomSheetDialog.setContentView(R.layout.settings);
-                        bottomSheetDialog.setCanceledOnTouchOutside(true);
-                        final TextView message = bottomSheetDialog.findViewById(R.id.message);
-                        final LinearLayout namelayout = bottomSheetDialog.findViewById(R.id.namelayout);
-                        final LinearLayout saving = bottomSheetDialog.findViewById(R.id.saving);
-                        Button changename = bottomSheetDialog.findViewById(R.id.changename);
-                        final TextInputLayout inputlayout = bottomSheetDialog.findViewById(R.id.inputlayout);
-                        final EditText username = bottomSheetDialog.findViewById(R.id.username);
-                        final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
+                        .replace(R.id.frame, new HomeFragment())
+                        .commit();
 
-                        assert inputlayout != null;
-                        inputlayout.setHint(user.getDisplayName());
-                        assert changename != null;
-                        changename.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-                                Animation scaledown = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
-                                Animation scaleup = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
-                                blurView.setVisibility(View.VISIBLE);
-                                assert saving != null;
-                                saving.setVisibility(View.VISIBLE);
-                                saving.startAnimation(fade);
-                                assert namelayout != null;
-                                namelayout.startAnimation(scaledown);
-                                namelayout.setVisibility(View.GONE);
-                                assert username != null;
-                                if (username.getText().toString().isEmpty()) {
-                                    inputlayout.setError("Um nome vazio? Você tá brincando comigo. só pode.");
-                                    namelayout.setVisibility(View.VISIBLE);
-                                    namelayout.startAnimation(scaleup);
-                                    saving.startAnimation(scaledown);
-                                    saving.setVisibility(View.GONE);
-                                } else {
-                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
-                                    user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                for (int i = 0; i < myquotes.size(); i++) {
-                                                    QuotesDB quotesDB = new QuotesDB();
-                                                    quotesDB.AlterarNome(getActivity(), myquotes.get(i).getId());
-                                                }
-                                                assert message != null;
-                                                message.setText(String.format("Nome alterado %s Muito bonito meus parabéns!", user.getDisplayName()));
-                                                CountDownTimer timer = new CountDownTimer(3000, 100) {
-                                                    @Override
-                                                    public void onTick(long l) {
+                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
+                navigationView.setSelectedItemId(R.id.navigation_home);
+            }
+        });
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
+        collapsetoolbar.setExpandedTitleTypeface(tf);
 
-                                                    }
+        collapsetoolbar.setCollapsedTitleTypeface(tf);
 
-                                                    @Override
-                                                    public void onFinish() {
-                                                        bottomSheetDialog.dismiss();
 
-                                                    }
-                                                }.start();
-
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialogInterface) {
-                                userinfo();
-                                blurView.setVisibility(View.GONE);
-                            }
-                        });
-                        bottomSheetDialog.show();
-
-                        return true;
-
-                    case R.id.deleposts:
-                        removepostsalert();
-                        return true;
+        profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        Carregar();
+                        break;
+                    case 1:
+                        Carregar();
+                        break;
                     default:
-                        return false;
+                        break;
 
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        Carregar();
+                        break;
+                    case 1:
+                        Carregar();
+                        break;
+                    default:
+                        break;
 
                 }
             }
         });
+
+
+        return v;
+
     }
 
+
+    private void setupTabIcons() {
+        profiletab.setSelectedTabIndicatorColor(Color.TRANSPARENT);
+
+        for (int i = 0; i < profiletab.getTabCount(); i++) {
+            Objects.requireNonNull(profiletab.getTabAt(i)).setIcon(R.drawable.dot);
+        }
+
+    }
     private void removepostsalert() {
         if (getContext() == null){
             return;
@@ -527,94 +329,13 @@ public class ProfileFragment extends Fragment {
 
     private void userinfo() {
 
-        username.setText(user.getDisplayName());
-        if (user.getPhotoUrl() == null){
-            Glide.with(this).asBitmap().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/fantastic_planet_001.jpg?alt=media&token=03f77356-b17a-45f4-ac31-baf0bc9f87f5").listener(new RequestListener<Bitmap>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                    return false;
-                }
+        toolbar.setTitle(user.getDisplayName());
 
-                @Override
-                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                    if (resource != null) {
-
-                        int color = ColorUtils.getDominantColor(resource);
-
-                        int[] colors = {color, ColorUtils.darken(color, 0.5f)};
-
-                        //create a new gradient color
-                        GradientDrawable gd = new GradientDrawable(
-                                GradientDrawable.Orientation.TOP_BOTTOM, colors);
-
-                        collapsetoolbar.setBackground(gd);
-                        collapsetoolbar.setContentScrimColor(color);
-                        profilepic.setImageBitmap(resource);
-
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }).into(profilepic);
+        if (user.getPhotoUrl() == null) {
+            Glide.with(this).asBitmap().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/fantastic_planet_001.jpg?alt=media&token=03f77356-b17a-45f4-ac31-baf0bc9f87f5").into(profilepic);
 
         } else {
-            Glide.with(this).asBitmap().load(user.getPhotoUrl()).listener(new RequestListener<Bitmap>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                    if (resource != null) {
-                        int color = ColorUtils.getDominantColor(resource);
-                        profilepic.setImageBitmap(resource);
-                        if (Tools.isColorDark(color)) {
-                            int[] colors = {color, ColorUtils.lighten(color, 0.8f)};
-                            //create a new gradient color
-                            collapsetoolbar.setContentScrimColor(ColorUtils.lighten(color, 0.8f));
-                            GradientDrawable gd = new GradientDrawable(
-                                    GradientDrawable.Orientation.TOP_BOTTOM, colors);
-                            collapsetoolbar.setBackground(gd);
-                            toolbar.setTitleTextColor(Color.WHITE);
-                            toolbar.setTitleTextColor(Color.WHITE);
-                            collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
-                            username.setTextColor(Color.WHITE);
-
-                            setupicons();
-                            countinganimation();
-                            profiletab.setSelectedTabIndicatorColor(Color.WHITE);
-                        } else {
-
-                            collapsetoolbar.setCollapsedTitleTextColor(Color.BLACK);
-                            username.setTextColor(Color.BLACK);
-                            setupblackicons();
-                            countinganimation();
-                            profiletab.setSelectedTabIndicatorColor(Color.BLACK);
-                            int[] colors = {color, ColorUtils.lighten(color, 0.5f)};
-                            collapsetoolbar.setContentScrimColor(ColorUtils.lighten(color, 0.5f));
-                            //create a new gradient color
-                            GradientDrawable gd = new GradientDrawable(
-                                    GradientDrawable.Orientation.TOP_BOTTOM, colors);
-                            collapsetoolbar.setBackground(gd);
-                        }
-                        Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.pop_in);
-                        Animation in2 = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_up);
-                        Animation in3 = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_bottom);
-                        profilepic.startAnimation(in);
-                        camerafab.startAnimation(in);
-                        username.startAnimation(in2);
-                        profiletab.startAnimation(in3);
-                        Window window = getActivity().getWindow();
-                        window.setStatusBarColor(ColorUtils.darken(color, 0.3));
-                        return true;
-                    } else {
-                        return false;
-                    }
-
-                }
-            }).into(profilepic);
+            Glide.with(this).asBitmap().load(user.getPhotoUrl()).into(profilepic);
         }
 
 
@@ -632,18 +353,18 @@ public class ProfileFragment extends Fragment {
         });
         animator.start();
 
-        profiletab.getTabAt(1).setText("Favoritos");
-//        int finalcount = likequotes.size();
-//        ValueAnimator animator2 = ValueAnimator.ofInt(0, finalcount);
-//        animator2.setDuration(2500);
-//        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-//                profiletab.getTabAt(1).setText(valueAnimator.
-//                        getAnimatedValue().toString() + " favoritos");
-//            }
-//        });
-//        animator2.start();
+
+        int finalcount = likequotes.size();
+        ValueAnimator animator2 = ValueAnimator.ofInt(0, finalcount);
+        animator2.setDuration(2500);
+        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                profiletab.getTabAt(1).setText(valueAnimator.
+                        getAnimatedValue().toString() + " favoritos");
+            }
+        });
+        animator2.start();
     }
 
 

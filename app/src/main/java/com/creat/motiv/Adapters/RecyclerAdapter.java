@@ -319,7 +319,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL){
                         v.getParent().requestDisallowInterceptTouchEvent(false);
                         m_dialog.dismiss();
-                        blur.setBlurRadius(0);
+                        blur.setVisibility(View.GONE);
                         return true;
                     }
                 }
@@ -386,7 +386,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private void dialog(int position, @NonNull MyViewHolder holder) {
         Quotes q = mData.get(position);
         longpress = true;
-        blur.setBlurRadius(50);
+        blur.setVisibility(View.VISIBLE);
 
         m_dialog = new Dialog(mActivity, R.style.Dialog_No_Border);
         m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -420,7 +420,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 m_view.startAnimation(out);
                 m_view.setVisibility(View.GONE);
                 m_dialog.dismiss();
-                blur.setBlurRadius(0);
+
             }
         });
         m_dialog.setCanceledOnTouchOutside(true);
@@ -432,7 +432,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                blur.setBlurRadius(50);
                 blur.setVisibility(View.VISIBLE);
                 m_dialog = new Dialog(mActivity, R.style.Dialog_No_Border);
                 m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -455,7 +454,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 m_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        blur.setBlurRadius(0);
+                        blur.setVisibility(View.GONE);
                     }
                 });
                 m_dialog.show();
@@ -560,6 +559,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             }
         });
         popup.show();
+    }
+
+
+    private void OpenUser(String uid) {
+
     }
 
 

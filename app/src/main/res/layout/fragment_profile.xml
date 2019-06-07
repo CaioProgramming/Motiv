@@ -3,26 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundcolor"
+    android:background="?attr/actionbarcolor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-     tools:context=".Fragments.HomeFragment"
+    tools:context=".Fragments.HomeFragment"
     android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
         android:elevation="4dp"
-
+        android:layout_width="match_parent"
         android:id="@+id/appbarlayout"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme"
-        android:layout_width="match_parent"
+        android:background="?attr/actionbarcolor"
         android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout
-            app:contentScrim="@color/colorPrimary"
+            android:background="@drawable/actionbarbackground"
             android:id="@+id/collapsetoolbar"
+            app:contentScrim="?attr/backgroundcolor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:expandedTitleGravity="bottom|center"
+
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:expandedTitleTextAppearance="@color/white"
+            app:expandedTitleTextAppearance="?attr/textcolor"
             android:fitsSystemWindows="true">
 
             <LinearLayout
@@ -38,9 +40,12 @@
                     android:layout_gravity="center">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:padding="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:padding="20dp"
                         android:id="@+id/profilepic"
+                        app:civ_border_color="@color/colorAccent"
                         android:layout_width="200dp"
+                        app:civ_border_width="5dp"
                         android:layout_height="200dp"
                         android:src="@drawable/ic_person_black_24dp" />
 
@@ -51,7 +56,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="24dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="10dp"
                         android:src="@drawable/ic_photo_camera_black_24dp"
                         android:tint="@color/colorPrimaryDark"
                         app:fab_colorNormal="@color/white"
@@ -59,17 +64,6 @@
                         fab:fab_size="mini" />
 
                 </RelativeLayout>
-
-                <TextView
-                    android:background="@color/transparent"
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/cabin_regular"
-                    android:text="@string/username"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
 
                 <TextView
                     android:visibility="invisible"
@@ -85,50 +79,68 @@
 
 
             <android.support.v7.widget.Toolbar
-
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="parallax"
-                app:popupTheme="@style/AppTheme"
-                app:titleTextColor="@color/white">
-                <ImageButton
-                    android:id="@+id/settings"
-                    android:background="@color/transparent"
-                    android:src="@drawable/ic_settings_black_24dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="@color/transparent"
+                app:layout_collapseMode="pin"
+                app:titleTextColor="?attr/textcolor">
             </android.support.v7.widget.Toolbar>
-            <LinearLayout
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/profiletab"
-                    app:tabIndicatorColor="@color/white"
-                    app:tabIndicatorHeight="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-    <android.support.v7.widget.RecyclerView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/myquotesrecycler"
+
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/profiletab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="1dp"
+                app:tabMode="scrollable"
+                app:tabPaddingTop="10dp"
+                app:tabTextColor="?attr/textcolor">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Posts" />
+
+                <android.support.design.widget.TabItem
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Favoritos" />
+
+            </android.support.design.widget.TabLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myquotesrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
     <RelativeLayout
         android:visibility="gone"
-          android:id="@+id/loading"
+        android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -138,22 +150,24 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/grey_700"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:fontFamily="@font/roboto_regular"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-            android:text="Fuçando nas suas coisas"
-            android:textAlignment="center"
-            android:textStyle="bold"
-             android:textSize="24sp" />
-        <ImageView
-            android:src="@drawable/ic_choices_monochrome"
-            android:id="@+id/offlineimage"
-            android:layout_width="150dp"
-            android:layout_height="150dp" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:padding="5dp"
+                android:text="Fuçando nas suas coisas"
+                android:textAlignment="center"
+                android:textColor="@color/grey_700"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/offlineimage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_choices_monochrome" />
         </LinearLayout>
 
 

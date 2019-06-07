@@ -18,7 +18,6 @@ import com.github.mmin18.widget.RealtimeBlurView;
 public class Info {
     public static void tutorial(String tutorial, Activity activity) {
         final RealtimeBlurView blur = activity.findViewById(R.id.rootblur);
-        blur.setBlurRadius(50);
         blur.setVisibility(View.VISIBLE);
         final Dialog m_dialog = new Dialog(activity, R.style.Dialog_No_Border);
         m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

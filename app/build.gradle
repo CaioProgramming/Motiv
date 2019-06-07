@@ -26,7 +26,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
-         }
+        }
     }
 }
 
@@ -103,7 +103,7 @@ dependencies {
 
     //implementation 'com.asksira.android:bsimagepicker:1.0.1'
     implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'
-   // implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
+    // implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
 
     //implementation 'com.github.hajiyevelnur92:Copy-button:1.0'
     testImplementation 'junit:junit:4.12'
