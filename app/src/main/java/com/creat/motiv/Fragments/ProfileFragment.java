@@ -342,16 +342,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void countinganimation() {
-        ValueAnimator animator = ValueAnimator.ofInt(0, myquotes.size());
-        animator.setDuration(2500);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                profiletab.getTabAt(0).setText(valueAnimator.getAnimatedValue().toString() + " publicações");
-            }
-        });
-        animator.start();
 
 
         int finalcount = likequotes.size();
@@ -487,7 +478,7 @@ public class ProfileFragment extends Fragment {
         Query quotesdb2;
         quotesdb2 = FirebaseDatabase.getInstance().getReference().child(path);
         quotesdb2.keepSynced(false);
-        quotesdb2.addValueEventListener(new ValueEventListener() {
+        quotesdb2.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -572,7 +563,17 @@ public class ProfileFragment extends Fragment {
 
                 }
                 Collections.reverse(likequotes);
+                recycler(likequotes);
+                ValueAnimator animator = ValueAnimator.ofInt(0, likequotes.size());
+                animator.setDuration(2500);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
+                        profiletab.getTabAt(1).setText(valueAnimator.getAnimatedValue().toString() + " publicações");
+                    }
+                });
+                animator.start();
 
             }
 
@@ -637,6 +638,16 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 Collections.reverse(myquotes);
+                ValueAnimator animator = ValueAnimator.ofInt(0, likequotes.size());
+                animator.setDuration(2500);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                        profiletab.getTabAt(1).setText(valueAnimator.getAnimatedValue().toString() + " publicações");
+                    }
+                });
+                animator.start();
                 recycler(myquotes);
 
 

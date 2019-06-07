@@ -9,11 +9,11 @@
     tools:context=".Fragments.HomeFragment"
     android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
-        android:elevation="4dp"
+        android:background="@drawable/actionbarbackground"
         android:layout_width="match_parent"
         android:id="@+id/appbarlayout"
         android:fitsSystemWindows="true"
-        android:background="?attr/actionbarcolor"
+        android:elevation="3dp"
         android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout
             android:background="@drawable/actionbarbackground"
@@ -93,13 +93,10 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
 
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -108,7 +105,7 @@
                 android:id="@+id/profiletab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="1dp"
@@ -135,7 +132,6 @@
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
 
     <RelativeLayout

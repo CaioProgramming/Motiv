@@ -63,7 +63,7 @@
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
+            android:layout_margin="-15dp"
             android:background="@drawable/round"
             android:orientation="vertical"
             android:padding="15dp">
