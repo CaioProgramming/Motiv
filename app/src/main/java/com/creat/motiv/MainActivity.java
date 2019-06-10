@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
+                            .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
                             .replace(R.id.frame, new HomeFragment())
                             .commit();
                     return true;
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_user:
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
+                            .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
                             .replace(R.id.frame, new ProfileFragment())
                             .commit();
                     return true;
@@ -250,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
                 newquotebutton();
                 getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
+                        .addToBackStack("Home")
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
                 break;

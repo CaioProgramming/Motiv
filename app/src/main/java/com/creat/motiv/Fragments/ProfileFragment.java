@@ -10,7 +10,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +25,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -74,6 +74,7 @@ public class ProfileFragment extends Fragment {
     ValueEventListener databaseReference;
     QuotesDB quotesDB;
     Pref preferences;
+    RadioButton posts, likes;
     private CircleImageView profilepic;
     private android.support.v7.widget.RecyclerView myquotesrecycler;
     private Query quotesdb;
@@ -82,10 +83,8 @@ public class ProfileFragment extends Fragment {
     View v;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
     private android.support.design.widget.AppBarLayout appbarlayout;
-    private android.support.design.widget.TabLayout profiletab;
-    private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     Fragment fragment = this;
-    private com.github.clans.fab.FloatingActionButton camerafab;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -95,8 +94,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         if (getContext() == null){
             return null;
         }
@@ -107,35 +104,19 @@ public class ProfileFragment extends Fragment {
         if (v == null) {
             v = inflater.inflate(R.layout.fragment_profile, container, false);
         }
-        this.profiletab = v.findViewById(R.id.profiletab);
+        this.likes = v.findViewById(R.id.likes);
+        this.posts = v.findViewById(R.id.posts);
         this.appbarlayout = v.findViewById(R.id.appbarlayout);
         this.collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
-        this.camerafab = v.findViewById(R.id.camerafab);
         this.loading = v.findViewById(R.id.loading);
          toolbar = v.findViewById(R.id.toolbar);
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
         profilepic = v.findViewById(R.id.profilepic);
 
 
-        camerafab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Picalert();
-            }
-        });
-
-
-
-
-
-
-
-
-
 
 
         Tutorial(v);
-        //Carregar();
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
@@ -147,10 +128,6 @@ public class ProfileFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
-        // Set collapsing tool bar image.
-
-
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,11 +135,36 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        Carregar();
-        CarregarLikes();
         userinfo();
-        setupTabIcons();
-        countinganimation();
+
+
+
+
+
+
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
+        collapsetoolbar.setExpandedTitleTypeface(tf);
+
+        collapsetoolbar.setCollapsedTitleTypeface(tf);
+
+
+        likes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posts.setTextColor(R.attr.actionbarcolor);
+                likes.setTextColor(R.attr.textcolor);
+                CarregarLikes();
+            }
+        });
+
+        posts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likes.setTextColor(R.attr.actionbarcolor);
+                posts.setTextColor(R.attr.textcolor);
+                Carregar();
+            }
+        });
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -170,7 +172,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
+                        .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
 
@@ -178,63 +180,12 @@ public class ProfileFragment extends Fragment {
                 navigationView.setSelectedItemId(R.id.navigation_home);
             }
         });
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
-        collapsetoolbar.setExpandedTitleTypeface(tf);
-
-        collapsetoolbar.setCollapsedTitleTypeface(tf);
-
-
-        profiletab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        Carregar();
-                        break;
-                    case 1:
-                        Carregar();
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        Carregar();
-                        break;
-                    case 1:
-                        Carregar();
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-        });
-
 
         return v;
 
     }
 
 
-    private void setupTabIcons() {
-        profiletab.setSelectedTabIndicatorColor(Color.TRANSPARENT);
-
-        for (int i = 0; i < profiletab.getTabCount(); i++) {
-            Objects.requireNonNull(profiletab.getTabAt(i)).setIcon(R.drawable.dot);
-        }
-
-    }
     private void removepostsalert() {
         if (getContext() == null){
             return;
@@ -341,22 +292,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void countinganimation() {
-
-
-
-        int finalcount = likequotes.size();
-        ValueAnimator animator2 = ValueAnimator.ofInt(0, finalcount);
-        animator2.setDuration(2500);
-        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                profiletab.getTabAt(1).setText(valueAnimator.
-                        getAnimatedValue().toString() + " favoritos");
-            }
-        });
-        animator2.start();
-    }
 
 
     private void Picalert() {
@@ -465,7 +400,11 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onResume() {
+        Carregar();
+        super.onResume();
+    }
 
     private void CarregarLikes() {
         if (getActivity() == null) {
@@ -528,12 +467,10 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                //Snacky.builder().setActivity(getActivity()).error().setText("Erro " + databaseError.getMessage()).show();
+                Snacky.builder().setActivity(getActivity()).error().setText("Erro " + databaseError.getMessage()).show();
             }
         });
 
-///        userinfo();
-        //show();
 
 
     }
@@ -563,17 +500,18 @@ public class ProfileFragment extends Fragment {
 
                 }
                 Collections.reverse(likequotes);
-                recycler(likequotes);
+
                 ValueAnimator animator = ValueAnimator.ofInt(0, likequotes.size());
                 animator.setDuration(2500);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                        profiletab.getTabAt(1).setText(valueAnimator.getAnimatedValue().toString() + " publicações");
+                        likes.setText(valueAnimator.getAnimatedValue().toString() + " favoritos");
                     }
                 });
                 animator.start();
+                recycler(likequotes);
 
             }
 
@@ -586,7 +524,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void Carregar() {
-        loading.setVisibility(View.VISIBLE);
         quotesdb.keepSynced(true);
 
 
@@ -638,13 +575,13 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 Collections.reverse(myquotes);
-                ValueAnimator animator = ValueAnimator.ofInt(0, likequotes.size());
+                ValueAnimator animator = ValueAnimator.ofInt(0, myquotes.size());
                 animator.setDuration(2500);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                        profiletab.getTabAt(1).setText(valueAnimator.getAnimatedValue().toString() + " publicações");
+                        posts.setText(valueAnimator.getAnimatedValue().toString() + " publicações");
                     }
                 });
                 animator.start();
@@ -660,9 +597,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-///        userinfo();
 
-        show();
     }
 
     private void recycler(ArrayList<Quotes> quotes) {
@@ -679,6 +614,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void show() {
+        if (loading.getVisibility() == View.GONE) {
+            return;
+        }
         CountDownTimer timer = new CountDownTimer(2000, 100) {
             @Override
             public void onTick(long l) {

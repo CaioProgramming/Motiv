@@ -167,7 +167,11 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                quotesArrayList.clear();
+                if (quotesArrayList != null) {
+                    quotesArrayList.clear();
+                } else {
+                    quotesArrayList = new ArrayList<>();
+                }
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Quotes quotes = new Quotes();
                     Quotes q = d.getValue(Quotes.class);
@@ -568,6 +572,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (!query.isEmpty()) {
+
             Pesquisar(query);
             return true;
         } else {

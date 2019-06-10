@@ -62,7 +62,7 @@ import de.mateware.snacky.Snacky;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
-public class NewQuotepopup {
+public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
     private RealtimeBlurView realtimeBlurView;
 
     public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
@@ -152,51 +152,6 @@ public class NewQuotepopup {
 
 
 
-         categories.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-             @Override
-             public void onTabSelected(TabLayout.Tab tab) {
-                 switch (tab.getPosition()) {
-                     case 0:
-                         categoria = "Amor";
-                        popup.setBackgroundResource(R.drawable.bottom_line_love);
-
-                         break;
-                     case 1:
-                         categoria = "Música";
-                         popup.setBackgroundResource(R.drawable.bottom_line_music);
-
-                         break;
-                     case 2:
-                         categoria = "Citação";
-                         popup.setBackgroundResource(R.drawable.bottom_line_citation);
-
-                         break;
-                     case 3:
-                         categoria = "Motivação";
-                         popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-
-                         break;
-                     case 4:
-                         categoria = "Nenhuma";
-                         popup.setBackgroundResource(R.drawable.bottom_line_none);
-
-                         break;
-                     default:
-                         categoria = "Nenhuma";
-                         break;
-                 }
-             }
-
-             @Override
-             public void onTabUnselected(TabLayout.Tab tab) {
-
-             }
-
-             @Override
-             public void onTabReselected(TabLayout.Tab tab) {
-
-             }
-         });
 
 
 
@@ -251,11 +206,12 @@ public class NewQuotepopup {
         });
 
 
-
+         categories.addOnTabSelectedListener(this);
 
 
 
      }
+
 
     public void showedit(String id) {
 
@@ -307,53 +263,7 @@ public class NewQuotepopup {
         });
 
 
-
-        categories.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        categoria = "Amor";
-                        popup.setBackgroundResource(R.drawable.bottom_line_love);
-
-                        break;
-                    case 1:
-                        categoria = "Música";
-                        popup.setBackgroundResource(R.drawable.bottom_line_music);
-
-                        break;
-                    case 2:
-                        categoria = "Citação";
-                        popup.setBackgroundResource(R.drawable.bottom_line_citation);
-
-                        break;
-                    case 3:
-                        categoria = "Motivação";
-                        popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-
-                        break;
-                    case 4:
-                        categoria = "Nenhuma";
-                        popup.setBackgroundResource(R.drawable.bottom_line_none);
-
-                        break;
-                    default:
-                        categoria = "Nenhuma";
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
+        categories.addOnTabSelectedListener(this);
         categories.setSelected(false);
         frase.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -472,19 +382,24 @@ public class NewQuotepopup {
                         switch (quotes.getCategoria()) {
                             case "Musica":
                                 popup.setBackgroundResource(R.drawable.bottom_line_music);
-
+                                categories.getTabAt(4).select();
                                 break;
                             case "Citação":
                                 popup.setBackgroundResource(R.drawable.bottom_line_citation);
+                                categories.getTabAt(2).select();
                                 break;
                             case "Amor":
                                 popup.setBackgroundResource(R.drawable.bottom_line_love);
+                                categories.getTabAt(1).select();
+
                                 break;
                             case "Motivação":
                                 popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+                                categories.getTabAt(3).select();
                                 break;
                             case "Nenhum":
                                 popup.setBackgroundResource(R.drawable.bottom_line_none);
+                                categories.getTabAt(0).select();
 
                                 break;
                         }
@@ -704,5 +619,87 @@ public class NewQuotepopup {
     }
 
 
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case 0:
+                categoria = "Nenhuma";
+                popup.setBackgroundResource(R.drawable.bottom_line_none);
+                categories.setSelectedTabIndicatorColor(Color.TRANSPARENT);
+                break;
+            case 1:
+                categoria = "Amor";
+                popup.setBackgroundResource(R.drawable.bottom_line_love);
+                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
+                break;
+            case 2:
+                categoria = "Citação";
+                popup.setBackgroundResource(R.drawable.bottom_line_citation);
+                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
 
+
+                break;
+            case 3:
+                categoria = "Motivação";
+                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
+
+
+                break;
+            case 4:
+                categoria = "Música";
+                popup.setBackgroundResource(R.drawable.bottom_line_music);
+
+                break;
+            default:
+                categoria = "Nenhuma";
+                popup.setBackgroundResource(R.drawable.bottom_line_none);
+                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
+
+                break;
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+        categoria = "Nenhuma";
+        popup.setBackgroundResource(R.drawable.bottom_line_none);
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case 0:
+                categoria = "Nenhuma";
+                popup.setBackgroundResource(R.drawable.bottom_line_none);
+
+                break;
+            case 1:
+                categoria = "Amor";
+                popup.setBackgroundResource(R.drawable.bottom_line_love);
+
+                break;
+            case 2:
+                categoria = "Citação";
+                popup.setBackgroundResource(R.drawable.bottom_line_citation);
+
+                break;
+            case 3:
+                categoria = "Motivação";
+                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+
+                break;
+            case 4:
+                categoria = "Música";
+                popup.setBackgroundResource(R.drawable.bottom_line_music);
+
+                break;
+            default:
+                categoria = "Nenhuma";
+                popup.setBackgroundResource(R.drawable.bottom_line_none);
+                break;
+        }
+    }
 }
