@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_user:
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
+                            .setCustomAnimations(R.anim.fab_slide_in_from_left, R.anim.fab_slide_out_to_right)
                             .replace(R.id.frame, new ProfileFragment())
                             .commit();
                     return true;
