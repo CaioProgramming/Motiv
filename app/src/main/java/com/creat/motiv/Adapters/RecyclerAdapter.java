@@ -567,7 +567,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
 
-
     private void Remover(final int position, @NonNull final MyViewHolder holder) {
         DatabaseReference raiz;
         raiz = FirebaseDatabase.getInstance().getReference(path);

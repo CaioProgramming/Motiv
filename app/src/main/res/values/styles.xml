@@ -9,7 +9,6 @@
         <item name="actionbarcolor">@color/white</item>
         <item name="textcolor">@color/black</item>
         <item name="hintcolor">@color/grey_300</item>
-        <item name="android:statusBarColor">@color/grey_500</item>
         <item name="backgroundcolor">@color/grey_100</item>
          <item name="android:textColorHighlight">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -23,7 +22,6 @@
         <!-- Customize your theme here. -->
         <item name="overlaycolor">@color/owhite</item>
         <item name="android:statusBarColor">@color/grey_900</item>
-        <item name="dialogbackcolor">@color/grey_800</item>
         <item name="actionbarcolor">@color/grey_900</item>
         <item name="hintcolor">@color/grey_600</item>
          <item name="titlecolor">#BA68C8</item>

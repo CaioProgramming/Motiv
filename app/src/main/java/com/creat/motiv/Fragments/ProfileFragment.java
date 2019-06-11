@@ -17,6 +17,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,7 +29,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -79,8 +81,8 @@ public class ProfileFragment extends Fragment {
     private android.support.v7.widget.RecyclerView myquotesrecycler;
     private Query quotesdb;
     private Toolbar toolbar;
-     private RelativeLayout loading;
     View v;
+    private ProgressBar loading;
     private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
     private android.support.design.widget.AppBarLayout appbarlayout;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -119,6 +121,8 @@ public class ProfileFragment extends Fragment {
         Tutorial(v);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
+        setHasOptionsMenu(true);
+
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             toolbar.setTitle(" ");
@@ -151,17 +155,15 @@ public class ProfileFragment extends Fragment {
         likes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                posts.setTextColor(R.attr.actionbarcolor);
-                likes.setTextColor(R.attr.textcolor);
+
                 CarregarLikes();
             }
         });
 
+
         posts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                likes.setTextColor(R.attr.actionbarcolor);
-                posts.setTextColor(R.attr.textcolor);
                 Carregar();
             }
         });
@@ -172,7 +174,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
+                        .setCustomAnimations(R.anim.fui_slide_out_left, R.anim.fab_slide_in_from_right)
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
 
@@ -180,11 +182,34 @@ public class ProfileFragment extends Fragment {
                 navigationView.setSelectedItemId(R.id.navigation_home);
             }
         });
-
+        show();
         return v;
 
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.profilemenu, menu);
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.settings) {
+            Snacky.builder().setActivity(getActivity()).info().setText("Em desenvolvimento...").show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void restart() {
+        getActivity().recreate();
+    }
 
     private void removepostsalert() {
         if (getContext() == null){
@@ -581,7 +606,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                        posts.setText(valueAnimator.getAnimatedValue().toString() + " publicações");
+                        posts.setText(valueAnimator.getAnimatedValue().toString() + " frases");
                     }
                 });
                 animator.start();
@@ -614,36 +639,18 @@ public class ProfileFragment extends Fragment {
     }
 
     private void show() {
-        if (loading.getVisibility() == View.GONE) {
-            return;
-        }
-        CountDownTimer timer = new CountDownTimer(2000, 100) {
+
+        CountDownTimer timer = new CountDownTimer(1200, 100) {
             @Override
-            public void onTick(long l) {
+            public void onTick(long millisUntilFinished) {
 
             }
 
             @Override
             public void onFinish() {
-                if (getActivity() == null) {
-                    return;
-                }
-                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_down);
-                Animation animation2 = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_top);
-                Animation animation1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
-                loading.startAnimation(animation);
-                loading.setVisibility(View.INVISIBLE);
-                profilepic.startAnimation(animation1);
-                appbarlayout.setVisibility(View.VISIBLE);
-                appbarlayout.startAnimation(animation2);
-                if (myquotes == null) {
-                    Carregar();
-                }
-                if (likequotes == null) {
-                    CarregarLikes();
-                }
-                userinfo();
-
+                Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+                loading.startAnimation(out);
+                loading.setVisibility(View.GONE);
             }
         };
         timer.start();

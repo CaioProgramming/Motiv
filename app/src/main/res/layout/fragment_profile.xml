@@ -12,6 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="-7dp"
+        android:indeterminate="true"
+
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
+
     <android.support.design.widget.AppBarLayout
         android:background="@drawable/actionbarbackground"
         android:layout_width="match_parent"
@@ -42,6 +54,7 @@
                     android:id="@+id/profilepic"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
+                    android:layout_marginTop="15dp"
                     android:layout_gravity="center"
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="30dp"
@@ -62,8 +75,8 @@
                         android:button="@color/transparent"
                         android:checked="true"
                         android:padding="10dp"
-                        android:text="Posts"
-                        android:textColor="?attr/actionbarcolor"
+                        android:text="frases"
+                        android:textColor="@color/radioselect"
                         android:textStyle="bold" />
 
                     <RadioButton
@@ -72,10 +85,9 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fav_button"
                         android:button="@color/transparent"
-                        android:checked="true"
                         android:padding="10dp"
-                        android:text="Favoritos"
-                        android:textColor="@drawable/actionbarbackground"
+                        android:text="favoritos"
+                        android:textColor="@color/radioselect"
                         android:textStyle="bold" />
                 </RadioGroup>
 
@@ -108,40 +120,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        >
-        <LinearLayout
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:padding="5dp"
-                android:text="Fuçando nas suas coisas"
-                android:textAlignment="center"
-                android:textColor="@color/grey_700"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/offlineimage"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/ic_choices_monochrome" />
-        </LinearLayout>
-
-
-    </RelativeLayout>
 
 
 
