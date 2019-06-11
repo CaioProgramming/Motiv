@@ -245,34 +245,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        switch (navigation.getSelectedItemId()) {
-            case R.id.navigation_home:
-                newquotebutton();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
-                        .addToBackStack("Home")
-                        .replace(R.id.frame, new HomeFragment())
-                        .commit();
-                break;
-
-            case R.id.navigation_user:
-                newquotebutton();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame, new ProfileFragment())
-                        .commit();
-                break;
-
-
-            case R.id.navigation_about:
-                newquotebutton();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame, new AboutFragment())
-                        .commit();
-                break;
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
+                .replace(R.id.frame, new HomeFragment())
+                .commit();
         internetconnection();
     }
 

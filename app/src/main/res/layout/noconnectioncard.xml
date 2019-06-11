@@ -16,6 +16,7 @@
             android:id="@+id/offlinemssage"
             android:padding="10dp"
             android:textAlignment="center"
+            android:textColor="@color/grey_500"
             android:layout_gravity="center"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
              android:text="offline message"

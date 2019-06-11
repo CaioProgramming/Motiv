@@ -61,6 +61,20 @@
                     android:src="@drawable/ic_person_black_24dp"
                     app:civ_fill_color="@color/transparent" />
 
+                <TextView
+                    android:id="@+id/tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/colorAccent"
+                    android:padding="10dp"
+                    android:text="Clique na foto para alterá-la"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

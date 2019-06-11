@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     Query quotesdb;
     private SearchView search;
     private TabLayout searchoptions;
-    private android.widget.LinearLayout loading;
+    private ProgressBar loading;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -101,21 +102,16 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         search = v.findViewById(R.id.search);
         searchoptions = v.findViewById(R.id.searchoptions);
         composesrecycler = v.findViewById(R.id.composesrecycler);
-        //collapsetoolbar.setCollapsedTitleTextColor(Color.WHITE);
         tutorial();
 
 
-        //Carregar();
 
 
 
-        Carregar();
-        show();
+
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
-//        collapsetoolbar.setCollapsedTitleTypeface(typeface);
-//        collapsetoolbar.setCollapsedTitleGravity(Gravity.CENTER);
-        // statusbar();
+
         toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -321,12 +317,10 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public void onResume() {
-        if (quotesArrayList == null) {
-            Carregar();
-        }
+        Carregar();
+        show();
         super.onResume();
     }
-
 
 
     private void tutorial() {
@@ -487,7 +481,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 if (getContext() == null){
                     return;
                 }
-                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fab_scale_down);
+                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
                 loading.startAnimation(animation);
                 loading.setVisibility(View.GONE);
             }

@@ -87,6 +87,14 @@
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
+        <ProgressBar
+            android:id="@+id/loading"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:indeterminateOnly="true" />
+
         <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,39 +119,6 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 
-    <LinearLayout
-        android:visibility="gone"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-         android:orientation="vertical"
-        android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        >
-
-        <TextView
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:id="@+id/offlinemssage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/grey_700"
-            android:text="Tá carregando, relaxa..."
-            android:textAlignment="center"
-             android:textSize="24sp" />
-        <ImageView
-            android:padding="10dp"
-            android:id="@+id/offlineimage"
-            android:src="@drawable/ic_dog_monochrome"
-            android:layout_width="150dp"
-            android:layout_height="150dp" />
-
-
-    </LinearLayout>
 
 
 </RelativeLayout>

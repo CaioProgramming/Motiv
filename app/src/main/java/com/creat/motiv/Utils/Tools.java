@@ -3,7 +3,6 @@ package com.creat.motiv.Utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.view.View;
 
 import com.creat.motiv.Beans.Artists;
 
@@ -20,52 +19,52 @@ import java.util.Random;
 
 public class Tools {
     public  static int sixhourinterval = 21600000;
-    public static String iconssite[] = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co"};
+    public static String[] iconssite = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co"};
 
-    private static Artists artist[] ={
-        new Artists("M. EDNOKO Marinov","https://dribbble.com/ednoko"),
-        new Artists("Cynthia Tizcareno","https://dribbble.com/cynthiatiz"),
-        new Artists("Rounded Rectangle","https://dribbble.com/yxarcher"),
-        new Artists("Zayn","https://dribbble.com/zaynkylo"),
-        new Artists("Nick Slater","https://dribbble.com/slaterdesign"),
-        new Artists("Yashika ","https://dribbble.com/amazingdesigner"),
-        new Artists("Marta Zubieta","https://dribbble.com/martazubieta"),
-        new Artists("Diana Stoyanova","https://dribbble.com/dianaxstoyanova"),
-        new Artists("Maryia","https://dribbble.com/kulinskaya"),
-        new Artists("Tyler Pate","https://dribbble.com/Ty_poe"),
-        new Artists("Chris Fernandez","https://dribbble.com/c_illustrates"),
-        new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
-        new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
+    private static Artists[] artist = {
+            new Artists("M. EDNOKO Marinov", "https://dribbble.com/ednoko"),
+            new Artists("Cynthia Tizcareno", "https://dribbble.com/cynthiatiz"),
+            new Artists("Rounded Rectangle", "https://dribbble.com/yxarcher"),
+            new Artists("Zayn", "https://dribbble.com/zaynkylo"),
+            new Artists("Nick Slater", "https://dribbble.com/slaterdesign"),
+            new Artists("Yashika ", "https://dribbble.com/amazingdesigner"),
+            new Artists("Marta Zubieta", "https://dribbble.com/martazubieta"),
+            new Artists("Diana Stoyanova", "https://dribbble.com/dianaxstoyanova"),
+            new Artists("Maryia", "https://dribbble.com/kulinskaya"),
+            new Artists("Tyler Pate", "https://dribbble.com/Ty_poe"),
+            new Artists("Chris Fernandez", "https://dribbble.com/c_illustrates"),
+            new Artists("Andrew Rose", "https://dribbble.com/andrewfelix"),
+            new Artists("Andrew Rose", "https://dribbble.com/andrewfelix"),
             new Artists("Jessie Maisonneuve", "https://dribbble.com/NewhouseDesigns"),
-        new Artists("Andrew Rose","https://dribbble.com/andrewfelix"),
-        new Artists("Ssilbi NG","https://dribbble.com/ssilbing"),
-        new Artists("Jetpacks and Rollerskates","https://dribbble.com/blakestevenson"),
-        new Artists("volcanic ash","https://dribbble.com/volcanicash"),
-        new Artists("Ksenia Vega","https://dribbble.com/LittleVega"),
-        new Artists("Evgeny Polukhin ","https://dribbble.com/Pioneer"),
-        new Artists("Rick Calzi","https://dribbble.com/rickcalzi"),
-        new Artists("Antonija Golić","https://dribbble.com/SilverAG"),
-        new Artists("Li Aladin","https://dribbble.com/Li_Aladin"),
-        new Artists("Aleksandar Savic","https://dribbble.com/almigor"),
-        new Artists("Jonathan Sullivan","https://dribbble.com/Sk8Gnarley"),
-        new Artists("Peter Laudermilch","https://dribbble.com/peterlaudermilch"),
-        new Artists("Burnt Toast Creative","https://dribbble.com/BurntToast"),
-        new Artists("Thunder Rockets","https://dribbble.com/thunderockets"),
-        new Artists("Nick Slater","https://dribbble.com/slaterdesign"),
-        new Artists("Alfrey Davilla | vaneltia","https://dribbble.com/vaneltia"),
-        new Artists("Brenttton","https://dribbble.com/Breton-cn"),
-        new Artists("Mohamed Chahin","https://dribbble.com/MohChahin"),
-        new Artists("Alex Dixon","https://dribbble.com/alexdixon"),
-        new Artists("Alexa Erkaeva","https://dribbble.com/erkaeva"),
-        new Artists("Ilya Polutis","https://dribbble.com/Polutis"),
-        new Artists("Jordan Jenkins ","https://dribbble.com/jkane"),
-        new Artists("Anano Miminoshvili","https://dribbble.com/Anano"),
-        new Artists("Davs Doodles","https://dribbble.com/davsdoodles"),
-        new Artists("Kong_Family","https://dribbble.com/godesignme"),
-        new Artists("Andrii Nhuien","https://dribbble.com/bassadz"),
-        new Artists("Judith","https://dribbble.com/judag"),
-        new Artists("Fahiz","https://dribbble.com/Fahiz"),
-        new Artists("Gigi Meburishvili","https://dribbble.com/GigiM"),
+            new Artists("Andrew Rose", "https://dribbble.com/andrewfelix"),
+            new Artists("Ssilbi NG", "https://dribbble.com/ssilbing"),
+            new Artists("Jetpacks and Rollerskates", "https://dribbble.com/blakestevenson"),
+            new Artists("volcanic ash", "https://dribbble.com/volcanicash"),
+            new Artists("Ksenia Vega", "https://dribbble.com/LittleVega"),
+            new Artists("Evgeny Polukhin ", "https://dribbble.com/Pioneer"),
+            new Artists("Rick Calzi", "https://dribbble.com/rickcalzi"),
+            new Artists("Antonija Golić", "https://dribbble.com/SilverAG"),
+            new Artists("Li Aladin", "https://dribbble.com/Li_Aladin"),
+            new Artists("Aleksandar Savic", "https://dribbble.com/almigor"),
+            new Artists("Jonathan Sullivan", "https://dribbble.com/Sk8Gnarley"),
+            new Artists("Peter Laudermilch", "https://dribbble.com/peterlaudermilch"),
+            new Artists("Burnt Toast Creative", "https://dribbble.com/BurntToast"),
+            new Artists("Thunder Rockets", "https://dribbble.com/thunderockets"),
+            new Artists("Nick Slater", "https://dribbble.com/slaterdesign"),
+            new Artists("Alfrey Davilla | vaneltia", "https://dribbble.com/vaneltia"),
+            new Artists("Brenttton", "https://dribbble.com/Breton-cn"),
+            new Artists("Mohamed Chahin", "https://dribbble.com/MohChahin"),
+            new Artists("Alex Dixon", "https://dribbble.com/alexdixon"),
+            new Artists("Alexa Erkaeva", "https://dribbble.com/erkaeva"),
+            new Artists("Ilya Polutis", "https://dribbble.com/Polutis"),
+            new Artists("Jordan Jenkins ", "https://dribbble.com/jkane"),
+            new Artists("Anano Miminoshvili", "https://dribbble.com/Anano"),
+            new Artists("Davs Doodles", "https://dribbble.com/davsdoodles"),
+            new Artists("Kong_Family", "https://dribbble.com/godesignme"),
+            new Artists("Andrii Nhuien", "https://dribbble.com/bassadz"),
+            new Artists("Judith", "https://dribbble.com/judag"),
+            new Artists("Fahiz", "https://dribbble.com/Fahiz"),
+            new Artists("Gigi Meburishvili", "https://dribbble.com/GigiM"),
 
     };
 
@@ -92,28 +91,13 @@ public class Tools {
     }
 
 
-
-
-    private static String offlinefrases[] = {"Sem internet é? Ainda bem que a gente gosta de você e salva tudo offline",
-            "Parece que você está desconectado. Mas as frases ainda estão aqui, quem sabe quando sua conexão voltar tenham mais",
-            "Bom... Parece que você tá sem internet, então acho que você vai ter que ver as frases que ja tinham..."
+    private static String[] offlinefrases = {"Sem internet é? Acontece né vá aproveitar a vida",
+            "Parece que você está desconectado. Quando você se reconectar eu mostro umas frases",
+            "Bom... Parece que você tá sem internet, então acho que não tem oque fazer..."
     };
 
 
-    public static String  frases[] = {"Tudo o que um sonho precisa para ser realizado é alguém que acredite que ele possa ser realizado.",
-            "Imagine uma nova história para sua vida e acredite nela.",
-            "Ser feliz sem motivo é a mais autêntica forma de felicidade.",
-            "Não existe um caminho para a felicidade. A felicidade é o caminho.",
-            "A amizade desenvolve a felicidade e reduz o sofrimento, duplicando a nossa alegria e dividindo a nossa dor.",
-            "Não espere por uma crise para descobrir o que é importante em sua vida.",
-            "Saber encontrar a alegria na alegria dos outros, é o segredo da felicidade.",
-            "Perder tempo em aprender coisas que não interessam, priva-nos de descobrir coisas interessantes.",
-            "Pessimismo leva à fraqueza, otimismo ao poder."
-
-    };
-
-
-    private static String empyquotes[] = {"Você não vai escrever nada? Tá achando que é festa?",
+    private static String[] empyquotes = {"Você não vai escrever nada? Tá achando que é festa?",
             "O vazio da sua existência não necessariamente precisa ser o vazio do bloco de texto, escreva algo!",
             "Você não quer ver o feed e ver um texto vazio né? Então por favor escreve algo aí",
             "Eu sei que as vezes você se sente vazio, " +
@@ -121,43 +105,36 @@ public class Tools {
     };
 
 
-    public static void setLightStatusBar(View view) {
-        int flags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        view.setSystemUiVisibility(flags);
-    }
 
 
 
     public static ArrayList<Typeface> fonts(Context context){
-        Typeface fontsarchieves[] = {
-                Typeface.createFromAsset(context.getAssets(),"fonts/Arvo-Regular_201.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Audrey-Normal.otf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Cornerstone.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/times.ttf") ,
-                Typeface.createFromAsset(context.getAssets(),"fonts/MightypeScript.otf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/AmaticSC-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Amiko-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/BlackHanSans-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Cabin-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Cinzel-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/CinzelDecorative-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Farsan-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/FingerPaint-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/FredokaOne-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Inconsolata-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Lalezar-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Lobster-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Mogra-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Nunito-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/NunitoSans-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Pacifico-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Quicksand-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Rakkas-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Ranga-Regular.ttf"),
-                Typeface.createFromAsset(context.getAssets(),"fonts/Rasa-Regular.ttf"),
-
-
-
+        Typeface[] fontsarchieves = {
+                Typeface.createFromAsset(context.getAssets(), "fonts/Arvo-Regular_201.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Audrey-Normal.otf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Cornerstone.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/times.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/MightypeScript.otf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/AmaticSC-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Amiko-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/BlackHanSans-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Cabin-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Cinzel-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/CinzelDecorative-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Farsan-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/FingerPaint-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/FredokaOne-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Inconsolata-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Lalezar-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Lobster-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Mogra-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Nunito-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/NunitoSans-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Pacifico-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Quicksand-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Rakkas-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Ranga-Regular.ttf"),
+                Typeface.createFromAsset(context.getAssets(), "fonts/Rasa-Regular.ttf"),
 
 
         };

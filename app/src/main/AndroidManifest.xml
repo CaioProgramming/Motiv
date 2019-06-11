@@ -85,7 +85,6 @@
 
         <receiver android:name=".Utils.Notification_reciever" />
 
-        <activity android:name=".EditActivity" />
     </application>
 
 </manifest>

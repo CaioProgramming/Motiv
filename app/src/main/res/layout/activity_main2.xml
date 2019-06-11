@@ -14,12 +14,12 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
-        android:background="@drawable/actionbarbackground"
         android:layout_width="match_parent"
+        android:theme="@style/Widget.Design.NavigationView"
+        app:itemBackground="?attr/actionbarcolor"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/navigation"
-        app:itemBackground="@drawable/actionbarbackground"
         app:menu="@menu/navigation">
 
 
@@ -48,7 +48,6 @@
     <LinearLayout
         android:background="?attr/backgroundcolor"
         android:visibility="gone"
-        android:id="@+id/offline"
         android:layout_centerInParent="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -68,12 +67,10 @@
             android:background="@color/blue_500"
             android:text="Tentar novamente"
             android:layout_gravity="center"
-            android:id="@+id/reload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
 
-            android:id="@+id/offlineimage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

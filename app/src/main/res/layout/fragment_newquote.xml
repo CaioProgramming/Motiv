@@ -70,7 +70,6 @@
             </Toolbar>
 
             <LinearLayout
-                android:id="@+id/quotecard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -199,7 +198,6 @@
 
     </android.support.v4.widget.NestedScrollView>
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/material_design_android_floating_action_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

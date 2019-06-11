@@ -76,6 +76,7 @@ public class ProfileFragment extends Fragment {
     ValueEventListener databaseReference;
     QuotesDB quotesDB;
     Pref preferences;
+    TextView tip;
     RadioButton posts, likes;
     private CircleImageView profilepic;
     private android.support.v7.widget.RecyclerView myquotesrecycler;
@@ -111,11 +112,10 @@ public class ProfileFragment extends Fragment {
         this.appbarlayout = v.findViewById(R.id.appbarlayout);
         this.collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
         this.loading = v.findViewById(R.id.loading);
+        this.tip = v.findViewById(R.id.tip);
          toolbar = v.findViewById(R.id.toolbar);
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
         profilepic = v.findViewById(R.id.profilepic);
-
-
 
 
         Tutorial(v);
