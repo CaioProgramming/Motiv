@@ -174,7 +174,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.fui_slide_out_left, R.anim.fab_slide_in_from_right)
+                        .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
 

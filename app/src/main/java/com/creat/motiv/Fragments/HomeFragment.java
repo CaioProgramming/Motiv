@@ -111,6 +111,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         Carregar();
         show();
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
 //        collapsetoolbar.setCollapsedTitleTypeface(typeface);
 //        collapsetoolbar.setCollapsedTitleGravity(Gravity.CENTER);
@@ -134,14 +135,25 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             @Override
             public void onClick(View v) {
                 searchoptions.setVisibility(View.VISIBLE);
+                Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        search.setIconified(true);
+                    }
+                });
+
 
             }
         });
+
 
         search.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 searchoptions.setVisibility(View.GONE);
+                Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+
                 return false;
             }
         });
@@ -331,26 +343,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         novo = false;
     }
 
-
-//        new SpotlightView.Builder(Objects.requireNonNull(getActivity()))
-//                .introAnimationDuration(400)
-//                .lineAndArcColor(Color.WHITE)
-//                .headingTvColor(Color.WHITE)
-//                .subHeadingTvColor(Color.WHITE)
-//                .enableRevealAnimation(true)
-//                .performClick(true)
-//                .fadeinTextDuration(400)
-//                .headingTvText("Tela inicial")
-//                .subHeadingTvSize(16)
-//                .subHeadingTvText(getString(R.string.home_intro))
-//                .maskColor(getContext().getResources().getColor(R.color.lblack))
-//                .target(composesrecycler)
-//                .lineAnimDuration(400)
-//                .headingTvSize(28)
-//                .dismissOnTouch(true)
-//                .dismissOnBackPress(true)
-//                .usageId("homescreen") //UNIQUE ID
-//                .show();
 
     private void Carregar() {
         if (getActivity() == null || getContext() == null){

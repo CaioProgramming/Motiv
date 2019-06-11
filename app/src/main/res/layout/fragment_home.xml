@@ -32,6 +32,7 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.SearchView
+                    android:layout_margin="-10dp"
                     app:iconifiedByDefault="true"
                     android:id="@+id/search"
                     android:layout_width="match_parent"
