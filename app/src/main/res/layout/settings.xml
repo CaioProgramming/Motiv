@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        style="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -53,6 +54,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:layout_marginTop="-3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
