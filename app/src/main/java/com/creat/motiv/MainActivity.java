@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
@@ -282,21 +281,6 @@ public class MainActivity extends AppCompatActivity {
             }
             // Commit the edits!
 
-        } else if (id == R.id.exit) {
-            FirebaseAuth.getInstance().signOut();
-            Snacky.builder().setActivity(this).info().setText("Voce encerrou sua sessão, o aplicativo será encerrado").show();
-            CountDownTimer timer = new CountDownTimer(3000, 100) {
-                @Override
-                public void onTick(long l) {
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                }
-            }.start();
-            this.finish();
         } else if (id == R.id.navigation_about) {
             getSupportFragmentManager()
                     .beginTransaction()

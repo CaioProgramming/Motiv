@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Configurações"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/actionbarcolor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/backgroundcolor"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userpic"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="30dp"
+                    android:src="@drawable/ic_person_black_24dp"
+                    app:civ_fill_color="@color/transparent" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/topbottom_line">
+
+                <Button
+                    android:id="@+id/changename"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:drawableStart="@drawable/usersquare"
+                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:elevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp"
+                    android:text="Editar perfil"
+                    android:textAlignment="textStart"
+                    android:textColor="?attr/textcolor" />
+
+                <LinearLayout
+                    android:id="@+id/editname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="@color/transparent"
+                        android:hint="@string/username"
+                        android:imeActionLabel="Salvar"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:padding="15dp" />
+
+                    <Button
+                        android:id="@+id/save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="?attr/actionbarcolor"
+                        android:elevation="0dp"
+                        android:text="Ok"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/bottom_line">
+
+                <Button
+                    android:id="@+id/changepass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:drawableStart="@drawable/passwordsquare"
+                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:elevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp"
+                    android:text="Alterar senha"
+                    android:textAlignment="textStart"
+                    android:textColor="?attr/textcolor" />
+
+                <LinearLayout
+                    android:id="@+id/password_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/etPasswordLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@color/transparent"
+                        app:passwordToggleEnabled="true">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:hint="senha"
+                            android:inputType="textPassword" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/savepass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:background="@color/transparent"
+                        android:elevation="0dp"
+                        android:padding="5dp"
+                        android:text="Ok"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12dp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                android:padding="10dp">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/notification"
+                    android:enabled="false"
+                    android:padding="5dp" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Notificações" />
+
+                <Switch
+
+                    android:id="@+id/notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/deleteposts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                android:drawableStart="@drawable/removepostsquare"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:drawablePadding="5dp"
+                android:elevation="0dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="10dp"
+                android:text="Remover posts"
+                android:textAlignment="textStart"
+                android:textColor="?attr/textcolor" />
+
+
+            <Button
+                android:id="@+id/deleteaccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                android:drawableStart="@drawable/removeaccount"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:drawablePadding="5dp"
+                android:elevation="0dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="10dp"
+                android:text="Remover conta"
+                android:textAlignment="textStart"
+                android:textColor="?attr/textcolor" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

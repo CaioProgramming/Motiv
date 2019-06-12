@@ -1,0 +1,25 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:angle="45"
+                android:centerColor="@color/red_500"
+                android:endColor="@color/colorPrimary"
+                android:startColor="@color/red_A700"></gradient>
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="10dp"
+        android:drawable="@drawable/ic_delete_black_24dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp"
+
+
+        >
+
+
+    </item>
+</layer-list>

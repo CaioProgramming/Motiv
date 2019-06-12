@@ -201,11 +201,21 @@ public class ProfileFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings) {
-            Snacky.builder().setActivity(getActivity()).info().setText("Em desenvolvimento...").show();
+            settings();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void settings() {
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_bottom, R.anim.fade_out)
+                .replace(R.id.frame, new SettingsFragment())
+                .commit();
+    }
+
 
     private void restart() {
         getActivity().recreate();

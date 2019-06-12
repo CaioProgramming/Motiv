@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="?attr/backgroundcolor"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/container">
@@ -14,10 +15,9 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
-        android:layout_width="match_parent"
-        android:theme="@style/Widget.Design.NavigationView"
-        app:itemBackground="?attr/actionbarcolor"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="?attr/actionbarcolor"
         android:layout_alignParentBottom="true"
         android:id="@+id/navigation"
         app:menu="@menu/navigation">
