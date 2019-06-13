@@ -67,13 +67,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:background="@drawable/round"
                     android:backgroundTint="@color/colorAccent"
                     android:padding="10dp"
                     android:text="Clique na foto para alterá-la"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"

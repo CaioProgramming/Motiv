@@ -315,8 +315,6 @@ public class MainActivity extends AppCompatActivity {
     private void Reveal() {
         Rect bounds = new Rect();
         container.getDrawingRect(bounds);
-
-
         int cx = bounds.right;
         int cy = bounds.bottom;
         int radius = Math.max(container.getWidth(), container.getHeight());
