@@ -658,7 +658,8 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+
+                Animation out = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
                 loading.startAnimation(out);
                 loading.setVisibility(View.GONE);
             }

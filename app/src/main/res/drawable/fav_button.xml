@@ -10,8 +10,7 @@
     <item android:state_checked="true">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
-            <gradient android:angle="90" android:endColor="@color/red_800" android:startColor="@color/red_500" android:type="linear" />
-
+            <solid android:color="@color/red_500" />
 
             <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="5dp" />
 

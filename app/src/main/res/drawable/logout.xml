@@ -3,15 +3,15 @@
         <shape>
             <gradient
                 android:angle="90"
-                android:endColor="@color/red_900"
-                android:startColor="@color/black"></gradient>
-            <corners android:radius="10dp" />
+                android:endColor="@color/blue_400"
+                android:startColor="@color/light_blue_800"></gradient>
+            <corners android:radius="20dp" />
         </shape>
     </item>
 
     <item
         android:bottom="10dp"
-        android:drawable="@drawable/ic_sentiment_dissatisfied_black_24dp"
+        android:drawable="@drawable/ic_exit_to_app_black_24dp"
         android:left="10dp"
         android:right="10dp"
         android:top="10dp"

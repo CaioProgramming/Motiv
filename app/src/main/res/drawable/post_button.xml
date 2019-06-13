@@ -5,12 +5,13 @@
             <corners android:radius="5dp" />
             <padding android:bottom="5dp" android:left="5dp" android:right="5dp" android:top="5dp" />
             <solid android:color="@color/transparent" />
+            <stroke android:width="1dp" android:color="?attr/hintcolor"></stroke>
         </shape>
     </item>
     <item android:state_checked="true">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
-            <gradient android:angle="90" android:endColor="?attr/overlaycolor" android:startColor="?attr/textcolor" />
+            <solid android:color="?attr/textcolor"></solid>
 
 
             <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />

@@ -1,10 +1,12 @@
 package com.creat.motiv;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -18,10 +20,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.creat.motiv.Beans.Version;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     Version version;
     Context context = this;
     FloatingActionButton newquote;
+    private RelativeLayout container;
     FirebaseUser user;
     private BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                NewQuoteDialog();
             }
         });
-
+        container = findViewById(R.id.container);
 
         assert user != null;
         if (!user.isEmailVerified()){
@@ -244,6 +249,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        container.post(new Runnable() {
+            @Override
+            public void run() {
+                Reveal();
+            }
+        });
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
@@ -298,6 +309,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         internetconnection();
+    }
+
+
+    private void Reveal() {
+        Rect bounds = new Rect();
+        container.getDrawingRect(bounds);
+
+
+        int cx = bounds.right;
+        int cy = bounds.bottom;
+        int radius = Math.max(container.getWidth(), container.getHeight());
+        Animator anim = ViewAnimationUtils.createCircularReveal(container, cx, cy,
+                500, radius);
+        anim.setDuration(1000);
+        container.setVisibility(View.VISIBLE);
+        anim.start();
     }
 
     @Override

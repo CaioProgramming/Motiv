@@ -15,14 +15,24 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            android:animateLayoutChanges="true"
-            style="@style/AppTheme"
             android:id="@+id/toolbar"
+            android:animateLayoutChanges="true"
+            android:elevation="0dp"
             android:background="@drawable/actionbarbackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="0dp"
-            app:title="@string/app_name">
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="?attr/textcolor"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -32,7 +42,6 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.SearchView
-                    android:layout_margin="-10dp"
                     app:iconifiedByDefault="true"
                     android:id="@+id/search"
                     android:layout_width="match_parent"
@@ -42,48 +51,95 @@
                     app:queryBackground="@color/transparent"
                     app:submitBackground="@color/transparent" />
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/searchoptions"
-                    android:visibility="gone"
-                    app:tabIndicatorColor="?attr/textcolor"
+                <HorizontalScrollView
+
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabIndicatorHeight="2dp"
-                    app:tabPaddingBottom="-15dp"
-                    app:tabMode="scrollable"
-                    app:tabTextColor="?attr/hintcolor">
+                    android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/searchoptions"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_author_sign" />
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_person_black_24dp" />
+                        <RadioButton
+                            android:id="@+id/author"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/post_button"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_author_sign"
+                            android:drawableTint="@color/radioselect"
+                            android:text="Autor"
+                            android:textColor="@color/radioselect" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_favorite2_black_24dp" />
+                        <RadioButton
+                            android:id="@+id/userfilter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/post_button"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_person_black_24dp"
+                            android:drawableTint="@color/radioselect"
+                            android:text="Usuário"
+                            android:textColor="@color/radioselect" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_bookmark_black_15dp" />
+                        <RadioButton
+                            android:id="@+id/love"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/post_button"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_favorite_black_24dp"
+                            android:drawableTint="@color/radioselect"
+                            android:text="Amor"
+                            android:textColor="@color/radioselect" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_music_note_black_24dp" />
+                        <RadioButton
+                            android:id="@+id/citation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/post_button"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_bookmark_black_15dp"
+                            android:drawableTint="@color/radioselect"
+                            android:text="Citação"
+                            android:textColor="@color/radioselect" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_filter_vintage_black_24dp" />
+                        <RadioButton
+                            android:id="@+id/motivation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/post_button"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
+                            android:drawableTint="@color/radioselect"
+                            android:text="Motivação"
+                            android:textColor="@color/radioselect" />
 
-                </android.support.design.widget.TabLayout>
+                        <RadioButton
+                            android:id="@+id/music"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/post_button"
+                            android:button="@color/transparent"
+                            android:drawableStart="@drawable/ic_music_note_black_24dp"
+                            android:drawableTint="@color/radioselect"
+                            android:text="Música"
+                            android:textColor="@color/radioselect" />
+
+
+                    </RadioGroup>
+
+                </HorizontalScrollView>
+
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
@@ -92,7 +148,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
+            android:layout_marginTop="-5dp"
             android:indeterminateOnly="true" />
 
         <android.support.v7.widget.CardView
@@ -101,7 +157,7 @@
             android:layout_margin="10dp"
             android:animateLayoutChanges="true"
             android:background="@color/transparent"
-            app:cardCornerRadius="20dp">
+            app:cardCornerRadius="5dp">
 
             <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/adView"
@@ -113,6 +169,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/composesrecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

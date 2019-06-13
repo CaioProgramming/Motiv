@@ -6,12 +6,12 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,8 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
@@ -50,20 +52,27 @@ import static com.creat.motiv.Database.QuotesDB.path;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener, TabLayout.OnTabSelectedListener {
+public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener {
 
 
     private RecyclerView composesrecycler;
     String arg = "quote";
     ArrayList<Quotes> quotesArrayList;
-    private android.support.v7.widget.Toolbar toolbar;
+    private Toolbar toolbar;
     FirebaseUser user;
     Boolean novo;
     Query quotesdb;
     private SearchView search;
-    private TabLayout searchoptions;
+    private RadioGroup searchoptions;
     private ProgressBar loading;
-
+    private RadioButton author;
+    private RadioButton love;
+    private RadioButton citation;
+    private TextView toolbarTitle;
+    private RadioButton motivation;
+    private RadioButton music;
+    private RadioButton userfilter;
+    private RadioGroup categories;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -74,17 +83,18 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(Objects.requireNonNull(getContext()));
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        initView(v);
         v.findViewById(R.id.home);
         v.findViewById(R.id.appbarlayout);
 
-         this.loading = v.findViewById(R.id.loading);
+        this.loading = v.findViewById(R.id.loading);
 
         AdView adView = v.findViewById(R.id.adView);
 
@@ -92,21 +102,17 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 "ca-app-pub-4979584089010597/9177000416");
 
         AdRequest adRequest = new AdRequest.Builder().build();
-         adView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
 
         novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
 
-        //collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
         toolbar = v.findViewById(R.id.toolbar);
         search = v.findViewById(R.id.search);
         searchoptions = v.findViewById(R.id.searchoptions);
         composesrecycler = v.findViewById(R.id.composesrecycler);
+
         tutorial();
-
-
-
-
 
 
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
@@ -127,17 +133,12 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 }
             }
         });
+        toolbar.setTitle("");
         search.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toolbarTitle.setVisibility(View.GONE);
                 searchoptions.setVisibility(View.VISIBLE);
-                Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        search.setIconified(true);
-                    }
-                });
 
 
             }
@@ -148,14 +149,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             @Override
             public boolean onClose() {
                 searchoptions.setVisibility(View.GONE);
-                Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+                toolbarTitle.setVisibility(View.VISIBLE);
 
                 return false;
             }
         });
 
         search.setOnQueryTextListener(this);
-        searchoptions.setOnTabSelectedListener(this);
 
 
         return v;
@@ -314,11 +314,78 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-
     @Override
     public void onResume() {
         Carregar();
         show();
+
+        author.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arg = "author";
+                search.setQueryHint("Pesquisar author...");
+            }
+        });
+
+        userfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arg = "username";
+                search.setQueryHint("Pesquisar usuário...");
+            }
+        });
+
+
+        love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Categories("Amor");
+                search.setQueryHint("Pesquisar posts de amor");
+            }
+        });
+
+
+        motivation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Categories("Motivação");
+                search.setQueryHint("Pesquisar posts motivacionais");
+            }
+        });
+
+
+        music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Categories("Música");
+                search.setQueryHint("Pesquisar posts de músicas");
+            }
+        });
+
+        citation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Categories("Citação");
+                search.setQueryHint("Pesquisar posts de citações");
+
+            }
+        });
+        toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                View view = toolbar.getChildAt(0);
+                if (view != null) {
+                    TextView title = (TextView) view;
+                    if (getActivity() == null) {
+                        return;
+                    }
+                    Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Cabin-Regular.ttf");
+                    title.setTypeface(tf);
+
+                }
+            }
+        });
+
         super.onResume();
     }
 
@@ -339,7 +406,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
 
     private void Carregar() {
-        if (getActivity() == null || getContext() == null){
+        if (getActivity() == null || getContext() == null) {
             return;
         }
 
@@ -401,59 +468,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(), composesrecycler);
                     composesrecycler.setAdapter(myadapter);
                     composesrecycler.setLayoutManager(llm);
-                    if (getActivity() != null) {
-                        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-                        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-                            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setTitle(getString(R.string.app_name));
-                        }
-                    }
-
-                  /*  Random r = new Random();
-                    int q = r.nextInt(quotesArrayList.size());
-
-                    quote.setText(quotesArrayList.get(q).getQuote());
-                    if (quotesArrayList.get(q).getFont() != null) {
-                        if (getActivity() == null) {
-                            quote.setText(R.string.atuazlizando);
-
-                            return;
-                        }
-                        quote.setTypeface(Tools.fonts(getActivity()).get(quotesArrayList.get(q).getFont()));
-                        author.setTypeface(Tools.fonts(getActivity()).get(quotesArrayList.get(q).getFont()));
-                    } else {
-                        quote.setTypeface(Typeface.DEFAULT);
-                    }
-
-                    if (quotesArrayList.get(q).isBold()) {
-                        quote.setTypeface(quote.getTypeface(), Typeface.BOLD);
-                        author.setTypeface(quote.getTypeface(), Typeface.BOLD);
-                    } else {
-                        quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-                        author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-                    }
-
-                    if (quotesArrayList.get(q).isItalic()) {
-                        quote.setTypeface(quote.getTypeface(), Typeface.ITALIC);
-                        author.setTypeface(quote.getTypeface(), Typeface.ITALIC);
-
-                    } else {
-                        quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-                        author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-                    }
-
-                    if (quotesArrayList.get(q).isItalic() && quotesArrayList.get(q).isBold()) {
-                        quote.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
-                        author.setTypeface(quote.getTypeface(), Typeface.BOLD_ITALIC);
-                    } else {
-                        quote.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-                        author.setTypeface(quote.getTypeface(), Typeface.NORMAL);
-                    }
-
-                    author.setText(quotesArrayList.get(q).getAuthor());
-                    quote.setTextColor(quotesArrayList.get(q).getTextcolor());
-                    author.setTextColor(quotesArrayList.get(q).getTextcolor());
-                    collapsetoolbar.setExpandedTitleColor(quotesArrayList.get(q).getTextcolor());
-                    collapsetoolbar.setBackgroundTintList(ColorStateList.valueOf(quotesArrayList.get(q).getBackgroundcolor()));*/
 
 
                 }
@@ -470,7 +484,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     private void show() {
 
-        CountDownTimer timer = new CountDownTimer(2000, 100) {
+        CountDownTimer timer = new CountDownTimer(1500, 100) {
             @Override
             public void onTick(long l) {
 
@@ -478,14 +492,21 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
             @Override
             public void onFinish() {
-                if (getContext() == null){
+                if (getContext() == null) {
                     return;
                 }
                 Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+                Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
+
                 loading.startAnimation(animation);
                 loading.setVisibility(View.GONE);
+                composesrecycler.setVisibility(View.VISIBLE);
+                composesrecycler.startAnimation(in);
+                toolbar.setVisibility(View.VISIBLE);
+                toolbar.startAnimation(in);
             }
-        };timer.start();
+        };
+        timer.start();
     }
 
 
@@ -578,55 +599,14 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         }
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        if (searchoptions.getVisibility() == View.VISIBLE) {
-            switch (tab.getPosition()) {
-                case 0:
-                    arg = "author";
-                    search.setQueryHint("Pesquisar author...");
-                    //Pesquisar(search.getText().toString());
-                    break;
-                case 1:
-                    arg = "username";
-                    search.setQueryHint("Pesquisar posts de usuário...");
-                    //Pesquisar(search.getText().toString());
-                    break;
-                case 2:
-                    Categories("Amor");
-                    search.setQueryHint("Pesquisar posts de amor");
 
-                    break;
-                case 3:
-                    Categories("Citação");
-                    search.setQueryHint("Pesquisar citações");
-
-                    break;
-                case 4:
-                    Categories("Musica");
-                    search.setQueryHint("Pesquisar músicas");
-
-                    break;
-                case 5:
-                    Categories("Motivação");
-                    search.setQueryHint("Pesquisar posts motivacionais");
-
-                    break;
-                default:
-                    Carregar();
-                    break;
-            }
-        }
-
+    private void initView(View v) {
+        toolbarTitle = v.findViewById(R.id.toolbar_title);
+        motivation = v.findViewById(R.id.motivation);
+        music = v.findViewById(R.id.music);
+        love = v.findViewById(R.id.love);
+        author = v.findViewById(R.id.author);
+        citation = v.findViewById(R.id.citation);
+        userfilter = v.findViewById(R.id.userfilter);
     }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-        Pesquisar("");
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-    }
-
 }

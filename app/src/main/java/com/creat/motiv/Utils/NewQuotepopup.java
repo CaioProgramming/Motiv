@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +27,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -62,14 +63,16 @@ import de.mateware.snacky.Snacky;
 
 import static com.creat.motiv.Database.QuotesDB.path;
 
-public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
+public class NewQuotepopup {
     private RealtimeBlurView realtimeBlurView;
+    ImageButton backcolorfab, texcolorfab;
+    private RadioButton authorradio;
+    private RadioButton userradio;
+    private RadioButton love;
+    private RadioButton citation;
+    private RadioButton motivation;
+    private RadioButton music;
 
-    public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
-        this.activity = activity;
-         user = FirebaseAuth.getInstance().getCurrentUser();
-        this.realtimeBlurView = blurView;
-    }
     private Activity activity;
     String categoria = "Nenhum";
     FirebaseUser user;
@@ -86,119 +89,119 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
     private TextView texcolorid;
     private TextView backcolorid;
     private LinearLayout popup;
-    ImageButton backcolorfab,texcolorfab;
+    private RadioGroup categories;
+    private Spinner fonts;
 
-     private android.support.design.widget.TabLayout categories;
-     private Spinner fonts;
+    public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
+        this.activity = activity;
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        this.realtimeBlurView = blurView;
+    }
 
-     public void showup(){
-
-         BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
-         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-         myDialog.setCanceledOnTouchOutside(true);
-         myDialog.setContentView(R.layout.newquotepopup);
-         myDialog.show();
-
-
-         categories = myDialog.findViewById(R.id.categories);
-         this.popup = myDialog.findViewById(R.id.popup);
-         this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
-         this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
-         this.backcolorid = myDialog.findViewById(R.id.backcolorid);
-         this.texcolorid = myDialog.findViewById(R.id.texcolorid);
-         this.fontid = myDialog.findViewById(R.id.fontid);
-         this.background = myDialog.findViewById(R.id.background);
-         this.author = myDialog.findViewById(R.id.author);
-         this.frase = myDialog.findViewById(R.id.quote);
-         this.fonts = myDialog.findViewById(R.id.fonts);
-         TextView username = myDialog.findViewById(R.id.username);
-         CircleImageView userpic = myDialog.findViewById(R.id.userpic);
-         this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
-         Button salvar = myDialog.findViewById(R.id.salvar);
-         username.setText(user.getDisplayName());
-         Glide.with(activity).load(user.getPhotoUrl()).into(userpic);
-         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(activity,frase,author,fontid,fonts);
-         fonts.setAdapter(spinnerAdapter);
-         //theme();
-         try {
-             colorgallery();
-         } catch (ClassNotFoundException e) {
-             e.printStackTrace();
-         } catch (IllegalAccessException e) {
-             e.printStackTrace();
-         }
-
-         backcolorfab.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 BackColorpicker();
-             }
-         });
-
-         texcolorfab.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 Textocolorpicker();
-             }
-         });
-
-         salvar.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 salvar();
-             }
-         });
+    public void showup() {
+        BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.setCanceledOnTouchOutside(true);
+        myDialog.setContentView(R.layout.newquotepopup);
+        myDialog.show();
 
 
+        categories = myDialog.findViewById(R.id.categories);
+        this.popup = myDialog.findViewById(R.id.popup);
+        this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
+        this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
+        this.backcolorid = myDialog.findViewById(R.id.backcolorid);
+        this.texcolorid = myDialog.findViewById(R.id.texcolorid);
+        this.fontid = myDialog.findViewById(R.id.fontid);
+        this.background = myDialog.findViewById(R.id.background);
+        this.author = myDialog.findViewById(R.id.author);
+        this.frase = myDialog.findViewById(R.id.quote);
+        categories = myDialog.findViewById(R.id.categoriesgroup);
+
+        this.fonts = myDialog.findViewById(R.id.fonts);
+        TextView username = myDialog.findViewById(R.id.username);
+        CircleImageView userpic = myDialog.findViewById(R.id.userpic);
+        this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
+        Button salvar = myDialog.findViewById(R.id.salvar);
+        username.setText(user.getDisplayName());
+        Glide.with(activity).load(user.getPhotoUrl()).into(userpic);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(activity, frase, author, fontid, fonts);
+        fonts.setAdapter(spinnerAdapter);
+        //theme();
+        try {
+            colorgallery();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        backcolorfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BackColorpicker();
+            }
+        });
+
+        texcolorfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Textocolorpicker();
+            }
+        });
+
+        salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                salvar();
+            }
+        });
 
 
+        frase.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_NEXT) {
+                    if (!keyEvent.isShiftPressed()) {
+                        Log.v("AndroidEnterKeyActivity", "Enter Key Pressed!");
+                        switch (view.getId()) {
+                            case 1:
+                                author.requestFocus();
+                                break;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
 
+        author.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH ||
+                        i == EditorInfo.IME_ACTION_DONE ||
+                        keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 
-         frase.setOnKeyListener(new View.OnKeyListener() {
-             @Override
-             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                 if (i == EditorInfo.IME_ACTION_NEXT) {
-                     if (!keyEvent.isShiftPressed()) {
-                         Log.v("AndroidEnterKeyActivity", "Enter Key Pressed!");
-                         switch (view.getId()) {
-                             case 1:
-                                 author.requestFocus();
-                                 break;
-                         }
-                         return true;
-                     }
-                 }
-                 return false;
-             }
-         });
+                    if (!keyEvent.isShiftPressed()) {
+                        System.out.println("Enter key pressed");
+                        switch (view.getId()) {
+                            case 1:
+                                salvar();
+                                break;
+                        }
+                        return true;
+                    }
 
+                }
+                return false; // pass on to other listeners.
 
-         author.setOnKeyListener(new View.OnKeyListener() {
-             @Override
-             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                 if (i == EditorInfo.IME_ACTION_SEARCH ||
-                         i == EditorInfo.IME_ACTION_DONE ||
-                         keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
-                                 keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                     if (!keyEvent.isShiftPressed()) {
-                         System.out.println("Enter key pressed");
-                         switch (view.getId()) {
-                             case 1:
-                                 salvar();
-                                 break;
-                         }
-                         return true;
-                     }
-
-                 }
-                 return false; // pass on to other listeners.
-
-             }
-         });
+            }
+        });
         Tutorial();
-         myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 realtimeBlurView.setVisibility(View.GONE);
@@ -206,11 +209,47 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
         });
 
 
-         categories.addOnTabSelectedListener(this);
+    }
 
 
+    private void radios() {
+        love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoria = "Amor";
+                popup.setBackgroundResource(R.drawable.bottom_line_love);
+            }
+        });
 
-     }
+
+        motivation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoria = "Motivação";
+                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+            }
+        });
+
+
+        music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoria = "Música";
+                popup.setBackgroundResource(R.drawable.bottom_line_music);
+            }
+        });
+
+        citation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoria = "Citação";
+                popup.setBackgroundResource(R.drawable.bottom_line_citation);
+
+            }
+        });
+
+
+    }
 
 
     public void showedit(String id) {
@@ -222,6 +261,12 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
         myDialog.show();
         categories = myDialog.findViewById(R.id.categories);
         this.popup = myDialog.findViewById(R.id.popup);
+        authorradio = myDialog.findViewById(R.id.authorradio);
+        userradio = myDialog.findViewById(R.id.userradio);
+        love = myDialog.findViewById(R.id.love);
+        citation = myDialog.findViewById(R.id.citation);
+        motivation = myDialog.findViewById(R.id.motivation);
+        music = myDialog.findViewById(R.id.music);
         this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
         this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
         this.backcolorid = myDialog.findViewById(R.id.backcolorid);
@@ -263,8 +308,6 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
         });
 
 
-        categories.addOnTabSelectedListener(this);
-        categories.setSelected(false);
         frase.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -371,9 +414,11 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
                         if (quotes.getFont() != null) {
                             frase.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
                             author.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
+                            fonts.setSelection(quotes.getFont());
                         } else {
                             frase.setTypeface(Typeface.DEFAULT);
                             author.setTypeface(Typeface.DEFAULT);
+
                         }
                         author.setTextColor(quotes.getTextcolor());
                         texcolorid.setText(String.valueOf(quotes.getTextcolor()));
@@ -382,24 +427,24 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
                         switch (quotes.getCategoria()) {
                             case "Musica":
                                 popup.setBackgroundResource(R.drawable.bottom_line_music);
-                                categories.getTabAt(4).select();
+                                music.setSelected(true);
                                 break;
                             case "Citação":
                                 popup.setBackgroundResource(R.drawable.bottom_line_citation);
-                                categories.getTabAt(2).select();
+                                citation.setSelected(true);
                                 break;
                             case "Amor":
                                 popup.setBackgroundResource(R.drawable.bottom_line_love);
-                                categories.getTabAt(1).select();
+                                love.setSelected(true);
 
                                 break;
                             case "Motivação":
                                 popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-                                categories.getTabAt(3).select();
+                                motivation.setSelected(true);
                                 break;
                             case "Nenhum":
                                 popup.setBackgroundResource(R.drawable.bottom_line_none);
-                                categories.getTabAt(0).select();
+
 
                                 break;
                         }
@@ -479,7 +524,7 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
 
     private void Tutorial() {
         Boolean novo = Objects.requireNonNull(Objects.requireNonNull(activity).getIntent().getExtras()).getBoolean("novo");
-        if (novo){
+        if (novo) {
             Pref preferences = new Pref(Objects.requireNonNull(activity));
             if (!preferences.writetutorialstate()) {
                 preferences.setWriteTutorial(true);
@@ -503,11 +548,14 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
             fonti = Integer.parseInt(fontid.getText().toString());
 
         }
-        if (texcolorid.getText() == ""){
+        if (texcolorid.getText() == "") {
             texcolorid.setText(String.valueOf(Color.BLACK));
         }
-        if (backcolorid.getText() == ""){
-            backcolorid.setText(String.valueOf(Color.WHITE)  );
+        if (backcolorid.getText() == "") {
+            backcolorid.setText(String.valueOf(Color.WHITE));
+        }
+        if (!love.isChecked() && !motivation.isChecked() && !citation.isChecked() && !music.isChecked()) {
+            categoria = "Nenhum";
         }
 
         Quotes quotes = new Quotes(null,
@@ -518,22 +566,22 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
                 user.getDisplayName(),
                 String.valueOf(user.getPhotoUrl()),
                 Integer.parseInt(backcolorid.getText().toString()),
-                Integer.parseInt( texcolorid.getText().toString()),
+                Integer.parseInt(texcolorid.getText().toString()),
                 false,
                 false,
                 fonti,
                 false);
-        System.out.println("font " + quotes.getFont() + "backcolor e textcolor " + quotes.getBackgroundcolor() + " "+ quotes.getTextcolor());
+        System.out.println("font " + quotes.getFont() + "backcolor e textcolor " + quotes.getBackgroundcolor() + " " + quotes.getTextcolor());
 
-        if (author.getText().toString().equals("")){
+        if (author.getText().toString().equals("")) {
             quotes.setAuthor(user.getDisplayName());
         }
-        if (user.isEmailVerified()){
-           QuotesDB quotesDB = new QuotesDB(quotes, Objects.requireNonNull(activity));
+        if (user.isEmailVerified()) {
+            QuotesDB quotesDB = new QuotesDB(quotes, Objects.requireNonNull(activity));
             quotesDB.Inserir();
-        }else{
+        } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity).setMessage("Email não verificado");
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.Theme_AppCompat_Dialog).setMessage("Email não verificado");
             builder.setMessage("Seu email não foi verificado, então não vai poder compartilhar frases.");
             builder.setPositiveButton("Então me envia esse email meu consagrado", new DialogInterface.OnClickListener() {
                 @Override
@@ -551,13 +599,10 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
             builder.show();
 
 
-
         }
 
 
-
     }
-
 
 
     private void agree() {
@@ -595,8 +640,8 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
 
     private void colorgallery() throws ClassNotFoundException, IllegalAccessException {
         ArrayList<Integer> colors = new ArrayList<>();
-        Field[] fields = Class.forName(Objects.requireNonNull(activity).getPackageName() +".R$color").getDeclaredFields();
-        for(Field field : fields) {
+        Field[] fields = Class.forName(Objects.requireNonNull(activity).getPackageName() + ".R$color").getDeclaredFields();
+        for (Field field : fields) {
             String colorName = field.getName();
             int colorId = field.getInt(null);
             int color = activity.getResources().getColor(colorId);
@@ -609,8 +654,8 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
         Collections.reverse(colors);
         colorlibrary.setHasFixedSize(true);
         GridLayoutManager llm = new GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false);
-        RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors,activity,
-                background,frase,author,activity,texcolorid,backcolorid,texcolorfab,backcolorfab);
+        RecyclerColorAdapter recyclerColorAdapter = new RecyclerColorAdapter(colors, activity,
+                background, frase, author, activity, texcolorid, backcolorid, texcolorfab, backcolorfab);
         recyclerColorAdapter.notifyDataSetChanged();
 
         colorlibrary.setAdapter(recyclerColorAdapter);
@@ -619,87 +664,8 @@ public class NewQuotepopup implements TabLayout.OnTabSelectedListener {
     }
 
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        switch (tab.getPosition()) {
-            case 0:
-                categoria = "Nenhuma";
-                popup.setBackgroundResource(R.drawable.bottom_line_none);
-                categories.setSelectedTabIndicatorColor(Color.TRANSPARENT);
-                break;
-            case 1:
-                categoria = "Amor";
-                popup.setBackgroundResource(R.drawable.bottom_line_love);
-                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
-                break;
-            case 2:
-                categoria = "Citação";
-                popup.setBackgroundResource(R.drawable.bottom_line_citation);
-                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
 
 
-                break;
-            case 3:
-                categoria = "Motivação";
-                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
 
 
-                break;
-            case 4:
-                categoria = "Música";
-                popup.setBackgroundResource(R.drawable.bottom_line_music);
-
-                break;
-            default:
-                categoria = "Nenhuma";
-                popup.setBackgroundResource(R.drawable.bottom_line_none);
-                categories.setSelectedTabIndicatorColor(activity.getResources().getColor(R.color.colorAccent));
-
-                break;
-        }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-        categoria = "Nenhuma";
-        popup.setBackgroundResource(R.drawable.bottom_line_none);
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-        switch (tab.getPosition()) {
-            case 0:
-                categoria = "Nenhuma";
-                popup.setBackgroundResource(R.drawable.bottom_line_none);
-
-                break;
-            case 1:
-                categoria = "Amor";
-                popup.setBackgroundResource(R.drawable.bottom_line_love);
-
-                break;
-            case 2:
-                categoria = "Citação";
-                popup.setBackgroundResource(R.drawable.bottom_line_citation);
-
-                break;
-            case 3:
-                categoria = "Motivação";
-                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-
-                break;
-            case 4:
-                categoria = "Música";
-                popup.setBackgroundResource(R.drawable.bottom_line_music);
-
-                break;
-            default:
-                categoria = "Nenhuma";
-                popup.setBackgroundResource(R.drawable.bottom_line_none);
-                break;
-        }
-    }
 }

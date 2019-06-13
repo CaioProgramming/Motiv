@@ -47,6 +47,7 @@
                     android:layout_height="180dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
+                    app:civ_border_color="@color/colorAccent"
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="30dp"
                     android:src="@drawable/ic_person_black_24dp"
@@ -77,15 +78,22 @@
 
                 <LinearLayout
                     android:id="@+id/editname"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
                     android:visibility="gone">
 
+                    <ImageButton
+                        android:id="@+id/backname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_chevron_left_black_24dp" />
                     <EditText
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:background="@color/transparent"
                         android:hint="@string/username"
                         android:imeActionLabel="Salvar"
@@ -94,11 +102,12 @@
                         android:padding="15dp" />
 
                     <Button
+                        android:background="@color/transparent"
                         android:id="@+id/save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:background="?attr/actionbarcolor"
+                        android:foreground="?attr/selectableItemBackground"
                         android:elevation="0dp"
                         android:text="Ok"
                         android:textColor="@color/colorAccent" />
@@ -129,18 +138,28 @@
                     android:textColor="?attr/textcolor" />
 
                 <LinearLayout
+                    android:orientation="horizontal"
                     android:id="@+id/password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:visibility="gone">
 
+                    <ImageButton
+                        android:id="@+id/backpass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_chevron_left_black_24dp" />
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/etPasswordLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
                         android:background="@color/transparent"
+                        app:hintAnimationEnabled="true"
                         app:passwordToggleEnabled="true">
 
                         <android.support.design.widget.TextInputEditText
@@ -150,52 +169,26 @@
                             android:background="@color/transparent"
                             android:hint="senha"
                             android:inputType="textPassword" />
+
+                        <Button
+                            android:id="@+id/savepass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:background="@color/transparent"
+                            android:elevation="0dp"
+                            android:padding="5dp"
+                            android:text="Ok"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12dp" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/savepass"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:background="@color/transparent"
-                        android:elevation="0dp"
-                        android:padding="5dp"
-                        android:text="Ok"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12dp" />
+
                 </LinearLayout>
             </RelativeLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line"
-                android:padding="10dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/notification"
-                    android:enabled="false"
-                    android:padding="5dp" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Notificações" />
-
-                <Switch
-
-                    android:id="@+id/notification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:padding="5dp" />
-            </LinearLayout>
 
             <Button
                 android:id="@+id/deleteposts"
@@ -227,6 +220,22 @@
                 android:text="Remover conta"
                 android:textAlignment="textStart"
                 android:textColor="?attr/textcolor" />
+
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                android:drawableStart="@drawable/logout"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:drawablePadding="5dp"
+                android:elevation="0dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="10dp"
+                android:text="Sair"
+                android:textAlignment="textStart"
+                android:textColor="?attr/textcolor" />
+
 
         </LinearLayout>
     </ScrollView>

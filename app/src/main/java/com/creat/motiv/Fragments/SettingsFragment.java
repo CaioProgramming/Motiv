@@ -16,7 +16,6 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,7 +42,6 @@ public class SettingsFragment extends Fragment {
     private TextInputLayout etPasswordLayout;
     private TextInputEditText etPassword;
     private Button savepass;
-    private Switch notification;
     private Button deleteposts;
     private Button deleteaccount;
     private LinearLayout passwordLayout;
@@ -66,14 +64,15 @@ public class SettingsFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
+                navigationView.setSelectedItemId(R.id.navigation_home);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fade_out)
-                        .replace(R.id.frame, new ProfileFragment())
+                        .replace(R.id.frame, new HomeFragment())
                         .commit();
 
-                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
-                navigationView.setSelectedItemId(R.id.navigation_home);
+
             }
         });
         toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -107,7 +106,6 @@ public class SettingsFragment extends Fragment {
         etPasswordLayout = v.findViewById(R.id.etPasswordLayout);
         etPassword = v.findViewById(R.id.etPassword);
         savepass = v.findViewById(R.id.savepass);
-        notification = v.findViewById(R.id.notification);
         deleteposts = v.findViewById(R.id.deleteposts);
         deleteaccount = v.findViewById(R.id.deleteaccount);
         passwordLayout = v.findViewById(R.id.password_layout);
