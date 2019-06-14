@@ -1,162 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
     android:layout_width="match_parent"
-    android:background="?attr/backgroundcolor"
+    android:background="?attr/actionbarcolor"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title="Sobre"
+        android:layout_margin="5dp"
+        android:background="@drawable/actionbarbackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?actionBarSize" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:gravity="center"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/creatorstitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:text="@string/criadores"
-                android:textAlignment="center"
-                android:textColor="?attr/textcolor"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_gravity="center"
-                android:id="@+id/creatorsrecycler"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false" />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:elevation="2dp"
-            android:padding="2dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/referencestitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="@string/refer_ncias"
-                android:textAlignment="center"
-                android:textColor="?attr/textcolor"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.RecyclerView
-                android:nestedScrollingEnabled="false"
-                android:id="@+id/designrecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:visibility="gone"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/artiststitle"
-                android:layout_margin="15dp"
-                android:textAlignment="center"
-                android:textColor="?attr/textcolor"
-                android:textSize="26sp"
-                android:text="@string/artistas"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <android.support.v7.widget.RecyclerView
-                android:nestedScrollingEnabled="false"
-                android:id="@+id/artistsrecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:elevation="2dp"
-            android:padding="2dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/suportitle"
-                android:layout_width="match_parent"
-                android:layout_margin="15dp"
-                android:textAlignment="center"
-                android:text="@string/suporte"
-                android:textSize="24sp"
-                android:layout_height="wrap_content" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:padding="10dp"
-                app:cardCornerRadius="10dp">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/helpad"
-                    style="@style/AppTheme"
+                    android:padding="10dp"
+
+                    android:id="@+id/creatorstitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:animateLayoutChanges="true"
-                    android:drawableBottom="@drawable/ic_favorite_black_24dp"
-                    android:text="@string/suporrt_ad"
-                    android:textSize="20sp" />
-            </android.support.v7.widget.CardView>
+                    android:layout_margin="10dp"
+                    android:text="@string/criadores"
+                     android:textColor="?attr/textcolor"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_gravity="center"
+                    android:id="@+id/creatorsrecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false" />
 
 
-            <TextView
-                android:textColor="@color/grey_600"
+            </LinearLayout>
+            <LinearLayout
 
-                android:drawableTop="@mipmap/ic_launcher"
-                android:textSize="18sp"
-                style="@style/AppTheme"
-                android:textAlignment="center"
-                android:text="@string/motiv_desenvolvido_por_inlustris_em_2018_todos_os_direitos_reservados"
+                android:background="?attr/actionbarcolor"
+                android:elevation="2dp"
+                android:padding="10dp"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textColor="@color/grey_600"
-                android:drawableBottom="@mipmap/firebase"
-                android:textSize="12sp"
-                style="@style/AppTheme"
-                android:textAlignment="center"
-                android:text="@string/firebase"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/referencestitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/refer_ncias"
+                     android:textColor="?attr/textcolor"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:nestedScrollingEnabled="false"
+                    android:id="@+id/designrecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                 android:animateLayoutChanges="true"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:padding="10dp"
+                    android:id="@+id/artiststitle"
+                    android:layout_margin="10dp"
+                     android:textColor="?attr/textcolor"
+                    android:textSize="26sp"
+                    android:text="@string/artistas"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:nestedScrollingEnabled="false"
+                    android:id="@+id/artistsrecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:elevation="2dp"
+                android:padding="2dp"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/suportitle"
+                    android:layout_width="match_parent"
+                    android:layout_margin="15dp"
+                    android:textAlignment="center"
+                    android:text="@string/suporte"
+                    android:textSize="24sp"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.CardView
+                    android:background="?attr/actionbarcolor"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:padding="10dp"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:id="@+id/helpad"
+                        style="@style/AppTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:animateLayoutChanges="true"
+                        android:drawableTop="@drawable/ic_fireworks"
+                        android:text="@string/suporrt_ad"
+                        android:textSize="20sp" />
+                </android.support.v7.widget.CardView>
+
+
+                <TextView
+                    android:textColor="@color/grey_600"
+
+                    android:drawableTop="@mipmap/ic_launcher"
+                    android:textSize="18sp"
+                    style="@style/AppTheme"
+                    android:textAlignment="center"
+                    android:text="@string/motiv_desenvolvido_por_inlustris_em_2018_todos_os_direitos_reservados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/grey_600"
+                    android:drawableBottom="@mipmap/firebase"
+                    android:textSize="12sp"
+                    style="@style/AppTheme"
+                    android:textAlignment="center"
+                    android:text="@string/firebase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
 
         </LinearLayout>
 
+    </android.support.v4.widget.NestedScrollView>
 
-
-
-
-
-
-
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

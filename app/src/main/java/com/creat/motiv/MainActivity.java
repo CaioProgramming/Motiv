@@ -253,13 +253,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Reveal();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
+                        .replace(R.id.frame, new HomeFragment())
+                        .commit();
             }
         });
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
-                .replace(R.id.frame, new HomeFragment())
-                .commit();
+
         internetconnection();
     }
 
@@ -313,16 +314,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void Reveal() {
-        Rect bounds = new Rect();
-        container.getDrawingRect(bounds);
-        int cx = bounds.right;
-        int cy = bounds.bottom;
-        int radius = Math.max(container.getWidth(), container.getHeight());
-        Animator anim = ViewAnimationUtils.createCircularReveal(container, cx, cy,
-                500, radius);
-        anim.setDuration(1000);
-        container.setVisibility(View.VISIBLE);
-        anim.start();
+        Animation fade = AnimationUtils.loadAnimation(this,R.anim.fade_in);
+        container.startAnimation(fade);
     }
 
     @Override

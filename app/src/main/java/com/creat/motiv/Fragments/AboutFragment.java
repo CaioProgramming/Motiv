@@ -8,9 +8,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +56,7 @@ public class AboutFragment extends Fragment {
     private android.support.v7.widget.RecyclerView designrecycler;
     private android.support.v7.widget.RecyclerView artistsrecycler;
     private Query quotesdb;
+    private Toolbar toolbar;
     private android.widget.TextView creatorstitle;
     private android.widget.TextView referencestitle;
     private android.widget.TextView artiststitle;
@@ -78,7 +82,7 @@ public class AboutFragment extends Fragment {
         this.artistsrecycler = view.findViewById(R.id.artistsrecycler);
         this.designrecycler = view.findViewById(R.id.designrecycler);
         this.creatorsrecycler = view.findViewById(R.id.creatorsrecycler);
-
+        this.toolbar = view.findViewById(R.id.toolbar);
         MobileAds.initialize(getActivity(),
                 "ca-app-pub-4979584089010597~4181793255");
         helpad.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +159,22 @@ public class AboutFragment extends Fragment {
         //Theme();
 
        // statusbar();
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
+                navigationView.setSelectedItemId(R.id.navigation_home);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fade_out)
+                        .replace(R.id.frame, new HomeFragment())
+                        .commit();
+
+
+            }
+        });
         return view;
     }
 
@@ -168,7 +188,6 @@ public class AboutFragment extends Fragment {
     }
 
 
-    Pref preferences;
 
 
 
@@ -200,7 +219,7 @@ public class AboutFragment extends Fragment {
                 }
                 Collections.shuffle(developersArrayList);
                 RecyclerCreatorsAdapter recyclerCreatorsAdapter = new RecyclerCreatorsAdapter(getContext(), developersArrayList, getActivity());
-                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
+                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.HORIZONTAL, false);
                 creatorsrecycler.setAdapter(recyclerCreatorsAdapter);
                 creatorsrecycler.setHasFixedSize(true);
                 creatorsrecycler.setLayoutManager(layoutManager);

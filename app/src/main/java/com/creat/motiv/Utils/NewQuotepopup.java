@@ -66,8 +66,7 @@ import static com.creat.motiv.Database.QuotesDB.path;
 public class NewQuotepopup {
     private RealtimeBlurView realtimeBlurView;
     ImageButton backcolorfab, texcolorfab;
-    private RadioButton authorradio;
-    private RadioButton userradio;
+
     private RadioButton love;
     private RadioButton citation;
     private RadioButton motivation;
@@ -261,8 +260,7 @@ public class NewQuotepopup {
         myDialog.show();
         categories = myDialog.findViewById(R.id.categories);
         this.popup = myDialog.findViewById(R.id.popup);
-        authorradio = myDialog.findViewById(R.id.authorradio);
-        userradio = myDialog.findViewById(R.id.userradio);
+
         love = myDialog.findViewById(R.id.love);
         citation = myDialog.findViewById(R.id.citation);
         motivation = myDialog.findViewById(R.id.motivation);

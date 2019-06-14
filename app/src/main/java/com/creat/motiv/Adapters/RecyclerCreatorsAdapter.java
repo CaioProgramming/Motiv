@@ -50,18 +50,6 @@ public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreato
         Glide.with(mActivity).load(mData.get(position).getPhotouri()).into(holder.profilepic);
         holder.profilepic.startAnimation(in);
         holder.nome.setText(mData.get(position).getNome());
-        holder.cargo.setText(mData.get(position).getCargo());
-        holder.linkedin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mActivity == null) {
-                    return;
-                }
-                Uri uri = Uri.parse(mData.get(position).getLinkedin());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                mActivity.startActivity(intent);
-            }
-        });
 
 
     }
@@ -80,16 +68,15 @@ public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreato
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView profilepic;
-        TextView nome, cargo;
-        ImageButton linkedin;
+        TextView nome;
+
 
 
         private MyViewHolder(View view) {
             super(view);
             profilepic = view.findViewById(R.id.profilepic);
             nome = view.findViewById(R.id.nome);
-            cargo = view.findViewById(R.id.cargo);
-            linkedin = view.findViewById(R.id.linkedin);
+
 
 
 

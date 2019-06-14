@@ -496,14 +496,32 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     return;
                 }
                 Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-                Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
+                final Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
 
                 loading.startAnimation(animation);
-                loading.setVisibility(View.GONE);
-                composesrecycler.setVisibility(View.VISIBLE);
-                composesrecycler.startAnimation(in);
-                toolbar.setVisibility(View.VISIBLE);
-                toolbar.startAnimation(in);
+
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        loading.setVisibility(View.GONE);
+                        composesrecycler.setVisibility(View.VISIBLE);
+                        composesrecycler.startAnimation(in);
+                        toolbar.setVisibility(View.VISIBLE);
+                        toolbar.startAnimation(in);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+
             }
         };
         timer.start();

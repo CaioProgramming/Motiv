@@ -57,10 +57,9 @@ public class RecyclerArtistsAdapter extends RecyclerView.Adapter<RecyclerArtists
             }
         });
 
-        Pref preferences = new Pref(mContext);
-        int white = Color.WHITE;
 
-        holder.colors.setBackgroundColor(ColorUtils.getRandomColor());
+
+        holder.colors.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.getRandomColor()));
 
 
 
