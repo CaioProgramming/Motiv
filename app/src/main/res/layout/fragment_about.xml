@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         app:title="Sobre"
         android:layout_margin="5dp"
-        android:background="@drawable/actionbarbackground"
+        android:background="?attr/actionbarcolor"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize" />
     <android.support.v4.widget.NestedScrollView

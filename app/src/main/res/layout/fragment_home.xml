@@ -20,8 +20,7 @@
             android:elevation="0dp"
             android:background="@drawable/actionbarbackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/toolbar_title"

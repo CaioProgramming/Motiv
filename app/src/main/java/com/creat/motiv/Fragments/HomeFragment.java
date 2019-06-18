@@ -496,7 +496,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     return;
                 }
                 Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-                final Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
+                final Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
 
                 loading.startAnimation(animation);
 
@@ -509,10 +509,12 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         loading.setVisibility(View.GONE);
-                        composesrecycler.setVisibility(View.VISIBLE);
-                        composesrecycler.startAnimation(in);
-                        toolbar.setVisibility(View.VISIBLE);
-                        toolbar.startAnimation(in);
+                        if (composesrecycler.getVisibility() != View.VISIBLE) {
+                            composesrecycler.setVisibility(View.VISIBLE);
+                            composesrecycler.startAnimation(in);
+                        }
+
+
                     }
 
                     @Override
