@@ -233,7 +233,7 @@ public class NewQuotepopup {
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoria = "Música";
+                categoria = "Musica";
                 popup.setBackgroundResource(R.drawable.bottom_line_music);
             }
         });

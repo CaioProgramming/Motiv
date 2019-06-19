@@ -357,7 +357,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Categories("Música");
+                Categories("Musica");
                 search.setQueryHint("Pesquisar posts de músicas");
             }
         });

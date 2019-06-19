@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/toolbar_title"
+                 android:id="@+id/toolbar_title"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,8 +41,7 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.SearchView
-                    app:iconifiedByDefault="true"
-                    android:id="@+id/search"
+                     android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/hintcolor"
@@ -51,23 +50,22 @@
                     app:submitBackground="@color/transparent" />
 
                 <HorizontalScrollView
-
+                    android:padding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <RadioGroup
+                        android:visibility="gone"
                         android:id="@+id/searchoptions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/author"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/post_button"
+                             android:background="@drawable/post_button"
                             android:button="@color/transparent"
                             android:drawableStart="@drawable/ic_author_sign"
                             android:drawableTint="@color/radioselect"
@@ -78,8 +76,7 @@
                             android:id="@+id/userfilter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/post_button"
+                             android:background="@drawable/post_buttonnoborder"
                             android:button="@color/transparent"
                             android:drawableStart="@drawable/ic_person_black_24dp"
                             android:drawableTint="@color/radioselect"
@@ -90,8 +87,7 @@
                             android:id="@+id/love"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/post_button"
+                             android:background="@drawable/post_buttonnoborder"
                             android:button="@color/transparent"
                             android:drawableStart="@drawable/ic_favorite_black_24dp"
                             android:drawableTint="@color/radioselect"
@@ -102,8 +98,7 @@
                             android:id="@+id/citation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/post_button"
+                             android:background="@drawable/post_buttonnoborder"
                             android:button="@color/transparent"
                             android:drawableStart="@drawable/ic_bookmark_black_15dp"
                             android:drawableTint="@color/radioselect"
@@ -114,8 +109,7 @@
                             android:id="@+id/motivation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/post_button"
+                             android:background="@drawable/post_buttonnoborder"
                             android:button="@color/transparent"
                             android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
                             android:drawableTint="@color/radioselect"
@@ -126,8 +120,7 @@
                             android:id="@+id/music"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/post_button"
+                             android:background="@drawable/post_buttonright"
                             android:button="@color/transparent"
                             android:drawableStart="@drawable/ic_music_note_black_24dp"
                             android:drawableTint="@color/radioselect"
@@ -147,11 +140,13 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-5dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginBottom="-10dp"
+
             android:indeterminateOnly="true" />
 
         <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:animateLayoutChanges="true"
@@ -168,11 +163,9 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
-            android:id="@+id/composesrecycler"
+             android:id="@+id/composesrecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 
