@@ -6,12 +6,12 @@ android {
     signingConfigs {
 
     }
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 6
         versionName "6.0"
         renderscriptTargetApi 19
@@ -93,13 +93,14 @@ dependencies {
     //implementation 'com.github.marcoscgdev:DialogSheet:1.0.6'
 
     //implementation 'com.github.Binary-Finery:FabToast:1.0'
-    implementation 'com.github.matecode:Snacky:1.0.3'
+    implementation 'com.github.matecode:Snacky:1.1.4'
 
     //implementation 'org.michaelbel:bottomsheet:1.2.3'
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
 
     //implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0'
     implementation 'com.github.devendroid:ReadMoreOption:1.0.2'
+
 
     //implementation 'com.asksira.android:bsimagepicker:1.0.1'
     implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'

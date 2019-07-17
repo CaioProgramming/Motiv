@@ -1,12 +1,10 @@
 package com.creat.motiv;
 
-import android.animation.Animator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -20,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -86,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     };
     private Dialog m_dialog;
     RealtimeBlurView blurView;
+
     private void newquotebutton() {
         if (newquote.getVisibility() == View.GONE) {
             newquote.setVisibility(View.VISIBLE);
@@ -140,12 +138,14 @@ public class MainActivity extends AppCompatActivity {
             builder.show();}
         if (preferences.nightmodestate()){
             setTheme(R.style.AppTheme_Night);
+
         }
         //theme();
 
         internetconnection();
         navigation.setSelectedItemId(R.id.navigation_home);
         version();
+
         agree();
 
     }

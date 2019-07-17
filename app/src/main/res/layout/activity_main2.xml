@@ -15,9 +15,10 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
+        style="@style/Theme.AppCompat"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="?attr/actionbarcolor"
+        android:background="?attr/backgroundcolor"
         android:layout_alignParentBottom="true"
         android:id="@+id/navigation"
         app:menu="@menu/navigation">
