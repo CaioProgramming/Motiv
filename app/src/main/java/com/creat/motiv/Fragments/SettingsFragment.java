@@ -1,59 +1,59 @@
 package com.creat.motiv.Fragments;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.Database.QuotesDB;
+import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.creat.motiv.Database.QuotesDB.path;
+import static com.creat.motiv.Database.QuotesDB.searcharg;
+
 public class SettingsFragment extends Fragment {
 
 
-    FirebaseUser user;
+
     private Toolbar toolbar;
-    private TextView toolbarTitle;
-    private CircleImageView userpic;
+    FirebaseUser user;
     private Button changename;
     private LinearLayout editname;
     private EditText username;
     private Button save;
-    private Button changepass;
-    private TextInputLayout etPasswordLayout;
-    private TextInputEditText etPassword;
-    private Button savepass;
-    private Button deleteposts;
+    private CircleImageView userpic;
     private Button deleteaccount;
-    private LinearLayout passwordLayout;
-    private ImageButton backname;
+    private Button deleteposts;
     private ImageButton backpass;
     private Button exit;
-
+    private ImageButton backname;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -62,18 +62,17 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.settings, container, false);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         initView(v);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        Glide.with(getActivity()).load(user.getPhotoUrl()).into(userpic);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
-                navigationView.setSelectedItemId(R.id.navigation_home);
+                MainActivity.home = true;
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fade_out)
@@ -83,43 +82,26 @@ public class SettingsFragment extends Fragment {
 
             }
         });
-        toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View view = toolbar.getChildAt(0);
-                if (view != null) {
-                    TextView title = (TextView) view;
-                    if (getActivity() == null) {
-                        return;
-                    }
-                    Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Cabin-Regular.ttf");
-                    title.setTypeface(tf);
 
-                }
-            }
-        });
-        toolbar.setTitle("");
         return v;
     }
 
     private void initView(View v) {
         toolbar = v.findViewById(R.id.toolbar);
-        toolbarTitle = v.findViewById(R.id.toolbar_title);
         userpic = v.findViewById(R.id.userpic);
         changename = v.findViewById(R.id.changename);
         editname = v.findViewById(R.id.editname);
         username = v.findViewById(R.id.username);
         save = v.findViewById(R.id.save);
-        changepass = v.findViewById(R.id.changepass);
-        etPasswordLayout = v.findViewById(R.id.etPasswordLayout);
-        etPassword = v.findViewById(R.id.etPassword);
-        savepass = v.findViewById(R.id.savepass);
         deleteposts = v.findViewById(R.id.deleteposts);
         deleteaccount = v.findViewById(R.id.deleteaccount);
-        passwordLayout = v.findViewById(R.id.password_layout);
         backname = v.findViewById(R.id.backname);
-        backpass = v.findViewById(R.id.backpass);
         exit = v.findViewById(R.id.exit);
+        if (user.getPhotoUrl() != null) {
+            Glide.with(this).load(user.getPhotoUrl()).into(userpic);
+        } else {
+            userpic.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -134,13 +116,6 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        changepass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changepass.setVisibility(View.GONE);
-                passwordLayout.setVisibility(View.VISIBLE);
-            }
-        });
 
         backname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,13 +125,6 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        backpass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changepass.setVisibility(View.VISIBLE);
-                passwordLayout.setVisibility(View.GONE);
-            }
-        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,8 +136,44 @@ public class SettingsFragment extends Fragment {
                     user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            QuotesDB db = new QuotesDB();
+                            final ArrayList<Quotes> myquotes = new ArrayList<>();
+
+                            Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("userID")
+                                    .startAt(user.getUid())
+                                    .endAt(user.getUid() + searcharg);
+                            quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                        Quotes quotes = new Quotes();
+                                        Quotes q = d.getValue(Quotes.class);
+                                        if (q != null) {
+                                            quotes.setId(d.getKey());
+                                            myquotes.add(quotes);
+                                            System.out.println("Quotes " + myquotes.size());
+                                        }
+                                    }
+
+
+                                }
+
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            for (Quotes quotes : myquotes) {
+                                db.AlterarNome(getActivity(), quotes.getId());
+                            }
+
 
                         }
+
+
                     });
                 }
             }

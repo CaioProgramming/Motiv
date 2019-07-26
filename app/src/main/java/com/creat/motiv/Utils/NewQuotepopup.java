@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
-import com.creat.motiv.Adapters.SpinnerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
@@ -73,7 +72,6 @@ public class NewQuotepopup {
     private RadioButton music;
 
     private Activity activity;
-    String categoria = "Nenhum";
     FirebaseUser user;
     QuotesDB quotesDB;
     private Dialog m_dialog;
@@ -90,7 +88,18 @@ public class NewQuotepopup {
     private LinearLayout popup;
     private RadioGroup categories;
     private Spinner fonts;
-
+    private int f;
+    private boolean isfirst = true;
+    private RadioGroup categoriesgroup;
+    private ImageButton font;
+    private ImageButton textcolorfab;
+    private LinearLayout options;
+    private CircleImageView userpic;
+    private TextView username;
+    private ImageButton reported;
+    private LinearLayout quotedata;
+    private EditText quote;
+    private Button salvar;
     public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
         this.activity = activity;
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -106,27 +115,24 @@ public class NewQuotepopup {
 
 
         categories = myDialog.findViewById(R.id.categories);
-        this.popup = myDialog.findViewById(R.id.popup);
-        this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
-        this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
-        this.backcolorid = myDialog.findViewById(R.id.backcolorid);
-        this.texcolorid = myDialog.findViewById(R.id.texcolorid);
-        this.fontid = myDialog.findViewById(R.id.fontid);
-        this.background = myDialog.findViewById(R.id.background);
-        this.author = myDialog.findViewById(R.id.author);
-        this.frase = myDialog.findViewById(R.id.quote);
+        font = myDialog.findViewById(R.id.font);
+        backcolorfab = myDialog.findViewById(R.id.backcolorfab);
+        texcolorfab = myDialog.findViewById(R.id.textcolorfab);
+        backcolorid = myDialog.findViewById(R.id.backcolorid);
+        texcolorid = myDialog.findViewById(R.id.texcolorid);
+        fontid = myDialog.findViewById(R.id.fontid);
+        background = myDialog.findViewById(R.id.background);
+        author = myDialog.findViewById(R.id.author);
+        frase = myDialog.findViewById(R.id.quote);
         categories = myDialog.findViewById(R.id.categoriesgroup);
 
-        this.fonts = myDialog.findViewById(R.id.fonts);
+
         TextView username = myDialog.findViewById(R.id.username);
         CircleImageView userpic = myDialog.findViewById(R.id.userpic);
         this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
         Button salvar = myDialog.findViewById(R.id.salvar);
         username.setText(user.getDisplayName());
         Glide.with(activity).load(user.getPhotoUrl()).into(userpic);
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(activity, frase, author, fontid, fonts);
-        fonts.setAdapter(spinnerAdapter);
-        //theme();
         try {
             colorgallery();
         } catch (ClassNotFoundException e) {
@@ -207,48 +213,65 @@ public class NewQuotepopup {
             }
         });
 
+        font.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isfirst) {
+                    f++;
+                }
+                ArrayList<Typeface> fonts = Tools.fonts(activity);
 
+                if (f == fonts.size()) {
+                    f = 0;
+                }
+
+                frase.setTypeface(fonts.get(f));
+                author.setTypeface(fonts.get(f));
+                isfirst = false;
+
+            }
+        });
     }
 
 
-    private void radios() {
-        love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categoria = "Amor";
-                popup.setBackgroundResource(R.drawable.bottom_line_love);
-            }
-        });
-
-
-        motivation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categoria = "Motivação";
-                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-            }
-        });
-
-
-        music.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categoria = "Musica";
-                popup.setBackgroundResource(R.drawable.bottom_line_music);
-            }
-        });
-
-        citation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categoria = "Citação";
-                popup.setBackgroundResource(R.drawable.bottom_line_citation);
-
-            }
-        });
-
-
-    }
+//    private void radios() {
+//        love.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                categoria = "Amor";
+//                popup.setBackgroundResource(R.drawable.bottom_line_love);
+//            }
+//        });
+//
+//
+//        motivation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                categoria = "Motivação";
+//                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
+//            }
+//        });
+//
+//
+//        music.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                categoria = "Musica";
+//                popup.setBackgroundResource(R.drawable.bottom_line_music);
+//            }
+//        });
+//
+//        citation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                categoria = "Citação";
+//                popup.setBackgroundResource(R.drawable.bottom_line_citation);
+//
+//            }
+//        });
+//
+//
+//    }
 
 
     public void showedit(String id) {
@@ -257,6 +280,9 @@ public class NewQuotepopup {
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
+
+        this.font = myDialog.findViewById(R.id.font);
+
         myDialog.show();
         categories = myDialog.findViewById(R.id.categories);
         this.popup = myDialog.findViewById(R.id.popup);
@@ -273,15 +299,13 @@ public class NewQuotepopup {
         this.background = myDialog.findViewById(R.id.background);
         this.author = myDialog.findViewById(R.id.author);
         this.frase = myDialog.findViewById(R.id.quote);
-        this.fonts = myDialog.findViewById(R.id.fonts);
         final TextView username = myDialog.findViewById(R.id.username);
         final CircleImageView userpic = myDialog.findViewById(R.id.userpic);
         this.colorlibrary = myDialog.findViewById(R.id.colorlibrary);
         Button salvar = myDialog.findViewById(R.id.salvar);
         username.setText(user.getDisplayName());
         Glide.with(activity).load(user.getPhotoUrl()).into(userpic);
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(activity, frase, author, fontid, fonts);
-        fonts.setAdapter(spinnerAdapter);
+
         //theme();
         try {
             colorgallery();
@@ -541,7 +565,7 @@ public class NewQuotepopup {
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String dia = df.format(datenow);
         System.out.println(dia);
-        Integer fonti = null;
+        Integer fonti = f;
         if (fontid.getText() != "") {
             fonti = Integer.parseInt(fontid.getText().toString());
 
@@ -552,14 +576,12 @@ public class NewQuotepopup {
         if (backcolorid.getText() == "") {
             backcolorid.setText(String.valueOf(Color.WHITE));
         }
-        if (!love.isChecked() && !motivation.isChecked() && !citation.isChecked() && !music.isChecked()) {
-            categoria = "Nenhum";
-        }
+
 
         Quotes quotes = new Quotes(null,
                 frase.getText().toString(),
                 author.getText().toString(),
-                dia, categoria,
+                dia, null,
                 user.getUid(),
                 user.getDisplayName(),
                 String.valueOf(user.getPhotoUrl()),

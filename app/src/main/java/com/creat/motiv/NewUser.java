@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.creat.motiv.Adapters.ViewPagerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -69,7 +67,6 @@ public class NewUser extends AppCompatActivity {
 
     }
     private void Comecar(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Intent i = new Intent(this,MainActivity.class);
         i.putExtra("novo",true);

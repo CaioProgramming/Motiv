@@ -3,12 +3,14 @@ package com.creat.motiv.Fragments;
 
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -38,7 +40,9 @@ import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
+import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
+import com.creat.motiv.SettingsActivity;
 import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
@@ -76,7 +80,6 @@ public class ProfileFragment extends Fragment {
     ValueEventListener databaseReference;
     QuotesDB quotesDB;
     Pref preferences;
-    TextView tip;
     RadioButton posts, likes;
     private CircleImageView profilepic;
     private android.support.v7.widget.RecyclerView myquotesrecycler;
@@ -88,6 +91,7 @@ public class ProfileFragment extends Fragment {
     private android.support.design.widget.AppBarLayout appbarlayout;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     Fragment fragment = this;
+    private TextView username;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -104,16 +108,16 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        if (v == null) {
-            v = inflater.inflate(R.layout.fragment_profile, container, false);
-        }
+
+        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        this.username = v.findViewById(R.id.username);
+
         this.likes = v.findViewById(R.id.likes);
         this.posts = v.findViewById(R.id.posts);
         this.appbarlayout = v.findViewById(R.id.appbarlayout);
         this.collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
         this.loading = v.findViewById(R.id.loading);
-        this.tip = v.findViewById(R.id.tip);
-         toolbar = v.findViewById(R.id.toolbar);
+        toolbar = v.findViewById(R.id.toolbar);
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
         profilepic = v.findViewById(R.id.profilepic);
 
@@ -172,14 +176,12 @@ public class ProfileFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.home = true;
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
-
-                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
-                navigationView.setSelectedItemId(R.id.navigation_home);
             }
         });
         show();
@@ -207,13 +209,10 @@ public class ProfileFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void settings() {
 
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_bottom, R.anim.fade_out)
-                .replace(R.id.frame, new SettingsFragment())
-                .commit();
+    private void settings() {
+        Intent i = new Intent(getContext(), SettingsActivity.class);
+        getActivity().startActivity(i);
     }
 
 
@@ -315,7 +314,7 @@ public class ProfileFragment extends Fragment {
 
     private void userinfo() {
 
-        toolbar.setTitle(user.getDisplayName());
+        username.setText(user.getDisplayName());
 
         if (user.getPhotoUrl() == null) {
             Glide.with(this).asBitmap().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/fantastic_planet_001.jpg?alt=media&token=03f77356-b17a-45f4-ac31-baf0bc9f87f5").into(profilepic);
@@ -438,6 +437,25 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         Carregar();
+        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsetoolbar.setTitle(user.getDisplayName());
+                    collapsetoolbar.setCollapsedTitleTextColor(ColorStateList.valueOf(Color.WHITE));
+                    isShow = true;
+                } else if (isShow) {
+                    collapsetoolbar.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
         super.onResume();
     }
 
@@ -659,8 +677,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFinish() {
 
-                Animation out = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-                loading.startAnimation(out);
                 loading.setVisibility(View.GONE);
             }
         };

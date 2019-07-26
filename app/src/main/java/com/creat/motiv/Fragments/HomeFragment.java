@@ -1,11 +1,15 @@
 package com.creat.motiv.Fragments;
 
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,16 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.Pref;
@@ -47,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.creat.motiv.Database.QuotesDB.path;
 
 /**
@@ -62,17 +66,12 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     FirebaseUser user;
     Boolean novo;
     Query quotesdb;
-    private SearchView search;
-    private RadioGroup searchoptions;
     private ProgressBar loading;
-    private RadioButton author;
-    private RadioButton love;
-    private RadioButton citation;
-    private TextView toolbarTitle;
-    private RadioButton motivation;
-    private RadioButton music;
-    private RadioButton userfilter;
-    private RadioGroup categories;
+    private CoordinatorLayout home;
+    private AppBarLayout appbarlayout;
+    private CollapsingToolbarLayout collapsetoolbar;
+    private AdView adView;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -84,13 +83,11 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                              Bundle savedInstanceState) {
 
 
-
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(Objects.requireNonNull(getContext()));
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-
         initView(v);
+
         v.findViewById(R.id.home);
         v.findViewById(R.id.appbarlayout);
 
@@ -108,8 +105,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
 
         toolbar = v.findViewById(R.id.toolbar);
-        search = v.findViewById(R.id.search);
-        searchoptions = v.findViewById(R.id.searchoptions);
+
         composesrecycler = v.findViewById(R.id.composesrecycler);
 
         tutorial();
@@ -118,46 +114,23 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
 
-        toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View view = toolbar.getChildAt(0);
-                if (view != null) {
-                    TextView title = (TextView) view;
-                    if (getContext() == null) {
-                        return;
-                    }
-                    Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
-                    title.setTypeface(tf);
-
-                }
-            }
-        });
-        toolbar.setTitle("");
-        search.setOnSearchClickListener(new View.OnClickListener() {
+        collapsetoolbar.setTitle(getActivity().getResources().getString(R.string.app_name));
+        collapsetoolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Nunito-Regular.ttf"));
+        collapsetoolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Nunito-Regular.ttf"));
+        CircleImageView profilepic = v.findViewById(R.id.profilepic);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Glide.with(this).load(user.getPhotoUrl()).into(profilepic);
+        profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toolbarTitle.setVisibility(View.GONE);
-                searchoptions.setVisibility(View.VISIBLE);
-
-
+                MainActivity.home = false;
+                ProfileFragment nextFrag = new ProfileFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame, nextFrag, "profilefragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
-
-
-        search.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                searchoptions.setVisibility(View.GONE);
-                toolbarTitle.setVisibility(View.VISIBLE);
-
-                return false;
-            }
-        });
-
-        search.setOnQueryTextListener(this);
-
-
         return v;
 
 
@@ -319,73 +292,26 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         Carregar();
         show();
 
-        author.setOnClickListener(new View.OnClickListener() {
+
+        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
             @Override
-            public void onClick(View v) {
-                arg = "author";
-                search.setQueryHint("Pesquisar author...");
-            }
-        });
-
-        userfilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                arg = "username";
-                search.setQueryHint("Pesquisar usuário...");
-            }
-        });
-
-
-        love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Categories("Amor");
-                search.setQueryHint("Pesquisar posts de amor");
-            }
-        });
-
-
-        motivation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Categories("Motivação");
-                search.setQueryHint("Pesquisar posts motivacionais");
-            }
-        });
-
-
-        music.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Categories("Musica");
-                search.setQueryHint("Pesquisar posts de músicas");
-            }
-        });
-
-        citation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Categories("Citação");
-                search.setQueryHint("Pesquisar posts de citações");
-
-            }
-        });
-        toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View view = toolbar.getChildAt(0);
-                if (view != null) {
-                    TextView title = (TextView) view;
-                    if (getActivity() == null) {
-                        return;
-                    }
-                    Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Cabin-Regular.ttf");
-                    title.setTypeface(tf);
-
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsetoolbar.setTitle("Motiv");
+                    collapsetoolbar.setCollapsedTitleTextColor(ColorStateList.valueOf(Color.WHITE));
+                    isShow = true;
+                } else if (isShow) {
+                    collapsetoolbar.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                    isShow = false;
                 }
             }
         });
-
         super.onResume();
     }
 
@@ -621,12 +547,10 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
 
     private void initView(View v) {
-        toolbarTitle = v.findViewById(R.id.toolbar_title);
-        motivation = v.findViewById(R.id.motivation);
-        music = v.findViewById(R.id.music);
-        love = v.findViewById(R.id.love);
-        author = v.findViewById(R.id.author);
-        citation = v.findViewById(R.id.citation);
-        userfilter = v.findViewById(R.id.userfilter);
+
+        home = v.findViewById(R.id.home);
+        appbarlayout = v.findViewById(R.id.appbarlayout);
+        collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
+        adView = v.findViewById(R.id.adView);
     }
 }

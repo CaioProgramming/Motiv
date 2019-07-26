@@ -1,173 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/home"
-    android:background="?attr/backgroundcolor"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HomeFragment">
 
-
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:id="@+id/appbarlayout"
+        android:background="@color/transparent"
+        android:fitsSystemWindows="true"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:animateLayoutChanges="true"
-            android:elevation="0dp"
-            android:background="@drawable/actionbarbackground"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsetoolbar"
+            android:layout_height="200dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimaryDark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            app:expandedTitleGravity="center"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
+            app:scrimAnimationDuration="100"
+            app:title="@string/app_name"
+            app:titleEnabled="true">
             <TextView
-                 android:id="@+id/toolbar_title"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:padding="5dp"
                 android:text="@string/app_name"
-                android:textColor="?attr/textcolor"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                app:layout_collapseMode="parallax" />
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:layout_gravity="center|bottom"
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:background="@color/transparent"
                 android:animateLayoutChanges="true"
-                android:orientation="vertical">
+                app:cardCornerRadius="10dp"
+                app:layout_collapseMode="parallax">
 
-                <android.support.v7.widget.SearchView
-                     android:id="@+id/search"
-                    android:layout_width="match_parent"
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/hintcolor"
-                    app:defaultQueryHint="Busque o que seu coração quiser..."
-                    app:queryBackground="@color/transparent"
-                    app:submitBackground="@color/transparent" />
+                    ads:adSize="BANNER"
 
-                <HorizontalScrollView
-                    android:padding="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
 
-                    <RadioGroup
-                        android:visibility="gone"
-                        android:id="@+id/searchoptions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/author"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             android:background="@drawable/post_button"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_author_sign"
-                            android:drawableTint="@color/radioselect"
-                            android:text="Autor"
-                            android:textColor="@color/radioselect" />
-
-                        <RadioButton
-                            android:id="@+id/userfilter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             android:background="@drawable/post_buttonnoborder"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_person_black_24dp"
-                            android:drawableTint="@color/radioselect"
-                            android:text="Usuário"
-                            android:textColor="@color/radioselect" />
-
-                        <RadioButton
-                            android:id="@+id/love"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             android:background="@drawable/post_buttonnoborder"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_favorite_black_24dp"
-                            android:drawableTint="@color/radioselect"
-                            android:text="Amor"
-                            android:textColor="@color/radioselect" />
-
-                        <RadioButton
-                            android:id="@+id/citation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             android:background="@drawable/post_buttonnoborder"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_bookmark_black_15dp"
-                            android:drawableTint="@color/radioselect"
-                            android:text="Citação"
-                            android:textColor="@color/radioselect" />
-
-                        <RadioButton
-                            android:id="@+id/motivation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             android:background="@drawable/post_buttonnoborder"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
-                            android:drawableTint="@color/radioselect"
-                            android:text="Motivação"
-                            android:textColor="@color/radioselect" />
-
-                        <RadioButton
-                            android:id="@+id/music"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             android:background="@drawable/post_buttonright"
-                            android:button="@color/transparent"
-                            android:drawableStart="@drawable/ic_music_note_black_24dp"
-                            android:drawableTint="@color/radioselect"
-                            android:text="Música"
-                            android:textColor="@color/radioselect" />
+            </android.support.v7.widget.CardView>
 
 
-                    </RadioGroup>
-
-                </HorizontalScrollView>
-
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
-
-        <ProgressBar
-            android:id="@+id/loading"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
-            android:layout_marginBottom="-10dp"
-
-            android:indeterminateOnly="true" />
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:animateLayoutChanges="true"
-            android:background="@color/transparent"
-            app:cardCornerRadius="5dp">
-
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
+            <ProgressBar
+                android:id="@+id/loading"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="-10dp"
 
-        </android.support.v7.widget.CardView>
+                android:indeterminateOnly="true" />
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:elevation="0dp"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profilepic"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="10dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/penguin" />
+
+
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
         <android.support.v7.widget.RecyclerView
-             android:id="@+id/composesrecycler"
+            android:id="@+id/composesrecycler"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

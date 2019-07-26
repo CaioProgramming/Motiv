@@ -18,7 +18,6 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -273,27 +272,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.author.setText(mData.get(position).getAuthor());
             holder.quote.startAnimation(faAnimation);
             holder.author.startAnimation(faAnimation);
-            switch (mData.get(position).getCategoria()) {
-                case "Musica":
-                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_music);
-
-                    break;
-                case "Citação":
-                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_citation);
-                    break;
-                case "Amor":
-                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_love);
-
-                    break;
-                case "Motivação":
-                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_motivation);
-
-                    break;
-                case "Nenhum":
-                    holder.cardView.setBackgroundResource(R.drawable.bottom_line_none);
-
-                    break;
-            }
 
 
 
@@ -308,39 +286,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
                 }
             });
-
-
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (m_dialog.isShowing()){
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    int action = event.getActionMasked();
-                    if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL){
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        m_dialog.dismiss();
-                        blur.setVisibility(View.GONE);
-                        return true;
-                    }
-                }
-                return false;
-
-            }
-        });
-
-
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-
-                dialog(position, holder);
-                //return longpress;
-                return false;
-
-
-
-            }
-        });
 
 
         // OR using options to customize

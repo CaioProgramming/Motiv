@@ -6,9 +6,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,14 +18,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.TextView;
 
 import com.creat.motiv.Adapters.RecyclerArtistsAdapter;
 import com.creat.motiv.Adapters.RecyclerCreatorsAdapter;
 import com.creat.motiv.Adapters.RecyclerReferencesAdapter;
 import com.creat.motiv.Beans.Developers;
+import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -62,6 +63,10 @@ public class AboutFragment extends Fragment {
     private android.widget.TextView artiststitle;
     private android.widget.TextView suportitle;
     ProgressDialog progressDialog;
+    private android.widget.ProgressBar loading;
+    private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
+    private android.support.design.widget.AppBarLayout appbarlayout;
+    private android.widget.TextView helpad;
     public AboutFragment() {
         // Required empty public constructor
     }
@@ -74,11 +79,15 @@ public class AboutFragment extends Fragment {
                              Bundle savedInstanceState) {
         quotesdb = FirebaseDatabase.getInstance().getReference();
         View view = inflater.inflate(R.layout.fragment_about, container, false);
+        this.helpad = view.findViewById(R.id.helpad);
+        this.appbarlayout = view.findViewById(R.id.appbarlayout);
+        this.collapsetoolbar = view.findViewById(R.id.collapsetoolbar);
+        this.loading = view.findViewById(R.id.loading);
         this.suportitle = view.findViewById(R.id.suportitle);
         this.artiststitle = view.findViewById(R.id.artiststitle);
         this.referencestitle = view.findViewById(R.id.referencestitle);
         this.creatorstitle = view.findViewById(R.id.creatorstitle);
-        android.widget.TextView helpad = view.findViewById(R.id.helpad);
+        TextView helpad = view.findViewById(R.id.helpad);
         this.artistsrecycler = view.findViewById(R.id.artistsrecycler);
         this.designrecycler = view.findViewById(R.id.designrecycler);
         this.creatorsrecycler = view.findViewById(R.id.creatorsrecycler);
@@ -153,28 +162,44 @@ public class AboutFragment extends Fragment {
             }
         });
 
-
         CarregarAll();
-
-        //Theme();
-
-       // statusbar();
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomNavigationView navigationView = getActivity().findViewById(R.id.navigation);
-                navigationView.setSelectedItemId(R.id.navigation_home);
+                MainActivity.home = true;
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fade_out)
                         .replace(R.id.frame, new HomeFragment())
                         .commit();
 
 
             }
         });
+        collapsetoolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Nunito-Regular.ttf"));
+        collapsetoolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Nunito-Regular.ttf"));
+        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsetoolbar.setTitle("Sobre");
+                    collapsetoolbar.setCollapsedTitleTextColor(ColorStateList.valueOf(Color.WHITE));
+                    isShow = true;
+                } else if (isShow) {
+                    collapsetoolbar.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
+
+
         return view;
     }
 
@@ -242,7 +267,7 @@ public class AboutFragment extends Fragment {
             }
         });
         RecyclerReferencesAdapter recyclerReferencesAdapter = new RecyclerReferencesAdapter(getContext(), referencias, getActivity());
-        GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
 
         designrecycler.setLayoutManager(llm);
         designrecycler.setHasFixedSize(true);

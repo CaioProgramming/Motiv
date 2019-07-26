@@ -1,26 +1,24 @@
 package com.creat.motiv;
 
-import android.animation.Animator;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -56,36 +54,11 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton newquote;
     private RelativeLayout container;
     FirebaseUser user;
-    private BottomNavigationView navigation;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
-                            .replace(R.id.frame, new HomeFragment())
-                            .commit();
-                    return true;
-
-                case R.id.navigation_user:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.fab_slide_in_from_left, R.anim.fab_slide_out_to_right)
-                            .replace(R.id.frame, new ProfileFragment())
-                            .commit();
-                    return true;
-
-
-            }
-            return false;
-        }
-    };
+    public static boolean home = true;
     private Dialog m_dialog;
     RealtimeBlurView blurView;
+    Activity activity = this;
+    private android.widget.FrameLayout frame;
     private void newquotebutton() {
         if (newquote.getVisibility() == View.GONE) {
             newquote.setVisibility(View.VISIBLE);
@@ -94,63 +67,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private android.support.design.widget.TabLayout tabs;
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Intent i = new Intent(this, Splash.class);
-            startActivity(i);
-            this.finish();
-        }
-        preferences = new Pref(context);
-        setContentView(R.layout.activity_main2);
-        findViewById(R.id.offlinemssage);
-        newquote = findViewById(R.id.newquote);
-        blurView = findViewById(R.id.rootblur);
-        this.navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        newquote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               NewQuoteDialog();
-            }
-        });
-        container = findViewById(R.id.container);
-
-        assert user != null;
-        if (!user.isEmailVerified()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Email não verificado");
-            builder.setMessage("Eai Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases");
-
-            builder.setPositiveButton("Manda esse email aí po", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    user.sendEmailVerification();
-                }
-            });
-            builder.setNegativeButton("Não to afim meu camarada", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-
-            builder.show();}
-        if (preferences.nightmodestate()){
-            setTheme(R.style.AppTheme_Night);
-        }
-        //theme();
-
-        internetconnection();
-        navigation.setSelectedItemId(R.id.navigation_home);
-        version();
-        agree();
-
-    }
-
-    private void NewQuoteDialog(){
+    private void NewQuoteDialog() {
         NewQuotepopup newQuotepopup = new NewQuotepopup(this, blurView);
         newQuotepopup.showup();
         blurView.setVisibility(View.VISIBLE);
@@ -158,9 +77,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    private void restart(){
-        Intent i = new Intent(this,MainActivity.class);
+    private void restart() {
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
 
     }
@@ -195,6 +113,66 @@ public class MainActivity extends AppCompatActivity {
         m_dialog.setCancelable(false);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Intent i = new Intent(this, Splash.class);
+            startActivity(i);
+            this.finish();
+        }
+        preferences = new Pref(context);
+        setContentView(R.layout.activity_main2);
+        this.tabs = findViewById(R.id.tabs);
+        this.frame = findViewById(R.id.frame);
+        findViewById(R.id.offlinemssage);
+        newquote = findViewById(R.id.newquote);
+        blurView = findViewById(R.id.rootblur);
+        newquote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               NewQuoteDialog();
+            }
+        });
+        container = findViewById(R.id.container);
+
+        assert user != null;
+        if (!user.isEmailVerified()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Email não verificado");
+            builder.setMessage("Eai Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases");
+
+            builder.setPositiveButton("Manda esse email aí po", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    user.sendEmailVerification();
+                }
+            });
+            builder.setNegativeButton("Não to afim meu camarada", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            builder.show();}
+
+        //theme();
+
+        internetconnection();
+
+        version();
+        agree();
+
+        if (!frame.isAttachedToWindow()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame, new HomeFragment())
+                    .commit();
+        }
+
+    }
 
     private void version() {
         final String versionName = BuildConfig.VERSION_NAME;
@@ -215,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
                   }
                   if (!version.getVersion().equals(versionName)){
-                      AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AppTheme).setTitle("Atualize seu app!")
+                      AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Atualize seu app!")
 
                           .setMessage("Sua versão está desatualizada, não quer atualizar para ter acesso as últimas novidades?" +
                                   " O motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
@@ -247,27 +225,53 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        container.post(new Runnable() {
-            @Override
-            public void run() {
-                Reveal();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
-                        .replace(R.id.frame, new HomeFragment())
-                        .commit();
-            }
-        });
-
-        internetconnection();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        internetconnection();
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        if (!home) {
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.frame, new HomeFragment())
+                                    .commit();
+                        }
+                        break;
+                    case 1:
+                        Snacky.builder().setActivity(activity).setText("Em desenvolvimento").info().show();
+                        break;
+                    case 2:
+                        home = false;
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, new ProfileFragment())
+                                .commit();
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -275,34 +279,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.theme) {
-            preferences = new Pref(context);
-            if (!preferences.nightmodestate()){
-                preferences.setNight(true);
-                restart();
-                return false;
-            }else {
-                preferences.setNight(false);
-                restart();
-                return false;
-                //theme();
 
-
-
-
-            }
-            // Commit the edits!
-
-        } else if (id == R.id.navigation_about) {
+        home = false;
             getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations(R.anim.pop_in, R.anim.fab_slide_out_to_left)
-
                     .replace(R.id.frame, new AboutFragment())
                     .commit();
-            return false;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -326,10 +308,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (navigation.getSelectedItemId() != R.id.navigation_home) {
-            navigation.setSelectedItemId(R.id.navigation_home);
-        }else{
+        super.onBackPressed();
+        if (home) {
             this.finish();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
+                    .replace(R.id.frame, new HomeFragment())
+                    .commit();
         }
     }
 

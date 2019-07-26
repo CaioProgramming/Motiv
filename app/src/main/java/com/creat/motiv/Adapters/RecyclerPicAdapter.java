@@ -127,40 +127,38 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                 }
             });
             holder.pic.setVisibility(View.GONE);
+        } else {
 
 
-            return;
-        }
-
-        Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                holder.pic.setVisibility(View.GONE);
-                holder.message.setVisibility(View.VISIBLE);
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
-
-
-                if (resource != null) {
-                    Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
-                    holder.loading.startAnimation(out);
-                    holder.loading.setVisibility(View.GONE);
-                    holder.pic.setImageDrawable(resource);
-                    holder.pic.startAnimation(in);
-
-                    return true;
-                } else {
-                    holder.loading.setVisibility(View.VISIBLE);
+            Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    holder.pic.setVisibility(View.GONE);
+                    holder.message.setVisibility(View.VISIBLE);
+                    return false;
                 }
 
-                return false;
-            }
-        }).into(holder.pic);
-        holder.pic.startAnimation(in);
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
+
+
+                    if (resource != null) {
+                        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
+                        holder.loading.startAnimation(out);
+                        holder.loading.setVisibility(View.GONE);
+                        holder.pic.setImageDrawable(resource);
+                        holder.pic.startAnimation(in);
+
+                        return true;
+                    } else {
+                        holder.loading.setVisibility(View.VISIBLE);
+                    }
+
+                    return false;
+                }
+            }).into(holder.pic);
+            holder.pic.startAnimation(in);
 
             holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,7 +179,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
                         }
                     }.start();
-                   UserProfileChangeRequest  profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
                     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user.getPhotoUrl() == Uri.parse(mData.get(position).getUri())) {
                         message.setText("Seu ícone de perfil já é este!");
@@ -247,6 +245,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
                 }
             });
+        }
 
     }
 

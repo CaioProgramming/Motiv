@@ -7,6 +7,7 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@color/colorPrimaryDark"
@@ -48,11 +49,11 @@
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/topround"
         android:elevation="1dp"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -69,9 +70,9 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:layout_marginTop="-3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
                 android:animateLayoutChanges="true">
 
                 <Button
@@ -79,9 +80,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    android:drawableStart="@drawable/usersquare"
                     android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                     android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/usersquare"
                     android:elevation="0dp"
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="10dp"
@@ -91,8 +92,8 @@
 
                 <LinearLayout
                     android:id="@+id/editname"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:visibility="gone">
 
                     <ImageButton
@@ -103,6 +104,7 @@
                         android:background="@color/transparent"
                         android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_chevron_left_black_24dp" />
+
                     <EditText
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
@@ -115,13 +117,13 @@
                         android:padding="15dp" />
 
                     <Button
-                        android:background="@color/transparent"
                         android:id="@+id/save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:foreground="?attr/selectableItemBackground"
+                        android:background="@color/transparent"
                         android:elevation="0dp"
+                        android:foreground="?attr/selectableItemBackground"
                         android:text="Ok"
                         android:textColor="@color/colorAccent" />
                 </LinearLayout>
@@ -131,14 +133,14 @@
 
 
             <Button
-                android:background="@color/transparent"
-
                 android:id="@+id/deleteposts"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/removepostsquare"
+                android:background="@color/transparent"
                 android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/removepostsquare"
                 android:elevation="0dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
@@ -148,14 +150,14 @@
 
 
             <Button
-                android:background="@color/transparent"
-
                 android:id="@+id/deleteaccount"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/removeaccount"
+                android:background="@color/transparent"
                 android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/removeaccount"
                 android:elevation="0dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
@@ -165,14 +167,14 @@
 
 
             <Button
-                android:background="@color/transparent"
-
                 android:id="@+id/exit"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/logout"
+                android:background="@color/transparent"
                 android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/logout"
                 android:elevation="0dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"

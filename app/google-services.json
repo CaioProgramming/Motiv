@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "307669618733-j0uqpac28laev9sshh2b87enoqqeatqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creat.motiv",
+            "certificate_hash": "82b01e65871d99e098df0f55358f193d6217a352"
+          }
+        },
+        {
           "client_id": "307669618733-j81oeaj5139t6ri6fim5gb465rsv2e3a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

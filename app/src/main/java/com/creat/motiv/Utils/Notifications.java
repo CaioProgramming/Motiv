@@ -23,9 +23,8 @@ public class Notifications extends FirebaseMessagingService{
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
-        if (remoteMessage != null) {
-            notification(remoteMessage);
-        }
+        notification(remoteMessage);
+
 
 
 

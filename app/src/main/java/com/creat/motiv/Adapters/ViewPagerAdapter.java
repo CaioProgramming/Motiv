@@ -290,9 +290,11 @@ public class ViewPagerAdapter extends PagerAdapter {
                 System.out.println("photo " + uri);
                 uri = p.getUri();
 
-                UserProfileChangeRequest profileChangeRequest = null;
+                UserProfileChangeRequest profileChangeRequest;
                 if (p.getUri() != null || !p.getUri().isEmpty()) {
-                    profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(p.getUri())).build();
+                    profileChangeRequest = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(Uri.parse(p.getUri()))
+                            .setDisplayName(user.getDisplayName()).build();
                     user.updateProfile(profileChangeRequest);
                 }
 

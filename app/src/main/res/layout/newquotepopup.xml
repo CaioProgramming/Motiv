@@ -2,32 +2,21 @@
 
 
     <!-- TODO: Update blank fragment layout -->
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView android:layout_height="match_parent"
+    android:layout_gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="15dp"
-    >
-    <LinearLayout
-        android:id="@+id/popup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_line_none"
-        android:orientation="vertical">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="25dp">
 
-        <android.support.v4.widget.NestedScrollView
+
+    <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp">
+        android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/backgroundcolor"
-                app:cardCornerRadius="10dp">
 
-                <LinearLayout
+        <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -47,14 +36,14 @@
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/colorlibrary"
                                 android:layout_width="match_parent"
-                                android:layout_height="110dp"
-                                android:layout_margin="5dp" />
+                                android:layout_height="wrap_content" />
 
                             <HorizontalScrollView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
                                 <RadioGroup
+                                    android:visibility="gone"
                                     android:id="@+id/categoriesgroup"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -117,20 +106,20 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:orientation="horizontal">
 
-                            <Spinner
-                                android:id="@+id/fonts"
-                                android:layout_width="wrap_content"
+                            <ImageButton
+                                android:id="@+id/font"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="1dp"
-                                android:elevation="0dp"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:foregroundTint="?attr/backgroundcolor"
-                                android:padding="5dp" />
+                                android:background="@color/transparent"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_font_download_black_24dp"
+                                android:layout_width="wrap_content"
+                                android:tint="@color/black" />
 
                             <ImageButton
                                 android:id="@+id/textcolorfab"
@@ -139,7 +128,7 @@
                                 android:background="@color/transparent"
                                 android:padding="10dp"
                                 android:src="@drawable/ic_format_color_text_black_24dp"
-                                android:tint="?attr/hintcolor" />
+                                android:tint="@color/grey_900" />
 
                             <ImageButton
                                 android:id="@+id/backcolorfab"
@@ -148,7 +137,7 @@
                                 android:background="@color/transparent"
                                 android:padding="10dp"
                                 android:src="@drawable/ic_format_color_fill_white_24dp"
-                                android:tint="?attr/hintcolor" />
+                                android:tint="@color/grey_900" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -161,7 +150,7 @@
 
                         <LinearLayout
                             android:id="@+id/quotedata"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:orientation="vertical">
@@ -184,7 +173,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/username"
-                                    android:textColor="?attr/textcolor"
+                                    android:textColor="@color/grey_800"
                                     android:textSize="14sp" />
 
 
@@ -207,7 +196,8 @@
                             android:padding="25dp">
 
                             <EditText
-
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey_500"
                                 android:id="@+id/quote"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -215,11 +205,13 @@
                                 android:hint="@string/quote"
                                 android:padding="5dp"
                                 android:textAlignment="center"
-                                android:textColorHint="?attr/hintcolor"
                                 android:textSize="24sp"
                                 android:typeface="normal" />
 
                             <EditText
+                                android:textColor="@color/black"
+
+                                android:textColorHint="@color/grey_500"
                                 android:id="@+id/author"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -256,33 +248,29 @@
                                     android:visibility="invisible" />
                             </LinearLayout>
 
-                            <Button
-                                android:id="@+id/salvar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_gravity="end"
-                                android:layout_margin="15dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/ripple_button"
-                                android:text="Publicar"
-                                android:textAllCaps="true"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
+
                         </LinearLayout>
 
 
                     </LinearLayout>
-                </LinearLayout>
+
+        </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
+    </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/salvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/ripple_button"
+        android:text="Publicar"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
 
-        </android.support.v4.widget.NestedScrollView>
-
-
-    </LinearLayout>
 
 </android.support.v7.widget.CardView>
 

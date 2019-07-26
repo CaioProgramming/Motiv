@@ -4,27 +4,25 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_margin="30dp"
-    android:elevation="4dp"
+    android:layout_margin="1dp"
+    app:cardBackgroundColor="@color/owhite"
     android:padding="10dp"
-    android:background="?attr/backgroundcolor"
-    android:orientation="horizontal"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="25dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
          android:id="@+id/randomcolors"
-        android:layout_width="190dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:background="@drawable/triangl"
         android:orientation="horizontal" />
   <TextView
       android:textStyle="bold"
-      style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
       android:layout_gravity="center"
       android:id="@+id/reference"
        android:padding="10dp"
-      android:textColor="?attr/textcolor"
-      android:textSize="24sp"
+      android:textColor="@color/white"
+      android:textSize="28sp"
       android:text="@string/reference"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content" />

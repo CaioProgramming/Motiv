@@ -2,34 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="?attr/backgroundcolor"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/container">
 
 
     <FrameLayout
-        android:layout_above="@id/navigation"
         android:id="@+id/frame"
+        android:layout_above="@id/tabs"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="?attr/actionbarcolor"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/navigation"
-        app:menu="@menu/navigation">
-
-
-    </android.support.design.widget.BottomNavigationView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/newquote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         app:backgroundTint="@color/colorAccent"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_add_black_24dp"
@@ -59,7 +48,6 @@
             android:fontFamily="@font/roboto_regular"
             android:text="..."
             android:textAlignment="center"
-            android:textColor="?attr/textcolor"
             android:textSize="24sp" />
         <Button
             android:padding="15dp"
@@ -74,6 +62,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:tabGravity="center"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@color/lwhite">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_home" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favoritos" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="perfil" />
+    </android.support.design.widget.TabLayout>
 
 
 </RelativeLayout>

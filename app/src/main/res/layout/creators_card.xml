@@ -5,9 +5,7 @@
     android:layout_height="200dp"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    app:cardElevation="4dp"
-
-     android:layout_marginTop="25dp"
+    app:cardElevation="3dp"
     android:layout_margin="10dp"
      app:cardCornerRadius="20dp">
 
@@ -18,15 +16,16 @@
          android:id="@+id/profilepic"
         android:src="@drawable/ic_person_black_24dp"/>
     <TextView
+        android:layout_height="match_parent"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:textColor="?attr/actionbarcolor"
-        android:background="?attr/overlaycolor"
+        android:layout_gravity="center"
         android:padding="10dp"
         android:textStyle="bold"
         android:id="@+id/nome"
          android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:background="@color/lblack"
+        android:gravity="center"
          android:text="@string/username"
         android:textAlignment="center" />
 

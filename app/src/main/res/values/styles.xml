@@ -3,34 +3,37 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:colorControlNormal">@color/white</item>
+        <item name="android:colorControlActivated">@color/white</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
         <item name="overlaycolor">@color/oblack</item>
-           <item name="titlecolor">@color/colorPrimary</item>
-        <item name="dialogbackcolor">@color/white</item>
-        <item name="actionbarcolor">@color/white</item>
+        <item name="actionbarcolor">@color/grey_200</item>
         <item name="textcolor">@color/black</item>
         <item name="hintcolor">@color/grey_300</item>
         <item name="backgroundcolor">@color/grey_100</item>
-         <item name="android:textColorHighlight">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
 
+    </style>
 
 
     <style name="AppTheme.Night" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
+
+        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="textcolor">@color/white</item>
         <item name="overlaycolor">@color/owhite</item>
-        <item name="android:statusBarColor">@color/grey_900</item>
         <item name="actionbarcolor">@color/grey_900</item>
         <item name="hintcolor">@color/grey_600</item>
          <item name="titlecolor">#BA68C8</item>
-        <item name="textcolor">@color/white</item>
-        <item name="backgroundcolor">@color/grey_800</item>
+        <item name="backgroundcolor">@color/black</item>
         <item name="android:textColorHighlight">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
 
