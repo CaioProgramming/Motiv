@@ -17,6 +17,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -87,7 +90,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         preferences = new Pref(Objects.requireNonNull(getContext()));
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         initView(v);
-
+        setHasOptionsMenu(true);
         v.findViewById(R.id.home);
         v.findViewById(R.id.appbarlayout);
 
@@ -330,6 +333,33 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         novo = false;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Objects.requireNonNull(getActivity()).getMenuInflater().inflate(R.menu.mainmenu, menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.navigation_about) {
+            MainActivity.home = false;
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_top, R.anim.fab_slide_out_to_left)
+                    .replace(R.id.frame, new AboutFragment())
+                    .commit();
+        } else {
+            MainActivity.home = false;
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fab_slide_out_to_left)
+                    .replace(R.id.frame, new SearchFragment())
+                    .commit();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void Carregar() {
         if (getActivity() == null || getContext() == null) {
@@ -342,7 +372,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         quotesdb.keepSynced(false);
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         if (this.isAdded()) {
-            quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            quotesdb.addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

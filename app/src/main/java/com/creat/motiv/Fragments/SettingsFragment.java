@@ -1,7 +1,6 @@
 package com.creat.motiv.Fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -15,28 +14,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.creat.motiv.Beans.Quotes;
-import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.creat.motiv.Database.QuotesDB.path;
-import static com.creat.motiv.Database.QuotesDB.searcharg;
 
 public class SettingsFragment extends Fragment {
 
@@ -104,7 +89,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    @Override
+   /* @Override
     public void onResume() {
         super.onResume();
         username.setHint(user.getDisplayName());
@@ -129,8 +114,8 @@ public class SettingsFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (username.getText().equals("")) {
-                    username.setError("Um nome vazio? Você tá brincando comigo. só pode.");
+                if (username.getText().equals("") || username.getText().equals(user.getDisplayName())) {
+                    username.setError("Você tentou fazer algo que nâo faz sentido de forma alguma");
                 } else {
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString()).build();
                     user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -167,7 +152,8 @@ public class SettingsFragment extends Fragment {
                             });
 
                             for (Quotes quotes : myquotes) {
-                                db.AlterarNome(getActivity(), quotes.getId());
+                                db.AlterarNome(quotes.getId());
+
                             }
 
 
@@ -180,5 +166,5 @@ public class SettingsFragment extends Fragment {
         });
 
 
-    }
+    }*/
 }

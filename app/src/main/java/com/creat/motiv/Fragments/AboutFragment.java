@@ -27,6 +27,7 @@ import com.creat.motiv.Beans.Developers;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Tools;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
@@ -244,7 +245,8 @@ public class AboutFragment extends Fragment {
                 }
                 Collections.shuffle(developersArrayList);
                 RecyclerCreatorsAdapter recyclerCreatorsAdapter = new RecyclerCreatorsAdapter(getContext(), developersArrayList, getActivity());
-                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.HORIZONTAL, false);
+                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL
+                        , false);
                 creatorsrecycler.setAdapter(recyclerCreatorsAdapter);
                 creatorsrecycler.setHasFixedSize(true);
                 creatorsrecycler.setLayoutManager(layoutManager);
@@ -267,7 +269,7 @@ public class AboutFragment extends Fragment {
             }
         });
         RecyclerReferencesAdapter recyclerReferencesAdapter = new RecyclerReferencesAdapter(getContext(), referencias, getActivity());
-        GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
 
         designrecycler.setLayoutManager(llm);
         designrecycler.setHasFixedSize(true);
@@ -276,6 +278,7 @@ public class AboutFragment extends Fragment {
     }
 
     private void CarregarArtistas() {
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
         GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
 
         RecyclerArtistsAdapter recyclerArtistsAdapter = new RecyclerArtistsAdapter(getContext(), Tools.artists(), getActivity());

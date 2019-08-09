@@ -280,12 +280,8 @@ public class NewQuotepopup {
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
-
         this.font = myDialog.findViewById(R.id.font);
-
         myDialog.show();
-        categories = myDialog.findViewById(R.id.categories);
-        this.popup = myDialog.findViewById(R.id.popup);
 
         love = myDialog.findViewById(R.id.love);
         citation = myDialog.findViewById(R.id.citation);

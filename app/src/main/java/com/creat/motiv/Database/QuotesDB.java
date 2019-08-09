@@ -2,13 +2,16 @@ package com.creat.motiv.Database;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
+import com.creat.motiv.Splash;
 import com.creat.motiv.Utils.Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -209,7 +212,7 @@ public class QuotesDB {
 
     }
 
-    public void Apagarconta(final Activity activity,String id){
+    public void Apagarconta(final Activity activity, final String id) {
 
 
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
@@ -219,7 +222,18 @@ public class QuotesDB {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Snacky.builder().setActivity(activity).success().setText("Conta apagada").show();
+                    FirebaseAuth.getInstance().signOut();
+                    if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                        Snackbar snackbar = Snacky.builder().setActivity(activity).build();
+                        snackbar.setText("Você saiu do aplicativo");
+                        snackbar.setDuration(5000).show();
 
+                        if (!snackbar.isShown()) {
+                            Intent intent = new Intent(activity, Splash.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            activity.startActivity(intent);
+                        }
+                    }
                 } else {
                     Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                 }
@@ -229,7 +243,7 @@ public class QuotesDB {
 
     }
 
-    public void Apagarlikes(final Activity activity, String id) {
+    private void Apagarlikes(final Activity activity, String id) {
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -239,10 +253,7 @@ public class QuotesDB {
         quotesdb.child(path).child(id).child("likes").child(user.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Snacky.builder().setActivity(activity).success().setText("Conta apagada").show();
-
-                }else{
+                if (!task.isSuccessful()) {
                     Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                 }
             }
@@ -255,12 +266,16 @@ public class QuotesDB {
     }
 
 
-
-    public void AlterarNome(final Activity activity,String id){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    public void AlterarNome(final String id) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
         assert user != null;
-        quotesdb.child(path).child(id).child("username").setValue(user.getDisplayName());
+        quotesdb.child(path).child(id).child("username").setValue(user.getDisplayName()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("quote" + id + "username changed to: " + user.getDisplayName());
+            }
+        });
 
     }
 

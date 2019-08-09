@@ -177,28 +177,20 @@
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:background="@color/owhite"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:padding="1dp"
-                        app:cardCornerRadius="25dp">
 
                         <TextView
+                            android:layout_margin="1dp"
                             android:id="@+id/helpad"
                             style="@style/AppTheme"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
+                            android:background="@drawable/ads_button"
                             android:animateLayoutChanges="true"
                             android:padding="10dp"
                             android:text="@string/suporrt_ad"
                             android:textAlignment="center"
                             android:textSize="20sp"
                             android:textStyle="bold" />
-                    </android.support.v7.widget.CardView>
 
 
                     <TextView

@@ -3,8 +3,6 @@ package com.creat.motiv.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -17,8 +15,6 @@ import android.widget.TextView;
 
 import com.creat.motiv.Beans.Artists;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.ColorUtils;
-import com.creat.motiv.Utils.Pref;
 
 import java.util.List;
 
@@ -59,7 +55,6 @@ public class RecyclerArtistsAdapter extends RecyclerView.Adapter<RecyclerArtists
 
 
 
-        holder.colors.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.getRandomColor()));
 
 
 
@@ -87,7 +82,6 @@ public class RecyclerArtistsAdapter extends RecyclerView.Adapter<RecyclerArtists
             super(view);
             nome = view.findViewById(R.id.reference);
             layout = view.findViewById(R.id.layout);
-            colors = view.findViewById(R.id.randomcolors);
 
 
 

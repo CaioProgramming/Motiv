@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,11 +14,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -27,7 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.creat.motiv.Beans.Version;
-import com.creat.motiv.Fragments.AboutFragment;
+import com.creat.motiv.Fragments.FavoritesFragment;
 import com.creat.motiv.Fragments.HomeFragment;
 import com.creat.motiv.Fragments.ProfileFragment;
 import com.creat.motiv.Utils.NewQuotepopup;
@@ -55,18 +55,11 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout container;
     FirebaseUser user;
     public static boolean home = true;
+    public static boolean search = false;
     private Dialog m_dialog;
     RealtimeBlurView blurView;
     Activity activity = this;
     private android.widget.FrameLayout frame;
-    private void newquotebutton() {
-        if (newquote.getVisibility() == View.GONE) {
-            newquote.setVisibility(View.VISIBLE);
-            Animation in = AnimationUtils.loadAnimation(context, R.anim.pop_in);
-            newquote.startAnimation(in);
-        }
-    }
-
     private android.support.design.widget.TabLayout tabs;
 
     private void NewQuoteDialog() {
@@ -77,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void restart() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-
-    }
 
     private void agree() {
         m_dialog = new Dialog(this, R.style.Dialog_No_Border);
@@ -193,25 +181,28 @@ public class MainActivity extends AppCompatActivity {
 
                   }
                   if (!version.getVersion().equals(versionName)){
-                      AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Atualize seu app!")
 
-                          .setMessage("Sua versão está desatualizada, não quer atualizar para ter acesso as últimas novidades?" +
-                                  " O motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
-                          .setNegativeButton("Vo atualiza e te aviso", new DialogInterface.OnClickListener() {
-                              @Override
-                              public void onClick(DialogInterface dialogInterface, int i) {
-                                  dialogInterface.dismiss();
-                              }
-                          })
-                          .setPositiveButton("Sim, quero atualizar!", new DialogInterface.OnClickListener() {
-                              @Override
-                              public void onClick(DialogInterface dialogInterface, int i) {
-                                  Uri uri = Uri.parse("https://motiv-d16d1.firebaseapp.com");
-                                  Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                  startActivity(intent);
-                              }
-                          });
-                  builder.show();}
+
+                      Snackbar snackbar = Snacky.builder().setActivity(activity).setText("Sua versão está desatualizada " +
+                              " o motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
+                              .setIcon(R.drawable.ic_autorenew_black_24dp)
+                              .setTextColor(Color.BLACK)
+                              .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                              .setBackgroundColor(Color.WHITE)
+                              .setDuration(10000)
+                              .build();
+
+                      snackbar.setAction("Atualizar", new View.OnClickListener() {
+                          @Override
+                          public void onClick(View view) {
+                              Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv");
+                              Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                              startActivity(intent);
+                          }
+                      });
+                      snackbar.show();
+
+                  }
 
 
                   }
@@ -224,11 +215,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mainmenu, menu);
-        return true;
-    }
 
     @Override
     protected void onResume() {
@@ -245,17 +231,24 @@ public class MainActivity extends AppCompatActivity {
                         if (!home) {
                             getSupportFragmentManager()
                                     .beginTransaction()
+                                    .setCustomAnimations(R.anim.fab_slide_in_from_left, R.anim.fab_slide_out_to_right)
                                     .replace(R.id.frame, new HomeFragment())
                                     .commit();
                         }
                         break;
                     case 1:
-                        Snacky.builder().setActivity(activity).setText("Em desenvolvimento").info().show();
+                        home = false;
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
+                                .replace(R.id.frame, new FavoritesFragment())
+                                .commit();
                         break;
                     case 2:
                         home = false;
                         getSupportFragmentManager()
                                 .beginTransaction()
+                                .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
                                 .replace(R.id.frame, new ProfileFragment())
                                 .commit();
                         break;
@@ -274,19 +267,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-        home = false;
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame, new AboutFragment())
-                    .commit();
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onStart() {
@@ -295,10 +275,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void Reveal() {
-        Animation fade = AnimationUtils.loadAnimation(this,R.anim.fade_in);
-        container.startAnimation(fade);
-    }
 
     @Override
     protected void onRestart() {
@@ -308,10 +284,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
         if (home) {
             this.finish();
+            super.onBackPressed();
         } else {
+            tabs.getTabAt(0).select();
+            home = true;
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
@@ -336,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
             myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             if (!isNetworkAvailable()) {
                 myDialog.setContentView(R.layout.noconnectioncard);
-                myDialog.setCanceledOnTouchOutside(true);
+                myDialog.setCanceledOnTouchOutside(false);
                 TextView message = myDialog.findViewById(R.id.offlinemssage);
                 message.setText(Tools.offlinemessage());
                 if (!myDialog.isShowing()) {

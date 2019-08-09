@@ -59,7 +59,6 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="scalingPercent" value="60" />
-                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -93,9 +92,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="6a1b9a" />
+                                      <entry key="backgroundColor" value="ffffff" />
                                       <entry key="backgroundImage" value="C:\Users\cacai\Documents\back.png" />
-                                      <entry key="foregroundImage" value="C:\Users\cacai\Downloads\saturn-and-other-planets.svg" />
+                                      <entry key="foregroundImage" value="C:\Users\cacai\Documents\programas\motiv\v2motiv.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
@@ -138,6 +137,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="paddingPercent" value="10" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -149,13 +149,18 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Program Files\Android\Android Studio\bin\C:\Users\cacai\Downloads\saturn-and-other-planets (3).png" />
+                                      <entry key="imageAsset" value="C:\Users\cacai\Documents\programas\motiv\v2motiv.png" />
                                       <entry key="outputName" value="ic_notification" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="NOTIFICATION" />
                           </map>
                         </option>
                       </PersistentState>
@@ -181,7 +186,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_autorenew_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -192,8 +197,8 @@
                         <option name="values">
                           <map>
                             <entry key="autoMirrored" value="true" />
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_search_black_24dp" />
+                            <entry key="color" value="6a1b9a" />
+                            <entry key="outputName" value="ic_autorenew_black_24dp" />
                             <entry key="sourceFile" value="C:\Users\cacai\Downloads\fireworks.svg" />
                           </map>
                         </option>

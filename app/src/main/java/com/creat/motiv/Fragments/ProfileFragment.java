@@ -40,7 +40,6 @@ import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
-import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.SettingsActivity;
 import com.creat.motiv.Utils.Info;
@@ -127,14 +126,6 @@ public class ProfileFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-            toolbar.setTitle(" ");
-
-        } else {
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,17 +134,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        userinfo();
 
-
-
-
-
-
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
-        collapsetoolbar.setExpandedTitleTypeface(tf);
-
-        collapsetoolbar.setCollapsedTitleTypeface(tf);
 
 
         likes.setOnClickListener(new View.OnClickListener() {
@@ -171,30 +152,17 @@ public class ProfileFragment extends Fragment {
                 Carregar();
             }
         });
-
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.home = true;
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
-                        .replace(R.id.frame, new HomeFragment())
-                        .commit();
-            }
-        });
         show();
         return v;
 
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.profilemenu, menu);
 
     }
+
 
 
     @Override
@@ -216,9 +184,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private void restart() {
-        getActivity().recreate();
-    }
 
     private void removepostsalert() {
         if (getContext() == null){
@@ -244,6 +209,7 @@ public class ProfileFragment extends Fragment {
         }).show();
     }
 
+/*
     private void removeaccountalert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext())).setTitle("Apagar a conta?");
         builder.setMessage("Nossa... Apagar a conta? TEM CERTEZA?," +
@@ -287,6 +253,7 @@ public class ProfileFragment extends Fragment {
             }
         }).show();
     }
+*/
 
 
     private void Tutorial(View view) {
@@ -456,6 +423,13 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+        userinfo();
+
+
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
+        collapsetoolbar.setExpandedTitleTypeface(tf);
+
+        collapsetoolbar.setCollapsedTitleTypeface(tf);
         super.onResume();
     }
 
