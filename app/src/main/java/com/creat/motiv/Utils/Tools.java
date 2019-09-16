@@ -20,7 +20,8 @@ import java.util.Random;
 public class Tools {
     public  static int sixhourinterval = 21600000;
     public static String[] iconssite = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co"};
-
+    public static String writequote = "newquote";
+    public static String deletepic = "deletepic";
     private static Artists[] artist = {
             new Artists("M. EDNOKO Marinov", "https://dribbble.com/ednoko"),
             new Artists("Cynthia Tizcareno", "https://dribbble.com/cynthiatiz"),

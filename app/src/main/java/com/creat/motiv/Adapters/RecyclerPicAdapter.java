@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,9 +41,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import de.mateware.snacky.Snacky;
 
 public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.MyViewHolder>  {
     private QuotesDB quotesDB;
@@ -58,20 +57,19 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
     public RecyclerPicAdapter(QuotesDB quotesDB, Context mContext, List<Pics> mData, RealtimeBlurView blurView,
                               Activity mActivity, BottomSheetDialog myDialog, ArrayList<Quotes> myquotes,
-                              TextView message, TextView remove, ProgressBar progressBar, RecyclerView recyclerView, TextView title, LinearLayout back) {
+                              TextView message, ProgressBar progressBar, RecyclerView recyclerView, TextView title,TextView remove, LinearLayout back) {
         this.quotesDB = quotesDB;
         this.mContext = mContext;
         this.mData = mData;
-        RealtimeBlurView blurView1 = blurView;
         this.mActivity = mActivity;
         this.myDialog = myDialog;
         this.myquotes = myquotes;
         this.message = message;
-        this.remove = remove;
         this.progressBar = progressBar;
         this.recyclerView = recyclerView;
         this.title = title;
         this.back = back;
+        this.remove = remove;
      }
 
     @NonNull
@@ -90,46 +88,9 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
         holder.loading.setVisibility(View.VISIBLE);
 
 
-        if (mData.get(position) == null) {
-            holder.delete.setVisibility(View.GONE);
-            holder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(null).build();
-                    if (user != null) {
-                        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    for (int i = 0; i < myquotes.size(); i++) {
-                                        quotesDB = new QuotesDB();
-                                        quotesDB.AlterarFoto(mActivity, myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
-                                    }
-                                    Snacky.builder().setActivity(Objects.requireNonNull(mActivity)).success().setText("Foto de perfil alterada").show();
-                                    myDialog.dismiss();
-
-
-                                } else {
-                                    Snacky.builder().setActivity(mActivity).success().setText("Erro " + task.getException()).show();
-                                }
-
-
-                            }
-                        });
-
-
-                    }
-
-
-                }
-            });
+        if (mData.get(position).getUri().equals(Tools.deletepic)) {
             holder.pic.setVisibility(View.GONE);
         } else {
-
-
             Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -159,6 +120,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                 }
             }).into(holder.pic);
             holder.pic.startAnimation(in);
+            holder.delete.setVisibility(View.GONE);
 
             holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -184,7 +146,6 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                     if (user.getPhotoUrl() == Uri.parse(mData.get(position).getUri())) {
                         message.setText("Seu ícone de perfil já é este!");
                         message.setVisibility(View.VISIBLE);
-                        remove.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                         Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
                         Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
@@ -262,12 +223,14 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+        CardView card;
         ImageView pic;
         ImageButton delete;
         TextView message;
         ProgressBar loading;
         MyViewHolder(View view) {
             super(view);
+            card = itemView.findViewById(R.id.card);
             delete = itemView.findViewById(R.id.delete);
             pic = itemView.findViewById(R.id.pic);
             message = itemView.findViewById(R.id.error);

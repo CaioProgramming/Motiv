@@ -1,25 +1,17 @@
 package com.creat.motiv.Fragments;
 
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Likes;
@@ -57,11 +49,7 @@ public class FavoritesFragment extends Fragment {
     Query quotesdb;
     Pref preferences;
     private RecyclerView myquotesrecycler;
-    private Toolbar toolbar;
-    private ProgressBar loading;
-    private CoordinatorLayout home;
-    private AppBarLayout appbarlayout;
-    private CollapsingToolbarLayout collapsetoolbar;
+
     private ArrayList<Quotes> allquotes;
     private ArrayList<Quotes> likequotes;
     private ArrayList<Likes> likesArrayList = new ArrayList<>();
@@ -78,22 +66,15 @@ public class FavoritesFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(Objects.requireNonNull(getContext()));
         View v = inflater.inflate(R.layout.fragment_favorites, container, false);
-        initView(v);
+
 
         v.findViewById(R.id.home);
-        v.findViewById(R.id.appbarlayout);
 
-        this.loading = v.findViewById(R.id.loading);
-        toolbar = v.findViewById(R.id.toolbar);
         myquotesrecycler = v.findViewById(R.id.composesrecycler);
 
 
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
 
-        collapsetoolbar.setTitle(getActivity().getResources().getString(R.string.app_name));
-        collapsetoolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Nunito-Regular.ttf"));
-        collapsetoolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Nunito-Regular.ttf"));
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         return v;
@@ -104,25 +85,6 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public void onResume() {
-        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = true;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsetoolbar.setTitle("Favoritos");
-                    collapsetoolbar.setCollapsedTitleTextColor(ColorStateList.valueOf(Color.WHITE));
-                    isShow = true;
-                } else if (isShow) {
-                    collapsetoolbar.setTitle(" ");//careful there should a space between double quote otherwise it wont work
-                    isShow = false;
-                }
-            }
-        });
         CarregarLikes();
         super.onResume();
     }
@@ -238,18 +200,11 @@ public class FavoritesFragment extends Fragment {
         myquotesrecycler.setHasFixedSize(true);
         System.out.println(quotes);
         final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
-        RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotes, getActivity(), myquotesrecycler);
+        RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotes, getActivity());
         myquotesrecycler.setAdapter(myadapter);
         myquotesrecycler.setLayoutManager(llm);
         myquotesrecycler.startAnimation(myanim2);
     }
 
 
-    private void initView(View v) {
-
-        home = v.findViewById(R.id.home);
-        appbarlayout = v.findViewById(R.id.appbarlayout);
-        collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
-
-    }
 }

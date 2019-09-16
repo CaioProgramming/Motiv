@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -26,7 +26,7 @@
         android:textSize="24sp"
         android:text="@string/foto_atualizada"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:visibility="gone" />
 
         <LinearLayout
@@ -46,31 +46,28 @@
                 android:backgroundTint="@color/black"
                 android:padding="5dp"
                 android:text="Selecione um ícone de perfil"
-                android:textColor="?attr/textcolor"
+                android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
+                <TextView
+                    android:foreground="?attr/selectableItemBackground"
+                    android:id="@+id/remove"
+                    android:textAlignment="center"
+                    android:drawableTop="@drawable/ic_highlight_off_black_24dp"
+                    android:text="Remover foto de perfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/picsrecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:nestedScrollingEnabled="false" />
+                android:layout_margin="5dp" />
 
-            <Button
-                android:layout_margin="5dp"
-                android:id="@+id/removepic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_button"
-                android:backgroundTint="@color/red_500"
-                android:text="@string/remover_foto_de_perfil"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

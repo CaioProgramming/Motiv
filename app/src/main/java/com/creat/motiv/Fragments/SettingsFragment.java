@@ -58,11 +58,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity.home = true;
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fade_out)
-                        .replace(R.id.frame, new HomeFragment())
-                        .commit();
+                MainActivity.pager.setCurrentItem(0, true);
 
 
             }

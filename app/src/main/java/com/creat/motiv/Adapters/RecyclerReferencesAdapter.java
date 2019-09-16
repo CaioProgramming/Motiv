@@ -1,7 +1,6 @@
 package com.creat.motiv.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -21,14 +20,12 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerReferencesAdapter extends RecyclerView.Adapter<RecyclerReferencesAdapter.MyViewHolder>  {
-    private Context mContext;
     private List<String> mData;
     private Activity mActivity;
 
 
-    public RecyclerReferencesAdapter( Context mContext, List<String> mData,
+    public RecyclerReferencesAdapter( List<String> mData,
                                      Activity mActivity) {
-        this.mContext = mContext;
         this.mData = mData;
         this.mActivity = mActivity;
      }
@@ -37,7 +34,7 @@ public class RecyclerReferencesAdapter extends RecyclerView.Adapter<RecyclerRefe
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        LayoutInflater mInflater = LayoutInflater.from(mContext);
+        LayoutInflater mInflater = LayoutInflater.from(mActivity);
         view = mInflater.inflate(R.layout.references, parent, false);
 
         return new MyViewHolder(view);
@@ -56,23 +53,23 @@ public class RecyclerReferencesAdapter extends RecyclerView.Adapter<RecyclerRefe
             });
         switch (position) {
             case 0:
-                Glide.with(mContext).load(mContext.getString(R.string.dribblelogo)).into(holder.logo);
+                Glide.with(mActivity).load(mActivity.getString(R.string.dribblelogo)).into(holder.logo);
                 holder.nome.setText("Dribble");
                 break;
             case 1:
-                Glide.with(mContext).load(mContext.getString(R.string.flaticonlogo)).into(holder.logo);
+                Glide.with(mActivity).load(mActivity.getString(R.string.flaticonlogo)).into(holder.logo);
                 holder.nome.setText("Flaticon");
                 break;
             case 2:
-                Glide.with(mContext).load(mContext.getString(R.string.materialiologo)).into(holder.logo);
+                Glide.with(mActivity).load(mActivity.getString(R.string.materialiologo)).into(holder.logo);
                 holder.nome.setText("Material.io");
                 break;
             case 3:
-                Glide.with(mContext).load(mContext.getString(R.string.undrawlogo)).into(holder.logo);
+                Glide.with(mActivity).load(mActivity.getString(R.string.undrawlogo)).into(holder.logo);
                 holder.nome.setText("Undraw");
                 break;
         }
-        Pref preferences = new Pref(mContext);
+        Pref preferences = new Pref(mActivity);
         int white = Color.WHITE;
 
 

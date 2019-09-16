@@ -1,275 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <!-- TODO: Update blank fragment layout -->
-<android.support.v7.widget.CardView android:layout_height="match_parent"
-    android:layout_gravity="center"
+<!-- TODO: Update blank fragment layout -->
+<android.support.v7.widget.CardView android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="25dp">
+    app:cardElevation="0dp">
 
 
     <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="true"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/colorlibrary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="10dp"
+                        android:text="T"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <ImageButton
+                        android:id="@+id/textcolorfab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_format_color_text_black_24dp"
+                        android:tint="@color/grey_900" />
+
+                    <ImageButton
+                        android:id="@+id/backcolorfab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_format_color_fill_white_24dp"
+                        android:tint="@color/grey_900" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/quotedata"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:id="@+id/options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/userpic"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="5dp"
+                            android:src="@drawable/penguin" />
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/username"
+                            android:textColor="@color/grey_800"
+                            android:textSize="14sp" />
+
+
+                        <ImageButton
+                            android:id="@+id/reported"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:src="@drawable/ic_flag_black_24dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:id="@+id/background"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:isScrollContainer="true"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="25dp">
 
-                        <LinearLayout
+                        <EditText
+                            android:id="@+id/quote"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:backgroundTint="@color/transparent"
+                            android:hint="@string/quote"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey_500"
+                            android:textSize="24sp"
+                            android:typeface="normal" />
 
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/colorlibrary"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                            <HorizontalScrollView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <RadioGroup
-                                    android:visibility="gone"
-                                    android:id="@+id/categoriesgroup"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-
-                                    <RadioButton
-
-                                        android:id="@+id/love"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="5dp"
-                                        android:background="@drawable/post_button"
-                                        android:button="@color/transparent"
-                                        android:drawableStart="@drawable/ic_favorite_black_24dp"
-                                        android:drawableTint="@color/radioselect"
-                                        android:text="Amor"
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/radioselect" />
-
-                                    <RadioButton
-                                        android:id="@+id/citation"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="5dp"
-                                        android:background="@drawable/post_button"
-                                        android:button="@color/transparent"
-                                        android:drawableStart="@drawable/ic_bookmark_black_15dp"
-                                        android:drawableTint="@color/radioselect"
-                                        android:text="Citação"
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/radioselect" />
-
-                                    <RadioButton
-                                        android:id="@+id/motivation"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="5dp"
-                                        android:background="@drawable/post_button"
-                                        android:button="@color/transparent"
-                                        android:drawableStart="@drawable/ic_filter_vintage_black_24dp"
-                                        android:drawableTint="@color/radioselect"
-                                        android:text="Motivação"
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/radioselect" />
-
-                                    <RadioButton
-                                        android:id="@+id/music"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="5dp"
-                                        android:background="@drawable/post_button"
-                                        android:button="@color/transparent"
-                                        android:drawableStart="@drawable/ic_music_note_black_24dp"
-                                        android:drawableTint="@color/radioselect"
-                                        android:text="Música"
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/radioselect" />
-
-
-                                </RadioGroup>
-
-                            </HorizontalScrollView>
-                        </LinearLayout>
+                        <EditText
+                            android:id="@+id/author"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/transparent"
+                            android:hint="@string/author"
+                            android:padding="5dp"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey_500"
+                            android:textSize="20sp"
+                            android:typeface="normal" />
 
                         <LinearLayout
-                            android:layout_gravity="center"
-                            android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <ImageButton
-                                android:id="@+id/font"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_font_download_black_24dp"
-                                android:layout_width="wrap_content"
-                                android:tint="@color/black" />
-
-                            <ImageButton
-                                android:id="@+id/textcolorfab"
+                            <TextView
+                                android:id="@+id/fontid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_format_color_text_black_24dp"
-                                android:tint="@color/grey_900" />
+                                android:visibility="invisible" />
 
-                            <ImageButton
-                                android:id="@+id/backcolorfab"
+                            <TextView
+                                android:id="@+id/texcolorid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_format_color_fill_white_24dp"
-                                android:tint="@color/grey_900" />
+                                android:text="0"
+                                android:visibility="invisible" />
 
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/quotedata"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/backcolorid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:gravity="center">
-
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/userpic"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:padding="5dp"
-                                    android:src="@drawable/penguin" />
-
-                                <TextView
-                                    android:id="@+id/username"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/username"
-                                    android:textColor="@color/grey_800"
-                                    android:textSize="14sp" />
-
-
-                                <ImageButton
-                                    android:id="@+id/reported"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@color/transparent"
-                                    android:src="@drawable/ic_flag_black_24dp"
-                                    android:visibility="gone" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-
-                            android:id="@+id/background"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="25dp">
-
-                            <EditText
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/grey_500"
-                                android:id="@+id/quote"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:hint="@string/quote"
-                                android:padding="5dp"
-                                android:textAlignment="center"
-                                android:textSize="24sp"
-                                android:typeface="normal" />
-
-                            <EditText
-                                android:textColor="@color/black"
-
-                                android:textColorHint="@color/grey_500"
-                                android:id="@+id/author"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:hint="@string/author"
-                                android:padding="5dp"
-                                android:textAlignment="textEnd"
-                                android:textSize="20sp"
-                                android:typeface="normal" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/fontid"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="invisible" />
-
-                                <TextView
-                                    android:id="@+id/texcolorid"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="0"
-                                    android:visibility="invisible" />
-
-                                <TextView
-                                    android:id="@+id/backcolorid"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="0"
-                                    android:visibility="invisible" />
-                            </LinearLayout>
-
-
+                                android:text="0"
+                                android:visibility="invisible" />
                         </LinearLayout>
 
 
                     </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <Button
+                    android:id="@+id/salvar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="30dp"
+                    android:background="@drawable/ripple_button"
+                    android:text="Publicar"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
-
-    <Button
-        android:id="@+id/salvar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/ripple_button"
-        android:text="Publicar"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
-
 
 
 </android.support.v7.widget.CardView>

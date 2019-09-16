@@ -13,27 +13,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.creat.motiv.Adapters.MainAdapter;
 import com.creat.motiv.Beans.Version;
-import com.creat.motiv.Fragments.FavoritesFragment;
-import com.creat.motiv.Fragments.HomeFragment;
-import com.creat.motiv.Fragments.ProfileFragment;
+import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,15 +56,13 @@ public class MainActivity extends AppCompatActivity {
     BottomSheetDialog myDialog;
     Version version;
     Context context = this;
-    FloatingActionButton newquote;
-    private RelativeLayout container;
-    FirebaseUser user;
+    public static ViewPager pager;
     public static boolean home = true;
     public static boolean search = false;
     private Dialog m_dialog;
     RealtimeBlurView blurView;
     Activity activity = this;
-    private android.widget.FrameLayout frame;
+    FirebaseUser user;
     private android.support.design.widget.TabLayout tabs;
 
     private void NewQuoteDialog() {
@@ -113,18 +116,22 @@ public class MainActivity extends AppCompatActivity {
         }
         preferences = new Pref(context);
         setContentView(R.layout.activity_main2);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.tabs = findViewById(R.id.tabs);
-        this.frame = findViewById(R.id.frame);
-        findViewById(R.id.offlinemssage);
-        newquote = findViewById(R.id.newquote);
+        pager = findViewById(R.id.pager);
         blurView = findViewById(R.id.rootblur);
-        newquote.setOnClickListener(new View.OnClickListener() {
+        final CircleImageView profilepic = findViewById(R.id.profilepic);
+        Glide.with(this).load(user.getPhotoUrl()).into(profilepic);
+        profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               NewQuoteDialog();
+
+                profilepic.setBorderColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                pager.setCurrentItem(3);
             }
         });
-        container = findViewById(R.id.container);
 
         assert user != null;
         if (!user.isEmailVerified()){
@@ -152,14 +159,40 @@ public class MainActivity extends AppCompatActivity {
 
         version();
         agree();
+        MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager());
+        pager.setAdapter(mainAdapter);
+        tabs.setupWithViewPager(pager);
+        tabs.getTabAt(0).setText("Home");
+        tabs.getTabAt(1).setText("Favoritos");
+        tabs.getTabAt(2).setText("Perfil");
 
-        if (!frame.isAttachedToWindow()) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame, new HomeFragment())
-                    .commit();
-        }
+        AdView adView = findViewById(R.id.adView);
 
+        MobileAds.initialize(this,
+                "ca-app-pub-4979584089010597/9177000416");
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 3){
+                    profilepic.setBorderColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void version() {
@@ -214,7 +247,31 @@ public class MainActivity extends AppCompatActivity {
           });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.navigation_about) {
+            Alert alert = new Alert(this);
+            alert.about();
+        } else {
+            settings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void settings() {
+        Intent i = new Intent(this, SettingsActivity.class);
+        startActivity(i);
+    }
 
     @Override
     protected void onResume() {
@@ -223,48 +280,6 @@ public class MainActivity extends AppCompatActivity {
 
         internetconnection();
 
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        if (!home) {
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.fab_slide_in_from_left, R.anim.fab_slide_out_to_right)
-                                    .replace(R.id.frame, new HomeFragment())
-                                    .commit();
-                        }
-                        break;
-                    case 1:
-                        home = false;
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
-                                .replace(R.id.frame, new FavoritesFragment())
-                                .commit();
-                        break;
-                    case 2:
-                        home = false;
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
-                                .replace(R.id.frame, new ProfileFragment())
-                                .commit();
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
 
@@ -291,11 +306,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tabs.getTabAt(0).select();
             home = true;
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
-                    .replace(R.id.frame, new HomeFragment())
-                    .commit();
+            pager.setCurrentItem(0, true);
         }
     }
 

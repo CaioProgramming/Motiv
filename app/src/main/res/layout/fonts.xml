@@ -9,7 +9,6 @@
             android:padding="1dp"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
             android:textAlignment="center"
-             android:textColor="?attr/textcolor"
             android:layout_gravity="center"
             android:id="@+id/fonttest"
             android:layout_width="wrap_content"

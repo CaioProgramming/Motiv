@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/white"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsetoolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimaryDark"
+            app:contentScrim="@color/white"
             app:expandedTitleGravity="center|bottom"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:title="Configurações"
@@ -87,7 +87,7 @@
                     android:padding="10dp"
                     android:text="Editar perfil"
                     android:textAlignment="textStart"
-                    android:textColor="?attr/textcolor" />
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/editname"
@@ -144,7 +144,7 @@
                 android:padding="10dp"
                 android:text="Remover posts"
                 android:textAlignment="textStart"
-                android:textColor="?attr/textcolor" />
+                android:textColor="@color/white" />
 
 
             <Button
@@ -161,7 +161,7 @@
                 android:padding="10dp"
                 android:text="Remover conta"
                 android:textAlignment="textStart"
-                android:textColor="?attr/textcolor" />
+                android:textColor="@color/white" />
 
 
             <Button
@@ -178,7 +178,7 @@
                 android:padding="10dp"
                 android:text="Sair"
                 android:textAlignment="textStart"
-                android:textColor="?attr/textcolor" />
+                android:textColor="@color/white" />
 
 
         </LinearLayout>

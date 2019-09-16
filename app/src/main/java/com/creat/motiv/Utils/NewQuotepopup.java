@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -27,9 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,11 +37,6 @@ import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
@@ -60,23 +52,17 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 import de.mateware.snacky.Snacky;
 
-import static com.creat.motiv.Database.QuotesDB.path;
-
 public class NewQuotepopup {
-    private RealtimeBlurView realtimeBlurView;
-    ImageButton backcolorfab, texcolorfab;
+    private RealtimeBlurView blur;
+    private ImageButton backcolorfab, texcolorfab;
 
-    private RadioButton love;
-    private RadioButton citation;
-    private RadioButton motivation;
-    private RadioButton music;
 
     private Activity activity;
-    FirebaseUser user;
-    QuotesDB quotesDB;
+    private FirebaseUser user;
+    private QuotesDB quotesDB;
     private Dialog m_dialog;
 
-    Pref preferences;
+    private Pref preferences;
     boolean tuto = true;
     private RecyclerView colorlibrary;
     private EditText frase;
@@ -85,36 +71,22 @@ public class NewQuotepopup {
     private TextView fontid;
     private TextView texcolorid;
     private TextView backcolorid;
-    private LinearLayout popup;
-    private RadioGroup categories;
-    private Spinner fonts;
     private int f;
     private boolean isfirst = true;
-    private RadioGroup categoriesgroup;
-    private ImageButton font;
-    private ImageButton textcolorfab;
-    private LinearLayout options;
-    private CircleImageView userpic;
-    private TextView username;
-    private ImageButton reported;
-    private LinearLayout quotedata;
-    private EditText quote;
-    private Button salvar;
+    private TextView font;
     public NewQuotepopup(Activity activity, RealtimeBlurView blurView) {
         this.activity = activity;
         user = FirebaseAuth.getInstance().getCurrentUser();
-        this.realtimeBlurView = blurView;
+        this.blur = blurView;
     }
 
     public void showup() {
-        BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        BottomSheetDialog myDialog = new BottomSheetDialog(activity);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         myDialog.show();
-
-
-        categories = myDialog.findViewById(R.id.categories);
         font = myDialog.findViewById(R.id.font);
         backcolorfab = myDialog.findViewById(R.id.backcolorfab);
         texcolorfab = myDialog.findViewById(R.id.textcolorfab);
@@ -124,7 +96,6 @@ public class NewQuotepopup {
         background = myDialog.findViewById(R.id.background);
         author = myDialog.findViewById(R.id.author);
         frase = myDialog.findViewById(R.id.quote);
-        categories = myDialog.findViewById(R.id.categoriesgroup);
 
 
         TextView username = myDialog.findViewById(R.id.username);
@@ -192,11 +163,7 @@ public class NewQuotepopup {
 
                     if (!keyEvent.isShiftPressed()) {
                         System.out.println("Enter key pressed");
-                        switch (view.getId()) {
-                            case 1:
-                                salvar();
-                                break;
-                        }
+                        salvar();
                         return true;
                     }
 
@@ -208,8 +175,12 @@ public class NewQuotepopup {
         Tutorial();
         myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onDismiss(DialogInterface dialog) {
-                realtimeBlurView.setVisibility(View.GONE);
+            public void onDismiss(DialogInterface dialogInterface) {
+                Animation out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
+                blur.startAnimation(out);
+                blur.setVisibility(View.GONE);
+
+
             }
         });
 
@@ -224,69 +195,29 @@ public class NewQuotepopup {
                 if (f == fonts.size()) {
                     f = 0;
                 }
-
+                font.setTypeface(fonts.get(f));
                 frase.setTypeface(fonts.get(f));
                 author.setTypeface(fonts.get(f));
                 isfirst = false;
 
             }
         });
+        Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
+        blur.setVisibility(View.VISIBLE);
+        blur.startAnimation(in);
     }
 
 
-//    private void radios() {
-//        love.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                categoria = "Amor";
-//                popup.setBackgroundResource(R.drawable.bottom_line_love);
-//            }
-//        });
-//
-//
-//        motivation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                categoria = "Motivação";
-//                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-//            }
-//        });
-//
-//
-//        music.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                categoria = "Musica";
-//                popup.setBackgroundResource(R.drawable.bottom_line_music);
-//            }
-//        });
-//
-//        citation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                categoria = "Citação";
-//                popup.setBackgroundResource(R.drawable.bottom_line_citation);
-//
-//            }
-//        });
-//
-//
-//    }
 
+    public void showedit(final Quotes quote) {
 
-    public void showedit(String id) {
-
-        BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        BottomSheetDialog myDialog = new BottomSheetDialog(activity);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
         this.font = myDialog.findViewById(R.id.font);
         myDialog.show();
-
-        love = myDialog.findViewById(R.id.love);
-        citation = myDialog.findViewById(R.id.citation);
-        motivation = myDialog.findViewById(R.id.motivation);
-        music = myDialog.findViewById(R.id.music);
         this.backcolorfab = myDialog.findViewById(R.id.backcolorfab);
         this.texcolorfab = myDialog.findViewById(R.id.textcolorfab);
         this.backcolorid = myDialog.findViewById(R.id.backcolorid);
@@ -326,57 +257,34 @@ public class NewQuotepopup {
         });
 
 
-        frase.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_NEXT) {
-                    if (!keyEvent.isShiftPressed()) {
-                        Log.v("AndroidEnterKeyActivity", "Enter Key Pressed!");
-                        switch (view.getId()) {
-                            case 1:
-                                author.requestFocus();
-                                break;
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
 
 
-        author.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH ||
-                        i == EditorInfo.IME_ACTION_DONE ||
-                        keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
-                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                    if (!keyEvent.isShiftPressed()) {
-                        System.out.println("Enter key pressed");
-                        switch (view.getId()) {
-                            case 1:
-                                salvar();
-                                break;
-                        }
-                        return true;
-                    }
-
-                }
-                return false; // pass on to other listeners.
-
-            }
-        });
         Tutorial();
-        LoadQuote(id, username, userpic, salvar);
+        LoadQuote(username,userpic,quote);
+        salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atualizar(quote);
+            }
+        });
+
         myDialog.show();
+        myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                Animation out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
+                blur.startAnimation(out);
+                blur.setVisibility(View.GONE);
+
+
+            }
+        });
 
 
     }
 
 
-    public void atualizar(Quotes quote) {
+    private void atualizar(Quotes quote) {
         Integer fonti = null;
         if (fontid.getText() != "") {
             fonti = Integer.parseInt(fontid.getText().toString());
@@ -397,95 +305,30 @@ public class NewQuotepopup {
     }
 
 
-    private void LoadQuote(String id, final TextView username, final CircleImageView userpic, final Button salvar) {
-        Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("id").startAt(id).endAt(id + "\uf8ff");
+    private void LoadQuote( final TextView username, final CircleImageView userpic, Quotes quotes) {
+        //quoteID.setText(quotes.getId());
+        frase.setText(quotes.getQuote());
+        author.setText(quotes.getAuthor());
+        username.setText(quotes.getUsername());
+        background.setBackgroundColor(quotes.getBackgroundcolor());
 
+        frase.setTextColor(quotes.getTextcolor());
+        if (quotes.getFont() != null) {
+            frase.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
+            author.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
+            font.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
+            f = quotes.getFont();
+        } else {
+            frase.setTypeface(Typeface.DEFAULT);
+            author.setTypeface(Typeface.DEFAULT);
 
-        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    final Quotes quotes = new Quotes();
-                    Quotes q = d.getValue(Quotes.class);
-                    if (q != null) {
-                        quotes.setCategoria(q.getCategoria());
-                        quotes.setUserphoto(q.getUserphoto());
-                        quotes.setUsername(q.getUsername());
-                        quotes.setUserID(q.getUserID());
-                        quotes.setBackgroundcolor(q.getBackgroundcolor());
-                        quotes.setAuthor(q.getAuthor());
-                        quotes.setQuote(q.getQuote());
-                        quotes.setData(q.getData());
-                        quotes.setBold(q.isBold());
-                        quotes.setItalic(q.isItalic());
-                        quotes.setTextcolor(q.getTextcolor());
-                        quotes.setBackgroundcolor(q.getBackgroundcolor());
-                        quotes.setFont(q.getFont());
-                        quotes.setReport(q.isReport());
-                        //quoteID.setText(quotes.getId());
-                        frase.setText(quotes.getQuote());
-                        author.setText(quotes.getAuthor());
-                        username.setText(quotes.getUsername());
-                        background.setBackgroundColor(quotes.getBackgroundcolor());
+        }
+        author.setTextColor(quotes.getTextcolor());
+        texcolorid.setText(String.valueOf(quotes.getTextcolor()));
+        backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
+        fontid.setText(String.valueOf(quotes.getFont()));
+        Glide.with(activity).load(quotes.getUserphoto()).into(userpic);
 
-                        frase.setTextColor(quotes.getTextcolor());
-                        if (quotes.getFont() != null) {
-                            frase.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
-                            author.setTypeface(Tools.fonts(activity).get(quotes.getFont()));
-                            fonts.setSelection(quotes.getFont());
-                        } else {
-                            frase.setTypeface(Typeface.DEFAULT);
-                            author.setTypeface(Typeface.DEFAULT);
-
-                        }
-                        author.setTextColor(quotes.getTextcolor());
-                        texcolorid.setText(String.valueOf(quotes.getTextcolor()));
-                        backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
-                        fontid.setText(String.valueOf(quotes.getFont()));
-                        switch (quotes.getCategoria()) {
-                            case "Musica":
-                                popup.setBackgroundResource(R.drawable.bottom_line_music);
-                                music.setSelected(true);
-                                break;
-                            case "Citação":
-                                popup.setBackgroundResource(R.drawable.bottom_line_citation);
-                                citation.setSelected(true);
-                                break;
-                            case "Amor":
-                                popup.setBackgroundResource(R.drawable.bottom_line_love);
-                                love.setSelected(true);
-
-                                break;
-                            case "Motivação":
-                                popup.setBackgroundResource(R.drawable.bottom_line_motivation);
-                                motivation.setSelected(true);
-                                break;
-                            case "Nenhum":
-                                popup.setBackgroundResource(R.drawable.bottom_line_none);
-
-
-                                break;
-                        }
-
-
-                        Glide.with(activity).load(quotes.getUserphoto()).into(userpic);
-                        salvar.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                atualizar(quotes);
-                            }
-                        });
-
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
 

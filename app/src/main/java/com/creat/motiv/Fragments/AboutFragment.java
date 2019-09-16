@@ -21,9 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.creat.motiv.Adapters.RecyclerArtistsAdapter;
-import com.creat.motiv.Adapters.RecyclerCreatorsAdapter;
 import com.creat.motiv.Adapters.RecyclerReferencesAdapter;
-import com.creat.motiv.Beans.Developers;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Tools;
@@ -33,11 +31,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -170,10 +165,10 @@ public class AboutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity.home = true;
-                getActivity().getSupportFragmentManager()
+                /*getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new HomeFragment())
-                        .commit();
+                        .commit();*/
 
 
             }
@@ -217,6 +212,7 @@ public class AboutFragment extends Fragment {
 
 
 
+/*
     private void CarregarCreators() {
         final ArrayList<Developers> developersArrayList = new ArrayList<>();
         quotesdb = FirebaseDatabase.getInstance().getReference().child("Developers");
@@ -258,6 +254,7 @@ public class AboutFragment extends Fragment {
             }
         });
     }
+*/
 
     private void CarregarReferences() {
         ArrayList<String> referencias = new ArrayList<>();
@@ -268,7 +265,7 @@ public class AboutFragment extends Fragment {
                 return s.compareToIgnoreCase(t1);
             }
         });
-        RecyclerReferencesAdapter recyclerReferencesAdapter = new RecyclerReferencesAdapter(getContext(), referencias, getActivity());
+        RecyclerReferencesAdapter recyclerReferencesAdapter = new RecyclerReferencesAdapter(referencias, getActivity());
         GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
 
         designrecycler.setLayoutManager(llm);
@@ -288,7 +285,7 @@ public class AboutFragment extends Fragment {
     }
 
     private void CarregarAll() {
-        CarregarCreators();
+        //CarregarCreators();
         CarregarArtistas();
         CarregarReferences();
     }

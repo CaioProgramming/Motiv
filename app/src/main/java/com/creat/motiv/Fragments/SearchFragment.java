@@ -85,11 +85,12 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             @Override
             public void onClick(View view) {
                 MainActivity.home = true;
-                getActivity().getSupportFragmentManager()
+                MainActivity.pager.setCurrentItem(0, true);
+               /* getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fab_slide_in_from_left, R.anim.fab_slide_out_to_right)
                         .replace(R.id.frame, new HomeFragment())
-                        .commit();
+                        .commit();*/
             }
         });
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -160,7 +161,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
                     composesrecycler.setHasFixedSize(true);
                     System.out.println(quotesArrayList.size());
-                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(), composesrecycler);
+                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
                     myadapter.notifyDataSetChanged();
                     composesrecycler.setAdapter(myadapter);
                     composesrecycler.setLayoutManager(llm);
@@ -234,7 +235,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
                     composesrecycler.setHasFixedSize(true);
                     System.out.println(quotesArrayList.size());
-                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(), composesrecycler);
+                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
                     myadapter.notifyDataSetChanged();
                     composesrecycler.setAdapter(myadapter);
                     composesrecycler.setLayoutManager(llm);
@@ -310,7 +311,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
                 composesrecycler.setHasFixedSize(true);
                 System.out.println(quotesArrayList.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(), composesrecycler);
+                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
                 myadapter.notifyDataSetChanged();
                 composesrecycler.setAdapter(myadapter);
                 composesrecycler.setLayoutManager(llm);
@@ -378,7 +379,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
                     composesrecycler.setHasFixedSize(true);
                     System.out.println(quotesArrayList.size());
-                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity(), composesrecycler);
+                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
                     myadapter.notifyDataSetChanged();
                     composesrecycler.setAdapter(myadapter);
                     composesrecycler.setLayoutManager(llm);

@@ -3,23 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ProfileFragment">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="0dp"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+
 
         <android.support.v7.widget.RecyclerView
+            android:background="@color/grey_100"
             android:id="@+id/myquotesrecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
             android:paddingEnd="0dp"
             android:paddingStart="0dp" />
 
@@ -30,7 +25,6 @@
             android:layout_gravity="center"
             android:indeterminate="true" />
 
-    </android.support.v7.widget.CardView>
 
 
     <android.support.design.widget.AppBarLayout
@@ -42,14 +36,11 @@
         app:elevation="0dp">
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsetoolbar"
-            app:contentScrim="@color/colorPrimaryDark"
+            app:contentScrim="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:expandedTitleGravity="top|center"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
-            app:title="@string/app_name"
-            app:titleEnabled="true"
-            app:expandedTitleTextAppearance="?attr/textcolor"
             android:fitsSystemWindows="true">
 
 
@@ -57,81 +48,58 @@
                 android:padding="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 app:layout_collapseMode="parallax">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:src="@drawable/ic_person_black_24dp"
+                    app:civ_border_color="@color/colorAccent"
                     android:layout_width="120dp"
                     android:id="@+id/profilepic"
                     android:layout_height="120dp"
-                    android:layout_marginTop="5dp"
                     android:padding="10dp"
                     android:layout_gravity="center"
                     android:foreground="?attr/selectableItemBackground"
                     android:tooltipText="Clique na foto para alterá-la"
-                    android:src="@drawable/ic_person_black_24dp"
-                    app:civ_fill_color="@color/transparent" />
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/app_name"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:textSize="24sp" />
+                    app:civ_border_width="1dp" />
 
-
-                <RadioGroup
-                    android:layout_width="120dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:padding="5dp">
 
-                    <RadioButton
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="@string/app_name"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:drawableStart="@drawable/ic_brightness_1_black_24dp"
+                        android:drawableTint="@color/colorAccent"
                         android:id="@+id/posts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/post_button"
-                        android:button="@color/transparent"
                         android:checked="true"
                         android:padding="5dp"
-                        android:text="Posts"
-                        android:textAlignment="center"
-                        android:textColor="@color/radioselect"
-                        android:textStyle="bold" />
+                        android:text="Posts" />
 
-                    <RadioButton
+                    <TextView
+                        android:drawableStart="@drawable/ic_brightness_1_black_24dp"
+                        android:drawableTint="@color/red_400"
                         android:id="@+id/likes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/fav_button"
-                        android:button="@color/transparent"
                         android:padding="5dp"
-                        android:text="favoritos"
-                        android:textAlignment="center"
-                        android:textColor="@color/radioselect"
-                        android:textStyle="bold" />
-                </RadioGroup>
+                        android:text="Favoritos" />
 
-
+                </LinearLayout>
             </LinearLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
-
-            </android.support.v7.widget.Toolbar>
-
-
         </android.support.design.widget.CollapsingToolbarLayout>
 
 

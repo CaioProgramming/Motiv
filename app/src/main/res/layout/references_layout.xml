@@ -14,10 +14,8 @@
   <TextView
       android:layout_width="match_parent"
       android:foreground="?attr/selectableItemBackground"
-      android:textStyle="bold"
       android:layout_gravity="center"
       android:id="@+id/reference"
-      android:textColor="@color/white"
       android:textSize="28sp"
       android:text="@string/reference"
       android:textAlignment="center"

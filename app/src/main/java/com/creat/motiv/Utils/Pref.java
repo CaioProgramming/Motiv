@@ -17,7 +17,7 @@ public class Pref {
 
         if (state) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            context.setTheme(R.style.AppTheme_Night);
+            //context.setTheme(R.style.AppTheme_Night);
             SharedPreferences.Editor editor = mySharedPreferences.edit();
             editor.putBoolean("NightMode", state);
             editor.commit();

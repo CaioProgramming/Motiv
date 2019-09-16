@@ -254,7 +254,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-        changename.setText(user.getDisplayName());
 
         exit.setOnClickListener(new View.OnClickListener() {
             @Override

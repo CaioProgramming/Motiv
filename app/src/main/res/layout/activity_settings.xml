@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/grey_100"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     tools:context=".SettingsActivity">
 
@@ -12,197 +12,111 @@
         android:layout_width="match_parent"
         android:id="@+id/appbarlayout"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@color/white"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsetoolbar"
-            android:layout_height="200dp"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@color/grey_100"
-            app:expandedTitleGravity="center"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:scrimAnimationDuration="1000"
-            app:statusBarScrim="@color/grey_500"
-            app:titleEnabled="true">
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top"
+            android:elevation="0dp"
+            app:layout_collapseMode="pin" />
 
-            <!--pq eu não sou a gordinha do scott pilgrim p/ jogar fogareu gratuito-->
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin" />
-
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
+        <TextView
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:textSize="24sp"
+            android:fontFamily="@font/nunitoblack"
+            android:textColor="@color/black"
+            android:text="Configurações"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </android.support.design.widget.AppBarLayout>
 
 
     <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/grey_50"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        app:cardElevation="0dp"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+        android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:cardCornerRadius="20dp"
-                android:layout_width="match_parent"
-                app:cardElevation="0dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <Button
-                        android:id="@+id/changename"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:drawableEnd="@drawable/ic_mode_edit_white_24dp"
-                        android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/ic_person_black_24dp"
-                        android:elevation="0dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:text="@string/username"
-                        android:textAlignment="textStart"
-                        android:textAllCaps="false"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:layout_width="wrap_content"
-                        android:text="Altere seu nome de usuário" />
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <LinearLayout
+                <Button
+                    android:padding="10dp"
+                    android:textColor="@color/grey_700"
+                    android:background="@color/white"
+                    android:id="@+id/changename"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                    android:text="Alterar nome"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bottom_line"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/deleteposts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                            android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_delete_red_24dp"
-                            android:elevation="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="10dp"
-                            android:text="Remover posts"
-                            android:textAlignment="textStart"
-                            android:textAllCaps="false"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:paddingBottom="10dp"
-                            android:paddingStart="10dp"
-                            android:text="Remova todas as suas publicações" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bottom_line"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/deleteaccount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                            android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_sentiment_dissatisfied_black_24dp"
-                            android:elevation="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="10dp"
-                            android:text="Remover conta"
-                            android:textAlignment="textStart"
-                            android:textAllCaps="false"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
-                            android:paddingStart="10dp"
-                            android:text="Remover publicações e conta do aplicativo" />
+                <Button
+                    android:textColor="@color/grey_700"
+                    android:id="@+id/deleteposts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                    android:padding="10dp"
+                    android:text="Remover posts"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
 
 
-                    </LinearLayout>
+                <Button
+                    android:textColor="@color/grey_700"
+                    android:id="@+id/deleteaccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                    android:elevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp"
+                    android:text="Remover conta"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/exit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_exit_to_app_black_24dp"
-                            android:elevation="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="10dp"
-                            android:text="Sair"
-                            android:textAlignment="textStart"
-                            android:textAllCaps="false"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
-                            android:paddingStart="10dp"
-                            android:text="Sair do aplicativo" />
+                <Button
+                    android:textColor="@color/red_600"
+                    android:drawableTint="@color/red_600"
+                    android:id="@+id/exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawablePadding="5dp"
+                    android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                    android:elevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp"
+                    android:text="Fazer logout"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
 
 
-                    </LinearLayout>
 
-                </LinearLayout>
 
-            </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+            </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
 
