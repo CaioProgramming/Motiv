@@ -30,23 +30,27 @@ import de.mateware.snacky.Snacky;
 
 public class Splash extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
-    
-     @Override
+    protected App app;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
 
         super.onCreate(savedInstanceState);
+        app = (App) getApplication();
 
          Pref preferences = new Pref(this);
 
          setContentView(R.layout.activity_splash);
+
+
         ImageView applogo = findViewById(R.id.applogo);
          TextView brand = findViewById(R.id.inlustrisbrand);
          Date datenow = Calendar.getInstance().getTime();
          Calendar calendar = new GregorianCalendar();
          calendar.setTime(datenow);
-         brand.setText("Inlustris 2018 - " + String.valueOf(calendar.get(Calendar.YEAR)));
+        brand.setText("Inlustris 2018 - " + calendar.get(Calendar.YEAR));
         Animation popin= AnimationUtils.loadAnimation(this,R.anim.pop_in);
         applogo.startAnimation(popin);
          //setalarm();
@@ -64,7 +68,6 @@ public class Splash extends AppCompatActivity {
 
             }
         }.start();
-
 
 
     }

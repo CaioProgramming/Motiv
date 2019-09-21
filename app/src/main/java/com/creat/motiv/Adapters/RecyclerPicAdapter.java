@@ -31,7 +31,6 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,23 +41,23 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.MyViewHolder>  {
-    private QuotesDB quotesDB;
     private Context mContext;
     private List<Pics> mData;
     private ArrayList<Quotes> myquotes;
     private BottomSheetDialog myDialog;
-    LinearLayout back;
+    private LinearLayout back;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private Activity mActivity;
-    private TextView message, remove, title;
+    private TextView message, title;
 
 
-    public RecyclerPicAdapter(QuotesDB quotesDB, Context mContext, List<Pics> mData, RealtimeBlurView blurView,
+    public RecyclerPicAdapter(Context mContext, List<Pics> mData, RealtimeBlurView blurView,
                               Activity mActivity, BottomSheetDialog myDialog, ArrayList<Quotes> myquotes,
-                              TextView message, ProgressBar progressBar, RecyclerView recyclerView, TextView title,TextView remove, LinearLayout back) {
-        this.quotesDB = quotesDB;
+                              TextView message, ProgressBar progressBar, RecyclerView recyclerView, TextView title, LinearLayout back) {
         this.mContext = mContext;
         this.mData = mData;
         this.mActivity = mActivity;
@@ -69,8 +68,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
         this.recyclerView = recyclerView;
         this.title = title;
         this.back = back;
-        this.remove = remove;
-     }
+    }
 
     @NonNull
     @Override
@@ -86,63 +84,58 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_up);
         holder.loading.setVisibility(View.VISIBLE);
+        Glide.with(mActivity).load(mData.get(holder.getAdapterPosition()).getUri()).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                holder.pic.setVisibility(View.GONE);
+                holder.message.setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
 
 
-        if (mData.get(position).getUri().equals(Tools.deletepic)) {
-            holder.pic.setVisibility(View.GONE);
-        } else {
-            Glide.with(mActivity).load(mData.get(position).getUri()).listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    holder.pic.setVisibility(View.GONE);
-                    holder.message.setVisibility(View.VISIBLE);
-                    return false;
+                if (resource != null) {
+                    Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
+                    holder.loading.startAnimation(out);
+                    holder.loading.setVisibility(View.GONE);
+                    holder.pic.setImageDrawable(resource);
+                    holder.pic.startAnimation(in);
+
+                    return true;
+                } else {
+                    holder.loading.setVisibility(View.VISIBLE);
                 }
 
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    Animation in = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
+                return false;
+            }
+        }).into(holder.pic);
+        holder.pic.startAnimation(in);
+        holder.delete.setVisibility(View.GONE);
 
+        holder.pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                back.setVisibility(View.GONE);
+                title.setVisibility(View.GONE);
+                CountDownTimer timer = new CountDownTimer(3000, 100) {
+                    @Override
+                    public void onTick(long l) {
 
-                    if (resource != null) {
-                        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
-                        holder.loading.startAnimation(out);
-                        holder.loading.setVisibility(View.GONE);
-                        holder.pic.setImageDrawable(resource);
-                        holder.pic.startAnimation(in);
-
-                        return true;
-                    } else {
-                        holder.loading.setVisibility(View.VISIBLE);
                     }
 
-                    return false;
-                }
-            }).into(holder.pic);
-            holder.pic.startAnimation(in);
-            holder.delete.setVisibility(View.GONE);
+                    @Override
+                    public void onFinish() {
 
-            holder.pic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    back.setVisibility(View.GONE);
-                    title.setVisibility(View.GONE);
-                    remove.setVisibility(View.GONE);
-                    CountDownTimer timer = new CountDownTimer(3000, 100) {
-                        @Override
-                        public void onTick(long l) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                        }
-                    }.start();
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
-                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    }
+                }.start();
+                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(mData.get(position).getUri())).build();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
                     if (user.getPhotoUrl() == Uri.parse(mData.get(position).getUri())) {
                         message.setText("Seu ícone de perfil já é este!");
                         message.setVisibility(View.VISIBLE);
@@ -159,8 +152,8 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     for (int i = 0; i < myquotes.size(); i++) {
-                                        quotesDB = new QuotesDB(mActivity, null);
-                                        quotesDB.AlterarFoto(mActivity, myquotes.get(i).getId(), String.valueOf(user.getPhotoUrl()));
+                                        QuotesDB quotesDB = new QuotesDB(mActivity, null);
+                                        quotesDB.AlterarFoto(myquotes.get(i));
 
                                     }
                                     progressBar.setVisibility(View.VISIBLE);
@@ -173,7 +166,6 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                                         @Override
                                         public void onFinish() {
 
-                                            remove.setVisibility(View.GONE);
                                             message.setVisibility(View.VISIBLE);
                                             message.setBackgroundColor(Color.TRANSPARENT);
                                             message.setTextColor(Color.WHITE);
@@ -192,6 +184,8 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                                                 @Override
                                                 public void onFinish() {
                                                     myDialog.dismiss();
+                                                    CircleImageView rootpic = mActivity.findViewById(R.id.profilepic);
+                                                    Glide.with(mActivity).load(user.getPhotoUrl()).into(rootpic);
                                                 }
                                             }.start();
                                         }
@@ -203,10 +197,19 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                         });
 
                     }
-
+                } else {
+                    message.setText("Ocorreu um erro, parece que você não está conectado!");
+                    message.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fab_scale_down);
+                    Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+                    message.startAnimation(in);
+                    recyclerView.startAnimation(out);
+                    recyclerView.setVisibility(View.GONE);
                 }
-            });
-        }
+
+            }
+        });
 
     }
 
@@ -222,7 +225,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         CardView card;
         ImageView pic;
         ImageButton delete;

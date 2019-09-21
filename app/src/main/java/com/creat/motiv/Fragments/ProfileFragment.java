@@ -2,42 +2,35 @@ package com.creat.motiv.Fragments;
 
 
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetDialog;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Adapters.RecyclerAdapter;
-import com.creat.motiv.Adapters.RecyclerPicAdapter;
 import com.creat.motiv.Beans.Likes;
-import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
-import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -72,10 +65,7 @@ public class ProfileFragment extends Fragment {
     private CircleImageView profilepic;
     private android.support.v7.widget.RecyclerView myquotesrecycler;
     private Query quotesdb;
-
-    private ProgressBar loading;
-    private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
-    private android.support.design.widget.AppBarLayout appbarlayout;
+    ProgressBar loading;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private TextView username;
 
@@ -100,114 +90,32 @@ public class ProfileFragment extends Fragment {
 
         this.likes = v.findViewById(R.id.likes);
         this.posts = v.findViewById(R.id.posts);
-        this.appbarlayout = v.findViewById(R.id.appbarlayout);
-        this.collapsetoolbar = v.findViewById(R.id.collapsetoolbar);
-        this.loading = v.findViewById(R.id.loading);
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler);
         profilepic = v.findViewById(R.id.profilepic);
+        loading = v.findViewById(R.id.loading);
 
-
-        Tutorial(v);
+        Tutorial();
 
 
 
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Picalert();
+                Alert pics = new Alert(getActivity());
+                pics.Picalert(myquotes);
             }
         });
 
+        CircleImageView rootpic = Objects.requireNonNull(getActivity()).findViewById(R.id.profilepic);
 
-        show();
+
         return v;
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    private void removepostsalert() {
-        if (getContext() == null){
-            return;
-        }
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext())).setTitle("Apagar posts?");
-        builder.setMessage("Tem certeza disso  Quer perder tudo? Não tem como voltar atrás depois...");
-        builder.setNegativeButton("Cliquei errado calma aí", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.setPositiveButton("Isso aí apaga todos os meus posts!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                for (int y = 0; y < myquotes.size(); y++) {
-                    QuotesDB quotesDB = new QuotesDB();
-                    quotesDB.Removerposts(getActivity(), myquotes.get(y).getId());
-                }
-                builder.setMessage("Parabéns apagou tudo");
-            }
-        }).show();
-    }
-
-/*
-    private void removeaccountalert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext())).setTitle("Apagar a conta?");
-        builder.setMessage("Nossa... Apagar a conta? TEM CERTEZA?," +
-                " você não pode desfazer essa ação e perderá tudo que já fez aqui");
-        builder.setPositiveButton("Sim, cansei do motiv", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                for (int y = 0; y < myquotes.size(); y++) {
-                    QuotesDB quotesDB = new QuotesDB();
-                    quotesDB.Apagarconta(getActivity(), myquotes.get(y).getId());
-                }
-
-                if (likequotes.size() > 0) {
-                    for (int y = 0; y < likequotes.size(); y++) {
-                        QuotesDB quotesDB = new QuotesDB();
-                        quotesDB.Apagarlikes(getActivity(), likequotes.get(y).getId());
-                    }
-                }
-                builder.setMessage("Pronto, você apagou sua conta, pode sair já, não é o que você queria?");
-                CountDownTimer timer = new CountDownTimer(5000, 100) {
-                    @Override
-                    public void onTick(long l) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        user.delete();
-                        FirebaseAuth.getInstance().signOut();
-
-                        Objects.requireNonNull(getActivity()).finish();
-                    }
-                };
-                timer.start();
-            }
-        });
-        builder.setNegativeButton("Só quis dar um susto", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        }).show();
-    }
-*/
-
-
-    private void Tutorial(View view) {
-        Boolean novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
+    private void Tutorial() {
+        boolean novo = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getBoolean("novo");
 
         if (novo){
             if (myquotes.size() > 0) {
@@ -217,7 +125,7 @@ public class ProfileFragment extends Fragment {
                 }
 
             } else {
-                Pref preferences = new Pref(getContext());
+                Pref preferences = new Pref(Objects.requireNonNull(getContext()));
                 if (!preferences.profiletutorialstate()) {
                     preferences.setProfileTutorial(true);
                     Info.tutorial(getString(R.string.profile_intro), getActivity());
@@ -233,121 +141,35 @@ public class ProfileFragment extends Fragment {
 
         username.setText(user.getDisplayName());
 
-        if (user.getPhotoUrl() == null) {
-            Glide.with(this).asBitmap().load("https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/fantastic_planet_001.jpg?alt=media&token=03f77356-b17a-45f4-ac31-baf0bc9f87f5").into(profilepic);
+        Glide.with(this).load(user.getPhotoUrl()).addListener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                Glide.with(Objects.requireNonNull(getActivity())).load(Tools.userpicnotfound).into(profilepic);
+                Snacky.builder().setActivity(getActivity()).warning()
+                        .setText("Não conseguimos encontrar sua foto de perfil no nosso servidor, vamos ficar te devendo")
+                        .show();
+                return false;
+            }
 
-        } else {
-            Glide.with(this).asBitmap().load(user.getPhotoUrl()).into(profilepic);
-        }
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                profilepic.setImageDrawable(resource);
+                return false;
+            }
+        }).into(profilepic);
 
 
     }
 
 
 
-    private void Picalert() {
-        final ArrayList<Pics> Picslist;
-
-        final RealtimeBlurView blurView = Objects.requireNonNull(getActivity()).findViewById(R.id.rootblur);
-        Picslist = new ArrayList<>();
-        final BottomSheetDialog myDialog = new BottomSheetDialog(getActivity(), R.style.Dialog_No_Border);
-        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        myDialog.setCanceledOnTouchOutside(true);
-        myDialog.setContentView(R.layout.profilepicselect_);
-        myDialog.show();
-        final LinearLayout back = myDialog.findViewById(R.id.back);
-        final TextView title = myDialog.findViewById(R.id.title);
-        final TextView message = myDialog.findViewById(R.id.message);
-        final ProgressBar pb = myDialog.findViewById(R.id.pb);
-        final RecyclerView picrecycler;
-        final Button remove;
-
-
-
-        picrecycler = myDialog.findViewById(R.id.picsrecycler);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("images").orderByKey().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picslist.clear();
-                Picslist.add(new Pics(Tools.deletepic));
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Pics pic = postSnapshot.getValue(Pics.class);
-                    Pics p = new Pics();
-                    if (pic != null) {
-                        p.setUri(pic.getUri());
-                    }
-                    Picslist.add(p);
-                    System.out.println("icons " + Picslist.size());
-
-
-                }
-
-                Objects.requireNonNull(picrecycler).setHasFixedSize(true);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
-                RecyclerPicAdapter recyclerPicAdapter = new RecyclerPicAdapter(quotesDB, getContext(), Picslist,
-                        blurView, getActivity(), myDialog, myquotes, message, pb, picrecycler, title, back);
-                picrecycler.setAdapter(recyclerPicAdapter);
-                picrecycler.setLayoutManager(llm);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        myDialog.show();
-        Animation in = AnimationUtils.loadAnimation(getContext(),R.anim.fade_in);
-        blurView.setVisibility(View.VISIBLE);
-        blurView.startAnimation(in);
-
-
-        myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-                blurView.startAnimation(out);
-                blurView.setVisibility(View.GONE);
-                userinfo();
-
-
-            }
-        });
-
-
-    }
 
 
     @Override
     public void onResume() {
         Carregar();
-        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = true;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsetoolbar.setTitle(user.getDisplayName());
-                    collapsetoolbar.setCollapsedTitleTextColor(ColorStateList.valueOf(Color.WHITE));
-                    isShow = true;
-                } else if (isShow) {
-                    collapsetoolbar.setTitle(" ");//careful there should a space between double quote otherwise it wont work
-                    isShow = false;
-                }
-            }
-        });
         userinfo();
-
-
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cabin-Regular.ttf");
-        collapsetoolbar.setExpandedTitleTypeface(tf);
-
-        collapsetoolbar.setCollapsedTitleTypeface(tf);
+        show();
         super.onResume();
     }
 
@@ -427,7 +249,7 @@ public class ProfileFragment extends Fragment {
         //loading.setVisibility(View.VISIBLE);
         likesArrayList = new ArrayList<>();
         DatabaseReference likedb = FirebaseDatabase.getInstance().getReference();
-        likedb.child(path).child(position.getId()).child("likes").addValueEventListener(new ValueEventListener() {
+        likedb.child(path).child(position.getId()).child("likes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 likesArrayList.clear();
@@ -452,7 +274,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                        likes.setText(valueAnimator.getAnimatedValue().toString() + " favoritos");
+                        likes.setText(String.format("%s favoritos", valueAnimator.getAnimatedValue().toString()));
                     }
                 });
                 animator.start();
@@ -474,7 +296,7 @@ public class ProfileFragment extends Fragment {
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("userID")
                 .startAt(user.getUid())
                 .endAt(user.getUid() + searcharg);
-        quotesdb.addValueEventListener(new ValueEventListener() {
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -488,7 +310,6 @@ public class ProfileFragment extends Fragment {
                         quotes.setAuthor(q.getAuthor());
                         quotes.setQuote(q.getQuote());
                         quotes.setUserID(q.getUserID());
-
                         quotes.setUserphoto(q.getUserphoto());
                         quotes.setUsername(q.getUsername());
                         quotes.setCategoria(q.getCategoria());
@@ -559,20 +380,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void show() {
+        Alert a = new Alert(getActivity());
+        a.loading();
 
-        CountDownTimer timer = new CountDownTimer(1200, 100) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-
-                loading.setVisibility(View.GONE);
-            }
-        };
-        timer.start();
     }
 
 

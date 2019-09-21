@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -41,6 +40,7 @@ import static com.creat.motiv.Database.QuotesDB.path;
 import static com.creat.motiv.Database.QuotesDB.searcharg;
 
 public class SettingsActivity extends AppCompatActivity {
+    protected App app;
 
     Activity activity = this;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -56,14 +56,16 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        app = (App) getApplication();
+
         this.exit = findViewById(R.id.exit);
         this.deleteaccount = findViewById(R.id.deleteaccount);
         this.deleteposts = findViewById(R.id.deleteposts);
         this.changename = findViewById(R.id.changename);
         this.appbarlayout = findViewById(R.id.appbarlayout);
-        this.collapsetoolbar = findViewById(R.id.collapsetoolbar);
         this.toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +73,6 @@ public class SettingsActivity extends AppCompatActivity {
                 activity.finish();
             }
         });
-        collapsetoolbar.setExpandedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/Cabin-Regular.ttf"));
-        collapsetoolbar.setCollapsedTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/Cabin-Regular.ttf"));
 
 
     }

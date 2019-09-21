@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
@@ -31,6 +32,7 @@ public class QuotesDB {
     public QuotesDB( Activity qActivity, Quotes quotes) {
         this.qActivity = qActivity;
         this.quotes = quotes;
+        quotesdb = FirebaseDatabase.getInstance().getReference(path);
     }
 
     public QuotesDB() {
@@ -190,15 +192,15 @@ public class QuotesDB {
     }
 
 
+    public void AlterarFoto(Quotes quote) {
+
+        Log.println(Log.INFO, "User", "Changing quote: " + quote.getId());
 
 
-    public void AlterarFoto(final Activity activity,String id,String photourl ){
-
-
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        quote.setUserphoto(String.valueOf(user.getPhotoUrl()));
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
-
-        quotesdb.child(path).child(id).child("userphoto").setValue(photourl);
+        quotesdb.child(path).child(quote.getId()).setValue(quote);
 
     }
 

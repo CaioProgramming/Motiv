@@ -1,6 +1,7 @@
 package com.creat.motiv.Fragments;
 
 
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +53,8 @@ public class FavoritesFragment extends Fragment {
     Query quotesdb;
     Pref preferences;
     private RecyclerView myquotesrecycler;
-
+    ProgressBar loading;
+    private TextView favcount;
     private ArrayList<Quotes> allquotes;
     private ArrayList<Quotes> likequotes;
     private ArrayList<Likes> likesArrayList = new ArrayList<>();
@@ -66,19 +71,17 @@ public class FavoritesFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         preferences = new Pref(Objects.requireNonNull(getContext()));
         View v = inflater.inflate(R.layout.fragment_favorites, container, false);
-
-
-        v.findViewById(R.id.home);
-
         myquotesrecycler = v.findViewById(R.id.composesrecycler);
-
-
-
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+        loading = v.findViewById(R.id.loading);
+        favcount = v.findViewById(R.id.favtext);
         return v;
 
+
+    }
+
+    private void show() {
+        Alert a = new Alert(getActivity());
+        a.loading();
 
     }
 
@@ -86,6 +89,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onResume() {
         CarregarLikes();
+        show();
         super.onResume();
     }
 
@@ -204,6 +208,16 @@ public class FavoritesFragment extends Fragment {
         myquotesrecycler.setAdapter(myadapter);
         myquotesrecycler.setLayoutManager(llm);
         myquotesrecycler.startAnimation(myanim2);
+        ValueAnimator animator = ValueAnimator.ofInt(0, likequotes.size());
+        animator.setDuration(2500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                favcount.setText(valueAnimator.getAnimatedValue().toString() + " favoritos");
+            }
+        });
+        animator.start();
     }
 
 

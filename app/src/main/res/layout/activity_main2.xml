@@ -18,7 +18,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsetoolbar"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/white"
             app:expandedTitleGravity="center"
@@ -26,30 +26,19 @@
             app:scrimAnimationDuration="100"
             app:titleEnabled="false">
 
-            <TextView
-                android:fontFamily="@font/nunitoblack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/app_name"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
-                app:layout_collapseMode="parallax" />
-
             <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="1dp"
                 android:animateLayoutChanges="true"
                 android:background="@color/transparent"
-                app:cardCornerRadius="5dp"
+                app:cardCornerRadius="0dp"
                 app:layout_collapseMode="parallax">
 
                 <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/adView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     ads:adSize="BANNER"
 
@@ -61,6 +50,9 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.v7.widget.Toolbar
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/ToolbarTitle"
+            app:titleTextColor="@color/colorPrimary"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -78,23 +70,23 @@
                 android:layout_margin="5dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:src="@drawable/penguin"
-                app:civ_border_color="@color/grey_200"
+                app:civ_border_color="@color/colorPrimaryDark"
                 app:civ_border_width="1dp" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:tabGravity="center"
-                app:tabIndicatorColor="@color/transparent"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/colorPrimaryDark"
-                app:tabTextAppearance="@style/TabsTextStyle"
-                app:tabTextColor="@color/grey_400" />
+
         </android.support.v7.widget.Toolbar>
 
-
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorPrimaryDark"
+            app:tabTextAppearance="@style/TabsTextStyle"
+            app:tabTextColor="@color/grey_400" />
     </android.support.design.widget.AppBarLayout>
 
 

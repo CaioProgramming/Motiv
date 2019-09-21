@@ -3,9 +3,9 @@ package com.creat.motiv.Fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -15,22 +15,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
+import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Info;
 import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +54,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     FirebaseUser user;
     Boolean novo;
     Query quotesdb;
+    ProgressBar loading;
+    SwipeRefreshLayout refreshLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,6 +73,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         v.findViewById(R.id.home);
         v.findViewById(R.id.appbarlayout);
+        loading = v.findViewById(R.id.loading);
+        refreshLayout = v.findViewById(R.id.refresh);
         this.search = v.findViewById(R.id.search);
         search.setOnQueryTextListener(this);
         search.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -100,6 +101,14 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         tutorial();
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Carregar();
+            }
+        });
+
+
         /*profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +134,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 .startAt(pesquisa)
                 .endAt(pesquisa + "\uf8ff");
 
-        quotesdb.addValueEventListener(new ValueEventListener() {
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (quotesArrayList != null) {
@@ -164,28 +173,25 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                             quotes.setUsername(user.getDisplayName());
                             quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
                         }
-
                         System.out.println("Quotes search " + quotesArrayList.size());
-                        if (quotesArrayList.size() == 0) {
-                            Pesquisarauthor(pesquisa);
-                        }
+
                     }
                 }
 
-                composesrecycler.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
-                composesrecycler.setHasFixedSize(true);
-                System.out.println(quotesArrayList.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
-                myadapter.notifyDataSetChanged();
-                composesrecycler.setAdapter(myadapter);
-                if (arg.equals("")) {
-                    FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
-                    layoutManager.setFlexDirection(FlexDirection.COLUMN);
-                    layoutManager.setJustifyContent(JustifyContent.CENTER);
-                    composesrecycler.setLayoutManager(layoutManager);
-                } else {
+
+                if (quotesArrayList.size() > 0) {
+                    composesrecycler.setVisibility(View.VISIBLE);
+                    GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
+                    composesrecycler.setHasFixedSize(true);
+                    System.out.println(quotesArrayList.size());
+                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
+                    myadapter.notifyDataSetChanged();
+                    composesrecycler.setAdapter(myadapter);
                     composesrecycler.setLayoutManager(llm);
+
+                } else {
+                    Pesquisarauthor(pesquisa);
+
                 }
 
             }
@@ -199,14 +205,14 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     }
 
-    private void Pesquisarauthor(String pesquisa) {
+    private void Pesquisarauthor(final String pesquisa) {
         if (getActivity() == null || getContext() == null) {
             return;
         }
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("author")
                 .startAt(pesquisa)
                 .endAt(pesquisa + "\uf8ff");
-        quotesdb.addValueEventListener(new ValueEventListener() {
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 quotesArrayList.clear();
@@ -247,8 +253,148 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     }
                 }
 
+                if (quotesArrayList.size() > 0) {
+                    composesrecycler.setVisibility(View.VISIBLE);
+                    GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
+                    composesrecycler.setHasFixedSize(true);
+                    System.out.println(quotesArrayList.size());
+                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
+                    myadapter.notifyDataSetChanged();
+                    composesrecycler.setAdapter(myadapter);
+                    composesrecycler.setLayoutManager(llm);
+                } else {
+                    PesquisarUsuario(pesquisa);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Erro " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void PesquisarUsuario(final String pesquisa) {
+        if (getActivity() == null || getContext() == null) {
+            return;
+        }
+        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("username")
+                .startAt(pesquisa)
+                .endAt(pesquisa + "\uf8ff");
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                quotesArrayList.clear();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(d.getKey());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        if (q.getFont() != null) {
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+                        if (q.getUserID().equals(user.getUid())) {
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                        }
+
+                        System.out.println("Quotes search " + quotesArrayList.size());
+
+                    }
+                }
+
+                if (quotesArrayList.size() > 0) {
+                    composesrecycler.setVisibility(View.VISIBLE);
+                    GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
+                    composesrecycler.setHasFixedSize(true);
+                    System.out.println(quotesArrayList.size());
+                    RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
+                    myadapter.notifyDataSetChanged();
+                    composesrecycler.setAdapter(myadapter);
+                    composesrecycler.setLayoutManager(llm);
+                } else {
+                    Categories(pesquisa);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Erro " + databaseError.getMessage());
+            }
+        });
+    }
+
+    private void Categories(String categorie) {
+        if (getContext() == null || getActivity() == null) {
+            return;
+        }
+        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("categoria")
+                .startAt(categorie)
+                .endAt(categorie + "\uf8ff");
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                quotesArrayList.clear();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(d.getKey());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        if (q.getFont() != null) {
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+                        if (q.getUserID().equals(user.getUid())) {
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                        }
+
+                        System.out.println("Quotes search " + quotesArrayList.size());
+
+                    }
+                }
                 composesrecycler.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
+                GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
                 composesrecycler.setHasFixedSize(true);
                 System.out.println(quotesArrayList.size());
                 RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
@@ -263,12 +409,15 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 System.out.println("Erro " + databaseError.getMessage());
             }
         });
-
     }
+
+
+
 
 
     @Override
     public void onResume() {
+
         Carregar();
         show();
 
@@ -330,7 +479,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         quotesdb.keepSynced(false);
         quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
         if (this.isAdded()) {
-            quotesdb.addValueEventListener(new ValueEventListener() {
+            quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -383,6 +532,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
                     composesrecycler.setAdapter(myadapter);
                     composesrecycler.setLayoutManager(llm);
+                    refreshLayout.setRefreshing(false);
 
 
                 }
@@ -398,115 +548,11 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
     private void show() {
+        Alert a = new Alert(getActivity());
+        a.loading();
 
-        CountDownTimer timer = new CountDownTimer(1500, 100) {
-            @Override
-            public void onTick(long l) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                if (getContext() == null) {
-                    return;
-                }
-                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-                final Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-
-
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        if (composesrecycler.getVisibility() != View.VISIBLE) {
-                            composesrecycler.setVisibility(View.VISIBLE);
-                            composesrecycler.startAnimation(in);
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-
-
-            }
-        };
-        timer.start();
     }
 
-
-    private void Categories(String categorie) {
-        if (getContext() == null || getActivity() == null) {
-            return;
-        }
-        quotesdb = FirebaseDatabase.getInstance().getReference().child(path).orderByChild("categoria")
-                .startAt(categorie)
-                .endAt(categorie + "\uf8ff");
-        quotesdb.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                quotesArrayList.clear();
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Quotes quotes = new Quotes();
-                    Quotes q = d.getValue(Quotes.class);
-                    if (q != null) {
-                        quotes.setId(d.getKey());
-                        quotes.setAuthor(q.getAuthor());
-                        quotes.setQuote(q.getQuote());
-                        quotes.setUserID(q.getUserID());
-                        quotes.setCategoria(q.getCategoria());
-                        quotes.setData(q.getData());
-                        quotes.setUsername(q.getUsername());
-                        quotes.setUserphoto(q.getUserphoto());
-                        if (q.getFont() != null) {
-                            quotes.setFont(q.getFont());
-                        } else {
-                            quotes.setFont(null);
-                        }
-
-
-                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
-                            quotes.setTextcolor(Color.BLACK);
-                            quotes.setBackgroundcolor(Color.WHITE);
-                        } else {
-                            quotes.setTextcolor(q.getTextcolor());
-                            quotes.setBackgroundcolor(q.getBackgroundcolor());
-                        }
-                        quotesArrayList.add(quotes);
-                        if (q.getUserID().equals(user.getUid())) {
-                            quotes.setUsername(user.getDisplayName());
-                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
-                        }
-
-                        System.out.println("Quotes search " + quotesArrayList.size());
-
-                    }
-                }
-                composesrecycler.setVisibility(View.VISIBLE);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
-                composesrecycler.setHasFixedSize(true);
-                System.out.println(quotesArrayList.size());
-                RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotesArrayList, getActivity());
-                myadapter.notifyDataSetChanged();
-                composesrecycler.setAdapter(myadapter);
-                composesrecycler.setLayoutManager(llm);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("Erro " + databaseError.getMessage());
-            }
-        });
-    }
 
 
     @Override
@@ -516,7 +562,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             Pesquisar(query);
             return true;
         } else {
-            Pesquisar("");
+            Carregar();
             return false;
         }
     }
@@ -527,7 +573,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             Pesquisar(newText);
             return true;
         } else {
-            Pesquisar("");
+            Carregar();
             return false;
         }
     }

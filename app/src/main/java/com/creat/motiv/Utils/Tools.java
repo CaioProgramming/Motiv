@@ -3,6 +3,9 @@ package com.creat.motiv.Utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.creat.motiv.Beans.Artists;
 
@@ -18,6 +21,8 @@ import java.util.Locale;
 import java.util.Random;
 
 public class Tools {
+
+    public static String userpicnotfound = "https://image.freepik.com/vetores-gratis/astronauta-em-pe-de-traje-espacial-na-prancha-de-surf-e-surf-em-estrelas-da-via-lactea_1441-3251.jpg";
     public  static int sixhourinterval = 21600000;
     public static String[] iconssite = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co"};
     public static String writequote = "newquote";
@@ -183,5 +188,34 @@ public class Tools {
 
     }
 
+    public static void load(final ProgressBar progressBar) {
+        if (progressBar != null) {
+            for (int i = 0; i < 4; i++) {
+                progressBar.setProgress(25 * i);
+                CountDownTimer timer = new CountDownTimer(1500, 100) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                }.start();
+            }
+            CountDownTimer timer = new CountDownTimer(1500, 100) {
+                @Override
+                public void onTick(long l) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }.start();
+        }
+    }
 
 }

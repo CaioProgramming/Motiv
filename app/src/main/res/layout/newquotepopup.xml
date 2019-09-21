@@ -46,15 +46,16 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:layout_margin="5dp"
                         android:id="@+id/font"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         android:foreground="?attr/selectableItemBackground"
-                        android:padding="10dp"
+                        android:padding="15dp"
                         android:text="T"
                         android:textColor="@color/black"
-                        android:textSize="22sp" />
+                        android:textSize="24sp" />
 
                     <ImageButton
                         android:id="@+id/textcolorfab"

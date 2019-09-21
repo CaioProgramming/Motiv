@@ -26,13 +26,14 @@
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.SearchView
+                    android:layout_margin="10dp"
                     android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/grey_50"
                     android:background="@drawable/round"
-                    android:backgroundTint="@color/grey_100"
+                    android:focusedByDefault="false"
                     app:iconifiedByDefault="false"
                     app:queryBackground="@color/transparent"
                     app:queryHint="Pesquise frases, autores, criadores..." />
@@ -54,12 +55,28 @@
     </android.support.design.widget.AppBarLayout>
 
 
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circle" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+
         <android.support.v7.widget.RecyclerView
             android:background="@color/grey_100"
-            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
             android:id="@+id/composesrecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

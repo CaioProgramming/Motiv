@@ -71,12 +71,9 @@ public class SettingsFragment extends Fragment {
         toolbar = v.findViewById(R.id.toolbar);
         userpic = v.findViewById(R.id.userpic);
         changename = v.findViewById(R.id.changename);
-        editname = v.findViewById(R.id.editname);
         username = v.findViewById(R.id.username);
-        save = v.findViewById(R.id.save);
         deleteposts = v.findViewById(R.id.deleteposts);
         deleteaccount = v.findViewById(R.id.deleteaccount);
-        backname = v.findViewById(R.id.backname);
         exit = v.findViewById(R.id.exit);
         if (user.getPhotoUrl() != null) {
             Glide.with(this).load(user.getPhotoUrl()).into(userpic);

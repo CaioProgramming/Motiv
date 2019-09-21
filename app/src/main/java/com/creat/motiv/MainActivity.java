@@ -31,7 +31,6 @@ import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.MainAdapter;
 import com.creat.motiv.Beans.Version;
 import com.creat.motiv.Utils.Alert;
-import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
@@ -53,6 +52,7 @@ import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
     Pref preferences;
+    protected App app;
     BottomSheetDialog myDialog;
     Version version;
     Context context = this;
@@ -65,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     private android.support.design.widget.TabLayout tabs;
 
-    private void NewQuoteDialog() {
-        NewQuotepopup newQuotepopup = new NewQuotepopup(this, blurView);
-        newQuotepopup.showup();
-        blurView.setVisibility(View.VISIBLE);
-
-    }
 
 
 
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        app = (App) getApplication();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Intent i = new Intent(this, Splash.class);
@@ -116,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         }
         preferences = new Pref(context);
         setContentView(R.layout.activity_main2);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.tabs = findViewById(R.id.tabs);
         pager = findViewById(R.id.pager);
         blurView = findViewById(R.id.rootblur);
@@ -128,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                profilepic.setBorderColor(activity.getResources().getColor(R.color.colorPrimaryDark));
                 pager.setCurrentItem(3);
             }
         });
@@ -174,25 +167,6 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 3){
-                    profilepic.setBorderColor(activity.getResources().getColor(R.color.colorPrimaryDark));
-
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     private void version() {
@@ -324,6 +298,19 @@ public class MainActivity extends AppCompatActivity {
         if (myDialog == null) {
             myDialog = new BottomSheetDialog(Objects.requireNonNull(this), R.style.Dialog_No_Border);
             myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+            myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    Animation out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
+                    blurView.startAnimation(out);
+                    blurView.setVisibility(View.GONE);
+
+
+                }
+            });
+
             if (!isNetworkAvailable()) {
                 myDialog.setContentView(R.layout.noconnectioncard);
                 myDialog.setCanceledOnTouchOutside(false);
@@ -331,6 +318,9 @@ public class MainActivity extends AppCompatActivity {
                 message.setText(Tools.offlinemessage());
                 if (!myDialog.isShowing()) {
                     myDialog.show();
+                    Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
+                    blurView.setVisibility(View.VISIBLE);
+                    blurView.startAnimation(in);
                 }
             } else {
 

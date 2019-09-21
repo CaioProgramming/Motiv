@@ -8,9 +8,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,7 +83,7 @@ public class NewQuotepopup {
     }
 
     public void showup() {
-        BottomSheetDialog myDialog = new BottomSheetDialog(activity);
+        final BottomSheetDialog myDialog = new BottomSheetDialog(activity);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
@@ -130,6 +132,7 @@ public class NewQuotepopup {
             @Override
             public void onClick(View view) {
                 salvar();
+                myDialog.dismiss();
             }
         });
 
@@ -208,10 +211,9 @@ public class NewQuotepopup {
     }
 
 
+    void showedit(final Quotes quote) {
 
-    public void showedit(final Quotes quote) {
-
-        BottomSheetDialog myDialog = new BottomSheetDialog(activity);
+        final BottomSheetDialog myDialog = new BottomSheetDialog(activity);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         myDialog.setCanceledOnTouchOutside(true);
@@ -265,6 +267,27 @@ public class NewQuotepopup {
             @Override
             public void onClick(View view) {
                 atualizar(quote);
+                myDialog.dismiss();
+            }
+        });
+
+
+        font.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isfirst) {
+                    f++;
+                }
+                ArrayList<Typeface> fonts = Tools.fonts(activity);
+
+                if (f == fonts.size()) {
+                    f = 0;
+                }
+                font.setTypeface(fonts.get(f));
+                frase.setTypeface(fonts.get(f));
+                author.setTypeface(fonts.get(f));
+                isfirst = false;
+
             }
         });
 
@@ -275,6 +298,8 @@ public class NewQuotepopup {
                 Animation out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
                 blur.startAnimation(out);
                 blur.setVisibility(View.GONE);
+                SwipeRefreshLayout refreshLayout = activity.findViewById(R.id.refresh);
+                refreshLayout.setRefreshing(true);
 
 
             }
@@ -285,10 +310,8 @@ public class NewQuotepopup {
 
 
     private void atualizar(Quotes quote) {
-        Integer fonti = null;
-        if (fontid.getText() != "") {
-            fonti = Integer.parseInt(fontid.getText().toString());
-        }
+        Integer fonti = f;
+
         if (author.getText().toString().equals("")) {
             quote.setAuthor(user.getDisplayName());
         }
@@ -300,6 +323,9 @@ public class NewQuotepopup {
         quote.setTextcolor(Integer.parseInt(texcolorid.getText().toString()));
         quotesDB = new QuotesDB(activity, quote);
         quotesDB.Editar();
+        SwipeRefreshLayout refreshLayout = activity.findViewById(R.id.refresh);
+        refreshLayout.setRefreshing(true);
+
 
 
     }
@@ -326,6 +352,9 @@ public class NewQuotepopup {
         author.setTextColor(quotes.getTextcolor());
         texcolorid.setText(String.valueOf(quotes.getTextcolor()));
         backcolorid.setText(String.valueOf(quotes.getBackgroundcolor()));
+        backcolorfab.setImageTintList(ColorStateList.valueOf(quotes.getBackgroundcolor()));
+        texcolorfab.setImageTintList(ColorStateList.valueOf(quotes.getTextcolor()));
+
         fontid.setText(String.valueOf(quotes.getFont()));
         Glide.with(activity).load(quotes.getUserphoto()).into(userpic);
 
@@ -349,6 +378,8 @@ public class NewQuotepopup {
                 background.setVisibility(View.VISIBLE);
                 anim.start();
                 backcolorid.setText(String.valueOf(color));
+                backcolorfab.setImageTintList(ColorStateList.valueOf(color));
+
             }
         });
     }
@@ -374,6 +405,7 @@ public class NewQuotepopup {
                     }
 
                 });
+                texcolorfab.setImageTintList(ColorStateList.valueOf(color));
                 colorAnimation.start();
                 texcolorid.setText(String.valueOf(color));
 

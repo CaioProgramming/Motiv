@@ -10,8 +10,8 @@
                 android:top="10dp" />
 
             <gradient
-                android:endColor="@color/lwhite"
-                android:startColor="@color/colorAccent"
+                android:endColor="@color/blue_300"
+                android:startColor="@color/blue_A400"
                 android:type="linear" />
         </shape>
     </item>
