@@ -2,7 +2,8 @@ package com.creat.motiv.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.creat.motiv.R;
 

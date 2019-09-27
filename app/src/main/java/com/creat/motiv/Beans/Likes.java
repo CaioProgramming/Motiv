@@ -1,12 +1,19 @@
 package com.creat.motiv.Beans;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class Likes {
     String userid,username,userpic;
+    boolean istheuser;
 
     public Likes(String userid, String username, String userpic) {
         this.userid = userid;
         this.username = username;
         this.userpic = userpic;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
     }
 
     public Likes() {

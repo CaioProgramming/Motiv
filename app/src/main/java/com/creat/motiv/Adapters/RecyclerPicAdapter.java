@@ -6,11 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -34,6 +34,7 @@ import com.creat.motiv.R;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -53,11 +54,12 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     private ProgressBar progressBar;
     private Activity mActivity;
     private TextView message, title;
+    CircleImageView userpic;
 
 
     public RecyclerPicAdapter(Context mContext, List<Pics> mData, RealtimeBlurView blurView,
                               Activity mActivity, BottomSheetDialog myDialog, ArrayList<Quotes> myquotes,
-                              TextView message, ProgressBar progressBar, RecyclerView recyclerView, TextView title, LinearLayout back) {
+                              TextView message, ProgressBar progressBar, RecyclerView recyclerView, TextView title, LinearLayout back, CircleImageView userpic) {
         this.mContext = mContext;
         this.mData = mData;
         this.mActivity = mActivity;
@@ -67,6 +69,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
         this.progressBar = progressBar;
         this.recyclerView = recyclerView;
         this.title = title;
+        this.userpic = userpic;
         this.back = back;
     }
 
@@ -186,6 +189,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                                                     myDialog.dismiss();
                                                     CircleImageView rootpic = mActivity.findViewById(R.id.profilepic);
                                                     Glide.with(mActivity).load(user.getPhotoUrl()).into(rootpic);
+                                                    Glide.with(mActivity).load(user.getPhotoUrl()).into(userpic);
                                                 }
                                             }.start();
                                         }

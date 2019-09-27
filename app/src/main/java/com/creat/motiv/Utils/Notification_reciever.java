@@ -9,8 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.MainActivity;

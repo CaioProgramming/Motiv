@@ -5,10 +5,6 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +12,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -25,7 +27,6 @@ import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
-import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Info;
@@ -58,12 +59,10 @@ public class ProfileFragment extends Fragment {
     ArrayList<Quotes> likequotes, allquotes;
     ArrayList<Quotes> myquotes = new ArrayList<>();
     ArrayList<Likes> likesArrayList;
-    ValueEventListener databaseReference;
-    QuotesDB quotesDB;
     Pref preferences;
     TextView posts, likes;
     private CircleImageView profilepic;
-    private android.support.v7.widget.RecyclerView myquotesrecycler;
+    private RecyclerView myquotesrecycler;
     private Query quotesdb;
     ProgressBar loading;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -102,11 +101,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Alert pics = new Alert(getActivity());
-                pics.Picalert(myquotes);
+                pics.Picalert(myquotes, profilepic);
             }
         });
-
-        CircleImageView rootpic = Objects.requireNonNull(getActivity()).findViewById(R.id.profilepic);
 
 
         return v;
@@ -346,7 +343,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                        posts.setText(valueAnimator.getAnimatedValue().toString() + " frases");
+                        posts.setText(String.format("%s frases", valueAnimator.getAnimatedValue().toString()));
                     }
                 });
                 animator.start();

@@ -6,9 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -18,6 +15,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.creat.motiv.R;
 
@@ -29,8 +30,8 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
     private LinearLayout background;
     private TextView textView,author;
     private Activity mActivity;
-   private TextView textcolor,backcolor;
-   ImageButton textbutton,backgroundbutton;
+    private TextView textcolor, backcolor;
+    private ImageButton textbutton, backgroundbutton;
 
     public RecyclerColorAdapter(ArrayList<Integer> colorsList, Context mContext, LinearLayout background, TextView textView, TextView author,
                                 Activity mActivity, TextView texcolor, TextView backcolor,ImageButton textbutton,ImageButton backgroundbutton) {
@@ -64,18 +65,18 @@ public class RecyclerColorAdapter extends RecyclerView.Adapter<RecyclerColorAdap
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-             System.out.println(ColorsList.get(position));
+        System.out.println(ColorsList.get(position));
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.pop_in);
 
         holder.colorcard.setBackgroundTintList(ColorStateList.valueOf(ColorsList.get(position)));
-            holder.colorcard.startAnimation(animation);
+        holder.colorcard.startAnimation(animation);
         holder.colorcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String options[]={
-                  "Texto",
-                  "Plano de fundo"
+                String[] options = {
+                        "Texto",
+                        "Plano de fundo"
                 };
                 final int color =  ColorsList.get(position);
 

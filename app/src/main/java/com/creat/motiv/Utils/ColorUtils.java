@@ -2,7 +2,8 @@ package com.creat.motiv.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.v7.graphics.Palette;
+
+import androidx.palette.graphics.Palette;
 
 import java.util.ArrayList;
 import java.util.Collections;

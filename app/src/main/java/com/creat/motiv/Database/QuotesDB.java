@@ -5,9 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
@@ -16,6 +16,7 @@ import com.creat.motiv.Splash;
 import com.creat.motiv.Utils.Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

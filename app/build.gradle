@@ -1,4 +1,3 @@
-import com.google.gms.googleservices.GoogleServicesPlugin
 
 apply plugin: 'com.android.application'
 
@@ -6,17 +5,17 @@ android {
     signingConfigs {
 
     }
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 11
-        versionName "8.0"
+        targetSdkVersion 28
+        versionCode 12
+        versionName "8.1"
         renderscriptTargetApi 19
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
         enabled = true
@@ -34,30 +33,30 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:animated-vector-drawable:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:support-dynamic-animation:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:palette-v7:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.palette:palette:1.0.0'
     implementation 'com.google.android:flexbox:1.0.0'
 
     //Firebase libs
 
     //implementation 'com.google.firebase:firebase-admin:6.4.0'
-    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
-    implementation 'com.google.firebase:firebase-appindexing:17.1.0'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
-    implementation 'com.google.firebase:firebase-database:16.0.5'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+    implementation 'com.google.firebase:firebase-appindexing:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:19.1.0'
+    implementation 'com.google.firebase:firebase-database:19.1.0'
     implementation 'com.firebaseui:firebase-ui-database:1.0.1'
-    implementation 'com.google.firebase:firebase-storage:16.0.5'
-    implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
-    implementation 'com.google.android.gms:play-services-ads:17.1.2'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.android.gms:play-services-ads:18.2.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
 
     //implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
@@ -72,15 +71,15 @@ dependencies {
 
     //implementation 'com.github.dimorinny:show-case-card-view:0.0.4'
     implementation 'com.pes.materialcolorpicker:library:1.2.4'
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     //implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
 
     //implementation 'com.github.abdularis:androidbuttonprogress:v0.1-alpha5'
 
     //implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.1'
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 
     //implementation 'com.github.takusemba:cropme:1.0.0'
 
@@ -107,11 +106,10 @@ dependencies {
 
     //implementation 'com.github.hajiyevelnur92:Copy-button:1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
 repositories {
     mavenCentral()
 }
 apply plugin: 'com.google.gms.google-services'
-GoogleServicesPlugin.config.disableVersionCheck = true

@@ -2,58 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:layout_gravity="top"
+        app:title="Configurações"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        android:elevation="0dp" />
-
-    <TextView
-            android:layout_height="wrap_content"
-        android:fontFamily="@font/nunitoblack"
-        android:padding="10dp"
-        android:text="Configurações"
-        android:textColor="@color/black"
-        android:layout_width="match_parent"
-        android:textSize="24sp" />
+        app:titleTextAppearance="@style/ToolbarTitle" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="10dp">
 
         <Button
             android:id="@+id/changename"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:backgroundTint="@color/white"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="5dp"
-            android:elevation="0dp"
             android:text="Alterar nome"
             android:textAlignment="textStart"
             android:textAllCaps="false"
-            android:textColor="@color/grey_600"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/deleteposts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:backgroundTint="@color/white"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
             android:text="Remover posts"
             android:textAlignment="textStart"
             android:textAllCaps="false"
-            android:textColor="@color/grey_600"
             android:textStyle="bold" />
 
 
@@ -61,13 +44,11 @@
             android:id="@+id/deleteaccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:backgroundTint="@color/white"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-            android:drawablePadding="5dp"
             android:text="Remover conta"
             android:textAlignment="textStart"
             android:textAllCaps="false"
-            android:textColor="@color/grey_600"
             android:textStyle="bold" />
 
 
@@ -75,17 +56,15 @@
             android:id="@+id/exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:backgroundTint="@color/white"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="5dp"
             android:text="Sair"
             android:textAlignment="textStart"
             android:textAllCaps="false"
-            android:textColor="@color/grey_600"
             android:textStyle="bold" />
 
 
-    </LinearLayout>
 
 
 </LinearLayout>

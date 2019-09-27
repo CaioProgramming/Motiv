@@ -8,17 +8,18 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.creat.motiv.Adapters.RecyclerArtistsAdapter;
 import com.creat.motiv.Adapters.RecyclerReferencesAdapter;
@@ -31,6 +32,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
@@ -49,9 +52,9 @@ import static com.creat.motiv.Utils.Tools.iconssite;
 public class AboutFragment extends Fragment {
 
 
-    private android.support.v7.widget.RecyclerView creatorsrecycler;
-    private android.support.v7.widget.RecyclerView designrecycler;
-    private android.support.v7.widget.RecyclerView artistsrecycler;
+    private RecyclerView creatorsrecycler;
+    private RecyclerView designrecycler;
+    private RecyclerView artistsrecycler;
     private Query quotesdb;
     private Toolbar toolbar;
     private android.widget.TextView creatorstitle;
@@ -60,8 +63,8 @@ public class AboutFragment extends Fragment {
     private android.widget.TextView suportitle;
     ProgressDialog progressDialog;
     private android.widget.ProgressBar loading;
-    private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
-    private android.support.design.widget.AppBarLayout appbarlayout;
+    private CollapsingToolbarLayout collapsetoolbar;
+    private AppBarLayout appbarlayout;
     private android.widget.TextView helpad;
     public AboutFragment() {
         // Required empty public constructor

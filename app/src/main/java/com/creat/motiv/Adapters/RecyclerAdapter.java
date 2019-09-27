@@ -10,10 +10,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +23,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -39,7 +40,6 @@ import com.creat.motiv.R;
 import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.ColorUtils;
 import com.creat.motiv.Utils.Tools;
-import com.creat.motiv.Utils.Typewritter;
 import com.devs.readmoreoption.ReadMoreOption;
 import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,49 +95,54 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         final Quotes quote = mData.get(holder.getAdapterPosition());
-            holder.like.setChecked(false);
-            loadLikes(holder, position);
+
+        loadLikes(holder, position);
 
 
-            holder.like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Like(holder.getAdapterPosition(), holder);
-                }
-            });
-            // holder.like.setVisibility(View.GONE);
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Like(holder.getAdapterPosition(), holder);
+            }
+        });
+        // holder.like.setVisibility(View.GONE);
 
 
         if (quote.isReport()) {
-                reported(holder);
-            }
-        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-            holder.cardView.startAnimation(in);
-            System.out.println("Quote " + mData.get(position).getQuote() + " selected font: " + mData.get(position).getFont());
+            reported(holder);
+        }
+
+        holder.cardView.startAnimation(in);
+        holder.quote.startAnimation(in);
+        holder.author.startAnimation(in);
+        holder.quote.setText(quote.getQuote());
+        holder.author.setText(quote.getAuthor());
+        System.out.println("Quote " + mData.get(position).getQuote() + " selected font: " + mData.get(position).getFont());
         if (quote.getFont() != null) {
-                holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
-                holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
+            holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
+            holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
 
 
-            } else {
-                holder.quote.setTypeface(Typeface.DEFAULT);
-                holder.author.setTypeface(Typeface.DEFAULT);
-            }
+        } else {
+            holder.quote.setTypeface(Typeface.DEFAULT);
+            holder.author.setTypeface(Typeface.DEFAULT);
+        }
         Date postdia = Tools.convertDate(quote.getData());
-            Date now = Calendar.getInstance().getTime();
+        Date now = Calendar.getInstance().getTime();
 
         DateFormat fmt = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault());
 
 
         int dayCount = (int) ((now.getTime() - postdia.getTime()) / 1000 / 60 / 60 / 24);
         if (dayCount < 1) {
-                holder.dia.setText("Hoje");
+            holder.dia.setText("Hoje");
         } else if (dayCount == 1) {
             holder.dia.setText("Ontem");
         } else if (dayCount < 7) {
-                holder.dia.setText("Há " + dayCount + " dias");
-            } else if (dayCount == 7) {
+            holder.dia.setText("Há " + dayCount + " dias");
+        } else if (dayCount == 7) {
             holder.dia.setText("Há " + dayCount / 7 + " semana");
         } else if (dayCount == 30) {
             holder.dia.setText("Há " + dayCount / 30 + " mês");
@@ -162,60 +167,53 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 }
             }).into(holder.userpic);
             holder.username.setText(quote.getUsername());
-            } else {
-                holder.username.setVisibility(View.INVISIBLE);
-                holder.userpic.setVisibility(View.INVISIBLE);
+        } else {
+            holder.username.setVisibility(View.INVISIBLE);
+            holder.userpic.setVisibility(View.INVISIBLE);
 
-            }
-            if (mData.get(position).getBackgroundcolor() != 0){
-                holder.back.setCardBackgroundColor(quote.getBackgroundcolor());
+        }
+        if (mData.get(position).getBackgroundcolor() != 0) {
+            holder.back.setCardBackgroundColor(quote.getBackgroundcolor());
 
-            }
-            if (mData.get(position).getTextcolor() != 0){
-                holder.quote.setTextColor(quote.getTextcolor());
-                holder.author.setTextColor(quote.getTextcolor());
-            }
-
-
+        }
+        if (mData.get(position).getTextcolor() != 0) {
+            holder.quote.setTextColor(quote.getTextcolor());
+            holder.author.setTextColor(quote.getTextcolor());
+        }
 
 
-
-
-
-
-            // OR using options to customize
+        // OR using options to customize
         int color = ColorUtils.getTransparentColor(quote.getTextcolor());
 
-            ReadMoreOption readMoreOption = new ReadMoreOption.Builder(mContext)
-                    .textLength(205, ReadMoreOption.TYPE_CHARACTER)
-                    .moreLabel(" Ver mais...")
-                    .lessLabel(" Ver menos")
-                    .moreLabelColor(color)
-                    .lessLabelColor(color)
-                    .expandAnimation(true)
-                    .build();
+        ReadMoreOption readMoreOption = new ReadMoreOption.Builder(mContext)
+                .textLength(205, ReadMoreOption.TYPE_CHARACTER)
+                .moreLabel(" Ver mais...")
+                .lessLabel(" Ver menos")
+                .moreLabelColor(color)
+                .lessLabelColor(color)
+                .expandAnimation(true)
+                .build();
 
         readMoreOption.addReadMoreTo(holder.quote, quote.getQuote());
 
-            holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-                    if (vibrator.hasVibrator()) {
-                        long[] mVibratePattern = new long[]{100, 150};
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator.hasVibrator()) {
+                    long[] mVibratePattern = new long[]{100, 150};
 
-                        vibrator.vibrate(mVibratePattern, -1); // for 500 ms
-                    }
-                    FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
-                    boolean user = quote.getUserID().equals(u.getUid());
-                    Alert alert = new Alert(mActivity);
-                    alert.quoteoptions(user, mData.get(holder.getAdapterPosition()));
-                    return false;
+                    vibrator.vibrate(mVibratePattern, -1); // for 500 ms
                 }
-            });
+                FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
+                boolean user = quote.getUserID().equals(u.getUid());
+                Alert alert = new Alert(mActivity);
+                alert.quoteoptions(user, mData.get(holder.getAdapterPosition()));
+                return false;
+            }
+        });
 
-        holder.quote.animateText(quote.getQuote());
-        holder.author.animateText(quote.getAuthor());
+
 
     }
 
@@ -285,7 +283,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     }
 
                 }
-                if (likesArrayList.size() > 1) {
+                if (likesArrayList.size() > 0) {
                     final StringBuilder liketext = new StringBuilder();
                     String user = likesArrayList.get(0).getUserid();
                     String username = likesArrayList.get(0).getUsername();
@@ -293,7 +291,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         username = "Você";
                     }
                     liketext.append("Curtido por ");
-                    liketext.append("<b>").append(username).append("</b>").append(" e outras pessoas");
+                    if (likesArrayList.size() > 1) {
+                        liketext.append("<b>").append(username).append("</b>").append(" e <b>outras pessoas</b>");
+                    } else {
+                        liketext.append("<b>").append(username).append("</b>");
+
+                    }
                     holder.likecount.setText(Html.fromHtml(String.valueOf(liketext)));
 
                     holder.likecount.setOnClickListener(new View.OnClickListener() {
@@ -305,17 +308,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     });
 
 
-                } else if (likesArrayList.size() == 1) {
-                    holder.likecount.setText(Html.fromHtml(
-                            String.format(" Curtido por %s", "<b>" + likesArrayList.get(0).getUsername() + "</b>")));
-
-                    holder.likecount.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Alert alert = new Alert(mActivity);
-                            alert.Likelist(likesArrayList);
-                        }
-                    });
                 }
 
             }
@@ -348,7 +340,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         ImageButton report;
         CircleImageView userpic;
         TextView username, dia, likecount;
-        Typewritter quote,author;
+        TextView quote, author;
         CardView back;
         LinearLayout quotedata;
 

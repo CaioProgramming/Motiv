@@ -2,16 +2,13 @@ package com.creat.motiv;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -19,10 +16,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -44,13 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     Activity activity = this;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private android.support.v7.widget.Toolbar toolbar;
-    private android.support.design.widget.CollapsingToolbarLayout collapsetoolbar;
-    private android.support.design.widget.AppBarLayout appbarlayout;
-    private android.widget.Button changename;
-    private android.widget.Button deleteposts;
-    private android.widget.Button deleteaccount;
-    private android.widget.Button exit;
+    private androidx.appcompat.widget.Toolbar toolbar;
+    private TextView changename, deleteposts, deleteaccount, exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +59,8 @@ public class SettingsActivity extends AppCompatActivity {
         this.deleteaccount = findViewById(R.id.deleteaccount);
         this.deleteposts = findViewById(R.id.deleteposts);
         this.changename = findViewById(R.id.changename);
-        this.appbarlayout = findViewById(R.id.appbarlayout);
         this.toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,19 +131,31 @@ public class SettingsActivity extends AppCompatActivity {
                     myquotes.add(q);
                 }
                 final QuotesDB quotesDB = new QuotesDB();
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity)
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Você e suas " + myquotes.size() + " frases serão removidos para sempre! S E M P R E")
                         .setNeutralButton("Sim me tira daqui agora", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                final ProgressDialog progressDialog = new ProgressDialog(activity, R.style.Dialog_No_Border);
+                                progressDialog.show();
                                 for (Quotes quotes : myquotes) {
                                     quotesDB.Apagarconta(activity, quotes.getId());
                                 }
+                                progressDialog.setMessage("Apagando tudo...");
+                                CountDownTimer timer = new CountDownTimer(2000, 100) {
+                                    @Override
+                                    public void onTick(long l) {
 
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        progressDialog.dismiss();
+                                    }
+                                }.start();
                             }
-                        })
-                        .setNegativeButton("Cliquei errado calma", null);
+                        }).setNegativeButton("Cliquei errado calma", null);
                 alertDialog.show();
 
 
@@ -228,6 +235,17 @@ public class SettingsActivity extends AppCompatActivity {
                         namelayout.setVisibility(View.GONE);
                         Alterarnome();
                         message.setText("Nome alterado com sucesso!");
+                        CountDownTimer timer = new CountDownTimer(1500, 100) {
+                            @Override
+                            public void onTick(long l) {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                namedialog.dismiss();
+                            }
+                        }.start();
                     }
                 });
 

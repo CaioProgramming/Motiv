@@ -2,7 +2,6 @@ package com.creat.motiv.Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Tools;
-import com.github.mmin18.widget.RealtimeBlurView;
 
 import java.util.List;
 

@@ -19,10 +19,11 @@ public class App extends Application {
     }
 
     private void handleUncaughtException(Thread thread, Throwable e) {
-        Log.println(Log.ERROR, "Erro", e.getMessage());
         Intent intent = new Intent(getApplicationContext(), ErrorActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        Log.println(Log.ERROR, "Erro", e.getMessage());
+
     }
 
 }

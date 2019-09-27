@@ -9,10 +9,30 @@
         <item name="android:statusBarColor">@color/grey_100</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
+        <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:panelBackground">@drawable/round</item>
+        <item name="android:fontFamily">@font/nunitolight</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog.PositiveButton">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog.NegativeButton">
+        <item name="android:textColor">@color/grey_400</item>
+    </style>
+
+    <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
     </style>
 
     <style name="TabsTextStyle" parent="@android:style/TextAppearance.Widget.TabWidget">
-
         <item name="android:padding">5dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">true</item>
@@ -31,8 +51,17 @@
         <item name="android:padding">5dp</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
 
-    <style name="Dialog_No_Border" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="CustomAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="panelBackground">@drawable/round</item>
+    </style>
+
+    <style name="Dialog_No_Border">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="android:fontFamily">@font/nunitoregular</item>
         <item name="colorPrimary">@color/purple_400</item>
         <item name="colorPrimaryDark">@color/purple_800</item>

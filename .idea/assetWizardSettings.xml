@@ -61,7 +61,8 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="55" />
+                                                <entry key="scalingPercent" value="90" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -96,10 +97,10 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="backgroundImage" value="C:\Users\cacai\Documents\programas\motiv\starryback.png" />
-                                      <entry key="foregroundImage" value="C:\Users\cacai\Documents\programas\motiv\croppedsphere.png" />
+                                      <entry key="backgroundImage" value="C:\Users\cacai\Downloads\backmotiv.png" />
+                                      <entry key="foregroundImage" value="C:\Users\cacai\Downloads\saturn (2).png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="webIconShape" value="CIRCLE" />
+                                      <entry key="webIconShape" value="NONE" />
                                     </map>
                                   </option>
                                 </PersistentState>
