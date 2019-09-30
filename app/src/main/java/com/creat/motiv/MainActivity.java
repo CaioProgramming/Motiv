@@ -11,63 +11,64 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
+import com.creat.motiv.Adapters.MainAdapter;
+import com.creat.motiv.Beans.User;
 import com.creat.motiv.Beans.Version;
-import com.creat.motiv.Fragments.FavoritesFragment;
-import com.creat.motiv.Fragments.HomeFragment;
-import com.creat.motiv.Fragments.ProfileFragment;
-import com.creat.motiv.Utils.NewQuotepopup;
+import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import de.mateware.snacky.Snacky;
 
 public class MainActivity extends AppCompatActivity {
     Pref preferences;
-    BottomSheetDialog myDialog;
+    protected App app;
     Version version;
+    Alert a;
     Context context = this;
-    FloatingActionButton newquote;
-    private RelativeLayout container;
-    FirebaseUser user;
+    public static ViewPager pager;
     public static boolean home = true;
     public static boolean search = false;
     private Dialog m_dialog;
     RealtimeBlurView blurView;
     Activity activity = this;
-    private android.widget.FrameLayout frame;
-    private android.support.design.widget.TabLayout tabs;
+    FirebaseUser user;
+    private TabLayout tabs;
 
-    private void NewQuoteDialog() {
-        NewQuotepopup newQuotepopup = new NewQuotepopup(this, blurView);
-        newQuotepopup.showup();
-        blurView.setVisibility(View.VISIBLE);
-
-    }
 
 
 
@@ -104,27 +105,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        app = (App) getApplication();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Intent i = new Intent(this, Splash.class);
-            startActivity(i);
-            this.finish();
-        }
+        checkUser();
         preferences = new Pref(context);
         setContentView(R.layout.activity_main2);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         this.tabs = findViewById(R.id.tabs);
-        this.frame = findViewById(R.id.frame);
-        findViewById(R.id.offlinemssage);
-        newquote = findViewById(R.id.newquote);
+        pager = findViewById(R.id.pager);
         blurView = findViewById(R.id.rootblur);
-        newquote.setOnClickListener(new View.OnClickListener() {
+        final CircleImageView profilepic = findViewById(R.id.profilepic);
+        Glide.with(this).load(user.getPhotoUrl()).into(profilepic);
+        profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               NewQuoteDialog();
+
+                pager.setCurrentItem(3);
             }
         });
-        container = findViewById(R.id.container);
 
         assert user != null;
         if (!user.isEmailVerified()){
@@ -152,14 +152,60 @@ public class MainActivity extends AppCompatActivity {
 
         version();
         agree();
+        MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager());
+        pager.setAdapter(mainAdapter);
+        tabs.setupWithViewPager(pager);
+        tabs.getTabAt(0).setText("Home");
+        tabs.getTabAt(1).setText("Favoritos");
+        tabs.getTabAt(2).setText("Perfil");
 
-        if (!frame.isAttachedToWindow()) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame, new HomeFragment())
-                    .commit();
+        AdView adView = findViewById(R.id.adView);
+
+        MobileAds.initialize(this,
+                "ca-app-pub-4979584089010597/9177000416");
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+    }
+
+
+    private void checkUser() {
+        if (user != null) {
+
+            final DatabaseReference userreference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+            userreference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.exists()) {
+                        final User u = new User();
+                        u.setName(user.getDisplayName());
+                        u.setEmail(user.getEmail());
+                        u.setPicurl(String.valueOf(user.getPhotoUrl()));
+                        u.setPhonenumber(user.getPhoneNumber());
+                        u.setUid(user.getUid());
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                            @Override
+                            public void onSuccess(InstanceIdResult instanceIdResult) {
+                                u.setToken(instanceIdResult.getToken());
+                                userreference.setValue(u);
+                            }
+                        });
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            Intent i = new Intent(this, Splash.class);
+            startActivity(i);
+            this.finish();
         }
-
     }
 
     private void version() {
@@ -170,51 +216,75 @@ public class MainActivity extends AppCompatActivity {
         versioncheck = FirebaseDatabase.getInstance().getReference().child("version");
 
         versioncheck.addListenerForSingleValueEvent(new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                  for (DataSnapshot d : dataSnapshot.getChildren()) {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
 
-                      if (d != null){
-                          version.setVersion(Objects.requireNonNull(d.getValue()).toString());
-                      }
-
-
-                  }
-                  if (!version.getVersion().equals(versionName)){
+                    if (d != null) {
+                        version.setVersion(Objects.requireNonNull(d.getValue()).toString());
+                    }
 
 
-                      Snackbar snackbar = Snacky.builder().setActivity(activity).setText("Sua versão está desatualizada " +
-                              " o motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
-                              .setIcon(R.drawable.ic_autorenew_black_24dp)
-                              .setTextColor(Color.BLACK)
-                              .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
-                              .setBackgroundColor(Color.WHITE)
-                              .setDuration(10000)
-                              .build();
-
-                      snackbar.setAction("Atualizar", new View.OnClickListener() {
-                          @Override
-                          public void onClick(View view) {
-                              Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv");
-                              Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                              startActivity(intent);
-                          }
-                      });
-                      snackbar.show();
-
-                  }
+                }
+                if (!version.getVersion().equals(versionName)) {
 
 
-                  }
+                    Snackbar snackbar = Snacky.builder().setActivity(activity).setText("Sua versão está desatualizada " +
+                            " o motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
+                            .setIcon(R.drawable.ic_autorenew_black_24dp)
+                            .setTextColor(Color.BLACK)
+                            .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                            .setBackgroundColor(Color.WHITE)
+                            .setDuration(10000)
+                            .build();
 
-              @Override
-              public void onCancelled(@NonNull DatabaseError databaseError) {
+                    snackbar.setAction("Atualizar", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv");
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+                    });
+                    snackbar.show();
 
-              }
-          });
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.navigation_about) {
+            Alert alert = new Alert(this);
+            alert.about();
+        } else {
+            settings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void settings() {
+        Intent i = new Intent(this, SettingsActivity.class);
+        startActivity(i);
+    }
 
     @Override
     protected void onResume() {
@@ -223,48 +293,6 @@ public class MainActivity extends AppCompatActivity {
 
         internetconnection();
 
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        if (!home) {
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.fab_slide_in_from_left, R.anim.fab_slide_out_to_right)
-                                    .replace(R.id.frame, new HomeFragment())
-                                    .commit();
-                        }
-                        break;
-                    case 1:
-                        home = false;
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
-                                .replace(R.id.frame, new FavoritesFragment())
-                                .commit();
-                        break;
-                    case 2:
-                        home = false;
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left)
-                                .replace(R.id.frame, new ProfileFragment())
-                                .commit();
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
 
@@ -291,11 +319,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tabs.getTabAt(0).select();
             home = true;
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fab_slide_out_to_left)
-                    .replace(R.id.frame, new HomeFragment())
-                    .commit();
+            pager.setCurrentItem(0, true);
         }
     }
 
@@ -310,20 +334,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void internetconnection() {
-        if (myDialog == null) {
-            myDialog = new BottomSheetDialog(Objects.requireNonNull(this), R.style.Dialog_No_Border);
-            myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (a == null) {
             if (!isNetworkAvailable()) {
-                myDialog.setContentView(R.layout.noconnectioncard);
-                myDialog.setCanceledOnTouchOutside(false);
-                TextView message = myDialog.findViewById(R.id.offlinemssage);
-                message.setText(Tools.offlinemessage());
-                if (!myDialog.isShowing()) {
-                    myDialog.show();
-                }
-            } else {
-
-                myDialog.dismiss();
+                a.Message(getDrawable(R.drawable.ic_broken_link), Tools.offlinemessage());
             }
         }
 

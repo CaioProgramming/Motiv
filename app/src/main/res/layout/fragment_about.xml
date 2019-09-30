@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@color/white"
         android:fitsSystemWindows="true"
         app:elevation="0dp"
         app:expanded="false">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsetoolbar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimaryDark"
+            app:contentScrim="@color/white"
             app:expandedTitleGravity="center"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:scrimAnimationDuration="100"
@@ -49,33 +49,32 @@
 
                 android:indeterminateOnly="true" />
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
                 android:elevation="0dp"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"></android.support.v7.widget.Toolbar>
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"></androidx.appcompat.widget.Toolbar>
 
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:cardCornerRadius="25dp"
+        app:cardBackgroundColor="@color/grey_100"
+        app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,11 +95,10 @@
                         android:layout_margin="10dp"
                         android:padding="10dp"
                         android:text="@string/criadores"
-                        android:textColor="@color/white"
                         android:textSize="26sp"
                         android:textStyle="bold" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/creatorsrecycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -123,11 +121,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="@string/refer_ncias"
-                        android:textColor="@color/white"
                         android:textSize="26sp"
                         android:textStyle="bold" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/designrecycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -153,7 +150,7 @@
                         android:textSize="26sp"
                         android:textStyle="bold" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/artistsrecycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -174,7 +171,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:text="@string/suporte"
-                        android:textColor="@color/white"
                         android:textSize="24sp" />
 
 
@@ -201,7 +197,6 @@
                         android:drawableTop="@mipmap/ic_launcher"
                         android:text="@string/motiv_desenvolvido_por_inlustris_em_2018_todos_os_direitos_reservados"
                         android:textAlignment="center"
-                        android:textColor="@color/grey_300"
                         android:textSize="14sp" />
 
                     <TextView
@@ -211,7 +206,6 @@
                         android:drawableBottom="@mipmap/firebase"
                         android:text="@string/firebase"
                         android:textAlignment="center"
-                        android:textColor="@color/grey_300"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -219,8 +213,8 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

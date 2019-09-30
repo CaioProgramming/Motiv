@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_margin="1dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="0dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,6 +24,7 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/colorPrimary" />
     <TextView
+        android:textColor="@color/black"
         android:layout_height="500dp"
         android:gravity="center"
         android:id="@+id/message"
@@ -26,7 +32,6 @@
         android:textSize="24sp"
         android:text="@string/foto_atualizada"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:visibility="gone" />
 
         <LinearLayout
@@ -38,39 +43,26 @@
 
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="2dp"
-                android:backgroundTint="@color/black"
                 android:padding="5dp"
                 android:text="Selecione um ícone de perfil"
-                android:textColor="?attr/textcolor"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/picsrecycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:nestedScrollingEnabled="false" />
+                android:layout_height="match_parent" />
 
-            <Button
-                android:layout_margin="5dp"
-                android:id="@+id/removepic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_button"
-                android:backgroundTint="@color/red_500"
-                android:text="@string/remover_foto_de_perfil"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.cardview.widget.CardView>

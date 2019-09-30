@@ -1,13 +1,7 @@
 package com.creat.motiv.Utils;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.v7.graphics.Palette;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Random;
 
 public class ColorUtils {
@@ -27,18 +21,6 @@ public class ColorUtils {
         alpha *= 0.75;
 
         return Color.argb(alpha, red, green, blue);
-    }
-    public static int getDominantColor(Bitmap bitmap) {
-
-        List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
-        List<Palette.Swatch> swatches = new ArrayList<>(swatchesTemp);
-        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
-            @Override
-            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
-                return swatch2.getPopulation() - swatch1.getPopulation();
-            }
-        });
-        return swatches.size() > 0 ? swatches.get(0).getRgb() : getRandomColor();
     }
 
     public static int lighten(int color, double fraction) {

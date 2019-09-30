@@ -3,13 +3,14 @@ package com.creat.motiv;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.creat.motiv.Adapters.ViewPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 

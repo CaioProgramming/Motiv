@@ -260,15 +260,13 @@
 
 
     <!-- my colors -->
-    <color name="colorPrimary">#ab47bc</color>
-    <color name="colorPrimaryDark">#6a1b9a</color>
-    <color name="colorAccent">#B377BE</color>
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="colorAccent">#7C4DFF</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="lwhite">#64ffffff</color>
     <color name="owhite">#1effffff</color>
-    <color name="lblack">#64050000</color>
-    <color name="oblack">#1e050000</color>
     <color name="transparent">#00ffffff</color>
 
 

@@ -5,88 +5,490 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.creat.motiv.Adapters.RecyclerAdapter;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
 import com.creat.motiv.Splash;
+import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 import de.mateware.snacky.Snacky;
 
 public class QuotesDB {
-    private DatabaseReference quotesdb;
-    private Activity qActivity;
+    private DatabaseReference quotesdb = Tools.quotesreference;
+    private Activity activity;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    public QuotesDB( Activity qActivity, Quotes quotes) {
-        this.qActivity = qActivity;
+    public QuotesDB(Activity activity, Quotes quotes) {
+        this.activity = activity;
         this.quotes = quotes;
+    }
+
+    public QuotesDB(Activity activity) {
+        this.activity = activity;
     }
 
     public QuotesDB() {
     }
 
-    public Quotes getQuotes() {
-        return quotes;
-    }
 
-    public void setQuotes(Quotes quotes) {
-        this.quotes = quotes;
-    }
 
     private Quotes quotes;
-    public static String path = "Quotes";
-    public static String searcharg = "\uf8ff";
+
     public QuotesDB( Quotes quotes, @NonNull Activity activity) {
-        this.qActivity = activity;
-        this.quotesdb = FirebaseDatabase.getInstance().getReference(path);
+        this.activity = activity;
+        this.quotesdb = Tools.quotesreference;
         this.quotes = quotes;
     }
+
+
+    public void Carregar(final RecyclerView composesrecycler, final SwipeRefreshLayout refreshLayout) {
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Quotes> quotesArrayList = new ArrayList<>();
+                quotesArrayList.clear();
+                composesrecycler.removeAllViews();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(q.getId());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        quotes.setReport(q.isReport());
+                        if (q.getFont() != null) {
+
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+
+                        System.out.println("Quotes " + quotesArrayList.size());
+                        System.out.println("Quote  " + quotes.getId());
+
+                    }
+                }
+                Collections.reverse(quotesArrayList);
+                composesrecycler.setVisibility(View.VISIBLE);
+                GridLayoutManager llm = new GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false);
+                composesrecycler.setHasFixedSize(true);
+                System.out.println(quotesArrayList.size());
+
+                RecyclerAdapter myadapter = new RecyclerAdapter(quotesArrayList, activity);
+                composesrecycler.setAdapter(myadapter);
+                composesrecycler.setLayoutManager(llm);
+                refreshLayout.setRefreshing(false);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
+    }
+
+    public void CarregarUserQuotes(final ArrayList<Quotes> quotesArrayList, final RecyclerView composesrecycler, final TextView usercount) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        quotesdb.orderByChild("userID").equalTo(user.getUid());
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                quotesArrayList.clear();
+                composesrecycler.removeAllViews();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes = q;
+                        if (q.getFont() != null) {
+
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+
+                        quotes.setId(d.getKey());
+                        if (quotes.getUserID().equals(user.getUid())) {
+                            quotesArrayList.add(quotes);
+                        }
+
+                        System.out.println("Quotes " + quotesArrayList.size());
+                        System.out.println("Quote  " + quotes.getId());
+
+                    }
+                }
+                Collections.reverse(quotesArrayList);
+                composesrecycler.setVisibility(View.VISIBLE);
+                GridLayoutManager llm = new GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false);
+                composesrecycler.setHasFixedSize(true);
+                System.out.println(quotesArrayList.size());
+
+                RecyclerAdapter myadapter = new RecyclerAdapter(quotesArrayList, activity);
+                composesrecycler.setAdapter(myadapter);
+                composesrecycler.setLayoutManager(llm);
+                usercount.setText(quotesArrayList.size() + " publicações");
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
+    }
+
+    public void Pesquisar(final String pesquisa, final RecyclerView composesrecycler) {
+
+
+        quotesdb.startAt(pesquisa)
+                .endAt(pesquisa + "\uf8ff");
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Quotes> quotesArrayList = new ArrayList<>();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(d.getKey());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        if (q.getFont() != null) {
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+                        if (q.getUserID().equals(user.getUid())) {
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                        }
+                        System.out.println("Quotes search " + quotesArrayList.size());
+
+                    }
+                }
+
+
+                if (quotesArrayList.size() > 0) {
+                    composesrecycler.setVisibility(View.VISIBLE);
+                    GridLayoutManager llm = new GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false);
+                    composesrecycler.setHasFixedSize(true);
+                    System.out.println(quotesArrayList.size());
+                    RecyclerAdapter myadapter = new RecyclerAdapter(quotesArrayList, activity);
+                    myadapter.notifyDataSetChanged();
+                    composesrecycler.setAdapter(myadapter);
+                    composesrecycler.setLayoutManager(llm);
+
+                } else {
+                    PesquisarAuthor(pesquisa, composesrecycler);
+
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Erro " + databaseError.getMessage());
+            }
+        });
+
+
+    }
+
+    private void PesquisarAuthor(final String pesquisa, final RecyclerView composesrecycler) {
+
+        quotesdb.orderByChild("author").startAt(pesquisa)
+                .endAt(pesquisa + "\uf8ff");
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Quotes> quotesArrayList = new ArrayList<>();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(d.getKey());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        if (q.getFont() != null) {
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+                        if (q.getUserID().equals(user.getUid())) {
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                        }
+
+                        System.out.println("Quotes search " + quotesArrayList.size());
+
+                    }
+                }
+
+                if (quotesArrayList.size() > 0) {
+                    composesrecycler.setVisibility(View.VISIBLE);
+                    GridLayoutManager llm = new GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false);
+                    composesrecycler.setHasFixedSize(true);
+                    System.out.println(quotesArrayList.size());
+                    RecyclerAdapter myadapter = new RecyclerAdapter(quotesArrayList, activity);
+                    myadapter.notifyDataSetChanged();
+                    composesrecycler.setAdapter(myadapter);
+                    composesrecycler.setLayoutManager(llm);
+                } else {
+                    PesquisarUsuario(pesquisa, composesrecycler);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Erro " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void PesquisarUsuario(final String pesquisa, final RecyclerView composesrecycler) {
+
+        quotesdb.orderByChild("author").startAt(pesquisa)
+                .endAt(pesquisa + "\uf8ff");
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Quotes> quotesArrayList = new ArrayList<>();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(d.getKey());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        if (q.getFont() != null) {
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+                        if (q.getUserID().equals(user.getUid())) {
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                        }
+
+                        System.out.println("Quotes search " + quotesArrayList.size());
+
+                    }
+                }
+
+                if (quotesArrayList.size() > 0) {
+                    composesrecycler.setVisibility(View.VISIBLE);
+                    GridLayoutManager llm = new GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false);
+                    composesrecycler.setHasFixedSize(true);
+                    System.out.println(quotesArrayList.size());
+                    RecyclerAdapter myadapter = new RecyclerAdapter(quotesArrayList, activity);
+                    myadapter.notifyDataSetChanged();
+                    composesrecycler.setAdapter(myadapter);
+                    composesrecycler.setLayoutManager(llm);
+                } else {
+                    Categories(pesquisa, composesrecycler);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Erro " + databaseError.getMessage());
+            }
+        });
+
+
+    }
+
+
+    private void Categories(String categorie, final RecyclerView composesrecycler) {
+
+        quotesdb.orderByChild("categoria").startAt(categorie)
+                .endAt(categorie + "\uf8ff");
+        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Quotes> quotesArrayList = new ArrayList<>();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Quotes quotes = new Quotes();
+                    Quotes q = d.getValue(Quotes.class);
+                    if (q != null) {
+                        quotes.setId(d.getKey());
+                        quotes.setAuthor(q.getAuthor());
+                        quotes.setQuote(q.getQuote());
+                        quotes.setUserID(q.getUserID());
+                        quotes.setCategoria(q.getCategoria());
+                        quotes.setData(q.getData());
+                        quotes.setUsername(q.getUsername());
+                        quotes.setUserphoto(q.getUserphoto());
+                        if (q.getFont() != null) {
+                            quotes.setFont(q.getFont());
+                        } else {
+                            quotes.setFont(null);
+                        }
+
+
+                        if (q.getTextcolor() == 0 || q.getBackgroundcolor() == 0) {
+                            quotes.setTextcolor(Color.BLACK);
+                            quotes.setBackgroundcolor(Color.WHITE);
+                        } else {
+                            quotes.setTextcolor(q.getTextcolor());
+                            quotes.setBackgroundcolor(q.getBackgroundcolor());
+                        }
+                        quotesArrayList.add(quotes);
+                        if (q.getUserID().equals(user.getUid())) {
+                            quotes.setUsername(user.getDisplayName());
+                            quotes.setUserphoto(String.valueOf(user.getPhotoUrl()));
+                        }
+
+                        System.out.println("Quotes search " + quotesArrayList.size());
+
+                    }
+                }
+                composesrecycler.setVisibility(View.VISIBLE);
+                GridLayoutManager llm = new GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false);
+                composesrecycler.setHasFixedSize(true);
+                System.out.println(quotesArrayList.size());
+                RecyclerAdapter myadapter = new RecyclerAdapter(quotesArrayList, activity);
+                myadapter.notifyDataSetChanged();
+                composesrecycler.setAdapter(myadapter);
+                composesrecycler.setLayoutManager(llm);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("Erro " + databaseError.getMessage());
+            }
+        });
+    }
+
+
 
 
 
     public void Inserir(){
-        final ProgressDialog progressDialog = new ProgressDialog(qActivity);
+        final Alert alert = new Alert(activity);
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Salvando");
         progressDialog.setIndeterminate(true);
         String id = quotesdb.push().getKey();
         this.quotes.setId(id);
         if (quotes.getQuote().isEmpty()){
-
-            Snacky.builder().setActivity(qActivity).error().setText(Tools.emptyquote()).setDuration(5000).show();
+            alert.Message(activity.getDrawable(R.drawable.ic_error), Tools.emptyquote());
+            return;
         }else{
             if (id != null) {
                 quotesdb.child(id).setValue(this.quotes).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-
+                        progressDialog.dismiss();
                         if (task.isSuccessful()){
-                            CountDownTimer timer = new CountDownTimer(3000,100) {
-                                @Override
-                                public void onTick(long l) {
-
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    Snacky.builder().setActivity(qActivity).setText("Frase salva!").success().show();
-                                    progressDialog.dismiss();
-                                }
-                            };timer.start();
-
+                            alert.Message(activity.getDrawable(R.drawable.ic_success), "Sua frase foi compartilhada!");
                         }else{
-                            Snacky.builder().setActivity(qActivity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
-                            progressDialog.dismiss();
+                            alert.Message(activity.getDrawable(R.drawable.ic_success), "Erro ao publicar! \n" + task.getException().getMessage());
+
                         }
                     }
                 });
@@ -99,9 +501,9 @@ public class QuotesDB {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (quotes.getQuote().isEmpty()){
 
-            Snacky.builder().setActivity(qActivity).error().setText(Tools.emptyquote()).setDuration(5000).show();
+            Snacky.builder().setActivity(activity).error().setText(Tools.emptyquote()).setDuration(5000).show();
         }else{
-            final ProgressDialog progressDialog = new ProgressDialog(qActivity);
+            final ProgressDialog progressDialog = new ProgressDialog(activity);
             progressDialog.setTitle("Salvando");
             progressDialog.show();
             if (user != null) {
@@ -132,7 +534,7 @@ public class QuotesDB {
                         };timer.start();
 
                     }else{
-                        Snacky.builder().setActivity(qActivity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
+                        Snacky.builder().setActivity(activity).error().setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).show();
                     }
                 }
             });}
@@ -140,14 +542,16 @@ public class QuotesDB {
 
     public void Denunciar(){
         this.quotes.setReport(true);
-        DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
-        quotesdb.child(path).child(this.quotes.getId()).child("report").setValue(this.quotes.isReport()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference quotesdb = Tools.quotesreference;
+        quotesdb.child(this.quotes.getId()).child("report").setValue(this.quotes.isReport()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Snacky.builder().setActivity(qActivity).setText("A frase foi denúnciada e será analisada").success().show();
+                    Snacky.builder().setActivity(activity).setText("A frase foi denúnciada e será analisada").success().show();
 
-                }else{Snacky.builder().setActivity(qActivity).setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).success().show();}
+                } else {
+                    Snacky.builder().setActivity(activity).setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).success().show();
+                }
             }
         });
 
@@ -155,9 +559,9 @@ public class QuotesDB {
 
     public void like(){
          FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        quotesdb = FirebaseDatabase.getInstance().getReference(path);
+        quotesdb = Tools.quotesreference;
         if (  this.quotes == null || user == null){
-            Snacky.builder().setActivity(qActivity).error().setText("Objeto nulo!").show();
+            Snacky.builder().setActivity(activity).error().setText("Objeto nulo!").show();
             return;
 
         }
@@ -165,7 +569,7 @@ public class QuotesDB {
          quotesdb.child(this.quotes.getId()).child("likes").child(user.getUid()).setValue(likes).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Snacky.builder().setActivity(qActivity).setText("Frase curtida")
+                Snacky.builder().setActivity(activity).setText("Frase curtida")
                         .setBackgroundColor(Color.WHITE).setTextColor(Color.BLACK).setIcon(R.drawable.ic_favorite_black_24dp).build().show();
             }
         });
@@ -174,31 +578,31 @@ public class QuotesDB {
     public void deslike(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        quotesdb = FirebaseDatabase.getInstance().getReference(path);
+        quotesdb = Tools.quotesreference;
         if (  this.quotes == null || user == null){
-            Snacky.builder().setActivity(qActivity).error().setText("Objeto nulo!").show();
+            Snacky.builder().setActivity(activity).error().setText("Objeto nulo!").show();
             return;
 
         }
         quotesdb.child(this.quotes.getId()).child("likes").child(user.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Snacky.builder().setActivity(qActivity).setText("Frase descurtida")
+                Snacky.builder().setActivity(activity).setText("Frase descurtida")
                         .setBackgroundColor(Color.WHITE).setTextColor(Color.RED).setIcon(R.drawable.ic_favorite_black_24dp).build().show();
             }
         });
     }
 
 
+    public void AlterarFoto(Quotes quote) {
+
+        Log.println(Log.INFO, "User", "Changing quote: " + quote.getId());
 
 
-    public void AlterarFoto(final Activity activity,String id,String photourl ){
-
-
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        quote.setUserphoto(String.valueOf(user.getPhotoUrl()));
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
-
-        quotesdb.child(path).child(id).child("userphoto").setValue(photourl);
+        quotesdb.child(quote.getId()).setValue(quote);
 
     }
 
@@ -208,7 +612,7 @@ public class QuotesDB {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        quotesdb.child(path).child(id).removeValue();
+        quotesdb.child(id).removeValue();
 
     }
 
@@ -217,7 +621,7 @@ public class QuotesDB {
 
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
-        quotesdb.child(path).child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        quotesdb.child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -250,7 +654,7 @@ public class QuotesDB {
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
 
         assert user != null;
-        quotesdb.child(path).child(id).child("likes").child(user.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        quotesdb.child("likes").child(user.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -270,7 +674,7 @@ public class QuotesDB {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();
         assert user != null;
-        quotesdb.child(path).child(id).child("username").setValue(user.getDisplayName()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        quotesdb.child(id).child("username").setValue(user.getDisplayName()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 System.out.println("quote" + id + "username changed to: " + user.getDisplayName());

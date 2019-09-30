@@ -2,53 +2,73 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:fontFamily">@font/nunito_regular</item>
-        <item name="overlaycolor">@color/oblack</item>
-        <item name="actionbarcolor">@color/grey_200</item>
-        <item name="textcolor">@color/black</item>
-        <item name="hintcolor">@color/grey_300</item>
-        <item name="backgroundcolor">@color/grey_100</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-        <item name="android:colorControlNormal">@color/white</item>
-        <item name="android:colorControlActivated">@color/colorAccent</item>
-
-    </style>
-
-    <style name="Settings" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">@font/nunitoregular</item>
+        <item name="colorPrimary">@color/purple_400</item>
+        <item name="colorPrimaryDark">@color/purple_800</item>
+        <item name="colorAccent">@color/deep_purple_A200</item>
+        <item name="android:statusBarColor">@color/grey_100</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:fontFamily">@font/cabin_regular</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
+        <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:panelBackground">@drawable/round</item>
+        <item name="android:fontFamily">@font/nunitolight</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog.PositiveButton">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog.NegativeButton">
+        <item name="android:textColor">@color/grey_400</item>
+    </style>
+
+    <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
+
+    <style name="TabsTextStyle" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BottomOptionstext" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 
-    <style name="AppTheme.Night" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-
-        <item name="android:fontFamily">@font/nunito_regular</item>
-        <item name="textcolor">@color/white</item>
-        <item name="overlaycolor">@color/owhite</item>
-        <item name="actionbarcolor">@color/grey_900</item>
-        <item name="hintcolor">@color/grey_600</item>
-         <item name="titlecolor">#BA68C8</item>
-        <item name="backgroundcolor">@color/black</item>
-        <item name="android:textColorHighlight">@color/colorPrimary</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+    <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/nunitoblack</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:padding">5dp</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
 
+    <style name="CustomAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="panelBackground">@drawable/round</item>
+    </style>
 
     <style name="Dialog_No_Border">
-            <item name="android:windowIsFloating">true</item>
-            <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+        <item name="android:fontFamily">@font/nunitoregular</item>
+        <item name="colorPrimary">@color/purple_400</item>
+        <item name="colorPrimaryDark">@color/purple_800</item>
+        <item name="colorAccent">@color/deep_purple_A200</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
 </resources>

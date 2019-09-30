@@ -1,91 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="25dp"
-    app:cardElevation="0dp">
-
+    android:layout_gravity="center"
+    android:minWidth="250dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="15dp">
     <LinearLayout
-        android:id="@+id/namelayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:counterEnabled="true"
-            app:counterMaxLength="25"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                android:drawableStart="@drawable/ic_person_black_24dp"
-                android:hint="Escreva um nome..."
-                android:inputType="textCapWords"
-                android:maxLength="25"
-                android:padding="10dp"
-                android:selectAllOnFocus="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey_500" />
-        </android.support.design.widget.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:foreground="?attr/selectableItemBackground"
-                android:text="cancelar"
-                android:textColor="@color/grey_600" />
-
-            <Button
-                android:id="@+id/changename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:foreground="?attr/selectableItemBackground"
-                android:text="salvar"
-                android:textColor="@color/colorPrimary" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/saving"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_margin="10dp"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_edit" />
+
+        <EditText
+            android:id="@+id/username"
             android:layout_height="wrap_content"
-            android:text="Salvando..."
+            android:layout_gravity="center"
+            android:backgroundTint="@color/transparent"
+            android:fontFamily="@font/nunitoblack"
+            android:hint="Username"
+            android:maxLength="25"
+            android:padding="10dp"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:textSize="22sp" />
 
-        <ProgressBar
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button"
             android:layout_height="wrap_content"
-            android:indeterminate="true" />
-
+            android:background="@color/transparent"
+            android:fontFamily="@font/nunitoblack"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Ok"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:textStyle="bold" />
     </LinearLayout>
 
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

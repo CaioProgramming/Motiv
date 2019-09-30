@@ -2,7 +2,8 @@ package com.creat.motiv.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.creat.motiv.R;
 
@@ -17,7 +18,7 @@ public class Pref {
 
         if (state) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            context.setTheme(R.style.AppTheme_Night);
+            //context.setTheme(R.style.AppTheme_Night);
             SharedPreferences.Editor editor = mySharedPreferences.edit();
             editor.putBoolean("NightMode", state);
             editor.commit();
