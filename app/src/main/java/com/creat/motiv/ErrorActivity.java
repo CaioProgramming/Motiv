@@ -6,8 +6,6 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.creat.motiv.Utils.Tools;
-
 public class ErrorActivity extends AppCompatActivity {
 
     @Override
@@ -15,9 +13,6 @@ public class ErrorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error);
         ProgressBar loading = findViewById(R.id.loading);
-
-
-        Tools.load(loading);
 
 
         Intent i = new Intent(this, MainActivity.class);

@@ -15,11 +15,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +26,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.MainAdapter;
+import com.creat.motiv.Beans.User;
 import com.creat.motiv.Beans.Version;
 import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.Pref;
@@ -36,7 +35,7 @@ import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +46,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.Objects;
 
@@ -56,8 +57,8 @@ import de.mateware.snacky.Snacky;
 public class MainActivity extends AppCompatActivity {
     Pref preferences;
     protected App app;
-    BottomSheetDialog myDialog;
     Version version;
+    Alert a;
     Context context = this;
     public static ViewPager pager;
     public static boolean home = true;
@@ -106,11 +107,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         app = (App) getApplication();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Intent i = new Intent(this, Splash.class);
-            startActivity(i);
-            this.finish();
-        }
+        checkUser();
         preferences = new Pref(context);
         setContentView(R.layout.activity_main2);
 
@@ -174,7 +171,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void checkUser() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        if (user != null) {
+
+            final DatabaseReference userreference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+            userreference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.exists()) {
+                        final User u = new User();
+                        u.setName(user.getDisplayName());
+                        u.setEmail(user.getEmail());
+                        u.setPicurl(String.valueOf(user.getPhotoUrl()));
+                        u.setPhonenumber(user.getPhoneNumber());
+                        u.setUid(user.getUid());
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                            @Override
+                            public void onSuccess(InstanceIdResult instanceIdResult) {
+                                u.setToken(instanceIdResult.getToken());
+                                userreference.setValue(u);
+                            }
+                        });
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            Intent i = new Intent(this, Splash.class);
+            startActivity(i);
+            this.finish();
+        }
     }
 
     private void version() {
@@ -185,48 +216,48 @@ public class MainActivity extends AppCompatActivity {
         versioncheck = FirebaseDatabase.getInstance().getReference().child("version");
 
         versioncheck.addListenerForSingleValueEvent(new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                  for (DataSnapshot d : dataSnapshot.getChildren()) {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
 
-                      if (d != null){
-                          version.setVersion(Objects.requireNonNull(d.getValue()).toString());
-                      }
-
-
-                  }
-                  if (!version.getVersion().equals(versionName)){
+                    if (d != null) {
+                        version.setVersion(Objects.requireNonNull(d.getValue()).toString());
+                    }
 
 
-                      Snackbar snackbar = Snacky.builder().setActivity(activity).setText("Sua versão está desatualizada " +
-                              " o motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
-                              .setIcon(R.drawable.ic_autorenew_black_24dp)
-                              .setTextColor(Color.BLACK)
-                              .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
-                              .setBackgroundColor(Color.WHITE)
-                              .setDuration(10000)
-                              .build();
-
-                      snackbar.setAction("Atualizar", new View.OnClickListener() {
-                          @Override
-                          public void onClick(View view) {
-                              Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv");
-                              Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                              startActivity(intent);
-                          }
-                      });
-                      snackbar.show();
-
-                  }
+                }
+                if (!version.getVersion().equals(versionName)) {
 
 
-                  }
+                    Snackbar snackbar = Snacky.builder().setActivity(activity).setText("Sua versão está desatualizada " +
+                            " o motiv atualmente está na versão " + version.getVersion() + " enquanto você está na versão  " + versionName)
+                            .setIcon(R.drawable.ic_autorenew_black_24dp)
+                            .setTextColor(Color.BLACK)
+                            .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                            .setBackgroundColor(Color.WHITE)
+                            .setDuration(10000)
+                            .build();
 
-              @Override
-              public void onCancelled(@NonNull DatabaseError databaseError) {
+                    snackbar.setAction("Atualizar", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv");
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+                    });
+                    snackbar.show();
 
-              }
-          });
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -303,36 +334,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void internetconnection() {
-        if (myDialog == null) {
-            myDialog = new BottomSheetDialog(Objects.requireNonNull(this), R.style.Dialog_No_Border);
-            myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-
-            myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    Animation out = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
-                    blurView.startAnimation(out);
-                    blurView.setVisibility(View.GONE);
-
-
-                }
-            });
-
+        if (a == null) {
             if (!isNetworkAvailable()) {
-                myDialog.setContentView(R.layout.noconnectioncard);
-                myDialog.setCanceledOnTouchOutside(false);
-                TextView message = myDialog.findViewById(R.id.offlinemssage);
-                message.setText(Tools.offlinemessage());
-                if (!myDialog.isShowing()) {
-                    myDialog.show();
-                    Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
-                    blurView.setVisibility(View.VISIBLE);
-                    blurView.startAnimation(in);
-                }
-            } else {
-
-                myDialog.dismiss();
+                a.Message(getDrawable(R.drawable.ic_broken_link), Tools.offlinemessage());
             }
         }
 

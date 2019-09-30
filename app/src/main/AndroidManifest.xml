@@ -16,6 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimaryDark" />
         <activity
             android:name=".ErrorActivity"
             android:clearTaskOnLaunch="true"
@@ -80,18 +86,14 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".NewUser" />
 
-        <service android:name=".Utils.Notifications">
+        <service
+            android:name=".Utils.Notifications"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".Utils.Token">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
 
-        <receiver android:name=".Utils.Notification_reciever" />
     </application>
 
 </manifest>

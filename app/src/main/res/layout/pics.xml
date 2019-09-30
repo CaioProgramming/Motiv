@@ -7,7 +7,7 @@
     android:id="@+id/card"
     android:background="@color/transparent"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="30dp"
     app:cardElevation="0dp"
     android:orientation="vertical">
 

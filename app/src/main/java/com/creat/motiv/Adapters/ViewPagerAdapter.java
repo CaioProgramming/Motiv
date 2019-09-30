@@ -23,6 +23,7 @@ import com.creat.motiv.Beans.Pics;
 import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
+import com.creat.motiv.Utils.Tools;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +40,7 @@ import java.util.Random;
 
 import de.mateware.snacky.Snacky;
 
-import static com.creat.motiv.Database.QuotesDB.path;
+
 
 public class ViewPagerAdapter extends PagerAdapter {
     Dialog m_dialog;
@@ -95,7 +96,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private void Carregar() {
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Query quotesdb = FirebaseDatabase.getInstance().getReference().child(path);
+        Query quotesdb = Tools.quotesreference;
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

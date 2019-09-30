@@ -7,12 +7,13 @@
     android:minWidth="250dp"
     android:orientation="vertical"
     app:cardCornerRadius="15dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical"
         android:layout_margin="10dp"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <ImageView
@@ -20,31 +21,29 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_edit" />
+            android:src="@mipmap/ic_launcher" />
 
-        <EditText
-            android:id="@+id/username"
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/transparent"
-            android:fontFamily="@font/nunitoblack"
-            android:hint="Username"
-            android:maxLength="25"
+            android:fontFamily="@font/nunitoregular"
             android:padding="10dp"
+            android:text="Message"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:textSize="22sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:fontFamily="@font/nunitoblack"
             android:foreground="?attr/selectableItemBackground"
             android:text="Ok"
             android:textColor="@color/black"
-            android:layout_width="match_parent"
             android:textStyle="bold" />
     </LinearLayout>
 

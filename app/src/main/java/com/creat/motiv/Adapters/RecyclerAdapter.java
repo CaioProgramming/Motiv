@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Vibrator;
 import android.text.Html;
@@ -24,18 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
+import com.creat.motiv.Beans.User;
 import com.creat.motiv.Database.QuotesDB;
+import com.creat.motiv.Database.UserDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.ColorUtils;
@@ -47,7 +44,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -55,23 +51,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.creat.motiv.Database.QuotesDB.path;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>  {
-    private Context mContext;
-    private List<Quotes> mData;
+    private ArrayList<Quotes> mData;
     private Activity mActivity;
     private Dialog m_dialog;
     private RealtimeBlurView blur;
 
 
-    public RecyclerAdapter(Context mContext, List<Quotes> mData, Activity mActivity) {
-        this.mContext = mContext;
+    public RecyclerAdapter(ArrayList<Quotes> mData, Activity mActivity) {
         this.mData = mData;
         this.mActivity = mActivity;
         m_dialog= new Dialog(mActivity, R.style.Dialog_No_Border) ;
@@ -85,7 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        LayoutInflater mInflater = LayoutInflater.from(mContext);
+        LayoutInflater mInflater = LayoutInflater.from(mActivity);
         view = mInflater.inflate(R.layout.quotescard,parent,false);
 
 
@@ -95,10 +87,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        Animation in = AnimationUtils.loadAnimation(mActivity, R.anim.fade_in);
         final Quotes quote = mData.get(holder.getAdapterPosition());
 
-        loadLikes(holder, position);
+        loadLikes(holder, quote);
 
 
         holder.like.setOnClickListener(new View.OnClickListener() {
@@ -121,8 +113,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.author.setText(quote.getAuthor());
         System.out.println("Quote " + mData.get(position).getQuote() + " selected font: " + mData.get(position).getFont());
         if (quote.getFont() != null) {
-            holder.quote.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
-            holder.author.setTypeface(Tools.fonts(mContext).get(mData.get(position).getFont()));
+            holder.quote.setTypeface(Tools.fonts(mActivity).get(mData.get(position).getFont()));
+            holder.author.setTypeface(Tools.fonts(mActivity).get(mData.get(position).getFont()));
 
 
         } else {
@@ -152,24 +144,50 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
         if (quote.getUsername() != null || mData.get(position).getUserphoto() != null) {
-            Glide.with(mContext).load(quote.getUserphoto()).addListener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    holder.userpic.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_astronaut));
-                    holder.userpic.setBorderColor(Color.BLACK);
-                    return false;
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (!user.getUid().equals(quote.getUserID())) {
+                User u = new User();
+                UserDB userDB = new UserDB(mActivity);
+                userDB.LoadUser(quote.getUserID(), holder.userpic, holder.username, u);
+                if (u.getName() == null) {
+                    Glide.with(mActivity).load(user.getPhotoUrl()).error(R.drawable.notfound).into(holder.userpic);
+                    holder.username.setText(user.getDisplayName());
+                } else {
+                    holder.username.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showuserprofile();
+                        }
+                    });
+                    holder.userpic.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showuserprofile();
+                        }
+                    });
                 }
+            } else {
+                Glide.with(mActivity).load(quote.getUserphoto()).error(R.drawable.notfound).into(holder.userpic);
+                holder.username.setText(quote.getUsername());
+                final ViewPager pager = mActivity.findViewById(R.id.pager);
 
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    holder.userpic.setImageDrawable(resource);
-                    return false;
-                }
-            }).into(holder.userpic);
-            holder.username.setText(quote.getUsername());
+
+                holder.username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        pager.setCurrentItem(2, true);
+                    }
+                });
+                holder.userpic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        pager.setCurrentItem(2, true);
+                    }
+                });
+            }
         } else {
-            holder.username.setVisibility(View.INVISIBLE);
-            holder.userpic.setVisibility(View.INVISIBLE);
+            holder.username.setVisibility(View.GONE);
+            holder.userpic.setVisibility(View.GONE);
 
         }
         if (mData.get(position).getBackgroundcolor() != 0) {
@@ -185,7 +203,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         // OR using options to customize
         int color = ColorUtils.getTransparentColor(quote.getTextcolor());
 
-        ReadMoreOption readMoreOption = new ReadMoreOption.Builder(mContext)
+        ReadMoreOption readMoreOption = new ReadMoreOption.Builder(mActivity)
                 .textLength(205, ReadMoreOption.TYPE_CHARACTER)
                 .moreLabel(" Ver mais...")
                 .lessLabel(" Ver menos")
@@ -196,10 +214,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         readMoreOption.addReadMoreTo(holder.quote, quote.getQuote());
 
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+            public void onClick(View view) {
+                Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibrator.hasVibrator()) {
                     long[] mVibratePattern = new long[]{100, 150};
 
@@ -209,12 +227,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 boolean user = quote.getUserID().equals(u.getUid());
                 Alert alert = new Alert(mActivity);
                 alert.quoteoptions(user, mData.get(holder.getAdapterPosition()));
-                return false;
             }
         });
 
 
+    }
 
+    private void showuserprofile() {
+        Alert a = new Alert(mActivity);
+        a.Message(mActivity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");
     }
 
 
@@ -262,11 +283,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
     }
 
-    private void loadLikes(@NonNull final MyViewHolder holder, int position) {
+    private void loadLikes(@NonNull final MyViewHolder holder, Quotes quote) {
         final ArrayList<Likes> likesArrayList = new ArrayList<>();
         final FirebaseUser userdb = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference quotedb = FirebaseDatabase.getInstance().getReference();
-        quotedb.child(path).child(mData.get(position).getId()).child("likes").addValueEventListener(new ValueEventListener() {
+        DatabaseReference quotedb = Tools.quotesreference;
+        quotedb.child(quote.getId()).child("likes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 likesArrayList.clear();

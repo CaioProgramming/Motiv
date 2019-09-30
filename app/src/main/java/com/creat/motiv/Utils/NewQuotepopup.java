@@ -84,7 +84,7 @@ public class NewQuotepopup {
     }
 
     public void showup() {
-        final BottomSheetDialog myDialog = new BottomSheetDialog(activity);
+        final BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
@@ -176,7 +176,7 @@ public class NewQuotepopup {
 
             }
         });
-        Tutorial();
+
         myDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -209,6 +209,7 @@ public class NewQuotepopup {
         Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
         blur.setVisibility(View.VISIBLE);
         blur.startAnimation(in);
+
     }
 
 
@@ -422,7 +423,8 @@ public class NewQuotepopup {
             Pref preferences = new Pref(Objects.requireNonNull(activity));
             if (!preferences.writetutorialstate()) {
                 preferences.setWriteTutorial(true);
-                Info.tutorial(activity.getString(R.string.new_quoteintro), activity);
+                Alert a = new Alert(activity);
+                a.Message(activity.getDrawable(R.drawable.ic_choices_monochrome), activity.getString(R.string.new_quoteintro));
             }
 
             //getData();

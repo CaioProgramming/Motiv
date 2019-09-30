@@ -1,7 +1,5 @@
 package com.creat.motiv;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.creat.motiv.Utils.Notification_reciever;
 import com.creat.motiv.Utils.Pref;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -70,24 +67,6 @@ public class Splash extends AppCompatActivity {
 
     }
 
-    private void setalarm() {
-        Pref preferences = new Pref(this);
-        preferences.setAlarm(true);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        Intent intent = new Intent(getApplicationContext(), Notification_reciever.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,
-                intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        if (alarmManager == null) {
-            return;
-        }
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_HALF_HOUR,pendingIntent);
-
-    }
 
     private void SignIn() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

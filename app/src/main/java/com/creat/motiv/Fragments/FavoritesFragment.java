@@ -22,14 +22,12 @@ import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Alert;
-import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -39,7 +37,6 @@ import java.util.Objects;
 
 import de.mateware.snacky.Snacky;
 
-import static com.creat.motiv.Database.QuotesDB.path;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,14 +44,8 @@ import static com.creat.motiv.Database.QuotesDB.path;
 public class FavoritesFragment extends Fragment {
 
 
-    String arg = "quote";
-    ArrayList<Quotes> quotesArrayList;
-    FirebaseUser user;
-    Boolean novo;
-    Query quotesdb;
-    Pref preferences;
     private RecyclerView myquotesrecycler;
-    ProgressBar loading;
+    private ProgressBar loading;
     private TextView favcount;
     private ArrayList<Quotes> allquotes;
     private ArrayList<Quotes> likequotes;
@@ -69,8 +60,6 @@ public class FavoritesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        preferences = new Pref(Objects.requireNonNull(getContext()));
         View v = inflater.inflate(R.layout.fragment_favorites, container, false);
         myquotesrecycler = v.findViewById(R.id.composesrecycler);
         loading = v.findViewById(R.id.loading);
@@ -81,7 +70,7 @@ public class FavoritesFragment extends Fragment {
     }
 
     private void show() {
-        Alert a = new Alert(getActivity());
+        Alert a = new Alert(Objects.requireNonNull(getActivity()));
         a.loading();
 
     }
@@ -103,7 +92,7 @@ public class FavoritesFragment extends Fragment {
 
 
         Query quotesdb2;
-        quotesdb2 = FirebaseDatabase.getInstance().getReference().child(path);
+        quotesdb2 = Tools.quotesreference;
         quotesdb2.keepSynced(false);
         quotesdb2.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -156,7 +145,7 @@ public class FavoritesFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Snacky.builder().setActivity(getActivity()).error().setText("Erro " + databaseError.getMessage()).show();
+                Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).error().setText("Erro " + databaseError.getMessage()).show();
             }
         });
 
@@ -164,11 +153,10 @@ public class FavoritesFragment extends Fragment {
     }
 
     private void like(final Quotes position) {
-        if (getActivity() == null) {
-            return;
-        }
-        DatabaseReference likedb = FirebaseDatabase.getInstance().getReference();
-        likedb.child(path).child(position.getId()).child("likes").addListenerForSingleValueEvent(new ValueEventListener() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference likedb = Tools.quotesreference;
+        likedb.child(position.getId()).child("likes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 likesArrayList.clear();
@@ -180,7 +168,7 @@ public class FavoritesFragment extends Fragment {
                         likes = new Likes(l.getUserid(), l.getUsername(), l.getUserpic());
                     }
                     likesArrayList.add(likes);
-                    if (l != null && l.getUserid().equals(user.getUid())) {
+                    if (l != null && l.getUserid().equals(Objects.requireNonNull(user).getUid())) {
                         likequotes.add(position);
                     }
 
@@ -205,7 +193,7 @@ public class FavoritesFragment extends Fragment {
         myquotesrecycler.setHasFixedSize(true);
         System.out.println(quotes);
         final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
-        RecyclerAdapter myadapter = new RecyclerAdapter(getContext(), quotes, getActivity());
+        RecyclerAdapter myadapter = new RecyclerAdapter(quotes, getActivity());
         myquotesrecycler.setAdapter(myadapter);
         myquotesrecycler.setLayoutManager(llm);
         myquotesrecycler.startAnimation(myanim2);
@@ -215,7 +203,7 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                favcount.setText(valueAnimator.getAnimatedValue().toString() + " favoritos");
+                favcount.setText(String.format("%s favoritos", valueAnimator.getAnimatedValue().toString()));
             }
         });
         animator.start();

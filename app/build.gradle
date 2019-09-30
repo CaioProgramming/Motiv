@@ -5,6 +5,7 @@ android {
     signingConfigs {
 
     }
+
     compileSdkVersion 28
     defaultConfig {
         renderscriptSupportModeEnabled true
@@ -14,7 +15,7 @@ android {
         versionCode 12
         versionName "8.1"
         renderscriptTargetApi 19
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
@@ -24,7 +25,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
         }
     }
 }
@@ -32,18 +32,11 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    //noinspection GradleCompatible
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.palette:palette:1.0.0'
-    implementation 'com.google.android:flexbox:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
     //Firebase libs
 
@@ -59,55 +52,22 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:18.2.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
 
-    //implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
-    //implementation 'com.github.wooplr:Spotlight:1.2.3'
-
-    //implementation 'com.huxq17.android:SwipeCardsView:1.3.4'
     implementation 'com.github.clans:fab:1.6.2'
 
-    //implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
-
-    //    implementation 'agency.tango.android:material-intro-screen:{latest_release}'
-
-    //implementation 'com.github.dimorinny:show-case-card-view:0.0.4'
     implementation 'com.pes.materialcolorpicker:library:1.2.4'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
-    //implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
-
-    //implementation 'com.github.abdularis:androidbuttonprogress:v0.1-alpha5'
-
-    //implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.1'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    //implementation 'com.github.takusemba:cropme:1.0.0'
-
-    //implementation 'com.github.jrvansuita:GaussianBlur:1.0.0'
-
-    //implementation 'com.jakewharton:butterknife:7.0.1'
-
-    //implementation 'com.github.tarek360:BottomNavigation-RichPath-Sample:09249c56bd'
-
-    //implementation 'com.github.marcoscgdev:DialogSheet:1.0.6'
-
-    //implementation 'com.github.Binary-Finery:FabToast:1.0'
     implementation 'com.github.matecode:Snacky:1.0.3'
-
-    //implementation 'org.michaelbel:bottomsheet:1.2.3'
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
-
-    //implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0'
     implementation 'com.github.devendroid:ReadMoreOption:1.0.2'
-
-    //implementation 'com.asksira.android:bsimagepicker:1.0.1'
     implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'
-    // implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
 
-    //implementation 'com.github.hajiyevelnur92:Copy-button:1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 repositories {
     mavenCentral()

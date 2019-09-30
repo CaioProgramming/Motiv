@@ -2,7 +2,6 @@ package com.creat.motiv;
 
 import android.app.Application;
 import android.content.Intent;
-import android.util.Log;
 
 public class App extends Application {
 
@@ -22,7 +21,7 @@ public class App extends Application {
         Intent intent = new Intent(getApplicationContext(), ErrorActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        Log.println(Log.ERROR, "Erro", e.getMessage());
+        //Log.println(Log.ERROR, "Erro", e.getMessage());
 
     }
 
