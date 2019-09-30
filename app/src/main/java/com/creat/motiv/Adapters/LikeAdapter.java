@@ -52,19 +52,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
         Likes likes = likesList.get(holder.getAdapterPosition());
         Log.println(Log.INFO, "loaded like ", likes.getUsername());
         holder.nome.setText(likes.getUsername());
-        Glide.with(activity).load(likes.getUserpic()).addListener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                holder.pic.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_astronaut));
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                holder.pic.setImageDrawable(resource);
-                return false;
-            }
-        }).into(holder.pic);
+        Glide.with(activity).load(likes.getUserpic()).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic);
         final Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
         holder.pic.startAnimation(in);
 

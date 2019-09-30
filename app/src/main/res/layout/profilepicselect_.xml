@@ -15,32 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <ProgressBar
-        android:layout_height="500dp"
-        android:padding="150dp"
-        android:id="@+id/pb"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary" />
-    <TextView
-        android:textColor="@color/black"
-        android:layout_height="500dp"
-        android:gravity="center"
-        android:id="@+id/message"
-        android:layout_width="match_parent"
-        android:textSize="24sp"
-        android:text="@string/foto_atualizada"
-        android:textAlignment="center"
-        android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:orientation="vertical">
-
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
 
             <TextView
                 android:textColor="@color/black"
@@ -62,7 +43,6 @@
 
 
         </LinearLayout>
-    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

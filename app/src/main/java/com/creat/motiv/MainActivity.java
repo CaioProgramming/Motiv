@@ -1,5 +1,6 @@
 package com.creat.motiv;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -15,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -22,6 +26,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     Activity activity = this;
     FirebaseUser user;
     private TabLayout tabs;
-
+    CoordinatorLayout container;
 
 
 
@@ -110,6 +115,24 @@ public class MainActivity extends AppCompatActivity {
         checkUser();
         preferences = new Pref(context);
         setContentView(R.layout.activity_main2);
+        container = findViewById(R.id.container);
+
+        if (savedInstanceState == null){
+            container.setVisibility(View.INVISIBLE);
+            ViewTreeObserver observer = container.getViewTreeObserver();
+            if (observer.isAlive()){
+                CircularReveal();
+                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        CircularReveal();
+                        container.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    }
+                });
+            }
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -125,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 pager.setCurrentItem(3);
             }
         });
-
         assert user != null;
         if (!user.isEmailVerified()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage("Email não verificado");
@@ -145,11 +167,8 @@ public class MainActivity extends AppCompatActivity {
             });
 
             builder.show();}
-
         //theme();
-
         internetconnection();
-
         version();
         agree();
         MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager());
@@ -158,9 +177,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(0).setText("Home");
         tabs.getTabAt(1).setText("Favoritos");
         tabs.getTabAt(2).setText("Perfil");
-
         AdView adView = findViewById(R.id.adView);
-
         MobileAds.initialize(this,
                 "ca-app-pub-4979584089010597/9177000416");
 
@@ -290,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
+        checkUser();
         internetconnection();
 
     }
@@ -299,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        checkUser();
         internetconnection();
     }
 
@@ -307,20 +325,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        checkUser();
         internetconnection();
     }
 
     @Override
     public void onBackPressed() {
 
-        if (home) {
+        if (pager.getCurrentItem() == 0) {
             this.finish();
-            super.onBackPressed();
         } else {
-            tabs.getTabAt(0).select();
-            home = true;
             pager.setCurrentItem(0, true);
         }
+        super.onBackPressed();
+
     }
 
     private boolean isNetworkAvailable() {
@@ -342,5 +360,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+    private void CircularReveal(){
+        Rect bounds = new Rect();
+        container.getDrawingRect(bounds);
+        int cx = bounds.centerX();
+        int cy = bounds.centerY();
+        float fradius = Math.max(container.getWidth(),container.getHeight());
+        Animator circulareveal = ViewAnimationUtils.createCircularReveal(container,cx,cy,0,fradius);
+        circulareveal.setDuration(1500);
+        container.setVisibility(View.VISIBLE);
+        circulareveal.start();
+
+
+
+    }
+
+
+
 
 }

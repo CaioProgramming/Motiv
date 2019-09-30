@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+         android:orientation="vertical"
+        android:padding="5dp">
 
         <ImageView
-            android:id="@+id/icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:scaleType="centerInside"
+             android:id="@+id/icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:src="@mipmap/ic_launcher" />
 

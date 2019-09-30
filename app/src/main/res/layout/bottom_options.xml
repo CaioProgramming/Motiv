@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@drawable/topround"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="0dp">
+    android:paddingTop="10dp"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
         <TextView
+            android:textColor="@color/black"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_garbage"
             android:id="@+id/delete"
             style="@style/BottomOptionstext"
             android:layout_width="match_parent"
@@ -20,10 +19,12 @@
             android:foreground="?attr/selectableItemBackground"
             android:foregroundTint="@color/colorPrimaryDark"
             android:text="Apagar post"
-            android:textAlignment="center"
-            android:textAllCaps="false" />
+             android:textAllCaps="false" />
 
         <TextView
+            android:textColor="@color/black"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_edit"
             android:id="@+id/edit"
             style="@style/BottomOptionstext"
             android:layout_width="match_parent"
@@ -31,48 +32,49 @@
             android:foreground="?attr/selectableItemBackground"
             android:foregroundTint="@color/colorPrimaryDark"
             android:text="Editar"
-            android:textAlignment="center"
             android:textAllCaps="false" />
 
         <TextView
-            android:id="@+id/share"
+            android:textColor="@color/black"
+            android:drawablePadding="10dp"
 
+            android:id="@+id/share"
+            android:drawableStart="@drawable/ic_share"
             style="@style/BottomOptionstext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:foregroundTint="@color/colorPrimaryDark"
             android:text="Compartilhar"
-            android:textAlignment="center"
-            android:textAllCaps="false" />
+             android:textAllCaps="false" />
 
         <TextView
-            android:id="@+id/copy"
+            android:drawablePadding="10dp"
+            android:textColor="@color/black"
 
+            android:id="@+id/copy"
+            android:drawableStart="@drawable/ic_bookmark"
             style="@style/BottomOptionstext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:foregroundTint="@color/colorPrimaryDark"
             android:text="Copiar texto"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TabsTextStyle" />
+             android:textAllCaps="false" />
 
         <TextView
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/red_400"
             android:id="@+id/report"
-
+            android:drawableStart="@drawable/ic_flag"
             style="@style/BottomOptionstext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:foregroundTint="@color/colorPrimaryDark"
             android:text="Denunciar"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/red_300" />
+            android:textColor="@color/red_400" />
 
     </LinearLayout>
 
 
-</androidx.cardview.widget.CardView>

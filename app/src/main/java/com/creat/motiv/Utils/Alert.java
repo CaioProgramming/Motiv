@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -73,7 +72,8 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     public Drawable erroricon, succesicon;
     private RealtimeBlurView blur;
     private Activity activity;
-    private int style = R.style.Dialog_No_Border;
+    private int dialogNoBorder = R.style.Dialog_No_Border;
+    private int bottomdialogNoBorder = R.style.Bottom_Dialog_No_Border;
 
 
     public Alert(Activity activity) {
@@ -84,7 +84,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
 
     public void quoteoptions(boolean isfromuser, final Quotes quote) {
-        BottomSheetDialog myDialog = new BottomSheetDialog(activity, style);
+        final BottomSheetDialog myDialog = new BottomSheetDialog(activity, bottomdialogNoBorder);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.bottom_options);
@@ -107,12 +107,15 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
             copy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    myDialog.dismiss();
                     ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("frase", quote.getQuote());
                     clipboard.setPrimaryClip(clip);
-                    Snacky.builder().setActivity(activity).setBackgroundColor(Color.BLACK).
+                    Snacky.builder().setActivity(activity).setBackgroundColor(Color.WHITE).
                             setText("Frase " + quote.getQuote() +
-                                    "copiado para área de transferência").build().show();
+                                    "copiado para área de transferência")
+                            .setTextColor(Color.WHITE).build().show();
+
                 }
             });
         }
@@ -121,6 +124,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    myDialog.dismiss();
                     NewQuotepopup newQuotepopup = new NewQuotepopup(activity, blur);
                     newQuotepopup.showedit(quote);
                 }
@@ -131,6 +135,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    myDialog.dismiss();
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/pain");
                     share.putExtra(Intent.EXTRA_SUBJECT, "Motiv");
@@ -144,13 +149,14 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    myDialog.dismiss();
                     DatabaseReference raiz;
                     raiz = Tools.quotesreference;
                     raiz.child(quote.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Animation out = AnimationUtils.loadAnimation(activity, R.anim.fab_scale_down);
+                                Animation out = AnimationUtils.loadAnimation(activity, R.anim.pop_out);
                             } else {
                                 Snacky.builder().setActivity(activity).error().setText("Erro " + task.getException().getMessage()).show();
 
@@ -166,21 +172,8 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
             report.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Parece que alguém fez algo errado").setMessage("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade")
-                            .setNegativeButton("Não vou mais denunciar", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setPositiveButton("Sim, quero denunciar esta frase", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    QuotesDB quotesDB = new QuotesDB(activity, quote);
-                                    quotesDB.Denunciar();
-                                }
-                            });
-                    builder.show();
+                    myDialog.dismiss();
+                    Report(quote);
 
                 }
             });
@@ -193,9 +186,57 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
     }
 
+
+    private void Report(final Quotes quote){
+        final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.setOnShowListener(this);
+        myDialog.setOnDismissListener(this);
+        myDialog.setContentView(R.layout.message_dialog);
+        myDialog.show();
+        ImageView icon = myDialog.findViewById(R.id.icon);
+        TextView message = myDialog.findViewById(R.id.message);
+        Glide.with(activity).load(activity.getDrawable(R.drawable.flamencodeleteconfirmation)).into(icon);
+        message.setText("Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade?");
+        Button mButton = myDialog.findViewById(R.id.button);
+        mButton.setText("Denunciar");
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+                QuotesDB quotesDB = new QuotesDB(activity,quote);
+                quotesDB.Denunciar();
+
+            }
+        });
+    }
+    private void Ad(){
+        final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.setOnShowListener(this);
+        myDialog.setOnDismissListener(this);
+        myDialog.setContentView(R.layout.message_dialog);
+        myDialog.show();
+        ImageView icon = myDialog.findViewById(R.id.icon);
+        TextView message = myDialog.findViewById(R.id.message);
+        Glide.with(activity).load(activity.getDrawable(R.drawable.pluto)).into(icon);
+        message.setText("Gostaria de nos ajudar vendo um anúncio em vídeo?");
+        Button mButton = myDialog.findViewById(R.id.button);
+        mButton.setText("Assistir");
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+                ShowAd();
+
+            }
+        });
+    }
+
+
+
+
     public void about() {
 
-        Dialog myDialog = new Dialog(activity, R.style.AppTheme);
+        final Dialog myDialog = new Dialog(activity, R.style.AppTheme);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -223,8 +264,15 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
             }
         });
 
+        adtext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+                Ad();
+            }
+        });
 
-        ShowAd(adtext);
+
         CarregarCreators(creatorsrecycler, new StringBuilder(), creators);
         CarregarReferences(designrecycler);
 
@@ -236,7 +284,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
         final RealtimeBlurView blurView = Objects.requireNonNull(activity).findViewById(R.id.rootblur);
         Picslist = new ArrayList<>();
-        final BottomSheetDialog myDialog = new BottomSheetDialog(activity, style);
+        final BottomSheetDialog myDialog = new BottomSheetDialog(activity, bottomdialogNoBorder);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.profilepicselect_);
@@ -248,8 +296,8 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
 
         picrecycler = myDialog.findViewById(R.id.picsrecycler);
-
-        ValueEventListener databaseReference = FirebaseDatabase.getInstance().getReference("images").orderByKey().addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = Tools.iconsreference;
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Picslist.clear();
@@ -290,7 +338,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
 
     public void Likelist(ArrayList<Likes> likes) {
-        BottomSheetDialog myDialog = new BottomSheetDialog(activity, style);
+        BottomSheetDialog myDialog = new BottomSheetDialog(activity, bottomdialogNoBorder);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.profilepicselect_);
@@ -299,8 +347,9 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
         myDialog.setOnDismissListener(this);
         TextView title = myDialog.findViewById(R.id.title);
         RecyclerView likesrecycler = myDialog.findViewById(R.id.picsrecycler);
-
-        title.setText(String.format("%d Curtidas", likes.size()));
+        ImageView icon = myDialog.findViewById(R.id.icon);
+        Glide.with(activity).load(activity.getDrawable(R.drawable.flamenco_done)).into(icon);
+        title.setText("Curtidas");
         LikeAdapter likeAdapter = new LikeAdapter(likes, activity);
         GridLayoutManager llm = new GridLayoutManager(activity, 1, LinearLayoutManager.VERTICAL, false);
         likesrecycler.setAdapter(likeAdapter);
@@ -313,7 +362,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
     public void changename() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final Dialog myDialog = new Dialog(activity, style);
+        final Dialog myDialog = new Dialog(activity, dialogNoBorder);
         myDialog.setOnShowListener(this);
         myDialog.setContentView(R.layout.changename);
         myDialog.show();
@@ -331,9 +380,9 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
 
 
-    private void ShowAd(TextView mHelpad) {
+    private void ShowAd() {
         final RewardedVideoAd rewardedVideoAd;
-        final ProgressDialog progressDialog = new ProgressDialog(activity, style);
+        final ProgressDialog progressDialog = new ProgressDialog(activity, dialogNoBorder);
         progressDialog.setOnShowListener(this);
         progressDialog.setOnDismissListener(this);
 
@@ -370,56 +419,23 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
             @Override
             public void onRewardedVideoAdLeftApplication() {
-                Snacky.builder().setActivity(Objects.requireNonNull(activity)).warning().setText("Saindo do aplicativo fica díficil...").show();
+
 
             }
 
             @Override
             public void onRewardedVideoAdFailedToLoad(int i) {
-
-                progressDialog.setMessage("Erro ao carregar anúncio \uD83D\uDE1E");
-                CountDownTimer timer = new CountDownTimer(2000, 100) {
-                    @Override
-                    public void onTick(long l) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        progressDialog.dismiss();
-                    }
-                }.start();
+                Message(erroricon,"Ocorreu um erro carregando o vídeo \uD83D\uDE22 ");
             }
 
             @Override
             public void onRewardedVideoCompleted() {
-                Snacky.builder().setActivity(Objects.requireNonNull(activity)).setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary)).setTextColor(Color.WHITE)
-                        .setIcon(R.drawable.ic_saturn_and_other_planets).setText("Obrigado pela ajuda, você é demais!").setDuration(10000).build().show();
+                Message(activity.getDrawable(R.drawable.flame_success),"Obrigado pela ajuda, você é demais \uD83D\uDE0D!");
 
             }
         });
+        loadRewardedVideoAd(rewardedVideoAd);
 
-
-        mHelpad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity).setTitle("Ajude o motiv a crescer")
-
-                        .setMessage("Veja esse anúncio para que nos ajude a melhorar mais nosso aplicativo")
-                        .setPositiveButton("Sim, quero ajudar!", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                loadRewardedVideoAd(rewardedVideoAd);
-                                progressDialog.setMessage("Carregando");
-                                progressDialog.show();
-
-                            }
-                        });
-                builder.show();
-
-
-            }
-        });
     }
 
     private void loadRewardedVideoAd(RewardedVideoAd rewardedVideoAd) {
@@ -526,7 +542,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
 
     public void Message(Drawable dicon, String messages) {
-        final Dialog myDialog = new Dialog(activity, style);
+        final Dialog myDialog = new Dialog(activity, dialogNoBorder);
         myDialog.setOnShowListener(this);
         myDialog.setContentView(R.layout.message_dialog);
         myDialog.show();

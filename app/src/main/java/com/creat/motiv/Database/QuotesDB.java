@@ -546,11 +546,13 @@ public class QuotesDB {
         quotesdb.child(this.quotes.getId()).child("report").setValue(this.quotes.isReport()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Snacky.builder().setActivity(activity).setText("A frase foi denúnciada e será analisada").success().show();
+                Alert a = new Alert(activity);
 
+
+                if (task.isSuccessful()){
+                    a.Message(a.succesicon,"Frase denunciada com sucesso");
                 } else {
-                    Snacky.builder().setActivity(activity).setText("Erro " + Objects.requireNonNull(task.getException()).getMessage()).success().show();
+                    a.Message(a.erroricon,"Erro ao processar denuncia..." + task.getException().getMessage());
                 }
             }
         });
@@ -597,8 +599,6 @@ public class QuotesDB {
     public void AlterarFoto(Quotes quote) {
 
         Log.println(Log.INFO, "User", "Changing quote: " + quote.getId());
-
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         quote.setUserphoto(String.valueOf(user.getPhotoUrl()));
         DatabaseReference quotesdb = FirebaseDatabase.getInstance().getReference();

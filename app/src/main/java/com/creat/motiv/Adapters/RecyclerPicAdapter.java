@@ -33,6 +33,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.MyViewHolder>  {
     private List<Pics> mData;
     private Activity mActivity;
@@ -58,7 +60,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final Pics pic = mData.get(holder.getAdapterPosition());
-        Animation in = AnimationUtils.loadAnimation(mActivity, R.anim.fab_scale_up);
+        Animation in = AnimationUtils.loadAnimation(mActivity, R.anim.pop_out);
         holder.loading.setVisibility(View.VISIBLE);
         Glide.with(mActivity).load(pic.getUri()).listener(new RequestListener<Drawable>() {
             @Override
@@ -74,7 +76,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
 
 
                 if (resource != null) {
-                    Animation out = AnimationUtils.loadAnimation(mActivity, R.anim.fab_scale_down);
+                    Animation out = AnimationUtils.loadAnimation(mActivity, R.anim.pop_out);
                     holder.loading.startAnimation(out);
                     holder.loading.setVisibility(View.GONE);
                     holder.pic.setImageDrawable(resource);
@@ -104,6 +106,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                     } else {
                         UserDB db = new UserDB(mActivity);
                         db.changeuserpic(profileFragment, pic.getUri());
+                        CircleImageView userpic = mActivity.findViewById(R.id.profilepic);
 
                     }
                 } else {

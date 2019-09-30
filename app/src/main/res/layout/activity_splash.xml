@@ -19,17 +19,9 @@
         android:layout_width="100dp"
         android:tint="@color/white"
         android:id="@+id/applogo"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:src="@drawable/ic_saturn_and_other_planets" />
-    <com.github.silvestrpredko.dotprogressbar.DotProgressBar
-        app:animationDirection="right"
-        app:duration="500"
-        app:amount="4"
-        app:startColor="@color/transparent"
-        app:endColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
+        android:src="@drawable/cometcircle" />
     </LinearLayout>
     <TextView
         android:layout_margin="10dp"

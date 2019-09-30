@@ -142,16 +142,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.dia.setText(fmt.format(postdia));
         }
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (quote.getUsername() != null || mData.get(position).getUserphoto() != null) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (!user.getUid().equals(quote.getUserID())) {
+        if (!quote.getUserID().equals(user.getUid())) {
+
                 User u = new User();
                 UserDB userDB = new UserDB(mActivity);
                 userDB.LoadUser(quote.getUserID(), holder.userpic, holder.username, u);
                 if (u.getName() == null) {
-                    Glide.with(mActivity).load(user.getPhotoUrl()).error(R.drawable.notfound).into(holder.userpic);
-                    holder.username.setText(user.getDisplayName());
+                    Glide.with(mActivity).load(quote.getUserphoto()).error(R.drawable.notfound).into(holder.userpic);
+                    holder.username.setText(quote.getUsername());
                 } else {
                     holder.username.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -166,28 +166,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         }
                     });
                 }
-            } else {
-                Glide.with(mActivity).load(quote.getUserphoto()).error(R.drawable.notfound).into(holder.userpic);
-                holder.username.setText(quote.getUsername());
-                final ViewPager pager = mActivity.findViewById(R.id.pager);
 
-
-                holder.username.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        pager.setCurrentItem(2, true);
-                    }
-                });
-                holder.userpic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        pager.setCurrentItem(2, true);
-                    }
-                });
-            }
         } else {
-            holder.username.setVisibility(View.GONE);
-            holder.userpic.setVisibility(View.GONE);
+        Glide.with(mActivity).load(user.getPhotoUrl()).error(R.drawable.notfound).into(holder.userpic);
+        holder.username.setText(user.getDisplayName());
+        final ViewPager pager = mActivity.findViewById(R.id.pager);
+
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(2, true);
+            }
+        });
+        holder.userpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(2, true);
+            }
+        });
 
         }
         if (mData.get(position).getBackgroundcolor() != 0) {
@@ -214,7 +210,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         readMoreOption.addReadMoreTo(holder.quote, quote.getQuote());
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
@@ -255,7 +251,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 TextView author = m_view.findViewById(R.id.author);
                 TextView quote = m_view.findViewById(R.id.quote);
                 quote.setText(R.string.reported);
-                quote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_flag_black_24dp, 0, 0, 0);
+                quote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_flag, 0, 0, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     quote.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
                 }
@@ -363,13 +359,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         TextView username, dia, likecount;
         TextView quote, author;
         CardView back;
-        LinearLayout quotedata;
+        LinearLayout quotedata,quoteinfo;
 
         MyViewHolder(View view) {
             super(view);
             likes = view.findViewById(R.id.likes);
             likecount = view.findViewById(R.id.likecount);
             quotedata = view.findViewById(R.id.quotedata);
+            quoteinfo = view.findViewById(R.id.quotetop);
             report = view.findViewById(R.id.reported);
             dia = view.findViewById(R.id.dia);
             like = view.findViewById(R.id.like);

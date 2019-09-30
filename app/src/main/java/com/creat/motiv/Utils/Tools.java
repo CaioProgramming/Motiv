@@ -20,13 +20,11 @@ import java.util.Random;
 
 public class Tools {
 
-    public static String userpicnotfound = "https://image.freepik.com/vetores-gratis/astronauta-em-pe-de-traje-espacial-na-prancha-de-surf-e-surf-em-estrelas-da-via-lactea_1441-3251.jpg";
-    public  static int sixhourinterval = 21600000;
-    public static String[] iconssite = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co"};
+    public static String[] iconssite = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co","mixkit.co","https://icons8.com/ouch/"};
 
 
     public static String path = "Quotes";
-    public static String iconpath = "Quotes";
+    public static String iconpath = "images";
     public static String userpath = "Users";
     public static DatabaseReference quotesreference = FirebaseDatabase.getInstance().getReference(path);
     public static DatabaseReference iconsreference = FirebaseDatabase.getInstance().getReference(iconpath);

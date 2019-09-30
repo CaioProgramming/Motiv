@@ -30,6 +30,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.creat.motiv.Adapters.RecyclerColorAdapter;
@@ -84,7 +85,7 @@ public class NewQuotepopup {
     }
 
     public void showup() {
-        final BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        final BottomSheetDialog myDialog = new BottomSheetDialog(activity, R.style.Bottom_Dialog_No_Border);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setCanceledOnTouchOutside(true);
         myDialog.setContentView(R.layout.newquotepopup);
@@ -301,7 +302,12 @@ public class NewQuotepopup {
                 blur.startAnimation(out);
                 blur.setVisibility(View.GONE);
                 SwipeRefreshLayout refreshLayout = activity.findViewById(R.id.refresh);
-                refreshLayout.setRefreshing(true);
+                if (refreshLayout != null) {
+                    refreshLayout.setRefreshing(true);
+                }else{
+                   ViewPager pager = activity.findViewById(R.id.pager);
+                    pager.setCurrentItem(2);
+                }
 
 
             }

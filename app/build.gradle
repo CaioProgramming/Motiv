@@ -50,16 +50,16 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.android.gms:play-services-ads:18.2.0'
-    implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
+    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
+    implementation 'com.hmomeni.progresscircula:progresscircula:0.2.1'
 
-    implementation 'com.github.clans:fab:1.6.2'
 
     implementation 'com.pes.materialcolorpicker:library:1.2.4'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    implementation 'com.github.matecode:Snacky:1.0.3'
+    implementation 'com.github.matecode:Snacky:1.1.4'
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
     implementation 'com.github.devendroid:ReadMoreOption:1.0.2'
     implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'

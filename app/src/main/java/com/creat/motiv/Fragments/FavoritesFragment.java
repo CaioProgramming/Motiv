@@ -192,7 +192,7 @@ public class FavoritesFragment extends Fragment {
         GridLayoutManager llm = new GridLayoutManager(getActivity(), Tools.spancount, GridLayoutManager.VERTICAL, false);
         myquotesrecycler.setHasFixedSize(true);
         System.out.println(quotes);
-        final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_scale_up);
+        final Animation myanim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.pop_in);
         RecyclerAdapter myadapter = new RecyclerAdapter(quotes, getActivity());
         myquotesrecycler.setAdapter(myadapter);
         myquotesrecycler.setLayoutManager(llm);
