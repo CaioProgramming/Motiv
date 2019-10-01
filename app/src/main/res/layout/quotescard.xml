@@ -10,6 +10,7 @@
     android:background="@color/white">
 
     <LinearLayout
+        android:padding="5dp"
         android:id="@+id/quotedata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp">
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/reported"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_flag"
+                android:tint="@color/red_500"
+                />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_gravity="center"
@@ -30,11 +40,14 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_astronaut" />
+
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="50dp">
+
                 <TextView
+                    android:padding="5dp"
                     android:foreground="?attr/selectableItemBackground"
                     android:fontFamily="@font/nunitoblack"
                     android:id="@+id/username"
@@ -49,16 +62,10 @@
                     android:layout_height="wrap_content"
                     android:padding="1dp"
                     android:textColor="@color/grey_600" />
+
             </LinearLayout>
 
 
-            <ImageButton
-                android:id="@+id/reported"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_flag_black_24dp"
-                android:visibility="gone" />
         </LinearLayout>
 
 

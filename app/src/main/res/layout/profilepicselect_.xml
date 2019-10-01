@@ -15,14 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_gravity="center"
-            android:scaleType="centerInside"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
             <TextView
                 android:textColor="@color/black"
                 android:id="@+id/title"

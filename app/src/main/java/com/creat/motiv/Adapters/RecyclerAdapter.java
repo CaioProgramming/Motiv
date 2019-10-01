@@ -1,20 +1,14 @@
 package com.creat.motiv.Adapters;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -38,7 +32,6 @@ import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.ColorUtils;
 import com.creat.motiv.Utils.Tools;
 import com.devs.readmoreoption.ReadMoreOption;
-import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,17 +51,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>  {
     private ArrayList<Quotes> mData;
-    private Activity mActivity;
-    private Dialog m_dialog;
-    private RealtimeBlurView blur;
+    private Activity activity;
 
 
     public RecyclerAdapter(ArrayList<Quotes> mData, Activity mActivity) {
         this.mData = mData;
-        this.mActivity = mActivity;
-        m_dialog= new Dialog(mActivity, R.style.Dialog_No_Border) ;
-        m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        blur = mActivity.findViewById(R.id.rootblur);
+        this.activity = mActivity;
+
 
 
     }
@@ -77,7 +66,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        LayoutInflater mInflater = LayoutInflater.from(mActivity);
+        LayoutInflater mInflater = LayoutInflater.from(activity);
         view = mInflater.inflate(R.layout.quotescard,parent,false);
 
 
@@ -87,7 +76,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Animation in = AnimationUtils.loadAnimation(mActivity, R.anim.fade_in);
+        Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
         final Quotes quote = mData.get(holder.getAdapterPosition());
 
         loadLikes(holder, quote);
@@ -113,8 +102,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.author.setText(quote.getAuthor());
         System.out.println("Quote " + mData.get(position).getQuote() + " selected font: " + mData.get(position).getFont());
         if (quote.getFont() != null) {
-            holder.quote.setTypeface(Tools.fonts(mActivity).get(mData.get(position).getFont()));
-            holder.author.setTypeface(Tools.fonts(mActivity).get(mData.get(position).getFont()));
+            holder.quote.setTypeface(Tools.fonts(activity).get(mData.get(position).getFont()));
+            holder.author.setTypeface(Tools.fonts(activity).get(mData.get(position).getFont()));
 
 
         } else {
@@ -145,47 +134,59 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (!quote.getUserID().equals(user.getUid())) {
+            User u = new User();
+            UserDB userDB = new UserDB(activity);
+            userDB.LoadUser(quote.getUserID(), holder.userpic, holder.username, u);
+            Log.println(Log.INFO,"USER","usuario " + u.getName());
+                 Glide.with(activity).load(quote.getUserphoto()).error(R.drawable.notfound).into(holder.userpic);
+                holder.username.setText(quote.getUsername());
+                holder.username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showuserprofile();
+                    }
+                });
+                holder.userpic.startAnimation(in);
+                holder.userpic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showuserprofile();
+                    }
+                });
+                holder.username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showuserprofile();
+                    }
+                });
+                holder.userpic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showuserprofile();
+                    }
+                });
 
-                User u = new User();
-                UserDB userDB = new UserDB(mActivity);
-                userDB.LoadUser(quote.getUserID(), holder.userpic, holder.username, u);
-                if (u.getName() == null) {
-                    Glide.with(mActivity).load(quote.getUserphoto()).error(R.drawable.notfound).into(holder.userpic);
-                    holder.username.setText(quote.getUsername());
-                } else {
-                    holder.username.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showuserprofile();
-                        }
-                    });
-                    holder.userpic.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showuserprofile();
-                        }
-                    });
-                }
 
         } else {
-        Glide.with(mActivity).load(user.getPhotoUrl()).error(R.drawable.notfound).into(holder.userpic);
-        holder.username.setText(user.getDisplayName());
-        final ViewPager pager = mActivity.findViewById(R.id.pager);
-
-        holder.username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pager.setCurrentItem(2, true);
-            }
-        });
-        holder.userpic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pager.setCurrentItem(2, true);
-            }
-        });
+            Glide.with(activity).load(user.getPhotoUrl()).error(R.drawable.notfound).into(holder.userpic);
+            holder.username.setText(user.getDisplayName());
+            final ViewPager pager = activity.findViewById(R.id.pager);
+            holder.username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pager.setCurrentItem(2, true);
+                }
+            });
+            holder.userpic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pager.setCurrentItem(2, true);
+                }
+            });
 
         }
+        holder.userpic.startAnimation(in);
+
         if (mData.get(position).getBackgroundcolor() != 0) {
             holder.back.setCardBackgroundColor(quote.getBackgroundcolor());
 
@@ -199,7 +200,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         // OR using options to customize
         int color = ColorUtils.getTransparentColor(quote.getTextcolor());
 
-        ReadMoreOption readMoreOption = new ReadMoreOption.Builder(mActivity)
+        ReadMoreOption readMoreOption = new ReadMoreOption.Builder(activity)
                 .textLength(205, ReadMoreOption.TYPE_CHARACTER)
                 .moreLabel(" Ver mais...")
                 .lessLabel(" Ver menos")
@@ -213,7 +214,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
+                Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibrator.hasVibrator()) {
                     long[] mVibratePattern = new long[]{100, 150};
 
@@ -221,7 +222,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 }
                 FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
                 boolean user = quote.getUserID().equals(u.getUid());
-                Alert alert = new Alert(mActivity);
+                Alert alert = new Alert(activity);
                 alert.quoteoptions(user, mData.get(holder.getAdapterPosition()));
             }
         });
@@ -230,8 +231,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     private void showuserprofile() {
-        Alert a = new Alert(mActivity);
-        a.Message(mActivity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");
+        Alert a = new Alert(activity);
+        a.Message(activity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");
     }
 
 
@@ -240,38 +241,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                blur.setVisibility(View.VISIBLE);
-                m_dialog = new Dialog(mActivity, R.style.Dialog_No_Border);
-                m_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                m_dialog.setCanceledOnTouchOutside(true);
-                LayoutInflater m_inflater = LayoutInflater.from(mActivity);
-                final View m_view = m_inflater.inflate(R.layout.quotepopup, null);
-                m_dialog.setContentView(m_view);
-                LinearLayout popup = m_view.findViewById(R.id.popup);
-                TextView author = m_view.findViewById(R.id.author);
-                TextView quote = m_view.findViewById(R.id.quote);
-                quote.setText(R.string.reported);
-                quote.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_flag, 0, 0, 0);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    quote.setCompoundDrawableTintList(ColorStateList.valueOf(Color.WHITE));
-                }
-                quote.setTextSize(16);
-                quote.setTextColor(Color.WHITE);
-                author.setVisibility(View.GONE);
-                popup.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-                m_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        blur.setVisibility(View.GONE);
-                    }
-                });
-                m_dialog.show();
+               Alert a = new Alert(activity);
+               a.Message(activity.getDrawable(R.drawable.ic_flag), activity.getString(R.string.reported));
+
             }
         });
     }
 
     private void Like(int position, @NonNull MyViewHolder holder) {
-        QuotesDB quotesDB = new QuotesDB(mActivity,mData.get(position));
+        QuotesDB quotesDB = new QuotesDB(activity,mData.get(position));
         if (!holder.like.isChecked()) {
             quotesDB.deslike();
         }else{
@@ -306,6 +284,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     String username = likesArrayList.get(0).getUsername();
                     if (userdb.getUid().equals(user)) {
                         username = "Você";
+                        holder.like.setChecked(true);
                     }
                     liketext.append("Curtido por ");
                     if (likesArrayList.size() > 1) {
@@ -319,7 +298,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     holder.likecount.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Alert alert = new Alert(mActivity);
+                            Alert alert = new Alert(activity);
                             alert.Likelist(likesArrayList);
                         }
                     });
@@ -343,9 +322,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public int getItemCount() {
-        if(mData.size() == 0){
+        if(mData  == null){
             return 0;
-
         }else{
             return mData.size();}
     }

@@ -5,10 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:minWidth="250dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/lwhite"
     android:orientation="vertical"
     app:cardCornerRadius="15dp">
 
     <LinearLayout
+        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -43,7 +46,7 @@
             android:fontFamily="@font/nunitoblack"
             android:foreground="?attr/selectableItemBackground"
             android:text="Ok"
-            android:textColor="@color/black"
+            android:textColor="@color/colorAccent"
             android:textStyle="bold" />
     </LinearLayout>
 

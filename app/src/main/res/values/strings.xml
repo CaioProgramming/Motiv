@@ -1,4 +1,12 @@
 <resources>
+
+    <array name="colors_rgb">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorAccent</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/deep_purple_900</item>
+    </array>
+
     <string name="app_name">Motiv</string>
 
     <!-- TODO: Remove or change this placeholder text -->

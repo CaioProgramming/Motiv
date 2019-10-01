@@ -3,6 +3,7 @@ package com.creat.motiv.Fragments;
 
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
@@ -120,7 +126,19 @@ public class ProfileFragment extends Fragment {
 
         username.setText(user.getDisplayName());
 
-        Glide.with(this).load(user.getPhotoUrl()).error(getActivity().getDrawable(R.drawable.notfound)).into(profilepic);
+        Glide.with(this).load(user.getPhotoUrl()).error(getActivity().getDrawable(R.drawable.notfound)).addListener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                Alert a = new Alert(getActivity());
+                a.Nopicture(pfragment);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                return false;
+            }
+        }).into(profilepic);
 
 
     }

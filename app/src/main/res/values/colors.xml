@@ -265,7 +265,7 @@
     <color name="colorAccent">#7C4DFF</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="lwhite">#64ffffff</color>
+    <color name="lwhite">#CCFFFFFF</color>
     <color name="owhite">#1effffff</color>
     <color name="transparent">#00ffffff</color>
 

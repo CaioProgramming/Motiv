@@ -67,7 +67,7 @@ public class UserDB {
                     FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
                         @Override
                         public void onSuccess(InstanceIdResult instanceIdResult) {
-                            User u = new User();
+                            final User u = new User();
                             u.setUid(firebaseUser.getUid());
                             u.setPhonenumber(firebaseUser.getPhoneNumber());
                             u.setPicurl(String.valueOf(firebaseUser.getPhotoUrl()));
@@ -80,7 +80,12 @@ public class UserDB {
                                     if (task.isSuccessful()) {
 
                                         a.Message(activity.getDrawable(R.drawable.ic_success), "Perfil atualizado com sucesso");
-                                        profileFragment.reload();
+                                        if (profileFragment != null) {
+                                            profileFragment.reload();
+                                        }
+                                        CircleImageView userpic = activity.findViewById(R.id.profilepic);
+                                        Glide.with(activity).load(firebaseUser.getPhotoUrl()).into(userpic);
+
                                     }
                                 }
                             });

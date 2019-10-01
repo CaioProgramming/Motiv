@@ -9,6 +9,7 @@
 
 
         <TextView
+            android:padding="10dp"
             android:textColor="@color/black"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_garbage"
@@ -22,6 +23,7 @@
              android:textAllCaps="false" />
 
         <TextView
+            android:padding="10dp"
             android:textColor="@color/black"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_edit"
@@ -37,6 +39,7 @@
         <TextView
             android:textColor="@color/black"
             android:drawablePadding="10dp"
+            android:padding="10dp"
 
             android:id="@+id/share"
             android:drawableStart="@drawable/ic_share"
@@ -51,9 +54,10 @@
         <TextView
             android:drawablePadding="10dp"
             android:textColor="@color/black"
+            android:padding="10dp"
 
             android:id="@+id/copy"
-            android:drawableStart="@drawable/ic_bookmark"
+            android:drawableStart="@drawable/ic_copy"
             style="@style/BottomOptionstext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,6 +67,7 @@
              android:textAllCaps="false" />
 
         <TextView
+            android:padding="10dp"
             android:drawablePadding="10dp"
             android:drawableTint="@color/red_400"
             android:id="@+id/report"

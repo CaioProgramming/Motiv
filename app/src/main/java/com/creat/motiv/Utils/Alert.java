@@ -114,7 +114,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
                     Snacky.builder().setActivity(activity).setBackgroundColor(Color.WHITE).
                             setText("Frase " + quote.getQuote() +
                                     "copiado para área de transferência")
-                            .setTextColor(Color.WHITE).build().show();
+                            .setTextColor(Color.BLACK).build().show();
 
                 }
             });
@@ -189,6 +189,9 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
     private void Report(final Quotes quote){
         final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        myDialog.setCanceledOnTouchOutside(true);
         myDialog.setOnShowListener(this);
         myDialog.setOnDismissListener(this);
         myDialog.setContentView(R.layout.message_dialog);
@@ -211,6 +214,9 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
     private void Ad(){
         final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        myDialog.setCanceledOnTouchOutside(true);
         myDialog.setOnShowListener(this);
         myDialog.setOnDismissListener(this);
         myDialog.setContentView(R.layout.message_dialog);
@@ -231,6 +237,31 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
         });
     }
 
+
+    public void Nopicture(final ProfileFragment profileFragment){
+        final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        myDialog.setCanceledOnTouchOutside(true);
+        myDialog.setOnShowListener(this);
+        myDialog.setOnDismissListener(this);
+        myDialog.setContentView(R.layout.message_dialog);
+        myDialog.show();
+        ImageView icon = myDialog.findViewById(R.id.icon);
+        TextView message = myDialog.findViewById(R.id.message);
+        Glide.with(activity).load(erroricon).into(icon);
+        message.setText("Parece que não encontramos seu ícone de perfil, gostaria de alterá-lo agora?");
+
+        Button mButton = myDialog.findViewById(R.id.button);
+        mButton.setText("Alterar ícone");
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+                Picalert(profileFragment);
+            }
+        });
+    }
 
 
 
@@ -315,7 +346,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
                 Objects.requireNonNull(picrecycler).setHasFixedSize(true);
                 GridLayoutManager llm = new GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false);
-                RecyclerPicAdapter recyclerPicAdapter = new RecyclerPicAdapter(Picslist, activity, pfragment);
+                RecyclerPicAdapter recyclerPicAdapter = new RecyclerPicAdapter(Picslist, activity, pfragment,myDialog);
                 picrecycler.setAdapter(recyclerPicAdapter);
                 picrecycler.setLayoutManager(llm);
             }
@@ -347,14 +378,18 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
         myDialog.setOnDismissListener(this);
         TextView title = myDialog.findViewById(R.id.title);
         RecyclerView likesrecycler = myDialog.findViewById(R.id.picsrecycler);
-        ImageView icon = myDialog.findViewById(R.id.icon);
-        Glide.with(activity).load(activity.getDrawable(R.drawable.flamenco_done)).into(icon);
-        title.setText("Curtidas");
+
         LikeAdapter likeAdapter = new LikeAdapter(likes, activity);
         GridLayoutManager llm = new GridLayoutManager(activity, 1, LinearLayoutManager.VERTICAL, false);
         likesrecycler.setAdapter(likeAdapter);
         likesrecycler.setLayoutManager(llm);
+        title.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_loving_message_red,0,0);
+        if (likes.size() == 1) {
+            title.setText( likes.size() + " curtida");
+        }else{
+            title.setText( likes.size() + " curtidas");
 
+        }
         myDialog.show();
 
     }
@@ -363,7 +398,11 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     public void changename() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        myDialog.setCanceledOnTouchOutside(true);
         myDialog.setOnShowListener(this);
+        myDialog.setOnDismissListener(this);
         myDialog.setContentView(R.layout.changename);
         myDialog.show();
         final EditText mUsername = myDialog.findViewById(R.id.username);
@@ -516,16 +555,15 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
 
     public void loading() {
-        final ProgressDialog myDialog = new ProgressDialog(activity, R.style.Dialog_No_Border);
+        final Dialog myDialog = new Dialog(activity, R.style.Dialog_No_Border);
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        myDialog.setCanceledOnTouchOutside(true);
+        myDialog.setContentView(R.layout.loading);
         myDialog.setOnShowListener(this);
         myDialog.setOnDismissListener(this);
         myDialog.show();
 
-
-        CountDownTimer timer = new CountDownTimer(1000, 100) {
+        CountDownTimer timer = new CountDownTimer(1800, 100) {
             @Override
             public void onTick(long l) {
 
@@ -543,7 +581,11 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
 
     public void Message(Drawable dicon, String messages) {
         final Dialog myDialog = new Dialog(activity, dialogNoBorder);
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        myDialog.setCanceledOnTouchOutside(true);
         myDialog.setOnShowListener(this);
+        myDialog.setOnDismissListener(this);
         myDialog.setContentView(R.layout.message_dialog);
         myDialog.show();
         ImageView icon = myDialog.findViewById(R.id.icon);

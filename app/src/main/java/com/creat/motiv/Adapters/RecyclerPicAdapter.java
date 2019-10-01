@@ -28,6 +28,7 @@ import com.creat.motiv.Database.UserDB;
 import com.creat.motiv.Fragments.ProfileFragment;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Alert;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -39,12 +40,13 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
     private List<Pics> mData;
     private Activity mActivity;
     private ProfileFragment profileFragment;
-
+    private BottomSheetDialog dialog;
     public RecyclerPicAdapter(List<Pics> mData,
-                              Activity mActivity, ProfileFragment pfragment) {
+                              Activity mActivity, ProfileFragment pfragment, BottomSheetDialog myDialog) {
         this.mData = mData;
         this.mActivity = mActivity;
         this.profileFragment = pfragment;
+        this.dialog = myDialog;
     }
 
     @NonNull
@@ -97,7 +99,7 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
             @Override
             public void onClick(View view) {
                 final Alert a = new Alert(mActivity);
-
+                dialog.dismiss();
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
                     if (user.getPhotoUrl() == Uri.parse(mData.get(position).getUri())) {
@@ -106,7 +108,6 @@ public class RecyclerPicAdapter extends RecyclerView.Adapter<RecyclerPicAdapter.
                     } else {
                         UserDB db = new UserDB(mActivity);
                         db.changeuserpic(profileFragment, pic.getUri());
-                        CircleImageView userpic = mActivity.findViewById(R.id.profilepic);
 
                     }
                 } else {

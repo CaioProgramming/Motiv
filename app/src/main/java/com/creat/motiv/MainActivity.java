@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,12 +25,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Adapters.MainAdapter;
 import com.creat.motiv.Beans.User;
 import com.creat.motiv.Beans.Version;
@@ -117,21 +123,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         container = findViewById(R.id.container);
 
-        if (savedInstanceState == null){
-            container.setVisibility(View.INVISIBLE);
-            ViewTreeObserver observer = container.getViewTreeObserver();
-            if (observer.isAlive()){
-                CircularReveal();
-                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        CircularReveal();
-                        container.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                    }
-                });
-            }
-        }
+         
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -140,7 +132,19 @@ public class MainActivity extends AppCompatActivity {
         pager = findViewById(R.id.pager);
         blurView = findViewById(R.id.rootblur);
         final CircleImageView profilepic = findViewById(R.id.profilepic);
-        Glide.with(this).load(user.getPhotoUrl()).into(profilepic);
+        Glide.with(this).load(user.getPhotoUrl()).error(getDrawable(R.drawable.notfound)).addListener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                Alert a = new Alert(activity);
+                a.Nopicture(null);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                return false;
+            }
+        }).into(profilepic);
         profilepic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -333,11 +337,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         if (pager.getCurrentItem() == 0) {
-            this.finish();
+            super.onBackPressed();
         } else {
             pager.setCurrentItem(0, true);
         }
-        super.onBackPressed();
 
     }
 
@@ -362,20 +365,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void CircularReveal(){
-        Rect bounds = new Rect();
-        container.getDrawingRect(bounds);
-        int cx = bounds.centerX();
-        int cy = bounds.centerY();
-        float fradius = Math.max(container.getWidth(),container.getHeight());
-        Animator circulareveal = ViewAnimationUtils.createCircularReveal(container,cx,cy,0,fradius);
-        circulareveal.setDuration(1500);
-        container.setVisibility(View.VISIBLE);
-        circulareveal.start();
-
-
-
-    }
 
 
 

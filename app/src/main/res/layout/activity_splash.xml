@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     android:id="@+id/layout"
     tools:context=".Splash">
 
@@ -15,13 +15,13 @@
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="100dp"
-        android:tint="@color/white"
-        android:id="@+id/applogo"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:src="@drawable/cometcircle" />
+
+        <com.creat.motiv.Utils.Typewritter
+             android:id="@+id/apptext"
+            android:textColor="@color/colorPrimaryDark"
+            style="@style/TabsTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
         android:layout_margin="10dp"
