@@ -91,10 +91,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         // holder.like.setVisibility(View.GONE);
 
 
-        if (quote.isReport()) {
-            reported(holder);
-        }
-
         holder.cardView.startAnimation(in);
         holder.quote.startAnimation(in);
         holder.author.startAnimation(in);
@@ -236,17 +232,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
 
-    private void reported(@NonNull MyViewHolder holder) {
-        holder.report.setVisibility(View.VISIBLE);
-        holder.report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Alert a = new Alert(activity);
-               a.Message(activity.getDrawable(R.drawable.ic_flag), activity.getString(R.string.reported));
 
-            }
-        });
-    }
 
     private void Like(int position, @NonNull MyViewHolder holder) {
         QuotesDB quotesDB = new QuotesDB(activity,mData.get(position));
@@ -332,8 +318,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     static class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout cardView, likes;
         CheckBox like;
-        ImageButton report;
-        CircleImageView userpic;
+         CircleImageView userpic;
         TextView username, dia, likecount;
         TextView quote, author;
         CardView back;
@@ -345,8 +330,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             likecount = view.findViewById(R.id.likecount);
             quotedata = view.findViewById(R.id.quotedata);
             quoteinfo = view.findViewById(R.id.quotetop);
-            report = view.findViewById(R.id.reported);
-            dia = view.findViewById(R.id.dia);
+             dia = view.findViewById(R.id.dia);
             like = view.findViewById(R.id.like);
             quote = view.findViewById(R.id.quote);
             author = view.findViewById(R.id.author);
