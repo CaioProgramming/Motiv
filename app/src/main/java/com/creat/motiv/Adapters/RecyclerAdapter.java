@@ -2,7 +2,9 @@ package com.creat.motiv.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
@@ -17,17 +19,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Beans.User;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.Database.UserDB;
 import com.creat.motiv.R;
+import com.creat.motiv.UserActivity;
 import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.ColorUtils;
 import com.creat.motiv.Utils.Tools;
@@ -76,7 +84,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
+        final Animation in = AnimationUtils.loadAnimation(activity, R.anim.fade_in);
         final Quotes quote = mData.get(holder.getAdapterPosition());
 
         loadLikes(holder, quote);
@@ -130,37 +138,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (!quote.getUserID().equals(user.getUid())) {
-            User u = new User();
+           final User u = new User();
+            u.setUid(quote.getUserID());
+            u.setName(quote.getUsername());
+            u.setPicurl(quote.getUserphoto());
             UserDB userDB = new UserDB(activity);
-            userDB.LoadUser(quote.getUserID(), holder.userpic, holder.username, u);
+            userDB.LoadUser(holder.userpic, holder.username, u);
             Log.println(Log.INFO,"USER","usuario " + u.getName());
-                 Glide.with(activity).load(quote.getUserphoto()).error(R.drawable.notfound).into(holder.userpic);
-                holder.username.setText(quote.getUsername());
-                holder.username.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showuserprofile();
-                    }
-                });
-                holder.userpic.startAnimation(in);
-                holder.userpic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showuserprofile();
-                    }
-                });
-                holder.username.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showuserprofile();
-                    }
-                });
-                holder.userpic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showuserprofile();
-                    }
-                });
+            Glide.with(activity).load(quote.getUserphoto()).error(R.drawable.notfound).addListener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.userpic.setImageDrawable(resource);
+                    holder.userpic.startAnimation(in);
+                    return false;
+                }
+            }).into(holder.userpic);
+            holder.username.setText(quote.getUsername());
+            holder.userpic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showuserprofile(u);
+                }
+            });
+            holder.username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showuserprofile(u);
+                }
+            });
 
 
         } else {
@@ -226,9 +236,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     }
 
-    private void showuserprofile() {
-        Alert a = new Alert(activity);
-        a.Message(activity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");
+    private void showuserprofile(User u) {
+        /*Alert a = new Alert(activity);
+        a.Message(activity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");*/
+        Intent i = new Intent(activity, UserActivity.class);
+        i.putExtra("uid",u.getUid());
+        i.putExtra("uname",u.getName());
+        i.putExtra("upic",u.getPicurl());
+        activity.startActivity(i);
+
     }
 
 
@@ -318,7 +334,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     static class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout cardView, likes;
         CheckBox like;
-         CircleImageView userpic;
+        CircleImageView userpic;
         TextView username, dia, likecount;
         TextView quote, author;
         CardView back;
@@ -330,7 +346,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             likecount = view.findViewById(R.id.likecount);
             quotedata = view.findViewById(R.id.quotedata);
             quoteinfo = view.findViewById(R.id.quotetop);
-             dia = view.findViewById(R.id.dia);
+            dia = view.findViewById(R.id.dia);
             like = view.findViewById(R.id.like);
             quote = view.findViewById(R.id.quote);
             author = view.findViewById(R.id.author);

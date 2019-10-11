@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.creat.motiv.Beans.Quotes;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Alert;
@@ -20,6 +21,7 @@ import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.github.mmin18.widget.RealtimeBlurView;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -31,8 +33,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private RecyclerView composesrecycler;
     private Boolean novo;
     private SwipeRefreshLayout refreshLayout;
-
-    public HomeFragment() {
+     public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -129,9 +130,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private void Carregar() {
         QuotesDB quotesDB = new QuotesDB(getActivity());
         quotesDB.Carregar(composesrecycler, refreshLayout);
-
-
-
     }
 
     private void show() {
@@ -141,30 +139,17 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (!query.isEmpty()) {
-            QuotesDB quotesDB = new QuotesDB(getActivity());
-            quotesDB.Pesquisar(query, composesrecycler);
-            return true;
-        } else {
-            Carregar();
-            return false;
-        }
+        QuotesDB quotesDB = new QuotesDB(getActivity());
+        quotesDB.Pesquisar(query,composesrecycler);
+        return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (!newText.isEmpty()) {
-            QuotesDB quotesDB = new QuotesDB(getActivity());
-            quotesDB.Pesquisar(newText, composesrecycler);
-            return true;
-        } else {
-            Carregar();
-            return false;
-        }
+         QuotesDB quotesDB = new QuotesDB(getActivity());
+        quotesDB.Pesquisar(newText,composesrecycler);
+        return false;
     }
-
-
 }

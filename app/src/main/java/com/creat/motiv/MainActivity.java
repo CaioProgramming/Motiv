@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         container = findViewById(R.id.container);
 
-         
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -143,12 +144,36 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(0).setText("Home");
         tabs.getTabAt(1).setText("Favoritos");
         tabs.getTabAt(2).setText("Perfil");
-        AdView adView = findViewById(R.id.adView);
+        final AdView adView = findViewById(R.id.adView);
         MobileAds.initialize(this,
                 "ca-app-pub-4979584089010597/9177000416");
 
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 2){
+                    getSupportActionBar().hide();
+                }else{
+                    getSupportActionBar().show();
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
     }
 
@@ -258,8 +283,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.navigation_about) {
             Alert alert = new Alert(this);
             alert.about();
-        } else {
-            settings();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -319,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
     private void internetconnection() {
         if (a == null) {
             if (!isNetworkAvailable()) {
+                a = new Alert(this);
                 a.Message(getDrawable(R.drawable.ic_broken_link), Tools.offlinemessage());
             }
         }

@@ -39,12 +39,18 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsetoolbar"
+            app:titleEnabled="false"
             app:contentScrim="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:expandedTitleGravity="top|center"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,14 +102,6 @@
                             android:padding="5dp"
                             android:text="Posts" />
 
-                        <TextView
-                            android:id="@+id/likes"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_brightness_1_black_24dp"
-                            android:drawableTint="@color/red_400"
-                            android:padding="5dp"
-                            android:text="Favoritos" />
 
 
                     </LinearLayout>
@@ -117,7 +115,7 @@
                     android:background="@drawable/ripple_button"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
-                    android:text="Editar Perfil"
+                    android:text="Seguir"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -128,5 +126,9 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:visibility="gone"
+        android:id="@+id/rootblur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

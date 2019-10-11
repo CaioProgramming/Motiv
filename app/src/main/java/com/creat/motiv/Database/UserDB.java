@@ -2,6 +2,7 @@ package com.creat.motiv.Database;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,16 +36,20 @@ public class UserDB {
         this.activity = activity;
     }
 
-    public void LoadUser(String uid, final CircleImageView userpic, final TextView username, final User userr) {
-        userref.child(uid).addValueEventListener(new ValueEventListener() {
+    public void LoadUser(final CircleImageView userpic, final TextView username, final User userr) {
+        userref.child(userr.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getValue(User.class);
+                     User user = dataSnapshot.getValue(User.class);
                     Glide.with(activity).load(user.getPicurl()).error(activity.getDrawable(R.drawable.notfound)).into(userpic);
                     username.setText(user.getName());
                     userr.setUid(dataSnapshot.getKey());
-
+                    userr.setName(user.getName());
+                }else {
+                    Log.println(Log.ERROR,"USER","Can't found on database");
+                    Glide.with(activity).load(userr.getPicurl()).error(activity.getDrawable(R.drawable.notfound));
+                    username.setText(userr.getName());
                 }
             }
 

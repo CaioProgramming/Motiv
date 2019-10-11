@@ -6,9 +6,6 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_search_black_24dp" />-->
     <item
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Configurações" />
-    <item
         android:id="@+id/navigation_about"
         android:icon="@drawable/about"
         android:title="Sobre" />

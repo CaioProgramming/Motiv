@@ -43,10 +43,7 @@ public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreato
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         Animation in = AnimationUtils.loadAnimation(mActivity,R.anim.pop_in);
-        Glide.with(mActivity).load(mData.get(position).getPhotouri()).into(holder.profilepic);
-        holder.profilepic.startAnimation(in);
-        holder.profilepic.setBorderColor(mActivity.getResources().getColor(R.color.colorPrimaryDark));
-        holder.nome.setVisibility(View.GONE);
+
 
 
 
@@ -65,15 +62,13 @@ public class RecyclerCreatorsAdapter extends RecyclerView.Adapter<RecyclerCreato
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        CircleImageView profilepic;
-        TextView nome;
+         TextView nome;
 
 
 
         private MyViewHolder(View view) {
             super(view);
-            profilepic = view.findViewById(R.id.brand);
-            nome = view.findViewById(R.id.brandtext);
+             nome = view.findViewById(R.id.name);
 
 
 

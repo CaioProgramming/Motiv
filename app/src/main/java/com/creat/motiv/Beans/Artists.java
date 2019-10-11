@@ -1,14 +1,16 @@
 package com.creat.motiv.Beans;
 
 public class Artists {
-    String nome,uri;
-
-    public Artists(String nome, String uri) {
-        this.nome = nome;
-        this.uri = uri;
-    }
+    private String nome,uri;
+   private int color;
 
     public Artists() {
+    }
+
+    public Artists(String nome, String uri, int color) {
+        this.nome = nome;
+        this.uri = uri;
+        this.color = color;
     }
 
     public String getNome() {
@@ -25,5 +27,13 @@ public class Artists {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

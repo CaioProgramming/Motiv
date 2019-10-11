@@ -33,6 +33,7 @@ import com.creat.motiv.Adapters.LikeAdapter;
 import com.creat.motiv.Adapters.RecyclerCreatorsAdapter;
 import com.creat.motiv.Adapters.RecyclerPicAdapter;
 import com.creat.motiv.Adapters.RecyclerReferencesAdapter;
+import com.creat.motiv.Beans.Artists;
 import com.creat.motiv.Beans.Developers;
 import com.creat.motiv.Beans.Likes;
 import com.creat.motiv.Beans.Pics;
@@ -311,7 +312,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
         });
 
 
-        CarregarCreators(creatorsrecycler, new StringBuilder(), creators);
+        CarregarCreators(creators);
         CarregarReferences(designrecycler);
 
     }
@@ -386,18 +387,12 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
         myDialog.setOnDismissListener(this);
         TextView title = myDialog.findViewById(R.id.title);
         RecyclerView likesrecycler = myDialog.findViewById(R.id.picsrecycler);
-
         LikeAdapter likeAdapter = new LikeAdapter(likes, activity);
         GridLayoutManager llm = new GridLayoutManager(activity, 1, LinearLayoutManager.VERTICAL, false);
         likesrecycler.setAdapter(likeAdapter);
         likesrecycler.setLayoutManager(llm);
         title.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_loving_message_red, 0, 0);
-        if (likes.size() == 1) {
-            title.setText(likes.size() + " curtida");
-        } else {
-            title.setText(likes.size() + " curtidas");
-
-        }
+        title.setText("Curtidas");
         myDialog.show();
 
     }
@@ -650,33 +645,22 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
 
 
-    private void CarregarCreators(final RecyclerView creatorsrecycler, final StringBuilder devtext, final TextView devs) {
-        final ArrayList<Developers> developersArrayList = new ArrayList<>();
+    private void CarregarCreators(final TextView devs) {
         Query aboutdb = FirebaseDatabase.getInstance().getReference().child("Developers");
         aboutdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                StringBuilder devtext = new StringBuilder();
+
                 int i = 0;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Developers developers = new Developers();
                     Developers dv = d.getValue(Developers.class);
 
                     if (dv != null) {
-                        developers.setNome(dv.getNome());
-                        developers.setBackgif(dv.getBackgif());
-                        developers.setPhotouri(dv.getPhotouri());
-                        developers.setLinkedin(dv.getLinkedin());
-                        developers.setCargo(dv.getCargo());
-
-                        System.out.println("Developer " + developers.getNome() + "   " + " cargo " + developers.getCargo() +
-                                "  " + "photo " + developers.getPhotouri() + " linkedin " + developers.getLinkedin() +
-                                " backgif " + developers.getBackgif());
-                        developersArrayList.add(dv);
                         if (i == 0) {
-                            devtext.append("<b>" + developers.getNome() + "</b>");
+                            devtext.append("<b>" + dv.getNome() + "</b>");
                         } else {
-                            devtext.append(" e <b>" + developers.getNome() + "</b>");
-
+                            devtext.append(" e <b>" + dv.getNome() + "</b>");
                         }
                         i++;
 
@@ -684,14 +668,7 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
                     }
 
                 }
-
                 devs.setText(Html.fromHtml(String.valueOf(devtext)));
-                RecyclerCreatorsAdapter recyclerCreatorsAdapter = new RecyclerCreatorsAdapter(developersArrayList, activity);
-                GridLayoutManager layoutManager = new GridLayoutManager(activity, 1, LinearLayoutManager.HORIZONTAL
-                        , false);
-                creatorsrecycler.setAdapter(recyclerCreatorsAdapter);
-                creatorsrecycler.setHasFixedSize(true);
-                creatorsrecycler.setLayoutManager(layoutManager);
             }
 
             @Override
@@ -702,17 +679,9 @@ public class Alert implements Dialog.OnShowListener, Dialog.OnDismissListener {
     }
 
     private void CarregarReferences(RecyclerView designrecycler) {
-        ArrayList<String> referencias = new ArrayList<>();
-        Collections.addAll(referencias, iconssite);
-        Collections.sort(referencias, new Comparator<String>() {
-            @Override
-            public int compare(String s, String t1) {
-                return s.compareToIgnoreCase(t1);
-            }
-        });
-        RecyclerReferencesAdapter recyclerReferencesAdapter = new RecyclerReferencesAdapter(referencias, activity);
-        GridLayoutManager llm = new GridLayoutManager(activity, 1, LinearLayoutManager.HORIZONTAL, false);
 
+        RecyclerReferencesAdapter recyclerReferencesAdapter = new RecyclerReferencesAdapter(activity);
+        GridLayoutManager llm = new GridLayoutManager(activity, 1, LinearLayoutManager.VERTICAL, false);
         designrecycler.setLayoutManager(llm);
         designrecycler.setHasFixedSize(true);
         designrecycler.setAdapter(recyclerReferencesAdapter);

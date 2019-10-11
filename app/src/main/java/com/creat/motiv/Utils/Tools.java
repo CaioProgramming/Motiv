@@ -1,11 +1,15 @@
 package com.creat.motiv.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.creat.motiv.Beans.Artists;
+import com.creat.motiv.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,7 +24,10 @@ import java.util.Random;
 
 public class Tools {
 
-    public static String[] iconssite = {"https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co","mixkit.co","https://icons8.com/ouch/"};
+   static  String[] iconssite = {"https://flaticon.com",
+            "https://dribbble.com", "https://material.io",
+            "https://undraw.co","https://mixkit.co",
+            "https://icons8.com/ouch/"};
 
 
     public static String path = "Quotes";
@@ -29,6 +36,27 @@ public class Tools {
     public static DatabaseReference quotesreference = FirebaseDatabase.getInstance().getReference(path);
     public static DatabaseReference iconsreference = FirebaseDatabase.getInstance().getReference(iconpath);
     public static DatabaseReference userreference = FirebaseDatabase.getInstance().getReference(userpath);
+
+
+    public static ArrayList<Artists> references(Activity activity){
+       int[] colors = {
+              activity.getResources().getColor(R.color.green_500),
+              activity.getResources().getColor(R.color.pink_500),
+              activity.getResources().getColor(R.color.grey_600),
+              activity.getResources().getColor(R.color.blue_500),
+              activity.getResources().getColor(R.color.teal_500),
+              activity.getResources().getColor(R.color.lime_500)
+        };
+        ArrayList<Artists> artists = new ArrayList<>();
+        for (int i = 0; i < iconssite.length;i++){
+            artists.add(new Artists(iconssite[i].replace(".com","").replace("https://","")
+                    ,iconssite[i], colors[i]));
+        }
+
+
+
+        return artists;
+    }
 
 
 

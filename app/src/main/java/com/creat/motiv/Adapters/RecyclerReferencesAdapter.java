@@ -2,8 +2,8 @@ package com.creat.motiv.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,66 +12,48 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.creat.motiv.Beans.Artists;
 import com.creat.motiv.R;
-import com.creat.motiv.Utils.Pref;
+import com.creat.motiv.Utils.Tools;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerReferencesAdapter extends RecyclerView.Adapter<RecyclerReferencesAdapter.MyViewHolder>  {
-    private List<String> mData;
+    private ArrayList<Artists> mData;
     private Activity mActivity;
 
 
-    public RecyclerReferencesAdapter( List<String> mData,
-                                     Activity mActivity) {
-        this.mData = mData;
+    public RecyclerReferencesAdapter(Activity mActivity) {
         this.mActivity = mActivity;
-     }
+        mData = Tools.references(mActivity);
+    }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         LayoutInflater mInflater = LayoutInflater.from(mActivity);
-        view = mInflater.inflate(R.layout.references, parent, false);
+        view = mInflater.inflate(R.layout.references_layout, parent, false);
 
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        final Artists a = mData.get(holder.getAdapterPosition());
+        holder.nome.setText(a.getNome());
+        holder.nome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse(a.getUri());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                mActivity.startActivity(intent);
+            }
+        });
+        Log.println(Log.INFO,"REFERENCE color", String.valueOf(a.getColor()));
+        holder.nome.setTextColor(a.getColor());
 
-            holder.nome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Uri uri = Uri.parse(mData.get(position));
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    mActivity.startActivity(intent);
-                }
-            });
-        switch (position) {
-            case 0:
-                Glide.with(mActivity).load(mActivity.getString(R.string.dribblelogo)).into(holder.logo);
-                holder.nome.setText("Dribble");
-                break;
-            case 1:
-                Glide.with(mActivity).load(mActivity.getString(R.string.flaticonlogo)).into(holder.logo);
-                holder.nome.setText("Flaticon");
-                break;
-            case 2:
-                Glide.with(mActivity).load(mActivity.getString(R.string.materialiologo)).into(holder.logo);
-                holder.nome.setText("Material.io");
-                break;
-            case 3:
-                Glide.with(mActivity).load(mActivity.getString(R.string.undrawlogo)).into(holder.logo);
-                holder.nome.setText("Undraw");
-                break;
-        }
-        Pref preferences = new Pref(mActivity);
-        int white = Color.WHITE;
 
 
     }
@@ -80,21 +62,16 @@ public class RecyclerReferencesAdapter extends RecyclerView.Adapter<RecyclerRefe
 
     @Override
     public int getItemCount() {
-        if(mData.size() == 0){
-            return 0;
 
-        }else{
-            return mData.size();}
+        return mData.size();
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nome;
-        CircleImageView logo;
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            nome = view.findViewById(R.id.brandtext);
-            logo = view.findViewById(R.id.brand);
+            nome = view.findViewById(R.id.reference);
 
 
 
