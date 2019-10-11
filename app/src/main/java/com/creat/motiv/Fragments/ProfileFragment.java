@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,6 @@ import java.util.Collections;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import de.mateware.snacky.Snacky;
 
 
 
@@ -97,6 +97,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        Button edit = v.findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Alert a = new Alert(getActivity());
+                a.settings();
+            }
+        });
 
         return v;
 
@@ -222,7 +230,8 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Snacky.builder().setActivity(Objects.requireNonNull(getActivity())).error().setText("Erro " + databaseError.getMessage()).show();
+                Alert a = new Alert(getActivity());
+                a.Message(a.erroricon, "Erro " + databaseError.getMessage());
             }
         });
 

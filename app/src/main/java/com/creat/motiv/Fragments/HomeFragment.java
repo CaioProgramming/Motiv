@@ -71,12 +71,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         tutorial();
 
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Carregar();
-            }
-        });
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -88,17 +82,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         });
 
 
-        /*profilepic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.home = false;
-                ProfileFragment nextFrag = new ProfileFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame, nextFrag, "profilefragment")
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });*/
         return v;
 
 

@@ -1,20 +1,14 @@
 package com.creat.motiv;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.creat.motiv.Utils.Alert;
-import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
 import com.creat.motiv.Utils.Typewritter;
 import com.firebase.ui.auth.AuthUI;
@@ -37,7 +31,7 @@ import de.mateware.snacky.Snacky;
 
 public class Splash extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
-    private Activity activity = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,7 +39,6 @@ public class Splash extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        Pref preferences = new Pref(this);
 
         setContentView(R.layout.activity_splash);
         Typewritter applogo = findViewById(R.id.apptext);
@@ -53,7 +46,7 @@ public class Splash extends AppCompatActivity {
         Date datenow = Calendar.getInstance().getTime();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(datenow);
-        brand.setText("Inlustris 2018 - " + calendar.get(Calendar.YEAR));
+        brand.setText(String.format(getString(R.string.company), calendar.get(Calendar.YEAR)));
         applogo.setDelay(300);
         applogo.animateText(getString(R.string.app_name)+"");
         //setalarm();
@@ -71,7 +64,6 @@ public class Splash extends AppCompatActivity {
 
             }
         }.start();
-
 
 
     }
@@ -131,15 +123,7 @@ public class Splash extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()){
-                    Intent i = new Intent(activity,NewUser.class);
-                    startActivity(i);
-                    activity.finish();
-                }else{
-                    Intent i = new Intent(activity,MainActivity.class);
-                    startActivity(i);
-                    activity.finish();
-                }
+                begin(dataSnapshot.exists());
             }
 
             @Override
@@ -149,6 +133,19 @@ public class Splash extends AppCompatActivity {
         });
 
 
+    }
 
+    private void begin(boolean exists) {
+        if (!exists) {
+            Intent i = new Intent(this, NewUser.class);
+            startActivity(i);
+            this.finish();
+        } else {
+            Intent i = new Intent(this, MainActivity.class);
+            i.putExtra("novo", false);
+            i.putExtra("notification", true);
+            startActivity(i);
+            this.finish();
+        }
     }
 }

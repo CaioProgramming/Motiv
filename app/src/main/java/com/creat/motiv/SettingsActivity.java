@@ -53,14 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
         this.deleteposts = findViewById(R.id.deleteposts);
         this.changename = findViewById(R.id.changename);
         this.toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.finish();
-            }
-        });
 
 
     }

@@ -13,6 +13,14 @@
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
     </style>
 
+    <style name="Settingslist" parent="Widget.AppCompat.TextView">
+        <item name="android:padding">10dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:fontFamily">@font/nunito_light</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:panelBackground">@drawable/round</item>
         <item name="android:fontFamily">@font/nunitolight</item>

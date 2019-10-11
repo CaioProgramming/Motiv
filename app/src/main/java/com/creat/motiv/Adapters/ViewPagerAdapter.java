@@ -24,7 +24,6 @@ import com.creat.motiv.MainActivity;
 import com.creat.motiv.R;
 import com.creat.motiv.Utils.Pref;
 import com.creat.motiv.Utils.Tools;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -95,7 +94,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private void Carregar() {
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Query quotesdb = Tools.quotesreference;
         quotesdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -176,43 +174,17 @@ public class ViewPagerAdapter extends PagerAdapter {
             final Intent i = new Intent(context, MainActivity.class);
 
             preferences = new Pref(context);
-            m_dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
-            Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
-            LayoutInflater m_inflater = LayoutInflater.from(context);
-            View m_view = m_inflater.inflate(R.layout.politics, null);
-            m_dialog.setContentView(m_view);
-            Button agreebutton = m_view.findViewById(R.id.agreebutton);
-            agreebutton.setOnClickListener(new View.OnClickListener() {
+
+            start.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    m_dialog.dismiss();
-                    preferences.setAgree(true);
 
+                    i.putExtra("novo", true);
+                    context.startActivity(i);
+                    activity.finish();
                 }
             });
-            m_view.startAnimation(in);
 
-            if (preferences.agreestate()) {
-                start.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        i.putExtra("novo", true);
-                        context.startActivity(i);
-                        activity.finish();
-                    }
-                });
-            } else {
-                m_dialog.show();
-                Snacky.builder().setActivity(activity).warning()
-                        .setText("Você precisa concordar com os termos de uso para prosseguir")
-                        .setAction("Ok", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                m_dialog.show();
-                            }
-                        }).show();
-            }
 
         }
         container.addView(view);

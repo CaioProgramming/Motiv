@@ -1,6 +1,5 @@
 package com.creat.motiv;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,21 +7,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,35 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void agree() {
-        m_dialog = new Dialog(this, R.style.Dialog_No_Border);
-        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
-        LayoutInflater m_inflater = LayoutInflater.from(context);
-        View m_view = m_inflater.inflate(R.layout.politics, null);
-        m_dialog.setContentView(m_view);
-        Button agreebutton = m_view.findViewById(R.id.agreebutton);
-        agreebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                m_dialog.dismiss();
-                preferences.setAgree(true);
-
-            }
-        });
-        m_view.startAnimation(in);
-        if (!preferences.agreestate()) {
-            Snacky.builder().setActivity(this).warning()
-                    .setText("Você precisa concordar com os termos de uso para usar o aplicativo!")
-                    .setAction("Ok", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            m_dialog.show();
-                        }
-                    }).setDuration(20000).show();
-        }
-        m_dialog.setCanceledOnTouchOutside(false);
-        m_dialog.setCancelable(false);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         //theme();
         internetconnection();
         version();
-        agree();
         MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager());
         pager.setAdapter(mainAdapter);
         tabs.setupWithViewPager(pager);

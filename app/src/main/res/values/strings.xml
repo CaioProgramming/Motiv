@@ -46,4 +46,5 @@
     <string name="materialiologo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/ucVTUoPg_400x400.jpg?alt=media&token=80b85935-95d1-4ca8-9bca-9a84e8899e52]]></string>
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
+    <string name="company">Inlustris 2018 - %d</string>
 </resources>

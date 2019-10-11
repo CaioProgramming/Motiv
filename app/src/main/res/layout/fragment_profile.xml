@@ -45,64 +45,84 @@
             app:expandedTitleGravity="top|center"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             android:fitsSystemWindows="true">
-
-
             <LinearLayout
-                android:padding="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_collapseMode="parallax">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:src="@drawable/ic_person_black_24dp"
-                    app:civ_border_color="@color/colorAccent"
-                    android:layout_width="120dp"
-                    android:id="@+id/profilepic"
-                    android:layout_height="120dp"
-                    android:padding="10dp"
-                    android:layout_gravity="center"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:tooltipText="Clique na foto para alterá-la"
-                    app:civ_border_width="1dp" />
+                android:layout_margin="25dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    app:layout_collapseMode="parallax">
 
-                    <TextView
-                        android:id="@+id/username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="@string/app_name"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profilepic"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_person_black_24dp"
+                        android:tooltipText="Clique na foto para alterá-la"
+                        app:civ_border_color="@color/colorAccent"
+                        app:civ_border_width="1dp" />
 
-                    <TextView
-                        android:drawableStart="@drawable/ic_brightness_1_black_24dp"
-                        android:drawableTint="@color/colorAccent"
-                        android:id="@+id/posts"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:padding="5dp"
-                        android:text="Posts" />
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:drawableStart="@drawable/ic_brightness_1_black_24dp"
-                        android:drawableTint="@color/red_400"
-                        android:id="@+id/likes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Favoritos" />
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/app_name"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/posts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:drawableStart="@drawable/ic_brightness_1_black_24dp"
+                            android:drawableTint="@color/colorAccent"
+                            android:padding="5dp"
+                            android:text="Posts" />
+
+                        <TextView
+                            android:id="@+id/likes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_brightness_1_black_24dp"
+                            android:drawableTint="@color/red_400"
+                            android:padding="5dp"
+                            android:text="Favoritos" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_button"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="Editar Perfil"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
             </LinearLayout>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 

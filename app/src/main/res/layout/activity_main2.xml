@@ -90,9 +90,9 @@
 
 
     <com.github.mmin18.widget.RealtimeBlurView
-        app:realtimeOverlayColor="@color/lwhite"
+        app:realtimeBlurRadius="50dp"
         android:visibility="gone"
-        app:realtimeBlurRadius="25dp"
+        app:realtimeOverlayColor="@color/transparent"
         android:id="@+id/rootblur"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
