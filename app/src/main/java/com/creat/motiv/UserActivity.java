@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import com.creat.motiv.Beans.User;
 import com.creat.motiv.Database.QuotesDB;
 import com.creat.motiv.Database.UserDB;
 import com.creat.motiv.Utils.Alert;
-import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -64,7 +62,7 @@ public class UserActivity extends AppCompatActivity {
                 activity.finish();
             }
         });
-
+        edit.setVisibility(View.GONE);
         Carregar(myquotesrecycler);
     }
 

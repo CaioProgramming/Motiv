@@ -132,8 +132,7 @@ public class QuotesDB {
 
     public void CarregarUserQuotes(final ArrayList<Quotes> quotesArrayList, final RecyclerView composesrecycler, final TextView usercount) {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        quotesdb.orderByChild("userID").equalTo(user.getUid());
-        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+        quotesdb.orderByChild("userID").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -193,8 +192,7 @@ public class QuotesDB {
 
     public void CarregarUserQuotes(final RecyclerView composesrecycler, final TextView usercount, final String userid) {
         final ArrayList<Quotes> quotesArrayList = new ArrayList<>();
-        quotesdb.orderByChild("userID").equalTo(userid);
-        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+        quotesdb.orderByChild("userID").equalTo(userid).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -253,12 +251,12 @@ public class QuotesDB {
 
     public void Pesquisar(final String pesquisa, final RecyclerView composesrecycler) {
 
-
         quotesdb.orderByChild("quote").startAt(pesquisa)
-                .endAt(pesquisa + "\uf8ff");
-        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+                .endAt(pesquisa + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.println(Log.INFO, "PESQUISA", "Resultados " + dataSnapshot.getChildrenCount());
+
                 ArrayList<Quotes> quotesArrayList = new ArrayList<>();
                 composesrecycler.removeAllViews();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
@@ -329,10 +327,9 @@ public class QuotesDB {
     }
 
     private void PesquisarAuthor(final String pesquisa, final RecyclerView composesrecycler) {
-
         quotesdb.orderByChild("author").startAt(pesquisa)
-                .endAt(pesquisa + "\uf8ff");
-        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+                .endAt(pesquisa + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+            ;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Quotes> quotesArrayList = new ArrayList<>();
@@ -399,10 +396,8 @@ public class QuotesDB {
     }
 
     private void PesquisarUsuario(final String pesquisa, final RecyclerView composesrecycler) {
-
         quotesdb.orderByChild("username").startAt(pesquisa)
-                .endAt(pesquisa + "\uf8ff");
-        quotesdb.addListenerForSingleValueEvent(new ValueEventListener() {
+                .endAt(pesquisa + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Quotes> quotesArrayList = new ArrayList<>();

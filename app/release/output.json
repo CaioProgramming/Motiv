@@ -3,11 +3,11 @@
     "outputType": {
       "type": "APK"
     },
-    "apkInfo": {
+    "apkData": {
       "type": "MAIN",
       "splits": [],
-      "versionCode": 12,
-      "versionName": "8.1",
+      "versionCode": 13,
+      "versionName": "8.5",
       "enabled": true,
       "outputFile": "app-release.apk",
       "fullName": "release",

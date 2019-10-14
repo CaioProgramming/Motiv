@@ -20,6 +20,8 @@ import com.creat.motiv.Utils.Alert;
 import com.creat.motiv.Utils.NewQuotepopup;
 import com.creat.motiv.Utils.Pref;
 import com.github.mmin18.widget.RealtimeBlurView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -33,6 +35,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private RecyclerView composesrecycler;
     private Boolean novo;
     private SwipeRefreshLayout refreshLayout;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private ArrayList<Quotes> quotesArrayList;
      public HomeFragment() {
         // Required empty public constructor
     }
@@ -94,7 +98,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
 
 
-
     @Override
     public void onResume() {
 
@@ -138,18 +141,27 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     }
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
-        QuotesDB quotesDB = new QuotesDB(getActivity());
-        quotesDB.Pesquisar(query,composesrecycler);
+        composesrecycler.removeAllViews();
+        if (!query.isEmpty()) {
+            QuotesDB quotesDB = new QuotesDB(getActivity());
+            quotesDB.Pesquisar(query, composesrecycler);
+        } else {
+            Carregar();
+        }
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-         QuotesDB quotesDB = new QuotesDB(getActivity());
-        quotesDB.Pesquisar(newText,composesrecycler);
+        composesrecycler.removeAllViews();
+        if (!newText.isEmpty()) {
+            QuotesDB quotesDB = new QuotesDB(getActivity());
+            quotesDB.Pesquisar(newText, composesrecycler);
+        } else {
+            Carregar();
+        }
         return false;
     }
 }

@@ -12,8 +12,8 @@ android {
         applicationId "com.creat.motiv"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 12
-        versionName "8.1"
+        versionCode 13
+        versionName "8.5"
         renderscriptTargetApi 19
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

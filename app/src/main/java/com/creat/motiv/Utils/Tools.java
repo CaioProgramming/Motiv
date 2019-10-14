@@ -2,7 +2,6 @@ package com.creat.motiv.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -33,9 +32,9 @@ public class Tools {
     public static String path = "Quotes";
     public static String iconpath = "images";
     public static String userpath = "Users";
-    public static DatabaseReference quotesreference = FirebaseDatabase.getInstance().getReference(path);
-    public static DatabaseReference iconsreference = FirebaseDatabase.getInstance().getReference(iconpath);
-    public static DatabaseReference userreference = FirebaseDatabase.getInstance().getReference(userpath);
+    public static DatabaseReference quotesreference = FirebaseDatabase.getInstance().getReference().child(path);
+    public static DatabaseReference iconsreference = FirebaseDatabase.getInstance().getReference().child(iconpath);
+    public static DatabaseReference userreference = FirebaseDatabase.getInstance().getReference().child(userpath);
 
 
     public static ArrayList<Artists> references(Activity activity){
