@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.creat.motiv.Beans.Developers
+import com.creat.motiv.Model.Beans.Developers
 import com.creat.motiv.R
 import java.util.*
 

@@ -15,11 +15,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
-import com.creat.motiv.Beans.Pics
-import com.creat.motiv.MainActivity
+import com.creat.motiv.Model.Beans.Pics
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Pref
 import com.creat.motiv.Utils.Tools
+import com.creat.motiv.View.activities.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.*

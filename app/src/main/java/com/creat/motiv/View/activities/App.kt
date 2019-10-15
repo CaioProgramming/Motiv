@@ -1,4 +1,4 @@
-package com.creat.motiv
+package com.creat.motiv.View.activities
 
 import android.content.Context
 import android.content.Intent

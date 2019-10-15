@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
-import com.creat.motiv.Beans.Artists
+import com.creat.motiv.Model.Beans.Artists
 import com.creat.motiv.R
 
 class RecyclerArtistsAdapter(private val mContext: Context, private val mData: List<Artists>,

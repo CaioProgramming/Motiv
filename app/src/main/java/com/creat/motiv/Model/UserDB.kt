@@ -1,15 +1,15 @@
-package com.creat.motiv.Database
+package com.creat.motiv.Model
 
 import android.app.Activity
 import android.net.Uri
 import android.util.Log
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.creat.motiv.Beans.User
-import com.creat.motiv.Fragments.ProfileFragment
+import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Tools
+import com.creat.motiv.View.fragments.ProfileFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot

@@ -1,4 +1,4 @@
-package com.creat.motiv
+package com.creat.motiv.View.activities
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -23,8 +23,10 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.creat.motiv.Adapters.MainAdapter
-import com.creat.motiv.Beans.User
-import com.creat.motiv.Beans.Version
+import com.creat.motiv.BuildConfig
+import com.creat.motiv.Model.Beans.User
+import com.creat.motiv.Model.Beans.Version
+import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Pref
 import com.creat.motiv.Utils.Tools
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
         pager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                var appBarLayout: AppBarLayout = findViewById(R.id.appbarlayout)
+                val appBarLayout: AppBarLayout = findViewById(R.id.appbarlayout)
 
                 if (position == 2) {
                     appBarLayout.setExpanded(false, true)

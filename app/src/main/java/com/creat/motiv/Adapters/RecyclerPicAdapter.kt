@@ -18,11 +18,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.creat.motiv.Beans.Pics
-import com.creat.motiv.Database.UserDB
-import com.creat.motiv.Fragments.ProfileFragment
+import com.creat.motiv.Model.Beans.Pics
+import com.creat.motiv.Model.UserDB
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
+import com.creat.motiv.View.fragments.ProfileFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 

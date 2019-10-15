@@ -1,4 +1,4 @@
-package com.creat.motiv
+package com.creat.motiv.View.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.CountDownTimer
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.creat.motiv.R
 import com.creat.motiv.Utils.Tools
 import com.creat.motiv.Utils.Typewritter
 import com.firebase.ui.auth.AuthUI

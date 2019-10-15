@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".ErrorActivity">
+    tools:context=".View.activities.ErrorActivity">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Title"

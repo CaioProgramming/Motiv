@@ -1,4 +1,4 @@
-package com.creat.motiv.Beans
+package com.creat.motiv.Model.Beans
 
 class User {
     var name: String = ""

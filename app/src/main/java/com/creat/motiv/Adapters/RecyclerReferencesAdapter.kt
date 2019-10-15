@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.creat.motiv.Beans.Artists
+import com.creat.motiv.Model.Beans.Artists
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Tools
 import java.util.*

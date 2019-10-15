@@ -1,4 +1,4 @@
-package com.creat.motiv
+package com.creat.motiv.View.activities
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -9,8 +9,9 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.creat.motiv.Beans.Quotes
-import com.creat.motiv.Database.QuotesDB
+import com.creat.motiv.Model.Beans.Quotes
+import com.creat.motiv.Model.QuotesDB
+import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Tools
 import com.creat.motiv.Utils.Tools.searcharg

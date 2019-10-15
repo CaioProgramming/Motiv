@@ -29,16 +29,16 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.Adapters.LikeAdapter
 import com.creat.motiv.Adapters.RecyclerPicAdapter
 import com.creat.motiv.Adapters.RecyclerReferencesAdapter
-import com.creat.motiv.Beans.Developers
-import com.creat.motiv.Beans.Likes
-import com.creat.motiv.Beans.Pics
-import com.creat.motiv.Beans.Quotes
-import com.creat.motiv.Database.QuotesDB
-import com.creat.motiv.Database.UserDB
-import com.creat.motiv.Fragments.ProfileFragment
+import com.creat.motiv.Model.Beans.Developers
+import com.creat.motiv.Model.Beans.Likes
+import com.creat.motiv.Model.Beans.Pics
+import com.creat.motiv.Model.Beans.Quotes
+import com.creat.motiv.Model.QuotesDB
+import com.creat.motiv.Model.UserDB
 import com.creat.motiv.R
-import com.creat.motiv.Splash
 import com.creat.motiv.Utils.Tools.searcharg
+import com.creat.motiv.View.activities.Splash
+import com.creat.motiv.View.fragments.ProfileFragment
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -403,13 +403,13 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                     val q = d.getValue(Quotes::class.java)
                     myquotes.add(q!!)
                 }
-                val quotesDB = QuotesDB()
+                val quotesDB = QuotesDB(activity)
                 val alertDialog = AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Suas " + myquotes.size + " frases serão removidas para sempre! S E M P R E")
                         .setNeutralButton("Tenho certeza sim, cliquei porque quis!") { dialogInterface, i ->
                             for (quotes in myquotes) {
-                                quotesDB.Removerposts(activity, quotes.id!!)
+                                quotesDB.Removerposts(quotes.id!!)
                             }
                         }
                         .setNegativeButton("Cliquei errado calma", null)
@@ -441,7 +441,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                     val q = d.getValue(Quotes::class.java)
                     myquotes.add(q!!)
                 }
-                val quotesDB = QuotesDB()
+                val quotesDB = QuotesDB(activity)
                 val alertDialog = AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Você e suas " + myquotes.size + " frases serão removidos para sempre! S E M P R E")
@@ -449,7 +449,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                             val progressDialog = ProgressDialog(activity, R.style.Dialog_No_Border)
                             progressDialog.show()
                             for (quotes in myquotes) {
-                                quotesDB.Apagarconta(activity, quotes.id!!)
+                                quotesDB.Apagarconta(quotes.id!!)
                             }
                             progressDialog.setMessage("Apagando tudo...")
                             val timer = object : CountDownTimer(2000, 100) {
@@ -582,7 +582,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         myDialog.setOnDismissListener(this)
         myDialog.show()
 
-        val timer = object : CountDownTimer(1800, 100) {
+        val timer = object : CountDownTimer(1500, 100) {
             override fun onTick(l: Long) {
 
             }

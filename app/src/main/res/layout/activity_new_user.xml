@@ -6,7 +6,7 @@
      android:layout_height="match_parent"
     android:fitsSystemWindows="true"
 
-    tools:context=".NewUser">
+    tools:context=".View.activities.NewUser">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slides"

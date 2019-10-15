@@ -21,8 +21,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.Adapters.RecyclerColorAdapter
-import com.creat.motiv.Beans.Quotes
-import com.creat.motiv.Database.QuotesDB
+import com.creat.motiv.Model.Beans.Quotes
+import com.creat.motiv.Model.QuotesDB
 import com.creat.motiv.R
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.material.bottomsheet.BottomSheetDialog

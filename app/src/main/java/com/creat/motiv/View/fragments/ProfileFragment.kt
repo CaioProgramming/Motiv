@@ -1,4 +1,4 @@
-package com.creat.motiv.Fragments
+package com.creat.motiv.View.fragments
 
 
 import android.animation.ValueAnimator
@@ -19,9 +19,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.creat.motiv.Beans.Likes
-import com.creat.motiv.Beans.Quotes
-import com.creat.motiv.Database.QuotesDB
+import com.creat.motiv.Model.Beans.Likes
+import com.creat.motiv.Model.Beans.Quotes
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Pref
@@ -127,19 +126,6 @@ class ProfileFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        Carregar()
-        userinfo()
-        show()
-        super.onResume()
-    }
-
-
-    fun reload() {
-        Carregar()
-        userinfo()
-    }
-
     private fun CarregarLikes() {
         if (activity == null) {
             return
@@ -225,20 +211,9 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun Carregar() {
-        val quotesDB = QuotesDB(activity!!)
-        quotesDB.CarregarUserQuotes(myquotes, myquotesrecycler!!, posts!!)
-        CarregarLikes()
 
 
-    }
 
-
-    private fun show() {
-        val a = Alert(Objects.requireNonNull<FragmentActivity>(activity))
-        a.loading()
-
-    }
 
 
 }// Required empty public constructor

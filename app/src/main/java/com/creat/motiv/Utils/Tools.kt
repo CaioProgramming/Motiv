@@ -6,7 +6,7 @@ import android.graphics.Typeface
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
-import com.creat.motiv.Beans.Artists
+import com.creat.motiv.Model.Beans.Artists
 import com.creat.motiv.R
 import com.google.firebase.database.FirebaseDatabase
 import java.text.ParseException

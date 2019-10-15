@@ -1,4 +1,4 @@
-package com.creat.motiv
+package com.creat.motiv.View.activities
 
 import android.os.Bundle
 import android.view.View
@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
-import com.creat.motiv.Beans.User
-import com.creat.motiv.Database.QuotesDB
-import com.creat.motiv.Database.UserDB
+import com.creat.motiv.Model.Beans.User
+import com.creat.motiv.Model.QuotesDB
+import com.creat.motiv.Model.UserDB
+import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
