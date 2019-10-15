@@ -1,4 +1,4 @@
-package com.creat.motiv.Adapters
+package com.creat.motiv.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

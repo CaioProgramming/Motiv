@@ -22,7 +22,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.creat.motiv.Adapters.MainAdapter
 import com.creat.motiv.BuildConfig
 import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.Model.Beans.Version
@@ -30,6 +29,7 @@ import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Pref
 import com.creat.motiv.Utils.Tools
+import com.creat.motiv.adapters.MainAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds

@@ -26,9 +26,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.Adapters.LikeAdapter
-import com.creat.motiv.Adapters.RecyclerPicAdapter
-import com.creat.motiv.Adapters.RecyclerReferencesAdapter
 import com.creat.motiv.Model.Beans.Developers
 import com.creat.motiv.Model.Beans.Likes
 import com.creat.motiv.Model.Beans.Pics
@@ -38,7 +35,10 @@ import com.creat.motiv.Model.UserDB
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Tools.searcharg
 import com.creat.motiv.View.activities.Splash
-import com.creat.motiv.View.fragments.ProfileFragment
+import com.creat.motiv.adapters.LikeAdapter
+import com.creat.motiv.adapters.RecyclerPicAdapter
+import com.creat.motiv.adapters.RecyclerReferencesAdapter
+import com.creat.motiv.presenter.ProfilePresenter
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -187,7 +187,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
-    fun Nopicture(profileFragment: ProfileFragment) {
+    fun Nopicture(profilepresenter: ProfilePresenter?) {
         val myDialog = Dialog(activity, dialogNoBorder)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -205,7 +205,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         mButton.text = "Alterar ícone"
         mButton.setOnClickListener {
             myDialog.dismiss()
-            Picalert(profileFragment)
+            Picalert(profilepresenter)
         }
     }
 
@@ -247,7 +247,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
-    fun Picalert(pfragment: ProfileFragment) {
+    fun Picalert(profilePresenter: ProfilePresenter?) {
         val Picslist: ArrayList<Pics>
 
         val blurView = Objects.requireNonNull(activity).findViewById<RealtimeBlurView>(R.id.rootblur)
@@ -283,7 +283,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
                 Objects.requireNonNull<RecyclerView>(picrecycler).setHasFixedSize(true)
                 val llm = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
-                val recyclerPicAdapter = RecyclerPicAdapter(Picslist, activity, pfragment, myDialog)
+                val recyclerPicAdapter = RecyclerPicAdapter(Picslist, activity, profilePresenter, myDialog)
                 picrecycler!!.adapter = recyclerPicAdapter
                 picrecycler.layoutManager = llm
             }
@@ -355,7 +355,6 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         myDialog.setOnShowListener(this)
         myDialog.setOnDismissListener(this)
         myDialog.show()
-        val mTitle = myDialog.findViewById<TextView>(R.id.title)
         val mChangename = myDialog.findViewById<TextView>(R.id.changename)
         mChangename!!.setOnClickListener {
             myDialog.dismiss()

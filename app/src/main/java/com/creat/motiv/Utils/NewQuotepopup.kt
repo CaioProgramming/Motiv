@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.creat.motiv.Adapters.RecyclerColorAdapter
 import com.creat.motiv.Model.Beans.Quotes
 import com.creat.motiv.Model.QuotesDB
 import com.creat.motiv.R
+import com.creat.motiv.adapters.RecyclerColorAdapter
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +34,7 @@ import de.mateware.snacky.Snacky
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewQuotepopup(private val activity: Activity?) {
+class NewQuotepopup(private val activity: Activity) {
     private var backcolorfab: ImageButton? = null
     private var texcolorfab: ImageButton? = null
     private val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -55,12 +55,12 @@ class NewQuotepopup(private val activity: Activity?) {
     private var font: TextView? = null
 
     init {
-        blur = activity!!.findViewById(R.id.rootblur)
+        blur = activity.findViewById(R.id.rootblur)
 
     }
 
     fun showup() {
-        val myDialog = BottomSheetDialog(activity!!, R.style.Bottom_Dialog_No_Border)
+        val myDialog = BottomSheetDialog(activity, R.style.Bottom_Dialog_No_Border)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.setCanceledOnTouchOutside(true)
         myDialog.setContentView(R.layout.newquotepopup)
@@ -160,7 +160,7 @@ class NewQuotepopup(private val activity: Activity?) {
 
     internal fun showedit(quote: Quotes) {
 
-        val myDialog = BottomSheetDialog(activity!!)
+        val myDialog = BottomSheetDialog(activity)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setCanceledOnTouchOutside(true)
@@ -251,7 +251,7 @@ class NewQuotepopup(private val activity: Activity?) {
         quote.font = fonti
         quote.backgroundcolor = Integer.parseInt(backcolorid!!.text.toString())
         quote.textcolor = Integer.parseInt(texcolorid!!.text.toString())
-        quotesDB = QuotesDB(activity!!, quote)
+        quotesDB = QuotesDB(activity, quote)
         quotesDB!!.Editar()
         val refreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.refresh)
         refreshLayout.isRefreshing = true
@@ -269,7 +269,7 @@ class NewQuotepopup(private val activity: Activity?) {
 
         frase!!.setTextColor(quotes.textcolor!!)
         if (quotes.font != null) {
-            frase!!.typeface = Tools.fonts(activity!!)[quotes.font!!]
+            frase!!.typeface = Tools.fonts(activity)[quotes.font!!]
             author!!.typeface = Tools.fonts(activity)[quotes.font!!]
             font!!.typeface = Tools.fonts(activity)[quotes.font!!]
             f = quotes.font!!
@@ -285,7 +285,7 @@ class NewQuotepopup(private val activity: Activity?) {
         texcolorfab!!.imageTintList = ColorStateList.valueOf(quotes.textcolor!!)
 
         fontid!!.text = quotes.font.toString()
-        Glide.with(activity!!).load(quotes.userphoto).into(userpic)
+        Glide.with(activity).load(quotes.userphoto).into(userpic)
 
     }
 
@@ -335,7 +335,7 @@ class NewQuotepopup(private val activity: Activity?) {
             val preferences = Pref(Objects.requireNonNull<Activity>(activity))
             if (!preferences.writetutorialstate()) {
                 preferences.setWriteTutorial(true)
-                val a = Alert(activity!!)
+                val a = Alert(activity)
                 a.Message(activity.getDrawable(R.drawable.ic_choices_monochrome), activity.getString(R.string.new_quoteintro))
             }
 
@@ -374,7 +374,7 @@ class NewQuotepopup(private val activity: Activity?) {
             quote.author = user.displayName!!
         }
         if (user.isEmailVerified) {
-            val quotesDB = QuotesDB(quote, Objects.requireNonNull<Activity>(activity))
+            val quotesDB = QuotesDB(activity, quote)
             quotesDB.Inserir()
         } else {
 
@@ -423,7 +423,7 @@ class NewQuotepopup(private val activity: Activity?) {
         for (field in fields) {
             val colorName = field.name
             val colorId = field.getInt(null)
-            val color = activity!!.resources.getColor(colorId)
+            val color = activity.resources.getColor(colorId)
             println("color $colorName $color")
             colors.add(color)
 
@@ -433,7 +433,7 @@ class NewQuotepopup(private val activity: Activity?) {
         Collections.reverse(colors)
         colorlibrary!!.setHasFixedSize(true)
         val llm = GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false)
-        val recyclerColorAdapter = RecyclerColorAdapter(colors, activity!!,
+        val recyclerColorAdapter = RecyclerColorAdapter(colors, activity,
                 background!!, frase!!, author!!, texcolorid!!, backcolorid!!, texcolorfab!!, backcolorfab!!)
         recyclerColorAdapter.notifyDataSetChanged()
 

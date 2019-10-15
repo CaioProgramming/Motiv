@@ -1,4 +1,4 @@
-package com.creat.motiv.Adapters
+package com.creat.motiv.adapters
 
 import android.app.Activity
 import android.graphics.drawable.Drawable
@@ -22,12 +22,12 @@ import com.creat.motiv.Model.Beans.Pics
 import com.creat.motiv.Model.UserDB
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
-import com.creat.motiv.View.fragments.ProfileFragment
+import com.creat.motiv.presenter.ProfilePresenter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 
 class RecyclerPicAdapter(private val mData: List<Pics>,
-                         private val mActivity: Activity, private val profileFragment: ProfileFragment, private val dialog: BottomSheetDialog) : RecyclerView.Adapter<RecyclerPicAdapter.MyViewHolder>() {
+                         private val mActivity: Activity, private val profileFragment: ProfilePresenter?, private val dialog: BottomSheetDialog) : RecyclerView.Adapter<RecyclerPicAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View

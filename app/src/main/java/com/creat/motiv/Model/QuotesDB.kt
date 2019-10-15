@@ -11,13 +11,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.creat.motiv.Adapters.RecyclerAdapter
 import com.creat.motiv.Model.Beans.Likes
 import com.creat.motiv.Model.Beans.Quotes
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Tools
 import com.creat.motiv.View.activities.Splash
+import com.creat.motiv.adapters.RecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot

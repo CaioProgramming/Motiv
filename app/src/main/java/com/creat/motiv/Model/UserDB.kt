@@ -9,7 +9,7 @@ import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.R
 import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Tools
-import com.creat.motiv.View.fragments.ProfileFragment
+import com.creat.motiv.presenter.ProfilePresenter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
@@ -43,7 +43,7 @@ class UserDB(private val activity: Activity) {
         })
     }
 
-    fun changeuserpic(profileFragment: ProfileFragment?, pic: String) {
+    fun changeuserpic(profileFragment: ProfilePresenter?, pic: String) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         val a = Alert(activity)
         val profileChangeRequest = UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(pic)).build()

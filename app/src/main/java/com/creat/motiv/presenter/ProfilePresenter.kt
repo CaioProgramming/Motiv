@@ -36,7 +36,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: ProfileFragm
 
         profilepic.setOnClickListener {
             val alert = Alert(activity)
-            alert.Picalert(profileFragment)
+            alert.Picalert(this)
         }
 
         edit.setOnClickListener {

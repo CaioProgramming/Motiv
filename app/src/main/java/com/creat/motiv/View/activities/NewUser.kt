@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.creat.motiv.Adapters.ViewPagerAdapter
 import com.creat.motiv.R
+import com.creat.motiv.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 class NewUser : AppCompatActivity() {

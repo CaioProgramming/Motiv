@@ -1,4 +1,4 @@
-package com.creat.motiv.Adapters
+package com.creat.motiv.adapters
 
 import android.content.Context
 import android.graphics.Typeface

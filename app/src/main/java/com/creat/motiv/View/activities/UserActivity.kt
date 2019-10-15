@@ -56,10 +56,10 @@ class UserActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         toolbar!!.setNavigationOnClickListener { activity.finish() }
         edit!!.visibility = View.GONE
-        Carregar(myquotesrecycler)
+        Carregar()
     }
 
-    private fun Carregar(recyclerView: RecyclerView?) {
+    private fun Carregar() {
         val u = User()
         u.name = name!!
         u.picurl = upic!!
@@ -68,8 +68,10 @@ class UserActivity : AppCompatActivity() {
         userDB.LoadUser(profilepic!!, username!!, u)
 
         val quotesDB = QuotesDB(this)
+        quotesDB.recyclerView = myquotesrecycler
+        quotesDB.usercount = posts
         if (true) {
-            quotesDB.CarregarUserQuotes(posts!!, uid!!)
+            quotesDB.CarregarUserQuotes(uid!!)
         } else {
             val a = Alert(this)
             a.Message(a.erroricon, "Erro ao recuperar informações de usuário")

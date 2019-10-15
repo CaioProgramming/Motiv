@@ -64,13 +64,13 @@ class SettingsActivity : AppCompatActivity() {
                     val q = d.getValue(Quotes::class.java)
                     myquotes.add(q!!)
                 }
-                val quotesDB = QuotesDB()
+                val quotesDB = QuotesDB(this@SettingsActivity)
                 val alertDialog = AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Suas " + myquotes.size + " frases serão removidas para sempre! S E M P R E")
                         .setNeutralButton("Tenho certeza sim, cliquei porque quis!") { dialogInterface, i ->
                             for (quotes in myquotes) {
-                                quotesDB.Removerposts(activity, quotes.id!!)
+                                quotesDB.Removerposts(quotes.id!!)
                             }
                         }
                         .setNegativeButton("Cliquei errado calma", null)
@@ -101,7 +101,7 @@ class SettingsActivity : AppCompatActivity() {
                     val q = d.getValue(Quotes::class.java)
                     myquotes.add(q!!)
                 }
-                val quotesDB = QuotesDB()
+                val quotesDB = QuotesDB(activity)
                 val alertDialog = AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Você e suas " + myquotes.size + " frases serão removidos para sempre! S E M P R E")
@@ -109,7 +109,7 @@ class SettingsActivity : AppCompatActivity() {
                             val progressDialog = ProgressDialog(activity, R.style.Dialog_No_Border)
                             progressDialog.show()
                             for (quotes in myquotes) {
-                                quotesDB.Apagarconta(activity, quotes.id!!)
+                                quotesDB.Apagarconta(quotes.id!!)
                             }
                             progressDialog.setMessage("Apagando tudo...")
                             val timer = object : CountDownTimer(2000, 100) {
