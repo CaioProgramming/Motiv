@@ -192,6 +192,7 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
     private fun Like(position: Int, holder: MyViewHolder) {
         val quotesDB = QuotesDB(activity, mData!![position])
+        Log.println(Log.INFO, "Quotes", "like event on quote \n ${mData[position].id}  ${mData[position].quote} ")
         if (!holder.like.isChecked) {
             quotesDB.deslike()
         } else {
