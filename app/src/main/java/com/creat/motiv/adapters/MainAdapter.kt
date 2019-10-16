@@ -11,12 +11,13 @@ import com.creat.motiv.View.fragments.ProfileFragment
 class MainAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        when (position) {
-            0 -> return HomeFragment() //ChildFragment1 at position 0
-            1 -> return FavoritesFragment() //ChildFragment2 at position 1
-            2 -> return ProfileFragment() //ChildFragment3 at position 2
+        return when (position) {
+            0 -> HomeFragment()
+            1 -> FavoritesFragment()
+            else -> ProfileFragment()
         }
-        return HomeFragment()//does not happen
+
+
     }
 
     override fun getCount(): Int {

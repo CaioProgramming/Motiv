@@ -19,39 +19,38 @@ class ProfilePresenter(val activity: Activity, val profileFragment: ProfileFragm
     val user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
     var posts: TextView? = null
     var favorites: TextView? = null
+    var myquotesrecycler: RecyclerView? = null
 
     override fun initview(v: View) {
         val username: TextView = v.findViewById(R.id.username)
         favorites = v.findViewById(R.id.likes)
-        val myquotesrecycler: RecyclerView = v.findViewById(R.id.myquotesrecycler)
+        myquotesrecycler = v.findViewById(R.id.myquotesrecycler)!!
         val profilepic: CircleImageView = v.findViewById(R.id.profilepic)
         val edit: Button = v.findViewById(R.id.edit)
         posts = v.findViewById(R.id.posts)
+        favorites = v.findViewById(R.id.likes)
         Glide.with(activity).load(user.photoUrl).error(activity.getDrawable(R.drawable.notfound)).into(profilepic)
         username.text = user.displayName
-
-        myquotesrecycler.postDelayed({
-            carregar()
-        }, 100)
-
         profilepic.setOnClickListener {
             val alert = Alert(activity)
             alert.Picalert(this)
         }
-
         edit.setOnClickListener {
             val alert = Alert(activity)
             alert.settings()
         }
 
+        carregar()
 
     }
 
 
     override fun carregar() {
-        val quotesDB = QuotesDB(activity)
-        quotesDB.usercount = posts
-        quotesDB.CarregarUserQuotes(user.uid)
+        val pDB = QuotesDB(activity)
+        pDB.recyclerView = myquotesrecycler!!
+        pDB.usercount = this.posts
+        pDB.likecount = this.favorites
+        pDB.CarregarUserQuotes(user.uid)
         //To change body of created functions use File | Settings | File Templates.
     }
 

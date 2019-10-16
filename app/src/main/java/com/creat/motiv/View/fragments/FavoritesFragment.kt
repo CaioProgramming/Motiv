@@ -2,6 +2,7 @@ package com.creat.motiv.View.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,10 @@ class FavoritesFragment : Fragment() {
 
         val v = inflater.inflate(R.layout.fragment_favorites, container, false)
 
-        v.postDelayed({
-            val presenter = FavoritesPresenter(activity!!)
-            presenter.initview(this.view!!)
-        }, 300)
+        Log.v("INFO", "the view has been created")
+
+        val favoritesPresenter = FavoritesPresenter(activity!!)
+        favoritesPresenter.initview(v)
         return v
 
 

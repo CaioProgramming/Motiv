@@ -37,13 +37,10 @@ class QuotesDB : ValueEventListener {
     }
 
     override fun onDataChange(dataSnapshot: DataSnapshot) {
-        if (recyclerView == null) {
-            val a = Alert(activity!!)
-            a.Message(a.erroricon, "Recyclerview nao encontrada!")
 
-        }
         val quotesArrayList = ArrayList<Quotes>()
         quotesArrayList.clear()
+        recyclerView?.removeAllViews()
         for (d in dataSnapshot.children) {
             var quotes: Quotes
             val q = d.getValue(Quotes::class.java)
@@ -63,6 +60,7 @@ class QuotesDB : ValueEventListener {
             }
 
         }
+        print("Loaded ${quotesArrayList.size} quotes")
         Collections.reverse(quotesArrayList)
         recyclerView?.visibility = View.VISIBLE
         val llm = GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false)
@@ -81,23 +79,18 @@ class QuotesDB : ValueEventListener {
                         }
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            likecount!!.text = dataSnapshot.childrenCount.toString() //To change body of created functions use File | Settings | File Templates.
+                            likecount?.text = dataSnapshot.childrenCount.toString() //To change body of created functions use File | Settings | File Templates.
                         }
 
                     })
         }
         val alert = Alert(activity!!)
         alert.loading()
-        destroy()
+
 
 
     }
 
-    private fun destroy() {
-        this.recyclerView = null
-        this.usercount = null
-        this.likecount = null
-    }
 
     private var user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
     private var quotesdb = Tools.quotesreference
@@ -118,22 +111,26 @@ class QuotesDB : ValueEventListener {
     }
 
 
+
     fun Carregar() {
+        Log.println(Log.INFO, "Quotes", "Loading quotes")
         quotesdb.addListenerForSingleValueEvent(this)
     }
 
 
     fun CarregarUserQuotes(userid: String) {
+        Log.println(Log.INFO, "Quotes", "Loading quotes from ${userid}")
         quotesdb.orderByChild("userID").equalTo(userid).addListenerForSingleValueEvent(this)
 
     }
 
-    fun CarregarLikes() {
+    fun carregarlikes() {
+        Log.println(Log.INFO, "Quotes", "Loading favorites quotes from ${user.displayName}")
         quotesdb.orderByChild("likes/userid").equalTo(user.uid).addListenerForSingleValueEvent(this)
     }
 
 
-    fun Pesquisar(pesquisa: String) {
+    fun pesquisar(pesquisa: String) {
 
         quotesdb.orderByChild("quote").startAt(pesquisa)
                 .endAt(pesquisa + "\uf8ff").addListenerForSingleValueEvent(object : ValueEventListener {

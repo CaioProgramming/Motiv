@@ -25,11 +25,7 @@ class ProfileFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         preferences = Pref(Objects.requireNonNull<Context>(context))
-
-
         val v = inflater.inflate(R.layout.fragment_profile, container, false)
-
-
         Tutorial()
 
         val profilePresenter = ProfilePresenter(activity!!, this)

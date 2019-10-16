@@ -11,25 +11,23 @@ import com.creat.motiv.contract.ViewContract
 class FavoritesPresenter(val activity: Activity) : ViewContract {
 
 
-
     private var favcount: TextView? = null
-    private var composesrecycler: RecyclerView? = null
+    private var recyclerView: RecyclerView? = null
     override fun initview(v: View) {
-        favcount = v.findViewById(R.id.favtext)
-        composesrecycler = v.findViewById(R.id.favoritesrecycler)
-        composesrecycler?.postDelayed({
+        favcount = v.findViewById(R.id.favtext)!!
+        recyclerView = v.findViewById(R.id.favoritesrecycler)!!
+        if (recyclerView != null) {
             carregar()
-        }, 100)
+        }
 
     }
 
     override fun carregar() {
-        if (composesrecycler != null) {
-            val quotesDB = QuotesDB(activity)
-            quotesDB.usercount = favcount
-            quotesDB.recyclerView = composesrecycler
-            quotesDB.Carregar()
-        }
+        val quotesDB = QuotesDB(activity)
+        quotesDB.recyclerView = this.recyclerView!!
+        quotesDB.likecount = this.favcount!!
+        quotesDB.carregarlikes()
+
 
     }
 
