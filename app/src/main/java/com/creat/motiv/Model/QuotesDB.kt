@@ -37,9 +37,13 @@ class QuotesDB : ValueEventListener {
     }
 
     override fun onDataChange(dataSnapshot: DataSnapshot) {
+        if (recyclerView == null) {
+            val a = Alert(activity!!)
+            a.Message(a.erroricon, "Recyclerview nao encontrada!")
+
+        }
         val quotesArrayList = ArrayList<Quotes>()
         quotesArrayList.clear()
-        recyclerView!!.removeAllViews()
         for (d in dataSnapshot.children) {
             var quotes: Quotes
             val q = d.getValue(Quotes::class.java)
@@ -60,13 +64,13 @@ class QuotesDB : ValueEventListener {
 
         }
         Collections.reverse(quotesArrayList)
-        recyclerView!!.visibility = View.VISIBLE
+        recyclerView?.visibility = View.VISIBLE
         val llm = GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false)
-        recyclerView!!.setHasFixedSize(true)
+        recyclerView?.setHasFixedSize(true)
         println(quotesArrayList.size)
         val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-        recyclerView!!.adapter = myadapter
-        recyclerView!!.layoutManager = llm
+        recyclerView?.adapter = myadapter
+        recyclerView?.layoutManager = llm
         refreshlayout?.isRefreshing = false
         usercount?.text = "${quotesArrayList.size} posts"
         if (likecount != null) {
@@ -84,8 +88,15 @@ class QuotesDB : ValueEventListener {
         }
         val alert = Alert(activity!!)
         alert.loading()
+        destroy()
 
 
+    }
+
+    private fun destroy() {
+        this.recyclerView = null
+        this.usercount = null
+        this.likecount = null
     }
 
     private var user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
@@ -118,7 +129,6 @@ class QuotesDB : ValueEventListener {
     }
 
     fun CarregarLikes() {
-
         quotesdb.orderByChild("likes/userid").equalTo(user.uid).addListenerForSingleValueEvent(this)
     }
 

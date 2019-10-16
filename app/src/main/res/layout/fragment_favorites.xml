@@ -47,12 +47,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            android:background="@color/grey_100"
-            android:id="@+id/composesrecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingEnd="0dp"
-            android:paddingStart="0dp" />
+        android:id="@+id/favoritesrecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_100" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
