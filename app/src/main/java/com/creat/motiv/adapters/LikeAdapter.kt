@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.Model.Beans.Likes
 import com.creat.motiv.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import de.hdodenhof.circleimageview.CircleImageView
 
 
@@ -26,10 +28,19 @@ class LikeAdapter(private val likesList: List<Likes>, private val activity: Acti
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        var user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+
         val likes = likesList[holder.adapterPosition]
         Log.println(Log.INFO, "loaded like ", likes.username)
-        holder.nome.text = likes.username
-        Glide.with(activity).load(likes.userpic).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic)
+        if (likes.userid.equals(user.uid)) {
+            holder.nome.text = user.displayName
+            Glide.with(activity).load(user.photoUrl).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic)
+
+        } else {
+            holder.nome.text = likes.username
+            Glide.with(activity).load(likes.userpic).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic)
+        }
+
         val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
         holder.pic.startAnimation(`in`)
 
