@@ -51,6 +51,8 @@ class UserActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_left_arrow)
+
         toolbar!!.setNavigationOnClickListener { activity.finish() }
         Carregar()
     }

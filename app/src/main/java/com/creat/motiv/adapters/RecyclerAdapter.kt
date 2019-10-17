@@ -4,25 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.os.Vibrator
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.creat.motiv.Model.Beans.Likes
 import com.creat.motiv.Model.Beans.Quotes
 import com.creat.motiv.Model.Beans.User
@@ -39,6 +34,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import de.hdodenhof.circleimageview.CircleImageView
+import io.reactivex.Completable
+import io.reactivex.subjects.CompletableSubject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,19 +53,9 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
         val quote = mData!![holder.adapterPosition]
-
         loadLikes(holder, quote)
-
-
         holder.like.setOnClickListener { Like(holder.adapterPosition, holder) }
-        // holder.like.setVisibility(View.GONE);
-
-
-        holder.cardView.startAnimation(`in`)
-        holder.quote.startAnimation(`in`)
-        holder.author.startAnimation(`in`)
         holder.quote.text = quote.quote
         holder.author.text = quote.author
         println("Quote " + mData[position].quote + " selected font: " + mData[position].font)
@@ -112,31 +99,36 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
             val userDB = UserDB(activity)
             userDB.LoadUser(holder.userpic, holder.username, u)
             Log.println(Log.INFO, "USER", "usuario " + u.name)
-            Glide.with(activity).load(quote.userphoto).error(R.drawable.notfound).addListener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                    holder.userpic.setImageDrawable(resource)
-                    holder.userpic.startAnimation(`in`)
-                    return false
-                }
-            }).into(holder.userpic)
+            Glide.with(activity).load(quote.userphoto).error(R.drawable.notfound).into(holder.userpic)
             holder.username.text = quote.username
             holder.userpic.setOnClickListener { showuserprofile(u) }
             holder.username.setOnClickListener { showuserprofile(u) }
+            val time: Long = 500
+            holder.userpic.fadeIn(holder.userpic, time)
+                    .andThen(holder.username.fadeIn(holder.username, time))
+                    .andThen(holder.dia.fadeIn(holder.dia, 500).andThen(holder.likes.fadeIn(holder.likes, time)))
+                    .andThen(holder.back.fadeIn(holder.back, time))
+                    .andThen(holder.quote.fadeIn(holder.quote, 500))
+                    .andThen(holder.author.fadeIn(holder.author, 500))
+                    .subscribe()
 
 
         } else {
-            Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.userpic)
             holder.username.text = user.displayName
             val pager = activity.findViewById<ViewPager>(R.id.pager)
             holder.username.setOnClickListener { pager.setCurrentItem(2, true) }
             holder.userpic.setOnClickListener { pager.setCurrentItem(2, true) }
+            Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.userpic)
+            val time: Long = 500
+            holder.userpic.fadeIn(holder.userpic, time * 2)
+                    .andThen(holder.username.fadeIn(holder.username, time))
+                    .andThen(holder.dia.fadeIn(holder.dia, 500).andThen(holder.likes.fadeIn(holder.likes, time)))
+                    .andThen(holder.back.fadeIn(holder.back, time))
+                    .andThen(holder.quote.fadeIn(holder.quote, 500))
+                    .andThen(holder.author.fadeIn(holder.author, 500))
+                    .subscribe()
 
         }
-        holder.userpic.startAnimation(`in`)
 
         if (mData[position].backgroundcolor != 0) {
             holder.back.setCardBackgroundColor(quote.backgroundcolor!!)
@@ -173,6 +165,20 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
             val user = quote.userID == u!!.uid
             val alert = Alert(activity)
             alert.quoteoptions(user, mData[holder.adapterPosition])
+        }
+
+
+    }
+
+    fun View.fadeIn(view: View, duration: Long): Completable {
+        val animationSubject = CompletableSubject.create()
+        return animationSubject.doOnSubscribe {
+            ViewCompat.animate(view)
+                    .setDuration(duration)
+                    .alpha(1f)
+                    .withEndAction {
+                        animationSubject.onComplete()
+                    }
         }
 
 

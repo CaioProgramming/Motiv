@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
@@ -18,12 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.creat.motiv.BuildConfig
 import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.Model.Beans.Version
@@ -43,6 +39,8 @@ import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
 import de.hdodenhof.circleimageview.CircleImageView
 import de.mateware.snacky.Snacky
+import io.reactivex.Completable
+import io.reactivex.subjects.CompletableSubject
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -79,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         container = findViewById(R.id.container)
 
 
-        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         searchView = findViewById(R.id.search)
         setSupportActionBar(toolbar)
         this.tabs = findViewById(R.id.tabs)
@@ -127,16 +125,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).addListener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
-                pager!!.currentItem = 2
-                return false
-            }
-
-            override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                return false
-            }
-        }).into(profilepic!!)
+        Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic!!)
         profilepic!!.setOnClickListener { pager!!.currentItem = 2 }
         if (!user!!.isEmailVerified) {
             val builder = AlertDialog.Builder(this).setMessage("Email não verificado")
@@ -151,10 +140,10 @@ class MainActivity : AppCompatActivity() {
         internetconnection()
         version()
 
-        searchView!!.setOnSearchClickListener({
+        searchView!!.setOnSearchClickListener {
             profilepic!!.visibility = View.GONE
             supportActionBar!!.setDisplayShowTitleEnabled(false)
-        })
+        }
 
         searchView!!.setOnCloseListener {
             profilepic!!.visibility = View.VISIBLE
@@ -162,8 +151,32 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+        val time: Long = 500
+        toolbar?.fadeIn(toolbar!!, time * 2)
+                ?.andThen(searchView!!.fadeIn(searchView!!, time))
+                ?.andThen(profilepic?.fadeIn(profilepic!!, time))
+                ?.andThen(tabs!!.fadeIn(tabs!!, time))
+                ?.andThen(pager!!.fadeIn(pager!!, time))
+                ?.andThen(adView!!.fadeIn(adView, time))
+                ?.subscribe()
+
+
+
     }
 
+    fun View.fadeIn(view: View, duration: Long): Completable {
+        val animationSubject = CompletableSubject.create()
+        return animationSubject.doOnSubscribe {
+            ViewCompat.animate(view)
+                    .setDuration(duration)
+                    .alpha(1f)
+                    .withEndAction {
+                        animationSubject.onComplete()
+                    }
+        }
+
+
+    }
 
     private fun checkUser() {
         if (user != null) {

@@ -6,9 +6,12 @@ import android.graphics.Typeface
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.view.ViewCompat
 import com.creat.motiv.Model.Beans.Artists
 import com.creat.motiv.R
 import com.google.firebase.database.FirebaseDatabase
+import io.reactivex.Completable
+import io.reactivex.subjects.CompletableSubject
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,6 +31,20 @@ object Tools {
 
     var spancount = 1
     var searcharg = "\uf8ff"
+
+    fun View.fadeIn(view: View, duration: Long): Completable {
+        val animationSubject = CompletableSubject.create()
+        return animationSubject.doOnSubscribe {
+            ViewCompat.animate(view)
+                    .setDuration(duration)
+                    .alpha(1f)
+                    .withEndAction {
+                        animationSubject.onComplete()
+                    }
+        }
+
+
+    }
 
 
     private val offlinefrases = arrayOf("Sem internet é? Acontece né vá aproveitar a vida", "Parece que você está desconectado. Quando você se reconectar eu mostro umas frases", "Bom... Parece que você tá sem internet, então acho que não tem oque fazer...")
