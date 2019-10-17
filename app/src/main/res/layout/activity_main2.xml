@@ -26,48 +26,6 @@
         app:elevation="3dp">
 
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="top"
-            android:alpha="0"
-            android:animateLayoutChanges="true"
-            android:elevation="0dp"
-            app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-            app:title="@string/app_name"
-            app:titleTextAppearance="@style/ToolbarTitle"
-            app:titleTextColor="@color/colorPrimary">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end|center"
-                android:alpha="0"
-                android:animateLayoutChanges="true"
-                android:backgroundTint="@color/grey_50"
-                android:foreground="?attr/selectableItemBackground"
-                app:queryBackground="@color/transparent"
-                app:queryHint="Pesquise frases, autores, criadores..." />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end|center"
-                android:layout_margin="1dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="5dp"
-                android:src="@drawable/penguin"
-                app:civ_border_color="@color/colorPrimaryDark"
-                app:civ_border_width="1dp" />
-
-
-        </androidx.appcompat.widget.Toolbar>
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:animateLayoutChanges="true"
             android:id="@+id/collapsetoolbar"
@@ -94,6 +52,46 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top"
+            android:alpha="0"
+            android:animateLayoutChanges="true"
+            android:elevation="0dp"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/ToolbarTitle"
+            app:titleTextColor="@color/colorPrimary">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end|center"
+                android:animateLayoutChanges="true"
+                android:backgroundTint="@color/grey_50"
+                android:foreground="?attr/selectableItemBackground"
+                app:queryBackground="@color/transparent"
+                app:queryHint="Pesquise frases, autores, criadores..." />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="45dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end|center"
+                android:layout_margin="1dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="5dp"
+                android:src="@drawable/penguin" />
+
+
+        </androidx.appcompat.widget.Toolbar>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:alpha="0"
@@ -101,8 +99,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/colorPrimaryDark"
-            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/transparent"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/colorPrimaryDark"
             app:tabTextAppearance="@style/TabsTextStyle"

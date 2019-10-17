@@ -11,7 +11,6 @@
     android:background="@color/white">
 
     <LinearLayout
-
         android:padding="5dp"
         android:id="@+id/quotedata"
         android:layout_width="match_parent"
@@ -37,7 +36,7 @@
                     android:alpha="0"
                     android:padding="5dp"
                     android:foreground="?attr/selectableItemBackground"
-                    android:fontFamily="@font/nunitoblack"
+                    android:fontFamily="@font/nunito_semibold"
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,6 +45,7 @@
                     android:textSize="14sp" />
                 <TextView
                     android:alpha="0"
+
                     android:id="@+id/dia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,12 +55,12 @@
             </LinearLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:alpha="0"
-                android:layout_gravity="center"
-                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/userpic"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:alpha="0"
+                android:foreground="?attr/selectableItemBackground"
                 android:src="@drawable/ic_astronaut" />
 
 
@@ -68,7 +68,7 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:padding="5dp"
             android:id="@+id/likes"
             android:alpha="0"

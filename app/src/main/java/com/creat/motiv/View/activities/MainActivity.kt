@@ -152,19 +152,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         val time: Long = 500
-        toolbar?.fadeIn(toolbar!!, time * 2)
-                ?.andThen(searchView!!.fadeIn(searchView!!, time))
-                ?.andThen(profilepic?.fadeIn(profilepic!!, time))
-                ?.andThen(tabs!!.fadeIn(tabs!!, time))
-                ?.andThen(pager!!.fadeIn(pager!!, time))
-                ?.andThen(adView!!.fadeIn(adView, time))
+        fadeIn(toolbar!!, time * 2).andThen(fadeIn(tabs!!, time))
+                ?.andThen(fadeIn(pager!!, time))
+                ?.andThen(fadeIn(adView, time))
                 ?.subscribe()
 
 
 
     }
 
-    fun View.fadeIn(view: View, duration: Long): Completable {
+    fun fadeIn(view: View, duration: Long): Completable {
         val animationSubject = CompletableSubject.create()
         return animationSubject.doOnSubscribe {
             ViewCompat.animate(view)
