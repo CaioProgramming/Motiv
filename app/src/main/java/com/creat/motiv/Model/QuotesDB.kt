@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.CountDownTimer
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -51,6 +52,25 @@ class QuotesDB : ValueEventListener {
                     quotes.textcolor = Color.BLACK
                     quotes.backgroundcolor = Color.WHITE
                 }
+                if (likecount != null) {
+                    var likes = 0
+                    quotesdb.child(quotes.id!!).child("likes").child(user.uid)
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                }
+
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        likes++
+                                        Log.i("Favoritos", "${likes} favoritos")
+                                        likecount!!.text = "${likes} Favoritos"
+                                    }
+                                }
+
+                            })
+                }
+
                 quotesArrayList.add(quotes)
 
                 println("Quotes " + quotesArrayList.size)
@@ -70,20 +90,7 @@ class QuotesDB : ValueEventListener {
         recyclerView?.adapter = myadapter
         recyclerView?.layoutManager = llm
         refreshlayout?.isRefreshing = false
-        usercount?.text = "${quotesArrayList.size} posts"
-        if (likecount != null) {
-            quotesdb.orderByChild("likes/userid").equalTo(user.uid)
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError) {
-                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                        }
-
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            likecount?.text = dataSnapshot.childrenCount.toString() //To change body of created functions use File | Settings | File Templates.
-                        }
-
-                    })
-        }
+        usercount?.text = Html.fromHtml("<b>${quotesArrayList.size}</b> <br> Publicações")
         val alert = Alert(activity!!)
         alert.loading()
 
@@ -111,8 +118,7 @@ class QuotesDB : ValueEventListener {
     }
 
 
-
-    fun Carregar() {
+    fun carregar() {
         Log.println(Log.INFO, "Quotes", "Loading quotes")
         quotesdb.addListenerForSingleValueEvent(this)
     }
@@ -124,10 +130,6 @@ class QuotesDB : ValueEventListener {
 
     }
 
-    fun carregarlikes() {
-        Log.println(Log.INFO, "Quotes", "Loading favorites quotes from ${user.displayName}")
-        quotesdb.orderByChild("likes/userid").equalTo(user.uid).addListenerForSingleValueEvent(this)
-    }
 
 
     fun pesquisar(pesquisa: String) {
@@ -261,7 +263,7 @@ class QuotesDB : ValueEventListener {
                         val quotesArrayList = ArrayList<Quotes>()
                         recyclerView!!.removeAllViews()
                         for (d in dataSnapshot.children) {
-                            var quotes = Quotes()
+                            var quotes: Quotes
                             val q = d.getValue(Quotes::class.java)
                             if (q != null) {
                                 quotes = q
@@ -459,7 +461,7 @@ class QuotesDB : ValueEventListener {
         val likes = Likes(user.uid, user.displayName!!, user.photoUrl.toString())
         quotesdb.child(quotes!!.id!!).child("likes").child(user.uid).setValue(likes).addOnCompleteListener {
             Snacky.builder().setActivity(activity!!).setText("Frase curtida")
-                    .setBackgroundColor(Color.WHITE).setTextColor(Color.BLACK).setIcon(R.drawable.ic_favorite_black_24dp).build().show()
+                    .setBackgroundColor(Color.WHITE).setTextColor(Color.BLACK).setIcon(activity!!.getDrawable(R.drawable.ic_favorite_grey_24dp)).build().show()
         }
     }
 
@@ -534,11 +536,62 @@ class QuotesDB : ValueEventListener {
     }
 
 
-    fun AlterarNome(id: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-        val quotesdb = FirebaseDatabase.getInstance().reference
-        assert(user != null)
-        quotesdb.child(id).child("username").setValue(user!!.displayName).addOnCompleteListener { println("quote" + id + "username changed to: " + user.displayName) }
+    fun carregarlikes() {
+        quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val quotesArrayList = ArrayList<Quotes>()
+                quotesArrayList.clear()
+                recyclerView?.removeAllViews()
+                for (d in dataSnapshot.children) {
+                    var quotes: Quotes
+                    val q = d.getValue(Quotes::class.java)
+                    if (q != null) {
+                        quotes = q
+                        quotes.id = q.id
+                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
+                            quotes.textcolor = Color.BLACK
+                            quotes.backgroundcolor = Color.WHITE
+                        }
+                        if (likecount != null) {
+                            quotesdb.child(quotes.id!!).child("likes").child(user.uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                }
+
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        quotesArrayList.add(quotes)
+
+                                        print("Loaded ${quotesArrayList.size} favtorite quotes")
+                                        Collections.reverse(quotesArrayList)
+                                        recyclerView?.visibility = View.VISIBLE
+                                        val llm = GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false)
+                                        recyclerView?.setHasFixedSize(true)
+                                        println(quotesArrayList.size)
+                                        val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
+                                        recyclerView?.adapter = myadapter
+                                        recyclerView?.layoutManager = llm
+                                        refreshlayout?.isRefreshing = false
+                                        likecount?.text = "${quotesArrayList.size} favoritos"
+                                        val alert = Alert(activity!!)
+                                        alert.loading()
+
+                                    }
+                                }
+
+                            })
+
+                        }
+                    }
+
+                }
+
+            }
+        })
 
     }
 

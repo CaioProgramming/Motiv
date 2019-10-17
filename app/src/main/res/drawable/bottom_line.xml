@@ -9,10 +9,10 @@
 
     <item android:top="-3dp" android:right="-3dp" android:left="-3dp">
         <shape>
-            <solid android:color="@color/transparent" />
+            <solid android:color="@color/white" />
             <stroke
-                 android:width="2dp"
-                android:color="@color/black" />
+                android:width="1dp"
+                android:color="@color/grey_400" />
         </shape>
     </item>
 

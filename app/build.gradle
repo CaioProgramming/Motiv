@@ -2,6 +2,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     signingConfigs {
@@ -49,7 +50,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation 'com.google.firebase:firebase-appindexing:19.0.0'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
-    implementation 'com.google.firebase:firebase-database:19.1.0'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.firebaseui:firebase-ui-database:1.0.1'
     implementation 'com.google.firebase:firebase-storage:19.1.0'
     implementation 'com.google.firebase:firebase-core:17.2.0'
@@ -58,7 +59,8 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
     implementation 'com.hmomeni.progresscircula:progresscircula:0.2.1'
 
-
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pes.materialcolorpicker:library:1.2.4'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
@@ -70,6 +72,10 @@ dependencies {
     implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt 'com.android.databinding:compiler:3.1.4'
+
+
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -17,6 +17,8 @@ import com.creat.motiv.contract.ViewContract
  * @Description input description
  **/
 class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTextListener {
+
+
     override fun onQueryTextSubmit(query: String): Boolean {
         if (query.isEmpty()) {
             carregar()
@@ -37,10 +39,11 @@ class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTe
 
 
     override fun initview(v: View) {
+
         composesrecycler = v.findViewById(R.id.composesrecycler)
         refreshLayout = v.findViewById(R.id.refresh)
         addquote = v.findViewById(R.id.addquote)
-        search = v.findViewById(R.id.search)
+        search = activity.findViewById(R.id.search)
         composesrecycler?.postDelayed({
             carregar()
         }, 100)
@@ -66,7 +69,7 @@ class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTe
         val quotesDB = QuotesDB(activity)
         quotesDB.refreshlayout = refreshLayout
         quotesDB.recyclerView = composesrecycler
-        quotesDB.Carregar()
+        quotesDB.carregar()
     }
 
     private fun pesquisar(pesquisa: String) {

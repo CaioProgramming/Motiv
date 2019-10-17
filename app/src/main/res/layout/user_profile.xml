@@ -9,13 +9,13 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/grey_100"
-            android:id="@+id/myquotesrecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:id="@+id/myquotesrecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_100"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            android:paddingEnd="0dp"
-            android:paddingStart="0dp" />
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -32,93 +32,60 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@color/transparent"
+        android:background="@color/white"
+
         android:id="@+id/appbarlayout"
         android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        app:elevation="3dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsetoolbar"
-            app:titleEnabled="false"
             app:contentScrim="@color/white"
             android:layout_width="match_parent"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
             android:layout_height="wrap_content"
             app:expandedTitleGravity="top|center"
-            app:layout_scrollFlags="exitUntilCollapsed|scroll"
-            android:fitsSystemWindows="true">
+            app:titleEnabled="false">
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
-                android:orientation="vertical">
+                android:padding="10dp"
+                app:layout_collapseMode="parallax">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/posts"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:text="Posts"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilepic"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:foreground="?attr/selectableItemBackground"
                     android:padding="10dp"
-                    app:layout_collapseMode="parallax">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profilepic"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:padding="10dp"
-                        android:src="@drawable/notfound"
-                        android:tooltipText="Clique na foto para alterá-la"
-                        app:civ_border_color="@color/colorAccent"
-                        app:civ_border_width="1dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/username"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="@string/app_name"
-                            android:textColor="@color/black"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/posts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:drawableStart="@drawable/ic_brightness_1_black_24dp"
-                            android:drawableTint="@color/colorAccent"
-                            android:padding="5dp"
-                            android:text="Posts" />
-
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ripple_button"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="Seguir"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
+                    android:src="@drawable/notfound"
+                    android:tooltipText="Clique na foto para alterá-la"
+                    app:civ_border_color="@color/colorAccent"
+                    app:civ_border_width="1dp" />
             </LinearLayout>
-
             <androidx.appcompat.widget.Toolbar
+                android:layout_gravity="top"
+                app:layout_collapseMode="pin"
+                app:title="@string/username"
+                app:titleTextAppearance="@style/ToolbarTitle"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
@@ -127,9 +94,5 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.github.mmin18.widget.RealtimeBlurView
-        android:visibility="gone"
-        android:id="@+id/rootblur"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -11,6 +11,12 @@
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
+        <item name="toolbarStyle">@style/AppToolbar</item>
+        <item name="actionBarStyle">@style/SupporActbar</item>
+    </style>
+
+    <style name="SupporActbar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:homeAsUpIndicator">@drawable/ic_left_arrow</item>
     </style>
 
     <style name="Settingslist" parent="Widget.AppCompat.TextView">
@@ -58,10 +64,13 @@
         <item name="android:foregroundTint">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
+    </style>
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/nunitoblack</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:padding">5dp</item>
     </style>
 

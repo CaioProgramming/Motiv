@@ -581,7 +581,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         myDialog.setOnDismissListener(this)
         myDialog.show()
 
-        val timer = object : CountDownTimer(1500, 100) {
+        val timer = object : CountDownTimer(2500, 100) {
             override fun onTick(l: Long) {
 
             }

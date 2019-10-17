@@ -4,6 +4,7 @@ import android.app.Activity
 import android.net.Uri
 import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.R
@@ -42,6 +43,29 @@ class UserDB(private val activity: Activity) {
             }
         })
     }
+
+    fun LoadUser(userpic: CircleImageView, username: Toolbar, userr: User) {
+        userref.child(userr.uid).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    Glide.with(activity).load(user!!.picurl).error(activity.getDrawable(R.drawable.notfound)).into(userpic)
+                    username.title = user.name
+                    userr.uid = dataSnapshot.key!!
+                    userr.name = user.name
+                } else {
+                    Log.println(Log.ERROR, "USER", "Can't found on database")
+                    Glide.with(activity).load(userr.picurl).error(activity.getDrawable(R.drawable.notfound))
+                    username.title = userr.name
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+    }
+
 
     fun changeuserpic(profileFragment: ProfilePresenter?, pic: String) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser

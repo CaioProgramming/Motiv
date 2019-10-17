@@ -13,7 +13,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager.widget.ViewPager
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private var tabs: TabLayout? = null
     private var pager: ViewPager? = null
     private var toolbar: Toolbar? = null
+    private var searchView: SearchView? = null
     private var profilepic: CircleImageView? = null
     internal var container: CoordinatorLayout? = null
 
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
 
         toolbar = findViewById<Toolbar>(R.id.toolbar)
+        searchView = findViewById(R.id.search)
         setSupportActionBar(toolbar)
         this.tabs = findViewById(R.id.tabs)
         this.pager = findViewById(R.id.pager)
@@ -99,12 +103,18 @@ class MainActivity : AppCompatActivity() {
         pager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 val appBarLayout: AppBarLayout = findViewById(R.id.appbarlayout)
-
+                val searchView: SearchView = findViewById(R.id.search)
                 if (position == 2) {
+                    searchView.visibility = View.GONE
                     appBarLayout.setExpanded(false, true)
+                } else if (position == 1) {
+                    searchView.visibility = View.GONE
+                    appBarLayout.setExpanded(true, true)
                 } else {
+                    searchView.visibility = View.VISIBLE
                     appBarLayout.setExpanded(true, true)
                 }
+
 
             }
 
@@ -140,6 +150,18 @@ class MainActivity : AppCompatActivity() {
         //theme();
         internetconnection()
         version()
+
+        searchView!!.setOnSearchClickListener({
+            profilepic!!.visibility = View.GONE
+            supportActionBar!!.setDisplayShowTitleEnabled(false)
+        })
+
+        searchView!!.setOnCloseListener {
+            profilepic!!.visibility = View.VISIBLE
+            supportActionBar!!.setDisplayShowTitleEnabled(true)
+            false
+        }
+
     }
 
 

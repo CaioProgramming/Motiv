@@ -1,7 +1,6 @@
 package com.creat.motiv.View.activities
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -47,15 +46,12 @@ class UserActivity : AppCompatActivity() {
         collapsetoolbar = findViewById(R.id.collapsetoolbar)
         toolbar = findViewById(R.id.toolbar)
         profilepic = findViewById(R.id.profilepic)
-        username = findViewById(R.id.username)
         posts = findViewById(R.id.posts)
-        edit = findViewById(R.id.edit)
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         toolbar!!.setNavigationOnClickListener { activity.finish() }
-        edit!!.visibility = View.GONE
         Carregar()
     }
 
@@ -65,7 +61,7 @@ class UserActivity : AppCompatActivity() {
         u.picurl = upic!!
         u.uid = uid!!
         val userDB = UserDB(this)
-        userDB.LoadUser(profilepic!!, username!!, u)
+        userDB.LoadUser(profilepic!!, toolbar!!, u)
 
         val quotesDB = QuotesDB(this)
         quotesDB.recyclerView = myquotesrecycler
