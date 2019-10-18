@@ -104,12 +104,12 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
             holder.userpic.setOnClickListener { showuserprofile(u) }
             holder.username.setOnClickListener { showuserprofile(u) }
             val time: Long = 500
-            holder.userpic.fadeIn(holder.userpic, time)
-                    .andThen(holder.username.fadeIn(holder.username, time))
-                    .andThen(holder.dia.fadeIn(holder.dia, 500).andThen(holder.likes.fadeIn(holder.likes, time)))
-                    .andThen(holder.back.fadeIn(holder.back, time))
-                    .andThen(holder.quote.fadeIn(holder.quote, 500))
-                    .andThen(holder.author.fadeIn(holder.author, 500))
+            fadeIn(holder.userpic, time)
+                    .andThen(fadeIn(holder.username, time))
+                    .andThen(fadeIn(holder.dia, 500).andThen(fadeIn(holder.likes, time)))
+                    .andThen(fadeIn(holder.back, time))
+                    .andThen(fadeIn(holder.quote, 500))
+                    .andThen(fadeIn(holder.author, 500))
                     .subscribe()
 
 
@@ -120,12 +120,12 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
             holder.userpic.setOnClickListener { pager.setCurrentItem(2, true) }
             Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.userpic)
             val time: Long = 500
-            holder.userpic.fadeIn(holder.userpic, time * 2)
-                    .andThen(holder.username.fadeIn(holder.username, time))
-                    .andThen(holder.dia.fadeIn(holder.dia, 500).andThen(holder.likes.fadeIn(holder.likes, time)))
-                    .andThen(holder.back.fadeIn(holder.back, time))
-                    .andThen(holder.quote.fadeIn(holder.quote, 500))
-                    .andThen(holder.author.fadeIn(holder.author, 500))
+            fadeIn(holder.userpic, time * 2)
+                    .andThen(fadeIn(holder.username, time))
+                    .andThen(fadeIn(holder.dia, 500).andThen(fadeIn(holder.likes, time)))
+                    .andThen(fadeIn(holder.back, time))
+                    .andThen(fadeIn(holder.quote, 500))
+                    .andThen(fadeIn(holder.author, 500))
                     .subscribe()
 
         }
@@ -170,7 +170,7 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
     }
 
-    fun View.fadeIn(view: View, duration: Long): Completable {
+    fun fadeIn(view: View, duration: Long): Completable {
         val animationSubject = CompletableSubject.create()
         return animationSubject.doOnSubscribe {
             ViewCompat.animate(view)

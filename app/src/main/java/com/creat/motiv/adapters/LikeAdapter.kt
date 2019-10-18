@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.Model.Beans.Likes
 import com.creat.motiv.R
+import com.creat.motiv.contract.AdaptersContract
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import de.hdodenhof.circleimageview.CircleImageView
 
 
-class LikeAdapter(private val likesList: List<Likes>, private val activity: Activity) : RecyclerView.Adapter<LikeAdapter.MyViewHolder>() {
+class LikeAdapter(private val likesList: List<Likes>, private val activity: Activity) : RecyclerView.Adapter<LikeAdapter.MyViewHolder>(), AdaptersContract {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -28,7 +29,7 @@ class LikeAdapter(private val likesList: List<Likes>, private val activity: Acti
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         val likes = likesList[holder.adapterPosition]
         Log.println(Log.INFO, "loaded like ", likes.username)
@@ -42,7 +43,7 @@ class LikeAdapter(private val likesList: List<Likes>, private val activity: Acti
         }
 
         val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
-        holder.pic.startAnimation(`in`)
+        fadeIn(holder.pic, 500).andThen(fadeIn(holder.nome, 1000)).subscribe()
 
 
     }

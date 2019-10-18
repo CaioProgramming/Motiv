@@ -130,6 +130,6 @@ class Splash : AppCompatActivity() {
     }
 
     companion object {
-        private val RC_SIGN_IN = 123
+        val RC_SIGN_IN = 123
     }
 }

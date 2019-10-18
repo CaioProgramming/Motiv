@@ -19,25 +19,6 @@
             android:layout_height="wrap_content"
             app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <LinearLayout
-                app:layout_collapseMode="parallax"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.SearchView
-                    android:visibility="gone"
-                    android:layout_margin="10dp"
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/grey_50"
-                    android:background="@drawable/round"
-                    app:iconifiedByDefault="false"
-                    app:queryBackground="@color/transparent"
-                    app:queryHint="Pesquise frases, autores, criadores..." />
-
                 <TextView
                     android:textStyle="bold"
                     android:id="@+id/addquote"
@@ -47,7 +28,6 @@
                     android:hint="Escreve o que tiver em mente..."
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

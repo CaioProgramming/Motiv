@@ -26,6 +26,14 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userpic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:alpha="0"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/ic_astronaut" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -54,14 +62,6 @@
 
             </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/userpic"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:alpha="0"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/ic_astronaut" />
 
 
         </LinearLayout>

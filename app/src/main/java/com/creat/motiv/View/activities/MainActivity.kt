@@ -1,8 +1,6 @@
 package com.creat.motiv.View.activities
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -15,12 +13,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
+import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.creat.motiv.BuildConfig
 import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.Model.Beans.Version
 import com.creat.motiv.R
@@ -28,19 +24,20 @@ import com.creat.motiv.Utils.Alert
 import com.creat.motiv.Utils.Pref
 import com.creat.motiv.Utils.Tools
 import com.creat.motiv.adapters.MainAdapter
+import com.creat.motiv.databinding.ActivityMain2Binding
+import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
-import de.hdodenhof.circleimageview.CircleImageView
 import de.mateware.snacky.Snacky
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
+import kotlinx.android.synthetic.main.activity_main2.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -48,16 +45,8 @@ class MainActivity : AppCompatActivity() {
     protected lateinit var app: App
     internal lateinit var version: Version
     internal var a: Alert? = null
-    internal var context: Context = this
-    private val m_dialog: Dialog? = null
-    internal var activity: Activity = this
     internal var user: FirebaseUser? = null
-    private var tabs: TabLayout? = null
-    private var pager: ViewPager? = null
-    private var toolbar: Toolbar? = null
-    private var searchView: SearchView? = null
-    private var profilepic: CircleImageView? = null
-    internal var container: CoordinatorLayout? = null
+
 
     private val isNetworkAvailable: Boolean
         get() {
@@ -69,23 +58,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val actbind: ActivityMain2Binding = DataBindingUtil.setContentView(this, R.layout.activity_main2)
         app = application as App
         user = FirebaseAuth.getInstance().currentUser
         checkUser()
-        preferences = Pref(context)
-        setContentView(R.layout.activity_main2)
-        container = findViewById(R.id.container)
+        preferences = Pref(this)
 
-
-        toolbar = findViewById(R.id.toolbar)
-        searchView = findViewById(R.id.search)
         setSupportActionBar(toolbar)
-        this.tabs = findViewById(R.id.tabs)
-        this.pager = findViewById(R.id.pager)
-        this.profilepic = findViewById(R.id.profilepic)
-
         val mainAdapter = MainAdapter(supportFragmentManager)
-        pager!!.adapter = mainAdapter
+        actbind.pager.adapter = mainAdapter
         tabs!!.setupWithViewPager(pager)
         tabs!!.getTabAt(0)!!.text = "Home"
         tabs!!.getTabAt(1)!!.text = "Favoritos"
@@ -140,12 +121,12 @@ class MainActivity : AppCompatActivity() {
         internetconnection()
         version()
 
-        searchView!!.setOnSearchClickListener {
+        search.setOnSearchClickListener {
             profilepic!!.visibility = View.GONE
             supportActionBar!!.setDisplayShowTitleEnabled(false)
         }
 
-        searchView!!.setOnCloseListener {
+        search.setOnCloseListener {
             profilepic!!.visibility = View.VISIBLE
             supportActionBar!!.setDisplayShowTitleEnabled(true)
             false
@@ -176,8 +157,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkUser() {
-        if (user != null) {
 
+
+        if (user != null) {
             val userreference = FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid)
             userreference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -202,9 +184,16 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         } else {
-            val i = Intent(this, Splash::class.java)
-            startActivity(i)
-            this.finish()
+            val providers = Arrays.asList<AuthUI.IdpConfig>(
+                    AuthUI.IdpConfig.FacebookBuilder().build(),
+                    //new AuthUI.IdpConfig.TwitterBuilder().build(),
+                    AuthUI.IdpConfig.GoogleBuilder().build(),
+                    AuthUI.IdpConfig.EmailBuilder().build())
+            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
+                    .setLogo(R.mipmap.ic_launcher)
+                    .setAvailableProviders(providers)
+                    .setTheme(R.style.AppTheme)
+                    .build(), Splash.RC_SIGN_IN)
         }
     }
 
@@ -228,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                 if (version.version != versionName) {
 
 
-                    val snackbar = Snacky.builder().setActivity(activity).setText("Sua versão está desatualizada " +
+                    val snackbar = Snacky.builder().setActivity(this@MainActivity).setText("Sua versão está desatualizada " +
                             " o motiv atualmente está na versão " + version.version + " enquanto você está na versão  " + versionName)
                             .setIcon(R.drawable.ic_autorenew_black_24dp)
                             .setTextColor(Color.BLACK)

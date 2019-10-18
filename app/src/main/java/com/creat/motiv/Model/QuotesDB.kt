@@ -379,13 +379,11 @@ class QuotesDB : ValueEventListener {
         val progressDialog = ProgressDialog(activity)
         progressDialog.setMessage("Salvando")
         progressDialog.isIndeterminate = true
-        val id = quotesdb.push().key
-        this.quotes!!.id = id!!
         if (quotes!!.quote!!.isEmpty()) {
             alert.Message(activity!!.getDrawable(com.creat.motiv.R.drawable.ic_error), Tools.emptyquote())
             return
         } else {
-            quotesdb.push().child(id).setValue(this.quotes).addOnCompleteListener { task ->
+            quotesdb.push().setValue(this.quotes).addOnCompleteListener { task ->
                 progressDialog.dismiss()
                 if (task.isSuccessful) {
                     alert.Message(activity!!.getDrawable(com.creat.motiv.R.drawable.ic_success), "Sua frase foi compartilhada!")
@@ -482,7 +480,6 @@ class QuotesDB : ValueEventListener {
 
 
     fun Removerposts(id: String) {
-        val quotesdb = FirebaseDatabase.getInstance().reference
 
         quotesdb.child(id).removeValue()
 

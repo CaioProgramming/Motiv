@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:background="@color/transparent"
-        android:id="@+id/appbarlayout"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
@@ -65,16 +64,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/posts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="Posts"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -88,6 +78,17 @@
                     android:tooltipText="Clique na foto para alterá-la"
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/posts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:text="Posts"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
 
                 <Button

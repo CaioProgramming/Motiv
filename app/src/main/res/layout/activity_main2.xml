@@ -1,119 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:animateLayoutChanges="true"
-    android:fitsSystemWindows="true"
-    android:id="@+id/container">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.viewpager.widget.ViewPager
-        android:alpha="0"
-        android:id="@+id/pager"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:layout_height="match_parent" />
-
-
-    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:id="@+id/appbarlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:fitsSystemWindows="true"
-        app:elevation="3dp">
+        android:fitsSystemWindows="true">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:animateLayoutChanges="true"
-            android:id="@+id/collapsetoolbar"
-            android:background="@color/white"
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/rootblur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:realtimeBlurRadius="50dp"
+            app:realtimeOverlayColor="@color/transparent" />
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/white"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/white"
-            app:expandedTitleGravity="center"
-            app:layout_scrollFlags="exitUntilCollapsed|scroll"
-            app:scrimAnimationDuration="100"
-            app:titleEnabled="false">
+            app:elevation="0dp">
 
 
-
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
                 android:alpha="0"
-                android:id="@+id/adView"
+                android:animateLayoutChanges="true"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                app:title="@string/app_name"
+                app:titleTextAppearance="@style/ToolbarTitle"
+                app:titleTextColor="@color/colorPrimary">
+
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end|center"
+                    android:animateLayoutChanges="true"
+                    android:backgroundTint="@color/grey_50"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:queryBackground="@color/transparent"
+                    app:queryHint="Pesquise frases, autores, criadores..." />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilepic"
+                    android:layout_width="45dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end|center"
+                    android:layout_margin="1dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="5dp"
+                    android:src="@drawable/penguin" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsetoolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
-
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="top"
-            android:alpha="0"
-            android:animateLayoutChanges="true"
-            android:elevation="0dp"
-            app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-            app:title="@string/app_name"
-            app:titleTextAppearance="@style/ToolbarTitle"
-            app:titleTextColor="@color/colorPrimary">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end|center"
                 android:animateLayoutChanges="true"
-                android:backgroundTint="@color/grey_50"
-                android:foreground="?attr/selectableItemBackground"
-                app:queryBackground="@color/transparent"
-                app:queryHint="Pesquise frases, autores, criadores..." />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end|center"
-                android:layout_margin="1dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="5dp"
-                android:src="@drawable/penguin" />
+                android:background="@color/white"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/white"
+                app:expandedTitleGravity="center"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                app:scrimAnimationDuration="100"
+                app:titleEnabled="false">
 
 
-        </androidx.appcompat.widget.Toolbar>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:alpha="0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/transparent"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/colorPrimaryDark"
-            app:tabTextAppearance="@style/TabsTextStyle"
-            app:tabTextColor="@color/grey_400" />
-    </com.google.android.material.appbar.AppBarLayout>
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:background="@color/white"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
 
 
-    <com.github.mmin18.widget.RealtimeBlurView
-        app:realtimeBlurRadius="50dp"
-        android:visibility="gone"
-        app:realtimeOverlayColor="@color/transparent"
-        android:id="@+id/rootblur"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0"
+                app:tabGravity="center"
+                app:tabIndicatorColor="@color/transparent"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/colorPrimaryDark"
+                app:tabTextAppearance="@style/TabsTextStyle"
+                app:tabTextColor="@color/grey_400" />
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

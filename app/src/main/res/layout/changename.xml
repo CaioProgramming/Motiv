@@ -26,7 +26,7 @@
                 android:id="@+id/username"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/lwhite"
+                android:backgroundTint="@color/transparent"
                 android:fontFamily="@font/nunito_light"
                 android:hint="Username"
                 android:maxLength="25"
