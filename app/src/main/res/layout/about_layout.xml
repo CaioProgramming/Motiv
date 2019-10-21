@@ -12,62 +12,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:backgroundTint="@color/grey_400"
-            android:fontFamily="@font/nunitoblack"
-            android:padding="10dp"
-            android:text="Sobre"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/adtext"
-                style="@style/AppTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/ads_button"
-                android:padding="10dp"
-                android:text="@string/suporrt_ad"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Criado por"
-                android:textAlignment="center"
-                android:textColor="@color/grey_900"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/creators"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Desenvolvido por Caio Alves Ferreira e Debora Profil dos Santos"
-                android:textAlignment="center" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/creatorsrecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:foregroundGravity="center"
-                android:nestedScrollingEnabled="false" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,6 +25,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:textSize="20sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -91,6 +41,47 @@
 
 
             </LinearLayout>
+
+
+            <TextView
+                android:layout_margin="5dp"
+                android:fontFamily="@font/nunitoregular"
+                android:textColor="@color/grey_900"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Criado por"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/creators"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textAlignment="center" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/creatorsrecycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:layout_margin="25dp"
+                android:textSize="25sp"
+                android:id="@+id/adtext"
+                style="@style/AppTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/ads_button"
+                android:padding="10dp"
+                android:text="@string/suporrt_ad"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
 
             <LinearLayout
@@ -122,6 +113,18 @@
 
 
         </LinearLayout>
+
+        <TextView
+            android:fontFamily="@font/nunitoblack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:padding="10dp"
+            android:text="Sobre"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

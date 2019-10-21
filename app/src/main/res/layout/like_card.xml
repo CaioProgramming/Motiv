@@ -6,6 +6,15 @@
     android:orientation="horizontal"
     android:padding="5dp">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userpic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:alpha="0"
+        android:src="@drawable/penguin"
+        app:civ_border_color="@color/colorAccent"
+        app:civ_border_width="1dp" />
     <TextView
         android:alpha="0"
         android:id="@+id/username"
@@ -18,16 +27,6 @@
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:alpha="0"
-        android:id="@+id/userpic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:src="@drawable/penguin"
-        app:civ_border_color="@color/colorAccent"
-        app:civ_border_width="1dp" />
 
 
     <ImageButton

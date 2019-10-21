@@ -380,15 +380,15 @@ class QuotesDB : ValueEventListener {
         progressDialog.setMessage("Salvando")
         progressDialog.isIndeterminate = true
         if (quotes!!.quote!!.isEmpty()) {
-            alert.Message(activity!!.getDrawable(com.creat.motiv.R.drawable.ic_error), Tools.emptyquote())
+            alert.Message(activity!!.getDrawable(R.drawable.ic_error), Tools.emptyquote())
             return
         } else {
             quotesdb.push().setValue(this.quotes).addOnCompleteListener { task ->
                 progressDialog.dismiss()
                 if (task.isSuccessful) {
-                    alert.Message(activity!!.getDrawable(com.creat.motiv.R.drawable.ic_success), "Sua frase foi compartilhada!")
+                    alert.Message(activity!!.getDrawable(R.drawable.ic_success), "Sua frase foi compartilhada!")
                 } else {
-                    alert.Message(activity!!.getDrawable(com.creat.motiv.R.drawable.ic_success), "Erro ao publicar! \n" + task.exception!!.message)
+                    alert.Message(activity!!.getDrawable(R.drawable.ic_success), "Erro ao publicar! \n" + task.exception!!.message)
 
                 }
             }

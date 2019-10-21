@@ -28,6 +28,7 @@
             app:realtimeOverlayColor="@color/transparent" />
 
 
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
@@ -38,6 +39,31 @@
             app:elevation="0dp">
 
 
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsetoolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/white"
+                app:expandedTitleGravity="center"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                app:scrimAnimationDuration="100"
+                app:titleEnabled="false">
+
+
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:background="@color/white"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -76,32 +102,6 @@
                     android:src="@drawable/penguin" />
 
             </androidx.appcompat.widget.Toolbar>
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsetoolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@color/white"
-                android:fitsSystemWindows="true"
-                app:contentScrim="@color/white"
-                app:expandedTitleGravity="center"
-                app:layout_scrollFlags="exitUntilCollapsed|scroll"
-                app:scrimAnimationDuration="100"
-                app:titleEnabled="false">
-
-
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/adView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha="0"
-                    android:background="@color/white"
-                    ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
-
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"

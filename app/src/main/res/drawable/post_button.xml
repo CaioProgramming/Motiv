@@ -3,13 +3,19 @@
     android:color="@color/white">
     <item>
         <shape android:shape="rectangle">
+            <corners android:radius="15dp" />
             <padding android:top="10dp"
                 android:bottom="10dp"
                 android:left="10dp"
                 android:right="10dp"
                 />
 
-            <gradient android:startColor="@color/colorPrimary" android:type="linear" android:angle="45" android:centerColor="@color/colorPrimary" android:endColor="@color/lwhite"/>
+            <gradient
+                android:angle="45"
+                android:centerColor="@color/colorAccent"
+                android:endColor="@color/colorPrimaryDark"
+                android:startColor="@color/colorPrimary"
+                android:type="linear" />
         </shape>
     </item>
 </ripple>

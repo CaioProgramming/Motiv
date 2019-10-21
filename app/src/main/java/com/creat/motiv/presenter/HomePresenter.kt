@@ -39,7 +39,6 @@ class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTe
 
 
     override fun initview(v: View) {
-
         composesrecycler = v.findViewById(R.id.composesrecycler)
         refreshLayout = v.findViewById(R.id.refresh)
         addquote = v.findViewById(R.id.addquote)
