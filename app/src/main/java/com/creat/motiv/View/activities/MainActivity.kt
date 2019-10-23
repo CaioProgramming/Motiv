@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         checkUser()
         preferences = Pref(this)
 
-        setSupportActionBar(toolbar)
         val mainAdapter = MainAdapter(supportFragmentManager)
         actbind.pager.adapter = mainAdapter
         tabs!!.setupWithViewPager(pager)
@@ -94,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val time: Long = 500
+        setSupportActionBar(toolbar)
         fadeIn(toolbar!!, time * 2).andThen(fadeIn(tabs!!, time))
                 ?.andThen(fadeIn(pager!!, time))
                 ?.andThen(fadeIn(adView, time))
