@@ -42,7 +42,7 @@ class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTe
         composesrecycler = v.findViewById(R.id.composesrecycler)
         refreshLayout = v.findViewById(R.id.refresh)
         addquote = v.findViewById(R.id.addquote)
-        search = activity.findViewById(R.id.search)
+        // search = activity.findViewById(R.id.search)
         composesrecycler?.postDelayed({
             carregar()
         }, 100)
@@ -59,7 +59,7 @@ class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTe
 
     }
 
-    private var search: SearchView? = null
+    var search: SearchView? = null
     private var addquote: TextView? = null
     private var composesrecycler: RecyclerView? = null
     private var refreshLayout: SwipeRefreshLayout? = null

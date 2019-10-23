@@ -12,10 +12,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.Model.Beans.Version
@@ -29,7 +27,6 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -79,32 +76,6 @@ class MainActivity : AppCompatActivity() {
         adView.loadAd(adRequest)
 
 
-        pager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                val appBarLayout: AppBarLayout = findViewById(R.id.appbarlayout)
-                val searchView: SearchView = findViewById(R.id.search)
-                if (position == 2) {
-                    searchView.visibility = View.GONE
-                    appBarLayout.setExpanded(false, true)
-                } else if (position == 1) {
-                    searchView.visibility = View.GONE
-                    appBarLayout.setExpanded(true, true)
-                } else {
-                    searchView.visibility = View.VISIBLE
-                    appBarLayout.setExpanded(true, true)
-                }
-
-
-            }
-
-            override fun onPageSelected(position: Int) {
-
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-        })
 
         Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic!!)
         profilepic!!.setOnClickListener { pager!!.currentItem = 2 }
@@ -121,16 +92,6 @@ class MainActivity : AppCompatActivity() {
         internetconnection()
         version()
 
-        search.setOnSearchClickListener {
-            profilepic!!.visibility = View.GONE
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
-        }
-
-        search.setOnCloseListener {
-            profilepic!!.visibility = View.VISIBLE
-            supportActionBar!!.setDisplayShowTitleEnabled(true)
-            false
-        }
 
         val time: Long = 500
         fadeIn(toolbar!!, time * 2).andThen(fadeIn(tabs!!, time))
@@ -246,6 +207,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)
+
+
         return super.onCreateOptionsMenu(menu)
     }
 

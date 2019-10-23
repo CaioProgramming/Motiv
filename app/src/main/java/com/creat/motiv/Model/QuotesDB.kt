@@ -459,7 +459,7 @@ class QuotesDB : ValueEventListener {
         val likes = Likes(user.uid, user.displayName!!, user.photoUrl.toString())
         quotesdb.child(quotes!!.id!!).child("likes").child(user.uid).setValue(likes).addOnCompleteListener {
             Snacky.builder().setActivity(activity!!).setText("Frase curtida")
-                    .setBackgroundColor(Color.WHITE).setTextColor(Color.BLACK).setIcon(activity!!.getDrawable(R.drawable.ic_favorite_grey_24dp)).build().show()
+                    .setBackgroundColor(Color.WHITE).setTextColor(Color.BLACK).setIcon(activity!!.getDrawable(R.drawable.ic_heart)).build().show()
         }
     }
 
@@ -474,7 +474,7 @@ class QuotesDB : ValueEventListener {
         }
         quotesdb.child(quotes!!.id!!).child("likes").child(user.uid).removeValue().addOnCompleteListener {
             Snacky.builder().setActivity(activity!!).setText("Frase descurtida")
-                    .setBackgroundColor(Color.WHITE).setTextColor(Color.RED).setIcon(R.drawable.ic_favorite_black_24dp).build().show()
+                    .setBackgroundColor(Color.WHITE).setTextColor(Color.RED).setIcon(R.drawable.ic_like).build().show()
         }
     }
 

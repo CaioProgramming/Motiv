@@ -32,12 +32,26 @@ object Tools {
     var spancount = 1
     var searcharg = "\uf8ff"
 
-    fun View.fadeIn(view: View, duration: Long): Completable {
+    fun fadeIn(view: View, duration: Long): Completable {
         val animationSubject = CompletableSubject.create()
         return animationSubject.doOnSubscribe {
             ViewCompat.animate(view)
                     .setDuration(duration)
                     .alpha(1f)
+                    .withEndAction {
+                        animationSubject.onComplete()
+                    }
+        }
+
+
+    }
+
+    fun fadeOut(view: View, duration: Long): Completable {
+        val animationSubject = CompletableSubject.create()
+        return animationSubject.doOnSubscribe {
+            ViewCompat.animate(view)
+                    .setDuration(duration)
+                    .alpha(0f)
                     .withEndAction {
                         animationSubject.onComplete()
                     }

@@ -617,18 +617,14 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
     override fun onShow(dialogInterface: DialogInterface) {
         if (blur != null) {
-            val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
-            blur.visibility = View.VISIBLE
-            blur.startAnimation(`in`)
+            Tools.fadeIn(blur, 1000).subscribe()
         }
 
     }
 
     override fun onDismiss(dialogInterface: DialogInterface) {
         if (blur != null) {
-            val out = AnimationUtils.loadAnimation(activity, R.anim.fade_out)
-            blur.startAnimation(out)
-            blur.visibility = View.GONE
+            Tools.fadeOut(blur, 500).subscribe()
         }
     }
 
