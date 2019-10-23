@@ -136,8 +136,8 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         }
         myDialog.show()
         val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
-        blur!!.visibility = View.VISIBLE
-        blur.startAnimation(`in`)
+        blur?.visibility = View.VISIBLE
+        blur?.startAnimation(`in`)
 
 
     }
@@ -617,14 +617,14 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
     override fun onShow(dialogInterface: DialogInterface) {
         if (blur != null) {
-            Tools.fadeIn(blur, 1000).subscribe()
+            Tools.fadeIn(blur, 1500).subscribe()
         }
 
     }
 
     override fun onDismiss(dialogInterface: DialogInterface) {
         if (blur != null) {
-            Tools.fadeOut(blur, 500).subscribe()
+            Tools.fadeOut(blur, 1500).subscribe()
         }
     }
 
