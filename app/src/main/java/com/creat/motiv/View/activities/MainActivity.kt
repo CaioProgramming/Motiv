@@ -123,15 +123,36 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                when (position) {
+                    2 -> {
+                        toolbar.title = user!!.displayName
+                        toolbar.setTitleTextColor(Color.BLACK)
+                    }
+                    1 -> {
+                        toolbar.title = getString(R.string.app_name)
+                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                    }
+                    else -> {
+                        toolbar.title = getString(R.string.app_name)
+                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                    }
+                }
             }
 
             override fun onPageSelected(position: Int) {
-                if (position == 2) {
-                    toolbar.title = user!!.displayName
-                    toolbar.setTitleTextColor(Color.BLACK)
-                } else if (position == 1) {
-                    toolbar.title = getString(R.string.app_name)
-                    toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                when (position) {
+                    2 -> {
+                        toolbar.title = user!!.displayName
+                        toolbar.setTitleTextColor(Color.BLACK)
+                    }
+                    1 -> {
+                        toolbar.title = getString(R.string.app_name)
+                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                    }
+                    else -> {
+                        toolbar.title = getString(R.string.app_name)
+                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                    }
                 } //To change body of created functions use File | Settings | File Templates.
             }
         })

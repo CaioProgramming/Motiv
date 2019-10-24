@@ -19,7 +19,8 @@
 
     <style name="Searchtheme" parent="Widget.AppCompat.Light.SearchView">
         <item name="android:background">@drawable/round</item>
-        <item name="queryBackground">@color/transparent</item>
+        <item name="queryBackground">@drawable/round</item>
+
     </style>
 
     <style name="Settingslist" parent="Widget.AppCompat.TextView">
