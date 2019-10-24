@@ -49,59 +49,51 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:padding="10dp"
                 app:layout_collapseMode="parallax">
 
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/username"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_button"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Editar Perfil"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
 
-
-
+                    <TextView
+                        android:id="@+id/posts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:text="Posts"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profilepic"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
                     android:foreground="?attr/selectableItemBackground"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/notfound"
                     android:tooltipText="Clique na foto para alterá-la"
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="1dp" />
 
-                <TextView
-                    android:id="@+id/posts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:text="Posts"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-
-                <Button
-                    android:layout_margin="20dp"
-                    android:id="@+id/edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ripple_button"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="Editar Perfil"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
 
             </LinearLayout>
 

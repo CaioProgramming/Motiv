@@ -25,9 +25,7 @@ import com.creat.motiv.Utils.Tools
 import com.creat.motiv.adapters.MainAdapter
 import com.creat.motiv.databinding.ActivityMain2Binding
 import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import com.fxn.OnBubbleClickListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -65,6 +63,28 @@ class MainActivity : AppCompatActivity() {
         val mainAdapter = MainAdapter(supportFragmentManager)
         pager.adapter = mainAdapter
         bubbleTabBar.setupBubbleTabBar(pager)
+        bubbleTabBar.addBubbleListener(object : OnBubbleClickListener {
+            override fun onBubbleClick(id: Int) {
+                when (id) {
+                    R.id.home -> {
+                        pager.setCurrentItem(0, true)
+                        Tools.fadeIn(profilepic, 500)
+
+                    }
+                    R.id.favorites -> {
+                        pager.setCurrentItem(1, true)
+                        Tools.fadeIn(profilepic, 500)
+
+                    }
+
+                    else -> {
+                        pager.setCurrentItem(2, true)
+                        Tools.fadeOut(profilepic, 500)
+
+                    }
+                }
+            }
+        })
 
 
      /*   val adView = findViewById<AdView>(R.id.adView)
@@ -97,6 +117,24 @@ class MainActivity : AppCompatActivity() {
         fadeIn(toolbar!!, time * 2).andThen(fadeIn(bubbleTabBar, time))
                 ?.andThen(fadeIn(pager, time))
                 ?.subscribe()
+
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (position == 2) {
+                    toolbar.title = user!!.displayName
+                    toolbar.setTitleTextColor(Color.BLACK)
+                } else if (position == 1) {
+                    toolbar.title = getString(R.string.app_name)
+                    toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                } //To change body of created functions use File | Settings | File Templates.
+            }
+        })
 
 
 

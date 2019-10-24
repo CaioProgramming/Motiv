@@ -5,18 +5,18 @@
         android:icon="@drawable/ic_home"
         android:title="Home"
         android:checked="true"
-        android:iconTint="@color/grey_400"/>
+        android:iconTint="@color/grey_800" />
 
     <item
         android:id="@+id/favorites"
         android:icon="@drawable/ic_favorite_black_24dp"
         android:title="Favoritos"
-        android:iconTint="@color/red_400"/>
+        android:iconTint="@color/red_800" />
 
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_profile"
         android:title="Você"
-        android:iconTint="@color/purple_400"/>
+        android:iconTint="@color/purple_800" />
 
 </menu>

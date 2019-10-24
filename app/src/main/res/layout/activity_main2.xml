@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.appcompat.widget.Toolbar
-                android:elevation="3dp"
                 android:id="@+id/toolbar"
+                android:background="@drawable/bottom_line"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/app_name"

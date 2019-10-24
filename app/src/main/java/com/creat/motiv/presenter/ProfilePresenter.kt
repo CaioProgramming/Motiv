@@ -20,9 +20,9 @@ class ProfilePresenter(val activity: Activity, val profileFragment: ProfileFragm
     var posts: TextView? = null
     var favorites: TextView? = null
     var myquotesrecycler: RecyclerView? = null
-
+    var username: TextView? = null
     override fun initview(v: View) {
-        val username: TextView = v.findViewById(R.id.username)
+        username = v.findViewById(R.id.username)
         favorites = v.findViewById(R.id.likes)
         myquotesrecycler = v.findViewById(R.id.myquotesrecycler)!!
         val profilepic: CircleImageView = v.findViewById(R.id.profilepic)
@@ -30,7 +30,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: ProfileFragm
         posts = v.findViewById(R.id.posts)
         favorites = v.findViewById(R.id.likes)
         Glide.with(activity).load(user.photoUrl).error(activity.getDrawable(R.drawable.notfound)).into(profilepic)
-        username.text = user.displayName
+        username?.text = user.displayName
         profilepic.setOnClickListener {
             val alert = Alert(activity)
             alert.Picalert(this)
