@@ -71,6 +71,8 @@ dependencies {
     implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation  'com.fxn769:bubbletabbar:1.0.3'
+
     kapt 'com.android.databinding:compiler:3.1.4'
 
 

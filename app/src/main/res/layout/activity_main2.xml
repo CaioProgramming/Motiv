@@ -2,79 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-
+    <RelativeLayout
+        android:orientation="vertical"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:background="@color/white"
         android:fitsSystemWindows="true">
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+        <LinearLayout
+            android:layout_above="@id/bubbleTabBar"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:id="@+id/rootblur"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:realtimeBlurRadius="50dp"
-            app:realtimeOverlayColor="@color/transparent" />
-
-
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbarlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:background="@color/white"
-            android:fitsSystemWindows="true"
-            app:elevation="0dp">
-
-
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsetoolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@color/white"
-                android:fitsSystemWindows="true"
-                app:contentScrim="@color/white"
-                app:expandedTitleGravity="center"
-                app:layout_scrollFlags="exitUntilCollapsed|scroll"
-                app:scrimAnimationDuration="100"
-                app:titleEnabled="false">
-
-
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/adView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha="0"
-                    android:background="@color/white"
-                    ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-4979584089010597/3019321601" />
-
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
+            android:layout_height="match_parent">
             <androidx.appcompat.widget.Toolbar
+                android:elevation="3dp"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                android:alpha="0"
-                android:animateLayoutChanges="true"
-                android:elevation="0dp"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 app:title="@string/app_name"
                 app:titleTextAppearance="@style/ToolbarTitle"
                 app:titleTextColor="@color/colorPrimary">
@@ -92,22 +37,36 @@
                     android:src="@drawable/penguin" />
 
             </androidx.appcompat.widget.Toolbar>
-
-            <com.google.android.material.tabs.TabLayout
-                android:elevation="0dp"
-                android:id="@+id/tabs"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:alpha="0"
-                app:tabGravity="center"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-                app:tabIndicatorColor="@color/transparent"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/colorPrimaryDark"
-                app:tabTextAppearance="@style/TabsTextStyle"
-                app:tabTextColor="@color/grey_400" />
-        </com.google.android.material.appbar.AppBarLayout>
+        </LinearLayout>
+        <com.fxn.BubbleTabBar
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bubbleTabBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="0dp"
+            android:padding="7dp"
+            app:bubbletab_menuResource="@menu/tabs"
+            app:bubbletab_disabled_icon_color="@color/grey_400"
+            app:bubbletab_horizontal_padding="20dp"
+            app:bubbletab_icon_size="20dp"
+            app:bubbletab_title_size="16sp"
+            app:bubbletab_vertical_padding="10dp">
+        </com.fxn.BubbleTabBar>
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:alpha="0"
+            android:id="@+id/rootblur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:realtimeBlurRadius="50dp"
+            app:realtimeOverlayColor="@color/transparent" />
 
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </RelativeLayout>
 </layout>

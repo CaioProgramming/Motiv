@@ -14,6 +14,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.Model.Beans.User
 import com.creat.motiv.Model.Beans.Version
@@ -62,17 +63,16 @@ class MainActivity : AppCompatActivity() {
         preferences = Pref(this)
 
         val mainAdapter = MainAdapter(supportFragmentManager)
-        actbind.pager.adapter = mainAdapter
-        tabs!!.setupWithViewPager(pager)
-        tabs!!.getTabAt(0)!!.text = "Home"
-        tabs!!.getTabAt(1)!!.text = "Favoritos"
-        tabs!!.getTabAt(2)!!.text = "Perfil"
-        val adView = findViewById<AdView>(R.id.adView)
+        pager.adapter = mainAdapter
+        bubbleTabBar.setupBubbleTabBar(pager)
+
+
+     /*   val adView = findViewById<AdView>(R.id.adView)
         MobileAds.initialize(this,
                 "ca-app-pub-4979584089010597/9177000416")
 
         val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+        adView.loadAd(adRequest)*/
 
 
 
@@ -94,10 +94,10 @@ class MainActivity : AppCompatActivity() {
 
         val time: Long = 500
         setSupportActionBar(toolbar)
-        fadeIn(toolbar!!, time * 2).andThen(fadeIn(tabs!!, time))
-                ?.andThen(fadeIn(pager!!, time))
-                ?.andThen(fadeIn(adView, time))
+        fadeIn(toolbar!!, time * 2).andThen(fadeIn(bubbleTabBar, time))
+                ?.andThen(fadeIn(pager, time))
                 ?.subscribe()
+
 
 
 
