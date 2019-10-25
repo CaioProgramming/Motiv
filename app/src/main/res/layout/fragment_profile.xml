@@ -54,16 +54,7 @@
                 app:layout_collapseMode="parallax">
 
 
-                <Button
-                    android:id="@+id/edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ripple_button"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="Editar Perfil"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,6 +87,16 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_button"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="Editar Perfil"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
