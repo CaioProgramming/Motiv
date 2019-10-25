@@ -13,14 +13,13 @@
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>
         <item name="searchViewStyle">@style/Searchtheme</item>
+        <item name="android:windowContentTransitions">true</item>
 
 
     </style>
 
     <style name="Searchtheme" parent="Widget.AppCompat.Light.SearchView">
-        <item name="android:background">@drawable/round</item>
-        <item name="queryBackground">@drawable/round</item>
-
+        <item name="queryBackground">@color/transparent</item>
     </style>
 
     <style name="Settingslist" parent="Widget.AppCompat.TextView">

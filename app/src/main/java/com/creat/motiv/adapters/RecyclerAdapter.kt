@@ -14,6 +14,7 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -101,8 +102,8 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
             Log.println(Log.INFO, "USER", "usuario " + u.name)
             Glide.with(activity).load(quote.userphoto).error(R.drawable.notfound).into(holder.userpic)
             holder.username.text = quote.username
-            holder.userpic.setOnClickListener { showuserprofile(u) }
-            holder.username.setOnClickListener { showuserprofile(u) }
+            holder.userpic.setOnClickListener { showuserprofile(u, holder) }
+            holder.username.setOnClickListener { showuserprofile(u, holder) }
             val time: Long = 500
             fadeIn(holder.userpic, time)
                     .andThen(fadeIn(holder.username, time))
@@ -184,14 +185,16 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
     }
 
-    private fun showuserprofile(u: User) {
+    private fun showuserprofile(u: User, holder: MyViewHolder) {
         /*Alert a = new Alert(activity);
         a.Message(activity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");*/
         val i = Intent(activity, UserActivity::class.java)
         i.putExtra("uid", u.uid)
         i.putExtra("uname", u.name)
         i.putExtra("upic", u.picurl)
-        activity.startActivity(i)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                holder.userpic as View, "profilepic")
+        activity.startActivity(i, options.toBundle())
 
     }
 

@@ -13,6 +13,7 @@ class FavoritesPresenter(val activity: Activity) : ViewContract {
 
     private var favcount: TextView? = null
     private var recyclerView: RecyclerView? = null
+
     override fun initview(v: View) {
         favcount = v.findViewById(R.id.favtext)!!
         recyclerView = v.findViewById(R.id.favoritesrecycler)!!
@@ -21,7 +22,6 @@ class FavoritesPresenter(val activity: Activity) : ViewContract {
         }
 
     }
-
     override fun carregar() {
         val quotesDB = QuotesDB(activity)
         quotesDB.recyclerView = this.recyclerView!!

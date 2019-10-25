@@ -29,6 +29,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userpic"
                 android:layout_width="50dp"
+                android:transitionName="profilepic"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:alpha="0"

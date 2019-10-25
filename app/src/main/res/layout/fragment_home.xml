@@ -47,16 +47,14 @@
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
                 <TextView
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:text="Escreve o que tiver em mente"
                     android:textStyle="bold"
                     android:id="@+id/addquote"
-                    android:textColor="@color/white"
-                    android:padding="10dp"
-                    android:background="@drawable/post_button"
-                    android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:layout_height="wrap_content" />
+                    android:layout_margin="15dp"
+                    android:background="@drawable/rounds"
+                    android:padding="10dp" />
 
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

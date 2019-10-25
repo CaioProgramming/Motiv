@@ -127,14 +127,19 @@ class MainActivity : AppCompatActivity() {
                     2 -> {
                         toolbar.title = user!!.displayName
                         toolbar.setTitleTextColor(Color.BLACK)
+                        toolbar.setBackgroundColor(Color.WHITE)
                     }
                     1 -> {
-                        toolbar.title = getString(R.string.app_name)
-                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                        toolbar.title = "Favoritos"
+                        toolbar.setTitleTextColor(Color.BLACK)
+                        toolbar.setBackgroundColor(Color.WHITE)
+
                     }
                     else -> {
                         toolbar.title = getString(R.string.app_name)
                         toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+                        toolbar.setBackgroundResource(R.drawable.bottom_line)
+
                     }
                 }
             }

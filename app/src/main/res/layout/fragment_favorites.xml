@@ -24,12 +24,11 @@
                 android:id="@+id/favtext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_loving_message_red"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="Favoritos"
-                android:textAlignment="center"
                 android:textColor="@color/red_500"
-                android:textSize="20sp"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 app:layout_collapseMode="parallax" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

@@ -19,6 +19,7 @@
                 android:id="@+id/toolbar"
                 android:background="@drawable/bottom_line"
                 android:layout_width="match_parent"
+                android:animateLayoutChanges="true"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/app_name"
                 app:titleTextAppearance="@style/ToolbarTitle"
