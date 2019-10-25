@@ -30,10 +30,12 @@ class UserActivity : AppCompatActivity() {
     private fun initView() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        toolbar!!.setNavigationOnClickListener { activity.finish() }
-        Carregar()
+        myquotesrecycler.postDelayed({
+            Carregar()
+        }, 500)
+
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
