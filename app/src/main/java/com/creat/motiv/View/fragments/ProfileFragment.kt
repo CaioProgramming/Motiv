@@ -26,10 +26,12 @@ class ProfileFragment : Fragment() {
 
         preferences = Pref(Objects.requireNonNull<Context>(context))
         val v = inflater.inflate(R.layout.fragment_profile, container, false)
-        Tutorial()
+        v.post {
+            val profilePresenter = ProfilePresenter(activity!!, this)
+            profilePresenter.initview()
+            Tutorial()
 
-        val profilePresenter = ProfilePresenter(activity!!, this)
-        profilePresenter.initview()
+        }
         return v
 
     }
