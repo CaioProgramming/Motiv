@@ -1,31 +1,26 @@
 package com.creat.motiv.presenter
 
 import android.app.Activity
-import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.Model.QuotesDB
 import com.creat.motiv.R
+import com.creat.motiv.View.fragments.FavoritesFragment
 import com.creat.motiv.contract.ViewContract
+import kotlinx.android.synthetic.main.fragment_favorites.*
 
-class FavoritesPresenter(val activity: Activity) : ViewContract {
+class FavoritesPresenter(val favoritesFragment: FavoritesFragment) : ViewContract {
 
 
-    private var favcount: TextView? = null
-    private var recyclerView: RecyclerView? = null
+    override fun initview() {
 
-    override fun initview(v: View) {
-        favcount = v.findViewById(R.id.favtext)!!
-        recyclerView = v.findViewById(R.id.favoritesrecycler)!!
-        if (recyclerView != null) {
-            carregar()
-        }
+        carregar();
 
     }
     override fun carregar() {
-        val quotesDB = QuotesDB(activity)
-        quotesDB.recyclerView = this.recyclerView!!
-        quotesDB.likecount = this.favcount!!
+        val quotesDB = QuotesDB(favoritesFragment.activity!!)
+        quotesDB.recyclerView = favoritesFragment.favoritesrecycler
+        quotesDB.likecount = favoritesFragment.favtext
         quotesDB.carregarlikes()
 
 

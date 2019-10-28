@@ -39,21 +39,8 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="AppTheme.AlertDialog.PositiveButton">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppTheme.AlertDialog.NegativeButton">
-        <item name="android:textColor">@color/grey_400</item>
-    </style>
-
     <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
-    </style>
-
-    <style name="TabsTextStyle" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:textSize">14sp</item>
-         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BottomOptionstext" parent="@android:style/TextAppearance.Widget.TabWidget">
@@ -82,10 +69,6 @@
     <style name="BottomDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
-    </style>
-
-    <style name="CustomAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="panelBackground">@drawable/round</item>
     </style>
 
     <style name="Dialog_No_Border">

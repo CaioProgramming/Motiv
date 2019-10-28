@@ -1,23 +1,21 @@
 package com.creat.motiv.presenter
 
 import android.app.Activity
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creat.motiv.Model.QuotesDB
-import com.creat.motiv.R
 import com.creat.motiv.Utils.NewQuotepopup
+import com.creat.motiv.View.fragments.HomeFragment
 import com.creat.motiv.contract.ViewContract
+import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * @Author Kotlin MVP Plugin
  * @Date 2019/10/15
  * @Description input description
  **/
-class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTextListener {
+class HomePresenter(val activity: Activity,val homeFragment: HomeFragment) : ViewContract, SearchView.OnQueryTextListener {
 
+    val quotesDB = QuotesDB(activity)
 
     override fun onQueryTextSubmit(query: String): Boolean {
         if (query.isEmpty()) {
@@ -38,42 +36,35 @@ class HomePresenter(val activity: Activity) : ViewContract, SearchView.OnQueryTe
     }
 
 
-    override fun initview(v: View) {
-        composesrecycler = v.findViewById(R.id.composesrecycler)
-        refreshLayout = v.findViewById(R.id.refresh)
-        addquote = v.findViewById(R.id.addquote)
+    override fun initview() {
+
         // search = activity.findViewById(R.id.search)
-        composesrecycler?.postDelayed({
-            carregar()
-        }, 100)
         search?.setOnQueryTextListener(this)
-        addquote?.setOnClickListener {
+        homeFragment.addquote?.setOnClickListener {
             val newQuotepopup = NewQuotepopup(activity)
             newQuotepopup.showup()
         }
-        refreshLayout?.setOnRefreshListener {
-            if (refreshLayout!!.isRefreshing) {
+        homeFragment.refresh?.setOnRefreshListener {
+            if (homeFragment.refresh.isRefreshing) {
                 carregar()
             }
         }
+        homeFragment.composesrecycler?.postDelayed({
+            carregar()
+        }, 100)
 
     }
 
     var search: SearchView? = null
-    private var addquote: TextView? = null
-    private var composesrecycler: RecyclerView? = null
-    private var refreshLayout: SwipeRefreshLayout? = null
+
 
     override fun carregar() {
-        val quotesDB = QuotesDB(activity)
-        quotesDB.refreshlayout = refreshLayout
-        quotesDB.recyclerView = composesrecycler
+        quotesDB.refreshlayout = homeFragment.refresh
+        quotesDB.recyclerView = homeFragment.composesrecycler
         quotesDB.carregar()
     }
 
     private fun pesquisar(pesquisa: String) {
-        val quotesDB = QuotesDB(activity)
-        quotesDB.recyclerView = composesrecycler
         quotesDB.pesquisar(pesquisa)
     }
 

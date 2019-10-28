@@ -114,7 +114,6 @@ class UserDB(private val activity: Activity) {
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
                     val u = User()
                     u.uid = firebaseUser.uid
-                    u.phonenumber = firebaseUser.phoneNumber!!
                     u.picurl = firebaseUser.photoUrl.toString()
                     u.email = firebaseUser.email!!
                     u.name = firebaseUser.displayName!!

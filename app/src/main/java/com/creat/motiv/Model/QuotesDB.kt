@@ -75,6 +75,7 @@ class QuotesDB : ValueEventListener {
 
                 println("Quotes " + quotesArrayList.size)
                 println("Quote  " + quotes.id)
+               // Log.println(Log.INFO,"Quote","${quotes.id} likes ${quotes.likes}")
 
 
             }
@@ -142,7 +143,7 @@ class QuotesDB : ValueEventListener {
                         val quotesArrayList = ArrayList<Quotes>()
                         recyclerView!!.removeAllViews()
                         for (d in dataSnapshot.children) {
-                            var quotes = Quotes()
+                            var quotes: Quotes
                             val q = d.getValue(Quotes::class.java)
                             if (q != null) {
                                 quotes = q
@@ -374,7 +375,7 @@ class QuotesDB : ValueEventListener {
 
 
 
-    fun Inserir() {
+    fun inserir() {
         val alert = Alert(activity!!)
         val progressDialog = ProgressDialog(activity)
         progressDialog.setMessage("Salvando")
@@ -396,7 +397,7 @@ class QuotesDB : ValueEventListener {
         progressDialog.show()
     }
 
-    fun Editar() {
+    fun editar() {
         val user = FirebaseAuth.getInstance().currentUser
         if (quotes!!.quote!!.isEmpty()) {
 

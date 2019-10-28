@@ -19,7 +19,7 @@ class App : MultiDexApplication() {
     }
 
     private fun handleUncaughtException(thread: Thread, e: Throwable) {
-        Log.println(Log.ERROR, "Erro", e.message)
+        //Log.println(Log.ERROR, "Erro", e.message)
         val intent = Intent(applicationContext, ErrorActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

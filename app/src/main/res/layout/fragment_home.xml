@@ -10,16 +10,7 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="5dp">
 
-        <ProgressBar
-            android:id="@+id/loading"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="0"
-            android:progressDrawable="@drawable/circle" />
+
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

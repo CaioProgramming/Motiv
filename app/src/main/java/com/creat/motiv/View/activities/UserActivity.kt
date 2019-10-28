@@ -15,7 +15,6 @@ class UserActivity : AppCompatActivity() {
     private var uid: String? = null
     private var name: String? = null
     private var upic: String? = null
-    private val activity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

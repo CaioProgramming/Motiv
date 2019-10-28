@@ -43,9 +43,9 @@ class HomeFragment : Fragment() {
         searchView.setBackgroundColor(Color.TRANSPARENT)
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
 
-        presenter = HomePresenter(activity!!)
+        presenter = HomePresenter(activity!!,this)
         presenter!!.search = searchView
-        presenter?.initview(view!!)
+        presenter?.initview()
 
 
 

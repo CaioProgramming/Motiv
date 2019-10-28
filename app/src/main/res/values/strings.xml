@@ -1,12 +1,5 @@
 <resources>
 
-    <array name="colors_rgb">
-        <item>@color/colorPrimary</item>
-        <item>@color/colorAccent</item>
-        <item>@color/colorPrimaryDark</item>
-        <item>@color/deep_purple_900</item>
-    </array>
-
     <string name="app_name">Motiv</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -22,14 +15,8 @@
     <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="reported">Esta frase foi denunciada e está sendo analisada.</string>
     <string name="icon_info">user icon</string>
-    <string name="foto_atualizada">Foto atualizada</string>
     <string name="reference">reference</string>
-    <string name="criadores">Criadores</string>
-    <string name="refer_ncias">Referências</string>
-    <string name="artistas">Artistas</string>
-    <string name="suporte">Suporte</string>
     <string name="suporrt_ad">Ajude-nos vendo a um anúncio em vídeo!</string>
     <string name="firebase">Desenvolvido com a ferramenta Firebase</string>
     <string name="motiv_desenvolvido_por_inlustris_em_2018_todos_os_direitos_reservados">Motiv desenvolvido por Inlustris em 2018, todos os direitos reservados</string>
@@ -40,10 +27,6 @@
     <string name="profile_intro">Aqui é o seu perfil, onde poderá ver todas suas postagens e se quiser apagá-las,alterar seu nome e foto de perfil</string>
     <string name="new_quoteintro">Aqui é o seu cantinho mágico, onde poderá criar suas frases!</string>
     <string name="home_intro">Bem-vindo a sua tela inicial, veja todas as frases aqui, compartilhe-as quando quiser!</string>
-    <string name="undrawlogo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/apple-touch-icon.png?alt=media&token=453a25a6-4233-4775-80f5-ba2199646c2c]]></string>
-    <string name="dribblelogo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/dribbble-ball-icon.png?alt=media&token=e1807e28-a1f1-4b08-ba68-9fe147a992e2]]></string>
-    <string name="flaticonlogo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/q9RLNioS_400x400.jpg?alt=media&token=2355c614-790e-457e-a35f-ed2b858586e0]]></string>
-    <string name="materialiologo"><![CDATA[https://firebasestorage.googleapis.com/v0/b/motiv-d16d1.appspot.com/o/ucVTUoPg_400x400.jpg?alt=media&token=80b85935-95d1-4ca8-9bca-9a84e8899e52]]></string>
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
     <string name="company">Inlustris 2018 - %d</string>

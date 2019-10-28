@@ -16,6 +16,7 @@ class Quotes {
         this.font = font
     }
 
+
     var id: String? = ""
     var quote: String? = ""
     var author: String? = ""

@@ -25,12 +25,14 @@ class FavoritesFragment : Fragment() {
 
         Log.v("INFO", "the view has been created")
 
-        val favoritesPresenter = FavoritesPresenter(activity!!)
-        favoritesPresenter.initview(v)
+
+        v.post{
+            val favoritesPresenter = FavoritesPresenter(this)
+            favoritesPresenter.initview()
+        }
         return v
 
 
     }
-
 
 }// Required empty public constructor

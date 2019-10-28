@@ -252,7 +252,7 @@ class NewQuotepopup(private val activity: Activity) {
         quote.backgroundcolor = Integer.parseInt(backcolorid!!.text.toString())
         quote.textcolor = Integer.parseInt(texcolorid!!.text.toString())
         quotesDB = QuotesDB(activity, quote)
-        quotesDB!!.Editar()
+        quotesDB!!.editar()
         val refreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.refresh)
         refreshLayout.isRefreshing = true
 
@@ -346,8 +346,7 @@ class NewQuotepopup(private val activity: Activity) {
 
 
     private fun salvar() {
-        agree()
-        val datenow = Calendar.getInstance().time
+         val datenow = Calendar.getInstance().time
         @SuppressLint("SimpleDateFormat") val df = SimpleDateFormat("dd/MM/yyyy")
         val dia = df.format(datenow)
         println(dia)
@@ -375,9 +374,8 @@ class NewQuotepopup(private val activity: Activity) {
         }
         if (user.isEmailVerified) {
             val quotesDB = QuotesDB(activity, quote)
-            quotesDB.Inserir()
+            quotesDB.inserir()
         } else {
-
             val builder = AlertDialog.Builder(activity, R.style.Theme_AppCompat_Dialog).setMessage("Email não verificado")
             builder.setMessage("Seu email não foi verificado, então não vai poder compartilhar frases.")
             builder.setPositiveButton("Então me envia esse email meu consagrado") { dialogInterface, i -> user.sendEmailVerification() }
@@ -392,28 +390,6 @@ class NewQuotepopup(private val activity: Activity) {
     }
 
 
-    private fun agree() {
-        if (activity == null) throw AssertionError()
-        preferences = Pref(activity)
-        m_dialog = Dialog(activity)
-        val `in` = AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
-        val m_inflater = LayoutInflater.from(activity)
-        val m_view = m_inflater.inflate(R.layout.politics, null)
-        m_dialog!!.setContentView(m_view)
-        val agreebutton = m_view.findViewById<Button>(R.id.agreebutton)
-        agreebutton.setOnClickListener {
-            m_dialog!!.dismiss()
-            preferences!!.setAgree(true)
-        }
-        m_view.startAnimation(`in`)
-        if (!preferences!!.agreestate()) {
-            Snacky.builder().setActivity(activity).warning()
-                    .setText("Você precisa concordar com os termos de uso para usar o aplicativo!")
-                    .setAction("Ok") { m_dialog!!.show() }.show()
-        }
-        m_dialog!!.setCanceledOnTouchOutside(false)
-        m_dialog!!.setCancelable(false)
-    }
 
 
     @Throws(ClassNotFoundException::class, IllegalAccessException::class)

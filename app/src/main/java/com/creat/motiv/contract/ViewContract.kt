@@ -1,7 +1,5 @@
 package com.creat.motiv.contract
 
-import android.view.View
-
 
 /**
  * @Author Kotlin MVP Plugin
@@ -10,7 +8,7 @@ import android.view.View
  **/
 interface ViewContract {
 
-    fun initview(v: View)
+    fun initview()
     fun carregar()
 
 

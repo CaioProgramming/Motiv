@@ -266,8 +266,6 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="lwhite">#CCFFFFFF</color>
-    <color name="lblack">#CC000000</color>
-    <color name="owhite">#0DFFFFFF</color>
     <color name="oblack">#40000000</color>
     <color name="transparent">#00ffffff</color>
 

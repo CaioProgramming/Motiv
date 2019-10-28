@@ -29,7 +29,7 @@ class ProfileFragment : Fragment() {
         Tutorial()
 
         val profilePresenter = ProfilePresenter(activity!!, this)
-        profilePresenter.initview(v)
+        profilePresenter.initview()
         return v
 
     }
