@@ -24,7 +24,6 @@
         android:layout_marginStart="5dp"
         android:fontFamily="@font/nunitoregular"
         android:text="@string/username"
-        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold" />
 

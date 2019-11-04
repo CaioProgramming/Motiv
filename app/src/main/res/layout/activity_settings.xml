@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -33,7 +32,6 @@
         android:id="@+id/deleteposts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
         android:foreground="?attr/selectableItemBackground"
         android:padding="10dp"
@@ -47,7 +45,6 @@
         android:id="@+id/deleteaccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
         android:foreground="?attr/selectableItemBackground"
         android:padding="10dp"
@@ -61,7 +58,6 @@
         android:id="@+id/exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
         android:foreground="?attr/selectableItemBackground"
         android:padding="10dp"

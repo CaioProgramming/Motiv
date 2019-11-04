@@ -21,6 +21,7 @@
             app:hintEnabled="false"
             app:counterEnabled="true"
             app:counterMaxLength="25"
+            android:backgroundTint="@color/transparent"
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/username"
@@ -32,7 +33,7 @@
                 android:maxLength="25"
                 android:padding="10dp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:textSize="22sp" />
 

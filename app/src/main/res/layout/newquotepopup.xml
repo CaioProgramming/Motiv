@@ -46,6 +46,17 @@
                     android:layout_margin="5dp"
                     android:orientation="horizontal">
 
+                    <ImageButton
+                        android:id="@+id/textcolorfab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/round"
+                        android:backgroundTint="@color/transparent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_format_color_text_black_24dp"
+                        android:tint="@color/grey_900" />
+
                     <TextView
                         android:layout_margin="5dp"
                         android:id="@+id/font"
@@ -55,18 +66,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="15dp"
                         android:text="T"
-                        android:textColor="@color/black"
                         android:textSize="24sp" />
-
-                    <ImageButton
-                        android:id="@+id/textcolorfab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_format_color_text_black_24dp"
-                        android:tint="@color/grey_900" />
 
                     <ImageButton
                         android:id="@+id/backcolorfab"

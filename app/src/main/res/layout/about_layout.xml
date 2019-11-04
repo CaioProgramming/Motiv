@@ -3,10 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     app:cardElevation="0dp">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,15 +16,27 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_margin="5dp"
-                android:fontFamily="@font/nunitoregular"
-                android:textColor="@color/grey_900"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Criado por"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Referências"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/designrecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/creators"
@@ -58,29 +68,14 @@
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:layout_margin="5dp"
+                android:fontFamily="@font/nunitoregular"
+                android:textColor="@color/grey_900"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Referências"
-                    android:textColor="@color/grey_900"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/designrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
-
-
-            </LinearLayout>
+                android:text="Criado por"
+                android:textStyle="bold" />
 
 
             <LinearLayout
@@ -113,19 +108,16 @@
 
         </LinearLayout>
 
-        <TextView
-            android:fontFamily="@font/nunitoblack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:padding="10dp"
-            android:text="Sobre"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitoblack"
+        android:padding="10dp"
+        android:text="Sobre"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
 </LinearLayout>

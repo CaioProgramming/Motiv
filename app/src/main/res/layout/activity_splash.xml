@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:id="@+id/layout"
     tools:context=".View.activities.Splash">
 
@@ -26,7 +25,7 @@
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:textColor="@color/lwhite"
+        android:textColor="?attr/colorAccent"
         android:id="@+id/inlustrisbrand"
         android:text="Inlustris 2018- "
          android:layout_width="wrap_content"

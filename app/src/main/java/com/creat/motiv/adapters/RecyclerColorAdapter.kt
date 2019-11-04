@@ -47,7 +47,7 @@ class RecyclerColorAdapter(private val ColorsList: ArrayList<Int>, private val a
                             textView.setTextColor(color)
                             author.setTextColor(color)
                             textcolor.text = color.toString()
-                            textbutton.imageTintList = ColorStateList.valueOf(color)
+                            textbutton.backgroundTintList = ColorStateList.valueOf(color)
                             println(textcolor.text)
                         } else {
                             background.visibility = View.INVISIBLE

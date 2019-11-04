@@ -50,7 +50,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/username"
-                    android:textColor="@color/black"
                     android:textSize="14sp" />
                 <TextView
                     android:alpha="0"
@@ -58,8 +57,7 @@
                     android:id="@+id/dia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:textColor="@color/grey_600" />
+                    android:padding="1dp" />
 
             </LinearLayout>
 
@@ -127,8 +125,7 @@
                 android:id="@+id/like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/favoritecheck"
-                android:textColor="@color/grey_800" />
+                android:button="@drawable/favoritecheck" />
 
             <TextView
                 android:id="@+id/likecount"
@@ -136,8 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="2dp"
-                android:layout_marginBottom="2dp"
-                android:textColor="@color/black" />
+                android:layout_marginBottom="2dp" />
         </LinearLayout>
 
 

@@ -30,7 +30,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import de.hdodenhof.circleimageview.CircleImageView
-import de.mateware.snacky.Snacky
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -281,8 +280,8 @@ class NewQuotepopup(private val activity: Activity) {
         author!!.setTextColor(quotes.textcolor!!)
         texcolorid!!.text = quotes.textcolor.toString()
         backcolorid!!.text = quotes.backgroundcolor.toString()
-        backcolorfab!!.imageTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
-        texcolorfab!!.imageTintList = ColorStateList.valueOf(quotes.textcolor!!)
+        backcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
+        texcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
 
         fontid!!.text = quotes.font.toString()
         Glide.with(activity).load(quotes.userphoto).into(userpic)
@@ -305,7 +304,7 @@ class NewQuotepopup(private val activity: Activity) {
             background!!.visibility = View.VISIBLE
             anim.start()
             backcolorid!!.text = color.toString()
-            backcolorfab!!.imageTintList = ColorStateList.valueOf(color)
+            backcolorfab!!.backgroundTintList = ColorStateList.valueOf(color)
         }
     }
 
@@ -322,7 +321,7 @@ class NewQuotepopup(private val activity: Activity) {
                 frase!!.setTextColor(color)
                 author!!.setTextColor(color)
             }
-            texcolorfab!!.imageTintList = ColorStateList.valueOf(color)
+            texcolorfab!!.backgroundTintList = ColorStateList.valueOf(color)
             colorAnimation.start()
             texcolorid!!.text = color.toString()
         }

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:foreground="?attr/selectableItemBackground"
     android:id="@+id/reference"
-    android:textColor="@color/black"
     android:textSize="16sp"
     android:padding="5dp"
     android:text="@string/reference"

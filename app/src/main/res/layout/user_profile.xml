@@ -85,7 +85,6 @@
                         android:layout_gravity="center"
                         android:padding="5dp"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
                 </LinearLayout>

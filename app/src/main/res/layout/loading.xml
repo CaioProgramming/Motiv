@@ -2,25 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/lwhite"
+    app:cardBackgroundColor="@color/transparent"
     android:layout_gravity="center"
     app:cardCornerRadius="15dp"
     app:cardElevation="0dp"
      android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_margin="15dp"
-        android:padding="10dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="16sp"
-            android:padding="5dp"
-            android:textColor="@color/black"
-            android:text="Carregando..."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <com.budiyev.android.circularprogressbar.CircularProgressBar
             android:id="@+id/progress_bar"
             android:layout_gravity="center"
@@ -41,7 +28,5 @@
             app:progress="50"
             app:progressAnimationDuration="100"
             app:startAngle="270"/>
-
-    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
