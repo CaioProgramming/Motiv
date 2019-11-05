@@ -2,11 +2,8 @@ package com.creat.motiv.View.activities
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -30,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
-import de.mateware.snacky.Snacky
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
 import kotlinx.android.synthetic.main.activity_main2.*
@@ -126,19 +122,13 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     2 -> {
                         toolbar.title = user!!.displayName
-                        toolbar.setTitleTextColor(Color.BLACK)
-                        toolbar.setBackgroundColor(Color.WHITE)
                     }
                     1 -> {
                         toolbar.title = "Favoritos"
-                        toolbar.setTitleTextColor(Color.BLACK)
-                        toolbar.setBackgroundColor(Color.WHITE)
 
                     }
                     else -> {
                         toolbar.title = getString(R.string.app_name)
-                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
-                        toolbar.setBackgroundResource(R.drawable.bottom_line)
 
                     }
                 }
@@ -148,15 +138,12 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     2 -> {
                         toolbar.title = user!!.displayName
-                        toolbar.setTitleTextColor(Color.BLACK)
                     }
                     1 -> {
                         toolbar.title = getString(R.string.app_name)
-                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
                     }
                     else -> {
                         toolbar.title = getString(R.string.app_name)
-                        toolbar.setTitleTextColor(resources.getColor(R.color.colorPrimary))
                     }
                 } //To change body of created functions use File | Settings | File Templates.
             }
@@ -242,21 +229,12 @@ class MainActivity : AppCompatActivity() {
                 if (version.version != versionName) {
 
 
-                    val snackbar = Snacky.builder().setActivity(this@MainActivity).setText("Sua versão está desatualizada " +
-                            " o motiv atualmente está na versão " + version.version + " enquanto você está na versão  " + versionName)
-                            .setIcon(R.drawable.ic_autorenew_black_24dp)
-                            .setTextColor(Color.BLACK)
-                            .setActionTextColor(resources.getColor(R.color.colorPrimaryDark))
-                            .setBackgroundColor(Color.WHITE)
-                            .setDuration(10000)
-                            .build()
+                    val alert = Alert(this@MainActivity)
+                    alert.version("Sua versão está desatualizada o motiv atualmente está na versão ${version.version}" +
+                            "  enquanto você está na versão  ${versionName}")
 
-                    snackbar.setAction("Atualizar") {
-                        val uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv")
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        startActivity(intent)
-                    }
-                    snackbar.show()
+
+
 
                 }
 

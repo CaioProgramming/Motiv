@@ -39,7 +39,7 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsetoolbar"
-                app:contentScrim="?attr/background"
+                app:contentScrim="?android:colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:expandedTitleGravity="top|center"

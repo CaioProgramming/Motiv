@@ -25,7 +25,7 @@
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:textColor="?attr/colorAccent"
+        android:textColor="?android:textColorHint"
         android:id="@+id/inlustrisbrand"
         android:text="Inlustris 2018- "
          android:layout_width="wrap_content"

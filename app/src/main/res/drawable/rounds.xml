@@ -17,7 +17,7 @@
 
 
             <!-- Background color -->
-            <solid android:color="?attr/background" />
+            <solid android:color="?android:colorBackground" />
             <stroke
                 android:width="1dp"
                 android:color="@color/grey_300" />

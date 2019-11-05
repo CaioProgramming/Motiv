@@ -13,13 +13,14 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?android:colorBackground"
+            app:contentScrim="?android:colorBackground"
             app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentScrim="@color/white"
+                app:contentScrim="?android:colorBackground"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <TextView

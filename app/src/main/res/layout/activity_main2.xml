@@ -8,23 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/white"
         android:fitsSystemWindows="true">
-        <LinearLayout
-            android:layout_above="@id/bubbleTabBar"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.appcompat.widget.Toolbar
+
+        <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:background="@drawable/bottom_line"
+            android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:animateLayoutChanges="true"
                 android:layout_height="?attr/actionBarSize"
-                app:title="@string/app_name"
-                app:titleTextAppearance="@style/ToolbarTitle"
-                app:titleTextColor="@color/colorPrimary">
-
+            app:title="@string/app_name">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profilepic"
@@ -39,20 +31,20 @@
 
             </androidx.appcompat.widget.Toolbar>
             <androidx.viewpager.widget.ViewPager
+                android:layout_above="@id/bubbleTabBar"
+                android:layout_below="@id/toolbar"
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-        </LinearLayout>
         <com.fxn.BubbleTabBar
             android:layout_alignParentBottom="true"
             android:id="@+id/bubbleTabBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="0dp"
+            android:background="?android:colorBackground"
             android:padding="7dp"
             app:bubbletab_menuResource="@menu/tabs"
             app:bubbletab_disabled_icon_color="@color/grey_400"
