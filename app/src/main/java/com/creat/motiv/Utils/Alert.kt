@@ -205,8 +205,8 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             val intent = Intent(Intent.ACTION_VIEW, uri)
             activity.startActivity(intent)
         }
-        val close = myDialog.findViewById<Button>(R.id.button)
-        close.setOnClickListener {
+        var close = myDialog.findViewById<Button>(R.id.close)
+        close?.setOnClickListener {
             myDialog.dismiss()
         }
         txtview.text = messages
