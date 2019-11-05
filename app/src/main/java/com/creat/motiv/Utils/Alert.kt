@@ -18,10 +18,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -200,12 +197,13 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         val txtview = myDialog.findViewById<TextView>(R.id.message)
         val update = myDialog.findViewById<Button>(R.id.updatenow)
         val img = myDialog.findViewById<ImageView>(R.id.background)
+        var close = myDialog.findViewById<ImageButton>(R.id.close)
+
         update.setOnClickListener {
             val uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             activity.startActivity(intent)
         }
-        var close = myDialog.findViewById<Button>(R.id.close)
         close?.setOnClickListener {
             myDialog.dismiss()
         }
