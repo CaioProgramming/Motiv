@@ -18,10 +18,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -188,8 +185,11 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
+
+
+
     fun version(messages: String) {
-        val myDialog = Dialog(activity, dialogNoBorder)
+        val myDialog = Dialog(activity, R.style.AppTheme)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setCanceledOnTouchOutside(true)
@@ -205,12 +205,12 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             val intent = Intent(Intent.ACTION_VIEW, uri)
             activity.startActivity(intent)
         }
-        var close = myDialog.findViewById<Button>(R.id.close)
+        var close = myDialog.findViewById<ImageButton>(R.id.close)
         close?.setOnClickListener {
             myDialog.dismiss()
         }
         txtview.text = messages
-        Glide.with(activity).load("https://unsplash.com/photos/NvesrDbsrL4").into(img)
+        Glide.with(activity).load("https://images.unsplash.com/photo-1517315003714-a071486bd9ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80").into(img)
 
     }
 
