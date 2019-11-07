@@ -18,7 +18,10 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -186,9 +189,8 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
 
     fun version(messages: String) {
-        val myDialog = Dialog(activity, dialogNoBorder)
+        val myDialog = Dialog(activity, bottomdialogNoBorder)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setCanceledOnTouchOutside(true)
         myDialog.setOnShowListener(this)
         myDialog.setOnDismissListener(this)
@@ -196,19 +198,15 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         myDialog.show()
         val txtview = myDialog.findViewById<TextView>(R.id.message)
         val update = myDialog.findViewById<Button>(R.id.updatenow)
-        val img = myDialog.findViewById<ImageView>(R.id.background)
-        var close = myDialog.findViewById<ImageButton>(R.id.close)
+
 
         update.setOnClickListener {
             val uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             activity.startActivity(intent)
         }
-        close?.setOnClickListener {
-            myDialog.dismiss()
-        }
+
         txtview.text = messages
-        Glide.with(activity).load("https://unsplash.com/photos/NvesrDbsrL4").into(img)
 
     }
 

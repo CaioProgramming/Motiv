@@ -105,14 +105,11 @@ class MainActivity : AppCompatActivity() {
         }
         //theme();
         internetconnection()
-        version()
 
 
         val time: Long = 500
         setSupportActionBar(toolbar)
-        fadeIn(toolbar!!, time * 2).andThen(fadeIn(bubbleTabBar, time))
-                ?.andThen(fadeIn(pager, time))
-                ?.subscribe()
+
 
         pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -150,7 +147,14 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        fadeIn(toolbar!!, time * 2).andThen(fadeIn(bubbleTabBar, time))
+                ?.andThen(fadeIn(pager, time))
+                ?.subscribe()
 
+
+
+
+        version()
 
     }
 
