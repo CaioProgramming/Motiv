@@ -2,6 +2,7 @@ package com.creat.motiv.View.activities
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -214,7 +215,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun version() {
-        val versionName = BuildConfig.VERSION_NAME
+        val manager = this.packageManager
+        val info = manager.getPackageInfo(this.packageName, PackageManager.GET_ACTIVITIES)
+        var versionName = info.versionName
         version = Version()
 
         val versioncheck: Query
