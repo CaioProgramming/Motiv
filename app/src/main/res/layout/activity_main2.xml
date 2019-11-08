@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:backgroundTint="@color/oblack"
         android:orientation="vertical"
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -11,34 +12,35 @@
         android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            android:id="@+id/toolbar"
             android:elevation="3dp"
-            android:background="@drawable/bottom_line"
-                android:layout_width="match_parent"
-                android:animateLayoutChanges="true"
-                android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:animateLayoutChanges="true"
+            android:background="?android:colorBackground"
             app:title="@string/app_name">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profilepic"
-                    android:layout_width="45dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="end|center"
-                    android:layout_margin="1dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:padding="5dp"
-                    android:src="@drawable/penguin" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="45dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end|center"
+                android:layout_margin="1dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="5dp"
+                android:src="@drawable/penguin" />
 
-            </androidx.appcompat.widget.Toolbar>
-            <androidx.viewpager.widget.ViewPager
-                android:layout_above="@id/bubbleTabBar"
-                android:layout_below="@id/toolbar"
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bubbleTabBar"
+            android:layout_below="@id/toolbar"
+            android:alpha="0"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.fxn.BubbleTabBar
             android:layout_alignParentBottom="true"

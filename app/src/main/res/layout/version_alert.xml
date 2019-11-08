@@ -1,56 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/colorPrimary"
-    app:cardCornerRadius="10dp"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    app:cardCornerRadius="15dp"
     android:orientation="vertical">
-
     <LinearLayout
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:orientation="vertical">
+
 
         <Button
             android:id="@+id/updatenow"
+            android:layout_margin="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="@drawable/ripple_button"
             android:fontFamily="@font/nunito_black"
-            android:foreground="?attr/selectableItemBackground"
             android:padding="10dp"
             android:text="Atualizar agora"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/message"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:padding="5dp"
             android:text="Atualmente o motiv está na versão 9.2, você esta na versão 4.3, atualize agora para ter acesso aos recursos e melhorias mais recentes"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
-
-        <TextView
-
-            style="@style/TextAppearance.MaterialComponents.Headline3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Atualize seu aplicativo"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textAlignment="center" />
 
 
     </LinearLayout>
 
+    <TextView
 
-</androidx.cardview.widget.CardView>
+        style="@style/TextAppearance.MaterialComponents.Headline3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Atualização"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

@@ -99,8 +99,8 @@ class MainActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this).setMessage("Email não verificado")
             builder.setMessage("Eai Beleza? Verifica o email que você vai poder fazer mais que apenas ver frases")
 
-            builder.setPositiveButton("Manda esse email aí po") { dialogInterface, i -> user!!.sendEmailVerification() }
-            builder.setNegativeButton("Não to afim meu camarada") { dialogInterface, i -> dialogInterface.dismiss() }
+            builder.setPositiveButton("Manda esse email aí po") { _, _ -> user!!.sendEmailVerification() }
+            builder.setNegativeButton("Não to afim meu camarada") { dialogInterface, _ -> dialogInterface.dismiss() }
 
             builder.show()
         }
@@ -157,7 +157,9 @@ class MainActivity : AppCompatActivity() {
 
         version()
 
+
     }
+
 
     fun fadeIn(view: View, duration: Long): Completable {
         val animationSubject = CompletableSubject.create()

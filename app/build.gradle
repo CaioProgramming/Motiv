@@ -72,6 +72,9 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation  'com.fxn769:bubbletabbar:1.0.3'
+    implementation 'com.github.iammert:ReadableBottomBar:0.2'
+
+
 
     kapt 'com.android.databinding:compiler:3.1.4'
 

@@ -35,7 +35,6 @@
             android:padding="10dp"
             android:text="Message"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <Button

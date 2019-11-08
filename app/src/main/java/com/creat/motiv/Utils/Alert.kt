@@ -166,7 +166,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         }
     }
 
-    private fun Ad() {
+    fun suggestad() {
         val myDialog = Dialog(activity, dialogNoBorder)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -189,7 +189,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
 
     fun version(messages: String) {
-        val myDialog = Dialog(activity, bottomdialogNoBorder)
+        val myDialog = Dialog(activity, R.style.AppTheme)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.setCanceledOnTouchOutside(true)
         myDialog.setOnShowListener(this)
@@ -242,7 +242,6 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         myDialog.setContentView(R.layout.about_layout)
         val adtext = myDialog.findViewById<TextView>(R.id.adtext)
         val creators = myDialog.findViewById<TextView>(R.id.creators)
-        val creatorsrecycler = myDialog.findViewById<RecyclerView>(R.id.creatorsrecycler)
         val designrecycler = myDialog.findViewById<RecyclerView>(R.id.designrecycler)
 
 
@@ -260,7 +259,8 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
         adtext.setOnClickListener {
             myDialog.dismiss()
-            Ad()
+            ShowAd()
+
         }
 
 

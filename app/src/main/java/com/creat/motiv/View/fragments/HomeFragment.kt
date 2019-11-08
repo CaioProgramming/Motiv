@@ -3,7 +3,6 @@ package com.creat.motiv.View.fragments
 
 import android.app.SearchManager
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -40,7 +39,7 @@ class HomeFragment : Fragment() {
         val searchitem: MenuItem = menu.findItem(R.id.search)
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = searchitem.actionView as SearchView
-        searchView.setBackgroundColor(Color.TRANSPARENT)
+        searchView.setBackgroundResource(R.drawable.searchfield)
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
 
         presenter = HomePresenter(activity!!,this)
