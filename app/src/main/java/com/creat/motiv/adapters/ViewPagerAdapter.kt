@@ -15,15 +15,14 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
-import com.creat.motiv.Model.Beans.Pics
+import com.creat.motiv.model.Beans.Pics
 import com.creat.motiv.R
-import com.creat.motiv.Utils.Pref
-import com.creat.motiv.Utils.Tools
-import com.creat.motiv.View.activities.MainActivity
+import com.creat.motiv.utils.Pref
+import com.creat.motiv.utils.Tools
+import com.creat.motiv.view.activities.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.*
-import de.mateware.snacky.Snacky
 import java.text.MessageFormat
 import java.util.*
 
@@ -72,9 +71,9 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
         return slide_titles.size
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view === `object`
-    }
+        override fun isViewFromObject(view: View, `object`: Any): Boolean {
+            return view === `object`
+        }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -139,31 +138,15 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
     private fun Comecar() {
         val i = Intent(context, MainActivity::class.java)
 
-        preferences = Pref(context)
-        m_dialog = Dialog(activity, R.style.AppTheme)
-        val m_inflater = LayoutInflater.from(context)
-        val m_view = m_inflater.inflate(R.layout.politics, null)
-        m_dialog!!.setContentView(m_view)
-        val agreebutton = m_view.findViewById<Button>(R.id.agreebutton)
-        agreebutton.setOnClickListener {
-            m_dialog!!.dismiss()
-            preferences!!.setAgree(true)
-        }
-        if (preferences!!.agreestate()) {
 
-            quotesdb = FirebaseDatabase.getInstance().reference
-            quotesdb!!.keepSynced(false)
+        quotesdb = FirebaseDatabase.getInstance().reference
+        quotesdb!!.keepSynced(false)
+         preferences!!.setAgree(true)
 
-
-            setnewpicture()
-            i.putExtra("novo", true)
-            context.startActivity(i)
-            activity.finish()
-        } else {
-            Snacky.builder().setActivity(activity).warning()
-                    .setText("Você precisa concordar com os termos de uso para prosseguir")
-                    .setAction("Ok") { m_dialog!!.show() }.show()
-        }
+        setnewpicture()
+        i.putExtra("novo", true)
+        context.startActivity(i)
+        activity.finish()
 
 
     }

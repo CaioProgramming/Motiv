@@ -30,4 +30,5 @@
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
     <string name="company">Inlustris 2018 - %d</string>
+    <string name="report_message">Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade?</string>
 </resources>

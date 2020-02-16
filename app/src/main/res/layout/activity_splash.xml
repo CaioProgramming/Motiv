@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
-    tools:context=".View.activities.Splash">
+    tools:context=".view.activities.Splash">
 
 
     <LinearLayout
@@ -14,12 +15,11 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content">
 
-        <com.creat.motiv.Utils.Typewritter
-             android:id="@+id/apptext"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:tint="?android:textColorPrimary"
+            android:src="@drawable/ic_saturn_and_other_planets" />
     </LinearLayout>
     <TextView
         android:layout_margin="10dp"

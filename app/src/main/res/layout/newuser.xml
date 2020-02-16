@@ -51,7 +51,7 @@
             android:textColor="@color/colorPrimary" />
         <Button
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunitoblack"
+            android:fontFamily="@font/lato_black"
             android:layout_margin="10dp"
              android:id="@+id/start"
             android:textStyle="bold"

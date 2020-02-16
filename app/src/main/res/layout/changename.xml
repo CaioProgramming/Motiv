@@ -16,37 +16,31 @@
         android:orientation="vertical">
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            app:hintEnabled="false"
-            app:counterEnabled="true"
-            app:counterMaxLength="25"
-            android:backgroundTint="@color/transparent"
-            android:layout_height="wrap_content">
+
             <EditText
                 android:id="@+id/username"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/transparent"
-                android:fontFamily="@font/nunito_light"
+                android:fontFamily="@font/lato_light"
                 android:hint="Username"
                 android:maxLength="25"
                 android:padding="10dp"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="?android:textColorPrimary"
                 android:layout_width="match_parent"
-                android:textSize="22sp" />
+                android:textStyle="bold"
+                android:textSize="32sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:fontFamily="@font/nunitoblack"
+            android:fontFamily="@font/lato_bold"
             android:foreground="?attr/selectableItemBackground"
-            android:text="Ok"
-            android:textColor="@color/black"
+            android:text="Salvar"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:textStyle="bold" />
     </LinearLayout>

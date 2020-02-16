@@ -18,10 +18,10 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.creat.motiv.Model.Beans.Pics
-import com.creat.motiv.Model.UserDB
+import com.creat.motiv.model.Beans.Pics
+import com.creat.motiv.model.UserDB
 import com.creat.motiv.R
-import com.creat.motiv.Utils.Alert
+import com.creat.motiv.utils.Alert
 import com.creat.motiv.presenter.ProfilePresenter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -76,15 +76,15 @@ class RecyclerPicAdapter(private val mData: List<Pics>,
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {
                 if (user.photoUrl === Uri.parse(mData[position].uri)) {
-                    a.Message(a.erroricon, "Seu ícone de perfil já é este!")
+                    a.message(a.error, "Seu ícone de perfil já é este!")
 
                 } else {
-                    val db = UserDB(mActivity)
-                    db.changeuserpic(profileFragment, pic.uri!!)
+                    val db = UserDB(profileFragment)
+                    db.changeuserpic(pic.uri!!)
 
                 }
             } else {
-                a.Message(mActivity.getDrawable(R.drawable.ic_broken_link), "Você está desconectado!")
+                a.message(mActivity.getDrawable(R.drawable.ic_broken_link), "Você está desconectado!")
             }
         }
 

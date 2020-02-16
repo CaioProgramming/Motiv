@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/backpic"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            app:realtimeBlurRadius="15dp"
+            app:realtimeOverlayColor="?android:textColorHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/maindata"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:src="@drawable/notfound"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+
+
+            <TextView
+                android:id="@+id/usernametext"
+                android:padding="8dp"
+                android:textColor="?android:textColorPrimary"
+                style="@style/ToolbarTitle"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+</layout>

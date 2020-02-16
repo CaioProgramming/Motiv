@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/topround"
-    android:padding="5dp"
     android:orientation="vertical">
 
 
     <TextView
+        android:textAlignment="center"
+        android:padding="5dp"
+        style="@style/ToolbarTitle"
         android:id="@+id/title"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
          android:foreground="?attr/selectableItemBackground"
         android:text="Configurações"
-        android:textAlignment="center"
         android:layout_width="match_parent"
-        android:textSize="22sp" />
+        />
 
 
     <TextView
@@ -23,7 +23,6 @@
         android:id="@+id/changename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_profile"
         android:text="Alterar nome"
         android:textAlignment="textStart"
         android:textAllCaps="false"
@@ -34,7 +33,6 @@
         android:id="@+id/deleteposts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_recycle"
         android:text="Remover posts"
         android:textAlignment="textStart"
         android:textAllCaps="false"
@@ -47,7 +45,6 @@
         android:id="@+id/deleteaccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_block_user"
         android:text="Remover conta"
         android:textAlignment="textStart"
         android:textAllCaps="false"
@@ -55,11 +52,11 @@
 
 
     <TextView
+        android:textColor="@color/red_500"
         style="@style/Settingslist"
         android:id="@+id/exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_log_out"
         android:drawablePadding="5dp"
         android:text="Sair"
         android:textAlignment="textStart"

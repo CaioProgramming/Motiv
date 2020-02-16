@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
-        tools:context=".View.fragments.ProfileFragment">
+        tools:context=".view.fragments.ProfileFragment">
 
         <ProgressBar
             android:id="@+id/loading"
@@ -52,7 +52,7 @@
                 android:id="@+id/collapsetoolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentScrim="@color/white"
+                app:contentScrim="?android:colorBackground"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false">
 

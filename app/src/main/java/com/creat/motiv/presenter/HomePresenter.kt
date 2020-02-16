@@ -2,9 +2,9 @@ package com.creat.motiv.presenter
 
 import android.app.Activity
 import androidx.appcompat.widget.SearchView
-import com.creat.motiv.Model.QuotesDB
-import com.creat.motiv.Utils.NewQuotepopup
-import com.creat.motiv.View.fragments.HomeFragment
+import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.utils.NewQuotepopup
+import com.creat.motiv.view.fragments.HomeFragment
 import com.creat.motiv.contract.ViewContract
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -40,10 +40,7 @@ class HomePresenter(val activity: Activity,val homeFragment: HomeFragment) : Vie
 
         // search = activity.findViewById(R.id.search)
         search?.setOnQueryTextListener(this)
-        homeFragment.addquote?.setOnClickListener {
-            val newQuotepopup = NewQuotepopup(activity)
-            newQuotepopup.showup()
-        }
+
         homeFragment.refresh?.setOnRefreshListener {
             if (homeFragment.refresh.isRefreshing) {
                 carregar()
