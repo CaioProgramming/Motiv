@@ -99,7 +99,7 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
     }
 
     fun dialog(editbind: NewquotepopupBinding):Dialog{
-        val myDialog = Dialog(activity,R.style.Dialog_No_Border)
+        val myDialog = Dialog(activity,R.style.AppTheme)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setCanceledOnTouchOutside(true)

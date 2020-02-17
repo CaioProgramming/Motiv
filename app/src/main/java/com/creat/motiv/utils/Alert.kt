@@ -127,9 +127,9 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             val raiz: DatabaseReference = Tools.quotesreference
             raiz.child(quote.id!!).removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    snackmessage(activity.resources.getColor(R.color.green_600),"Frase removida")
+                    snackmessage(null,"Frase removida")
                 } else {
-                    snackmessage(activity.resources.getColor(R.color.red_600),"Erro ao remover ${task.exception?.localizedMessage}")
+                    snackmessage(null,"Erro ao remover ${task.exception?.localizedMessage}")
 
                 }
             }
@@ -148,7 +148,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
-    fun snackmessage(color: Int?, message: String){
+    fun snackmessage(icon: Int?, message: String){
 
         ChocoBar.builder()
                 .setTextTypefaceStyle(Typeface.ITALIC)
@@ -157,7 +157,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                 .centerText()
                 .setActionText("Ok")
                 .setActionTextTypefaceStyle(Typeface.BOLD)
-                .setIcon(R.mipmap.ic_launcher)
+                .setIcon(icon?.let { activity.getDrawable(it) })
                 .setActivity(activity)
                 .setDuration(ChocoBar.LENGTH_LONG)
                 .build()
@@ -184,34 +184,6 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         flashbar.show()*/
     }
 
-    fun snackmessage(message: String){
-        //val customSnackBinding:CustomSnackBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),R.layout.custom_snack,null,false)
-
-
-        val snackbar = Snackbar.make(
-                activity.findViewById(
-                android.R.id.content),
-                message,
-                Snackbar.LENGTH_LONG
-                )
-
-         snackbar.setTextColor(activity.resources.getColor(R.attr.backgroundColor))
-
-        snackbar.config(activity)
-        snackbar.show()
-
-/*
-
-        var flashbar = Flashbar.Builder(activity)
-                .gravity(Flashbar.Gravity.BOTTOM)
-                .message(message)
-                .duration(Flashbar.DURATION_LONG)
-                .backgroundColor(Tools.inversebackcolor(activity))
-                .messageColor(Tools.inversetextcolor(activity))
-                .messageTypeface(Typeface.DEFAULT_BOLD)
-                .build()
-                flashbar.show()*/
-    }
 
     private fun Report(quote: Quotes) {
         val myDialog = Dialog(activity, styles[0])

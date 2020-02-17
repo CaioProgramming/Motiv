@@ -1,5 +1,6 @@
 package com.creat.motiv.model
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.graphics.Color
 import android.net.Uri
@@ -15,6 +16,7 @@ import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.presenter.ProfilePresenter
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlin.collections.ArrayList
 
 class UserDB {
@@ -38,23 +41,8 @@ class UserDB {
     private val userref = Tools.userreference
 
 
-    fun getUser( uid: String) : User? {
-        var user:User ? = null
-        userref.child(uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    user = dataSnapshot.getValue(User::class.java)
-                } else {
-                    Alert.builder(profilePresenter!!.activity).snackmessage("Usuário não encontrado")
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Alert.builder(profilePresenter!!.activity).snackmessage("Erro " + databaseError.message)
-
-            }
-        })
-        return  user
+    fun getUser( uid: String,valueEventListener: ValueEventListener){
+        userref.child(uid).addValueEventListener(valueEventListener)
     }
 
 
@@ -163,10 +151,11 @@ class UserDB {
                     }
                 }
 
-                var recyclerAdapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
-                var llm = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-                recyclerView.adapter = recyclerAdapter
-                recyclerView.layoutManager = llm            }
+                recyclerView.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
+                recyclerView.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
+                profilePresenter!!.counttab(quotesArrayList.size,
+                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," favoritos")
+            }
         })
     }
 
@@ -195,10 +184,11 @@ class UserDB {
                     }
                 }
 
-                var recyclerAdapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
-                var llm = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-                recyclerView.adapter = recyclerAdapter
-                recyclerView.layoutManager = llm
+
+                recyclerView.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
+                recyclerView.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
+                profilePresenter!!.counttab(quotesArrayList.size,
+                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," publicações")
             }
         })
 

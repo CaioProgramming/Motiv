@@ -8,11 +8,10 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
+import com.creat.motiv.View.activities.NewUser
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.utils.Typewritter
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.FirebaseUiException
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -86,7 +85,7 @@ class Splash : AppCompatActivity() {
 
             } else {
                 if (response != null) {
-                    Alert.builder(this).snackmessage("Erro  + ${response.error!!.message}  causa   ${response.error!!.cause}")
+                    Alert.builder(this).snackmessage(null,"Erro  + ${response.error!!.message}  causa   ${response.error!!.cause}")
                 }
 
             }

@@ -1,4 +1,4 @@
-package com.creat.motiv.view.activities
+package com.creat.motiv.View.activities
 
 import android.content.Intent
 import android.graphics.Color
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.creat.motiv.R
 import com.creat.motiv.adapters.ViewPagerAdapter
+import com.creat.motiv.view.activities.MainActivity
 import com.google.android.material.tabs.TabLayout
 
 class NewUser : AppCompatActivity() {

@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
+ import com.creat.motiv.R
 import com.creat.motiv.model.Beans.Artists
-import com.creat.motiv.R
 
 class RecyclerArtistsAdapter(private val mContext: Context, private val mData: List<Artists>,
                              private val mActivity: Activity) : RecyclerView.Adapter<RecyclerArtistsAdapter.MyViewHolder>() {

@@ -14,11 +14,12 @@ import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
 import com.creat.motiv.presenter.ProfilePresenter
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.storage.UploadTask
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+
 import java.util.*
 
 
@@ -33,28 +34,38 @@ class ProfileFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         fragmentbind = DataBindingUtil.inflate(LayoutInflater.from(activity),R.layout.fragment_profile,null,false)
         val user = FirebaseAuth.getInstance().currentUser
-        user?.let { create(it) }
+        fragmentbind?.let{
+            user?.let { create(it) }
+
+        }
         return fragmentbind!!.root
 
     }
 
     fun create(fireuser: FirebaseUser){
         //preferences = Pref(Objects.requireNonNull<Context>(context))
-        fragmentbind!!.root.post {
-            val userdb = UserDB()
-            val u = userdb.getUser(fireuser.uid)
-            profilePresenter = ProfilePresenter(activity!!, fragmentbind!!,u!!)
-            Tutorial()
+        val userdb = UserDB()
+        userdb.getUser(fireuser.uid, object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-        }
-    }
-    fun create(user: User){
-        preferences = Pref(Objects.requireNonNull<Context>(context))
-        fragmentbind!!.root.post {
-            profilePresenter = ProfilePresenter(activity!!, fragmentbind!!,user)
-            Tutorial()
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val  user = dataSnapshot.getValue(User::class.java)
+                    user?.let {  profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user!!)
+                        Tutorial()
+                    }
 
-        }
+                } else {
+                    activity?.let { Alert.builder(it).snackmessage(null,"Usuário não encontrado") }
+                }
+            }
+
+        })
+
+
+
     }
 
 

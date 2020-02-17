@@ -94,11 +94,13 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
 
 
     private fun showprofilefrag(){
+        home = false
         val profileFragment = ProfileFragment()
         supportFragmentManager.beginTransaction()
-                .add(R.id.frame,profileFragment)
+                .replace(R.id.frame,profileFragment)
                 .commit()
         profileFragment.create(user!!)
+        supportActionBar?.hide()
     }
 
 
@@ -245,6 +247,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
                                 .replace(R.id.frame,HomeFragment())
                                 .commit()}
                         .subscribe()
+                supportActionBar?.show()
 
                 return false
             }

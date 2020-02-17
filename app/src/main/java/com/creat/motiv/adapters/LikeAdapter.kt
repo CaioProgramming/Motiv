@@ -9,9 +9,9 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.model.Beans.Likes
-import com.creat.motiv.R
+ import com.creat.motiv.R
 import com.creat.motiv.contract.AdaptersContract
+import com.creat.motiv.model.Beans.Likes
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import de.hdodenhof.circleimageview.CircleImageView

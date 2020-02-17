@@ -1,29 +1,20 @@
 package com.creat.motiv.presenter
 
+import android.animation.ValueAnimator
 import android.app.Activity
-import android.os.CountDownTimer
 import android.os.Handler
-import android.text.Html
-import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.QuotePagerAdapter
-import com.creat.motiv.adapters.RecyclerAdapter
-import com.creat.motiv.utils.Alert
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
-import com.creat.motiv.model.UserDB
-import com.creat.motiv.utils.Tools
+import com.creat.motiv.utils.Alert
+
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import java.util.*
-import kotlin.collections.ArrayList
 
 
-class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProfileBinding,val user:User){
+
+class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProfileBinding, val user: User){
 
 
    init{
@@ -38,7 +29,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
        val quotePagerAdapter = QuotePagerAdapter(this)
        profileFragment.lists.adapter = quotePagerAdapter
        profileFragment.usertabs.setupWithViewPager(profileFragment.lists)
-       profileFragment.settings.setOnClickListener {Alert.builder(activity).settings(this) }
+       profileFragment.settings.setOnClickListener { Alert.builder(activity).settings(this) }
        loaduserpic(user.uid)
        hideshimmer()
      }
@@ -53,6 +44,14 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
         },2000)
 
 
+    }
+    
+    fun counttab(amount: Int, tab: TabLayout.Tab,text: String){
+        val animator = ValueAnimator.ofInt(0,amount)
+        animator.duration = 1500
+        animator.addUpdateListener {
+            tab.text = "${amount} " + text
+        }
     }
 
 }

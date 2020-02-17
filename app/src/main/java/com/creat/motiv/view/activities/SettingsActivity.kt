@@ -146,7 +146,7 @@ class SettingsActivity : AppCompatActivity() {
 
         exit!!.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            Alert.builder(this).snackmessage("Você saiu do aplicativo")
+            Alert.builder(this).snackmessage(null,"Você saiu do aplicativo")
             val timer = object : CountDownTimer(3500, 100) {
                 override fun onTick(l: Long) {
 

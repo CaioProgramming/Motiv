@@ -24,6 +24,7 @@ import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotescardBinding
+import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
@@ -96,7 +97,17 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
             u.name = quote.username!!
             u.picurl = quote.userphoto!!
             val userDB = UserDB()
-            u = userDB.getUser(uid)!!
+            userDB.getUser(u.uid, object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        u = dataSnapshot.getValue(User::class.java)!!
+                    }
+                }
+            })
 
             Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
             holder.quotescardBinding.username.text = u.name

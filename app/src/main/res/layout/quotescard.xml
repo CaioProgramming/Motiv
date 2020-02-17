@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        android:layout_margin="10dp"
         android:id="@+id/topshimmer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,14 +17,14 @@
         app:shimmer_auto_start="true"
         >
         <LinearLayout
+            android:layout_margin="10dp"
             android:id="@+id/card"
             android:layout_height="wrap_content"
             android:hapticFeedbackEnabled="true"
             android:layout_marginBottom="5dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:animateLayoutChanges="true"
-            android:background="@drawable/bottom_line">
+            android:animateLayoutChanges="true">
 
             <LinearLayout
                 android:gravity="center_vertical"
@@ -42,6 +41,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_astronaut" />
                 <LinearLayout
+                    android:padding="4dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">

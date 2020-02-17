@@ -32,8 +32,6 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             app:menu="@menu/menu"
-            app:itemTextAppearanceActive="@style/bottomnavtext"
-            app:itemTextAppearanceInactive="@style/bottomnavtext"
             app:itemRippleColor="@color/colorAccent"
             android:background="?android:colorBackground"
             app:elevation="3dp"
@@ -42,11 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <FrameLayout
+            android:layout_below="@id/toolbar"
             android:layout_above="@id/navigation"
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <LinearLayout
+            android:layout_below="@id/toolbar"
             android:alpha="0"
             android:id="@+id/newpost"
             android:gravity="center"
