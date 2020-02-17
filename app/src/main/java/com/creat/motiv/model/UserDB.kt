@@ -63,7 +63,7 @@ class UserDB {
                     u.email = firebaseUser.email!!
                     u.name = firebaseUser.displayName!!
                     u.token = instanceIdResult.token
-                    userref.child(u.uid).setValue(u).addOnCompleteListener { task ->
+                    userref.child(u.uid!!).setValue(u).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             a.message(profilePresenter!!.activity.getDrawable(R.drawable.ic_success), "Perfil atualizado com sucesso")
                             val userpic = profilePresenter!!.activity.findViewById<CircleImageView>(R.id.profilepic)
@@ -95,7 +95,7 @@ class UserDB {
                     u.email = firebaseUser.email!!
                     u.name = firebaseUser.displayName!!
                     u.token = instanceIdResult.token
-                    userref.child(u.uid).setValue(u).addOnCompleteListener { task ->
+                    userref.child(u.uid!!).setValue(u).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             a.message(profilePresenter!!.activity.getDrawable(R.drawable.ic_success), "Perfil atualizado com sucesso")
                         }
@@ -153,8 +153,8 @@ class UserDB {
 
                 recyclerView.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
                 recyclerView.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-                profilePresenter!!.counttab(quotesArrayList.size,
-                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," favoritos")
+                /*profilePresenter!!.counttab(quotesArrayList.size,
+                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," favoritos")*/
             }
         })
     }
@@ -187,8 +187,8 @@ class UserDB {
 
                 recyclerView.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
                 recyclerView.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-                profilePresenter!!.counttab(quotesArrayList.size,
-                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," publicações")
+                /*profilePresenter!!.counttab(quotesArrayList.size,
+                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," publicações")*/
             }
         })
 

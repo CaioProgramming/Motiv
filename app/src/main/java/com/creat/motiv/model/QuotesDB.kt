@@ -94,8 +94,8 @@ class QuotesDB : ValueEventListener {
         recyclerView?.layoutManager = llm
         refreshlayout?.isRefreshing = false
         usercount?.text = Html.fromHtml("<b>${quotesArrayList.size}</b>  \n Publicações")
-        val alert = Alert(activity!!)
-        alert.loading()
+       /* val alert = Alert(activity!!)
+        alert.loading()*/
 
 
 

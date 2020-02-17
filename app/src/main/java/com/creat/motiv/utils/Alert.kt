@@ -15,6 +15,7 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -99,11 +100,11 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
         copy?.setOnClickListener {
             myDialog.dismiss()
-            val clipboard = activity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("frase", quote.quote)
-            clipboard.primaryClip = clip
 
-            snackmessage(null,"Frase ${quote.quote} copiada para área de transferência")
+            val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("${quote.author}",quote.quote)
+            clipboard.setPrimaryClip(clip)
+            snackmessage(null,"Frase copiada para área de transferência")
 
         }
 

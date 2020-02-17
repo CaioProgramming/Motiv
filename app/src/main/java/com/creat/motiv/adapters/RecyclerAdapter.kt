@@ -91,13 +91,12 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
         val user = FirebaseAuth.getInstance().currentUser
 
         if (quote.userID != user!!.uid) {
-            var u = User()
+            var u = User(quote.username,quote.userID,quote.userphoto)
             u.uid = quote.userID!!
-            var uid = u.uid
-            u.name = quote.username!!
+             u.name = quote.username!!
             u.picurl = quote.userphoto!!
             val userDB = UserDB()
-            userDB.getUser(u.uid, object : ValueEventListener {
+            userDB.getUser(u.uid!!, object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }

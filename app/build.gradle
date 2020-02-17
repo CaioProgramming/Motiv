@@ -9,12 +9,12 @@ android {
 
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 16
         versionName "9.4"
         renderscriptTargetApi 19

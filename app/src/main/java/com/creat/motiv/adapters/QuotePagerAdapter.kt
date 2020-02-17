@@ -35,9 +35,9 @@ class QuotePagerAdapter(private val profilePresenter: ProfilePresenter): PagerAd
                 R.layout.quote_recycler,null,false)
         val userDB = UserDB(profilePresenter)
         if (position == 0){
-            userDB.finduserquotes(profilePresenter.user.uid,quoteRecyclerBinding.quotesrecyclerview)
+            userDB.finduserquotes(profilePresenter.user.uid!!,quoteRecyclerBinding.quotesrecyclerview)
         }else{
-            userDB.findfavorites(profilePresenter.user.uid,quoteRecyclerBinding.quotesrecyclerview)
+            userDB.findfavorites(profilePresenter.user.uid!!,quoteRecyclerBinding.quotesrecyclerview)
         }
 
 

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "307669618733-hcu5qi111r5v6dbk5n33e3acedlt4c3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creat.motiv",
+            "certificate_hash": "7079f2e50adb51d3144acf654427b19b72193d6c"
+          }
+        },
+        {
           "client_id": "307669618733-j0uqpac28laev9sshh2b87enoqqeatqu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -78,12 +86,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:307669618733:android:d90be7106b81eb98",
+        "mobilesdk_app_id": "1:307669618733:android:b9bc56df2b5473f8a5a8a4",
         "android_client_info": {
-          "package_name": "com.creat.motivadmin"
+          "package_name": "com.ilustris.motiv"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "307669618733-u9emo6edqtokingg4ls2o1f7rvbolbm1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ilustris.motiv",
+            "certificate_hash": "e52ea948ad8eb3370c325822e60b1550052192ac"
+          }
+        },
+        {
+          "client_id": "307669618733-j7bek5f5q80oljln4oqck3daqheirat5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ilustris.motiv",
+            "certificate_hash": "27f9c3e4d6329afb5ec5c475f97e4c1a6fe0f664"
+          }
+        },
         {
           "client_id": "307669618733-jf62067o9kr479420csisvttrhhukauu.apps.googleusercontent.com",
           "client_type": 3

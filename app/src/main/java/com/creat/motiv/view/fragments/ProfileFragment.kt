@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     val  user = dataSnapshot.getValue(User::class.java)
-                    user?.let {  profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user!!)
+                    user?.let {  profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
                         Tutorial()
                     }
 

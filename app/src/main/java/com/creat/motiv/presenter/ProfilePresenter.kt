@@ -30,7 +30,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
        profileFragment.lists.adapter = quotePagerAdapter
        profileFragment.usertabs.setupWithViewPager(profileFragment.lists)
        profileFragment.settings.setOnClickListener { Alert.builder(activity).settings(this) }
-       loaduserpic(user.uid)
+       loaduserpic(user.uid!!)
        hideshimmer()
      }
     fun loaduserpic(url:String){
