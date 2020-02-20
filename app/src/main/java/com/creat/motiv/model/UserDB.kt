@@ -109,10 +109,17 @@ class UserDB {
 
     }
 
-    private var quotesdb = Tools.quotesreference
+    public var quotesdb = Tools.quotesreference
 
 
+    fun getuserquotes(uid: String,valueEventListener: ValueEventListener){
+        quotesdb.orderByChild("userID").equalTo(uid).addListenerForSingleValueEvent(valueEventListener)
 
+    }
+    fun getuserfavorites(uid: String,valueEventListener: ValueEventListener){
+        quotesdb.addListenerForSingleValueEvent(valueEventListener)
+
+    }
 
     fun findfavorites(uid: String,recyclerView: RecyclerView) {
         quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {

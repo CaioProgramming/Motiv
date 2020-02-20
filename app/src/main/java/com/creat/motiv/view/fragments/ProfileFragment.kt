@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
+import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
@@ -52,11 +53,19 @@ class ProfileFragment : Fragment() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    val  user = dataSnapshot.getValue(User::class.java)
-                    user?.let {  profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
-                        Tutorial()
+                    var user = User()
+                    val  u  = dataSnapshot.getValue(User::class.java)
+                    if (u != null) {
+                        user.name = u.name
+                        user.email = u.email
+                        user.picurl = u.picurl
+                        user.token = u.token
+                        user.uid = u.uid
+                        user.phonenumber = u.phonenumber
+                        profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
+                    }else{
+                        activity?.let { Alert.builder(it).snackmessage(R.drawable.ic_error_outline_black_24dp,"Usuário não encontrado") }
                     }
-
                 } else {
                     activity?.let { Alert.builder(it).snackmessage(null,"Usuário não encontrado") }
                 }
@@ -87,7 +96,6 @@ class ProfileFragment : Fragment() {
 
         }
     }
-
 
 
 

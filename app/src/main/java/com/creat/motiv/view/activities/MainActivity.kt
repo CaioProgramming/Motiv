@@ -28,6 +28,7 @@ import com.creat.motiv.utils.Tools.fadeOut
 import com.creat.motiv.utils.Tools.setLightStatusBar
 import com.creat.motiv.utils.Tools.uimode
 import com.creat.motiv.view.fragments.HomeFragment
+import com.creat.motiv.view.fragments.NewQuoteFragment
 import com.creat.motiv.view.fragments.ProfileFragment
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -238,26 +239,22 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
+        when (item.itemId) {
             R.id.navigation_home -> {
                 home = true
-                fadeIn(frame,1000).andThen(fadeOut(newpost,1000))
-                        .andThen {supportFragmentManager.beginTransaction()
+              supportFragmentManager.beginTransaction()
                                 .replace(R.id.frame,HomeFragment())
-                                .commit()}
-                        .subscribe()
+                                .commit()
                 supportActionBar?.show()
-
                 return false
             }
             R.id.navigation_new -> {
-                fadeOut(frame,1000)
-                        .andThen(fadeIn(newpost,1000)).andThen {
-                    val newquote = NewQuotepopup(this)
-                    newquote.showup()
-                }.subscribe()
-
+                home = false
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame,NewQuoteFragment())
+                        .commit()
+                supportActionBar?.show()
+                supportActionBar?.title = "Nova publicação"
                 return false
             }
         }

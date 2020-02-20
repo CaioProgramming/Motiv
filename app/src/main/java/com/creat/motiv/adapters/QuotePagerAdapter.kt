@@ -1,19 +1,24 @@
 package com.creat.motiv.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
+import com.creat.motiv.model.Beans.QuoteHead
+import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
 import com.firebase.ui.auth.data.model.User
 
-class QuotePagerAdapter(private val profilePresenter: ProfilePresenter): PagerAdapter() {
+class QuotePagerAdapter(private val quoteshead: ArrayList<QuoteHead>,private val activity: Activity): PagerAdapter() {
 
 
     override fun getCount(): Int {
@@ -31,15 +36,12 @@ class QuotePagerAdapter(private val profilePresenter: ProfilePresenter): PagerAd
 
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(profilePresenter.activity),
+        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),
                 R.layout.quote_recycler,null,false)
-        val userDB = UserDB(profilePresenter)
-        if (position == 0){
-            userDB.finduserquotes(profilePresenter.user.uid!!,quoteRecyclerBinding.quotesrecyclerview)
-        }else{
-            userDB.findfavorites(profilePresenter.user.uid!!,quoteRecyclerBinding.quotesrecyclerview)
-        }
 
+        val recyclerAdapter = RecyclerAdapter(quoteshead[position].quoteslist,activity)
+        quoteRecyclerBinding.quotesrecyclerview.adapter = recyclerAdapter
+        quoteRecyclerBinding.quotesrecyclerview.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,true)
 
         return quoteRecyclerBinding.root
     }

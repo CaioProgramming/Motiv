@@ -152,12 +152,9 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     fun snackmessage(icon: Int?, message: String){
 
         ChocoBar.builder()
-                .setTextTypefaceStyle(Typeface.ITALIC)
                 .setText(message)
                 .setMaxLines(4)
                 .centerText()
-                .setActionText("Ok")
-                .setActionTextTypefaceStyle(Typeface.BOLD)
                 .setIcon(icon?.let { activity.getDrawable(it) })
                 .setActivity(activity)
                 .setDuration(ChocoBar.LENGTH_LONG)
