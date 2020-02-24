@@ -92,13 +92,9 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
         if (quote.userID != user!!.uid) {
             var u = User(quote.username,quote.userID,quote.userphoto)
-            u.uid = quote.userID!!
-             u.name = quote.username!!
-            u.picurl = quote.userphoto!!
             val userDB = UserDB()
             userDB.getUser(u.uid!!, object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -117,8 +113,7 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
         } else {
             holder.quotescardBinding.username.text = user.displayName
             val navigation = activity.findViewById<BottomNavigationView>(R.id.navigation)
-            /*holder.quotescardBinding.username.setOnClickListener { pager.setCurrentItem(2, true) }
-            holder.quotescardBinding.userpic.setOnClickListener { pager.setCurrentItem(2, true) }*/
+
             Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
 
 

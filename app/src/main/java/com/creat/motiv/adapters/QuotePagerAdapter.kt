@@ -39,9 +39,11 @@ class QuotePagerAdapter(private val quoteshead: ArrayList<QuoteHead>,private val
         val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),
                 R.layout.quote_recycler,null,false)
 
-        val recyclerAdapter = RecyclerAdapter(quoteshead[position].quoteslist,activity)
-        quoteRecyclerBinding.quotesrecyclerview.adapter = recyclerAdapter
-        quoteRecyclerBinding.quotesrecyclerview.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,true)
+        if (quoteshead.size > 0) {
+            val recyclerAdapter = RecyclerAdapter(quoteshead[position].quoteslist,activity)
+            quoteRecyclerBinding.quotesrecyclerview.adapter = recyclerAdapter
+            quoteRecyclerBinding.quotesrecyclerview.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,true)
+        }
 
         return quoteRecyclerBinding.root
     }

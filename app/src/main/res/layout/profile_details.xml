@@ -28,21 +28,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:src="@drawable/notfound"
-                android:layout_width="150dp"
-                android:layout_height="150dp" />
 
 
-            <TextView
-                android:id="@+id/usernametext"
-                android:padding="8dp"
-                android:textColor="?android:textColorPrimary"
-                style="@style/ToolbarTitle"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
+
 
         </LinearLayout>
 

@@ -30,19 +30,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class NewQuoteFragment: Fragment() {
-    private val popupbind:NewquotepopupBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.newquotepopup,null,false)
+    private var popupbind:NewquotepopupBinding? = null
     var user:FirebaseUser? = null
     private var f: Int = 0
     private var isfirst = true
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        showup()
-        return popupbind.root
+        popupbind = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.newquotepopup,null,false)
+        showup(popupbind!!)
+        return popupbind?.root
     }
 
 
-    fun showup() {
+
+    fun showup(popupbind: NewquotepopupBinding) {
         val user = FirebaseAuth.getInstance().currentUser
-        popupbind.username.text = user!!.displayName
+        popupbind?.username!!.text = user!!.displayName
         Glide.with(this).load(user.photoUrl).into( popupbind.userpic)
         try {
             colorgallery(popupbind)
@@ -56,7 +58,7 @@ class NewQuoteFragment: Fragment() {
         popupbind.textcolorfab!!.setOnClickListener { textocolorpicker(popupbind) }
 
         popupbind.salvar!!.setOnClickListener {
-            salvar(createQuote())
+            salvar(createQuote(popupbind))
         }
         popupbind.font!!.setOnClickListener {
             if (!isfirst) {
@@ -154,7 +156,7 @@ class NewQuoteFragment: Fragment() {
         }
     }
 
-    private fun createQuote():Quotes{
+    private fun createQuote(popupbind: NewquotepopupBinding):Quotes{
         if ( popupbind.texcolorid!!.text.isEmpty()) {
             popupbind.texcolorid.text = Color.BLACK.toString()
         }

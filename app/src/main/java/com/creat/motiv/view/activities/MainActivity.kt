@@ -245,6 +245,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
               supportFragmentManager.beginTransaction()
                                 .replace(R.id.frame,HomeFragment())
                                 .commit()
+                supportActionBar?.title = ""
                 supportActionBar?.show()
                 return false
             }

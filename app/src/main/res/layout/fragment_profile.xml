@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/topshimmer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:shimmer_highlight_color="@color/colorAccent"
-        app:shimmer_base_color="?android:textColorHint"
-        app:shimmer_direction="left_to_right"
-        app:shimmer_dropoff="@integer/default_animation_duration"
-        app:shimmer_shape="linear"
-        app:shimmer_duration="500"
-        app:shimmer_repeat_mode="reverse"
-        app:shimmer_colored="true"
-        app:shimmer_auto_start="true"
-        >
+
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -41,14 +28,23 @@
                         android:layout_height="wrap_content" />
                 </com.google.android.material.tabs.TabLayout>
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/lists"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/quotes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>
 
 
-
+            <com.hmomeni.progresscircula.ProgressCircula
+                android:id="@+id/loading"
+                app:pgc_indeterminate="true"
+                app:pgc_progress="0"
+                app:pgc_rimColor="@color/colorPrimary"
+                app:pgc_rimWidth="3dp"
+                android:layout_gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_height="wrap_content"
@@ -56,6 +52,20 @@
                 android:background="@color/transparent"
                 android:fitsSystemWindows="true"
                 >
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/topshimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shimmer_highlight_color="@color/colorAccent"
+                    app:shimmer_base_color="?android:textColorHint"
+                    app:shimmer_direction="left_to_right"
+                    app:shimmer_dropoff="@integer/default_animation_duration"
+                    app:shimmer_shape="linear"
+                    app:shimmer_duration="500"
+                    app:shimmer_repeat_mode="reverse"
+                    app:shimmer_colored="true"
+                    app:shimmer_auto_start="true"
+                    >
 
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -63,16 +73,20 @@
                     app:contentScrim="?android:colorBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:expandedTitleGravity="top|center"
+                    app:expandedTitleGravity="center"
+                    app:toolbarId="@id/profiletoolbar"
                     app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                    app:statusBarScrim="?android:colorBackground"
                     android:fitsSystemWindows="true">
 
-                    <include
-                        android:id="@+id/profiledetails"
-                        layout="@layout/profile_details" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_gravity="center"
+                        android:id="@+id/profilepic"
+                        android:src="@drawable/notfound"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp" />
 
                     <androidx.appcompat.widget.Toolbar
-                        android:layout_gravity="top"
                         android:id="@+id/profiletoolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize" >
@@ -91,12 +105,11 @@
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-
+                </com.facebook.shimmer.ShimmerFrameLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </layout>

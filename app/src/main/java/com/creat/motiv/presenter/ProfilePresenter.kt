@@ -16,20 +16,23 @@ import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.Tools
 
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 
 
 class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProfileBinding, val user: User){
 
 
     init{
-        var quoteslist = ArrayList<QuoteHead>()
-        var quotePagerAdapter:QuotePagerAdapter? = null
-        profileFragment.profiledetails.profilepic.setOnClickListener {
+        var userquotes = ArrayList<Quotes>()
+        var favoritequotes = ArrayList<Quotes>()
+        profileFragment.profilepic.setOnClickListener {
             val alert = Alert(activity)
             alert.Picalert(this)
         }
@@ -40,8 +43,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                val quotesArrayList = ArrayList<Quotes>()
-                quotesArrayList.clear()
+                userquotes.clear()
                 for (d in snapshot.children) {
                     val q = d.getValue(Quotes::class.java)
                     if (q != null) {
@@ -50,16 +52,13 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
                             q.textcolor =  activity.titleColor
                             q.backgroundcolor = Color.TRANSPARENT
                         }
-                        quotesArrayList.add(q)
-                        println("Quotes " + quotesArrayList.size)
+                        userquotes.add(q)
+                        println("Quotes " + userquotes.size)
                         println("Quote  " + q.id)
                     }
                 }
-                val quoteHead = QuoteHead("Posts",quotesArrayList)
-                quoteslist.add(quoteHead)
-                val quotePagerAdapter = QuotePagerAdapter(quoteslist,activity)
-                quotePagerAdapter.notifyDataSetChanged()
-                counttab(quoteHead.quoteslist.size,profileFragment.usertabs.getTabAt(0)!!,quoteHead.titulo)
+
+
 
             }
 
@@ -70,8 +69,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val quotesArrayList = ArrayList<Quotes>()
-                quotesArrayList.clear()
+                favoritequotes.clear()
                 for (d in dataSnapshot.children) {
                     val q = d.getValue(Quotes::class.java)
                     if (q != null) {
@@ -87,37 +85,58 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
 
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
-                                    quotesArrayList.add(q)
-                                    print("Loaded ${quotesArrayList.size} favorite quotes")
+                                    favoritequotes.add(q)
+                                    print("Loaded ${favoritequotes.size} favorite quotes")
                                 }
                             }
                         })
-                        println("Quotes " + quotesArrayList.size)
+                        println("Favorite Quotes " + favoritequotes.size)
                         println("Quote  " + q.id)
                     }
                 }
-                val quoteHead = QuoteHead("Favoritos ",quotesArrayList)
-                quoteslist.add(quoteHead)
-                quotePagerAdapter?.notifyDataSetChanged()
-                counttab(quoteHead.quoteslist.size,profileFragment.usertabs.getTabAt(0)!!,quoteHead.titulo)
             }
 
         })
-        Glide.with(activity)
-                .load("https://assets-ouch.icons8.com/thumb/609/8f7caf84-037b-4aaa-94da-f965adb44fe0.png")
-                .into(profileFragment.profiledetails.backpic)
-        profileFragment.profiledetails.usernametext.text = user.name
+
+        profileFragment.profiletoolbar.title = user.name
         loaduserpic(user.uid!!)
-
-
-        profileFragment.lists.adapter = quotePagerAdapter
-        profileFragment.usertabs.setupWithViewPager(profileFragment.lists)
-        profileFragment.settings.setOnClickListener { Alert.builder(activity).settings(this) }
-        quotePagerAdapter?.notifyDataSetChanged()
         hideshimmer()
-     }
+        profileFragment.usertabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                print("deselected") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val wichlist = if (tab!!.position == 0) {
+                    userquotes
+                } else {
+                    favoritequotes
+                }
+                Tools.fadeIn(profileFragment.loading,1000).andThen(Tools.fadeOut(profileFragment.quotes,1000))
+                        .andThen(Tools.fadeOut(profileFragment.loading,500).ambWith(Tools.fadeIn(profileFragment.quotes,900)))
+                        .doOnComplete {
+                            Handler().postDelayed({ profileFragment.quotes.adapter = RecyclerAdapter(wichlist,activity) },1000)
+                        }.subscribe()
+
+
+            }
+
+        })
+        counttab(userquotes.size,profileFragment.usertabs.getTabAt(0)!!," posts")
+        counttab(favoritequotes.size,profileFragment.usertabs.getTabAt(1)!!," favoritos")
+
+
+        profileFragment.quotes.adapter = RecyclerAdapter(userquotes,activity)
+        profileFragment.quotes.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
+
+
+
+    }
     private fun loaduserpic(url:String){
-        Glide.with(activity).load(url).error(activity.getDrawable(R.drawable.notfound)).into(profileFragment.profiledetails.profilepic)
+        Glide.with(activity).load(url).error(activity.getDrawable(R.drawable.notfound)).into(profileFragment.profilepic)
 
     }
     fun hideshimmer(){
@@ -133,7 +152,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
         val animator = ValueAnimator.ofInt(0,amount)
         animator.duration = 1500
         animator.addUpdateListener {
-            tab.text = "${amount} " + text
+            tab.text = "$amount $text"
         }
     }
 
