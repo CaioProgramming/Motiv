@@ -1,3 +1,4 @@
+package com.creat.motiv.View.activities
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -13,7 +14,6 @@ import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.View.activities.App
 import com.creat.motiv.View.activities.Splash.Companion.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth

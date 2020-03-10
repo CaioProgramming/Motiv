@@ -1,6 +1,6 @@
 package com.creat.motiv.adapters
 
-import MainActivity
+import com.creat.motiv.View.activities.MainActivity
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context

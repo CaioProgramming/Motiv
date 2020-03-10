@@ -1,6 +1,5 @@
 package com.creat.motiv.View.activities
 
-import MainActivity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
