@@ -1,4 +1,4 @@
-package com.creat.motiv.view.fragments
+package com.creat.motiv.View.fragments
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +27,7 @@ import com.creat.motiv.utils.Tools
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
+import kotlinx.android.synthetic.main.newquotepopup.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,6 +39,7 @@ class NewQuoteFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         popupbind = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.newquotepopup,null,false)
         showup(popupbind!!)
+        setHasOptionsMenu(true)
         return popupbind?.root
     }
 
@@ -44,7 +47,7 @@ class NewQuoteFragment: Fragment() {
 
     fun showup(popupbind: NewquotepopupBinding) {
         val user = FirebaseAuth.getInstance().currentUser
-        popupbind?.username!!.text = user!!.displayName
+        popupbind.username.text = user!!.displayName
         Glide.with(this).load(user.photoUrl).into( popupbind.userpic)
         try {
             colorgallery(popupbind)
@@ -53,14 +56,14 @@ class NewQuoteFragment: Fragment() {
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
-        popupbind.backcolorfab!!.setOnClickListener { backColorpicker(popupbind) }
+        popupbind.backcolorfab.setOnClickListener { backColorpicker(popupbind) }
 
-        popupbind.textcolorfab!!.setOnClickListener { textocolorpicker(popupbind) }
+        popupbind.textcolorfab.setOnClickListener { textocolorpicker(popupbind) }
 
-        popupbind.salvar!!.setOnClickListener {
+        popupbind.salvar.setOnClickListener {
             salvar(createQuote(popupbind))
         }
-        popupbind.font!!.setOnClickListener {
+        popupbind.font.setOnClickListener {
             if (!isfirst) {
                 f++
             }
@@ -69,13 +72,13 @@ class NewQuoteFragment: Fragment() {
             if (f == fonts.size) {
                 f = 0
             }
-            popupbind!!.font.typeface = fonts[f]
+            popupbind.font.typeface = fonts[f]
             popupbind!!.quote!!.typeface = fonts[f]
             popupbind!!.author!!.typeface = fonts[f]
             isfirst = false
         }
-        popupbind.toolbar.visibility = View.GONE
-
+        val act = activity as AppCompatActivity
+        act.setSupportActionBar(toolbar)
 
     }
     private fun backColorpicker(editbind: NewquotepopupBinding) {

@@ -41,9 +41,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha04'
-    implementation 'com.google.android.play:core:1.6.4'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
+    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.play:core:1.6.5'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.70"
     //Firebase libs
 
     //implementation 'com.google.firebase:firebase-admin:6.4.0'
@@ -53,12 +53,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.firebaseui:firebase-ui-database:1.0.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.google.firebase:firebase-core:17.2.2'
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
-    implementation 'com.google.android.gms:play-services-ads:18.3.0'
+    implementation 'com.google.firebase:firebase-core:17.2.3'
+    implementation 'com.google.firebase:firebase-messaging:20.1.2'
+    implementation 'com.google.android.gms:play-services-ads:19.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
     implementation 'com.hmomeni.progresscircula:progresscircula:0.2.1'
-
+    implementation "com.github.skydoves:balloon:1.1.1"
+    implementation 'com.mikhaellopez:gradientview:1.1.0'
+    implementation 'com.mikhaellopez:rxanimation:1.0.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pes.materialcolorpicker:library:1.2.4'

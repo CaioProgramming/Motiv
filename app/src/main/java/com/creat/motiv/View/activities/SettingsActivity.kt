@@ -1,10 +1,9 @@
-package com.creat.motiv.view.activities
+package com.creat.motiv.View.activities
 
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
@@ -15,7 +14,6 @@ import com.creat.motiv.R
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.searcharg
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

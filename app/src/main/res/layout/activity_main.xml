@@ -9,38 +9,13 @@
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:elevation="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:animateLayoutChanges="true"
-             app:titleTextColor="@color/colorPrimary"
-            >
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_gravity="left"
-                android:layout_margin="1dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="5dp"
-                android:src="@drawable/penguin" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <nl.joery.animatedbottombar.AnimatedBottomBar
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/navigation"
+            app:tabIndicatorFullWidth="false"
             android:layout_alignParentBottom="true"
-            android:background="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:abb_selectedTabType="text"
-            app:abb_indicatorAppearance="round"
-            app:abb_indicatorMargin="16dp"
-            app:abb_indicatorHeight="4dp"
-            app:abb_tabs="@menu/menu"  />
+            android:layout_height="wrap_content"/>
         <androidx.viewpager.widget.ViewPager
             android:layout_below="@id/toolbar"
             android:layout_above="@id/navigation"

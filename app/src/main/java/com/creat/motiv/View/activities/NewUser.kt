@@ -1,5 +1,6 @@
 package com.creat.motiv.View.activities
 
+import MainActivity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,12 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.creat.motiv.R
 import com.creat.motiv.adapters.ViewPagerAdapter
-import com.creat.motiv.view.activities.MainActivity
 import com.google.android.material.tabs.TabLayout
 
 class NewUser : AppCompatActivity() {
-    var adapter: ViewPagerAdapter?? = null
-    var tabs: TabLayout?? = null
+    var adapter: ViewPagerAdapter? = null
+    var tabs: TabLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_user)

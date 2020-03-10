@@ -28,10 +28,9 @@
                     app:titleEnabled="false"
                     app:contentScrim="?android:colorBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        app:layout_collapseMode="parallax"
                         android:padding="10dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -57,29 +56,29 @@
                             android:layout_height="wrap_content" />
 
                     </LinearLayout>
-                    <androidx.appcompat.widget.Toolbar
-                        android:layout_gravity="bottom"
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin">
-                        <com.google.android.material.tabs.TabLayout
-                            app:tabTextColor="?android:textColorHint"
-                            app:tabSelectedTextColor="@color/colorPrimary"
-                            app:tabIndicatorFullWidth="false"
-                            app:tabMode="auto"
-                            android:id="@+id/usertabs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                    </androidx.appcompat.widget.Toolbar>
+
 
 
 
 
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
-
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_gravity="bottom"
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin">
+                    <com.google.android.material.tabs.TabLayout
+                        app:tabTextColor="?android:textColorHint"
+                        app:tabSelectedTextColor="@color/colorPrimary"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabMode="auto"
+                        android:id="@+id/usertabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </androidx.appcompat.widget.Toolbar>
 
 
             </com.google.android.material.appbar.AppBarLayout>

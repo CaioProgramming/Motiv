@@ -1,8 +1,7 @@
-package com.creat.motiv.view.activities
+package com.creat.motiv.View.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ProgressBar
 
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R

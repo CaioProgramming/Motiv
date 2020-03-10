@@ -1,15 +1,14 @@
-package com.creat.motiv.view.activities
+package com.creat.motiv.View.activities
 
+import MainActivity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
-import com.creat.motiv.View.activities.NewUser
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
 import com.firebase.ui.auth.AuthUI

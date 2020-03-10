@@ -1,7 +1,6 @@
-package com.creat.motiv.view.activities
+package com.creat.motiv.View.activities
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,7 +13,6 @@ import com.creat.motiv.utils.Alert
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class UserActivity : AppCompatActivity() {

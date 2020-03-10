@@ -12,7 +12,7 @@ import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
 
-class QuotePagerAdapter(private val profilePresenter: ProfilePresenter,private val uid:String): PagerAdapter() {
+class QuotePagerAdapter(private val uid:String,val activity: Activity): PagerAdapter() {
 
 
     override fun getCount(): Int {
@@ -30,13 +30,13 @@ class QuotePagerAdapter(private val profilePresenter: ProfilePresenter,private v
 
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(profilePresenter.activity),
+        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),
                 R.layout.quote_recycler,null,false)
-        val userdb = UserDB(profilePresenter)
+        val userdb = UserDB()
         if(position == 0){
-            userdb.finduserquotes(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
+            userdb.finduserquotes(uid,quoteRecyclerBinding)
         }else{
-            userdb.findfavorites(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
+            userdb.findfavorites(uid,quoteRecyclerBinding)
         }
         container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root

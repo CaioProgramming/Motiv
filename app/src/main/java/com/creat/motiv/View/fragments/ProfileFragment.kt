@@ -1,4 +1,4 @@
-package com.creat.motiv.view.fragments
+package com.creat.motiv.View.fragments
 
 
 import android.content.Context
@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
@@ -47,7 +46,6 @@ class ProfileFragment : Fragment() {
                 navview.selectedItemId = R.id.navigation_home
             }
             setHasOptionsMenu(true)
-
         }
         return fragmentbind!!.root
 
@@ -88,10 +86,6 @@ class ProfileFragment : Fragment() {
 
     }
 
-    fun create(user: User){
-        profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
-
-    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

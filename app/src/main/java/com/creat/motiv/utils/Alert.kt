@@ -4,9 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.*
-import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.CountDownTimer
@@ -16,7 +14,6 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,7 +29,7 @@ import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.R
 import com.creat.motiv.utils.Tools.searcharg
-import com.creat.motiv.view.activities.Splash
+import com.creat.motiv.View.activities.Splash
 import com.creat.motiv.adapters.LikeAdapter
 import com.creat.motiv.adapters.RecyclerPicAdapter
 import com.creat.motiv.adapters.RecyclerReferencesAdapter
@@ -47,7 +44,6 @@ import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pd.chocobar.ChocoBar
