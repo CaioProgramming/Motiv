@@ -194,13 +194,6 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
                 holder.quotescardBinding.userpic as View, "profilepic")
         activity.startActivity(i, options.toBundle())
 
-         val profileFragment = ProfileFragment()
-        val mainActivity = activity as MainActivity
-      mainActivity.supportFragmentManager.beginTransaction()
-                .replace(R.id.frame,profileFragment)
-                .commit()
-        mainActivity.home = false
-        profileFragment.create(u)
 
     }
 

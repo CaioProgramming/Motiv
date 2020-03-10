@@ -22,7 +22,7 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fragmentbind = DataBindingUtil.inflate<FragmentProfileBinding>(LayoutInflater.from(this), R.layout.fragment_profile,null,false)
+        val fragmentbind: FragmentProfileBinding = DataBindingUtil.setContentView(this,R.layout.fragment_profile)
         setContentView(fragmentbind.root)
 
         uid = intent.getStringExtra("uid")
@@ -55,7 +55,9 @@ class UserActivity : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         val user = dataSnapshot.getValue(User::class.java)
-                        val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
+                        user.let {
+                            val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
+                        }
 
 
                     } else {

@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-
+    implementation 'nl.joery.animatedbottombar:library:1.0.0'
     implementation 'com.andrognito.flashbar:flashbar:1.0.3'
     implementation 'com.github.Pradyuman7:ChocoBar:V1.0'
 

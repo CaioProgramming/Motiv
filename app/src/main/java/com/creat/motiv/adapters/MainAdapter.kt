@@ -6,20 +6,22 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 import com.creat.motiv.view.fragments.FavoritesFragment
 import com.creat.motiv.view.fragments.HomeFragment
+import com.creat.motiv.view.fragments.NewQuoteFragment
 import com.creat.motiv.view.fragments.ProfileFragment
 
 class MainAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> HomeFragment()
-            else -> ProfileFragment()
+            0 -> ProfileFragment()
+            1 -> NewQuoteFragment()
+            else -> HomeFragment()
         }
 
 
     }
 
     override fun getCount(): Int {
-        return 2//three fragments
+        return 33//three fragments
     }
 }

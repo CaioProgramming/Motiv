@@ -30,42 +30,23 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            app:menu="@menu/menu"
-            app:itemRippleColor="@color/colorAccent"
-            android:background="?android:colorBackground"
-            app:elevation="0dp"
+        <nl.joery.animatedbottombar.AnimatedBottomBar
             android:id="@+id/navigation"
             android:layout_alignParentBottom="true"
+            android:background="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <FrameLayout
+            android:layout_height="wrap_content"
+            app:abb_selectedTabType="text"
+            app:abb_indicatorAppearance="round"
+            app:abb_indicatorMargin="16dp"
+            app:abb_indicatorHeight="4dp"
+            app:abb_tabs="@menu/menu"  />
+        <androidx.viewpager.widget.ViewPager
             android:layout_below="@id/toolbar"
             android:layout_above="@id/navigation"
-            android:id="@+id/frame"
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <LinearLayout
-            android:layout_below="@id/toolbar"
-            android:alpha="0"
-            android:id="@+id/newpost"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:src="@drawable/ic_undraw_new_ideas_jdea"
-                android:layout_width="300dp"
-                android:layout_height="300dp" />
-
-            <TextView
-                android:textAlignment="center"
-                style="@style/ToolbarTitle"
-                android:text="Compartilhe o que está na sua mente..."
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
 
         <com.github.mmin18.widget.RealtimeBlurView
             android:id="@+id/rootblur"

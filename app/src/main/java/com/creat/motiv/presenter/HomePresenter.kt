@@ -49,7 +49,7 @@ class HomePresenter(val activity: Activity,val homeFragment: HomeFragment) : Vie
         val manager = activity.packageManager
         val info = manager.getPackageInfo(activity!!.packageName, PackageManager.GET_ACTIVITIES)
         val versionName = info.versionName
-        var version = Version()
+        val version = Version()
 
 
         val versioncheck = FirebaseDatabase.getInstance().reference.child("version")

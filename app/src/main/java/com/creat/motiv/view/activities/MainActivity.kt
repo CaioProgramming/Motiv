@@ -28,10 +28,10 @@ import com.creat.motiv.utils.Tools.fadeOut
 import com.creat.motiv.utils.Tools.setLightStatusBar
 import com.creat.motiv.utils.Tools.uimode
 import com.creat.motiv.view.fragments.HomeFragment
-import com.creat.motiv.view.fragments.NewQuoteFragment
 import com.creat.motiv.view.fragments.ProfileFragment
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -39,15 +39,19 @@ import com.google.firebase.iid.FirebaseInstanceId
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
 import kotlinx.android.synthetic.main.activity_main.*
+import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
 
-class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
     internal lateinit var preferences: Pref
     protected lateinit var app: App
     internal lateinit var version: Version
     internal var a: Alert? = null
     internal var user: FirebaseUser? = null
-    var home = true
+    private val home: Boolean get() {return pager.currentItem == 1}
+
+
+
 
     private val isNetworkAvailable: Boolean
         get() {
@@ -61,44 +65,53 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         val actbind: ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setContentView(actbind.root)
-         app = application as App
+        app = application as App
         internetconnection()
 
         user = FirebaseAuth.getInstance().currentUser
         checkUser()
         preferences = Pref(this)
-
-
-
-
-
-
-
         Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic!!)
         profilepic!!.setOnClickListener { showprofilefrag() }
+
+
+        pager.adapter = MainAdapter(supportFragmentManager)
+
+
         if (!user!!.isEmailVerified) {
-         Alert.builder(this).mailmessage()
+            Alert.builder(this).mailmessage()
         }
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
+        version()
         if(!uimode(this)){
-        setLightStatusBar(this)
-       }
+            setLightStatusBar(this)
+        }
 
-        navigation.setOnNavigationItemSelectedListener(this)
-        navigation.selectedItemId = R.id.navigation_home
+        navigation.setOnTabSelectListener(this)
+        navigation.selectTabAt(1,true)
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onPageSelected(position: Int) {
+                navigation.selectTabAt(position,true)//To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
+
+
     }
 
 
 
     private fun showprofilefrag(){
-        home = false
-        val profileFragment = ProfileFragment()
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.frame,profileFragment)
-                .commit()
-        profileFragment.create(user!!)
-        supportActionBar?.hide()
+        pager.currentItem = 0
     }
 
 
@@ -143,6 +156,34 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         }
     }
 
+    private fun version() {
+        val manager = this.packageManager
+        val info = manager.getPackageInfo(this.packageName, PackageManager.GET_ACTIVITIES)
+        val versionName = info.versionName
+        version = Version()
+
+
+        val versioncheck = FirebaseDatabase.getInstance().reference.child("version")
+
+        versioncheck.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (d in dataSnapshot.children) {
+                    if (d != null) {
+                        version.version = Objects.requireNonNull<Any>(d.value).toString()
+                    }
+                }
+                if (version.version != versionName) {
+                    Alert.builder(this@MainActivity).version()
+                }
+
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)
@@ -191,7 +232,7 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         if (home) {
             super.onBackPressed()
         } else {
-            navigation.selectedItemId = R.id.navigation_home
+            pager?.setCurrentItem(1,true)
         }
 
     }
@@ -207,34 +248,9 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
 
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                home = true
-              supportFragmentManager.beginTransaction()
-                                .replace(R.id.frame,HomeFragment())
-                                .commit()
-                setSupportActionBar(toolbar)
-                supportActionBar!!.title = ""
-                supportActionBar?.show()
 
-                return true
-            }
-            R.id.navigation_new -> {
-                home = false
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame,NewQuoteFragment())
-                        .commit()
-                setSupportActionBar(toolbar)
-                supportActionBar?.title = "Nova publicação"
-                profilepic.visibility = View.GONE
-                supportActionBar?.show()
-
-
-                return true
-            }
-        }
-        return false
+    override fun onTabSelected(lastIndex: Int, lastTab: AnimatedBottomBar.Tab?, newIndex: Int, newTab: AnimatedBottomBar.Tab) {
+        pager?.setCurrentItem(newIndex,true)
     }
 
 

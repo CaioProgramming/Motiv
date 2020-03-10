@@ -49,7 +49,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
 
         }
         var scrollRange = -1
-        profileFragment.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
+        /*profileFragment.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
             if (scrollRange == -1){
                 scrollRange = barLayout?.totalScrollRange!!
             }
@@ -62,7 +62,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
                 profileFragment.toolbar.title = " " //careful there should a space between double quote otherwise it wont work
                 isShow = false
             }
-        })
+        })*/
 
     }
 
