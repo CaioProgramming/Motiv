@@ -87,6 +87,10 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
         if(!uimode(this)){
             setLightStatusBar(this)
         }
+        /*val bottomBarTab1 = AnimatedBottomBar.createTab(R.drawable.profile, user!!.displayName)
+        val bottomBarTab2 = AnimatedBottomBar.createTab(R.drawable.home, "Escrever")
+        val bottomBarTab3 = AnimatedBottomBar.createTab(R.drawable.add, "Home")*/
+
 
         navigation.setOnTabSelectListener(this)
         navigation.selectTabAt(1,true)

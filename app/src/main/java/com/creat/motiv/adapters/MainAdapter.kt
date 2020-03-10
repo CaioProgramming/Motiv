@@ -13,9 +13,9 @@ class MainAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> ProfileFragment()
+            0 -> HomeFragment()
             1 -> NewQuoteFragment()
-            else -> HomeFragment()
+            else -> ProfileFragment()
         }
 
 
