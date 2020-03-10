@@ -1,24 +1,18 @@
 package com.creat.motiv.adapters
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.model.Beans.QuoteHead
-import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
-import com.firebase.ui.auth.data.model.User
 
-class QuotePagerAdapter(private val quoteshead: ArrayList<QuoteHead>,private val activity: Activity): PagerAdapter() {
+class QuotePagerAdapter(private val profilePresenter: ProfilePresenter,private val uid:String): PagerAdapter() {
 
 
     override fun getCount(): Int {
@@ -36,15 +30,17 @@ class QuotePagerAdapter(private val quoteshead: ArrayList<QuoteHead>,private val
 
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),
+        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(profilePresenter.activity),
                 R.layout.quote_recycler,null,false)
-
-        if (quoteshead.size > 0) {
-            val recyclerAdapter = RecyclerAdapter(quoteshead[position].quoteslist,activity)
-            quoteRecyclerBinding.quotesrecyclerview.adapter = recyclerAdapter
-            quoteRecyclerBinding.quotesrecyclerview.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,true)
+        val userdb = UserDB(profilePresenter)
+        if(position == 0){
+            userdb.finduserquotes(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
+        }else{
+            userdb.findfavorites(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
         }
-
+        container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root
     }
+
+
 }

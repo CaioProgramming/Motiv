@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -34,18 +35,10 @@ class Splash : AppCompatActivity() {
         calendar.time = datenow
         brand.text = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
-        val countDownTimer = object : CountDownTimer(1500, 100) {
-            override fun onTick(l: Long) {
-
-            }
-
-            override fun onFinish() {
-                SignIn()
-
-            }
-        }.start()
-
+        val handler = Handler()
+        handler.postDelayed({
+            SignIn()
+        },2000)
 
     }
 

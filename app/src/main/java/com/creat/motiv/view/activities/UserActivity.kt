@@ -27,18 +27,10 @@ class UserActivity : AppCompatActivity() {
 
         uid = intent.getStringExtra("uid")
 
-        initView(fragmentbind)
+        //initView(fragmentbind)
 
     }
 
-    private fun initView(fragmentbind: FragmentProfileBinding) {
-        setSupportActionBar(profiletoolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        myquotesrecycler.postDelayed({
-            setupdata(fragmentbind)
-        }, 500)
-
-    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

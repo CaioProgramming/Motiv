@@ -17,6 +17,7 @@ import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
+import com.google.android.material.appbar.AppBarLayout
 
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DataSnapshot
@@ -28,121 +29,57 @@ import io.reactivex.CompletableObserver
 
 class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProfileBinding, val user: User){
 
+    var isShow = true
 
     init{
-        var userquotes = ArrayList<Quotes>()
-        var favoritequotes = ArrayList<Quotes>()
+        Alert(activity).loading()
         profileFragment.profilepic.setOnClickListener {
             val alert = Alert(activity)
             alert.Picalert(this)
         }
-        val userDB = UserDB(this)
-        userDB.getuserquotes(user.uid!!, object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        user.picurl?.let { loaduserpic(it) }
+        user.name?.let{profileFragment.username.text = it}
+        user.uid?.let {
+            profileFragment.quotespager.adapter = QuotePagerAdapter(this, user.uid!!)
+            profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
+            profileFragment.usertabs.getTabAt(0)?.text = "Posts"
+            profileFragment.usertabs.getTabAt(0)?.icon = activity.resources.getDrawable(R.drawable.posts)
+            profileFragment.usertabs.getTabAt(1)?.text = "Favoritos"
+            profileFragment.usertabs.getTabAt(1)?.icon = activity.resources.getDrawable(R.drawable.favorites)
+
+        }
+        var scrollRange = -1
+        profileFragment.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
+            if (scrollRange == -1){
+                scrollRange = barLayout?.totalScrollRange!!
             }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                userquotes.clear()
-                for (d in snapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
-                    if (q != null) {
-                        q.id = d.key
-                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                            q.textcolor =  activity.titleColor
-                            q.backgroundcolor = Color.TRANSPARENT
-                        }
-                        userquotes.add(q)
-                        println("Quotes " + userquotes.size)
-                        println("Quote  " + q.id)
-                    }
-                }
-
-
-
+            if (scrollRange + verticalOffset == 0){
+                profileFragment.collapsetoolbar.title = user.name
+                profileFragment.toolbar.title = user.name
+                isShow = true
+            } else if (isShow){
+                profileFragment.collapsetoolbar.title = " " //careful there should a space between double quote otherwise it wont work
+                profileFragment.toolbar.title = " " //careful there should a space between double quote otherwise it wont work
+                isShow = false
             }
-
         })
-        userDB.getuserfavorites(user.uid!!, object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                favoritequotes.clear()
-                for (d in dataSnapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
-                    if (q != null) {
-                        q.id = d.key
-                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                            q.textcolor = activity.titleColor
-                            q.backgroundcolor = Color.TRANSPARENT
-                        }
-                        userDB.quotesdb.child(q.id!!).child("likes").child(user.uid!!).addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onCancelled(p0: DatabaseError) {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
-
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    favoritequotes.add(q)
-                                    print("Loaded ${favoritequotes.size} favorite quotes")
-                                }
-                            }
-                        })
-                        println("Favorite Quotes " + favoritequotes.size)
-                        println("Quote  " + q.id)
-                    }
-                }
-            }
-
-        })
-
-        profileFragment.profiletoolbar.title = user.name
-        loaduserpic(user.uid!!)
-        hideshimmer()
-        profileFragment.usertabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                print("deselected") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val wichlist = if (tab!!.position == 0) {
-                    userquotes
-                } else {
-                    favoritequotes
-                }
-                Tools.fadeIn(profileFragment.loading,1000).andThen(Tools.fadeOut(profileFragment.quotes,1000))
-                        .andThen(Tools.fadeOut(profileFragment.loading,500).ambWith(Tools.fadeIn(profileFragment.quotes,900)))
-                        .doOnComplete {
-                            Handler().postDelayed({ profileFragment.quotes.adapter = RecyclerAdapter(wichlist,activity) },1000)
-                        }.subscribe()
-
-
-            }
-
-        })
-        counttab(userquotes.size,profileFragment.usertabs.getTabAt(0)!!," posts")
-        counttab(favoritequotes.size,profileFragment.usertabs.getTabAt(1)!!," favoritos")
-
-
-        profileFragment.quotes.adapter = RecyclerAdapter(userquotes,activity)
-        profileFragment.quotes.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-
-
 
     }
+
+
+
+
     private fun loaduserpic(url:String){
         Glide.with(activity).load(url).error(activity.getDrawable(R.drawable.notfound)).into(profileFragment.profilepic)
 
     }
+
+
+
     fun hideshimmer(){
         val handler = Handler()
         handler.postDelayed({
-            profileFragment.topshimmer.hideShimmer()
+            //profileFragment.topshimmer.hideShimmer()
         },2000)
 
 

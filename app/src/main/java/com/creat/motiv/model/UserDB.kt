@@ -1,11 +1,9 @@
 package com.creat.motiv.model
 
-import android.animation.ValueAnimator
-import android.app.Activity
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,7 +14,6 @@ import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.presenter.ProfilePresenter
-import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
@@ -24,13 +21,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlin.collections.ArrayList
 
-class UserDB {
+class UserDB: ValueEventListener {
 
     private var profilePresenter: ProfilePresenter? = null
-
+    private var recyclerView: RecyclerView ? = null
+    private var notfound: TextView ? = null
     constructor(profilePresenter: ProfilePresenter?) {
         this.profilePresenter = profilePresenter
     }
@@ -41,7 +38,7 @@ class UserDB {
     private val userref = Tools.userreference
 
 
-    fun getUser( uid: String,valueEventListener: ValueEventListener){
+    fun getUser( uid: String, valueEventListener: ValueEventListener){
         userref.child(uid).addValueEventListener(valueEventListener)
     }
 
@@ -109,96 +106,58 @@ class UserDB {
 
     }
 
-    public var quotesdb = Tools.quotesreference
+    private var quotesdb = Tools.quotesreference
 
 
-    fun getuserquotes(uid: String,valueEventListener: ValueEventListener){
-        quotesdb.orderByChild("userID").equalTo(uid).addListenerForSingleValueEvent(valueEventListener)
+
+
+    fun findfavorites(uid: String, recyclerView: RecyclerView, notfound: TextView) {
+        Log.println(Log.INFO, "Quotes", "Loading favorites quotes from ${uid}")
+        this.recyclerView = recyclerView
+        this.notfound = notfound
+        quotesdb.orderByChild("likes/userid").equalTo(uid).addListenerForSingleValueEvent(this)
 
     }
-    fun getuserfavorites(uid: String,valueEventListener: ValueEventListener){
-        quotesdb.addListenerForSingleValueEvent(valueEventListener)
 
-    }
 
-    fun findfavorites(uid: String,recyclerView: RecyclerView) {
-        quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val quotesArrayList = ArrayList<Quotes>()
-                quotesArrayList.clear()
-                for (d in dataSnapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
-                    if (q != null) {
-                        q.id = d.key
-                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                            q.textcolor = profilePresenter!!.activity.titleColor
-                            q.backgroundcolor = Color.TRANSPARENT
-                        }
-                        quotesdb.child(q.id!!).child("likes").child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onCancelled(p0: DatabaseError) {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
-
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    quotesArrayList.add(q)
-                                    print("Loaded ${quotesArrayList.size} favorite quotes")
-                                    /*val alert = Alert(activity)
-                                    alert.loading()*/
-
-                                }
-                            }
-                        })
-                        println("Quotes " + quotesArrayList.size)
-                        println("Quote  " + q.id)
-                    }
-                }
-
-                recyclerView.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
-                recyclerView.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-                /*profilePresenter!!.counttab(quotesArrayList.size,
-                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," favoritos")*/
-            }
-        })
-    }
-
-    fun finduserquotes(uid: String,recyclerView: RecyclerView){
+    fun finduserquotes(uid: String, recyclerView: RecyclerView, notfound: TextView){
         Log.println(Log.INFO, "Quotes", "Loading quotes from ${uid}")
-        var quoteslist = ArrayList<Quotes>()
-        quotesdb.orderByChild("userID").equalTo(uid).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                return//To change body of created functions use File | Settings | File Templates.
-            }
+        this.recyclerView = recyclerView
+        this.notfound = notfound
+        quotesdb.orderByChild("userID").equalTo(uid).addListenerForSingleValueEvent(this)
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val quotesArrayList = ArrayList<Quotes>()
-                quotesArrayList.clear()
-                for (d in snapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
-                    if (q != null) {
-                        q.id = d.key
-                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                            q.textcolor = profilePresenter!!.activity.titleColor
-                            q.backgroundcolor = Color.TRANSPARENT
-                        }
-                        quoteslist.add(q)
-                        println("Quotes " + quotesArrayList.size)
-                        println("Quote  " + q.id)
-                    }
+    }
+
+    override fun onCancelled(p0: DatabaseError) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDataChange(snapshot: DataSnapshot) {
+        val quotesArrayList = ArrayList<Quotes>()
+        quotesArrayList.clear()
+        for (d in snapshot.children) {
+            val q = d.getValue(Quotes::class.java)
+            if (q != null) {
+                q.id = d.key
+                if (q.textcolor == 0 || q.backgroundcolor == 0) {
+                    q.textcolor = profilePresenter!!.activity.titleColor
+                    q.backgroundcolor = Color.TRANSPARENT
                 }
+                quotesArrayList.add(q)
 
-
-                recyclerView.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
-                recyclerView.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-                /*profilePresenter!!.counttab(quotesArrayList.size,
-                        profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!," publicações")*/
             }
-        })
+        }
+        println("founded ${quotesArrayList.size} quotes")
 
+        if (quotesArrayList.size > 0) {
+            quotesArrayList.reverse()
+            recyclerView?.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
+            recyclerView?.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
+            recyclerView?.let { Tools.fadeIn(it,900).subscribe() }
+        }else{
+            notfound?.let { Tools.fadeIn(it,500).ambWith(recyclerView?.let { it1 -> Tools.fadeOut(it1,500) }).subscribe() }
+        } //To change body of created functions use File | Settings | File Templates.
     }
 
 }

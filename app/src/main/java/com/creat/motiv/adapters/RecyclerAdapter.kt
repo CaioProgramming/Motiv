@@ -29,6 +29,7 @@ import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.fadeIn
+import com.creat.motiv.view.activities.MainActivity
 import com.creat.motiv.view.activities.UserActivity
 import com.creat.motiv.view.fragments.ProfileFragment
 import com.devs.readmoreoption.ReadMoreOption
@@ -192,6 +193,14 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
                 holder.quotescardBinding.userpic as View, "profilepic")
         activity.startActivity(i, options.toBundle())
+
+         val profileFragment = ProfileFragment()
+        val mainActivity = activity as MainActivity
+      mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.frame,profileFragment)
+                .commit()
+        mainActivity.home = false
+        profileFragment.create(u)
 
     }
 

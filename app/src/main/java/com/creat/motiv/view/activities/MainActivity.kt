@@ -81,15 +81,12 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         }
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
-        version()
-       if(!uimode(this)){
+        if(!uimode(this)){
         setLightStatusBar(this)
        }
 
         navigation.setOnNavigationItemSelectedListener(this)
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.frame,HomeFragment())
-                .commit()
+        navigation.selectedItemId = R.id.navigation_home
     }
 
 
@@ -146,34 +143,6 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
         }
     }
 
-    private fun version() {
-        val manager = this.packageManager
-        val info = manager.getPackageInfo(this.packageName, PackageManager.GET_ACTIVITIES)
-        val versionName = info.versionName
-        version = Version()
-
-
-       val versioncheck = FirebaseDatabase.getInstance().reference.child("version")
-
-        versioncheck.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (d in dataSnapshot.children) {
-                    if (d != null) {
-                        version.version = Objects.requireNonNull<Any>(d.value).toString()
-                    }
-                }
-                if (version.version != versionName) {
-                    Alert.builder(this@MainActivity).version()
-                }
-
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)
@@ -245,18 +214,24 @@ class MainActivity : AppCompatActivity(),BottomNavigationView.OnNavigationItemSe
               supportFragmentManager.beginTransaction()
                                 .replace(R.id.frame,HomeFragment())
                                 .commit()
-                supportActionBar?.title = ""
+                setSupportActionBar(toolbar)
+                supportActionBar!!.title = ""
                 supportActionBar?.show()
-                return false
+
+                return true
             }
             R.id.navigation_new -> {
                 home = false
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.frame,NewQuoteFragment())
                         .commit()
-                supportActionBar?.show()
+                setSupportActionBar(toolbar)
                 supportActionBar?.title = "Nova publicação"
-                return false
+                profilepic.visibility = View.GONE
+                supportActionBar?.show()
+
+
+                return true
             }
         }
         return false

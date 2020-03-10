@@ -2,40 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     tools:context=".view.activities.Splash">
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:padding="15dp"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true"
-        android:layout_height="wrap_content">
+
         <ImageView
+            android:layout_centerInParent="true"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:tint="?android:textColorPrimary"
             android:src="@drawable/ic_saturn_and_other_planets" />
-        <TextView
-            android:layout_gravity="center"
-            android:textColor="?android:textColorPrimary"
-            android:fontFamily="@font/lato_black"
-            style="@style/TextAppearance.AppCompat.Display2"
-            android:text="@string/app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-    </LinearLayout>
+
     <TextView
+        android:text="Inlustris"
+        android:textStyle="bold"
+        style="@style/TextAppearance.AppCompat.Display1"
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:textColor="?android:textColorHint"
+        android:textColor="@color/lwhite"
         android:id="@+id/inlustrisbrand"
-        android:text="Inlustris 2018- "
          android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

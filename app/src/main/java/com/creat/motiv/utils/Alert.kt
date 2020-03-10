@@ -10,6 +10,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.CountDownTimer
+import android.os.Handler
 import android.text.Html
 import android.view.*
 import android.view.animation.AnimationUtils
@@ -716,25 +717,17 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
 
     fun loading() {
-        val myDialog = Dialog(activity, R.style.Dialog_No_Border)
+        val myDialog = Dialog(activity, R.style.BottomDialogAnimation)
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setContentView(R.layout.loading)
         myDialog.setOnShowListener(this)
         myDialog.setOnDismissListener(this)
         myDialog.show()
-
-        val timer = object : CountDownTimer(2500, 100) {
-            override fun onTick(l: Long) {
-
-            }
-
-            override fun onFinish() {
-                myDialog.dismiss()
-
-            }
-        }
-        timer.start()
+        val handler = Handler()
+        handler.postDelayed({
+            myDialog.dismiss()
+        },3000)
 
     }
 

@@ -4,6 +4,7 @@ package com.creat.motiv.view.fragments
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -15,6 +16,7 @@ import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
 import com.creat.motiv.presenter.ProfilePresenter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -36,14 +38,23 @@ class ProfileFragment : Fragment() {
         fragmentbind = DataBindingUtil.inflate(LayoutInflater.from(activity),R.layout.fragment_profile,null,false)
         val user = FirebaseAuth.getInstance().currentUser
         fragmentbind?.let{
+            val act = activity as AppCompatActivity
+            act.setSupportActionBar(it.toolbar)
+            act.supportActionBar?.setDisplayHomeAsUpEnabled(true)
             user?.let { create(it) }
+            it.toolbar.setNavigationOnClickListener {
+                val navview= act.findViewById<BottomNavigationView>(R.id.navigation)
+                navview.selectedItemId = R.id.navigation_home
+            }
+            setHasOptionsMenu(true)
 
         }
         return fragmentbind!!.root
 
     }
 
-    fun create(fireuser: FirebaseUser){
+    fun create(fireuser: FirebaseUser)
+    {
         //preferences = Pref(Objects.requireNonNull<Context>(context))
         val userdb = UserDB()
         userdb.getUser(fireuser.uid, object : ValueEventListener {
@@ -77,7 +88,26 @@ class ProfileFragment : Fragment() {
 
     }
 
+    fun create(user: User){
+        profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
 
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        activity?.let { profilePresenter?.let { it1 ->
+            Alert.builder(it).settings(it1)
+            return true
+        }
+        }
+        return false
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.profilemenu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
 
     private fun Tutorial() {

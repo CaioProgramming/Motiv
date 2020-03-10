@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:cardBackgroundColor="@color/transparent"
     android:layout_gravity="center"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="0dp"
-     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
         <com.budiyev.android.circularprogressbar.CircularProgressBar
             android:id="@+id/progress_bar"
-            android:layout_gravity="center"
-            android:layout_width="50dp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             app:animateProgress="true"
             app:backgroundStrokeColor="@color/transparent"
-            app:backgroundStrokeWidth="2dp"
             app:drawBackgroundStroke="false"
-            app:foregroundStrokeCap="butt"
             app:foregroundStrokeColor="@color/colorPrimary"
-            app:foregroundStrokeWidth="2dp"
             app:indeterminate="true"
             app:indeterminateRotationAnimationDuration="1000"
             app:indeterminateSweepAnimationDuration="500"
-            app:indeterminateMinimumAngle="45"
+            app:indeterminateMinimumAngle="90"
             app:maximum="100"
             app:progress="50"
-            app:progressAnimationDuration="100"
-            app:startAngle="270"/>
+            app:foregroundStrokeWidth="4dp"
+            app:progressAnimationDuration="1000"
+            app:startAngle="90"/>
 
-</androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_below="@id/progress_bar"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:textStyle="bold"
+            android:text="Carregando..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>

@@ -11,7 +11,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:elevation="3dp"
+            android:elevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:animateLayoutChanges="true"
@@ -34,7 +34,7 @@
             app:menu="@menu/menu"
             app:itemRippleColor="@color/colorAccent"
             android:background="?android:colorBackground"
-            app:elevation="3dp"
+            app:elevation="0dp"
             android:id="@+id/navigation"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
