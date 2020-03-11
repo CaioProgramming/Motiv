@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-
-        <variable
-            name="gradient"
-            type="com.creat.motiv.model.Beans.Gradient" />
-    </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,9 +16,7 @@
             android:id="@+id/gradientview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:gv_direction="left_to_right"
-            app:gv_end="@{gradient.startcolor}"
-            app:gv_start="@{gradient.endcolor}" />
+            app:gv_direction="left_to_right" />
 
 
     </androidx.cardview.widget.CardView>

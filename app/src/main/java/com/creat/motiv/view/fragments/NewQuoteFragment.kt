@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -58,21 +57,6 @@ class NewQuoteFragment: Fragment() {
             salvar(createQuote(popupbind!!))
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        styleMenuButton()
-        super.onPrepareOptionsMenu(menu)
-    }
-
-    private fun styleMenuButton() {
-        // Find the menu item you want to style
-        val view: View = activity!!.findViewById(R.id.salvar)
-
-        // Cast to a TextView instance if the menu item was found
-        if (view != null && view is TextView) {
-            view.setTextColor(resources.getColor(R.color.colorPrimary)) // Make text colour blue
-        }
     }
 
 
