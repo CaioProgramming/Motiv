@@ -2,43 +2,27 @@ package com.creat.motiv.presenter
 
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.graphics.Color
 import android.os.Handler
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.QuotePagerAdapter
-import com.creat.motiv.adapters.RecyclerAdapter
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.Beans.QuoteHead
-import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
-import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.Tools
-import com.google.android.material.appbar.AppBarLayout
-
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import io.reactivex.Completable
-import io.reactivex.CompletableObserver
+import com.mikhaellopez.rxanimation.fadeIn
 
 
 class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProfileBinding, val user: User){
 
-    var isShow = true
 
     init{
-        Alert(activity).loading()
         profileFragment.profilepic.setOnClickListener {
             val alert = Alert(activity)
             alert.Picalert(this)
         }
         user.picurl?.let { loaduserpic(it) }
-        user.name?.let{profileFragment.username.text = it}
+        user.name?.let { profileFragment.collapsetoolbar.title = it }
         user.uid?.let {
             profileFragment.quotespager.adapter = QuotePagerAdapter(this, user.uid!!)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
@@ -48,6 +32,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             profileFragment.usertabs.getTabAt(1)?.icon = activity.resources.getDrawable(R.drawable.favorites)
 
         }
+        profileFragment.photoshimmer.startShimmer()
         var scrollRange = -1
         /*profileFragment.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
             if (scrollRange == -1){
@@ -71,7 +56,11 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
 
     private fun loaduserpic(url:String){
         Glide.with(activity).load(url).error(activity.getDrawable(R.drawable.notfound)).into(profileFragment.profilepic)
-
+        val handler = Handler()
+        handler.postDelayed({
+            profileFragment.photoshimmer.hideShimmer()
+            profileFragment.profilepic.fadeIn()
+        }, 1500)
     }
 
 

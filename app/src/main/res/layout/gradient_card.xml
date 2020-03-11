@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="gradient"
+            type="com.creat.motiv.model.Beans.Gradient" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/colorcard"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_margin="2dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp">
+
+
+        <com.mikhaellopez.gradientview.GradientView
+            android:id="@+id/gradientview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:gv_direction="left_to_right"
+            app:gv_end="@{gradient.startcolor}"
+            app:gv_start="@{gradient.endcolor}" />
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

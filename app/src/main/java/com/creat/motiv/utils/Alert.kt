@@ -4,19 +4,22 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.*
-import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.CountDownTimer
 import android.os.Handler
 import android.text.Html
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,22 +27,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrognito.flashbar.Flashbar
 import com.andrognito.flashbar.anim.FlashAnim
 import com.bumptech.glide.Glide
+import com.creat.motiv.R
+import com.creat.motiv.adapters.LikeAdapter
+import com.creat.motiv.adapters.RecyclerPicAdapter
+import com.creat.motiv.adapters.RecyclerReferencesAdapter
+import com.creat.motiv.databinding.DeleteAllDialogBinding
+import com.creat.motiv.databinding.MessageDialogBinding
 import com.creat.motiv.model.Beans.Developers
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Pics
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.model.UserDB
-import com.creat.motiv.R
-import com.creat.motiv.utils.Tools.searcharg
-import com.creat.motiv.view.activities.Splash
-import com.creat.motiv.adapters.LikeAdapter
-import com.creat.motiv.adapters.RecyclerPicAdapter
-import com.creat.motiv.adapters.RecyclerReferencesAdapter
-import com.creat.motiv.databinding.CustomSnackBinding
-import com.creat.motiv.databinding.DeleteAllDialogBinding
-import com.creat.motiv.databinding.MessageDialogBinding
 import com.creat.motiv.presenter.ProfilePresenter
+import com.creat.motiv.utils.Tools.searcharg
+import com.creat.motiv.view.activities.EditQuoteActivity
+import com.creat.motiv.view.activities.Splash
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -47,7 +50,6 @@ import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pd.chocobar.ChocoBar
@@ -111,8 +113,9 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
         edit?.setOnClickListener {
             myDialog.dismiss()
-            val newQuotepopup = NewQuotepopup(activity)
-            newQuotepopup.showedit(quote)
+            val i = Intent(activity, EditQuoteActivity::class.java)
+            i.putExtra("Quote", quote)
+            activity.startActivity(i)
         }
 
         share?.setOnClickListener {

@@ -1,6 +1,5 @@
 package com.creat.motiv.view.activities
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
@@ -8,36 +7,28 @@ import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.creat.motiv.R
+import com.creat.motiv.adapters.MainAdapter
+import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.Beans.Version
-import com.creat.motiv.R
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.adapters.MainAdapter
-import com.creat.motiv.databinding.ActivityMainBinding
-import com.creat.motiv.utils.NewQuotepopup
-import com.creat.motiv.utils.Tools.fadeIn
-import com.creat.motiv.utils.Tools.fadeOut
+import com.creat.motiv.utils.Tools.RC_SIGN_IN
 import com.creat.motiv.utils.Tools.setLightStatusBar
 import com.creat.motiv.utils.Tools.uimode
-import com.creat.motiv.view.fragments.HomeFragment
-import com.creat.motiv.view.fragments.ProfileFragment
 import com.firebase.ui.auth.AuthUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
-import io.reactivex.Completable
-import io.reactivex.subjects.CompletableSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
@@ -72,11 +63,11 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
         checkUser()
         preferences = Pref(this)
         Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic!!)
-        profilepic!!.setOnClickListener { showprofilefrag() }
+        profilepic!!.setOnClickListener { pager.currentItem = 2 }
 
 
         pager.adapter = MainAdapter(supportFragmentManager)
-
+        navigation.setupWithViewPager(pager, true)
 
         if (!user!!.isEmailVerified) {
             Alert.builder(this).mailmessage()
@@ -87,32 +78,17 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
         if(!uimode(this)){
             setLightStatusBar(this)
         }
+        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
+        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
+        navigation.getTabAt(2)?.customView = profilepic
 
-        navigation.setOnTabSelectListener(this)
-        navigation.selectTabAt(1,true)
-        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onPageSelected(position: Int) {
-                navigation.selectTabAt(position,true)//To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
 
 
     }
 
 
 
-    private fun showprofilefrag(){
-        pager.currentItem = 0
-    }
 
 
     private fun checkUser() {
@@ -152,7 +128,7 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
                     .setLogo(R.mipmap.ic_launcher)
                     .setAvailableProviders(providers)
                     .setTheme(R.style.AppTheme)
-                    .build(), Splash.RC_SIGN_IN)
+                    .build(), RC_SIGN_IN)
         }
     }
 

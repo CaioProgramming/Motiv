@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Vibrator
 import android.text.Html
@@ -15,26 +14,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.creat.motiv.R
+import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.model.UserDB
-import com.creat.motiv.R
-import com.creat.motiv.databinding.QuotescardBinding
-import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.fadeIn
-import com.creat.motiv.view.activities.MainActivity
 import com.creat.motiv.view.activities.UserActivity
-import com.creat.motiv.view.fragments.ProfileFragment
 import com.devs.readmoreoption.ReadMoreOption
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -113,7 +106,6 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
         } else {
             holder.quotescardBinding.username.text = user.displayName
-            val navigation = activity.findViewById<BottomNavigationView>(R.id.navigation)
 
             Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
 
@@ -263,7 +255,5 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
     }
 
 
-    class MyViewHolder(val quotescardBinding: QuotescardBinding) : RecyclerView.ViewHolder(quotescardBinding.root) {
-
-    }
+    class MyViewHolder(val quotescardBinding: QuotescardBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
 }

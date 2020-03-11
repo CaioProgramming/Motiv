@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:fontFamily">@font/lato_black</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
         <item name="colorPrimary">@color/purple_400</item>
         <item name="colorPrimaryDark">@color/purple_800</item>
         <item name="colorAccent">@color/deep_purple_A200</item>

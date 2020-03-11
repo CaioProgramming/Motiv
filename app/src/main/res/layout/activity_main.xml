@@ -30,17 +30,15 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <nl.joery.animatedbottombar.AnimatedBottomBar
+        <com.google.android.material.tabs.TabLayout
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="auto"
+            app:tabTextColor="?android:textColorHint"
             android:id="@+id/navigation"
             android:layout_alignParentBottom="true"
-            android:background="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:abb_selectedTabType="text"
-            app:abb_indicatorAppearance="round"
-            app:abb_indicatorMargin="16dp"
-            app:abb_indicatorHeight="4dp"
-            app:abb_tabs="@menu/menu"  />
+            android:layout_height="wrap_content" />
+
         <androidx.viewpager.widget.ViewPager
             android:layout_below="@id/toolbar"
             android:layout_above="@id/navigation"

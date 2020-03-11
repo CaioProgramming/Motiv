@@ -10,19 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
+import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
-import com.creat.motiv.presenter.ProfilePresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-
 import java.util.*
 
 
@@ -39,8 +37,6 @@ class ProfileFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
         fragmentbind?.let{
             val act = activity as AppCompatActivity
-            act.setSupportActionBar(it.toolbar)
-            act.supportActionBar?.setDisplayHomeAsUpEnabled(true)
             user?.let { create(it) }
             it.toolbar.setNavigationOnClickListener {
                 val navview= act.findViewById<BottomNavigationView>(R.id.navigation)
@@ -95,12 +91,11 @@ class ProfileFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        activity?.let { profilePresenter?.let { it1 ->
-            Alert.builder(it).settings(it1)
-            return true
+        val id = item.itemId
+        if (id == R.id.settings) {
+            Alert.builder(activity!!).settings(profilePresenter!!)
         }
-        }
-        return false
+        return super.onOptionsItemSelected(item)
     }
 
 

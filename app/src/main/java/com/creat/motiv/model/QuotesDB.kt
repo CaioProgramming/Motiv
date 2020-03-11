@@ -2,7 +2,6 @@ package com.creat.motiv.model
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.Intent
 import android.graphics.Color
 import android.os.CountDownTimer
 import android.os.Handler
@@ -14,14 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.andrognito.flashbar.Flashbar
+import com.creat.motiv.R
+import com.creat.motiv.adapters.RecyclerAdapter
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.R
+import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.view.activities.Splash
-import com.creat.motiv.adapters.RecyclerAdapter
-import com.creat.motiv.presenter.ProfilePresenter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -127,11 +125,7 @@ class QuotesDB : ValueEventListener {
     }
 
 
-    fun CarregarUserQuotes(userid: String) {
-        Log.println(Log.INFO, "Quotes", "Loading quotes from ${userid}")
-        quotesdb.orderByChild("userID").equalTo(userid).addListenerForSingleValueEvent(this)
 
-    }
 
 
 

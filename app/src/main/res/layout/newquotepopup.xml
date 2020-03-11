@@ -10,15 +10,17 @@
         android:background="@drawable/topround"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:background="?android:colorBackground"
-            android:id="@+id/toolbar"
-            app:title="Nova publicação"
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:text="Nova publicação"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold" />
         <androidx.core.widget.NestedScrollView
-            android:layout_above="@id/salvar"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@id/title"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -27,15 +29,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/colorlibrary"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/colorlibrary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/gradientlibrary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,6 +136,45 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp">
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <com.mikhaellopez.gradientview.GradientView
+                                android:id="@+id/gradientview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <EditText
+                                    android:id="@+id/quote"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/transparent"
+                                    android:hint="@string/quote"
+                                    android:padding="5dp"
+                                    android:textAlignment="center"
+                                    android:textSize="24sp"
+                                    android:typeface="normal" />
+
+                                <EditText
+                                    android:id="@+id/author"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/transparent"
+                                    android:hint="@string/author"
+                                    android:padding="5dp"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/grey_500"
+                                    android:textSize="20sp"
+                                    android:typeface="normal" />
+                            </LinearLayout>
+                        </RelativeLayout>
                         <LinearLayout
                             android:id="@+id/background"
                             android:layout_width="match_parent"
@@ -135,29 +182,6 @@
                             android:orientation="vertical"
                             android:padding="25dp">
 
-                            <EditText
-                                android:id="@+id/quote"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:hint="@string/quote"
-                                android:padding="5dp"
-                                android:textAlignment="center"
-                                android:textSize="24sp"
-                                android:typeface="normal" />
-
-                            <EditText
-                                android:id="@+id/author"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/transparent"
-                                android:hint="@string/author"
-                                android:padding="5dp"
-                                android:textAlignment="textEnd"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/grey_500"
-                                android:textSize="20sp"
-                                android:typeface="normal" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -188,6 +212,7 @@
 
                         </LinearLayout>
 
+
                     </androidx.cardview.widget.CardView>
 
 
@@ -200,17 +225,6 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_alignParentBottom="true"
-            android:id="@+id/salvar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/ripple_button"
-            android:text="Publicar"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
     </RelativeLayout>
 </layout>
 

@@ -32,27 +32,42 @@
 
                     <LinearLayout
                         app:layout_collapseMode="parallax"
-                        android:padding="10dp"
+                        android:padding="15dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <de.hdodenhof.circleimageview.CircleImageView
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/photoshimmer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fitsSystemWindows="true"
-                            android:id="@+id/profilepic"
-                            android:src="@drawable/ic_undraw_new_ideas_jdea"
-                            app:civ_border_color="@color/colorAccent"
-                            app:civ_border_width="3dp"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:contentDescription="Profile picture" />
+                            app:shimmer_auto_start="true"
+                            app:shimmer_base_color="?android:textColorHint"
+                            app:shimmer_colored="true"
+                            app:shimmer_direction="left_to_right"
+                            app:shimmer_highlight_color="@color/colorPrimaryDark"
+                            app:shimmer_repeat_mode="reverse"
+                            app:shimmer_shape="radial">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/profilepic"
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:contentDescription="Profile picture"
+                                android:fitsSystemWindows="true"
+                                android:src="@drawable/ic_undraw_new_ideas_jdea"
+                                app:civ_border_color="@color/colorAccent"
+                                app:civ_border_width="3dp" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
 
                         <TextView
+                            android:padding="4dp"
                             android:textAlignment="center"
                             style="@style/TextAppearance.AppCompat.Title"
                             android:id="@+id/username"
                             android:layout_gravity="center"
-                            android:text="@string/app_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -62,17 +77,29 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin">
-                        <com.google.android.material.tabs.TabLayout
-                            app:tabTextColor="?android:textColorHint"
-                            app:tabSelectedTextColor="@color/colorPrimary"
-                            app:tabIndicatorFullWidth="false"
-                            app:tabMode="auto"
-                            android:id="@+id/usertabs"
-                            android:layout_width="match_parent"
+                        app:layout_collapseMode="pin" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/usertabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        app:tabGravity="start"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/colorPrimary"
+                        app:tabTextColor="?android:textColorHint">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            />
-                    </androidx.appcompat.widget.Toolbar>
+                            android:text="Posts" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Favoritos" />
+                    </com.google.android.material.tabs.TabLayout>
 
 
 
