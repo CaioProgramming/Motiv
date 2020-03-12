@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.*
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Color.WHITE
 import android.graphics.drawable.Drawable
@@ -141,9 +142,6 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             Report(quote)
         }
         myDialog.show()
-        val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
-        blur?.visibility = View.VISIBLE
-        blur?.startAnimation(`in`)
 
 
     }
@@ -151,13 +149,13 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
     fun snackmessage(backcolor: Int?, message: String) {
 
-        var snackbar = Snackbar.make(
+        val snackbar = Snackbar.make(
                 activity.findViewById(android.R.id.content),
                 message,
                 Snackbar.LENGTH_LONG
         )
         snackbar.config(activity)
-        if (backcolor != null) snackbar.setBackgroundTint(activity.resources.getColor(backcolor))
+        if (backcolor != null) snackbar.setBackgroundTintList(ColorStateList.valueOf(activity.resources.getColor(backcolor)))
         snackbar.show()
         /*
         if (backcolor != null) {
