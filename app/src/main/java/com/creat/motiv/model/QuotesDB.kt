@@ -19,6 +19,10 @@ import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils.ERROR
+import com.creat.motiv.utils.ColorUtils.INFO
+import com.creat.motiv.utils.ColorUtils.SUCCESS
+import com.creat.motiv.utils.ColorUtils.WARNING
 import com.creat.motiv.utils.Tools
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -390,14 +394,14 @@ class QuotesDB : ValueEventListener {
 
         if (quotes!!.quote!!.isEmpty()) {
             flashbar.dismiss()
-            Alert.builder(activity!!).snackmessage(R.drawable.ic_error,Tools.emptyquote())
+            alert.snackmessage(ERROR, Tools.emptyquote())
             return
         } else {
             quotesdb.push().setValue(this.quotes).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Alert.builder(activity!!).snackmessage(R.drawable.ic_success, "Sua frase foi compartilhada!")
+                    alert.snackmessage(SUCCESS, "Sua frase foi compartilhada!")
                 } else {
-                    Alert.builder(activity!!).snackmessage(R.drawable.ic_error, "Erro ao publicar! \n" + task.exception!!.message)
+                    alert.snackmessage(ERROR, "Erro ao publicar! \n" + task.exception!!.message)
 
                 }
                 flashbar.dismiss()
@@ -409,7 +413,7 @@ class QuotesDB : ValueEventListener {
     fun editar() {
         val user = FirebaseAuth.getInstance().currentUser
         if (quotes!!.quote!!.isEmpty()) {
-            Alert.builder(activity!!).snackmessage(null,Tools.emptyquote())
+            Alert.builder(activity!!).snackmessage(WARNING, Tools.emptyquote())
 
         } else {
             val progressDialog = ProgressDialog(activity)
@@ -436,7 +440,7 @@ class QuotesDB : ValueEventListener {
                     timer.start()
 
                 } else {
-                    Alert.builder(activity!!).snackmessage(null,"Erro ${task.exception!!.message} "  )
+                    Alert.builder(activity!!).snackmessage(ERROR, "Erro ${task.exception!!.message} ")
                 }
             }
         }
@@ -450,9 +454,9 @@ class QuotesDB : ValueEventListener {
 
 
             if (task.isSuccessful) {
-                a.snackmessage( R.drawable.ic_success,"Frase denunciada com sucesso")
+                a.snackmessage(SUCCESS, "Frase denunciada com sucesso")
             } else {
-                a.snackmessage(R.drawable.ic_error,"Erro ao processar denuncia ${task.exception!!.message})")
+                a.snackmessage(ERROR, "Erro ao processar denuncia ${task.exception!!.message})")
             }
         }
 
@@ -462,17 +466,18 @@ class QuotesDB : ValueEventListener {
         val user = FirebaseAuth.getInstance().currentUser
         quotesdb = Tools.quotesreference
         if (this.quotes == null || user == null) {
-            Alert.builder(activity!!).snackmessage(R.drawable.ic_error,"Frase não encontrada")
+            Alert.builder(activity!!).snackmessage(ERROR, "Frase não encontrada")
 
             return
 
         }
         val likes = Likes(user.uid, user.displayName!!, user.photoUrl.toString())
         quotesdb.child(quotes!!.id!!).child("likes").child(user.uid).setValue(likes).addOnCompleteListener {
+            val alert = Alert(activity!!)
             if (it.isSuccessful) {
-                Alert.builder(activity!!).snackmessage(R.drawable.ic_heart,"Frase curtida com sucesso")
+                alert.likemessage("Frase curtida com sucesso")
             }else{
-                Alert.builder(activity!!).snackmessage(R.drawable.ic_error,"Erro ao curtir frase ${it.exception!!.localizedMessage}")
+                alert.snackmessage(ERROR, "Erro ao curtir frase ${it.exception!!.localizedMessage}")
 
             }
 
@@ -485,7 +490,7 @@ class QuotesDB : ValueEventListener {
         quotesdb = Tools.quotesreference
         if (this.quotes == null || user == null) {
 
-            Alert.builder(activity!!).snackmessage(null,"Frase não encontrada")
+            Alert.builder(activity!!).snackmessage(WARNING, "Frase não encontrada")
             return
 
         }
@@ -513,7 +518,7 @@ class QuotesDB : ValueEventListener {
 
                 FirebaseAuth.getInstance().signOut()
                 if (FirebaseAuth.getInstance().currentUser == null) {
-                    Alert.builder(activity!!).snackmessage(null,"Você saiu do aplicativo")
+                    Alert.builder(activity!!).snackmessage(INFO, "Você saiu do aplicativo")
                     val handler = Handler()
                     handler.postDelayed(object : Runnable {
                         override fun run() {
@@ -524,7 +529,7 @@ class QuotesDB : ValueEventListener {
 
                 }
             } else {
-                activity?.let { Alert.builder(it).snackmessage(null,"Erro ${Objects.requireNonNull<Exception>(task.exception).message}" ) }
+                activity?.let { Alert.builder(it).snackmessage(ERROR, "Erro ${Objects.requireNonNull<Exception>(task.exception).message}") }
             }
         }
 
@@ -541,7 +546,7 @@ class QuotesDB : ValueEventListener {
         assert(user != null)
         quotesdb.child("likes").child(user!!.uid).removeValue().addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                activity?.let { Alert.builder(it).snackmessage(R.drawable.ic_error,"Erro  ${task.exception!!.message}") }
+                activity?.let { Alert.builder(it).snackmessage(ERROR, "Erro  ${task.exception!!.message}") }
             }
         }
 

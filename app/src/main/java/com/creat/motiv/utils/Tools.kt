@@ -148,6 +148,8 @@ object Tools {
 
     val RC_SIGN_IN = 1
     val EDIT_QUOTE = 2
+
+
     fun convertDate(dia: String): Date {
 
 

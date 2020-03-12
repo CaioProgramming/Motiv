@@ -5,10 +5,11 @@
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/colorcard"
+        android:layout_margin="1dp"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_margin="2dp"
-        app:cardCornerRadius="15dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="5dp"
         app:cardElevation="0dp">
 
 

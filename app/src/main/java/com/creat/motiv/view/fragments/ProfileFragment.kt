@@ -14,6 +14,7 @@ import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.Pref
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -71,10 +72,10 @@ class ProfileFragment : Fragment() {
                         user.phonenumber = u.phonenumber
                         profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
                     }else{
-                        activity?.let { Alert.builder(it).snackmessage(R.drawable.ic_error_outline_black_24dp,"Usuário não encontrado") }
+                        activity?.let { Alert.builder(it).snackmessage(ERROR, "Usuário não encontrado") }
                     }
                 } else {
-                    activity?.let { Alert.builder(it).snackmessage(null,"Usuário não encontrado") }
+                    activity?.let { Alert.builder(it).snackmessage(ERROR, "Usuário não encontrado") }
                 }
             }
 

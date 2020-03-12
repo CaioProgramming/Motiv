@@ -94,19 +94,20 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         u = dataSnapshot.getValue(User::class.java)!!
+                        Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
+                        holder.quotescardBinding.username.text = u.name
+                        holder.quotescardBinding.userpic.setOnClickListener { showuserprofile(u, holder) }
+                        holder.quotescardBinding.username.setOnClickListener { showuserprofile(u, holder) }
+                    } else {
+                        userDB.insertUser(u)
                     }
                 }
             })
 
-            Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
-            holder.quotescardBinding.username.text = u.name
-            holder.quotescardBinding.userpic.setOnClickListener { showuserprofile(u, holder) }
-            holder.quotescardBinding.username.setOnClickListener { showuserprofile(u, holder) }
 
 
         } else {
             holder.quotescardBinding.username.text = user.displayName
-
             Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
 
 

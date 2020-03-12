@@ -19,162 +19,123 @@
             android:text="Nova publicação"
             android:textColor="?android:textColorPrimary"
             android:textStyle="bold" />
-        <androidx.core.widget.NestedScrollView
+
+
+        <LinearLayout
             android:layout_below="@id/title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/colorlibrary"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/gradientlibrary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/colorlibrary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/gradientlibrary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <LinearLayout
+                    <ImageButton
+                        android:id="@+id/textcolorfab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:background="@drawable/round"
+                        android:backgroundTint="@color/transparent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_format_color_text_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="5dp"
+                        android:text="T"
+                        android:textSize="24sp" />
 
-                        <ImageButton
-                            android:id="@+id/textcolorfab"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/round"
-                            android:backgroundTint="@color/transparent"
-                            android:padding="10dp"
-                            android:src="@drawable/ic_format_color_text_black_24dp"
-                            />
+                    <ImageButton
+                        android:id="@+id/backcolorfab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_format_color_fill_white_24dp" />
 
-                        <TextView
-                            android:layout_margin="5dp"
-                            android:id="@+id/font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="5dp"
-                            android:text="T"
-                            android:textSize="24sp" />
-
-                        <ImageButton
-                            android:id="@+id/backcolorfab"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@color/transparent"
-                            android:padding="10dp"
-                            android:src="@drawable/ic_format_color_fill_white_24dp"
-                            />
-
-                    </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/quotedata"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/quotedata"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
+                        android:layout_gravity="start"
+                        android:gravity="center">
 
-                        <LinearLayout
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/userpic"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="5dp"
+                            android:src="@drawable/penguin" />
+
+                        <TextView
+                            android:id="@+id/username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:gravity="center">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/userpic"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:padding="5dp"
-                                android:src="@drawable/penguin" />
-
-                            <TextView
-                                android:id="@+id/username"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/username"
-                                android:textSize="14sp" />
+                            android:text="@string/username"
+                            android:textSize="14sp" />
 
 
-                            <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:src="@drawable/ic_flag_black_24dp"
-                                android:visibility="gone" />
-                        </LinearLayout>
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:src="@drawable/ic_flag_black_24dp"
+                            android:visibility="gone" />
                     </LinearLayout>
+                </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="0dp">
+                        android:layout_height="match_parent">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <com.mikhaellopez.gradientview.GradientView
-                                android:id="@+id/gradientview"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <EditText
-                                    android:id="@+id/quote"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="@color/transparent"
-                                    android:hint="@string/quote"
-                                    android:padding="5dp"
-                                    android:textAlignment="center"
-                                    android:textSize="24sp"
-                                    android:typeface="normal" />
-
-                                <EditText
-                                    android:id="@+id/author"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="@color/transparent"
-                                    android:hint="@string/author"
-                                    android:padding="5dp"
-                                    android:textAlignment="textEnd"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/grey_500"
-                                    android:textSize="20sp"
-                                    android:typeface="normal" />
-                            </LinearLayout>
-                        </RelativeLayout>
                         <LinearLayout
                             android:id="@+id/background"
                             android:layout_width="match_parent"
@@ -212,18 +173,51 @@
 
                         </LinearLayout>
 
+                        <com.mikhaellopez.gradientview.GradientView
+                            android:id="@+id/gradientview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
-                    </androidx.cardview.widget.CardView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/quote"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/transparent"
+                                android:hint="@string/quote"
+                                android:padding="5dp"
+                                android:textAlignment="center"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
+
+                            <EditText
+                                android:id="@+id/author"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/transparent"
+                                android:hint="@string/author"
+                                android:padding="5dp"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/grey_500"
+                                android:textSize="20sp"
+                                android:typeface="normal" />
+                        </LinearLayout>
+                    </RelativeLayout>
 
 
+                </androidx.cardview.widget.CardView>
 
-
-                </LinearLayout>
 
             </LinearLayout>
 
+        </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+
 
     </RelativeLayout>
 </layout>

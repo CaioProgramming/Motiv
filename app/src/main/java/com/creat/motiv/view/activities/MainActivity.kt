@@ -1,7 +1,6 @@
 package com.creat.motiv.view.activities
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -9,12 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.MainAdapter
 import com.creat.motiv.databinding.ActivityMainBinding
-import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.Beans.Version
+import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
 import com.creat.motiv.utils.Tools
@@ -24,17 +24,13 @@ import com.creat.motiv.utils.Tools.uimode
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.iid.FirebaseInstanceId
+import com.mikhaellopez.rxanimation.fadeIn
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
 
-class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
-    internal lateinit var preferences: Pref
+open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectListener {
+    private lateinit var preferences: Pref
     protected lateinit var app: App
     internal lateinit var version: Version
     internal var a: Alert? = null
@@ -74,14 +70,29 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
         }
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
-        version()
         if(!uimode(this)){
             setLightStatusBar(this)
         }
         navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
         navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
         navigation.getTabAt(2)?.customView = profilepic
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
 
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                if (position == 2) toolbar.title = user!!.displayName
+                else toolbar.title = ""
+            }
+
+
+            override fun onPageSelected(position: Int) {
+                if (position == 2) toolbar.title = user!!.displayName
+                else toolbar.title = ""
+            }
+
+        })
+        toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
 
 
 
@@ -95,29 +106,8 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
 
 
         if (user != null) {
-            val userreference = FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid)
-            userreference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (!dataSnapshot.exists()) {
-                        val u = User()
-                        u.name = user!!.displayName!!
-                        u.email = user!!.email!!
-                        u.picurl = user!!.photoUrl.toString()
-                        u.phonenumber = user!!.phoneNumber!!
-                        u.uid = user!!.uid
-                        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
-                            u.token = instanceIdResult.token
-                            userreference.setValue(u)
-                        }
-
-
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-
-                }
-            })
+            val userdb = UserDB()
+            userdb.insertUser(user!!)
         } else {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
                     AuthUI.IdpConfig.FacebookBuilder().build(),
@@ -132,34 +122,6 @@ class MainActivity : AppCompatActivity(),AnimatedBottomBar.OnTabSelectListener{
         }
     }
 
-    private fun version() {
-        val manager = this.packageManager
-        val info = manager.getPackageInfo(this.packageName, PackageManager.GET_ACTIVITIES)
-        val versionName = info.versionName
-        version = Version()
-
-
-        val versioncheck = FirebaseDatabase.getInstance().reference.child("version")
-
-        versioncheck.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (d in dataSnapshot.children) {
-                    if (d != null) {
-                        version.version = Objects.requireNonNull<Any>(d.value).toString()
-                    }
-                }
-                if (version.version != versionName) {
-                    Alert.builder(this@MainActivity).version()
-                }
-
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)

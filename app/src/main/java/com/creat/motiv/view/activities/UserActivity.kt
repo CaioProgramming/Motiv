@@ -1,7 +1,6 @@
 package com.creat.motiv.view.activities
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,10 +10,10 @@ import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils.ERROR
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class UserActivity : AppCompatActivity() {
@@ -61,7 +60,7 @@ class UserActivity : AppCompatActivity() {
 
 
                     } else {
-                        Alert.builder(this@UserActivity).snackmessage(null,"Usuário não encontrado")
+                        Alert.builder(this@UserActivity).snackmessage(ERROR, "Usuário não encontrado")
                         finish()
                     }
                 }

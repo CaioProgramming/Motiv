@@ -61,9 +61,9 @@ class NewQuoteFragment: Fragment() {
 
 
     private fun showup(popupbind: NewquotepopupBinding) {
-        val user = FirebaseAuth.getInstance().currentUser
+        user = FirebaseAuth.getInstance().currentUser
         popupbind.username.text = user!!.displayName
-        Glide.with(this).load(user.photoUrl).into( popupbind.userpic)
+        Glide.with(this).load(user!!.photoUrl).into(popupbind.userpic)
         try {
             colorgallery(popupbind)
             gradientgallery()
@@ -158,14 +158,11 @@ class NewQuoteFragment: Fragment() {
 
     private fun gradientgallery() {
         val gradientList: ArrayList<Gradient> = ArrayList()
-        gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
-        gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
-        gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
-        gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
-        gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
-        gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
+        for (i in 0..25) {
+            gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
+        }
         popupbind!!.gradientlibrary.adapter = RecyclerGradientAdapter(gradientList, activity!!, popupbind!!.gradientview)
-        popupbind!!.gradientlibrary.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, true)
+        popupbind!!.gradientlibrary.layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
 
 
     }
