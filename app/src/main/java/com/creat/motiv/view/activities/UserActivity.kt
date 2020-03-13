@@ -25,7 +25,7 @@ class UserActivity : AppCompatActivity() {
         setContentView(fragmentbind.root)
 
         uid = intent.getStringExtra("uid")
-
+        setupdata(fragmentbind)
         //initView(fragmentbind)
 
     }
@@ -58,7 +58,6 @@ class UserActivity : AppCompatActivity() {
                             val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
                         }
 
-
                     } else {
                         Alert.builder(this@UserActivity).snackmessage(ERROR, "Usuário não encontrado")
                         finish()
@@ -66,6 +65,9 @@ class UserActivity : AppCompatActivity() {
                 }
             })
         }
+        setSupportActionBar(profileBinding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
     }
 
 

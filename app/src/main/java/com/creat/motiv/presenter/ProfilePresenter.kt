@@ -22,7 +22,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             alert.Picalert(this)
         }
         user.picurl?.let { loaduserpic(it) }
-        user.name?.let { profileFragment.collapsetoolbar.title = it }
+        user.name?.let { profileFragment.username.text = it }
         user.uid?.let {
             profileFragment.quotespager.adapter = QuotePagerAdapter(this, user.uid!!)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)

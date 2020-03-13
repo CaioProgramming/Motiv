@@ -230,26 +230,19 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
                         liketext.append("<b>").append(username).append("</b>").append(" e <b>outras pessoas</b>")
                     } else {
                         liketext.append("<b>").append(username).append("</b>")
-
                     }
                     holder.quotescardBinding.likecount.text = Html.fromHtml(liketext.toString())
-
                     holder.quotescardBinding.likecount.setOnClickListener {
                         val alert = Alert(activity)
                         alert.Likelist(likesArrayList)
                     }
-
-
                 }
-
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
 
             }
         })
     }
-
 
     override fun getItemCount(): Int {
         return mData?.size ?: 0

@@ -9,13 +9,29 @@
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="true">
 
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="auto"
+            app:tabTextColor="?android:textColorHint" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/navigation"
+            android:layout_below="@id/toolbar" />
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:elevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:animateLayoutChanges="true"
-             app:titleTextColor="@color/colorPrimary"
+            app:titleTextColor="@color/colorPrimary"
             >
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -30,21 +46,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <com.google.android.material.tabs.TabLayout
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="auto"
-            app:tabTextColor="?android:textColorHint"
-            android:id="@+id/navigation"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:layout_below="@id/toolbar"
-            android:layout_above="@id/navigation"
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <com.github.mmin18.widget.RealtimeBlurView
             android:id="@+id/rootblur"

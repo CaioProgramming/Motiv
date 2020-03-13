@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.MainAdapter
@@ -76,7 +75,7 @@ open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectList
         navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
         navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
         navigation.getTabAt(2)?.customView = profilepic
-        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        /*pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -91,7 +90,7 @@ open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectList
                 else toolbar.title = ""
             }
 
-        })
+        })*/
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
 
 

@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.mikhaellopez.rxanimation.fadeIn
 import de.hdodenhof.circleimageview.CircleImageView
 
 class UserDB: ValueEventListener {
@@ -192,7 +193,6 @@ class UserDB: ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     quotesArrayList.add(quotes)
-
                                     print("Loaded ${quotesArrayList.size} favtorite quotes")
                                     quotesArrayList.reverse()
                                     recyclerView.visibility = VISIBLE
@@ -202,7 +202,7 @@ class UserDB: ValueEventListener {
                                     val myadapter = RecyclerAdapter(quotesArrayList, profilePresenter!!.activity)
                                     recyclerView.adapter = myadapter
                                     recyclerView.layoutManager = llm
-                                    profilePresenter?.profileFragment?.usertabs?.getTabAt(1)?.text = "${quotesArrayList.size} \n Favoritos"
+                                    profilePresenter?.counttab(quotesArrayList.size, profilePresenter!!.profileFragment.usertabs.getTabAt(1)!!, "\n Favoritos")
                                 }
                             }
 
@@ -211,6 +211,9 @@ class UserDB: ValueEventListener {
                     }
 
                 }
+                if (quotesArrayList.size == 0)
+                    notfound.text = "Nenhuma frase favorita encontrada..."
+                notfound.fadeIn()
 
             }
         })
@@ -254,7 +257,7 @@ class UserDB: ValueEventListener {
             recyclerView?.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
             recyclerView?.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
             recyclerView?.let { Tools.fadeIn(it,900).subscribe() }
-            profilePresenter?.profileFragment?.usertabs?.getTabAt(0)?.text = "${quotesArrayList.size} \n Posts"
+            profilePresenter?.counttab(quotesArrayList.size, profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!, "\n Posts")
         }else{
             notfound?.let { Tools.fadeIn(it,500).ambWith(recyclerView?.let { it1 -> Tools.fadeOut(it1,500) }).subscribe() }
         } //To change body of created functions use File | Settings | File Templates.

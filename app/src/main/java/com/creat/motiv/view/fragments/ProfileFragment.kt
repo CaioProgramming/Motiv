@@ -70,6 +70,7 @@ class ProfileFragment : Fragment() {
                         user.token = u.token
                         user.uid = u.uid
                         user.phonenumber = u.phonenumber
+                        user = u
                         profilePresenter = ProfilePresenter(activity!!,fragmentbind!!,user)
                     }else{
                         activity?.let { Alert.builder(it).snackmessage(ERROR, "Usuário não encontrado") }

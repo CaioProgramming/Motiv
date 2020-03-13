@@ -28,15 +28,7 @@
                     app:titleEnabled="false"
                     app:contentScrim="?android:colorBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
-
-                    <LinearLayout
-                        app:layout_collapseMode="parallax"
-                        android:padding="15dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
+                    android:layout_height="wrap_content">
                         <com.facebook.shimmer.ShimmerFrameLayout
                             android:id="@+id/photoshimmer"
                             android:layout_width="wrap_content"
@@ -49,7 +41,6 @@
                             app:shimmer_highlight_color="@color/colorPrimaryDark"
                             app:shimmer_repeat_mode="reverse"
                             app:shimmer_shape="radial">
-
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/profilepic"
                                 android:layout_width="150dp"
@@ -61,51 +52,42 @@
                                 app:civ_border_width="3dp" />
 
                         </com.facebook.shimmer.ShimmerFrameLayout>
-
-                        <TextView
-                            android:padding="4dp"
-                            android:textAlignment="center"
-                            style="@style/TextAppearance.AppCompat.Title"
-                            android:id="@+id/username"
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
                     <androidx.appcompat.widget.Toolbar
-                        android:layout_gravity="bottom"
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
+                        android:layout_height="wrap_content"
                         app:layout_collapseMode="pin" />
+
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/username"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="4dp"
+                        android:textAlignment="center" />
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/usertabs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
                         app:tabGravity="start"
                         app:tabIndicatorFullWidth="false"
                         app:tabMode="scrollable"
                         app:tabSelectedTextColor="@color/colorPrimary"
-                        app:tabTextColor="?android:textColorHint">
+                        app:tabTextAppearance="@style/Tabstitle"
+                        app:tabTextColor="?android:textColorHint" />
 
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Posts" />
-
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Favoritos" />
-                    </com.google.android.material.tabs.TabLayout>
-
-
-
-
-
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
+                </LinearLayout>
 
 
 

@@ -156,6 +156,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         )
         snackbar.config(activity)
         if (backcolor != null) snackbar.setBackgroundTintList(ColorStateList.valueOf(activity.resources.getColor(backcolor)))
+        else snackbar.setBackgroundTintList(ColorStateList.valueOf(R.attr.itemTextColor))
         snackbar.show()
         /*
         if (backcolor != null) {
@@ -493,7 +494,6 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
         params.setMargins(12, 12, 12, 12)
         this.view.layoutParams = params
-
         this.view.background = context.getDrawable(R.drawable.snack_background)
         this.setTextColor(R.attr.backgroundColor)
         ViewCompat.setElevation(this.view, 6f)
