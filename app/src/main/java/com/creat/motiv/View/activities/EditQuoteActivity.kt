@@ -1,4 +1,4 @@
-package com.creat.motiv.view.fragments
+package com.creat.motiv.view.activities
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -6,67 +6,99 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewAnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.RecyclerColorAdapter
-import com.creat.motiv.adapters.RecyclerGradientAdapter
 import com.creat.motiv.databinding.NewquotepopupBinding
-import com.creat.motiv.model.Beans.Gradient
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
+import kotlinx.android.synthetic.main.newquotepopup.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
+class EditQuoteActivity : AppCompatActivity() {
 
-class NewQuoteFragment: Fragment() {
-    private var popupbind:NewquotepopupBinding? = null
-    var user:FirebaseUser? = null
+    private var popupbind: NewquotepopupBinding? = null
+    var user: FirebaseUser? = null
     private var f: Int = 0
     private var isfirst = true
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        popupbind = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.newquotepopup,null,false)
-        setHasOptionsMenu(true)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        popupbind = DataBindingUtil.setContentView(this, R.layout.newquotepopup)
+        setContentView(popupbind!!.root)
         showup(popupbind!!)
-        return popupbind?.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.newquotemenu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.newquotemenu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-
-
-
         if (id == R.id.salvar) {
             salvar(createQuote(popupbind!!))
         }
         return super.onOptionsItemSelected(item)
     }
 
+    private fun loadQuote() {
 
-    private fun showup(popupbind: NewquotepopupBinding) {
-        user = FirebaseAuth.getInstance().currentUser
+        val quotes = intent.getSerializableExtra("Quote") as? Quotes
+        //quoteID.setText(quotes.getId());
+        if (quotes != null) {
+            quote.setText(quotes.quote)
+            author!!.setText(quotes.author)
+            username.text = quotes.username
+            background!!.setBackgroundColor(quotes.backgroundcolor!!)
+
+            quote.setTextColor(quotes.textcolor!!)
+            if (quotes.font != null) {
+                quote.typeface = Tools.fonts(this)[quotes.font!!]
+                quote.typeface = Tools.fonts(this)[quotes.font!!]
+                font.typeface = Tools.fonts(this)[quotes.font!!]
+                f = quotes.font!!
+            } else {
+                quote.typeface = Typeface.DEFAULT
+                author.typeface = Typeface.DEFAULT
+
+            }
+            author.setTextColor(quotes.textcolor!!)
+            texcolorid!!.text = quotes.textcolor.toString()
+            backcolorid!!.text = quotes.backgroundcolor.toString()
+            backcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
+            textcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
+
+            fontid!!.text = quotes.font.toString()
+        }
+        Glide.with(this).load(user!!.photoUrl).error(R.drawable.notfound).into(userpic)
+
+    }
+
+
+    fun showup(popupbind: NewquotepopupBinding) {
+        val user = FirebaseAuth.getInstance().currentUser
         popupbind.username.text = user!!.displayName
-        Glide.with(this).load(user!!.photoUrl).into(popupbind.userpic)
+        Glide.with(this).load(user.photoUrl).into(popupbind.userpic)
         try {
             colorgallery(popupbind)
-            gradientgallery()
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
         } catch (e: IllegalAccessException) {
@@ -80,7 +112,7 @@ class NewQuoteFragment: Fragment() {
             if (!isfirst) {
                 f++
             }
-            val fonts = Tools.fonts(activity!!)
+            val fonts = Tools.fonts(this)
 
             if (f == fonts.size) {
                 f = 0
@@ -91,10 +123,13 @@ class NewQuoteFragment: Fragment() {
             isfirst = false
         }
 
+        popupbind.title.text = "Editar"
+        loadQuote()
 
     }
+
     private fun backColorpicker(editbind: NewquotepopupBinding) {
-        val cp = ColorPicker(activity)
+        val cp = ColorPicker(this)
         cp.show()
         cp.enableAutoClose()
         cp.setCallback { color ->
@@ -111,8 +146,9 @@ class NewQuoteFragment: Fragment() {
             editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
         }
     }
+
     private fun textocolorpicker(editbind: NewquotepopupBinding) {
-        val cp = ColorPicker(activity)
+        val cp = ColorPicker(this)
         cp.show()
         cp.enableAutoClose()
         cp.setCallback { color ->
@@ -129,14 +165,15 @@ class NewQuoteFragment: Fragment() {
             editbind.texcolorid.text = color.toString()
         }
     }
+
     @Throws(ClassNotFoundException::class, IllegalAccessException::class)
     private fun colorgallery(editbind: NewquotepopupBinding) {
         val colors = ArrayList<Int>()
-        val fields = Class.forName(Objects.requireNonNull<Activity>(activity).packageName + ".R\$color").declaredFields
+        val fields = Class.forName(Objects.requireNonNull<Activity>(this).packageName + ".R\$color").declaredFields
         for (field in fields) {
             val colorName = field.name
             val colorId = field.getInt(null)
-            val color = activity!!.resources.getColor(colorId)
+            val color = resources.getColor(colorId)
             println("color $colorName $color")
             colors.add(color)
         }
@@ -144,8 +181,8 @@ class NewQuoteFragment: Fragment() {
         println("Load " + colors.size + " colors")
         colors.reverse()
         editbind.colorlibrary.setHasFixedSize(true)
-        val llm = GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false)
-        val recyclerColorAdapter = RecyclerColorAdapter(colors, activity!!,
+        val llm = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
+        val recyclerColorAdapter = RecyclerColorAdapter(colors, this,
                 editbind.background, editbind.quote, editbind.author,
                 editbind.texcolorid, editbind.backcolorid,
                 editbind.textcolorfab, editbind.backcolorfab)
@@ -156,17 +193,6 @@ class NewQuoteFragment: Fragment() {
 
     }
 
-    private fun gradientgallery() {
-        val gradientList: ArrayList<Gradient> = ArrayList()
-        for (i in 0..25) {
-            gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
-        }
-        popupbind!!.gradientlibrary.adapter = RecyclerGradientAdapter(gradientList, activity!!, popupbind!!.gradientview)
-        popupbind!!.gradientlibrary.layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
-
-
-    }
-
     private fun actualday(): String {
         val datenow = Calendar.getInstance().time
         @SuppressLint("SimpleDateFormat") val df = SimpleDateFormat("dd/MM/yyyy")
@@ -174,23 +200,24 @@ class NewQuoteFragment: Fragment() {
         println(dia)
         return dia
     }
+
     private fun salvar(quote: Quotes) {
         if (user?.isEmailVerified!!) {
-            val quotesDB = QuotesDB(activity!!, quote)
+            val quotesDB = QuotesDB(this, quote)
             quotesDB.inserir()
         } else {
-            Alert.builder(activity!!).mailmessage()
+            Alert.builder(this).mailmessage()
         }
     }
 
-    private fun createQuote(popupbind: NewquotepopupBinding):Quotes{
+    private fun createQuote(popupbind: NewquotepopupBinding): Quotes {
         if (popupbind.texcolorid.text.isEmpty()) {
             popupbind.texcolorid.text = Color.BLACK.toString()
         }
         if (popupbind.backcolorid.text.isEmpty()) {
             popupbind.backcolorid.text = Color.WHITE.toString()
         }
-        if( popupbind.author.text.isBlank()){
+        if (popupbind.author.text.isBlank()) {
             popupbind.author.setText(user!!.displayName)
 
         }
@@ -199,9 +226,8 @@ class NewQuoteFragment: Fragment() {
                 popupbind.author.text.toString(),
                 actualday(),
                 user!!.uid, user!!.displayName!!, user!!.photoUrl.toString(),
-                popupbind.backcolorid.text.toString().toIntOrNull()?: 0,
-                popupbind.texcolorid.text.toString().toIntOrNull()?: 0,
+                popupbind.backcolorid.text.toString().toIntOrNull() ?: 0,
+                popupbind.texcolorid.text.toString().toIntOrNull() ?: 0,
                 false, f)
     }
-
 }

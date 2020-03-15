@@ -6,10 +6,8 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
-import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import androidx.core.view.ViewCompat
 import com.creat.motiv.R
 import com.creat.motiv.model.Beans.Artists
@@ -147,6 +145,10 @@ object Tools {
         q = x.nextInt(offlinefrases.size)
         return offlinefrases[q]
     }
+
+    val RC_SIGN_IN = 1
+    val EDIT_QUOTE = 2
+
 
     fun convertDate(dia: String): Date {
 

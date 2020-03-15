@@ -12,15 +12,40 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/navigation"
-            app:tabIndicatorFullWidth="false"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="auto"
+            app:tabTextColor="?android:textColorHint" />
+
         <androidx.viewpager.widget.ViewPager
-            android:layout_above="@id/navigation"
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@id/navigation"
+            android:layout_below="@id/toolbar" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:animateLayoutChanges="true"
+            app:titleTextColor="@color/colorPrimary"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="45dp"
+                android:layout_height="48dp"
+                android:layout_gravity="left"
+                android:layout_margin="1dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="5dp"
+                android:src="@drawable/penguin" />
+
+        </androidx.appcompat.widget.Toolbar>
+
 
         <com.github.mmin18.widget.RealtimeBlurView
             android:id="@+id/rootblur"

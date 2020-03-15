@@ -15,18 +15,18 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.creat.motiv.R
+import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.model.UserDB
-import com.creat.motiv.R
-import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.fadeIn
-import com.creat.motiv.View.activities.UserActivity
+import com.creat.motiv.view.activities.UserActivity
 import com.devs.readmoreoption.ReadMoreOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -94,19 +94,23 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         u = dataSnapshot.getValue(User::class.java)!!
+                        Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
+                        holder.quotescardBinding.username.text = u.name
+                        holder.quotescardBinding.userpic.setOnClickListener { showuserprofile(u, holder) }
+                        holder.quotescardBinding.username.setOnClickListener { showuserprofile(u, holder) }
+                    } else {
+                        userDB.insertUser(u)
                     }
                 }
             })
 
-            Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
-            holder.quotescardBinding.username.text = u.name
-            holder.quotescardBinding.userpic.setOnClickListener { showuserprofile(u, holder) }
-            holder.quotescardBinding.username.setOnClickListener { showuserprofile(u, holder) }
 
 
         } else {
             holder.quotescardBinding.username.text = user.displayName
             Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
+
+
         }
 
         if (mData[position].backgroundcolor != 0) {
@@ -226,33 +230,24 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
                         liketext.append("<b>").append(username).append("</b>").append(" e <b>outras pessoas</b>")
                     } else {
                         liketext.append("<b>").append(username).append("</b>")
-
                     }
                     holder.quotescardBinding.likecount.text = Html.fromHtml(liketext.toString())
-
                     holder.quotescardBinding.likecount.setOnClickListener {
                         val alert = Alert(activity)
                         alert.Likelist(likesArrayList)
                     }
-
-
                 }
-
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
 
             }
         })
     }
 
-
     override fun getItemCount(): Int {
         return mData?.size ?: 0
     }
 
 
-    class MyViewHolder(val quotescardBinding: QuotescardBinding) : RecyclerView.ViewHolder(quotescardBinding.root) {
-
-    }
+    class MyViewHolder(val quotescardBinding: QuotescardBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
 }

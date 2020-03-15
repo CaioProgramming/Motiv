@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.*
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Color.WHITE
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.CountDownTimer
@@ -12,8 +14,12 @@ import android.os.Handler
 import android.text.Html
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,22 +27,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrognito.flashbar.Flashbar
 import com.andrognito.flashbar.anim.FlashAnim
 import com.bumptech.glide.Glide
+import com.creat.motiv.R
+import com.creat.motiv.adapters.LikeAdapter
+import com.creat.motiv.adapters.RecyclerPicAdapter
+import com.creat.motiv.adapters.RecyclerReferencesAdapter
+import com.creat.motiv.databinding.DeleteAllDialogBinding
+import com.creat.motiv.databinding.MessageDialogBinding
 import com.creat.motiv.model.Beans.Developers
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Pics
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.model.UserDB
-import com.creat.motiv.R
-import com.creat.motiv.utils.Tools.searcharg
-import com.creat.motiv.View.activities.Splash
-import com.creat.motiv.adapters.LikeAdapter
-import com.creat.motiv.adapters.RecyclerPicAdapter
-import com.creat.motiv.adapters.RecyclerReferencesAdapter
-import com.creat.motiv.databinding.CustomSnackBinding
-import com.creat.motiv.databinding.DeleteAllDialogBinding
-import com.creat.motiv.databinding.MessageDialogBinding
 import com.creat.motiv.presenter.ProfilePresenter
+import com.creat.motiv.utils.ColorUtils.ERROR
+import com.creat.motiv.utils.ColorUtils.WARNING
+import com.creat.motiv.utils.Tools.searcharg
+import com.creat.motiv.view.activities.EditQuoteActivity
+import com.creat.motiv.view.activities.Splash
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -44,32 +52,27 @@ import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.pd.chocobar.ChocoBar
 import java.util.*
 import kotlin.collections.ArrayList
 
 class Alert(private val activity: Activity) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
-    var error: Drawable? = null
-    var success: Drawable? = null
+
     private val blur: RealtimeBlurView? = activity.findViewById(R.id.rootblur)
     private val styles = arrayOf(R.style.Dialog_No_Border,R.style.Bottom_Dialog_No_Border)
 
 
     companion object{
         fun builder(activity: Activity): Alert{
-
             return Alert(activity)
         }
+
     }
 
 
 
-    init {
-        this.error = activity.getDrawable(R.drawable.ic_error)
-        this.success = activity.getDrawable(R.drawable.ic_success)
-    }
 
     fun quoteoptions(isfromuser: Boolean, quote: Quotes) {
         val myDialog = BottomSheetDialog(activity, styles[1])
@@ -107,8 +110,9 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
         edit?.setOnClickListener {
             myDialog.dismiss()
-            val newQuotepopup = NewQuotepopup(activity)
-            newQuotepopup.showedit(quote)
+            val i = Intent(activity, EditQuoteActivity::class.java)
+            i.putExtra("Quote", quote)
+            activity.startActivity(i)
         }
 
         share?.setOnClickListener {
@@ -127,7 +131,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                 if (task.isSuccessful) {
                     snackmessage(null,"Frase removida")
                 } else {
-                    snackmessage(null,"Erro ao remover ${task.exception?.localizedMessage}")
+                    snackmessage(ERROR, "Erro ao remover ${task.exception?.localizedMessage}")
 
                 }
             }
@@ -138,45 +142,75 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             Report(quote)
         }
         myDialog.show()
-        val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
-        blur?.visibility = View.VISIBLE
-        blur?.startAnimation(`in`)
 
 
     }
 
 
-    fun snackmessage(icon: Int?, message: String){
+    fun snackmessage(backcolor: Int?, message: String) {
 
-        ChocoBar.builder()
-                .setText(message)
-                .setMaxLines(4)
-                .centerText()
-                .setIcon(icon?.let { activity.getDrawable(it) })
-                .setActivity(activity)
-                .setDuration(ChocoBar.LENGTH_LONG)
-                .build()
-                .show()
-
-       /* if (color == 0)  {
-            snackbar.setBackgroundTint(Tools.inversebackcolor(activity))
-        }else{
-            snackbar.setTextColor(Tools.inversetextcolor(activity))
-        }
+        val snackbar = Snackbar.make(
+                activity.findViewById(android.R.id.content),
+                message,
+                Snackbar.LENGTH_LONG
+        )
         snackbar.config(activity)
-        snackbar.show()*/
+        if (backcolor != null) snackbar.setBackgroundTintList(ColorStateList.valueOf(activity.resources.getColor(backcolor)))
+        else snackbar.setBackgroundTintList(ColorStateList.valueOf(R.attr.itemTextColor))
+        snackbar.show()
+        /*
+        if (backcolor != null) {
+            ChocoBar.builder()
+                    .setText(message)
+                    .setMaxLines(4)
+                    .setBackgroundColor(activity.resources.getColor(backcolor))
+                    .setActivity(activity)
+                    .setDuration(ChocoBar.LENGTH_LONG)
+                    .build()
+                    .show()
+        }else{
+            ChocoBar.builder()
+                    .setText(message)
+                    .setMaxLines(4)
+                    .setActivity(activity)
+                    .setDuration(ChocoBar.LENGTH_LONG)
+                    .build()
+                    .show()
+        }*/
+
+        /* if (color == 0)  {
+             snackbar.setBackgroundTint(Tools.inversebackcolor(activity))
+         }else{
+             snackbar.setTextColor(Tools.inversetextcolor(activity))
+         }
+         snackbar.config(activity)
+         snackbar.show()*/
 
 
-       /* var flashbar = Flashbar.Builder(activity)
-                .gravity(Flashbar.Gravity.BOTTOM)
-                .message(message)
-                .duration(Flashbar.DURATION_LONG)
-                .backgroundColor(Tools.inversebackcolor(activity))
-                .messageColor(Tools.inversetextcolor(activity))
-                .messageTypeface(Typeface.DEFAULT_BOLD)
-                .icon(icon)
-                .build()
-        flashbar.show()*/
+        /* var flashbar = Flashbar.Builder(activity)
+                 .gravity(Flashbar.Gravity.BOTTOM)
+                 .message(message)
+                 .duration(Flashbar.DURATION_LONG)
+                 .backgroundColor(Tools.inversebackcolor(activity))
+                 .messageColor(Tools.inversetextcolor(activity))
+                 .messageTypeface(Typeface.DEFAULT_BOLD)
+                 .icon(icon)
+                 .build()
+         flashbar.show()*/
+    }
+
+    fun likemessage(message: String) {
+
+        var snackbar = Snackbar.make(
+                activity.findViewById(android.R.id.content),
+                message,
+                Snackbar.LENGTH_LONG
+        )
+        snackbar.config(activity)
+        snackbar.setBackgroundTint(WHITE)
+        snackbar.setTextColor(activity.resources.getColor(R.color.red_500))
+        snackbar.show()
+
     }
 
 
@@ -284,32 +318,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
     fun nopicture(profilepresenter: ProfilePresenter?) {
-        Flashbar.Builder(activity)
-                .gravity(Flashbar.Gravity.TOP)
-                .title("Atenção")
-                .message("Você está sem foto de perfil, gostaria de atualizá-la?")
-                .primaryActionText("Alterar foto de perfil")
-                .icon(error!!)
-                .primaryActionTapListener(object : Flashbar.OnActionTapListener {
-                    override fun onActionTapped(bar: Flashbar) {
-                        bar.dismiss()
-                        if (profilepresenter != null){
-                            Picalert(profilepresenter)
-                        }
-                    }
-                })
-                .enterAnimation(FlashAnim.with(activity)
-                        .animateBar()
-                        .duration(750)
-                        .alpha()
-                        .overshoot())
-                .exitAnimation(FlashAnim.with(activity)
-                        .animateBar()
-                        .duration(400)
-                        .accelerateDecelerate())
-                .build().show()
-
-
+        snackmessage(WARNING, "Você está sem foto de perfil...")
 
     }
 
@@ -481,17 +490,14 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
     }
 
-/*
     fun Snackbar.config(context: Context){
         val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
         params.setMargins(12, 12, 12, 12)
         this.view.layoutParams = params
-
-        this.view.background = context.getDrawable(R.drawable.rounds)
-
+        this.view.background = context.getDrawable(R.drawable.snack_background)
+        this.setTextColor(R.attr.backgroundColor)
         ViewCompat.setElevation(this.view, 6f)
     }
-*/
 
 
     fun changename(profilePresenter: ProfilePresenter?) {
@@ -651,7 +657,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             }
 
             override fun onRewardedVideoAdFailedToLoad(i: Int) {
-                message(error, "Ocorreu um erro carregando o vídeo \uD83D\uDE22 ")
+                snackmessage(ERROR, "Ocorreu um erro carregando o vídeo \uD83D\uDE22 ")
             }
 
             override fun onRewardedVideoCompleted() {

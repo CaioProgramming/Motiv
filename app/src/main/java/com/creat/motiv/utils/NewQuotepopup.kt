@@ -7,22 +7,20 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
-import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.R
 import com.creat.motiv.adapters.RecyclerColorAdapter
 import com.creat.motiv.databinding.NewquotepopupBinding
+import com.creat.motiv.model.Beans.Quotes
+import com.creat.motiv.model.QuotesDB
 import com.github.mmin18.widget.RealtimeBlurView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
@@ -51,35 +49,11 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
             e.printStackTrace()
         }
 
-        newquotebind.backcolorfab!!.setOnClickListener { backColorpicker(newquotebind) }
+        newquotebind.backcolorfab.setOnClickListener { backColorpicker(newquotebind) }
 
-        newquotebind.textcolorfab!!.setOnClickListener { textocolorpicker(newquotebind) }
+        newquotebind.textcolorfab.setOnClickListener { textocolorpicker(newquotebind) }
 
-        newquotebind.salvar!!.setOnClickListener {
-
-            if (newquotebind.texcolorid!!.text === "") {
-                newquotebind.texcolorid!!.text = Color.BLACK.toString()
-            }
-            if (newquotebind.backcolorid!!.text === "") {
-                newquotebind.backcolorid!!.text = Color.WHITE.toString()
-            }
-            if(newquotebind.author.text.isBlank()){
-                newquotebind.author.setText(user.displayName)
-
-            }
-
-
-            val quote = Quotes("",
-                    newquotebind.quote!!.text.toString(),
-                    newquotebind.author!!.text.toString(),
-                    actualday(),
-                    user.uid, user.displayName!!, user.photoUrl.toString(),
-                    newquotebind.backcolorid!!.text.toString().toIntOrNull()?: 0,
-                     newquotebind.texcolorid!!.text.toString().toIntOrNull()?: 0,
-                    false, f)
-            salvar(quote)
-         }
-        newquotebind.font!!.setOnClickListener {
+        newquotebind.font.setOnClickListener {
             if (!isfirst) {
                 f++
             }
@@ -89,8 +63,8 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
                 f = 0
             }
             newquotebind.font.typeface = fonts[f]
-            newquotebind.quote!!.typeface = fonts[f]
-            newquotebind.author!!.typeface = fonts[f]
+            newquotebind.quote.typeface = fonts[f]
+            newquotebind.author.typeface = fonts[f]
             isfirst = false
         }
         myDialog.show()
@@ -115,8 +89,8 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
 
         val myDialog = dialog(editbind)
 
-        editbind.username!!.text = user!!.displayName
-        Glide.with(activity).load(user.photoUrl).into(editbind.userpic!!)
+         editbind.username.text = user!!.displayName
+         Glide.with(activity).load(user.photoUrl).into(editbind.userpic)
 
         //theme();
         try {
@@ -127,28 +101,18 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
             e.printStackTrace()
         }
 
-        editbind.backcolorfab!!.setOnClickListener { backColorpicker(editbind) }
+         editbind.backcolorfab.setOnClickListener { backColorpicker(editbind) }
 
-        editbind.textcolorfab!!.setOnClickListener { textocolorpicker(editbind) }
+         editbind.textcolorfab.setOnClickListener { textocolorpicker(editbind) }
         loadQuote(editbind.username, editbind.userpic, quote,editbind)
 
 
 
 
         tutorial()
-        editbind.salvar!!.setOnClickListener {
-            val fontid = editbind.fontid.text.toString()
-            quote.quote = editbind.quote!!.text.toString()
-            quote.author = editbind.author!!.text.toString()
-            quote.font =  fontid.toIntOrNull()
-            quote.backgroundcolor = Integer.parseInt(editbind.backcolorid!!.text.toString())
-            quote.textcolor = Integer.parseInt(editbind.texcolorid!!.text.toString())
-            atualizar(quote)
-            myDialog.dismiss()
-        }
 
 
-        editbind.font!!.setOnClickListener {
+         editbind.font.setOnClickListener {
             if (!isfirst) {
                 f++
             }
@@ -158,8 +122,8 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
                 f = 0
             }
             editbind.font.typeface = fonts[f]
-            editbind.quote!!.typeface = fonts[f]
-            editbind.author!!.typeface = fonts[f]
+             editbind.quote.typeface = fonts[f]
+             editbind.author.typeface = fonts[f]
             isfirst = false
         }
 
@@ -191,11 +155,10 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
 
     private fun loadQuote(username: TextView, userpic: CircleImageView, quotes: Quotes, editbind: NewquotepopupBinding) {
         //quoteID.setText(quotes.getId());
-        editbind.toolbar.title = "Editar publicação"
-       editbind.quote!!.setText(quotes.quote)
-        editbind.author!!.setText(quotes.author)
+        editbind.quote.setText(quotes.quote)
+        editbind.author.setText(quotes.author)
         username.text = quotes.username
-        editbind.background!!.setBackgroundColor(quotes.backgroundcolor!!)
+        editbind.background.setBackgroundColor(quotes.backgroundcolor!!)
 
         editbind.quote.setTextColor(quotes.textcolor!!)
         if (quotes.font != null) {
@@ -209,12 +172,12 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
 
         }
         editbind.author.setTextColor(quotes.textcolor!!)
-        editbind.texcolorid!!.text = quotes.textcolor.toString()
-        editbind.backcolorid!!.text = quotes.backgroundcolor.toString()
-        editbind.backcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
-        editbind.textcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
+        editbind.texcolorid.text = quotes.textcolor.toString()
+        editbind.backcolorid.text = quotes.backgroundcolor.toString()
+        editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
+        editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
 
-        editbind.fontid!!.text = quotes.font.toString()
+        editbind.fontid.text = quotes.font.toString()
         Glide.with(activity).load(quotes.userphoto).into(userpic)
 
     }
@@ -229,13 +192,13 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
             editbind.background.setBackgroundColor(color)
             val cx = editbind.background.right
             val cy = editbind.background.top
-            val radius = editbind.background!!.width.coerceAtLeast(editbind.background.height)
+            val radius = editbind.background.width.coerceAtLeast(editbind.background.height)
             val anim = ViewAnimationUtils.createCircularReveal(editbind.background, cx, cy,
                     0f, radius.toFloat())
             editbind.background.visibility = View.VISIBLE
             anim.start()
-            editbind.backcolorid!!.text = color.toString()
-            editbind.backcolorfab!!.backgroundTintList = ColorStateList.valueOf(color)
+            editbind.backcolorid.text = color.toString()
+            editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
         }
     }
 
@@ -245,16 +208,16 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
         cp.enableAutoClose()
         cp.setCallback { color ->
             Log.d("Pure Hex", Integer.toHexString(color))
-            val colorFrom = editbind.quote!!.currentTextColor
+            val colorFrom = editbind.quote.currentTextColor
             val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, color)
             colorAnimation.duration = 2000 // milliseconds
             colorAnimation.addUpdateListener {
                 editbind.quote.setTextColor(color)
                 editbind.author.setTextColor(color)
             }
-            editbind.textcolorfab!!.backgroundTintList = ColorStateList.valueOf(color)
+            editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
             colorAnimation.start()
-            editbind.texcolorid!!.text = color.toString()
+            editbind.texcolorid.text = color.toString()
         }
     }
 
@@ -313,9 +276,9 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
         editbind.colorlibrary.setHasFixedSize(true)
         val llm = GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, activity,
-                editbind.background!!, editbind.quote!!, editbind.author!!,
-                editbind.texcolorid!!, editbind.backcolorid!!,
-                editbind.textcolorfab!!, editbind.backcolorfab!!)
+                editbind.background, editbind.quote, editbind.author,
+                editbind.texcolorid, editbind.backcolorid,
+                editbind.textcolorfab, editbind.backcolorfab)
         recyclerColorAdapter.notifyDataSetChanged()
 
         editbind.colorlibrary.adapter = recyclerColorAdapter

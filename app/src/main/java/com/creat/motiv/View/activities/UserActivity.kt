@@ -10,6 +10,7 @@ import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils.ERROR
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -24,7 +25,7 @@ class UserActivity : AppCompatActivity() {
         setContentView(fragmentbind.root)
 
         uid = intent.getStringExtra("uid")
-
+        setupdata(fragmentbind)
         //initView(fragmentbind)
 
     }
@@ -57,14 +58,16 @@ class UserActivity : AppCompatActivity() {
                             val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
                         }
 
-
                     } else {
-                        Alert.builder(this@UserActivity).snackmessage(null,"Usuário não encontrado")
+                        Alert.builder(this@UserActivity).snackmessage(ERROR, "Usuário não encontrado")
                         finish()
                     }
                 }
             })
         }
+        setSupportActionBar(profileBinding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
     }
 
 

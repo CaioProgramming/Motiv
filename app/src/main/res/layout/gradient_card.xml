@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/colorcard"
+        android:layout_margin="1dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp">
+
+
+        <com.mikhaellopez.gradientview.GradientView
+            android:id="@+id/gradientview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:gv_direction="left_to_right" />
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

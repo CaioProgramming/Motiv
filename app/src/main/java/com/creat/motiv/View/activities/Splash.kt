@@ -9,7 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.Tools
+import com.creat.motiv.utils.Tools.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -76,7 +78,7 @@ class Splash : AppCompatActivity() {
 
             } else {
                 if (response != null) {
-                    Alert.builder(this).snackmessage(null,"Erro  + ${response.error!!.message}  causa   ${response.error!!.cause}")
+                    Alert.builder(this).snackmessage(ERROR, "Erro  + ${response.error!!.message}  causa   ${response.error!!.cause}")
                 }
 
             }
@@ -115,7 +117,5 @@ class Splash : AppCompatActivity() {
         }
     }
 
-    companion object {
-        val RC_SIGN_IN = 123
-    }
+
 }

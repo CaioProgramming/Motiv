@@ -1,4 +1,5 @@
-package com.creat.motiv.View.activities
+package com.creat.motiv.view.activities
+
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -11,24 +12,32 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.MainAdapter
 import com.creat.motiv.databinding.ActivityMainBinding
-import com.creat.motiv.model.Beans.User
+import com.creat.motiv.model.Beans.Version
+import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.Pref
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.View.activities.Splash.Companion.RC_SIGN_IN
+import com.creat.motiv.utils.Tools.RC_SIGN_IN
+import com.creat.motiv.utils.Tools.setLightStatusBar
+import com.creat.motiv.utils.Tools.uimode
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.iid.FirebaseInstanceId
-import de.hdodenhof.circleimageview.CircleImageView
+import com.google.firebase.auth.FirebaseUser
+import com.mikhaellopez.rxanimation.fadeIn
 import kotlinx.android.synthetic.main.activity_main.*
+import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
-   var user = FirebaseAuth.getInstance().currentUser
-    private lateinit var app: App
+open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectListener {
+    private lateinit var preferences: Pref
+    protected lateinit var app: App
+    internal lateinit var version: Version
+    internal var a: Alert? = null
+    internal var user: FirebaseUser? = null
+    private val home: Boolean get() {return pager.currentItem == 1}
+
+
+
 
     private val isNetworkAvailable: Boolean
         get() {
@@ -40,51 +49,64 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val actbind: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val actbind: ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setContentView(actbind.root)
         app = application as App
+        internetconnection()
+
         user = FirebaseAuth.getInstance().currentUser
         checkUser()
-        val mainAdapter = MainAdapter(supportFragmentManager)
-        pager.adapter = mainAdapter
-        navigation.setupWithViewPager(pager)
+        preferences = Pref(this)
+        Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic!!)
+        profilepic!!.setOnClickListener { pager.currentItem = 2 }
+
+
+        pager.adapter = MainAdapter(supportFragmentManager)
+        navigation.setupWithViewPager(pager, true)
+
         if (!user!!.isEmailVerified) {
-             Alert.builder(this).mailmessage()
+            Alert.builder(this).mailmessage()
         }
-        internetconnection()
-        var profilepic = CircleImageView(this)
-        profilepic.maxWidth = 45
-        profilepic.maxHeight = 48
-        Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = ""
+        if(!uimode(this)){
+            setLightStatusBar(this)
+        }
+        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
+        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
         navigation.getTabAt(2)?.customView = profilepic
-        navigation.getTabAt(0)?.setIcon(R.drawable.home)
-        navigation.getTabAt(1)?.setIcon(R.drawable.add)
+        /*pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                if (position == 2) toolbar.title = user!!.displayName
+                else toolbar.title = ""
+            }
+
+
+            override fun onPageSelected(position: Int) {
+                if (position == 2) toolbar.title = user!!.displayName
+                else toolbar.title = ""
+            }
+
+        })*/
+        toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
+
 
 
     }
 
 
 
-    private fun checkUser() {
-        if (user != null) {
-            val userreference = FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid)
-            userreference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val u = User()
-                        u.name = user!!.displayName!!
-                        u.email = user!!.email!!
-                        u.picurl = user!!.photoUrl.toString()
-                        u.phonenumber = user!!.phoneNumber!!
-                        u.uid = user!!.uid
-                        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
-                            u.token = instanceIdResult.token
-                            userreference.setValue(u)
-                        }
-                }
-                override fun onCancelled(databaseError: DatabaseError) {
 
-                }
-            })
+
+    private fun checkUser() {
+
+
+        if (user != null) {
+            val userdb = UserDB()
+            userdb.insertUser(user!!)
         } else {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
                     AuthUI.IdpConfig.FacebookBuilder().build(),
@@ -144,20 +166,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (pager!!.currentItem == 0) {
+        if (home) {
             super.onBackPressed()
         } else {
-            pager!!.setCurrentItem(0, true)
+            pager?.setCurrentItem(1,true)
         }
 
     }
 
     private fun internetconnection() {
+        if (a == null) {
             if (!isNetworkAvailable) {
-                Alert.builder(this).message(getDrawable(R.drawable.ic_broken_link),Tools.offlinemessage())
+                a = Alert(this)
+                a!!.message(getDrawable(R.drawable.ic_broken_link), Tools.offlinemessage())
             }
+        }
 
 
+    }
+
+
+    override fun onTabSelected(lastIndex: Int, lastTab: AnimatedBottomBar.Tab?, newIndex: Int, newTab: AnimatedBottomBar.Tab) {
+        pager?.setCurrentItem(newIndex,true)
     }
 
 

@@ -1,6 +1,8 @@
 package com.creat.motiv.model.Beans
 
-class Quotes {
+import java.io.Serializable
+
+class Quotes : Serializable {
     constructor()
     constructor(id: String, quote: String, author: String, data: String, userID: String, username: String, userphoto: String, backgroundcolor: Int, textcolor: Int, isReport: Boolean, font: Int) {
         this.id = id

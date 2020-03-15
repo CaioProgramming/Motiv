@@ -1,6 +1,7 @@
 package com.creat.motiv.utils
 
 import android.graphics.Color
+import com.creat.motiv.R
 import java.util.*
 
 object ColorUtils {
@@ -10,7 +11,10 @@ object ColorUtils {
             return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
         }
 
-
+    val ERROR = R.color.red_500
+    val SUCCESS = R.color.green_500
+    val WARNING = R.color.yellow_500
+    val INFO = R.color.blue_500
     fun lighten(color: Int, fraction: Double): Int {
         var red = Color.red(color)
         var green = Color.green(color)

@@ -5,15 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
- import com.creat.motiv.R
+import com.creat.motiv.R
 import com.creat.motiv.contract.AdaptersContract
 import com.creat.motiv.model.Beans.Likes
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.creat.motiv.model.Beans.User
+import com.creat.motiv.model.UserDB
+import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import de.hdodenhof.circleimageview.CircleImageView
 
 
@@ -29,20 +33,50 @@ class LikeAdapter(private val likesList: List<Likes>, private val activity: Acti
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-
+        val userDB = UserDB()
+        var user = User()
         val likes = likesList[holder.adapterPosition]
-        Log.println(Log.INFO, "loaded like ", likes.username)
-        if (likes.userid.equals(user.uid)) {
-            holder.nome.text = user.displayName
-            Glide.with(activity).load(user.photoUrl).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic)
+        userDB.getUser(likes.userid, object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
 
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val u = dataSnapshot.getValue(User::class.java)
+                    if (u != null) {
+                        user.name = u.name
+                        user.email = u.email
+                        user.picurl = u.picurl
+                        user.token = u.token
+                        user.uid = u.uid
+                        user.phonenumber = u.phonenumber
+                        user = u
+
+                    } else {
+                        activity.let { Alert.builder(it).snackmessage(ColorUtils.ERROR, "Erro ao encontrar usuário... ${likes.username}") }
+                    }
+                } else {
+                    activity.let {
+                        Alert.builder(it).snackmessage(ColorUtils.ERROR, "Usuário não encontrado")
+                        user.picurl = likes.userpic
+                        user.name = likes.username
+                        user.uid = likes.userid
+                        userDB.insertUser(user)
+                    }
+                }
+            }
+
+        })
+
+        Log.println(Log.INFO, "loaded like ", likes.username)
+        if (likes.userid == user.uid) {
+            holder.nome.text = user.name
+            Glide.with(activity).load(user.picurl).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic)
         } else {
             holder.nome.text = likes.username
             Glide.with(activity).load(likes.userpic).error(activity.getDrawable(R.drawable.notfound)).into(holder.pic)
         }
-
-        val `in` = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
         fadeIn(holder.pic, 500).andThen(fadeIn(holder.nome, 1000)).subscribe()
 
 

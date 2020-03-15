@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:fontFamily">@font/lato_black</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
         <item name="colorPrimary">@color/purple_400</item>
         <item name="colorPrimaryDark">@color/purple_800</item>
         <item name="colorAccent">@color/deep_purple_A200</item>
@@ -85,7 +85,7 @@
 
     <style name="Tabstitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/lato_bold</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:capitalize">words</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">5dp</item>
