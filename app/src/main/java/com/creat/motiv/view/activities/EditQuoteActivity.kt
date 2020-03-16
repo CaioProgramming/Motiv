@@ -33,15 +33,14 @@ import java.util.*
 
 class EditQuoteActivity : AppCompatActivity() {
 
-    private var popupbind: NewquotepopupBinding? = null
     var user: FirebaseUser? = null
     private var f: Int = 0
     private var isfirst = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        popupbind = DataBindingUtil.setContentView(this, R.layout.newquotepopup)
-        setContentView(popupbind!!.root)
-        showup(popupbind!!)
+       val popupbind:NewquotepopupBinding = DataBindingUtil.setContentView(this, R.layout.newquotepopup)
+        setContentView(popupbind.root)
+        showup()
     }
 
 
@@ -54,7 +53,7 @@ class EditQuoteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.salvar) {
-            salvar(createQuote(popupbind!!))
+            salvar(createQuote())
         }
         return super.onOptionsItemSelected(item)
     }
@@ -64,8 +63,8 @@ class EditQuoteActivity : AppCompatActivity() {
         val quotes = intent.getSerializableExtra("Quote") as? Quotes
         //quoteID.setText(quotes.getId());
         if (quotes != null) {
-            quote.setText(quotes.quote)
-            author!!.setText(quotes.author)
+            quote.text = quotes.quote
+            author!!.text = quotes.author
             username.text = quotes.username
             background!!.setBackgroundColor(quotes.backgroundcolor!!)
 
@@ -81,7 +80,7 @@ class EditQuoteActivity : AppCompatActivity() {
 
             }
             author.setTextColor(quotes.textcolor!!)
-            texcolorid!!.text = quotes.textcolor.toString()
+            textcolorid!!.text = quotes.textcolor.toString()
             backcolorid!!.text = quotes.backgroundcolor.toString()
             backcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
             textcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
@@ -93,22 +92,22 @@ class EditQuoteActivity : AppCompatActivity() {
     }
 
 
-    fun showup(popupbind: NewquotepopupBinding) {
+    fun showup() {
         val user = FirebaseAuth.getInstance().currentUser
-        popupbind.username.text = user!!.displayName
-        Glide.with(this).load(user.photoUrl).into(popupbind.userpic)
+        username.text = user!!.displayName
+        Glide.with(this).load(user.photoUrl).into(userpic)
         try {
-            colorgallery(popupbind)
+            colorgallery()
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
-        popupbind.backcolorfab.setOnClickListener { backColorpicker(popupbind) }
+        backcolorfab.setOnClickListener { backColorpicker() }
 
-        popupbind.textcolorfab.setOnClickListener { textocolorpicker(popupbind) }
+        textcolorfab.setOnClickListener { textocolorpicker() }
 
-        popupbind.font.setOnClickListener {
+        font.setOnClickListener {
             if (!isfirst) {
                 f++
             }
@@ -117,55 +116,55 @@ class EditQuoteActivity : AppCompatActivity() {
             if (f == fonts.size) {
                 f = 0
             }
-            popupbind.font.typeface = fonts[f]
-            popupbind.quote.typeface = fonts[f]
-            popupbind.author.typeface = fonts[f]
+            font.typeface = fonts[f]
+            quote.typeface = fonts[f]
+            author.typeface = fonts[f]
             isfirst = false
         }
         loadQuote()
 
     }
 
-    private fun backColorpicker(editbind: NewquotepopupBinding) {
+    private fun backColorpicker() {
         val cp = ColorPicker(this)
         cp.show()
         cp.enableAutoClose()
         cp.setCallback { color ->
-            editbind.background.visibility = View.INVISIBLE
-            editbind.background.setBackgroundColor(color)
-            val cx = editbind.background.right
-            val cy = editbind.background.top
-            val radius = editbind.background.width.coerceAtLeast(editbind.background.height)
-            val anim = ViewAnimationUtils.createCircularReveal(editbind.background, cx, cy,
+            background.visibility = View.INVISIBLE
+            background.setBackgroundColor(color)
+            val cx = background.right
+            val cy = background.top
+            val radius = background.width.coerceAtLeast(background.height)
+            val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy,
                     0f, radius.toFloat())
-            editbind.background.visibility = View.VISIBLE
+            background.visibility = View.VISIBLE
             anim.start()
-            editbind.backcolorid.text = color.toString()
-            editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
+            backcolorid.text = color.toString()
+            backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
         }
     }
 
-    private fun textocolorpicker(editbind: NewquotepopupBinding) {
+    private fun textocolorpicker() {
         val cp = ColorPicker(this)
         cp.show()
         cp.enableAutoClose()
         cp.setCallback { color ->
             Log.d("Pure Hex", Integer.toHexString(color))
-            val colorFrom = editbind.quote.currentTextColor
+            val colorFrom = quote.currentTextColor
             val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, color)
             colorAnimation.duration = 2000 // milliseconds
             colorAnimation.addUpdateListener {
-                editbind.quote.setTextColor(color)
-                editbind.author.setTextColor(color)
+               quote.setTextColor(color)
+               author.setTextColor(color)
             }
-            editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
+            textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
             colorAnimation.start()
-            editbind.texcolorid.text = color.toString()
+            textcolorid.text = color.toString()
         }
     }
 
     @Throws(ClassNotFoundException::class, IllegalAccessException::class)
-    private fun colorgallery(editbind: NewquotepopupBinding) {
+    private fun colorgallery() {
         val colors = ArrayList<Int>()
         val fields = Class.forName(Objects.requireNonNull<Activity>(this).packageName + ".R\$color").declaredFields
         for (field in fields) {
@@ -178,16 +177,16 @@ class EditQuoteActivity : AppCompatActivity() {
 
         println("Load " + colors.size + " colors")
         colors.reverse()
-        editbind.colorlibrary.setHasFixedSize(true)
+        colorlibrary.setHasFixedSize(true)
         val llm = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, this,
-                editbind.background, editbind.quote, editbind.author,
-                editbind.texcolorid, editbind.backcolorid,
-                editbind.textcolorfab, editbind.backcolorfab)
+                background, quote, author,
+                textcolorid, backcolorid,
+                textcolorfab, backcolorfab)
         recyclerColorAdapter.notifyDataSetChanged()
 
-        editbind.colorlibrary.adapter = recyclerColorAdapter
-        editbind.colorlibrary.layoutManager = llm
+        colorlibrary.adapter = recyclerColorAdapter
+        colorlibrary.layoutManager = llm
 
     }
 
@@ -208,24 +207,24 @@ class EditQuoteActivity : AppCompatActivity() {
         }
     }
 
-    private fun createQuote(popupbind: NewquotepopupBinding): Quotes {
-        if (popupbind.texcolorid.text.isEmpty()) {
-            popupbind.texcolorid.text = Color.BLACK.toString()
+    private fun createQuote(): Quotes {
+        if (textcolorid.text.isEmpty()) {
+            textcolorid.text = Color.BLACK.toString()
         }
-        if (popupbind.backcolorid.text.isEmpty()) {
-            popupbind.backcolorid.text = Color.WHITE.toString()
+        if (backcolorid.text.isEmpty()) {
+            backcolorid.text = Color.WHITE.toString()
         }
-        if (popupbind.author.text.isBlank()) {
-            popupbind.author.setText(user!!.displayName)
+        if (author.text.isBlank()) {
+            author.text = user!!.displayName
 
         }
         return Quotes("",
-                popupbind.quote.text.toString(),
-                popupbind.author.text.toString(),
+                quote.text.toString(),
+                author.text.toString(),
                 actualday(),
                 user!!.uid, user!!.displayName!!, user!!.photoUrl.toString(),
-                popupbind.backcolorid.text.toString().toIntOrNull() ?: 0,
-                popupbind.texcolorid.text.toString().toIntOrNull() ?: 0,
+                backcolorid.text.toString().toIntOrNull() ?: 0,
+                textcolorid.text.toString().toIntOrNull() ?: 0,
                 false, f)
     }
 }

@@ -155,8 +155,8 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
 
     private fun loadQuote(username: TextView, userpic: CircleImageView, quotes: Quotes, editbind: NewquotepopupBinding) {
         //quoteID.setText(quotes.getId());
-        editbind.quote.setText(quotes.quote)
-        editbind.author.setText(quotes.author)
+        editbind.quote.text = quotes.quote
+        editbind.author.text = quotes.author
         username.text = quotes.username
         editbind.background.setBackgroundColor(quotes.backgroundcolor!!)
 
@@ -172,7 +172,7 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
 
         }
         editbind.author.setTextColor(quotes.textcolor!!)
-        editbind.texcolorid.text = quotes.textcolor.toString()
+        editbind.textcolorid.text = quotes.textcolor.toString()
         editbind.backcolorid.text = quotes.backgroundcolor.toString()
         editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
         editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
@@ -217,7 +217,7 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
             }
             editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
             colorAnimation.start()
-            editbind.texcolorid.text = color.toString()
+            editbind.textcolorid.text = color.toString()
         }
     }
 
@@ -277,7 +277,7 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
         val llm = GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, activity,
                 editbind.background, editbind.quote, editbind.author,
-                editbind.texcolorid, editbind.backcolorid,
+                editbind.textcolorid, editbind.backcolorid,
                 editbind.textcolorfab, editbind.backcolorfab)
         recyclerColorAdapter.notifyDataSetChanged()
 

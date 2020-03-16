@@ -24,7 +24,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
         user.picurl?.let { loaduserpic(it) }
         user.name?.let { profileFragment.username.text = it }
         user.uid?.let {
-            profileFragment.quotespager.adapter = QuotePagerAdapter(it,activity)
+            profileFragment.quotespager.adapter = QuotePagerAdapter(it,this)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
             profileFragment.usertabs.getTabAt(0)?.text = "Posts"
             profileFragment.usertabs.getTabAt(1)?.text = "Favoritos"
