@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import java.util.*
 
-class RecyclerColorAdapter(private val ColorsList: ArrayList<Int>, private val activity: Activity, private val background: LinearLayout, private val textView: TextView, private val author: TextView, private val textcolor: TextView, private val backcolor: TextView, private val textbutton: ImageButton, private val backgroundbutton: ImageButton) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
+class RecyclerColorAdapter(private val ColorsList: ArrayList<Int>, private val activity: Activity, private val background: View, private val textView: TextView, private val author: TextView, private val textcolor: TextView, private val backcolor: TextView, private val textbutton: ImageButton, private val backgroundbutton: ImageButton) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

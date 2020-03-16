@@ -9,13 +9,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.RecyclerColorAdapter
-import com.creat.motiv.adapters.RecyclerGradientAdapter
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.Beans.Gradient
 import com.creat.motiv.model.Beans.Quotes
@@ -60,6 +60,7 @@ class NewQuoteFragment: Fragment() {
     }
 
 
+
     private fun showup(popupbind: NewquotepopupBinding) {
         user = FirebaseAuth.getInstance().currentUser
         popupbind.username.text = user!!.displayName
@@ -90,8 +91,6 @@ class NewQuoteFragment: Fragment() {
             popupbind.author.typeface = fonts[f]
             isfirst = false
         }
-
-
     }
     private fun backColorpicker(editbind: NewquotepopupBinding) {
         val cp = ColorPicker(activity)
@@ -126,7 +125,7 @@ class NewQuoteFragment: Fragment() {
             }
             editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
             colorAnimation.start()
-            editbind.texcolorid.text = color.toString()
+            editbind.textcolorid.text = color.toString()
         }
     }
     @Throws(ClassNotFoundException::class, IllegalAccessException::class)
@@ -147,7 +146,7 @@ class NewQuoteFragment: Fragment() {
         val llm = GridLayoutManager(activity, 3, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, activity!!,
                 editbind.background, editbind.quote, editbind.author,
-                editbind.texcolorid, editbind.backcolorid,
+                editbind.textcolorid, editbind.backcolorid,
                 editbind.textcolorfab, editbind.backcolorfab)
         recyclerColorAdapter.notifyDataSetChanged()
 
@@ -161,7 +160,7 @@ class NewQuoteFragment: Fragment() {
         for (i in 0..25) {
             gradientList.add(Gradient(ColorUtils.randomColor, ColorUtils.randomColor))
         }
-        popupbind!!.gradientlibrary.adapter = RecyclerGradientAdapter(gradientList, activity!!, popupbind!!.gradientview)
+        //popupbind!!.gradientlibrary.adapter = RecyclerGradientAdapter(gradientList, activity!!, popupbind!!.gradientview)
         popupbind!!.gradientlibrary.layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
 
 
@@ -184,8 +183,8 @@ class NewQuoteFragment: Fragment() {
     }
 
     private fun createQuote(popupbind: NewquotepopupBinding):Quotes{
-        if (popupbind.texcolorid.text.isEmpty()) {
-            popupbind.texcolorid.text = Color.BLACK.toString()
+        if (popupbind.textcolorid.text.isEmpty()) {
+            popupbind.textcolorid.text = Color.BLACK.toString()
         }
         if (popupbind.backcolorid.text.isEmpty()) {
             popupbind.backcolorid.text = Color.WHITE.toString()
@@ -200,7 +199,7 @@ class NewQuoteFragment: Fragment() {
                 actualday(),
                 user!!.uid, user!!.displayName!!, user!!.photoUrl.toString(),
                 popupbind.backcolorid.text.toString().toIntOrNull()?: 0,
-                popupbind.texcolorid.text.toString().toIntOrNull()?: 0,
+                popupbind.textcolorid.text.toString().toIntOrNull()?: 0,
                 false, f)
     }
 

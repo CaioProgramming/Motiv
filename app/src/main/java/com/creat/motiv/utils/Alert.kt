@@ -43,8 +43,8 @@ import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.ColorUtils.WARNING
 import com.creat.motiv.utils.Tools.searcharg
-import com.creat.motiv.view.activities.EditQuoteActivity
 import com.creat.motiv.view.activities.Splash
+import com.creat.motiv.view.activities.EditQuoteActivity
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -55,6 +55,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.pd.chocobar.ChocoBar
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -149,7 +150,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
     fun snackmessage(backcolor: Int?, message: String) {
 
-        val snackbar = Snackbar.make(
+        /*val snackbar = Snackbar.make(
                 activity.findViewById(android.R.id.content),
                 message,
                 Snackbar.LENGTH_LONG
@@ -157,8 +158,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         snackbar.config(activity)
         if (backcolor != null) snackbar.setBackgroundTintList(ColorStateList.valueOf(activity.resources.getColor(backcolor)))
         else snackbar.setBackgroundTintList(ColorStateList.valueOf(R.attr.itemTextColor))
-        snackbar.show()
-        /*
+        snackbar.show()*/
         if (backcolor != null) {
             ChocoBar.builder()
                     .setText(message)
@@ -176,7 +176,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                     .setDuration(ChocoBar.LENGTH_LONG)
                     .build()
                     .show()
-        }*/
+        }
 
         /* if (color == 0)  {
              snackbar.setBackgroundTint(Tools.inversebackcolor(activity))

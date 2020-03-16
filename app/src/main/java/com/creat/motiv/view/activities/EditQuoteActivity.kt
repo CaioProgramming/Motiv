@@ -122,8 +122,6 @@ class EditQuoteActivity : AppCompatActivity() {
             popupbind.author.typeface = fonts[f]
             isfirst = false
         }
-
-        popupbind.title.text = "Editar"
         loadQuote()
 
     }

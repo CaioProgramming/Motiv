@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".View.fragments.HomeFragment">
+    tools:context=".view.fragments.HomeFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/home"
@@ -40,78 +40,39 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:background="?android:colorBackground"
-                        android:id="@+id/toolbar"
-                        android:elevation="0dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:animateLayoutChanges="true"
-                        >
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profilepic"
-                            android:layout_width="45dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="left"
-                            android:layout_margin="1dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="5dp"
-                            android:src="@drawable/penguin" />
-
-                    </androidx.appcompat.widget.Toolbar>
-
                     <TextView
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_google"
+                        android:id="@+id/message"
                         android:textColor="?android:textColorPrimary"
-                        style="@style/TextAppearance.AppCompat.Display1"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:text="Home"
-                        android:textStyle="bold"
-                        android:padding="10dp" />
-                    <LinearLayout
-                        android:visibility="gone"
+                        android:fontFamily="@font/lato_light"
                         android:padding="10dp"
-                        android:background="@drawable/bottom_line"
-                        android:id="@+id/banner"
-                        android:orientation="vertical"
+                        android:textSize="16sp"
+                        android:text="Uma nova atualização está disponível"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_gravity="end"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_google"
-                            android:id="@+id/message"
-                            android:textColor="?android:textColorPrimary"
-                            android:fontFamily="@font/lato_light"
+                            android:id="@+id/update"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:textColor="@color/colorPrimaryDark"
                             android:padding="10dp"
-                            android:textSize="16sp"
-                            android:text="Uma nova atualização está disponível"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_gravity="end"
+                            android:text="Atuazlizar"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/update"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:padding="10dp"
-                                android:text="Atuazlizar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <TextView
-                                android:id="@+id/dismiss"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:padding="10dp"
-                                android:text="Deixar para depois"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/dismiss"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:textColor="?android:attr/textColorHint"
+                            android:padding="10dp"
+                            android:text="Deixar para depois"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-                        </LinearLayout>
                     </LinearLayout>
 
 

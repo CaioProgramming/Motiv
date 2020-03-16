@@ -34,9 +34,9 @@ class QuotePagerAdapter(private val uid:String,val activity: Activity): PagerAda
                 R.layout.quote_recycler,null,false)
         val userdb = UserDB()
         if(position == 0){
-            userdb.finduserquotes(uid,quoteRecyclerBinding)
+            userdb.finduserquotes(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
         }else{
-            userdb.findfavorites(uid,quoteRecyclerBinding)
+            userdb.findfavorites(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
         }
         container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root

@@ -7,7 +7,7 @@ import android.net.Uri
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import com.creat.motiv.model.QuotesDB
-import com.creat.motiv.View.fragments.HomeFragment
+import com.creat.motiv.view.fragments.HomeFragment
 import com.creat.motiv.contract.ViewContract
 import com.creat.motiv.model.Beans.Version
 import com.google.firebase.database.DataSnapshot

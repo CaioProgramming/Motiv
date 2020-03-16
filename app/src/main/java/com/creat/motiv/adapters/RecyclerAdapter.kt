@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotescardBinding
@@ -109,7 +110,10 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
         } else {
             holder.quotescardBinding.username.text = user.displayName
             Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
-
+            holder.quotescardBinding.userpic.setOnClickListener {
+                val viewPager:ViewPager = activity.findViewById(R.id.pager)
+                viewPager.currentItem = 2
+            }
 
         }
 

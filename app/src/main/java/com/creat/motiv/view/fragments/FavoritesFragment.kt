@@ -1,4 +1,4 @@
-package com.creat.motiv.View.fragments
+package com.creat.motiv.view.fragments
 
 
 import android.os.Bundle

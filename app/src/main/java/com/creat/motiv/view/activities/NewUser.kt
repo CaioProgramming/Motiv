@@ -1,4 +1,4 @@
-package com.creat.motiv.View.activities
+package com.creat.motiv.view.activities
 
 import android.content.Intent
 import android.graphics.Color

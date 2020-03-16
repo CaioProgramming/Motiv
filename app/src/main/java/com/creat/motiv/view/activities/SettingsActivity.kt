@@ -1,4 +1,4 @@
-package com.creat.motiv.View.activities
+package com.creat.motiv.view.activities
 
 import android.app.Activity
 import android.app.AlertDialog

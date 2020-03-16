@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.adapters.MainAdapter
@@ -25,10 +26,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.mikhaellopez.rxanimation.fadeIn
 import kotlinx.android.synthetic.main.activity_main.*
-import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
 
-open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectListener {
+open class MainActivity : AppCompatActivity(){
     private lateinit var preferences: Pref
     protected lateinit var app: App
     internal lateinit var version: Version
@@ -75,22 +75,28 @@ open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectList
         navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
         navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
         navigation.getTabAt(2)?.customView = profilepic
-        /*pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (position == 2) toolbar.title = user!!.displayName
-                else toolbar.title = ""
+                when (position) {
+                    0 -> toolbar.title = "Home"
+                    1 -> toolbar.title = "Nova publicação"
+                    else -> toolbar.title = ""
+                }
             }
 
 
             override fun onPageSelected(position: Int) {
-                if (position == 2) toolbar.title = user!!.displayName
-                else toolbar.title = ""
+                when (position) {
+                    0 -> toolbar.title = "Home"
+                    1 -> toolbar.title = "Nova publicação"
+                    else -> toolbar.title = ""
+                }
             }
 
-        })*/
+        })
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
 
 
@@ -184,11 +190,5 @@ open class MainActivity : AppCompatActivity(), AnimatedBottomBar.OnTabSelectList
 
 
     }
-
-
-    override fun onTabSelected(lastIndex: Int, lastTab: AnimatedBottomBar.Tab?, newIndex: Int, newTab: AnimatedBottomBar.Tab) {
-        pager?.setCurrentItem(newIndex,true)
-    }
-
 
 }
