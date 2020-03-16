@@ -1,4 +1,4 @@
-package com.creat.motiv.adapters
+package com.creat.motiv.view.adapters
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.creat.motiv.model.Beans.Developers
 import com.creat.motiv.R
+import com.creat.motiv.model.Beans.Developers
 import java.util.*
 
 class RecyclerCreatorsAdapter(private val mData: ArrayList<Developers>,

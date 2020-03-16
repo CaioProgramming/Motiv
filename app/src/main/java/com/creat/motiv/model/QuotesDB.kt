@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.andrognito.flashbar.Flashbar
 import com.creat.motiv.R
-import com.creat.motiv.adapters.RecyclerAdapter
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.presenter.ProfilePresenter
@@ -24,6 +23,7 @@ import com.creat.motiv.utils.ColorUtils.INFO
 import com.creat.motiv.utils.ColorUtils.SUCCESS
 import com.creat.motiv.utils.ColorUtils.WARNING
 import com.creat.motiv.utils.Tools
+import com.creat.motiv.view.adapters.RecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot

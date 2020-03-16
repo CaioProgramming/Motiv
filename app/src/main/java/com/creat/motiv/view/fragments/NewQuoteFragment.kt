@@ -9,13 +9,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.RecyclerColorAdapter
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.Beans.Gradient
 import com.creat.motiv.model.Beans.Quotes
@@ -23,6 +21,7 @@ import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
+import com.creat.motiv.view.adapters.RecyclerColorAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker

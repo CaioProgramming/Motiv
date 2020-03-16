@@ -1,4 +1,4 @@
-package com.creat.motiv.adapters
+package com.creat.motiv.view.adapters
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -9,7 +9,6 @@ import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView

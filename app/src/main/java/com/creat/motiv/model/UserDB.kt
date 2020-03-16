@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.RecyclerAdapter
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.presenter.ProfilePresenter
@@ -18,6 +17,7 @@ import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.ColorUtils.SUCCESS
 import com.creat.motiv.utils.Tools
+import com.creat.motiv.view.adapters.RecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest

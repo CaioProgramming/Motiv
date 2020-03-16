@@ -18,12 +18,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.RecyclerColorAdapter
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
+import com.creat.motiv.view.adapters.RecyclerColorAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
@@ -63,8 +63,8 @@ class EditQuoteActivity : AppCompatActivity() {
         val quotes = intent.getSerializableExtra("Quote") as? Quotes
         //quoteID.setText(quotes.getId());
         if (quotes != null) {
-            quote.text = quotes.quote
-            author!!.text = quotes.author
+            quote.setText(quotes.quote)
+            author.setText(quotes.author)
             username.text = quotes.username
             background!!.setBackgroundColor(quotes.backgroundcolor!!)
 
@@ -215,7 +215,7 @@ class EditQuoteActivity : AppCompatActivity() {
             backcolorid.text = Color.WHITE.toString()
         }
         if (author.text.isBlank()) {
-            author.text = user!!.displayName
+            author.setText(user!!.displayName)
 
         }
         return Quotes("",

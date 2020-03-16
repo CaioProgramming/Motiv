@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.MainAdapter
 import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.Beans.Version
 import com.creat.motiv.model.UserDB
@@ -21,6 +20,7 @@ import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.RC_SIGN_IN
 import com.creat.motiv.utils.Tools.setLightStatusBar
 import com.creat.motiv.utils.Tools.uimode
+import com.creat.motiv.view.adapters.MainAdapter
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -83,7 +83,7 @@ open class MainActivity : AppCompatActivity(){
                 when (position) {
                     0 -> toolbar.title = "Home"
                     1 -> toolbar.title = "Nova publicação"
-                    else -> toolbar.title = ""
+                    else -> toolbar.title = user?.displayName
                 }
             }
 

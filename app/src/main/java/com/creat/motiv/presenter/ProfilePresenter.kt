@@ -5,10 +5,10 @@ import android.app.Activity
 import android.os.Handler
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.QuotePagerAdapter
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.view.adapters.QuotePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.mikhaellopez.rxanimation.fadeIn
 
@@ -22,7 +22,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             alert.Picalert(this)
         }
         user.picurl?.let { loaduserpic(it) }
-        user.name?.let { profileFragment.username.text = it }
+        //user.name?.let { profileFragment.username.text = it }
         user.uid?.let {
             profileFragment.quotespager.adapter = QuotePagerAdapter(it,this)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)

@@ -1,4 +1,4 @@
-package com.creat.motiv.adapters
+package com.creat.motiv.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
+import com.mikhaellopez.rxanimation.fadeOut
 
 class QuotePagerAdapter(private val uid:String,private val profilePresenter: ProfilePresenter): PagerAdapter() {
 
@@ -37,6 +38,7 @@ class QuotePagerAdapter(private val uid:String,private val profilePresenter: Pro
         }else{
             userdb.findfavorites(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
         }
+        quoteRecyclerBinding.loading.fadeOut()
         container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root
     }

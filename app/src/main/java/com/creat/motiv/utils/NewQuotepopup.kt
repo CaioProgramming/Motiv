@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.RecyclerColorAdapter
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.Beans.Quotes
 import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.view.adapters.RecyclerColorAdapter
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -155,8 +155,8 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
 
     private fun loadQuote(username: TextView, userpic: CircleImageView, quotes: Quotes, editbind: NewquotepopupBinding) {
         //quoteID.setText(quotes.getId());
-        editbind.quote.text = quotes.quote
-        editbind.author.text = quotes.author
+        editbind.quote.setText(quotes.quote)
+        editbind.author.setText(quotes.author)
         username.text = quotes.username
         editbind.background.setBackgroundColor(quotes.backgroundcolor!!)
 

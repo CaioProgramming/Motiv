@@ -13,9 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-
-
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:fitsSystemWindows="true"
@@ -29,67 +26,64 @@
                 app:contentScrim="?android:colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/photoshimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:shimmer_auto_start="true"
-                    app:shimmer_base_color="?android:textColorHint"
-                    app:shimmer_colored="true"
-                    app:shimmer_direction="left_to_right"
-                    app:shimmer_highlight_color="@color/colorPrimaryDark"
-                    app:shimmer_repeat_mode="reverse"
-                    app:shimmer_shape="radial">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profilepic"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:tooltipText="Alterar foto de perfil"
-                        android:contentDescription="Profile picture"
-                        android:fitsSystemWindows="true"
-                        android:src="@drawable/ic_undraw_new_ideas_jdea"
-                        app:civ_border_color="@color/colorAccent"
-                        app:civ_border_width="3dp" />
+                <LinearLayout
+                    android:gravity="center"
+                    android:paddingBottom="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_margin="10dp"
+                        android:id="@+id/photoshimmer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:shimmer_auto_start="true"
+                        app:shimmer_base_color="?android:textColorHint"
+                        app:shimmer_colored="true"
+                        app:shimmer_direction="left_to_right"
+                        app:shimmer_highlight_color="@color/colorPrimaryDark"
+                        app:shimmer_repeat_mode="reverse"
+                        app:shimmer_shape="radial">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profilepic"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:tooltipText="Alterar foto de perfil"
+                            android:contentDescription="Profile picture"
+                            android:fitsSystemWindows="true"
+                            android:src="@drawable/ic_undraw_new_ideas_jdea"
+                            app:civ_border_color="@color/colorAccent"
+                            app:civ_border_width="3dp" />
 
-                </com.facebook.shimmer.ShimmerFrameLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                </LinearLayout>
                 <androidx.appcompat.widget.Toolbar
+                    android:layout_gravity="bottom"
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_collapseMode="parallax" />
-
-
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin">
+                    <TextView
+                        android:id="@+id/username"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="4dp"
+                        android:textAlignment="center" />
+                </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/usertabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/username"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="4dp"
-                    android:textAlignment="center" />
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/usertabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabGravity="start"
-                    app:tabIndicatorFullWidth="false"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/colorPrimary"
-                    app:tabTextAppearance="@style/Tabstitle"
-                    app:tabTextColor="?android:textColorHint" />
-
-            </LinearLayout>
-
+                app:tabGravity="start"
+                app:tabIndicatorFullWidth="false"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                app:tabTextAppearance="@style/Tabstitle"
+                app:tabTextColor="?android:textColorHint" />
 
 
         </com.google.android.material.appbar.AppBarLayout>

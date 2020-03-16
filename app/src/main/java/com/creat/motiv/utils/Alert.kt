@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.*
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Color.WHITE
 import android.graphics.drawable.Drawable
@@ -28,9 +27,6 @@ import com.andrognito.flashbar.Flashbar
 import com.andrognito.flashbar.anim.FlashAnim
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.adapters.LikeAdapter
-import com.creat.motiv.adapters.RecyclerPicAdapter
-import com.creat.motiv.adapters.RecyclerReferencesAdapter
 import com.creat.motiv.databinding.DeleteAllDialogBinding
 import com.creat.motiv.databinding.MessageDialogBinding
 import com.creat.motiv.model.Beans.Developers
@@ -43,8 +39,11 @@ import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.ColorUtils.WARNING
 import com.creat.motiv.utils.Tools.searcharg
-import com.creat.motiv.view.activities.Splash
 import com.creat.motiv.view.activities.EditQuoteActivity
+import com.creat.motiv.view.activities.Splash
+import com.creat.motiv.view.adapters.LikeAdapter
+import com.creat.motiv.view.adapters.RecyclerPicAdapter
+import com.creat.motiv.view.adapters.RecyclerReferencesAdapter
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
