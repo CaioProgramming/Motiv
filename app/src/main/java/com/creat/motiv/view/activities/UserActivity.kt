@@ -39,6 +39,7 @@ class UserActivity : AppCompatActivity() {
                 supportFinishAfterTransition()
                 return true
             }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -56,6 +57,8 @@ class UserActivity : AppCompatActivity() {
                         val user = dataSnapshot.getValue(User::class.java)
                         user.let {
                             val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
+                            supportActionBar?.title = user.name
+                            supportActionBar?.setDisplayShowHomeEnabled(true)
                         }
 
                     } else {
@@ -65,9 +68,6 @@ class UserActivity : AppCompatActivity() {
                 }
             })
         }
-        setSupportActionBar(profileBinding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
     }
 
 

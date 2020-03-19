@@ -81,24 +81,50 @@ open class MainActivity : AppCompatActivity(){
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 when (position) {
-                    0 -> toolbar.title = "Home"
-                    1 -> toolbar.title = "Nova publicação"
-                    else -> toolbar.title = user?.displayName
+                    0 -> print("Home")
+                    1 -> print("Nova publicação")
+                    else -> print("")
                 }
             }
 
 
             override fun onPageSelected(position: Int) {
                 when (position) {
-                    0 -> toolbar.title = "Home"
-                    1 -> toolbar.title = "Nova publicação"
-                    else -> toolbar.title = ""
+                    0 ->{
+                        toolbar.title = "Home"
+                        navigation.getTabAt(position)?.text = toolbar.title
+                        navigation.getTabAt(0)?.icon = null
+                        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
+                        navigation.getTabAt(2)?.customView = profilepic
+                        navigation.getTabAt(1)?.text = ""
+                        navigation.getTabAt(2)?.text = ""
+                    }
+                    1 -> {
+                        toolbar.title = "Nova publicação"
+                        navigation.getTabAt(position)?.text = toolbar.title
+                        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
+                        navigation.getTabAt(1)?.icon = null
+                        navigation.getTabAt(2)?.customView = profilepic
+                        navigation.getTabAt(0)?.text = ""
+                        navigation.getTabAt(2)?.text = ""
+
+                    }
+                    else -> {
+                        toolbar.title = user?.displayName
+                        navigation.getTabAt(position)?.text = toolbar.title
+                        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
+                        navigation.getTabAt(0)?.text = ""
+                        navigation.getTabAt(1)?.text = ""
+                        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
+                        navigation.getTabAt(2)?.customView = null
+
+                    }
                 }
             }
 
         })
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
-
+        pager.setCurrentItem(0)
 
 
     }

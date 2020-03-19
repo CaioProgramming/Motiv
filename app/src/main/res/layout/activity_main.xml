@@ -11,12 +11,14 @@
 
 
         <com.google.android.material.tabs.TabLayout
+            android:animateLayoutChanges="true"
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:tabIndicatorFullWidth="false"
             app:tabMode="auto"
+            app:tabSelectedTextColor="@color/colorPrimary"
             app:tabTextColor="?android:textColorHint" />
 
         <androidx.viewpager.widget.ViewPager

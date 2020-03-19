@@ -51,7 +51,7 @@ class UserDB: ValueEventListener {
                 u.name = user.displayName!!
                 u.email = user.email!!
                 u.picurl = user.photoUrl.toString()
-                u.phonenumber = user.phoneNumber!!
+                u.phonenumber =  if (user.phoneNumber != null){user.phoneNumber}else{""}
                 u.uid = user.uid
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
                     u.token = instanceIdResult.token

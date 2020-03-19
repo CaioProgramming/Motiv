@@ -10,6 +10,7 @@ import com.creat.motiv.model.Beans.User
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.view.adapters.QuotePagerAdapter
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.mikhaellopez.rxanimation.fadeIn
 
 
@@ -17,19 +18,23 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
 
 
     init{
-        profileFragment.profilepic.setOnClickListener {
-            val alert = Alert(activity)
-            alert.Picalert(this)
-        }
+        val fireuser = FirebaseAuth.getInstance().currentUser
+
         user.picurl?.let { loaduserpic(it) }
-        //user.name?.let { profileFragment.username.text = it }
         user.uid?.let {
             profileFragment.quotespager.adapter = QuotePagerAdapter(it,this)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
             profileFragment.usertabs.getTabAt(0)?.text = "Posts"
-            profileFragment.usertabs.getTabAt(1)?.text = "Favoritos"
+            profileFragment.usertabs.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
+            profileFragment.usertabs.getTabAt(1)?.text =  "Favoritos"
+            profileFragment.usertabs.getTabAt(1)?.icon = activity.getDrawable(R.drawable.favorites)
+            if (fireuser != null &&  it == fireuser.uid) {
+                profileFragment.profilepic.setOnClickListener {
+                    val alert = Alert(activity)
+                    alert.Picalert(this)
+                }
+            }
         }
-        profileFragment.photoshimmer.startShimmer()
         var scrollRange = -1
         /*profileFragment.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
             if (scrollRange == -1){
@@ -53,11 +58,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
 
     private fun loaduserpic(url:String){
         Glide.with(activity).load(url).error(activity.getDrawable(R.drawable.notfound)).into(profileFragment.profilepic)
-        val handler = Handler()
-        handler.postDelayed({
-            profileFragment.photoshimmer.hideShimmer()
-            profileFragment.profilepic.fadeIn()
-        }, 1500)
+
     }
 
 

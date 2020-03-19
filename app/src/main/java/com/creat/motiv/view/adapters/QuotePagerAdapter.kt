@@ -38,7 +38,6 @@ class QuotePagerAdapter(private val uid:String,private val profilePresenter: Pro
         }else{
             userdb.findfavorites(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
         }
-        quoteRecyclerBinding.loading.fadeOut()
         container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root
     }

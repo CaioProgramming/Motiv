@@ -16,6 +16,21 @@
         <item name="snackbarStyle">@style/AppSnackbar</item>
 
     </style>
+    <style name="AppThemeUser" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:fontFamily">@font/lato_regular</item>
+        <item name="colorPrimary">@color/purple_400</item>
+        <item name="colorPrimaryDark">@color/purple_800</item>
+        <item name="colorAccent">@color/deep_purple_A200</item>
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
+        <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
+        <item name="toolbarStyle">@style/AppToolbar</item>
+        <item name="searchViewStyle">@style/Searchtheme</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="snackbarStyle">@style/AppSnackbar</item>
+
+    </style>
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">
         <item name="android:textStyle">bold</item>
