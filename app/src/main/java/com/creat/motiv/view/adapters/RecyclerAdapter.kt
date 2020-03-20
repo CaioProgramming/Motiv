@@ -11,6 +11,7 @@ import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -33,11 +34,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.mikhaellopez.rxanimation.fadeIn
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activity: Activity) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
+class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: Activity) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val quotescardBinding = QuotescardBinding.inflate(LayoutInflater.from(activity),null,false)
@@ -46,132 +48,127 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val quote = mData!![holder.adapterPosition]
-        loadLikes(holder, quote)
-        holder.quotescardBinding.like.setOnClickListener { Like(holder.adapterPosition, holder) }
-        holder.quotescardBinding.quote.text = quote.quote
-        holder.quotescardBinding.author.text = quote.author
-        println("Quote " + mData[position].quote + " selected font: " + mData[position].font)
-        if (quote.font != null) {
-            holder.quotescardBinding.quote.typeface = Tools.fonts(activity)[mData[position].font!!]
-            holder.quotescardBinding.author.typeface = Tools.fonts(activity)[mData[position].font!!]
+
+        if (quotesList != null && quotesList!!.size > 0) {
+            holder.quotescardBinding.quotedata.visibility = VISIBLE
+            holder.quotescardBinding.likes.visibility = VISIBLE
+            val quote = quotesList!![holder.adapterPosition]
+            loadLikes(holder, quote)
+            holder.quotescardBinding.like.setOnClickListener { Like(holder.adapterPosition, holder) }
+            holder.quotescardBinding.quote.text = quote.quote
+            holder.quotescardBinding.author.text = quote.author
+            println("Quote " + quotesList!![position].quote + " selected font: " + quotesList!![position].font)
+            if (quote.font != null) {
+                holder.quotescardBinding.quote.typeface = Tools.fonts(activity)[quotesList!![position].font!!]
+                holder.quotescardBinding.author.typeface = Tools.fonts(activity)[quotesList!![position].font!!]
 
 
-        } else {
-            holder.quotescardBinding.quote.typeface = Typeface.DEFAULT
-            holder.quotescardBinding.author.typeface = Typeface.DEFAULT
-        }
-        val postdia = Tools.convertDate(quote.data!!)
-        val now = Calendar.getInstance().time
-
-        print("Date comparision ${now.compareTo(postdia)}")
-
-
-        val fmt = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
-
-
-        val dayCount = ((now.time - postdia.time) / 1000 / 60 / 60 / 24).toInt()
-        when {
-            dayCount < 1 -> {
-                holder.quotescardBinding.dia.text = "Hoje"
+            } else {
+                holder.quotescardBinding.quote.typeface = Typeface.DEFAULT
+                holder.quotescardBinding.author.typeface = Typeface.DEFAULT
             }
-            dayCount == 1 -> {
-                holder.quotescardBinding.dia.text = "Ontem"
-            }
-            else -> {
-                holder.quotescardBinding.dia.text = fmt.format(postdia)
-            }
-        }
-
-        val user = FirebaseAuth.getInstance().currentUser
-
-        if (quote.userID != user!!.uid) {
-            var u = User(quote.username,quote.userID,quote.userphoto)
-            val userDB = UserDB()
-            userDB.getUser(u.uid!!, object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
+            val postdia = Tools.convertDate(quote.data!!)
+            val now = Calendar.getInstance().time
+            print("Date comparision ${now.compareTo(postdia)}")
+            val fmt = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
+            val dayCount = ((now.time - postdia.time) / 1000 / 60 / 60 / 24).toInt()
+            when {
+                dayCount < 1 -> {
+                    holder.quotescardBinding.dia.text = "Hoje"
                 }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        u = dataSnapshot.getValue(User::class.java)!!
-                        Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
-                        holder.quotescardBinding.username.text = u.name
-                        holder.quotescardBinding.userpic.setOnClickListener { showuserprofile(u, holder) }
-                        holder.quotescardBinding.username.setOnClickListener { showuserprofile(u, holder) }
-                    } else {
-                        userDB.insertUser(u)
+                dayCount == 1 -> {
+                    holder.quotescardBinding.dia.text = "Ontem"
+                }
+                else -> {
+                    holder.quotescardBinding.dia.text = fmt.format(postdia)
+                }
+            }
+            val user = FirebaseAuth.getInstance().currentUser
+            if (quote.userID != user!!.uid) {
+                var u = User(quote.username, quote.userID, quote.userphoto)
+                val userDB = UserDB()
+                userDB.getUser(u.uid!!, object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
                     }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            u = dataSnapshot.getValue(User::class.java)!!
+                            Glide.with(activity).load(u.picurl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
+                            holder.quotescardBinding.username.text = u.name
+                            holder.quotescardBinding.userpic.setOnClickListener { showuserprofile(u, holder) }
+                            holder.quotescardBinding.username.setOnClickListener { showuserprofile(u, holder) }
+                        } else {
+                            userDB.insertUser(u)
+                        }
+                    }
+                })
+
+
+            } else {
+                holder.quotescardBinding.username.text = user.displayName
+                Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
+                holder.quotescardBinding.userpic.setOnClickListener {
+                    val viewPager: ViewPager = activity.findViewById(R.id.pager)
+                    viewPager.currentItem = 2
                 }
-            })
+
+            }
+
+            if (quotesList!![position].backgroundcolor != 0) {
+                holder.quotescardBinding.background.setCardBackgroundColor(quote.backgroundcolor!!)
+
+            }
+            if (quotesList!![position].textcolor != 0) {
+                holder.quotescardBinding.quote.setTextColor(quote.textcolor!!)
+                holder.quotescardBinding.author.setTextColor(quote.textcolor!!)
+            }
 
 
+            // OR using options to customize
+            val color = ColorUtils.lighten(quote.textcolor!!, 0.3)
 
+            val readMoreOption = ReadMoreOption.Builder(activity)
+                    .textLength(205, ReadMoreOption.TYPE_CHARACTER)
+                    .moreLabel(" Ver mais...")
+                    .lessLabel(" Ver menos")
+                    .moreLabelColor(color)
+                    .lessLabelColor(color)
+                    .expandAnimation(true)
+                    .build()
+
+            readMoreOption.addReadMoreTo(holder.quotescardBinding.quote, quote.quote)
+
+            holder.quotescardBinding.background.setOnClickListener {
+                val vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                if (vibrator.hasVibrator()) {
+                    val mVibratePattern = longArrayOf(100, 150)
+
+                    vibrator.vibrate(mVibratePattern, -1) // for 500 ms
+                }
+                val u = FirebaseAuth.getInstance().currentUser
+                val user = quote.userID == u!!.uid
+                val alert = Alert(activity)
+                alert.quoteoptions(user, quotesList!![holder.adapterPosition])
+            }
+
+            holder.quotescardBinding.share.setOnClickListener {
+                val shareintent = Intent(Intent.ACTION_SEND)
+                shareintent.type = "text/pain"
+                shareintent.putExtra(Intent.EXTRA_SUBJECT, "Motiv")
+                shareintent.putExtra(Intent.EXTRA_TEXT, quote.quote + " -" + quote.author)
+                activity.startActivity(Intent.createChooser(shareintent, "Escolha onde quer compartilhar"))
+            }
+            val time: Long = 1000
+            fadeIn(holder.quotescardBinding.quotedata, time).andThen {
+                val handler = Handler()
+                handler.postDelayed({
+                    holder.quotescardBinding.topshimmer.hideShimmer()
+                }, 1500)
+            }.subscribe()
         } else {
-            holder.quotescardBinding.username.text = user.displayName
-            Glide.with(activity).load(user.photoUrl).error(R.drawable.notfound).into(holder.quotescardBinding.userpic)
-            holder.quotescardBinding.userpic.setOnClickListener {
-                val viewPager:ViewPager = activity.findViewById(R.id.pager)
-                viewPager.currentItem = 2
-            }
-
+            holder.quotescardBinding.topshimmer.fadeIn().subscribe()
         }
-
-        if (mData[position].backgroundcolor != 0) {
-            holder.quotescardBinding.background.setCardBackgroundColor(quote.backgroundcolor!!)
-
-        }
-        if (mData[position].textcolor != 0) {
-            holder.quotescardBinding.quote.setTextColor(quote.textcolor!!)
-            holder.quotescardBinding.author.setTextColor(quote.textcolor!!)
-        }
-
-
-        // OR using options to customize
-        val color = ColorUtils.lighten(quote.textcolor!!, 0.3)
-
-        val readMoreOption = ReadMoreOption.Builder(activity)
-                .textLength(205, ReadMoreOption.TYPE_CHARACTER)
-                .moreLabel(" Ver mais...")
-                .lessLabel(" Ver menos")
-                .moreLabelColor(color)
-                .lessLabelColor(color)
-                .expandAnimation(true)
-                .build()
-
-        readMoreOption.addReadMoreTo(holder.quotescardBinding.quote, quote.quote)
-
-        holder.quotescardBinding.background.setOnClickListener {
-            val vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            if (vibrator.hasVibrator()) {
-                val mVibratePattern = longArrayOf(100, 150)
-
-                vibrator.vibrate(mVibratePattern, -1) // for 500 ms
-            }
-            val u = FirebaseAuth.getInstance().currentUser
-            val user = quote.userID == u!!.uid
-            val alert = Alert(activity)
-            alert.quoteoptions(user, mData[holder.adapterPosition])
-        }
-
-        holder.quotescardBinding.share.setOnClickListener {
-            val shareintent = Intent(Intent.ACTION_SEND)
-            shareintent.type = "text/pain"
-            shareintent.putExtra(Intent.EXTRA_SUBJECT, "Motiv")
-            shareintent .putExtra(Intent.EXTRA_TEXT, quote.quote + " -" + quote.author)
-            activity.startActivity(Intent.createChooser(shareintent, "Escolha onde quer compartilhar"))
-        }
-
-        val time: Long = 1000
-
-        fadeIn(holder.quotescardBinding.quotedata, time).andThen{
-            val handler = Handler()
-            handler.postDelayed({
-                holder.quotescardBinding.topshimmer.hideShimmer()
-            },1500)
-
-        }.subscribe()
-
 
 
     }
@@ -196,8 +193,8 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
 
 
     private fun Like(position: Int, holder: MyViewHolder) {
-        val quotesDB = QuotesDB(activity, mData!![position])
-        Log.println(Log.INFO, "Quotes", "like event on quote \n ${mData[position].id}  ${mData[position].quote} ")
+        val quotesDB = QuotesDB(activity, quotesList!![position])
+        Log.println(Log.INFO, "Quotes", "like event on quote \n ${quotesList!![position].id}  ${quotesList!![position].quote} ")
         if (!holder.quotescardBinding.like.isChecked) {
             quotesDB.deslike()
         } else {
@@ -249,7 +246,10 @@ class RecyclerAdapter(private val mData: ArrayList<Quotes>?, private val activit
     }
 
     override fun getItemCount(): Int {
-        return mData?.size ?: 0
+        if (quotesList == null || quotesList?.size == 0) return 4
+        else {
+            return quotesList!!.size
+        }
     }
 
 

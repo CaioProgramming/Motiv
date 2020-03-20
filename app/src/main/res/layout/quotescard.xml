@@ -6,6 +6,7 @@
         android:id="@+id/topshimmer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:shimmer_clip_to_children="true"
         app:shimmer_highlight_color="@color/colorAccent"
         app:shimmer_base_color="?android:textColorHint"
         app:shimmer_direction="left_to_right"
@@ -17,7 +18,7 @@
         app:shimmer_auto_start="true"
         >
         <LinearLayout
-            android:layout_margin="10dp"
+            android:layout_margin="1dp"
             android:id="@+id/card"
             android:layout_height="wrap_content"
             android:hapticFeedbackEnabled="true"
@@ -46,7 +47,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-
                         android:layout_gravity="center"
                         android:id="@+id/username"
                         android:layout_width="match_parent"
@@ -54,7 +54,6 @@
                         android:fontFamily="@font/lato_bold"
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="5dp"
-                        android:text="@string/username"
                         android:textSize="12sp" />
                     <TextView
                         android:textSize="12sp"

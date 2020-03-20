@@ -18,9 +18,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.activities.EditQuoteActivity"
-            android:theme="@style/AppThemeUser"
             android:label="Editar post" />
-        <activity android:name=".view.activities.UserActivity" android:theme="@style/AppThemeUser" />
+        <activity android:name=".view.activities.UserActivity" />
         <activity
             android:name=".view.activities.ErrorActivity"
             android:clearTaskOnLaunch="true"

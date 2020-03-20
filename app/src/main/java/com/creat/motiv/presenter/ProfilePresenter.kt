@@ -3,6 +3,8 @@ package com.creat.motiv.presenter
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.os.Handler
+import android.view.animation.AnimationUtils
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
@@ -11,7 +13,6 @@ import com.creat.motiv.utils.Alert
 import com.creat.motiv.view.adapters.QuotePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.mikhaellopez.rxanimation.fadeIn
 
 
 class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProfileBinding, val user: User){
@@ -25,7 +26,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             profileFragment.quotespager.adapter = QuotePagerAdapter(it,this)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
             profileFragment.usertabs.getTabAt(0)?.text = "Posts"
-            profileFragment.usertabs.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
+            //profileFragment.usertabs.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
             profileFragment.usertabs.getTabAt(1)?.text =  "Favoritos"
             profileFragment.usertabs.getTabAt(1)?.icon = activity.getDrawable(R.drawable.favorites)
             if (fireuser != null &&  it == fireuser.uid) {
@@ -34,22 +35,43 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
                     alert.Picalert(this)
                 }
             }
+            profileFragment.quotespager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {
+                }
+
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    when (position) {
+                        0 -> print("Posts")
+                        else -> print("Favoritos")
+                    }
+                }
+
+
+                override fun onPageSelected(position: Int) {
+                    val navigation: TabLayout = profileFragment.usertabs
+                    val inanimation = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom)
+                    val outanimation = AnimationUtils.loadAnimation(activity, R.anim.pop_out)
+                    when (position) {
+                        0 -> {
+                            navigation.getTabAt(position)?.text = "Posts"
+                            navigation.getTabAt(0)?.icon = null
+                            navigation.getTabAt(1)?.icon = activity.getDrawable(R.drawable.favorites)
+                            navigation.getTabAt(1)?.text = ""
+                        }
+                        1 -> {
+                            navigation.getTabAt(position)?.text = "Favoritos"
+                            navigation.getTabAt(position)?.icon = null
+                            navigation.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
+                            navigation.getTabAt(0)?.text = ""
+                        }
+
+                    }
+                }
+
+            })
+
         }
-        var scrollRange = -1
-        /*profileFragment.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
-            if (scrollRange == -1){
-                scrollRange = barLayout?.totalScrollRange!!
-            }
-            if (scrollRange + verticalOffset == 0){
-                profileFragment.collapsetoolbar.title = user.name
-                profileFragment.toolbar.title = user.name
-                isShow = true
-            } else if (isShow){
-                profileFragment.collapsetoolbar.title = " " //careful there should a space between double quote otherwise it wont work
-                profileFragment.toolbar.title = " " //careful there should a space between double quote otherwise it wont work
-                isShow = false
-            }
-        })*/
+
 
     }
 

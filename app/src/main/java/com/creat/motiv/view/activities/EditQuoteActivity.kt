@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewAnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -33,7 +34,7 @@ import java.util.*
 
 class EditQuoteActivity : AppCompatActivity() {
 
-    var user: FirebaseUser? = null
+    var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var f: Int = 0
     private var isfirst = true
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,25 +54,26 @@ class EditQuoteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.salvar) {
-            salvar(createQuote())
+            salvar(quotedata!!)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadQuote() {
+    var quotedata: Quotes? = null
 
-        val quotes = intent.getSerializableExtra("Quote") as? Quotes
+    private fun loadQuote() {
+        quotedata = intent.getSerializableExtra("Quote") as? Quotes
+        val quotes = quotedata
         //quoteID.setText(quotes.getId());
         if (quotes != null) {
             quote.setText(quotes.quote)
             author.setText(quotes.author)
             username.text = quotes.username
             background!!.setBackgroundColor(quotes.backgroundcolor!!)
-
             quote.setTextColor(quotes.textcolor!!)
             if (quotes.font != null) {
                 quote.typeface = Tools.fonts(this)[quotes.font!!]
-                quote.typeface = Tools.fonts(this)[quotes.font!!]
+                author.typeface = Tools.fonts(this)[quotes.font!!]
                 font.typeface = Tools.fonts(this)[quotes.font!!]
                 f = quotes.font!!
             } else {
@@ -84,7 +86,6 @@ class EditQuoteActivity : AppCompatActivity() {
             backcolorid!!.text = quotes.backgroundcolor.toString()
             backcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
             textcolorfab!!.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
-
             fontid!!.text = quotes.font.toString()
         }
         Glide.with(this).load(user!!.photoUrl).error(R.drawable.notfound).into(userpic)
@@ -94,6 +95,11 @@ class EditQuoteActivity : AppCompatActivity() {
 
     fun showup() {
         val user = FirebaseAuth.getInstance().currentUser
+        toolbar.visibility = VISIBLE
+        toolbar.title = "Editar publicação"
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { this.finish() }
         username.text = user!!.displayName
         Glide.with(this).load(user.photoUrl).into(userpic)
         try {
@@ -128,10 +134,11 @@ class EditQuoteActivity : AppCompatActivity() {
     private fun backColorpicker() {
         val cp = ColorPicker(this)
         cp.show()
+        cp.setTitle("Cordefundo")
         cp.enableAutoClose()
         cp.setCallback { color ->
             background.visibility = View.INVISIBLE
-            background.setBackgroundColor(color)
+            background.setCardBackgroundColor(color)
             val cx = background.right
             val cy = background.top
             val radius = background.width.coerceAtLeast(background.height)
@@ -147,6 +154,7 @@ class EditQuoteActivity : AppCompatActivity() {
     private fun textocolorpicker() {
         val cp = ColorPicker(this)
         cp.show()
+        cp.setTitle("Cor do texto")
         cp.enableAutoClose()
         cp.setCallback { color ->
             Log.d("Pure Hex", Integer.toHexString(color))
@@ -184,7 +192,6 @@ class EditQuoteActivity : AppCompatActivity() {
                 textcolorid, backcolorid,
                 textcolorfab, backcolorfab)
         recyclerColorAdapter.notifyDataSetChanged()
-
         colorlibrary.adapter = recyclerColorAdapter
         colorlibrary.layoutManager = llm
 

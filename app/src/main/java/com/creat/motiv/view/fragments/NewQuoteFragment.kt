@@ -59,7 +59,6 @@ class NewQuoteFragment: Fragment() {
     }
 
 
-
     private fun showup(popupbind: NewquotepopupBinding) {
         user = FirebaseAuth.getInstance().currentUser
         popupbind.username.text = user!!.displayName

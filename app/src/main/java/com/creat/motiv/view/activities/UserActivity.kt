@@ -14,6 +14,7 @@ import com.creat.motiv.utils.ColorUtils.ERROR
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class UserActivity : AppCompatActivity() {
@@ -57,7 +58,9 @@ class UserActivity : AppCompatActivity() {
                         val user = dataSnapshot.getValue(User::class.java)
                         user.let {
                             val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
-                            supportActionBar?.title = user.name
+                            toolbar.title = user.name
+                            toolbar.setNavigationOnClickListener { finish() }
+                            setSupportActionBar(toolbar)
                             supportActionBar?.setDisplayShowHomeEnabled(true)
                         }
 

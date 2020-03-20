@@ -11,22 +11,34 @@
 
 
         <com.google.android.material.tabs.TabLayout
-            android:animateLayoutChanges="true"
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:animateLayoutChanges="true"
             app:tabIndicatorFullWidth="false"
             app:tabMode="auto"
-            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabIconTint="?android:textColorPrimary"
+            app:tabIndicatorColor="?android:textColorPrimary"
+            app:tabSelectedTextColor="?android:textColorPrimary"
             app:tabTextColor="?android:textColorHint" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/navigation"
-            android:layout_below="@id/toolbar" />
+            android:layout_below="@id/toolbar"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="?android:colorBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+
         <androidx.appcompat.widget.Toolbar
             app:title="Home"
             android:id="@+id/toolbar"

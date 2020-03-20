@@ -72,7 +72,7 @@ open class MainActivity : AppCompatActivity(){
         if(!uimode(this)){
             setLightStatusBar(this)
         }
-        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
+        navigation.getTabAt(0)?.text = "Home"
         navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
         navigation.getTabAt(2)?.customView = profilepic
         pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -89,8 +89,10 @@ open class MainActivity : AppCompatActivity(){
 
 
             override fun onPageSelected(position: Int) {
+
                 when (position) {
                     0 ->{
+
                         toolbar.title = "Home"
                         navigation.getTabAt(position)?.text = toolbar.title
                         navigation.getTabAt(0)?.icon = null
@@ -123,8 +125,8 @@ open class MainActivity : AppCompatActivity(){
             }
 
         })
+
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
-        pager.setCurrentItem(0)
 
 
     }
