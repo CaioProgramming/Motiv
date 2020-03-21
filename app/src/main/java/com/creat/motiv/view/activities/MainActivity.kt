@@ -6,9 +6,11 @@ import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
+import com.ToxicBakery.viewpager.transforms.DepthPageTransformer
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
@@ -34,7 +36,10 @@ open class MainActivity : AppCompatActivity(){
     internal lateinit var version: Version
     internal var a: Alert? = null
     internal var user: FirebaseUser? = null
-    private val home: Boolean get() {return pager.currentItem == 1}
+    private val home: Boolean
+        get() {
+            return pager.currentItem == 0
+        }
 
 
 
@@ -68,13 +73,11 @@ open class MainActivity : AppCompatActivity(){
             Alert.builder(this).mailmessage()
         }
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = ""
+        supportActionBar!!.title = "Home"
         if(!uimode(this)){
             setLightStatusBar(this)
         }
-        navigation.getTabAt(0)?.text = "Home"
-        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
-        navigation.getTabAt(2)?.customView = profilepic
+
         pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -92,7 +95,6 @@ open class MainActivity : AppCompatActivity(){
 
                 when (position) {
                     0 ->{
-
                         toolbar.title = "Home"
                         navigation.getTabAt(position)?.text = toolbar.title
                         navigation.getTabAt(0)?.icon = null
@@ -109,7 +111,6 @@ open class MainActivity : AppCompatActivity(){
                         navigation.getTabAt(2)?.customView = profilepic
                         navigation.getTabAt(0)?.text = ""
                         navigation.getTabAt(2)?.text = ""
-
                     }
                     else -> {
                         toolbar.title = user?.displayName
@@ -119,19 +120,29 @@ open class MainActivity : AppCompatActivity(){
                         navigation.getTabAt(1)?.text = ""
                         navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
                         navigation.getTabAt(2)?.customView = null
-
                     }
                 }
+                swapTabs(position)
+                previoustab = position
+
+
             }
 
         })
-
+        navigation.getTabAt(0)?.text = toolbar.title
+        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
+        navigation.getTabAt(2)?.customView = profilepic
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
-
-
+        pager.setPageTransformer(true, DepthPageTransformer())
     }
 
-
+    var previoustab = 0
+    private fun swapTabs(position: Int) {
+        val inanimation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.slide_in_bottom)
+        val inanimation2 = AnimationUtils.loadAnimation(this@MainActivity, R.anim.slide_in_top)
+        navigation.getTabAt(position)?.view?.startAnimation(inanimation)
+        navigation.getTabAt(previoustab)?.view?.startAnimation(inanimation2)
+    }
 
 
 

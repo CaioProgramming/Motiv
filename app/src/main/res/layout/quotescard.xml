@@ -10,7 +10,6 @@
         app:shimmer_highlight_color="@color/colorAccent"
         app:shimmer_base_color="?android:textColorHint"
         app:shimmer_direction="left_to_right"
-        app:shimmer_dropoff="@integer/default_animation_duration"
         app:shimmer_shape="linear"
         app:shimmer_duration="500"
         app:shimmer_repeat_mode="reverse"
@@ -28,6 +27,7 @@
             android:animateLayoutChanges="true">
 
             <LinearLayout
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:id="@+id/quotedata"
                 android:layout_width="match_parent"
@@ -110,6 +110,7 @@
 
 
             <RelativeLayout
+                android:visibility="invisible"
                 android:id="@+id/likes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.viewpager.widget.ViewPager
+import com.ToxicBakery.viewpager.transforms.StackTransformer
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
@@ -27,7 +28,7 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
             profileFragment.usertabs.getTabAt(0)?.text = "Posts"
             //profileFragment.usertabs.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
-            profileFragment.usertabs.getTabAt(1)?.text =  "Favoritos"
+            //profileFragment.usertabs.getTabAt(1)?.text =  "Favoritos"
             profileFragment.usertabs.getTabAt(1)?.icon = activity.getDrawable(R.drawable.favorites)
             if (fireuser != null &&  it == fireuser.uid) {
                 profileFragment.profilepic.setOnClickListener {
@@ -50,25 +51,33 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
                 override fun onPageSelected(position: Int) {
                     val navigation: TabLayout = profileFragment.usertabs
                     val inanimation = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom)
-                    val outanimation = AnimationUtils.loadAnimation(activity, R.anim.pop_out)
+                    val inanimation2 = AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
                     when (position) {
                         0 -> {
                             navigation.getTabAt(position)?.text = "Posts"
                             navigation.getTabAt(0)?.icon = null
+                            navigation.getTabAt(position)?.view?.startAnimation(inanimation)
                             navigation.getTabAt(1)?.icon = activity.getDrawable(R.drawable.favorites)
                             navigation.getTabAt(1)?.text = ""
+                            navigation.getTabAt(1)?.view?.startAnimation(inanimation2)
+
+
                         }
                         1 -> {
                             navigation.getTabAt(position)?.text = "Favoritos"
                             navigation.getTabAt(position)?.icon = null
+                            navigation.getTabAt(position)?.view?.startAnimation(inanimation)
                             navigation.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
                             navigation.getTabAt(0)?.text = ""
+                            navigation.getTabAt(0)?.view?.startAnimation(inanimation2)
+
                         }
 
                     }
                 }
 
             })
+            profileFragment.quotespager.setPageTransformer(true, StackTransformer())
 
         }
 

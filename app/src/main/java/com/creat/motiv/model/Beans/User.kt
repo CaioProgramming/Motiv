@@ -1,6 +1,5 @@
 package com.creat.motiv.model.Beans
 
-import android.util.Log
 import java.io.Serializable
 
 class User: Serializable {
@@ -34,7 +33,7 @@ class User: Serializable {
     }
 
     fun showdata(){
-        Log.i(javaClass.simpleName,"Usuário \n nome -> ${name} \n uid -> ${uid} \n token-> ${token} \n picurl->${picurl} \n email ->${email} \n")
+        //Log.i(javaClass.simpleName,"Usuário \n nome -> ${name} \n uid -> ${uid} \n token-> ${token} \n picurl->${picurl} \n email ->${email} \n")
     }
 
 }

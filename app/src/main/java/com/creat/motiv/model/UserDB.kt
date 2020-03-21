@@ -1,13 +1,10 @@
 package com.creat.motiv.model
 
+import android.app.Activity
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
-import android.view.View.VISIBLE
 import android.widget.TextView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.model.Beans.Quotes
@@ -32,14 +29,20 @@ import de.hdodenhof.circleimageview.CircleImageView
 class UserDB: ValueEventListener {
 
     private var profilePresenter: ProfilePresenter? = null
-    private var recyclerView: RecyclerView ? = null
+    var recyclerAdapter: RecyclerAdapter? = null
     private var notfound: TextView ? = null
+    private var activity: Activity? = null
     constructor(profilePresenter: ProfilePresenter?) {
         this.profilePresenter = profilePresenter
+        activity = profilePresenter?.activity
     }
 
     constructor()
+    constructor(recyclerAdapter: RecyclerAdapter) {
+        this.recyclerAdapter = recyclerAdapter
+        activity = recyclerAdapter.activity
 
+    }
 
     private val userref = Tools.userreference
 
@@ -162,13 +165,10 @@ class UserDB: ValueEventListener {
     private var quotesdb = Tools.quotesreference
 
 
-
-
-    fun findfavorites(uid: String, recyclerView: RecyclerView, notfound: TextView) {
+    fun findfavorites(uid: String, notfound: TextView) {
         Log.println(Log.INFO, "Quotes", "Loading favorites quotes from ${uid}")
-        this.recyclerView = recyclerView
         this.notfound = notfound
-        quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {
+        quotesdb.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
@@ -180,10 +180,12 @@ class UserDB: ValueEventListener {
                     val q = d.getValue(Quotes::class.java)
                     if (q != null) {
                         quotes = q
-                        quotes.id = q.id
-                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                            quotes.textcolor = Color.BLACK
-                            quotes.backgroundcolor = Color.WHITE
+                        quotes.id = d.key
+                        if (q.textcolor == 0) {
+                            quotes.textcolor = activity?.titleColor
+
+                        } else if (q.backgroundcolor == 0) {
+                            quotes.backgroundcolor = Color.TRANSPARENT
                         }
                         quotesdb.child(quotes.id!!).child("likes").child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onCancelled(p0: DatabaseError) {
@@ -193,27 +195,23 @@ class UserDB: ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     quotesArrayList.add(quotes)
-                                    print("Loaded ${quotesArrayList.size} favtorite quotes")
                                     quotesArrayList.reverse()
-                                    recyclerView.visibility = VISIBLE
-                                    val llm = GridLayoutManager(profilePresenter!!.activity, Tools.spancount, GridLayoutManager.VERTICAL, false)
-                                    recyclerView.setHasFixedSize(true)
-                                    println(quotesArrayList.size)
-                                    val myadapter = RecyclerAdapter(quotesArrayList, profilePresenter!!.activity)
-                                    recyclerView.adapter = myadapter
-                                    recyclerView.layoutManager = llm
-                                    profilePresenter?.counttab(quotesArrayList.size, profilePresenter!!.profileFragment.usertabs.getTabAt(1)!!, "\n Favoritos")
+                                    Log.e(javaClass.simpleName, "Loaded ${quotesArrayList.size} favorite quotes")
+                                    updateAdapter(quotesArrayList)
                                 }
                             }
 
                         })
-
                     }
 
                 }
-                if (quotesArrayList.size == 0)
+                Log.i(javaClass.simpleName, "Loaded ${quotesArrayList.size} favorite quotes")
+                if (quotesArrayList.size == 0) {
                     notfound.text = "Nenhuma frase favorita encontrada..."
-                notfound.fadeIn()
+                    notfound.fadeIn()
+                } else {
+                    updateAdapter(quotesArrayList)
+                }
 
             }
         })
@@ -222,12 +220,25 @@ class UserDB: ValueEventListener {
     }
 
 
-
-    fun finduserquotes(uid: String, recyclerView: RecyclerView, notfound: TextView){
+    fun finduserquotes(uid: String, notfound: TextView) {
         Log.println(Log.INFO, "Quotes", "Loading quotes from ${uid}")
-        this.recyclerView = recyclerView
         this.notfound = notfound
-        quotesdb.orderByChild("userID").equalTo(uid).addListenerForSingleValueEvent(this)
+        quotesdb.orderByChild("userID").equalTo(uid).addValueEventListener(this)
+
+    }
+
+    fun findfavs(uid: String, notfound: TextView) {
+        Log.println(Log.INFO, "Quotes", "Loading favorite quotes from ${uid}")
+        this.notfound = notfound
+        quotesdb.orderByChild("likes").startAt(uid)
+                .endAt(uid + "\uf8ff").addValueEventListener(this)
+
+    }
+
+    private fun updateAdapter(quotesArrayList: ArrayList<Quotes>) {
+
+        recyclerAdapter?.quotesList = quotesArrayList
+        Tools.delayAction(Runnable { recyclerAdapter?.notifyDataSetChanged() }, 1000)
 
     }
 
@@ -242,24 +253,23 @@ class UserDB: ValueEventListener {
             val q = d.getValue(Quotes::class.java)
             if (q != null) {
                 q.id = d.key
-                if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                    q.textcolor = profilePresenter!!.activity.titleColor
+                if (q.textcolor == 0) {
+                    q.textcolor = activity?.titleColor
+                } else if (q.backgroundcolor == 0) {
                     q.backgroundcolor = Color.TRANSPARENT
+
                 }
                 quotesArrayList.add(q)
 
             }
         }
-        println("founded ${quotesArrayList.size} quotes")
-
+        Log.i(javaClass.simpleName, "founded ${quotesArrayList.size} quotes")
+        updateAdapter(quotesArrayList)
         if (quotesArrayList.size > 0) {
             quotesArrayList.reverse()
-            recyclerView?.adapter = RecyclerAdapter(quotesArrayList,profilePresenter!!.activity)
-            recyclerView?.layoutManager = LinearLayoutManager(profilePresenter!!.activity,RecyclerView.VERTICAL,false)
-            recyclerView?.let { Tools.fadeIn(it,900).subscribe() }
-            profilePresenter?.counttab(quotesArrayList.size, profilePresenter!!.profileFragment.usertabs.getTabAt(0)!!, "\n Posts")
         }else{
-            notfound?.let { Tools.fadeIn(it,500).ambWith(recyclerView?.let { it1 -> Tools.fadeOut(it1,500) }).subscribe() }
+            notfound?.text = "Nenhum post encontrado..."
+            notfound?.fadeIn()
         } //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit
  * @Date 2019/10/15
  * @Description input description
  **/
-class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : ViewContract, android.widget.SearchView.OnQueryTextListener {
+class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : ViewContract, SearchView.OnQueryTextListener {
 
     val quotesDB = QuotesDB(activity)
     private var disposable: Disposable? = null
@@ -125,12 +125,21 @@ class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : Vi
             homeFragment.banner.visibility = View.GONE
         }
         search?.setOnSearchClickListener {
-            quoteadapter?.quotesList!!.clear()
+            quoteadapter?.quotesList = null
             quoteadapter?.notifyDataSetChanged()
         }
-
+        search?.setOnCloseListener {
+            carregar()
+            false
+        }
+        observeSearchView()
+        // search?.setOnQueryTextListener(this)
     }
 
+    private fun resetrecycler() {
+        quoteadapter?.quotesList = null
+        quoteadapter?.notifyDataSetChanged()
+    }
     var search: SearchView? = null
     var quoteadapter: RecyclerAdapter? = null
 
@@ -151,8 +160,9 @@ class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : Vi
     }
 
     private fun pesquisar(pesquisa: String) {
+        resetrecycler()
         val handler = Handler()
-        handler.postDelayed({ quotesDB.pesquisar(pesquisa) }, 3500)
+        handler.postDelayed({ quotesDB.pesquisar(pesquisa) }, 1500)
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {

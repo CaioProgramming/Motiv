@@ -95,6 +95,7 @@
 
 
             <LinearLayout
+                android:layout_margin="10dp"
                 android:id="@+id/card"
                 android:layout_height="match_parent"
                 android:hapticFeedbackEnabled="true"
@@ -153,6 +154,7 @@
                         android:orientation="vertical">
 
                         <EditText
+                            android:transitionName="quote"
                             android:id="@+id/quote"
                             android:hint="@string/quote"
                             android:layout_width="wrap_content"
@@ -164,6 +166,7 @@
                             android:typeface="normal" />
 
                         <EditText
+                            android:transitionName="author"
                             android:id="@+id/author"
                             android:hint="@string/author"
                             android:layout_width="wrap_content"

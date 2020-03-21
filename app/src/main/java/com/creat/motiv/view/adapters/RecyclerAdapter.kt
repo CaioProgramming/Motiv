@@ -8,11 +8,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Vibrator
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -39,7 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: Activity) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
+class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, val activity: Activity) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val quotescardBinding = QuotescardBinding.inflate(LayoutInflater.from(activity),null,false)
@@ -57,7 +57,7 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
             holder.quotescardBinding.like.setOnClickListener { Like(holder.adapterPosition, holder) }
             holder.quotescardBinding.quote.text = quote.quote
             holder.quotescardBinding.author.text = quote.author
-            println("Quote " + quotesList!![position].quote + " selected font: " + quotesList!![position].font)
+            // println("Quote " + quotesList!![position].quote + " selected font: " + quotesList!![position].font)
             if (quote.font != null) {
                 holder.quotescardBinding.quote.typeface = Tools.fonts(activity)[quotesList!![position].font!!]
                 holder.quotescardBinding.author.typeface = Tools.fonts(activity)[quotesList!![position].font!!]
@@ -69,7 +69,7 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
             }
             val postdia = Tools.convertDate(quote.data!!)
             val now = Calendar.getInstance().time
-            print("Date comparision ${now.compareTo(postdia)}")
+            //print("Date comparision ${now.compareTo(postdia)}")
             val fmt = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
             val dayCount = ((now.time - postdia.time) / 1000 / 60 / 60 / 24).toInt()
             when {
@@ -149,7 +149,7 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
                 val u = FirebaseAuth.getInstance().currentUser
                 val user = quote.userID == u!!.uid
                 val alert = Alert(activity)
-                alert.quoteoptions(user, quotesList!![holder.adapterPosition])
+                alert.quoteoptions(user, quotesList!![holder.adapterPosition], holder.quotescardBinding)
             }
 
             holder.quotescardBinding.share.setOnClickListener {
@@ -160,7 +160,7 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
                 activity.startActivity(Intent.createChooser(shareintent, "Escolha onde quer compartilhar"))
             }
             val time: Long = 1000
-            fadeIn(holder.quotescardBinding.quotedata, time).andThen {
+            fadeIn(holder.quotescardBinding.quotedata, time).startWith {
                 val handler = Handler()
                 handler.postDelayed({
                     holder.quotescardBinding.topshimmer.hideShimmer()
@@ -168,6 +168,8 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
             }.subscribe()
         } else {
             holder.quotescardBinding.topshimmer.fadeIn().subscribe()
+            var fade = AnimationUtils.loadAnimation(activity, R.anim.fade_in_repeat)
+            holder.quotescardBinding.topshimmer.startAnimation(fade)
         }
 
 
@@ -175,8 +177,6 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
 
 
     private fun showuserprofile(u: User, holder: MyViewHolder) {
-        /*Alert a = new Alert(activity);
-        a.message(activity.getDrawable(R.drawable.ic_magic_wand), "Estamos trabalhando nisso ok...");*/
         val i = Intent(activity, UserActivity::class.java)
         val bundle = Bundle()
         bundle.putSerializable("User",u)
@@ -194,7 +194,7 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
 
     private fun Like(position: Int, holder: MyViewHolder) {
         val quotesDB = QuotesDB(activity, quotesList!![position])
-        Log.println(Log.INFO, "Quotes", "like event on quote \n ${quotesList!![position].id}  ${quotesList!![position].quote} ")
+        //Log.println(Log.INFO, "Quotes", "like event on quote \n ${quotesList!![position].id}  ${quotesList!![position].quote} ")
         if (!holder.quotescardBinding.like.isChecked) {
             quotesDB.deslike()
         } else {
@@ -212,7 +212,7 @@ class RecyclerAdapter(var quotesList: ArrayList<Quotes>?, private val activity: 
                 for (d in dataSnapshot.children) {
                     val l = d.getValue(Likes::class.java)
                     if (l != null) {
-                        Log.println(Log.DEBUG, "Likes", "who liked " + l.username)
+                        //Log.println(Log.DEBUG, "Likes", "who liked " + l.username)
                         likesArrayList.add(l)
                         holder.quotescardBinding.like.isChecked = l.userid == userdb!!.uid
                     }

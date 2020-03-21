@@ -12,9 +12,8 @@
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>
         <item name="searchViewStyle">@style/Searchtheme</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
-
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="TabsTheme" parent="Widget.Design.TabLayout">

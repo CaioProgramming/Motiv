@@ -16,8 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:animateLayoutChanges="true"
+            app:tabGravity="center"
             app:tabIndicatorFullWidth="false"
-            app:tabMode="auto"
+            app:tabMode="scrollable"
             app:tabIconTint="?android:textColorPrimary"
             app:tabIndicatorColor="?android:textColorPrimary"
             app:tabSelectedTextColor="?android:textColorPrimary"
@@ -28,7 +29,6 @@
             android:layout_height="match_parent"
             android:layout_above="@id/navigation"
             android:layout_below="@id/toolbar"
-            android:layout_margin="4dp"
             app:cardBackgroundColor="?android:colorBackground"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp">

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
+import com.creat.motiv.databinding.UserProfileBinding
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
@@ -22,15 +23,14 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fragmentbind: FragmentProfileBinding = DataBindingUtil.setContentView(this,R.layout.fragment_profile)
+        val fragmentbind: UserProfileBinding = DataBindingUtil.setContentView(this, R.layout.user_profile)
         setContentView(fragmentbind.root)
 
         uid = intent.getStringExtra("uid")
-        setupdata(fragmentbind)
+        setupdata(fragmentbind.profileView)
         //initView(fragmentbind)
 
     }
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -58,10 +58,10 @@ class UserActivity : AppCompatActivity() {
                         val user = dataSnapshot.getValue(User::class.java)
                         user.let {
                             val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
-                            toolbar.title = user.name
-                            toolbar.setNavigationOnClickListener { finish() }
                             setSupportActionBar(toolbar)
-                            supportActionBar?.setDisplayShowHomeEnabled(true)
+                            toolbar.title = user.name
+                            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                            toolbar.setNavigationOnClickListener { finish() }
                         }
 
                     } else {
