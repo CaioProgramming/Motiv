@@ -5,7 +5,6 @@ import android.app.Activity
 import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.viewpager.widget.ViewPager
-import com.ToxicBakery.viewpager.transforms.StackTransformer
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
@@ -77,7 +76,6 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
                 }
 
             })
-            profileFragment.quotespager.setPageTransformer(true, StackTransformer())
 
         }
 

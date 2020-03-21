@@ -10,7 +10,6 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
-import com.ToxicBakery.viewpager.transforms.DepthPageTransformer
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
@@ -125,15 +124,13 @@ open class MainActivity : AppCompatActivity(){
                 swapTabs(position)
                 previoustab = position
 
-
             }
 
         })
-        navigation.getTabAt(0)?.text = toolbar.title
+        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
         navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
         navigation.getTabAt(2)?.customView = profilepic
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
-        pager.setPageTransformer(true, DepthPageTransformer())
     }
 
     var previoustab = 0
