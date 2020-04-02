@@ -211,7 +211,7 @@ open class MainActivity : AppCompatActivity(){
         if (home) {
             super.onBackPressed()
         } else {
-            pager?.setCurrentItem(1,true)
+            pager?.setCurrentItem(0,true)
         }
 
     }
