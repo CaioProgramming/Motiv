@@ -4,49 +4,78 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import com.creat.motiv.model.QuotesDB
-import com.creat.motiv.view.fragments.HomeFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.contract.ViewContract
 import com.creat.motiv.model.Beans.Version
+import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.view.adapters.RecyclerAdapter
+import com.creat.motiv.view.fragments.HomeFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 /**
  * @Author Kotlin MVP Plugin
  * @Date 2019/10/15
  * @Description input description
  **/
-class HomePresenter(val activity: Activity,val homeFragment: HomeFragment) : ViewContract, SearchView.OnQueryTextListener {
+class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : ViewContract, SearchView.OnQueryTextListener {
 
     val quotesDB = QuotesDB(activity)
+    private var disposable: Disposable? = null
 
-    override fun onQueryTextSubmit(query: String): Boolean {
-        if (query.isEmpty()) {
-            carregar()
-            return false
-        }
-        pesquisar(query)
-        return false
+    private fun searchObservable(): Observable<String> {
+        val subject = PublishSubject.create<String>()
+        search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String?): Boolean {
+                s?.let { pesquisar(it) }
+                search?.clearFocus()
+                return false
+            }
+
+            override fun onQueryTextChange(text: String): Boolean {
+                if (text.isNotBlank()) {
+                    pesquisar(text)
+                } else {
+                    carregar()
+                }
+                return false
+            }
+        })
+        return subject
+
     }
 
-    override fun onQueryTextChange(newText: String): Boolean {
-        if (newText.isEmpty()) {
-            carregar()
-            return false
-        }
-        pesquisar(newText)
-        return false //To change body of created functions use File | Settings | File Templates.
+
+    private fun observeSearchView() {
+        disposable = searchObservable()
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .filter { t -> !t.isEmpty() && t.length >= 3 }
+                .map { text -> text.toLowerCase().trim() }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { query -> pesquisar(query) }
     }
+
 
     private fun checkversion() {
         val manager = activity.packageManager
-        val info = manager.getPackageInfo(activity!!.packageName, PackageManager.GET_ACTIVITIES)
+        val info = manager.getPackageInfo(activity.packageName, PackageManager.GET_ACTIVITIES)
         val versionName = info.versionName
         val version = Version()
 
@@ -76,7 +105,7 @@ class HomePresenter(val activity: Activity,val homeFragment: HomeFragment) : Vie
     override fun initview() {
         checkversion()
         // search = activity.findViewById(R.id.search)
-        search?.setOnQueryTextListener(this)
+        //search?.let { observeSearchView() }
 
         homeFragment.refresh?.setOnRefreshListener {
             if (homeFragment.refresh.isRefreshing) {
@@ -95,20 +124,63 @@ class HomePresenter(val activity: Activity,val homeFragment: HomeFragment) : Vie
         homeFragment.dismiss?.setOnClickListener {
             homeFragment.banner.visibility = View.GONE
         }
-
+        search?.setOnSearchClickListener {
+            quoteadapter?.quotesList = null
+            quoteadapter?.notifyDataSetChanged()
+        }
+        search?.setOnCloseListener {
+            carregar()
+            false
+        }
+        observeSearchView()
+        // search?.setOnQueryTextListener(this)
     }
 
+    private fun resetrecycler() {
+        quoteadapter?.quotesList = null
+        quoteadapter?.notifyDataSetChanged()
+    }
     var search: SearchView? = null
+    var quoteadapter: RecyclerAdapter? = null
 
+
+    private fun setupRecycler(recyclerView: RecyclerView) {
+        quoteadapter = RecyclerAdapter(null, activity)
+        val llm = LinearLayoutManager(activity, VERTICAL, false)
+        recyclerView.adapter = quoteadapter
+        recyclerView.layoutManager = llm
+        recyclerView.setHasFixedSize(true)
+    }
 
     override fun carregar() {
+        setupRecycler(homeFragment.homeBinding!!.composesrecycler)
         quotesDB.refreshlayout = homeFragment.refresh
-        quotesDB.recyclerView = homeFragment.composesrecycler
+        quotesDB.recyclerAdapter = quoteadapter
         quotesDB.carregar()
     }
 
     private fun pesquisar(pesquisa: String) {
-        quotesDB.pesquisar(pesquisa)
+        resetrecycler()
+        val handler = Handler()
+        handler.postDelayed({ quotesDB.pesquisar(pesquisa) }, 1500)
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean {
+        if (query.isEmpty()) {
+            carregar()
+            return false
+        }
+        pesquisar(query)
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        if (newText.isEmpty()) {
+            carregar()
+            return false
+        }
+        pesquisar(newText)
+        return false //To change body of created functions use File | Settings | File Templates.
     }
 
 }

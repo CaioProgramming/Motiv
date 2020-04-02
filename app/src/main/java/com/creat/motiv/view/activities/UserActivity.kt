@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
+import com.creat.motiv.databinding.UserProfileBinding
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
@@ -14,6 +15,7 @@ import com.creat.motiv.utils.ColorUtils.ERROR
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class UserActivity : AppCompatActivity() {
@@ -21,15 +23,14 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fragmentbind: FragmentProfileBinding = DataBindingUtil.setContentView(this,R.layout.fragment_profile)
+        val fragmentbind: UserProfileBinding = DataBindingUtil.setContentView(this, R.layout.user_profile)
         setContentView(fragmentbind.root)
 
         uid = intent.getStringExtra("uid")
-        setupdata(fragmentbind)
+        setupdata(fragmentbind.profileView)
         //initView(fragmentbind)
 
     }
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -39,6 +40,7 @@ class UserActivity : AppCompatActivity() {
                 supportFinishAfterTransition()
                 return true
             }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -56,6 +58,10 @@ class UserActivity : AppCompatActivity() {
                         val user = dataSnapshot.getValue(User::class.java)
                         user.let {
                             val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
+                            setSupportActionBar(toolbar)
+                            toolbar.title = user.name
+                            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                            toolbar.setNavigationOnClickListener { finish() }
                         }
 
                     } else {
@@ -65,9 +71,6 @@ class UserActivity : AppCompatActivity() {
                 }
             })
         }
-        setSupportActionBar(profileBinding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
     }
 
 

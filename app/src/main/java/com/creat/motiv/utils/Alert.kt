@@ -1,13 +1,13 @@
 package com.creat.motiv.utils
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.*
 import android.graphics.Color
 import android.graphics.Color.WHITE
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.CountDownTimer
 import android.os.Handler
 import android.text.Html
@@ -23,12 +23,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.andrognito.flashbar.Flashbar
-import com.andrognito.flashbar.anim.FlashAnim
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.DeleteAllDialogBinding
 import com.creat.motiv.databinding.MessageDialogBinding
+import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.Beans.Developers
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Pics
@@ -72,9 +71,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
-
-
-    fun quoteoptions(isfromuser: Boolean, quote: Quotes) {
+    fun quoteoptions(isfromuser: Boolean, quote: Quotes, quotescardBinding: QuotescardBinding) {
         val myDialog = BottomSheetDialog(activity, styles[1])
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.setCanceledOnTouchOutside(true)
@@ -112,7 +109,11 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             myDialog.dismiss()
             val i = Intent(activity, EditQuoteActivity::class.java)
             i.putExtra("Quote", quote)
-            activity.startActivity(i)
+            val options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                    android.util.Pair(quotescardBinding.quote as View, "quote"),
+                    android.util.Pair(quotescardBinding.author as View, "author"))
+            activity.startActivity(i, options.toBundle())
+            //activity.startActivity(i)
         }
 
         share?.setOnClickListener {
@@ -259,39 +260,6 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
 
 
-    fun version() {
-        Flashbar.Builder(activity)
-                .gravity(Flashbar.Gravity.TOP)
-                .title("Atualização")
-                .duration(1500)
-                .message("Uma nova versão do motiv está disponível")
-                .primaryActionText("Ok")
-                .backgroundDrawable(R.drawable.gradient)
-                .primaryActionTapListener(object : Flashbar.OnActionTapListener {
-                    override fun onActionTapped(bar: Flashbar) {
-                        bar.dismiss()
-                        val uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv")
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        activity.startActivity(intent)
-                    }
-                })
-                .enterAnimation(FlashAnim.with(activity)
-                        .animateBar()
-                        .duration(750)
-                        .alpha()
-                        .overshoot())
-                .exitAnimation(FlashAnim.with(activity)
-                        .animateBar()
-                        .duration(400)
-                        .accelerateDecelerate())
-                .dismissOnTapOutside()
-                .duration(3500)
-                .build()
-                .show()
-
-
-
-    }
 
     fun mailmessage(){
         val myDialog = Dialog(activity, styles[0])

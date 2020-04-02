@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
@@ -121,6 +122,11 @@ object Tools {
 
 
         return artists
+    }
+
+    fun delayAction(runnable: Runnable, delay: Long) {
+        val handler = Handler()
+        handler.postDelayed(runnable, delay)
     }
 
 

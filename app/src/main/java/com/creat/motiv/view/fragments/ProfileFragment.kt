@@ -16,7 +16,6 @@ import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.Pref
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -39,10 +38,7 @@ class ProfileFragment : Fragment() {
         fragmentbind?.let{
             val act = activity as AppCompatActivity
             user?.let { create(it) }
-            it.toolbar.setNavigationOnClickListener {
-                val navview= act.findViewById<BottomNavigationView>(R.id.navigation)
-                navview.selectedItemId = R.id.navigation_home
-            }
+
             setHasOptionsMenu(true)
         }
         return fragmentbind!!.root

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="?android:colorBackground"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,18 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.budiyev.android.circularprogressbar.CircularProgressBar
-            android:id="@+id/loading"
-            android:layout_centerInParent="true"
-            app:animateProgress="true"
-            app:foregroundStrokeColor="@color/colorPrimary"
-            app:indeterminateSweepAnimationDuration="1500"
-            app:foregroundStrokeWidth="2dp"
-            app:indeterminate="true"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
 
-
-
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

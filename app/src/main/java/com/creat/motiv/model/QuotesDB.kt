@@ -1,23 +1,13 @@
 package com.creat.motiv.model
-
 import android.app.Activity
-import android.app.ProgressDialog
 import android.graphics.Color
-import android.os.CountDownTimer
 import android.os.Handler
-import android.text.Html
 import android.util.Log
-import android.view.View
-import android.widget.TextView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.andrognito.flashbar.Flashbar
-import com.creat.motiv.R
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
+import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.ColorUtils.INFO
 import com.creat.motiv.utils.ColorUtils.SUCCESS
@@ -42,41 +32,20 @@ class QuotesDB : ValueEventListener {
     }
 
     override fun onDataChange(dataSnapshot: DataSnapshot) {
-
         val quotesArrayList = ArrayList<Quotes>()
-        quotesArrayList.clear()
-        recyclerView?.removeAllViews()
         for (d in dataSnapshot.children) {
             var quotes: Quotes
             val q = d.getValue(Quotes::class.java)
             if (q != null) {
                 quotes = q
                 quotes.id = d.key
-                if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                    quotes.textcolor = Color.BLACK
-                    quotes.backgroundcolor = Color.WHITE
+                if (q.textcolor == 0) {
+                    quotes.textcolor = activity?.titleColor
+
+                } else if (q.backgroundcolor == 0) {
+                    quotes.backgroundcolor = Color.TRANSPARENT
                 }
-                if (likecount != null) {
-                    var likes = 0
-                    quotesdb.child(quotes.id!!).child("likes").child(user.uid)
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onCancelled(p0: DatabaseError) {
-                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                                }
-
-                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        likes++
-                                        Log.i("Favoritos", "${likes} favoritos")
-                                        likecount!!.text = "${likes} Favoritos"
-                                    }
-                                }
-
-                            })
-                }
-
                 quotesArrayList.add(quotes)
-
                 println("Quotes " + quotesArrayList.size)
                 println("Quote  " + quotes.id)
                // Log.println(Log.INFO,"Quote","${quotes.id} likes ${quotes.likes}")
@@ -86,21 +55,9 @@ class QuotesDB : ValueEventListener {
 
         }
         print("Loaded ${quotesArrayList.size} quotes")
-        Collections.reverse(quotesArrayList)
-        recyclerView?.visibility = View.VISIBLE
-        val llm = GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false)
-        recyclerView?.setHasFixedSize(true)
-        println(quotesArrayList.size)
-        val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-        recyclerView?.adapter = myadapter
-        recyclerView?.layoutManager = llm
+        quotesArrayList.reverse()
+        updateAdapter(quotesArrayList)
         refreshlayout?.isRefreshing = false
-        usercount?.text = Html.fromHtml("<b>${quotesArrayList.size}</b>  \n Publicações")
-       /* val alert = Alert(activity!!)
-        alert.loading()*/
-
-
-
     }
 
 
@@ -108,9 +65,7 @@ class QuotesDB : ValueEventListener {
     private var quotesdb = Tools.quotesreference
     private var activity: Activity? = null
     var refreshlayout: SwipeRefreshLayout? = null
-    var usercount: TextView? = null
-    var likecount: TextView? = null
-    var recyclerView: RecyclerView? = null
+    var recyclerAdapter: RecyclerAdapter? = null
     private var quotes: Quotes? = null
 
     constructor(activity: Activity, quotes: Quotes) {
@@ -125,11 +80,15 @@ class QuotesDB : ValueEventListener {
 
     fun carregar() {
         Log.println(Log.INFO, "Quotes", "Loading quotes")
-        quotesdb.addListenerForSingleValueEvent(this)
+        quotesdb.addValueEventListener(this)
     }
 
 
 
+    private fun updateAdapter(quotesArrayList: ArrayList<Quotes>) {
+        recyclerAdapter?.quotesList = quotesArrayList
+        Tools.delayAction(Runnable { recyclerAdapter?.notifyDataSetChanged() }, 1500)
+    }
 
 
 
@@ -142,9 +101,7 @@ class QuotesDB : ValueEventListener {
                 .endAt(pesquisa + "\uf8ff").addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         Log.println(Log.INFO, "PESQUISA", "Resultados " + dataSnapshot.childrenCount)
-
                         val quotesArrayList = ArrayList<Quotes>()
-                        recyclerView!!.removeAllViews()
                         for (d in dataSnapshot.children) {
                             var quotes: Quotes
                             val q = d.getValue(Quotes::class.java)
@@ -171,14 +128,7 @@ class QuotesDB : ValueEventListener {
 
 
                         if (quotesArrayList.size > 0) {
-                            recyclerView!!.visibility = View.VISIBLE
-                            val llm = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-                            recyclerView!!.setHasFixedSize(true)
-                            System.out.println(quotesArrayList.size)
-                            val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-                            myadapter.notifyDataSetChanged()
-                            recyclerView!!.adapter = myadapter
-                            recyclerView!!.layoutManager = llm
+                            updateAdapter(quotesArrayList)
                             Log.println(Log.INFO, "PESQUISA", "Resultados para $pesquisa")
                             Log.println(Log.INFO, "PESQUISA", "Resultados " + quotesArrayList.size)
 
@@ -205,7 +155,6 @@ class QuotesDB : ValueEventListener {
                         Log.println(Log.INFO, "PESQUISA", "Resultados " + dataSnapshot.childrenCount)
 
                         val quotesArrayList = ArrayList<Quotes>()
-                        recyclerView!!.removeAllViews()
                         for (d in dataSnapshot.children) {
                             var quotes: Quotes
                             val q = d.getValue(Quotes::class.java)
@@ -232,14 +181,7 @@ class QuotesDB : ValueEventListener {
 
 
                         if (quotesArrayList.size > 0) {
-                            recyclerView!!.visibility = View.VISIBLE
-                            val llm = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-                            recyclerView!!.setHasFixedSize(true)
-                            System.out.println(quotesArrayList.size)
-                            val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-                            myadapter.notifyDataSetChanged()
-                            recyclerView!!.adapter = myadapter
-                            recyclerView!!.layoutManager = llm
+                            updateAdapter(quotesArrayList)
                             Log.println(Log.INFO, "PESQUISA", "Resultados para $pesquisa")
                             Log.println(Log.INFO, "PESQUISA", "Resultados " + quotesArrayList.size)
 
@@ -263,9 +205,7 @@ class QuotesDB : ValueEventListener {
                 .endAt(pesquisa + "\uf8ff").addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         Log.println(Log.INFO, "PESQUISA", "Resultados " + dataSnapshot.childrenCount)
-
                         val quotesArrayList = ArrayList<Quotes>()
-                        recyclerView!!.removeAllViews()
                         for (d in dataSnapshot.children) {
                             var quotes: Quotes
                             val q = d.getValue(Quotes::class.java)
@@ -292,14 +232,7 @@ class QuotesDB : ValueEventListener {
 
 
                         if (quotesArrayList.size > 0) {
-                            recyclerView!!.visibility = View.VISIBLE
-                            val llm = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-                            recyclerView!!.setHasFixedSize(true)
-                            System.out.println(quotesArrayList.size)
-                            val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-                            myadapter.notifyDataSetChanged()
-                            recyclerView!!.adapter = myadapter
-                            recyclerView!!.layoutManager = llm
+                            updateAdapter(quotesArrayList)
                             Log.println(Log.INFO, "PESQUISA", "Resultados para $pesquisa")
                             Log.println(Log.INFO, "PESQUISA", "Resultados " + quotesArrayList.size)
 
@@ -325,7 +258,6 @@ class QuotesDB : ValueEventListener {
                 Log.println(Log.INFO, "PESQUISA", "Resultados " + dataSnapshot.childrenCount)
 
                 val quotesArrayList = ArrayList<Quotes>()
-                recyclerView!!.removeAllViews()
                 for (d in dataSnapshot.children) {
                     var quotes: Quotes
                     val q = d.getValue(Quotes::class.java)
@@ -352,14 +284,7 @@ class QuotesDB : ValueEventListener {
 
 
                 if (quotesArrayList.size > 0) {
-                    recyclerView!!.visibility = View.VISIBLE
-                    val llm = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-                    recyclerView!!.setHasFixedSize(true)
-                    System.out.println(quotesArrayList.size)
-                    val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-                    myadapter.notifyDataSetChanged()
-                    recyclerView!!.adapter = myadapter
-                    recyclerView!!.layoutManager = llm
+                    updateAdapter(quotesArrayList)
                     Log.println(Log.INFO, "PESQUISA", "Resultados para $pesquisa")
                     Log.println(Log.INFO, "PESQUISA", "Resultados " + quotesArrayList.size)
 
@@ -379,21 +304,13 @@ class QuotesDB : ValueEventListener {
 
 
     fun inserir() {
-        var flashbar = Flashbar.Builder(activity!!)
-                .gravity(Flashbar.Gravity.BOTTOM)
-                .title("Salvando!")
-                .message("Sua frase está sendo enviada...")
-                .backgroundColorRes(R.color.colorPrimaryDark)
-                .showProgress(Flashbar.ProgressPosition.RIGHT)
-                .progressTintRes(R.color.colorAccent)
-                .build()
+
 
 
 
         val alert = Alert(activity!!)
 
         if (quotes!!.quote!!.isEmpty()) {
-            flashbar.dismiss()
             alert.snackmessage(ERROR, Tools.emptyquote())
             return
         } else {
@@ -404,8 +321,6 @@ class QuotesDB : ValueEventListener {
                     alert.snackmessage(ERROR, "Erro ao publicar! \n" + task.exception!!.message)
 
                 }
-                flashbar.dismiss()
-
             }
         }
     }
@@ -416,9 +331,7 @@ class QuotesDB : ValueEventListener {
             Alert.builder(activity!!).snackmessage(WARNING, Tools.emptyquote())
 
         } else {
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle("Salvando")
-            progressDialog.show()
+            Alert.builder(activity!!).snackmessage(ColorUtils.INFO, "Atualizando frase...")
             if (user != null) {
                 quotes!!.userphoto = user.photoUrl.toString()
                 quotes!!.username = user.displayName.toString()
@@ -427,18 +340,10 @@ class QuotesDB : ValueEventListener {
             println("Edited quote id " + this.quotes!!.id)
             quotesdb.child(quotes!!.id!!).setValue(this.quotes).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    progressDialog.setTitle("Frase editada com sucesso!")
-                    val timer = object : CountDownTimer(3000, 100) {
-                        override fun onTick(l: Long) {
+                    Alert.builder(activity!!).snackmessage(SUCCESS, "Atualizando frase...")
 
-                        }
-
-                        override fun onFinish() {
-                            progressDialog.dismiss()
-                        }
-                    }
-                    timer.start()
-
+                    val handler = Handler()
+                    handler.postDelayed({ activity?.finish() }, 2000)
                 } else {
                     Alert.builder(activity!!).snackmessage(ERROR, "Erro ${task.exception!!.message} ")
                 }
@@ -557,64 +462,6 @@ class QuotesDB : ValueEventListener {
     }
 
 
-    fun carregarlikes(profilePresenter: ProfilePresenter) {
-        quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val quotesArrayList = ArrayList<Quotes>()
-                quotesArrayList.clear()
-                recyclerView?.removeAllViews()
-                for (d in dataSnapshot.children) {
-                    var quotes: Quotes
-                    val q = d.getValue(Quotes::class.java)
-                    if (q != null) {
-                        quotes = q
-                        quotes.id = q.id
-                        if (q.textcolor == 0 || q.backgroundcolor == 0) {
-                            quotes.textcolor = Color.BLACK
-                            quotes.backgroundcolor = Color.WHITE
-                        }
-                        if (likecount != null) {
-                            quotesdb.child(quotes.id!!).child("likes").child(user.uid).addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onCancelled(p0: DatabaseError) {
-                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                                }
-
-                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        quotesArrayList.add(quotes)
-
-                                        print("Loaded ${quotesArrayList.size} favtorite quotes")
-                                        Collections.reverse(quotesArrayList)
-                                        recyclerView?.visibility = View.VISIBLE
-                                        val llm = GridLayoutManager(activity, Tools.spancount, GridLayoutManager.VERTICAL, false)
-                                        recyclerView?.setHasFixedSize(true)
-                                        println(quotesArrayList.size)
-                                        val myadapter = RecyclerAdapter(quotesArrayList, activity!!)
-                                        recyclerView?.adapter = myadapter
-                                        recyclerView?.layoutManager = llm
-                                        refreshlayout?.isRefreshing = false
-                                        likecount?.text = "${quotesArrayList.size} favoritos"
-                                        val alert = Alert(activity!!)
-                                        alert.loading()
-
-                                    }
-                                }
-
-                            })
-
-                        }
-                    }
-
-                }
-
-            }
-        })
-
-    }
 
 
 }

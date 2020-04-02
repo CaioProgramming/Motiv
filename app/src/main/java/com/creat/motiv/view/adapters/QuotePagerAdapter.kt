@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.viewpager.widget.PagerAdapter
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
-import com.mikhaellopez.rxanimation.fadeOut
 
 class QuotePagerAdapter(private val uid:String,private val profilePresenter: ProfilePresenter): PagerAdapter() {
 
@@ -32,13 +33,14 @@ class QuotePagerAdapter(private val uid:String,private val profilePresenter: Pro
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(profilePresenter.activity),
                 R.layout.quote_recycler,null,false)
-        val userdb = UserDB(profilePresenter)
+        val recyclerAdapter = RecyclerAdapter(null, profilePresenter.activity)
+        quoteRecyclerBinding.quotesrecyclerview.adapter = recyclerAdapter
+        quoteRecyclerBinding.quotesrecyclerview.layoutManager = LinearLayoutManager(profilePresenter.activity, VERTICAL, false)
         if(position == 0){
-            userdb.finduserquotes(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
+            UserDB(recyclerAdapter).finduserquotes(uid, quoteRecyclerBinding.notfound)
         }else{
-            userdb.findfavorites(uid,quoteRecyclerBinding.quotesrecyclerview,quoteRecyclerBinding.notfound)
+            UserDB(recyclerAdapter).findfavorites(uid, quoteRecyclerBinding.notfound)
         }
-        quoteRecyclerBinding.loading.fadeOut()
         container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root
     }

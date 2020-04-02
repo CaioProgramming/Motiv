@@ -12,9 +12,18 @@
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>
         <item name="searchViewStyle">@style/Searchtheme</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
 
+    <style name="TabsTheme" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorColor">?android:textColor</item>
+        <item name="tabSelectedTextColor">?android:textColor</item>
+        <item name="tabTextColor">?android:textColorHint</item>
+        <item name="tabIconTint">?android:textColorPrimary</item>
+        <item name="tabMode">auto</item>
+        <item name="android:animateLayoutChanges">true</item>
     </style>
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">
@@ -73,6 +82,12 @@
 
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:elevation">3dp</item>
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
+        <item name="backgroundColor">?android:colorBackground</item>
+    </style>
+
+    <style name="AppActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="backgroundColor">?android:colorBackground</item>
         <item name="titleTextAppearance">@style/ToolbarTitle</item>
     </style>
 

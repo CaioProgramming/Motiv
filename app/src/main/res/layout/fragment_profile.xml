@@ -14,77 +14,54 @@
             android:layout_height="match_parent"/>
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:fitsSystemWindows="true"
+            android:animateLayoutChanges="true"
             android:background="?android:colorBackground"
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            >
+
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsetoolbar"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false"
-                app:contentScrim="?android:colorBackground"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:gravity="center"
-                    android:paddingBottom="?attr/actionBarSize"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_height="wrap_content"
+                android:background="?android:colorBackground"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_margin="10dp"
-                        android:id="@+id/photoshimmer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:shimmer_auto_start="true"
-                        app:shimmer_base_color="?android:textColorHint"
-                        app:shimmer_colored="true"
-                        app:shimmer_direction="left_to_right"
-                        app:shimmer_highlight_color="@color/colorPrimaryDark"
-                        app:shimmer_repeat_mode="reverse"
-                        app:shimmer_shape="radial">
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profilepic"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:tooltipText="Alterar foto de perfil"
-                            android:contentDescription="Profile picture"
-                            android:fitsSystemWindows="true"
-                            android:src="@drawable/ic_undraw_new_ideas_jdea"
-                            app:civ_border_color="@color/colorAccent"
-                            app:civ_border_width="3dp" />
-
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-
-                </LinearLayout>
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_gravity="bottom"
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin">
-                    <TextView
-                        android:id="@+id/username"
-                        style="@style/TextAppearance.AppCompat.Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:padding="4dp"
-                        android:textAlignment="center" />
-                </androidx.appcompat.widget.Toolbar>
+                        android:id="@+id/profilepic"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:contentDescription="Profile picture"
+                        android:fitsSystemWindows="true"
+                        android:transitionName="profilepic"
+                        android:tooltipText="Alterar foto de perfil"
+                        app:civ_border_width="0dp" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/usertabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabGravity="start"
-                app:tabIndicatorFullWidth="false"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextAppearance="@style/Tabstitle"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                app:tabIconTint="?android:textColorPrimary"
+                app:tabIndicatorColor="?android:textColorPrimary"
+                app:tabIndicatorFullWidth="true"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="?android:textColorPrimary"
                 app:tabTextColor="?android:textColorHint" />
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:visibility="gone" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
