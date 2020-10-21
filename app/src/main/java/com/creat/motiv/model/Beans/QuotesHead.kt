@@ -2,8 +2,8 @@ package com.creat.motiv.model.Beans
 
 import android.util.Log
 
-class QuoteHead(val titulo:String,val quoteslist: ArrayList<Quotes>){
+class QuoteHead(val titulo: String, val quoteslist: ArrayList<Quote>) {
     init {
-        Log.i(javaClass.simpleName,"Quote Head: ${titulo} + with ${quoteslist.size}")
+        Log.i(javaClass.simpleName, "Quote Head: ${titulo} + with ${quoteslist.size}")
     }
 }

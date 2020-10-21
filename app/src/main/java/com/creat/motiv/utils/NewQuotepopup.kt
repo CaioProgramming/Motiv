@@ -17,8 +17,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
-import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.model.Beans.Quote
+import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.firebase.auth.FirebaseAuth
@@ -84,13 +84,13 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
     }
 
 
-     fun showedit(quote: Quotes) {
-         val editbind = NewquotepopupBinding.inflate(LayoutInflater.from(activity),null,false)
+    fun showedit(quote: Quote) {
+        val editbind = NewquotepopupBinding.inflate(LayoutInflater.from(activity), null, false)
 
         val myDialog = dialog(editbind)
 
-         editbind.username.text = user!!.displayName
-         Glide.with(activity).load(user.photoUrl).into(editbind.userpic)
+        editbind.username.text = user!!.displayName
+        Glide.with(activity).load(user.photoUrl).into(editbind.userpic)
 
         //theme();
         try {
@@ -135,14 +135,14 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
     }
 
 
-    private fun atualizar(quote: Quotes) {
+    private fun atualizar(quote: Quote) {
 
-        if (quote.author!!.isBlank()) {
+        if (quote.author.isBlank()) {
             quote.author = user!!.displayName!!
         }
 
 
-        val quotesDB = QuotesDB(activity,quote)
+        val quotesDB = QuoteModel(activity, quote)
 
         quotesDB.editar()
         val refreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.refresh)
@@ -152,33 +152,32 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
     }
 
 
-
-    private fun loadQuote(username: TextView, userpic: CircleImageView, quotes: Quotes, editbind: NewquotepopupBinding) {
+    private fun loadQuote(username: TextView, userpic: CircleImageView, quote: Quote, editbind: NewquotepopupBinding) {
         //quoteID.setText(quotes.getId());
-        editbind.quote.setText(quotes.quote)
-        editbind.author.setText(quotes.author)
-        username.text = quotes.username
-        editbind.background.setBackgroundColor(quotes.backgroundcolor!!)
+        editbind.quote.setText(quote.phrase)
+        editbind.author.setText(quote.author)
+        username.text = quote.username
+        editbind.background.setBackgroundColor(quote.backgroundcolor)
 
-        editbind.quote.setTextColor(quotes.textcolor!!)
-        if (quotes.font != null) {
-            editbind.quote.typeface = Tools.fonts(activity)[quotes.font!!]
-            editbind.quote.typeface = Tools.fonts(activity)[quotes.font!!]
-            editbind.font.typeface = Tools.fonts(activity)[quotes.font!!]
-            f = quotes.font!!
+        editbind.quote.setTextColor(quote.textcolor)
+        if (quote.font != null) {
+            editbind.quote.typeface = Tools.fonts(activity)[quote.font]
+            editbind.quote.typeface = Tools.fonts(activity)[quote.font]
+            editbind.font.typeface = Tools.fonts(activity)[quote.font]
+            f = quote.font
         } else {
             editbind.quote.typeface = Typeface.DEFAULT
             editbind.author.typeface = Typeface.DEFAULT
 
         }
-        editbind.author.setTextColor(quotes.textcolor!!)
-        editbind.textcolorid.text = quotes.textcolor.toString()
-        editbind.backcolorid.text = quotes.backgroundcolor.toString()
-        editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
-        editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
+        editbind.author.setTextColor(quote.textcolor)
+        editbind.textcolorid.text = quote.textcolor.toString()
+        editbind.backcolorid.text = quote.backgroundcolor.toString()
+        editbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(quote.backgroundcolor)
+        editbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(quote.textcolor)
 
-        editbind.fontid.text = quotes.font.toString()
-        Glide.with(activity).load(quotes.userphoto).into(userpic)
+        editbind.fontid.text = quote.font.toString()
+        Glide.with(activity).load(quote.userphoto).into(userpic)
 
     }
 
@@ -244,13 +243,13 @@ class NewQuotepopup(private val activity: Activity): DialogInterface.OnShowListe
         println(dia)
         return dia
     }
-    private fun salvar(quote: Quotes) {
+
+    private fun salvar(quote: Quote) {
         if (user?.isEmailVerified!!) {
-            val quotesDB = QuotesDB(activity, quote)
+            val quotesDB = QuoteModel(activity, quote)
             quotesDB.inserir()
         } else {
             Alert.builder(activity).mailmessage()
-
 
 
         }

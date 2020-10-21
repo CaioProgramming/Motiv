@@ -7,16 +7,16 @@ import android.util.Log
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.model.Beans.Quotes
+import com.creat.motiv.model.Beans.Quote
 import com.creat.motiv.model.Beans.User
 import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.ColorUtils.SUCCESS
 import com.creat.motiv.utils.Tools
+import com.creat.motiv.view.activities.MainActivity
 import com.creat.motiv.view.adapters.RecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,58 +40,16 @@ class UserDB: ValueEventListener {
     constructor()
     constructor(recyclerAdapter: RecyclerAdapter) {
         this.recyclerAdapter = recyclerAdapter
-        activity = recyclerAdapter.activity
+        activity = recyclerAdapter.context
 
     }
 
     private val userref = Tools.userreference
 
-    fun insertUser(user: FirebaseUser) {
-        val userreference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
-        userreference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val u = User()
-                u.name = user.displayName!!
-                u.email = user.email!!
-                u.picurl = user.photoUrl.toString()
-                u.phonenumber =  if (user.phoneNumber != null){user.phoneNumber}else{""}
-                u.uid = user.uid
-                FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
-                    u.token = instanceIdResult.token
-                    userreference.setValue(u)
-                }
-
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-    }
 
     fun insertUser(user: User) {
         val userreference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid!!)
-        userreference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val u = User()
-                u.name = user.name
-                u.email = user.email
-                u.picurl = user.picurl.toString()
-                u.phonenumber = user.phonenumber
-                u.uid = user.uid
-                FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
-                    u.token = instanceIdResult.token
-                    userreference.setValue(u)
-                }
-
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
+        userreference.setValue(user)
     }
 
     fun getUser( uid: String, valueEventListener: ValueEventListener){
@@ -136,7 +94,7 @@ class UserDB: ValueEventListener {
     fun changeusername(name: String) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         val profileChangeRequest = UserProfileChangeRequest.Builder().setDisplayName(name).build()
-        val a = Alert(profilePresenter!!.activity)
+        val a = Alert(activity!!)
 
 
         firebaseUser!!.updateProfile(profileChangeRequest).addOnCompleteListener { task ->
@@ -150,7 +108,9 @@ class UserDB: ValueEventListener {
                     u.token = instanceIdResult.token
                     userref.child(u.uid!!).setValue(u).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            a.snackmessage(SUCCESS, "Perfil atualizado com sucesso")
+                            a.snackmessage(SUCCESS, "Nome atualizado com sucesso")
+                            val main = activity as? MainActivity
+                            main?.reloaduser()
                         }
                     }
                 }
@@ -174,27 +134,27 @@ class UserDB: ValueEventListener {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val quotesArrayList = ArrayList<Quotes>()
+                val quotesArrayList = ArrayList<Quote>()
                 for (d in dataSnapshot.children) {
-                    var quotes: Quotes
-                    val q = d.getValue(Quotes::class.java)
+                    var quote: Quote
+                    val q = d.getValue(Quote::class.java)
                     if (q != null) {
-                        quotes = q
-                        quotes.id = d.key
+                        quote = q
+                        quote.id = d.key
                         if (q.textcolor == 0) {
-                            quotes.textcolor = activity?.titleColor
+                            quote.textcolor = activity?.titleColor
 
                         } else if (q.backgroundcolor == 0) {
-                            quotes.backgroundcolor = Color.TRANSPARENT
+                            quote.backgroundcolor = Color.TRANSPARENT
                         }
-                        quotesdb.child(quotes.id!!).child("likes").child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                        quotesdb.child(quote.id).child("likes").child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onCancelled(p0: DatabaseError) {
                                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                             }
 
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
-                                    quotesArrayList.add(quotes)
+                                    quotesArrayList.add(quote)
                                     quotesArrayList.reverse()
                                     Log.e(javaClass.simpleName, "Loaded ${quotesArrayList.size} favorite quotes")
                                     updateAdapter(quotesArrayList)
@@ -235,10 +195,12 @@ class UserDB: ValueEventListener {
 
     }
 
-    private fun updateAdapter(quotesArrayList: ArrayList<Quotes>) {
+    private fun updateAdapter(quoteArrayList: ArrayList<Quote>) {
 
-        recyclerAdapter?.quotesList = quotesArrayList
-        Tools.delayAction(Runnable { recyclerAdapter?.notifyDataSetChanged() }, 1000)
+        if (quoteArrayList.size > 0) {
+            recyclerAdapter?.quoteList = quoteArrayList
+            Tools.delayAction(Runnable { recyclerAdapter?.notifyDataSetChanged() }, 1000)
+        }
 
     }
 
@@ -247,10 +209,10 @@ class UserDB: ValueEventListener {
     }
 
     override fun onDataChange(snapshot: DataSnapshot) {
-        val quotesArrayList = ArrayList<Quotes>()
+        val quotesArrayList = ArrayList<Quote>()
         quotesArrayList.clear()
         for (d in snapshot.children) {
-            val q = d.getValue(Quotes::class.java)
+            val q = d.getValue(Quote::class.java)
             if (q != null) {
                 q.id = d.key
                 if (q.textcolor == 0) {

@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.model.QuotesDB
 import com.creat.motiv.R
+import com.creat.motiv.model.Beans.Quote
+import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.searcharg
@@ -55,19 +55,19 @@ class SettingsActivity : AppCompatActivity() {
         quotesdb.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val myquotes = ArrayList<Quotes>()
+                val myquotes = ArrayList<Quote>()
                 myquotes.clear()
                 for (d in dataSnapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
+                    val q = d.getValue(Quote::class.java)
                     myquotes.add(q!!)
                 }
-                val quotesDB = QuotesDB(this@SettingsActivity)
+                val quotesDB = QuoteModel(this@SettingsActivity)
                 val alertDialog = AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Suas " + myquotes.size + " frases serão removidas para sempre! S E M P R E")
                         .setNeutralButton("Tenho certeza sim, cliquei porque quis!") { dialogInterface, i ->
                             for (quotes in myquotes) {
-                                quotesDB.removerposts(quotes.id!!)
+                                quotesDB.removerposts(quotes.id)
                             }
                         }
                         .setNegativeButton("Cliquei errado calma", null)
@@ -92,13 +92,13 @@ class SettingsActivity : AppCompatActivity() {
         quotesdb.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val myquotes = ArrayList<Quotes>()
+                val myquotes = ArrayList<Quote>()
                 myquotes.clear()
                 for (d in dataSnapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
+                    val q = d.getValue(Quote::class.java)
                     myquotes.add(q!!)
                 }
-                val quotesDB = QuotesDB(activity)
+                val quotesDB = QuoteModel(activity)
                 val alertDialog = AlertDialog.Builder(activity)
                         .setTitle("Tem certeza?")
                         .setMessage("Você e suas " + myquotes.size + " frases serão removidos para sempre! S E M P R E")
@@ -106,7 +106,7 @@ class SettingsActivity : AppCompatActivity() {
                             val progressDialog = ProgressDialog(activity, R.style.Dialog_No_Border)
                             progressDialog.show()
                             for (quotes in myquotes) {
-                                quotesDB.apagarconta(quotes.id!!)
+                                quotesDB.apagarconta(quotes.id)
                             }
                             progressDialog.setMessage("Apagando tudo...")
                             val timer = object : CountDownTimer(2000, 100) {

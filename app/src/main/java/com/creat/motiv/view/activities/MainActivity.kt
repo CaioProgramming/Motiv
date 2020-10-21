@@ -9,10 +9,10 @@ import android.view.MenuItem
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
+import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.Beans.Version
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
@@ -25,7 +25,9 @@ import com.creat.motiv.view.adapters.MainAdapter
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.iid.FirebaseInstanceId
 import com.mikhaellopez.rxanimation.fadeIn
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -34,7 +36,7 @@ open class MainActivity : AppCompatActivity(){
     protected lateinit var app: App
     internal lateinit var version: Version
     internal var a: Alert? = null
-    internal var user: FirebaseUser? = null
+    internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private val home: Boolean
         get() {
             return pager.currentItem == 0
@@ -61,8 +63,6 @@ open class MainActivity : AppCompatActivity(){
         user = FirebaseAuth.getInstance().currentUser
         checkUser()
         preferences = Pref(this)
-        Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(profilepic!!)
-        profilepic!!.setOnClickListener { pager.currentItem = 2 }
 
 
         pager.adapter = MainAdapter(supportFragmentManager)
@@ -77,59 +77,6 @@ open class MainActivity : AppCompatActivity(){
             setLightStatusBar(this)
         }
 
-        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                when (position) {
-                    0 -> print("Home")
-                    1 -> print("Nova publicação")
-                    else -> print("")
-                }
-            }
-
-
-            override fun onPageSelected(position: Int) {
-
-                when (position) {
-                    0 ->{
-                        toolbar.title = "Home"
-                        navigation.getTabAt(position)?.text = toolbar.title
-                        navigation.getTabAt(0)?.icon = null
-                        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
-                        navigation.getTabAt(2)?.customView = profilepic
-                        navigation.getTabAt(1)?.text = ""
-                        navigation.getTabAt(2)?.text = ""
-                    }
-                    1 -> {
-                        toolbar.title = "Nova publicação"
-                        navigation.getTabAt(position)?.text = toolbar.title
-                        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
-                        navigation.getTabAt(1)?.icon = null
-                        navigation.getTabAt(2)?.customView = profilepic
-                        navigation.getTabAt(0)?.text = ""
-                        navigation.getTabAt(2)?.text = ""
-                    }
-                    else -> {
-                        toolbar.title = user?.displayName
-                        navigation.getTabAt(position)?.text = toolbar.title
-                        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
-                        navigation.getTabAt(0)?.text = ""
-                        navigation.getTabAt(1)?.text = ""
-                        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
-                        navigation.getTabAt(2)?.customView = null
-                    }
-                }
-                swapTabs(position)
-                previoustab = position
-
-            }
-
-        })
-        navigation.getTabAt(0)?.icon = getDrawable(R.drawable.home)
-        navigation.getTabAt(1)?.icon = getDrawable(R.drawable.add)
-        navigation.getTabAt(2)?.customView = profilepic
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
     }
 
@@ -142,13 +89,27 @@ open class MainActivity : AppCompatActivity(){
     }
 
 
+    fun reloaduser() {
+        user = FirebaseAuth.getInstance().currentUser
+        checkUser()
+        if (navigation.selectedTabPosition == 2) navigation.getTabAt(2)?.text = user?.displayName
+    }
 
     private fun checkUser() {
 
 
         if (user != null) {
-            val userdb = UserDB()
-            userdb.insertUser(user!!)
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
+                val u = User()
+                u.name = user?.displayName
+                u.email = user?.email
+                u.picurl = user?.photoUrl.toString()
+                u.phonenumber = user?.phoneNumber
+                u.uid = user?.uid
+                u.token = instanceIdResult.token
+                UserDB().insertUser(u)
+            }
+
         } else {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
                     AuthUI.IdpConfig.FacebookBuilder().build(),
@@ -167,6 +128,15 @@ open class MainActivity : AppCompatActivity(){
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)
 
+        val profilePic: MenuItem? = menu.findItem(R.id.profilepic)
+        val circleImageView: CircleImageView? = profilePic?.actionView as CircleImageView
+
+        circleImageView?.let {
+            it.layoutParams.height = Tools.dpToPx(100, this)
+            it.layoutParams.width = Tools.dpToPx(100, this)
+            Glide.with(this).load(user!!.photoUrl).error(getDrawable(R.drawable.notfound)).into(it)
+
+        }
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -176,9 +146,14 @@ open class MainActivity : AppCompatActivity(){
 
 
 
-        if (id == R.id.navigation_about) {
-            val alert = Alert(this)
-            alert.about()
+        when (id) {
+            R.id.navigation_about -> {
+                val alert = Alert(this)
+                alert.about()
+            }
+            R.id.profilepic -> {
+                pager.currentItem = 2
+            }
         }
         return super.onOptionsItemSelected(item)
     }

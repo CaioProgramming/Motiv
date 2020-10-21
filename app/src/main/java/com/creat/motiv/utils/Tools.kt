@@ -64,16 +64,20 @@ object Tools {
 
     }
 
+    fun dpToPx(dp: Int, context: Context): Int {
+        val density = context.resources.displayMetrics.density
+        return Math.round(dp.toFloat() * density)
+    }
 
-    fun inversebackcolor(activity: Activity): Int{
-        if (uimode(activity)){
+    fun inversebackcolor(activity: Activity): Int {
+        if (uimode(activity)) {
             return Color.BLACK
         }
         return Color.WHITE
     }
 
-    fun inversetextcolor(activity: Activity): Int{
-        if (!uimode(activity)){
+    fun inversetextcolor(activity: Activity): Int {
+        if (!uimode(activity)) {
             return Color.BLACK
         }
         return Color.WHITE
@@ -88,7 +92,7 @@ object Tools {
             var navigationflag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             } else {
-               Log.println(Log.INFO,"Navigation Style","Device is lower than android O")
+                Log.println(Log.INFO, "Navigation Style", "Device is lower than android O")
             }
             activity.window.decorView.systemUiVisibility = navigationflag
 

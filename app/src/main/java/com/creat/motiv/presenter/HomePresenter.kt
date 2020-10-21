@@ -1,81 +1,33 @@
 package com.creat.motiv.presenter
 
-import android.app.Activity
-import android.content.Intent
+import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Handler
-import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.contract.ViewContract
+import com.creat.motiv.databinding.FragmentHomeBinding
+import com.creat.motiv.model.BaseModel
+import com.creat.motiv.model.Beans.Quote
 import com.creat.motiv.model.Beans.Version
-import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.view.adapters.RecyclerAdapter
-import com.creat.motiv.view.fragments.HomeFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
-/**
- * @Author Kotlin MVP Plugin
- * @Date 2019/10/15
- * @Description input description
- **/
-class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : ViewContract, SearchView.OnQueryTextListener {
-
-    val quotesDB = QuotesDB(activity)
-    private var disposable: Disposable? = null
-
-    private fun searchObservable(): Observable<String> {
-        val subject = PublishSubject.create<String>()
-        search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(s: String?): Boolean {
-                s?.let { pesquisar(it) }
-                search?.clearFocus()
-                return false
-            }
-
-            override fun onQueryTextChange(text: String): Boolean {
-                if (text.isNotBlank()) {
-                    pesquisar(text)
-                } else {
-                    carregar()
-                }
-                return false
-            }
-        })
-        return subject
-
-    }
-
-
-    private fun observeSearchView() {
-        disposable = searchObservable()
-                .debounce(300, TimeUnit.MILLISECONDS)
-                .filter { t -> !t.isEmpty() && t.length >= 3 }
-                .map { text -> text.toLowerCase().trim() }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { query -> pesquisar(query) }
-    }
+class HomePresenter(val homeBinding: FragmentHomeBinding, val context: Context) :
+        BasePresenter<Quote>(homeBinding),
+        ViewContract, SearchView.OnQueryTextListener {
 
 
     private fun checkversion() {
-        val manager = activity.packageManager
-        val info = manager.getPackageInfo(activity.packageName, PackageManager.GET_ACTIVITIES)
+        val manager = context.packageManager
+        val info = manager.getPackageInfo(context.packageName, PackageManager.GET_ACTIVITIES)
         val versionName = info.versionName
         val version = Version()
 
@@ -90,7 +42,7 @@ class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : Vi
                     }
                 }
                 if (version.version != versionName) {
-                    homeFragment.banner?.visibility = View.VISIBLE
+                    //homeBinding.banner?.visibility = View.VISIBLE
                 }
 
 
@@ -104,65 +56,49 @@ class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : Vi
 
     override fun initview() {
         checkversion()
-        // search = activity.findViewById(R.id.search)
+        // search = context.findViewById(R.id.search)
         //search?.let { observeSearchView() }
 
-        homeFragment.refresh?.setOnRefreshListener {
-            if (homeFragment.refresh.isRefreshing) {
+        homeBinding.refresh.setOnRefreshListener {
+            if (homeBinding.refresh.isRefreshing) {
                 carregar()
             }
         }
-        homeFragment.composesrecycler?.postDelayed({
+        homeBinding.composesrecycler.postDelayed({
             carregar()
         }, 100)
 
-        homeFragment.update?.setOnClickListener {
-            val uri = Uri.parse("https://play.google.com/store/apps/details?id=com.creat.motiv")
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            activity.startActivity(intent)
-        }
-        homeFragment.dismiss?.setOnClickListener {
-            homeFragment.banner.visibility = View.GONE
-        }
-        search?.setOnSearchClickListener {
-            quoteadapter?.quotesList = null
+
+        homeBinding.homeSearch.setOnSearchClickListener {
+            quoteadapter?.quoteList = emptyList()
             quoteadapter?.notifyDataSetChanged()
         }
-        search?.setOnCloseListener {
+        homeBinding.homeSearch.setOnCloseListener {
             carregar()
             false
         }
-        observeSearchView()
-        // search?.setOnQueryTextListener(this)
+        homeBinding.homeSearch.setOnQueryTextListener(this)
     }
 
-    private fun resetrecycler() {
-        quoteadapter?.quotesList = null
-        quoteadapter?.notifyDataSetChanged()
-    }
-    var search: SearchView? = null
+
     var quoteadapter: RecyclerAdapter? = null
 
 
     private fun setupRecycler(recyclerView: RecyclerView) {
-        quoteadapter = RecyclerAdapter(null, activity)
-        val llm = LinearLayoutManager(activity, VERTICAL, false)
+        quoteadapter = RecyclerAdapter(this, emptyList(), context)
+        val llm = LinearLayoutManager(context, VERTICAL, false)
         recyclerView.adapter = quoteadapter
         recyclerView.layoutManager = llm
         recyclerView.setHasFixedSize(true)
     }
 
     override fun carregar() {
-        setupRecycler(homeFragment.homeBinding!!.composesrecycler)
-        quotesDB.refreshlayout = homeFragment.refresh
-        quotesDB.recyclerAdapter = quoteadapter
-        quotesDB.carregar()
+        setupRecycler(homeBinding.composesrecycler)
+        model().getAllData()
     }
 
     private fun pesquisar(pesquisa: String) {
-        resetrecycler()
-        val handler = Handler()
-        handler.postDelayed({ quotesDB.pesquisar(pesquisa) }, 1500)
+        model().query(pesquisa, "quote")
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
@@ -182,5 +118,37 @@ class HomePresenter(val activity: Activity, val homeFragment: HomeFragment) : Vi
         pesquisar(newText)
         return false //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun onLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLoadFinish() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDataRetrieve(data: List<Quote>) {
+        homeBinding.composesrecycler.apply {
+            adapter = RecyclerAdapter(this@HomePresenter, data.reversed(), context)
+            layoutManager = LinearLayoutManager(context, VERTICAL, false)
+        }
+    }
+
+    override fun onSingleData(data: Quote) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onError() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun model(): BaseModel<Quote> {
+        return QuoteModel(this)
+    }
+
 
 }

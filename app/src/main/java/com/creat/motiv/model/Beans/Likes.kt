@@ -1,15 +1,3 @@
 package com.creat.motiv.model.Beans
 
-class Likes {
-    var userid: String = ""
-    var username: String = ""
-    var userpic: String = ""
-
-    constructor(userid: String, username: String, userpic: String) {
-        this.userid = userid
-        this.username = username
-        this.userpic = userpic
-    }
-
-    constructor()
-}
+class Likes(var userid: String, var username: String? = "name not found", var userpic: String) : BaseBean(userid)

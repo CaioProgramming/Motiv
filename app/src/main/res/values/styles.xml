@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/deep_purple_A200</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
-        <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>
         <item name="searchViewStyle">@style/Searchtheme</item>
@@ -93,7 +92,7 @@
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/lato_black</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">5dp</item>
     </style>

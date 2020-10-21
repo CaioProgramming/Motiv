@@ -3,7 +3,7 @@ package com.creat.motiv.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
@@ -25,7 +25,7 @@ class QuotePagerAdapter(private val uid:String,private val profilePresenter: Pro
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeViewInLayout(`object` as RelativeLayout)
+        container.removeViewInLayout(`object` as CardView)
     }
 
 

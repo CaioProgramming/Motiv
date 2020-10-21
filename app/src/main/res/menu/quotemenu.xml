@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/quoteShare"
+        android:icon="@drawable/share" />
+    <item
+        android:id="@+id/quoteCopy"
+        android:icon="@drawable/ic_copy" />
+    <item
+        android:id="@+id/quoteReport"
+        android:icon="@drawable/ic_flag" />
+</menu>

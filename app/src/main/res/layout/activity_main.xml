@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:orientation="vertical"
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -9,59 +11,67 @@
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="true">
 
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/navigation"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:animateLayoutChanges="true"
-            app:tabGravity="center"
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="scrollable"
-            app:tabIconTint="?android:textColorPrimary"
-            app:tabIndicatorColor="?android:textColorPrimary"
-            app:tabSelectedTextColor="?android:textColorPrimary"
-            app:tabTextColor="?android:textColorHint" />
+            android:background="?android:colorBackground"
+            app:elevation="0dp">
 
-        <androidx.cardview.widget.CardView
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="?android:actionBarSize"
+                    android:animateLayoutChanges="true"
+                    app:tabGravity="start"
+                    app:tabIconTint="?android:textColorPrimary"
+                    app:tabIndicatorColor="@color/transparent"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextAppearance="@style/ToolbarTitle"
+                    app:tabTextColor="?android:textColorHint">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Home" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Escrever" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Eu" />
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:animateLayoutChanges="true"
+                    android:elevation="0dp" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/navigation"
-            android:layout_below="@id/toolbar"
-            app:cardBackgroundColor="?android:colorBackground"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.appcompat.widget.Toolbar
-            app:title="Home"
-            android:id="@+id/toolbar"
-            android:elevation="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:animateLayoutChanges="true"
-            >
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_gravity="left"
-                android:layout_margin="1dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="5dp"
-                android:src="@drawable/penguin" />
-
-        </androidx.appcompat.widget.Toolbar>
-
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.github.mmin18.widget.RealtimeBlurView
+            tools:visibility="gone"
             android:id="@+id/rootblur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -69,5 +79,5 @@
             app:realtimeBlurRadius="50dp"
             app:realtimeOverlayColor="@color/transparent" />
 
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

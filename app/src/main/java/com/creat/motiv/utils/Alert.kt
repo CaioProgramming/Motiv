@@ -31,8 +31,8 @@ import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.Beans.Developers
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Pics
-import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.model.Beans.Quote
+import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.UserDB
 import com.creat.motiv.presenter.ProfilePresenter
 import com.creat.motiv.utils.ColorUtils.ERROR
@@ -71,7 +71,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
-    fun quoteoptions(isfromuser: Boolean, quote: Quotes, quotescardBinding: QuotescardBinding) {
+    fun quoteoptions(isfromuser: Boolean, quote: Quote, quotescardBinding: QuotescardBinding) {
         val myDialog = BottomSheetDialog(activity, styles[1])
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.setCanceledOnTouchOutside(true)
@@ -99,7 +99,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             myDialog.dismiss()
 
             val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("${quote.author}",quote.quote)
+            val clip = ClipData.newPlainText("${quote.author}", quote.phrase)
             clipboard.setPrimaryClip(clip)
             snackmessage(null,"Frase copiada para área de transferência")
 
@@ -121,16 +121,16 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
             val shareintent = Intent(Intent.ACTION_SEND)
             shareintent.type = "text/pain"
             shareintent.putExtra(Intent.EXTRA_SUBJECT, "Motiv")
-            shareintent .putExtra(Intent.EXTRA_TEXT, quote.quote + " -" + quote.author)
+            shareintent.putExtra(Intent.EXTRA_TEXT, quote.phrase + " -" + quote.author)
             activity.startActivity(Intent.createChooser(shareintent, "Escolha onde quer compartilhar"))
         }
 
         delete?.setOnClickListener {
             myDialog.dismiss()
             val raiz: DatabaseReference = Tools.quotesreference
-            raiz.child(quote.id!!).removeValue().addOnCompleteListener { task ->
+            raiz.child(quote.id).removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    snackmessage(null,"Frase removida")
+                    snackmessage(null, "Frase removida")
                 } else {
                     snackmessage(ERROR, "Erro ao remover ${task.exception?.localizedMessage}")
 
@@ -214,9 +214,9 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
     }
 
 
-    private fun Report(quote: Quotes) {
+    private fun Report(quote: Quote) {
         val myDialog = Dialog(activity, styles[0])
-        val dialogbind = DataBindingUtil.inflate<MessageDialogBinding>(LayoutInflater.from(activity),R.layout.message_dialog,null,false)
+        val dialogbind = DataBindingUtil.inflate<MessageDialogBinding>(LayoutInflater.from(activity), R.layout.message_dialog, null, false)
 
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -231,7 +231,7 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         dialogbind.button.text = "denunciar"
         dialogbind.button.setOnClickListener {
             myDialog.dismiss()
-            val quotesDB = QuotesDB(activity, quote)
+            val quotesDB = QuoteModel(activity, quote)
             quotesDB.denunciar()
         }
     }
@@ -326,25 +326,25 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
 
     }
 
-    private fun deletealldialog(msg: String,myquotes: ArrayList<Quotes>){
-        val dltdialogbind = DataBindingUtil.inflate<DeleteAllDialogBinding>(LayoutInflater.from(activity),R.layout.delete_all_dialog,null,false)
+    private fun deletealldialog(msg: String, myquotes: ArrayList<Quote>) {
+        val dltdialogbind = DataBindingUtil.inflate<DeleteAllDialogBinding>(LayoutInflater.from(activity), R.layout.delete_all_dialog, null, false)
         val myDialog = Dialog(activity, styles[1])
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.setCanceledOnTouchOutside(true)
         myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setContentView(dltdialogbind.root)
-        dltdialogbind.message.text =  msg
+        dltdialogbind.message.text = msg
         Glide.with(activity)
                 .load("https://assets-ouch.icons8.com/thumb/823/480c1c20-2d3e-415b-abb0-36b0ca3a5cad.png")
                 .into(dltdialogbind.icon)
         dltdialogbind.icon.setBackgroundColor(activity.resources.getColor( R.color.red_600))
         dltdialogbind.button.setOnClickListener {
             myDialog.dismiss()
-            val quotesDB = QuotesDB(activity)
+            val quotesDB = QuoteModel(activity)
             val progressDialog = ProgressDialog(activity, R.style.Dialog_No_Border)
             progressDialog.show()
             for (quotes in myquotes) {
-                quotesDB.apagarconta(quotes.id!!)
+                quotesDB.apagarconta(quotes.id)
             }
         }
         dltdialogbind.cancellbutton.setOnClickListener {
@@ -352,14 +352,15 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         }
         myDialog.show()
     }
-    private fun deletepostsdialog(msg: String,myquotes: ArrayList<Quotes>){
-        val dltdialogbind = DataBindingUtil.inflate<DeleteAllDialogBinding>(LayoutInflater.from(activity),R.layout.delete_all_dialog,null,false)
+
+    private fun deletepostsdialog(msg: String, myquotes: ArrayList<Quote>) {
+        val dltdialogbind = DataBindingUtil.inflate<DeleteAllDialogBinding>(LayoutInflater.from(activity), R.layout.delete_all_dialog, null, false)
         val myDialog = Dialog(activity, styles[1])
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         myDialog.setCanceledOnTouchOutside(true)
         myDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         myDialog.setContentView(dltdialogbind.root)
-        dltdialogbind.message.text =  msg
+        dltdialogbind.message.text = msg
         dltdialogbind.icon.setBackgroundColor(Color.BLACK)
 
         Glide.with(activity)
@@ -367,11 +368,11 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
                 .into(dltdialogbind.icon)
         dltdialogbind.button.setOnClickListener {
             myDialog.dismiss()
-            val quotesDB = QuotesDB(activity)
+            val quotesDB = QuoteModel(activity)
             val progressDialog = ProgressDialog(activity, R.style.Dialog_No_Border)
             progressDialog.show()
             for (quotes in myquotes) {
-                quotesDB.removerposts(quotes.id!!)
+                quotesDB.removerposts(quotes.id)
             }
         }
         dltdialogbind.cancellbutton.setOnClickListener {
@@ -536,15 +537,14 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val myquotes = ArrayList<Quotes>()
+                val myquotes = ArrayList<Quote>()
                 myquotes.clear()
                 for (d in dataSnapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
+                    val q = d.getValue(Quote::class.java)
                     myquotes.add(q!!)
                 }
                 val message = "Suas " + myquotes.size + " frases serão removidas para sempre! S E M P R E"
-                deletepostsdialog(message,myquotes)
-
+                deletepostsdialog(message, myquotes)
 
 
             }
@@ -567,15 +567,15 @@ class Alert(private val activity: Activity) : DialogInterface.OnShowListener, Di
         quotesdb.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val myquotes = ArrayList<Quotes>()
+                val myquotes = ArrayList<Quote>()
                 myquotes.clear()
                 for (d in dataSnapshot.children) {
-                    val q = d.getValue(Quotes::class.java)
+                    val q = d.getValue(Quote::class.java)
                     myquotes.add(q!!)
                 }
 
                 val message = "Você e suas " + myquotes.size + " frases serão removidos para sempre! S E M P R E"
-                deletealldialog(message,myquotes)
+                deletealldialog(message, myquotes)
             }
 
 

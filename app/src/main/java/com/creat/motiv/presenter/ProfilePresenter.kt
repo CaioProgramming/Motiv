@@ -26,8 +26,6 @@ class ProfilePresenter(val activity: Activity, val profileFragment: FragmentProf
             profileFragment.quotespager.adapter = QuotePagerAdapter(it,this)
             profileFragment.usertabs.setupWithViewPager(profileFragment.quotespager)
             profileFragment.usertabs.getTabAt(0)?.text = "Posts"
-            //profileFragment.usertabs.getTabAt(0)?.icon = activity.getDrawable(R.drawable.posts)
-            //profileFragment.usertabs.getTabAt(1)?.text =  "Favoritos"
             profileFragment.usertabs.getTabAt(1)?.icon = activity.getDrawable(R.drawable.favorites)
             if (fireuser != null &&  it == fireuser.uid) {
                 profileFragment.profilepic.setOnClickListener {

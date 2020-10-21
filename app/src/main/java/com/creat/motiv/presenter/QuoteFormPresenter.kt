@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.Beans.Gradient
-import com.creat.motiv.model.Beans.Quotes
-import com.creat.motiv.model.QuotesDB
+import com.creat.motiv.model.Beans.Quote
+import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
@@ -30,38 +30,38 @@ import kotlin.collections.ArrayList
 class QuoteFormPresenter(val activity: Activity, val popupbind: NewquotepopupBinding, val user: FirebaseUser?) {
     private var f: Int = 0
     private var isfirst = true
-    private var quote: Quotes? = null
+    private var quote: Quote? = null
 
-    fun setquote(quotes: Quotes) {
+    fun setquote(quote: Quote) {
         showup()
-        quote = quotes
-        loadQuote(quotes)
+        this.quote = quote
+        loadQuote(quote)
     }
 
 
-    private fun loadQuote(quotes: Quotes) {
+    private fun loadQuote(quote: Quote) {
 
         //quoteID.setText(quotes.getId());
-        popupbind.quote.setText(quotes.quote)
-        popupbind.author.setText(quotes.author)
-        popupbind.username.text = quotes.username
-        popupbind.background.setBackgroundColor(quotes.backgroundcolor!!)
-        popupbind.quote.setTextColor(quotes.textcolor!!)
-        if (quotes.font != null) {
-            popupbind.quote.typeface = Tools.fonts(activity)[quotes.font!!]
-            popupbind.author.typeface = Tools.fonts(activity)[quotes.font!!]
-            popupbind.font.typeface = Tools.fonts(activity)[quotes.font!!]
-            f = quotes.font!!
+        popupbind.quote.setText(quote.phrase)
+        popupbind.author.setText(quote.author)
+        popupbind.username.text = quote.username
+        popupbind.background.setCardBackgroundColor(quote.backgroundcolor)
+        popupbind.quote.setTextColor(quote.textcolor)
+        if (quote.font != null) {
+            popupbind.quote.typeface = Tools.fonts(activity)[quote.font]
+            popupbind.author.typeface = Tools.fonts(activity)[quote.font]
+            popupbind.font.typeface = Tools.fonts(activity)[quote.font]
+            f = quote.font
         } else {
             popupbind.quote.typeface = Typeface.DEFAULT
             popupbind.author.typeface = Typeface.DEFAULT
         }
-        popupbind.author.setTextColor(quotes.textcolor!!)
-        popupbind.textcolorid.text = quotes.textcolor.toString()
-        popupbind.backcolorid.text = quotes.backgroundcolor.toString()
-        popupbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.backgroundcolor!!)
-        popupbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(quotes.textcolor!!)
-        popupbind.fontid.text = quotes.font.toString()
+        popupbind.author.setTextColor(quote.textcolor)
+        popupbind.textcolorid.text = quote.textcolor.toString()
+        popupbind.backcolorid.text = quote.backgroundcolor.toString()
+        popupbind.backcolorfab.backgroundTintList = ColorStateList.valueOf(quote.backgroundcolor)
+        popupbind.textcolorfab.backgroundTintList = ColorStateList.valueOf(quote.textcolor)
+        popupbind.fontid.text = quote.font.toString()
         Glide.with(activity).load(user!!.photoUrl).error(R.drawable.notfound).into(popupbind.userpic)
 
     }
@@ -186,10 +186,10 @@ class QuoteFormPresenter(val activity: Activity, val popupbind: NewquotepopupBin
     fun salvar() {
         if (user?.isEmailVerified!!) {
             if (quote == null) {
-                QuotesDB(activity, createQuote()).inserir()
+                QuoteModel(activity, createQuote()).inserir()
             } else {
                 quote = updateQuote()
-                QuotesDB(activity, quote!!).editar()
+                QuoteModel(activity, quote!!).editar()
             }
         } else {
             Alert.builder(activity).mailmessage()
@@ -197,7 +197,7 @@ class QuoteFormPresenter(val activity: Activity, val popupbind: NewquotepopupBin
     }
 
 
-    private fun createQuote(): Quotes {
+    private fun createQuote(): Quote {
         if (popupbind.textcolorid.text.isEmpty()) {
             popupbind.textcolorid.text = Color.BLACK.toString()
         }
@@ -208,7 +208,7 @@ class QuoteFormPresenter(val activity: Activity, val popupbind: NewquotepopupBin
             popupbind.author.setText(user!!.displayName)
 
         }
-        return Quotes("",
+        return Quote("",
                 popupbind.quote.text.toString(),
                 popupbind.author.text.toString(),
                 actualday(),
@@ -218,7 +218,7 @@ class QuoteFormPresenter(val activity: Activity, val popupbind: NewquotepopupBin
                 false, f)
     }
 
-    private fun updateQuote(): Quotes {
+    private fun updateQuote(): Quote {
         if (popupbind.textcolorid.text.isEmpty()) {
             popupbind.textcolorid.text = Color.BLACK.toString()
         }
@@ -229,7 +229,7 @@ class QuoteFormPresenter(val activity: Activity, val popupbind: NewquotepopupBin
             popupbind.author.setText(user!!.displayName)
 
         }
-        return Quotes(quote!!.id!!,
+        return Quote(quote!!.id,
                 popupbind.quote.text.toString(),
                 popupbind.author.text.toString(),
                 actualday(),

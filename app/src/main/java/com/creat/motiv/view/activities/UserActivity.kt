@@ -46,6 +46,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun setupdata(profileBinding: FragmentProfileBinding){
+        supportFinishAfterTransition()
         val userdb = UserDB()
         uid?.let {
             userdb.getUser(it, object : ValueEventListener {
@@ -57,11 +58,14 @@ class UserActivity : AppCompatActivity() {
                     if (dataSnapshot.exists()) {
                         val user = dataSnapshot.getValue(User::class.java)
                         user.let {
-                            val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
+                            val profilePresenter = ProfilePresenter(this@UserActivity, profileBinding, user!!)
                             setSupportActionBar(toolbar)
                             toolbar.title = user.name
                             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                            toolbar.setNavigationOnClickListener { finish() }
+                            toolbar.setNavigationOnClickListener {
+
+                                finish()
+                            }
                         }
 
                     } else {

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityEditQuoteBinding
-import com.creat.motiv.model.Beans.Quotes
+import com.creat.motiv.model.Beans.Quote
 import com.creat.motiv.presenter.QuoteFormPresenter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -24,7 +24,7 @@ class EditQuoteActivity : AppCompatActivity() {
         val popupbind: ActivityEditQuoteBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_quote)
         setContentView(popupbind.root)
         quoteFormPresenter = QuoteFormPresenter(this, popupbind.quoteFormView, user)
-        val quotedata = intent.getSerializableExtra("Quote") as? Quotes
+        val quotedata = intent.getSerializableExtra("Quote") as? Quote
         quotedata?.let { quoteFormPresenter?.setquote(it) }
         setSupportActionBar(toolbar)
         toolbar.title = "Editar post"

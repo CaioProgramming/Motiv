@@ -12,4 +12,10 @@
         android:icon="@drawable/about"
         android:title="Sobre" />
 
+    <item
+        android:id="@+id/profilepic"
+        android:title="@string/username"
+        app:actionViewClass="de.hdodenhof.circleimageview.CircleImageView"
+        app:showAsAction="always" />
+
 </menu>
