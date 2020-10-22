@@ -1,33 +1,45 @@
 package com.creat.motiv.presenter
 
-import androidx.databinding.ViewDataBinding
-import com.creat.motiv.model.BaseModel
+import android.util.Log
 import com.creat.motiv.model.Beans.BaseBean
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 
-abstract class BasePresenter<T>(val viewBinding: ViewDataBinding) : PresenterContract<T> where T : BaseBean {
-
+abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
 
     val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
-    abstract fun model(): BaseModel<T>
-
     fun loadData() {
-        model().getAllData()
+        model.getAllData()
     }
 
-    fun saveData(data: T, forcedID: String?) {
+    fun saveData(data: T, forcedID: String? = null) {
         if (currentUser == null) {
             onError()
             return
         }
         if (forcedID == null) {
-            model().addData(data)
+            model.addData(data)
         } else {
-            model().addData(data, forcedID)
+            model.addData(data, forcedID)
         }
+    }
+
+    override fun onDataRetrieve(data: List<T>) {
+        view.showListData(data)
+    }
+
+    override fun onSingleData(data: T) {
+        view.showData(data)
+    }
+
+    override fun onSuccess() {
+        Log.d(javaClass.simpleName, "onSuccess called")
+    }
+
+    override fun onError() {
+        Log.e(javaClass.simpleName, "onError called ")
     }
 
 

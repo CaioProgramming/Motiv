@@ -1,23 +1,22 @@
 package com.creat.motiv.model
 
 import com.creat.motiv.model.Beans.BaseBean
-import com.creat.motiv.presenter.BasePresenter
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-abstract class BaseModel<T>(val presenter: BasePresenter<T>) : ValueEventListener, ModelContract<T>, OnCompleteListener<Void> where T : BaseBean {
+abstract class BaseModel<T> : ValueEventListener, ModelContract<T>, OnCompleteListener<Void> where T : BaseBean {
 
 
     var dbRef: DatabaseReference
-    abstract fun reference(): DatabaseReference
+
+    fun reference(): DatabaseReference {
+        return FirebaseDatabase.getInstance().reference.child(path)
+    }
 
     val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
@@ -51,14 +50,12 @@ abstract class BaseModel<T>(val presenter: BasePresenter<T>) : ValueEventListene
         if (currentUser == null) {
             presenter.onError()
         } else {
-            dbRef.child(id).setValue(data).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    presenter.onSuccess()
-                } else {
-                    presenter.onError()
-                }
-            }
+            dbRef.child(id).setValue(data).addOnCompleteListener(this)
         }
+    }
+
+    fun editField(data: Any, id: String, field: String) {
+        dbRef.child(id).child(field).setValue(data)
     }
 
     override fun deleteData(id: String) {
@@ -76,6 +73,19 @@ abstract class BaseModel<T>(val presenter: BasePresenter<T>) : ValueEventListene
 
     }
 
+    override fun getSingleData(id: String) {
+        dbRef.child(id).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                deserializeDataSnapshot(snapshot)?.let { presenter.onSingleData(it) }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                presenter.onError()
+            }
+        })
+    }
+
+
     override fun onComplete(task: Task<Void>) {
         if (task.isSuccessful) {
             presenter.onSuccess()
@@ -87,21 +97,20 @@ abstract class BaseModel<T>(val presenter: BasePresenter<T>) : ValueEventListene
     fun deleteAllData(dataList: List<T>) {
         GlobalScope.launch {
             for (data in dataList) {
-                dbRef.child(data.id).removeValue()
+                if (!data.id.isNullOrEmpty()) {
+                    dbRef.child(data.id).removeValue()
+                }
             }
         }
     }
 
 
     override fun onDataChange(dataSnapshot: DataSnapshot) {
-        presenter.onLoading()
         val dataList = ArrayList<T>()
         for (d in dataSnapshot.children) {
-            val data: T = dataSnapshot.value as T
-            dataList.add(data)
+            deserializeDataSnapshot(d)?.let { dataList.add(it) }
         }
         presenter.onDataRetrieve(dataList.toList())
-        presenter.onLoadFinish()
     }
 
 

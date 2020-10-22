@@ -1,20 +1,18 @@
 package com.creat.motiv.view.activities
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
-import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.Beans.Version
-import com.creat.motiv.model.UserDB
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
 import com.creat.motiv.utils.Tools
@@ -25,7 +23,6 @@ import com.creat.motiv.view.adapters.MainAdapter
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.iid.FirebaseInstanceId
 import com.mikhaellopez.rxanimation.fadeIn
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,6 +38,7 @@ open class MainActivity : AppCompatActivity(){
         get() {
             return pager.currentItem == 0
         }
+    var previoustab = 0
 
 
 
@@ -69,7 +67,12 @@ open class MainActivity : AppCompatActivity(){
         navigation.setupWithViewPager(pager, true)
 
         if (!user!!.isEmailVerified) {
-            Alert.builder(this).mailmessage()
+            Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar",
+                    icon = R.drawable.fui_ic_mail_white_24dp,
+                    okClick = {
+                        user?.sendEmailVerification()
+                    })
+
         }
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "Home"
@@ -80,37 +83,8 @@ open class MainActivity : AppCompatActivity(){
         toolbar.fadeIn().andThen(pager.fadeIn()).ambWith(navigation.fadeIn()).subscribe()
     }
 
-    var previoustab = 0
-    private fun swapTabs(position: Int) {
-        val inanimation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.slide_in_bottom)
-        val inanimation2 = AnimationUtils.loadAnimation(this@MainActivity, R.anim.slide_in_top)
-        navigation.getTabAt(position)?.view?.startAnimation(inanimation)
-        navigation.getTabAt(previoustab)?.view?.startAnimation(inanimation2)
-    }
-
-
-    fun reloaduser() {
-        user = FirebaseAuth.getInstance().currentUser
-        checkUser()
-        if (navigation.selectedTabPosition == 2) navigation.getTabAt(2)?.text = user?.displayName
-    }
-
     private fun checkUser() {
-
-
-        if (user != null) {
-            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
-                val u = User()
-                u.name = user?.displayName
-                u.email = user?.email
-                u.picurl = user?.photoUrl.toString()
-                u.phonenumber = user?.phoneNumber
-                u.uid = user?.uid
-                u.token = instanceIdResult.token
-                UserDB().insertUser(u)
-            }
-
-        } else {
+        if (user == null) {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
                     AuthUI.IdpConfig.FacebookBuilder().build(),
                     //new AuthUI.IdpConfig.TwitterBuilder().build(),
@@ -144,12 +118,10 @@ open class MainActivity : AppCompatActivity(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-
-
         when (id) {
             R.id.navigation_about -> {
-                val alert = Alert(this)
-                alert.about()
+                val i = Intent(this, AboutActivity::class.java)
+                startActivity(i)
             }
             R.id.profilepic -> {
                 pager.currentItem = 2
@@ -161,7 +133,6 @@ open class MainActivity : AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
-
         checkUser()
         internetconnection()
 
@@ -194,8 +165,7 @@ open class MainActivity : AppCompatActivity(){
     private fun internetconnection() {
         if (a == null) {
             if (!isNetworkAvailable) {
-                a = Alert(this)
-                a!!.message(getDrawable(R.drawable.ic_broken_link), Tools.offlinemessage())
+                Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar", icon = R.drawable.ic_broken_link)
             }
         }
 

@@ -1,70 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:theme="@style/AppTheme"
     android:orientation="vertical">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        app:title="Configurações"
-        app:titleTextAppearance="@style/ToolbarTitle" />
-
-
-    <TextView
-        android:id="@+id/changename"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Alterar nome"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+        android:background="?android:colorBackground"
+        app:elevation="0dp">
 
-    <TextView
-        android:id="@+id/deleteposts"
-        android:layout_width="match_parent"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <TextView
+                style="@style/ToolbarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="?android:actionBarSize"
+                android:animateLayoutChanges="true"
+                android:text="Configurações" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:animateLayoutChanges="true"
+                android:elevation="0dp" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Remover posts"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/deleteaccount"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Remover conta"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/changename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/round_low"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:hint="Alterar nome"
+                android:padding="10dp"
+
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/deleteposts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/round_low"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center|start"
+                android:padding="10dp"
+                android:text="Remover posts"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
 
 
-    <TextView
-        android:id="@+id/exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Sair"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/deleteaccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/round_low"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center|start"
+                android:padding="10dp"
+                android:text="Remover conta"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
 
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/round_low"
+                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center|start"
+                android:padding="10dp"
+                android:text="Sair"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

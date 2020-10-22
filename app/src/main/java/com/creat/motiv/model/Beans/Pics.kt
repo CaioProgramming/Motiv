@@ -1,12 +1,10 @@
 package com.creat.motiv.model.Beans
 
-class Pics {
+import com.google.firebase.database.DataSnapshot
 
-    var uri: String? = null
+class Pics(val uri: String) : BaseBean() {
 
-    constructor(uri: String) {
-        this.uri = uri
+    override fun convertSnapshot(snapshot: DataSnapshot): BaseBean? {
+        return snapshot.getValue(Pics::class.java)
     }
-
-    constructor()
 }

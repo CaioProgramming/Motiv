@@ -1,24 +1,15 @@
 package com.creat.motiv.presenter
 
-import androidx.databinding.ViewDataBinding
 import com.creat.motiv.model.BaseModel
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.LikeModel
+import com.creat.motiv.view.BaseView
 
-class LikesPresenter(viewBinding: ViewDataBinding) : BasePresenter<Likes>(viewBinding) {
+class LikesPresenter(override val view: BaseView<Likes>, val quoteID: String) : BasePresenter<Likes>() {
 
 
-    override fun model(): BaseModel<Likes> {
-        return LikeModel("", this)
-    }
+    override val model: BaseModel<Likes> = LikeModel(quoteID, this)
 
-    override fun onLoading() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onLoadFinish() {
-        TODO("Not yet implemented")
-    }
 
     override fun onDataRetrieve(data: List<Likes>) {
         TODO("Not yet implemented")
@@ -46,6 +37,6 @@ class LikesPresenter(viewBinding: ViewDataBinding) : BasePresenter<Likes>(viewBi
         if (currentUser == null) {
             onError()
         }
-        model().deleteData(likes.id)
+        likes.id.let { model.deleteData(it) }
     }
 }

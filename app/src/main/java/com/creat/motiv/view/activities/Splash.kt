@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.ColorUtils.ERROR
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.Tools.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
@@ -78,7 +77,12 @@ class Splash : AppCompatActivity() {
 
             } else {
                 if (response != null) {
-                    Alert.builder(this).snackmessage(ERROR, "Erro  + ${response.error!!.message}  causa   ${response.error!!.cause}")
+                    Alert(this).showAlert(
+                            message = "Ocorreu um erro ao fazer seu login tente novamente", okClick = {
+                        SignIn()
+                    },
+                            icon = R.drawable.ic_sad
+                    )
                 }
 
             }

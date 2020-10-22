@@ -1,17 +1,38 @@
 package com.creat.motiv.model
+
 import com.creat.motiv.model.Beans.Quote
 import com.creat.motiv.presenter.BasePresenter
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 
-class QuoteModel(val qPresenter: BasePresenter<Quote>) : BaseModel<Quote>(qPresenter) {
+class QuoteModel(override val presenter: BasePresenter<Quote>) : BaseModel<Quote>() {
 
 
-    override fun reference(): DatabaseReference {
-        return FirebaseDatabase.getInstance().reference.child("Quotes")
+    override val path: String = "Quotes"
+
+
+    fun getFavorites() {
+        reference().addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val quotesList: ArrayList<Quote> = ArrayList()
+                for (snap in snapshot.children) {
+                    if (snap.child("likes").hasChild(currentUser!!.uid)) {
+                        val quote = Quote().convertSnapshot(snap)
+                        quote?.let {
+                            quotesList.add(it)
+                        }
+                    }
+                }
+                presenter.onDataRetrieve(quotesList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
-
 
     fun pesquisar(pesquisa: String) {
         query(pesquisa, "quote")
@@ -30,6 +51,10 @@ class QuoteModel(val qPresenter: BasePresenter<Quote>) : BaseModel<Quote>(qPrese
         quote.isReport = true
         editData(quote, quote.id)
 
+    }
+
+    override fun deserializeDataSnapshot(dataSnapshot: DataSnapshot): Quote? {
+        return Quote().convertSnapshot(dataSnapshot)
     }
 
 

@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_margin="10dp"
-        app:cardBackgroundColor="?android:colorBackground"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="0dp"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:visibility="gone"
-            android:text="Nenhum resultado encontrado"
-            android:layout_centerInParent="true"
-            android:id="@+id/notfound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/quotescard"
             android:id="@+id/quotesrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <com.creat.motiv.utils.Typewritter
+            android:id="@+id/notfound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="16dp"
+            android:text="Escrevendo coisas maneiras"
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
 </layout>

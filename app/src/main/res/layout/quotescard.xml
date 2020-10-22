@@ -14,79 +14,36 @@
     <LinearLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="1dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="16dp"
         android:animateLayoutChanges="true"
         android:hapticFeedbackEnabled="true"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/quotedata"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="4dp">
-
-                <TextView
-                    android:id="@+id/quoteDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-            </LinearLayout>
-        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/background"
+            android:stateListAnimator="@animator/list_animator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
             app:cardBackgroundColor="@{quote.backgroundcolor}"
+            app:cardElevation="8dp"
             app:cardCornerRadius="15dp"
-            app:cardElevation="@dimen/cardview_default_elevation">
+            tools:backgroundTint="@color/colorAccent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <include
+                    android:id="@+id/userTop"
+                    layout="@layout/user_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/fade_gradient"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/userpic"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:transitionName="profilepic"
-                        tools:src="@drawable/notfound" />
-
-                    <TextView
-                        android:id="@+id/username"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_bold"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:padding="5dp"
-                        android:text="@{quote.username}"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        tools:text="Caio Alves Ferreira" />
-
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/quoteTextView"
@@ -95,9 +52,10 @@
                     android:padding="16dp"
                     android:text="@{quote.phrase}"
                     android:textColor="@{quote.textcolor}"
-                    android:textSize="60sp"
+                    android:textSize="50sp"
                     android:textStyle="bold"
                     android:typeface="normal"
+                    tools:textColor="@color/white"
                     tools:text="Everything I do \nI tell you all the time" />
 
                 <TextView
@@ -111,7 +69,19 @@
                     android:textColor="@{quote.textcolor}"
                     android:textSize="24sp"
                     android:typeface="normal"
+                    tools:textColor="@color/white"
                     tools:text="Lana Del Rey" />
+
+                <TextView
+                    android:id="@+id/quoteDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fade_gradient_inversed"
+                    android:padding="5dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    tools:text="10 de Outubro de 2019" />
 
             </LinearLayout>
 

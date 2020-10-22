@@ -5,47 +5,37 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.os.Vibrator
 import android.util.TypedValue
 import android.view.MenuItem
-import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
-import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.Beans.Likes
 import com.creat.motiv.model.Beans.Quote
-import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.presenter.BasePresenter
 import com.creat.motiv.presenter.LikesPresenter
+import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.view.activities.UserActivity
+import com.creat.motiv.view.BaseView
 import com.devs.readmoreoption.ReadMoreOption
-import com.google.firebase.auth.FirebaseUser
 import java.text.SimpleDateFormat
 import java.util.*
 
-class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
-                      val quotePresenter: BasePresenter<Quote>,
-                      val quote: Quote, val context: Context) {
+class QuoteCardBinder(
+        var quote: Quote,
+        override val context: Context,
+        override val viewBind: QuotescardBinding, override val presenter: BasePresenter<Quote>) : BaseView<Quote>() {
 
-    var likePresenter: LikesPresenter = LikesPresenter(quotescardBinding, context)
-
-    init {
-        quotescardBinding.quote = this.quote
-        initView()
-    }
-
-    fun initView() {
+    var likePresenter: LikesPresenter = LikesPresenter(viewBind)
 
 
-        quotescardBinding.run {
+    override fun initView() {
+        viewBind.run {
+            quote = this@QuoteCardBinder.quote
             setupCard()
             setupLike()
             setupQuote()
@@ -55,7 +45,7 @@ class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
     }
 
 
-    fun defineTextSize(length: Int, textView: TextView) {
+    private fun defineTextSize(length: Int, textView: TextView) {
         textView.textSize = when {
             length <= 40 -> {
                 TypedValue.COMPLEX_UNIT_SP
@@ -81,34 +71,16 @@ class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
     }
 
 
-    private fun showUserProfile(user: User) {
-        val i = Intent(context, UserActivity::class.java)
-        val bundle = Bundle()
-        bundle.putSerializable("USER", user)
-        i.putExtra("USER", bundle)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity,
-                quotescardBinding.userpic as View, "profilepic")
-        context.startActivity(i, options.toBundle())
 
-    }
 
-    private fun goToMyUserPage() {
-        val activity: Activity = context as Activity
-        val viewPager: ViewPager = activity.findViewById(R.id.pager)
-        viewPager.currentItem = 2
-    }
 
 
     private fun QuotescardBinding.setupUser() {
-        if (likePresenter.currentUser != null && likePresenter.currentUser!!.uid == quote.userID) {
-            setupFirebaseUser(likePresenter.currentUser!!)
-
-        } else {
-            loadUser(quote.userID)
-        }
+        val userTopBinder = UserTopBinder(quote.userID, viewBind.userTop, context)
     }
 
     private fun QuotescardBinding.setupQuote() {
+
         quoteTextView.typeface = Tools.fonts(context)[quote.font]
         defineTextSize(quote.phrase.length, quoteTextView)
         val color = ColorUtils.lighten(quote.textcolor, 0.3)
@@ -131,7 +103,7 @@ class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
                         it.displayName,
                         it.photoUrl?.path!!)
 
-                if (quotescardBinding.like.isChecked) {
+                if (viewBind.like.isChecked) {
                     deslikeQuote(like)
                 } else {
                     likeQuote(like)
@@ -169,7 +141,14 @@ class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
                                 return true
                             }
                             R.id.quoteReport -> {
-                                val model = QuoteModel(quotePresenter).denunciar(quote)
+                                val alert = Alert(context as Activity)
+                                alert.showAlert(
+                                        message = context.getString(R.string.report_message),
+                                        buttonMessage = "denunciar",
+                                        icon = R.drawable.flamencodeleteconfirmation,
+                                        okClick = {
+                                            QuoteModel(presenter).denunciar(quote)
+                                        }, cancelClick = null)
                                 return true
                             }
                             else -> return false
@@ -186,23 +165,6 @@ class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
         }
     }
 
-    private fun loadUser(userID: String) {
-        TODO("Not yet implemented")
-    }
-
-
-    fun setupFirebaseUser(user: FirebaseUser) {
-        user.run {
-            quotescardBinding.username.text = displayName
-            Glide.with(context).load(photoUrl).into(quotescardBinding.userpic)
-            quotescardBinding.userpic.setOnClickListener {
-                goToMyUserPage()
-            }
-            quotescardBinding.username.setOnClickListener {
-                goToMyUserPage()
-            }
-        }
-    }
 
     fun data(): String {
         val postdia = Tools.convertDate(quote.data)
@@ -234,5 +196,20 @@ class QuoteCardBinder(val quotescardBinding: QuotescardBinding,
     fun deslikeQuote(like: Likes) {
         likePresenter.deslikeQuote(like)
     }
+
+    override fun onLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLoadFinish() {
+        TODO("Not yet implemented")
+    }
+
+
+    override fun showData(data: Quote) {
+        this.quote = data
+        initView()
+    }
+
 
 }

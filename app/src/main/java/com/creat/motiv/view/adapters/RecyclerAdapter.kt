@@ -25,7 +25,7 @@ class RecyclerAdapter(val presenter: BasePresenter<Quote>, var quoteList: List<Q
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         if (quoteList.isNotEmpty()) {
-            QuoteCardBinder(holder.quotescardBinding, presenter, quoteList[position], context)
+            QuoteCardBinder(quoteList[position], context, holder.quotescardBinding, presenter)
         } else {
             holder.quotescardBinding.card.fadeIn().subscribe()
             val fade = AnimationUtils.loadAnimation(context, R.anim.fade_in_repeat)
@@ -35,7 +35,7 @@ class RecyclerAdapter(val presenter: BasePresenter<Quote>, var quoteList: List<Q
     }
 
     override fun getItemCount(): Int {
-        return quoteList.size
+        return if (quoteList.size > 0) quoteList.size else 1
     }
 
 
