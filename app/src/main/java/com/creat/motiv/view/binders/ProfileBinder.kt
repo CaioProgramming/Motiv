@@ -24,13 +24,21 @@ class ProfileBinder(override val context: Context,
     }
 
     override fun initView() {
-        if (user == null) presenter().getUser(presenter().currentUser()!!.uid) else showData(user)
+        if (user == null) {
+            showData(User.fromFirebase(presenter().currentUser()!!))
+        } else {
+            showData(user)
+        }
     }
 
     override fun showData(data: User) {
         viewBind.run {
+            toolbar.title = data.name
             ProfileTopBinder(data.uid, data, viewBind.profileTopView, context)
-            setupRecycler()
+            profileRecycler.run {
+                layoutManager = LinearLayoutManager(context, VERTICAL, false)
+                adapter = QuotesProfileAdapter(context, data.uid)
+            }
         }
 
     }
@@ -38,13 +46,4 @@ class ProfileBinder(override val context: Context,
     init {
         initView()
     }
-
-    fun FragmentProfileBinding.setupRecycler() {
-        profileRecycler.run {
-            layoutManager = LinearLayoutManager(context, VERTICAL, false)
-            adapter = QuotesProfileAdapter(context)
-        }
-    }
-
-
 }

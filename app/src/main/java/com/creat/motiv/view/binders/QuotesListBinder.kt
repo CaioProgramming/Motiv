@@ -1,16 +1,17 @@
 package com.creat.motiv.view.binders
 
 import android.content.Context
-import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
+import com.creat.motiv.utils.gone
+import com.creat.motiv.utils.visible
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerAdapter
 
-class QuotesListBinder(override val context: Context, override val viewBind: QuoteRecyclerBinding, val favorites: Boolean = false) : BaseView<Quote>() {
+class QuotesListBinder(override val context: Context, override val viewBind: QuoteRecyclerBinding, useinit: Boolean = true) : BaseView<Quote>(useinit) {
 
 
     override fun presenter() = QuotePresenter(this)
@@ -19,21 +20,31 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     val fields = listOf("quote", "author", "username")
 
     init {
-        initView()
+        if (useInit) {
+            initView()
+        }
     }
 
     override fun onLoading() {
-        viewBind.notfound.animate()
+        viewBind.loading.visible()
     }
 
     override fun onLoadFinish() {
-        viewBind.notfound.clearAnimation()
+        viewBind.loading.gone()
     }
 
 
     fun searchData(query: String) {
         searchQuery = query
         searchQuery?.let { presenter().queryData(it, fields[currentField]) }
+    }
+
+    fun getUserQuotes(uid: String) {
+        presenter().queryData(uid, "userID")
+    }
+
+    fun getFavorites(uid: String) {
+        presenter().loadFavorites(uid)
     }
 
 
@@ -43,7 +54,6 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
                 adapter = RecyclerAdapter(list.reversed(), context)
                 layoutManager = GridLayoutManager(context, 1, VERTICAL, false)
                 setHasFixedSize(true)
-                viewBind.notfound.visibility = View.GONE
             }
         } else {
             if (searchQuery != null && currentField != fields.lastIndex) {
@@ -56,11 +66,7 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     }
 
     override fun initView() {
-        if (!favorites) {
-            presenter().loadData()
-        } else {
-            presenter().loadFavorites()
-        }
+        presenter().loadData()
     }
 
 }

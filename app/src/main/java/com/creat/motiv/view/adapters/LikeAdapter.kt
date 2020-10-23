@@ -6,13 +6,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.contract.AdaptersContract
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
 import com.creat.motiv.model.beans.Likes
 import com.creat.motiv.view.binders.UserViewBinder
 
 
-class LikeAdapter(private val likesList: List<Likes>, private val context: Context) : RecyclerView.Adapter<LikeAdapter.MyViewHolder>(), AdaptersContract {
+class LikeAdapter(private val likesList: List<Likes>, private val context: Context) : RecyclerView.Adapter<LikeAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

@@ -19,14 +19,13 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/colorlibrary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"
-            tools:itemCount="15"
+            app:spanCount="2"
+            android:id="@+id/colorlibrary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             tools:listitem="@layout/color_card" />
 
         <ScrollView
@@ -35,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_below="@id/colorlibrary">
 
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/background"
                 android:layout_width="match_parent"
@@ -42,7 +42,6 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:orientation="vertical"
                 android:stateListAnimator="@animator/list_animator"
-                app:cardBackgroundColor="@{qData.backgroundcolor}"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="@dimen/cardview_default_elevation"
                 tools:backgroundTint="@color/colorPrimaryDark">
@@ -68,13 +67,12 @@
                         android:importantForAutofill="no"
                         android:padding="16dp"
                         android:text="@{qData.quote}"
-                        android:textColor="@{qData.textcolor}"
                         android:textSize="50sp"
                         android:textStyle="bold"
                         android:typeface="normal" />
 
                     <EditText
-                        android:id="@+id/author"
+                        android:id="@+id/author_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -84,7 +82,6 @@
                         android:hint="@string/author"
                         android:padding="16dp"
                         android:text="@{qData.author}"
-                        android:textColor="@{qData.textcolor}"
                         android:textSize="24sp"
                         android:typeface="normal" />
 
@@ -105,7 +102,7 @@
                             android:contentDescription="Alterar cor do texto"
                             android:padding="10dp"
                             android:src="@drawable/ic_format_color_text_black_24dp"
-                            android:tint="@{qData.textcolor}" />
+                            android:tint="@{qData.intTextColor}" />
 
                         <TextView
                             android:id="@+id/fontSelector"
@@ -134,7 +131,7 @@
                             android:contentDescription="Alterar plano de fundo"
                             android:padding="10dp"
                             android:src="@drawable/ic_format_color_fill_white_24dp"
-                            android:tint="@{qData.backgroundcolor}" />
+                            android:tint="@{qData.intBackColor}" />
 
                     </LinearLayout>
 

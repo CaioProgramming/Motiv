@@ -20,15 +20,16 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         fragmentbind = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.fragment_profile, null, false)
-        return fragmentbind!!.root
+        return fragmentbind?.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragmentbind?.let {
+        super.onViewCreated(view, savedInstanceState)
+        fragmentbind.run {
             context?.let { it1 ->
                 {
-                    ProfileBinder(it1, it)
+                    this?.let { ProfileBinder(it1, it, null) }
                 }
             }
         }

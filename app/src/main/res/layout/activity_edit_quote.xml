@@ -3,40 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:colorBackground"
-            app:elevation="0dp">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <TextView
-                    style="@style/ToolbarTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="?android:actionBarSize"
-                    android:animateLayoutChanges="true"
-                    android:text="Editar Frase" />
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:animateLayoutChanges="true"
-                    android:elevation="0dp" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
+            android:layout_height="?attr/actionBarSize"
+            app:title="Editar Frase" />
 
         <include
             android:id="@+id/quoteFormView"
@@ -47,7 +23,7 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
 
 
 </layout>

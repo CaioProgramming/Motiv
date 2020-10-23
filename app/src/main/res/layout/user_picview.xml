@@ -6,12 +6,19 @@
 
     </data>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userpic"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/notfound"
-        tools:src="@drawable/notfound">
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/picShimmer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    </de.hdodenhof.circleimageview.CircleImageView>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userpic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="-10dp"
+            android:src="@drawable/notfound"
+            tools:src="@drawable/notfound" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
 </layout>

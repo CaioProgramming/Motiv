@@ -9,7 +9,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
 import com.creat.motiv.view.binders.QuotesListBinder
 
-class QuotesProfileAdapter(val context: Context) : RecyclerView.Adapter<QuotesProfileAdapter.MyViewHolder>() {
+class QuotesProfileAdapter(val context: Context, val uid: String) : RecyclerView.Adapter<QuotesProfileAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -20,7 +20,13 @@ class QuotesProfileAdapter(val context: Context) : RecyclerView.Adapter<QuotesPr
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.quotescardBinding.title.text = if (position == 0) "Posts" else "Favoritos"
-        QuotesListBinder(context, holder.quotescardBinding.quotesRecycler, position == 1)
+        QuotesListBinder(context, holder.quotescardBinding.quotesRecycler, false).run {
+            if (position == 0) {
+                getUserQuotes(uid)
+            } else {
+                getFavorites(uid)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

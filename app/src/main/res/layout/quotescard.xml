@@ -22,16 +22,15 @@
 
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_marginEnd="32dp"
             android:id="@+id/background"
             android:stateListAnimator="@animator/list_animator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
-            app:cardBackgroundColor="@{quoteData.backgroundcolor}"
-            app:cardElevation="8dp"
+            app:cardBackgroundColor="@{quoteData.intBackColor}"
             app:cardCornerRadius="15dp"
+            app:cardElevation="3dp"
             tools:backgroundTint="@color/colorAccent">
 
             <LinearLayout
@@ -39,19 +38,38 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include
-                    android:id="@+id/userTop"
-                    layout="@layout/user_quote_card_view"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fade_gradient"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/quoteDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        tools:text="10 de Outubro de 2019" />
+
+                    <include
+                        android:id="@+id/userTop"
+                        layout="@layout/user_quote_card_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
 
                 <TextView
+
                     android:id="@+id/quoteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     android:text="@{quoteData.quote}"
-                    android:textColor="@{quoteData.textcolor}"
+                    android:textColor="@{quoteData.intTextColor}"
                     android:textSize="50sp"
                     android:textStyle="bold"
                     android:typeface="normal"
@@ -59,43 +77,43 @@
                     tools:text="Everything I do \nI tell you all the time" />
 
                 <TextView
-                    android:id="@+id/author"
-                    android:layout_width="match_parent"
+                    android:id="@+id/author_text_view"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:alpha="0.8"
+                    android:alpha="0.9"
                     android:backgroundTint="@color/transparent"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     android:text="@{quoteData.author}"
-                    android:textColor="@{quoteData.textcolor}"
+                    android:textColor="@{quoteData.intTextColor}"
                     android:textSize="24sp"
-                    android:typeface="normal"
+                    android:textStyle="italic"
                     tools:textColor="@color/white"
                     tools:text="Lana Del Rey" />
 
-                <TextView
-                    android:id="@+id/quoteDate"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/likers"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/fade_gradient_inversed"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/fade_gradient_inversed"
-                    android:padding="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    tools:text="10 de Outubro de 2019" />
+                    android:padding="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/user_picview" />
 
             </LinearLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
 
-
-        <include
-
-            android:id="@+id/likeView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/like_layout" />
+        <CheckBox
+            android:id="@+id/like"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:background="@drawable/favoritecheck"
+            android:button="@color/transparent" />
 
 
     </LinearLayout>

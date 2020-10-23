@@ -1,4 +1,4 @@
-package com.creat.motiv.presenter
+package com.creat.motiv.contract
 
 import com.creat.motiv.model.BaseModel
 import com.creat.motiv.model.beans.BaseBean

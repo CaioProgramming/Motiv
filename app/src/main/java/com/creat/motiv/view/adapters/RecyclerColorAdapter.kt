@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ColorCardBinding
+import com.creat.motiv.utils.toHex
 import java.util.*
 
 
@@ -16,7 +17,7 @@ enum class SelectedViewType {
 }
 
 class PickedColor(
-        val color: Int,
+        val color: String,
         val selectedView: SelectedViewType
 )
 
@@ -43,11 +44,8 @@ class RecyclerColorAdapter(private val colorsList: ArrayList<Int>,
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Plano de fundo ou texto")
                         .setItems(options) { dialogInterface, i ->
-                            if (i == 0) {
-                                onColorPick(PickedColor(colorsList[position], SelectedViewType.TEXT))
-                            } else {
-                                onColorPick(PickedColor(colorsList[position], SelectedViewType.BACKGROUND))
-                            }
+                            val hexColor = toHex(colorsList[position])
+                            onColorPick(PickedColor(hexColor, if (i == 0) SelectedViewType.TEXT else SelectedViewType.BACKGROUND))
                         }
                 builder.show()
             }

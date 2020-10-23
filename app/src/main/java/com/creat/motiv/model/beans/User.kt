@@ -1,18 +1,14 @@
 package com.creat.motiv.model.beans
 
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
 
-class User(var name: String = "",
-           val uid: String = "",
-           val token: String = "",
-           var picurl: String = "",
-           val phonenumber: String = "",
-           val email: String = "") : BaseBean(uid) {
+data class User(var name: String = "",
+                val uid: String = "",
+                val token: String = "",
+                var picurl: String = "",
+                val phonenumber: String = "",
+                val email: String = "") : BaseBean(uid) {
 
-    override fun convertSnapshot(snapshot: DataSnapshot): User? {
-        return snapshot.getValue(User::class.java)
-    }
 
     companion object {
         fun fromFirebase(firebaseUser: FirebaseUser): User {

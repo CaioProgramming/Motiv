@@ -1,6 +1,7 @@
 package com.creat.motiv.presenter
 
 import android.util.Log
+import com.creat.motiv.contract.PresenterContract
 import com.creat.motiv.model.beans.BaseBean
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -43,7 +44,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
     }
 
     override fun onError(message: String) {
-        Log.e(javaClass.simpleName, "onError called ")
+        Log.e(javaClass.simpleName, "onError called ${message}")
         view.error(message)
     }
 

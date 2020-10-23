@@ -1,23 +1,21 @@
 package com.creat.motiv.model.beans
 
 import android.graphics.Color
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.ktx.getValue
+import java.util.*
+import kotlin.collections.ArrayList
 
-class Quote(key: String? = null,
-            var quote: String = "",
-            var author: String = "",
-            val data: String = "",
-            val userID: String = "",
-            val username: String = "",
-            val userphoto: String = "",
-            var backgroundcolor: Int = Color.WHITE,
-            var textcolor: Int = Color.BLACK,
-            var isReport: Boolean = false,
-            var font: Int = 0) : BaseBean(key ?: "") {
+data class Quote(
+        var key: String? = null,
+        var quote: String = "",
+        var author: String = "",
+        val data: Date = Date(),
+        val userID: String = "",
+        var backgroundcolor: String = "#ffffff",
+        var textcolor: String = "#000000",
+        var isReport: Boolean = false,
+        var likes: ArrayList<String> = ArrayList(),
+        var font: Int = 0) : BaseBean(key ?: "") {
 
-    override fun convertSnapshot(snapshot: DataSnapshot): Quote? {
-        return snapshot.getValue<Quote>()
-    }
-
+    fun intTextColor(): Int = Color.parseColor(textcolor)
+    fun intBackColor(): Int = Color.parseColor(backgroundcolor)
 }

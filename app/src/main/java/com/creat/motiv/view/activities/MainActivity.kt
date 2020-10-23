@@ -81,9 +81,9 @@ open class MainActivity : AppCompatActivity(){
                     })
 
         }
-        supportActionBar?.title = ""
 
         setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
         if (!uimode(this)) {
             setLightStatusBar(this)
         }

@@ -9,6 +9,7 @@ import com.creat.motiv.R
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
+import java.lang.String.format
 
 fun Snackbar.config(context: Context) {
     val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
@@ -54,4 +55,8 @@ fun View.fadeOut(duration: Long = 500): Completable {
                     animationSubject.onComplete()
                 }
     }
+}
+
+fun toHex(intColor: Int): String {
+    return format("#%06X", 0xFFFFFF and intColor)
 }

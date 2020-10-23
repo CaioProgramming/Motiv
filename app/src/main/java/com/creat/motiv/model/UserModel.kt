@@ -5,14 +5,14 @@ import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.BasePresenter
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.DataSnapshot
+import com.google.firebase.firestore.DocumentSnapshot
 
 class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>() {
 
     override val path: String = "Users"
 
-    override fun deserializeDataSnapshot(dataSnapshot: DataSnapshot): User? {
-        return User().convertSnapshot(dataSnapshot)
+    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): User? {
+        return dataSnapshot.toObject(User::class.java)
     }
 
     fun updateUserPic(pic: Pics) {

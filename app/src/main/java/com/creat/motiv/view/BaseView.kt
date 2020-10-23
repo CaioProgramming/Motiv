@@ -4,7 +4,7 @@ import android.util.Log
 import com.creat.motiv.contract.ViewContract
 import com.creat.motiv.model.beans.BaseBean
 
-abstract class BaseView<T> : ViewContract<T> where  T : BaseBean {
+abstract class BaseView<T>(val useInit: Boolean = true) : ViewContract<T> where  T : BaseBean {
 
 
     override fun onLoading() {
@@ -28,7 +28,7 @@ abstract class BaseView<T> : ViewContract<T> where  T : BaseBean {
     }
 
     override fun error(message: String) {
-        Log.e(message, "error: $message")
+        Log.e(javaClass.simpleName, "error: $message")
     }
 
 }

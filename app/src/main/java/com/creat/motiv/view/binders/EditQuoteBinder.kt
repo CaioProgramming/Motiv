@@ -2,25 +2,27 @@ package com.creat.motiv.view.binders
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utils.Tools
 import com.creat.motiv.utils.invisible
+import com.creat.motiv.utils.toHex
 import com.creat.motiv.utils.visible
 import com.creat.motiv.view.BaseView
+import com.creat.motiv.view.adapters.PickedColor
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
 import com.creat.motiv.view.adapters.SelectedViewType
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EditQuoteBinder(
@@ -37,11 +39,11 @@ class EditQuoteBinder(
 
 
     override fun onLoading() {
-        TODO("Not yet implemented")
+        Toast.makeText(context, "Salvando frase...", Toast.LENGTH_LONG).show()
     }
 
     override fun onLoadFinish() {
-        TODO("Not yet implemented")
+
     }
 
     override fun initView() {
@@ -52,7 +54,10 @@ class EditQuoteBinder(
     override fun showData(data: Quote) {
         viewBind.qData = data
         viewBind.run {
-            updateFont(data)
+            fontSelector.setOnClickListener {
+                quote?.font = quote?.font!! + 1
+                updateFont()
+            }
             backColorpicker()
             textColorPicker()
             colorGallery()
@@ -60,12 +65,13 @@ class EditQuoteBinder(
                 salvar()
             }
         }
+        UserViewBinder(data.userID, context, viewBind.userTop)
     }
 
 
-    private fun NewquotepopupBinding.updateFont(quote: Quote) {
-        quoteTextView.typeface = Tools.fonts(context)[quote.font]
-        author.typeface = Tools.fonts(context)[quote.font]
+    private fun NewquotepopupBinding.updateFont() {
+        quoteTextView.typeface = Tools.fonts(context)[quote?.font ?: 0]
+        authorTextView.typeface = Tools.fonts(context)[quote?.font ?: 0]
     }
 
 
@@ -85,7 +91,7 @@ class EditQuoteBinder(
                             0f, radius.toFloat())
                     background.visible()
                     anim.start()
-                    quote?.backgroundcolor = color
+                    quote?.backgroundcolor = toHex(color)
                     backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
                 }
             }
@@ -104,11 +110,11 @@ class EditQuoteBinder(
                 colorAnimation.duration = 2000 // milliseconds
                 colorAnimation.addUpdateListener {
                     quoteTextView.setTextColor(color)
-                    author.setTextColor(color)
+                    authorTextView.setTextColor(color)
                 }
                 textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
                 colorAnimation.start()
-                quote?.textcolor = color
+                quote?.textcolor = toHex(color)
             }
         }
     }
@@ -126,56 +132,64 @@ class EditQuoteBinder(
 
         println("Load " + colors.size + " colors")
         colors.sortedDescending()
-        colorlibrary.setHasFixedSize(true)
         val llm = GridLayoutManager(context, 3, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, context) {
             if (it.selectedView == SelectedViewType.BACKGROUND) {
-
-                background.visibility = View.INVISIBLE
-                background.setBackgroundColor(it.color)
-                val cx = background.right
-                val cy = background.top
-                val radius = Math.max(background.width, background.height)
-                val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy, 15f, radius.toFloat())
-                background.visibility = View.VISIBLE
-                anim.start()
-                background.setBackgroundColor(it.color)
-                backcolorfab.imageTintList = ColorStateList.valueOf(it.color)
-                quote?.backgroundcolor = it.color
-
+                animateBackground(it)
             } else {
-
-                val colorFrom = quote?.textcolor
-                val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, it.color)
-                colorAnimation.duration = 2000 // milliseconds
-                colorAnimation.addUpdateListener { valueAnimator ->
-                    quoteTextView.setTextColor(it.color)
-                    author.setTextColor(it.color)
-                }
-                textcolorfab.backgroundTintList = ColorStateList.valueOf(it.color)
-                colorAnimation.start()
-                quote?.textcolor = it.color
-                quoteTextView.setTextColor(it.color)
-                author.setTextColor(it.color)
+                animateText(it)
             }
         }
-        recyclerColorAdapter.notifyDataSetChanged()
+        colorlibrary.setHasFixedSize(true)
         colorlibrary.adapter = recyclerColorAdapter
         colorlibrary.layoutManager = llm
 
     }
 
+    private fun NewquotepopupBinding.animateText(it: PickedColor) {
+        val colorFrom = quote?.textcolor
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, it.color)
+        colorAnimation.duration = 2000 // milliseconds
+        val color: Int = Color.parseColor(it.color)
 
-    private fun actualday(): String {
-        val datenow = Calendar.getInstance().time
-        @SuppressLint("SimpleDateFormat") val df = SimpleDateFormat("dd/MM/yyyy")
-        val dia = df.format(datenow)
-        println(dia)
-        return dia
+        colorAnimation.addUpdateListener { valueAnimator ->
+            val color = Color.parseColor(quote?.textcolor)
+            quoteTextView.setTextColor(color)
+            authorTextView.setTextColor(color)
+        }
+
+        textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
+        colorAnimation.start()
+        quote?.textcolor = it.color
+        quoteTextView.setTextColor(color)
+        authorTextView.setTextColor(color)
+    }
+
+    private fun NewquotepopupBinding.animateBackground(it: PickedColor) {
+        background.visibility = View.INVISIBLE
+        val color = Color.parseColor(it.color)
+        background.setBackgroundColor(color)
+        val cx = background.right
+        val cy = background.top
+        val radius = Math.max(background.width, background.height)
+        val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy, 15f, radius.toFloat())
+        background.visibility = View.VISIBLE
+        anim.start()
+        background.setBackgroundColor(color)
+        backcolorfab.imageTintList = ColorStateList.valueOf(color)
+        quote?.backgroundcolor = it.color
+    }
+
+
+    private fun actualday(): Date {
+        return Calendar.getInstance().time
+
     }
 
     fun salvar() {
         quote?.let {
+            it.quote = viewBind.quoteTextView.text.toString()
+            it.author = viewBind.authorTextView.text.toString()
             presenter().saveData(it)
         }
     }
@@ -185,9 +199,7 @@ class EditQuoteBinder(
         return Quote(
                 data = actualday(),
                 author = firebaseUser?.displayName ?: "",
-                username = firebaseUser?.displayName ?: "",
-                userID = firebaseUser?.displayName ?: "",
-                userphoto = firebaseUser?.photoUrl?.path ?: ""
+                userID = firebaseUser?.displayName ?: ""
         )
     }
 

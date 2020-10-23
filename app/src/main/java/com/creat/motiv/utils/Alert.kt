@@ -83,15 +83,6 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
 
     fun snackmessage(backcolor: Int?, message: String) {
 
-        /*val snackbar = Snackbar.make(
-                activity.findViewById(android.R.id.content),
-                message,
-                Snackbar.LENGTH_LONG
-        )
-        snackbar.config(activity)
-        if (backcolor != null) snackbar.setBackgroundTintList(ColorStateList.valueOf(activity.resources.getColor(backcolor)))
-        else snackbar.setBackgroundTintList(ColorStateList.valueOf(R.attr.itemTextColor))
-        snackbar.show()*/
         if (backcolor != null) {
             ChocoBar.builder()
                     .setText(message)
@@ -111,38 +102,15 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
                     .show()
         }
 
-        /* if (color == 0)  {
-             snackbar.setBackgroundTint(Tools.inversebackcolor(activity))
-         }else{
-             snackbar.setTextColor(Tools.inversetextcolor(activity))
-         }
-         snackbar.config(activity)
-         snackbar.show()*/
-
-
-        /* var flashbar = Flashbar.Builder(activity)
-                 .gravity(Flashbar.Gravity.BOTTOM)
-                 .message(message)
-                 .duration(Flashbar.DURATION_LONG)
-                 .backgroundColor(Tools.inversebackcolor(activity))
-                 .messageColor(Tools.inversetextcolor(activity))
-                 .messageTypeface(Typeface.DEFAULT_BOLD)
-                 .icon(icon)
-                 .build()
-         flashbar.show()*/
     }
 
 
     override fun onShow(dialogInterface: DialogInterface) {
-        blur?.let {
-            Tools.fadeIn(it, 1500).subscribe()
-        }
+        blur?.fadeIn()?.subscribe()
     }
 
     override fun onDismiss(dialogInterface: DialogInterface) {
-        blur?.let {
-            Tools.fadeOut(it, 1500).subscribe()
-        }
+        blur?.fadeOut()?.subscribe()
     }
 
 

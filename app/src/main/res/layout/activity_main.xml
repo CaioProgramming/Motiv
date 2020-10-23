@@ -25,6 +25,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <com.google.android.material.tabs.TabLayout
+                    android:paddingTop="8dp"
                     android:id="@+id/navigation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,15 +62,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:elevation="0dp"
-                    android:animateLayoutChanges="true"
-                    app:title="">
+                    android:animateLayoutChanges="true" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/userpic"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        tools:src="@drawable/notfound" />
-                </androidx.appcompat.widget.Toolbar>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userpic"
+                    android:layout_width="90dp"
+                    android:layout_height="?attr/actionBarSize"
+                    tools:src="@drawable/notfound" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
