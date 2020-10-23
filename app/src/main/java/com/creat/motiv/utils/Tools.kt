@@ -11,7 +11,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
 import com.creat.motiv.R
-import com.creat.motiv.model.Beans.Artists
+import com.creat.motiv.model.beans.Artists
 import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject

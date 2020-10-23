@@ -18,6 +18,8 @@
             app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
+                app:title=""
+                app:titleEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -58,8 +60,16 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    android:elevation="0dp"
                     android:animateLayoutChanges="true"
-                    android:elevation="0dp" />
+                    app:title="">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userpic"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        tools:src="@drawable/notfound" />
+                </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

@@ -20,7 +20,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.creat.motiv.R
 import com.creat.motiv.databinding.PicsLayoutBinding
-import com.creat.motiv.model.Beans.Pics
+import com.creat.motiv.model.beans.Pics
 import com.google.firebase.auth.FirebaseAuth
 
 class RecyclerPicAdapter(private val pictureList: List<Pics>,

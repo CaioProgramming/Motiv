@@ -1,7 +1,7 @@
 package com.creat.motiv.presenter
 
-import com.creat.motiv.model.Beans.User
 import com.creat.motiv.model.UserModel
+import com.creat.motiv.model.beans.User
 import com.creat.motiv.view.BaseView
 
 
@@ -23,12 +23,5 @@ class ProfilePresenter(override val view: BaseView<User>, val user: User? = null
         view.showData(data)
     }
 
-    override fun onError() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSuccess() {
-        TODO("Not yet implemented")
-    }
 
 }

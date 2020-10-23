@@ -7,29 +7,29 @@
     <data>
 
         <variable
-            name="quote"
-            type="com.creat.motiv.model.Beans.Quote" />
+            name="quoteData"
+            type="com.creat.motiv.model.beans.Quote" />
     </data>
 
     <LinearLayout
         android:id="@+id/card"
+        android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="16dp"
         android:animateLayoutChanges="true"
         android:hapticFeedbackEnabled="true"
         android:orientation="vertical">
 
 
         <com.google.android.material.card.MaterialCardView
+            android:layout_marginEnd="32dp"
             android:id="@+id/background"
             android:stateListAnimator="@animator/list_animator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
-            app:cardBackgroundColor="@{quote.backgroundcolor}"
+            app:cardBackgroundColor="@{quoteData.backgroundcolor}"
             app:cardElevation="8dp"
             app:cardCornerRadius="15dp"
             tools:backgroundTint="@color/colorAccent">
@@ -41,7 +41,7 @@
 
                 <include
                     android:id="@+id/userTop"
-                    layout="@layout/user_view"
+                    layout="@layout/user_quote_card_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -50,8 +50,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:text="@{quote.phrase}"
-                    android:textColor="@{quote.textcolor}"
+                    android:text="@{quoteData.quote}"
+                    android:textColor="@{quoteData.textcolor}"
                     android:textSize="50sp"
                     android:textStyle="bold"
                     android:typeface="normal"
@@ -60,13 +60,14 @@
 
                 <TextView
                     android:id="@+id/author"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:alpha="0.8"
                     android:backgroundTint="@color/transparent"
                     android:padding="16dp"
-                    android:textColor="@{quote.textcolor}"
+                    android:text="@{quoteData.author}"
+                    android:textColor="@{quoteData.textcolor}"
                     android:textSize="24sp"
                     android:typeface="normal"
                     tools:textColor="@color/white"
@@ -89,41 +90,12 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-        <RelativeLayout
-            android:id="@+id/likes"
+        <include
+
+            android:id="@+id/likeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:visibility="invisible">
-
-            <CheckBox
-                android:id="@+id/like"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/favoritecheck"
-
-                android:button="@color/transparent" />
-
-            <TextView
-                android:id="@+id/likecount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@id/like" />
-
-            <ImageButton
-                android:id="@+id/share"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end|center"
-                android:backgroundTint="@color/transparent"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/share" />
-        </RelativeLayout>
+            layout="@layout/like_layout" />
 
 
     </LinearLayout>

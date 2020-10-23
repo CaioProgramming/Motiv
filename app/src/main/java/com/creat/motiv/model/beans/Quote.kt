@@ -1,10 +1,11 @@
-package com.creat.motiv.model.Beans
+package com.creat.motiv.model.beans
 
 import android.graphics.Color
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ktx.getValue
 
 class Quote(key: String? = null,
-            var phrase: String = "",
+            var quote: String = "",
             var author: String = "",
             val data: String = "",
             val userID: String = "",
@@ -16,7 +17,7 @@ class Quote(key: String? = null,
             var font: Int = 0) : BaseBean(key ?: "") {
 
     override fun convertSnapshot(snapshot: DataSnapshot): Quote? {
-        return snapshot.getValue(Quote::class.java)
+        return snapshot.getValue<Quote>()
     }
 
 }

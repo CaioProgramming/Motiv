@@ -1,4 +1,4 @@
-package com.creat.motiv.model.Beans
+package com.creat.motiv.model.beans
 
 import com.google.firebase.database.DataSnapshot
 import java.io.Serializable

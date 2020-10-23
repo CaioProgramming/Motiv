@@ -26,7 +26,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentbind?.let {
-            context?.let { it1 -> ProfileBinder(it1, it) }
+            context?.let { it1 ->
+                {
+                    ProfileBinder(it1, it)
+                }
+            }
         }
     }
 

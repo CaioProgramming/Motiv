@@ -1,6 +1,6 @@
 package com.creat.motiv.model
 
-import com.creat.motiv.model.Beans.BaseBean
+import com.creat.motiv.model.beans.BaseBean
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 abstract class BaseModel<T> : ValueEventListener, ModelContract<T>, OnCompleteListener<Void> where T : BaseBean {
 
 
-    var dbRef: DatabaseReference
 
     fun reference(): DatabaseReference {
         return FirebaseDatabase.getInstance().reference.child(path)
@@ -22,84 +21,108 @@ abstract class BaseModel<T> : ValueEventListener, ModelContract<T>, OnCompleteLi
 
 
     override fun addData(data: T, forcedID: String?) {
-        if (currentUser == null) {
-            presenter.onError()
-        } else {
+        GlobalScope.launch {
             if (forcedID.isNullOrEmpty()) {
-                dbRef.push().setValue(data).addOnCompleteListener {
+                reference().push().setValue(data).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        presenter.onSuccess()
+                        presenter.onSuccess("Operação concluída com sucesso")
                     } else {
-                        presenter.onError()
+                        presenter.onError("Ocorreu um erro ao processar ${it.exception?.cause}")
                     }
                 }
             } else {
-                dbRef.child(forcedID).setValue(data).addOnCompleteListener {
+                reference().child(forcedID).setValue(data).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        presenter.onSuccess()
+                        presenter.onSuccess("Atualizado com sucesso")
                     } else {
-                        presenter.onError()
+                        presenter.onError("Ocorreu um erro ao processar")
                     }
                 }
             }
         }
-
     }
 
     override fun editData(data: T, id: String) {
-        if (currentUser == null) {
-            presenter.onError()
-        } else {
-            dbRef.child(id).setValue(data).addOnCompleteListener(this)
+        if (checkUser()) return
+        GlobalScope.launch {
+            reference().child(id).setValue(data).addOnCompleteListener(this@BaseModel)
         }
     }
 
     fun editField(data: Any, id: String, field: String) {
-        dbRef.child(id).child(field).setValue(data)
+        if (checkUser()) return
+        GlobalScope.launch {
+            reference().child(id).child(field).setValue(data)
+        }
+
+    }
+
+    private fun checkUser(): Boolean {
+        if (currentUser == null) {
+            presenter.onError("Usuário desconectado")
+            return true
+        }
+        return false
     }
 
     override fun deleteData(id: String) {
-        reference().child(id).removeValue().addOnCompleteListener(this)
+        if (checkUser()) return
+        GlobalScope.launch {
+            reference().child(id).removeValue().addOnCompleteListener(this@BaseModel)
+        }
     }
 
     override fun query(query: String, field: String) {
-        dbRef.startAt(query + SEARCH_END, field)
+        if (checkUser()) return
+        reference().startAt(query + SEARCH_END, field)
     }
 
     override fun getAllData() {
+        if (checkUser()) return
         GlobalScope.launch {
-            dbRef.addValueEventListener(this@BaseModel)
+            reference().addValueEventListener(this@BaseModel)
         }
 
     }
 
     override fun getSingleData(id: String) {
-        dbRef.child(id).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                deserializeDataSnapshot(snapshot)?.let { presenter.onSingleData(it) }
-            }
+        if (checkUser()) return
+        GlobalScope.launch {
+            reference().child(id).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    deserializeDataSnapshot(snapshot)?.let {
+                        presenter.onSingleData(it)
+                    }
+                }
 
-            override fun onCancelled(error: DatabaseError) {
-                presenter.onError()
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    presenter.onError("Ocorreu um erro ${error.message}")
+                }
+            })
+        }
     }
 
 
     override fun onComplete(task: Task<Void>) {
         if (task.isSuccessful) {
-            presenter.onSuccess()
+            presenter.onSuccess("Operação concluída")
         } else {
-            presenter.onError()
+            presenter.onError("Ocorreu um erro ao processar")
         }
     }
 
     fun deleteAllData(dataList: List<T>) {
+        if (checkUser()) return
         GlobalScope.launch {
-            for (data in dataList) {
-                if (!data.id.isNullOrEmpty()) {
-                    dbRef.child(data.id).removeValue()
+            try {
+                for (data in dataList) {
+                    if (data.id.isNotEmpty()) {
+                        reference().child(data.id).removeValue()
+                    }
                 }
+                presenter.onSuccess("Dados removidos com sucesso")
+            } catch (e: Exception) {
+                presenter.onError("Ocorreu um erro ao processar")
             }
         }
     }
@@ -113,15 +136,11 @@ abstract class BaseModel<T> : ValueEventListener, ModelContract<T>, OnCompleteLi
         presenter.onDataRetrieve(dataList.toList())
     }
 
-
     override fun onCancelled(error: DatabaseError) {
-        presenter.onError()
+        presenter.onError("Ocorreu um erro ${error.message}")
     }
 
 
-    init {
-        dbRef = this.reference()
-    }
 
 
 }

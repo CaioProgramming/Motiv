@@ -1,121 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
-    android:theme="@style/AppTheme"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:theme="@style/AppTheme">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+
+        <include layout="@layout/title_layout" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:padding="8dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <TextView
-                style="@style/ToolbarTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="?android:actionBarSize"
-                android:animateLayoutChanges="true"
-                android:text="Configurações" />
+                android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:animateLayoutChanges="true"
-                android:elevation="0dp" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <include
+                    android:id="@+id/profileView"
+                    layout="@layout/user_profile" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+                <include
+                    android:id="@+id/changenameView"
+                    layout="@layout/change_name_view" />
 
-    <ScrollView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/changename"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@drawable/round_low"
-                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:hint="Alterar nome"
-                android:padding="10dp"
-
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/deleteposts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@drawable/round_low"
-                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center|start"
-                android:padding="10dp"
-                android:text="Remover posts"
-                android:textAllCaps="false"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/deleteposts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/round_low"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center|start"
+                    android:padding="10dp"
+                    android:text="Remover posts"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_chevron_right_black_24dp" />
 
 
-            <TextView
-                android:id="@+id/deleteaccount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@drawable/round_low"
-                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center|start"
-                android:padding="10dp"
-                android:text="Remover conta"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:stateListAnimator="@animator/list_animator"
+                    android:text="Sair"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red_500"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/exit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@drawable/round_low"
-                android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center|start"
-                android:padding="10dp"
-                android:text="Sair"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textStyle="bold" />
-        </LinearLayout>
+        </ScrollView>
 
 
-    </ScrollView>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

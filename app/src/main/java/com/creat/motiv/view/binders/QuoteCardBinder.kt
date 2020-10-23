@@ -1,4 +1,4 @@
-package com.creat.motiv.view.binders
+ package com.creat.motiv.view.binders
 
 import android.app.Activity
 import android.content.ClipData
@@ -6,17 +6,16 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Vibrator
+import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.TextView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotescardBinding
-import com.creat.motiv.model.Beans.Likes
-import com.creat.motiv.model.Beans.Quote
 import com.creat.motiv.model.QuoteModel
-import com.creat.motiv.presenter.BasePresenter
-import com.creat.motiv.presenter.LikesPresenter
+import com.creat.motiv.model.beans.Quote
+import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.ColorUtils
 import com.creat.motiv.utils.Tools
@@ -25,24 +24,27 @@ import com.devs.readmoreoption.ReadMoreOption
 import java.text.SimpleDateFormat
 import java.util.*
 
-class QuoteCardBinder(
-        var quote: Quote,
-        override val context: Context,
-        override val viewBind: QuotescardBinding, override val presenter: BasePresenter<Quote>) : BaseView<Quote>() {
-
-    var likePresenter: LikesPresenter = LikesPresenter(viewBind)
+ class QuoteCardBinder(
+         var quote: Quote,
+         override val context: Context,
+         override val viewBind: QuotescardBinding) : BaseView<Quote>() {
 
 
-    override fun initView() {
-        viewBind.run {
-            quote = this@QuoteCardBinder.quote
-            setupCard()
-            setupLike()
-            setupQuote()
-            setupUser()
-        }
-        loadLikes()
-    }
+     override fun presenter(): QuotePresenter = QuotePresenter(this)
+
+     init {
+         initView()
+     }
+
+     override fun initView() {
+         viewBind.run {
+             Log.d(javaClass.simpleName, "initView: setup view")
+             setupCard()
+             setupLike()
+             setupQuote()
+             setupUser()
+         }
+     }
 
 
     private fun defineTextSize(length: Int, textView: TextView) {
@@ -76,13 +78,16 @@ class QuoteCardBinder(
 
 
     private fun QuotescardBinding.setupUser() {
-        val userTopBinder = UserTopBinder(quote.userID, viewBind.userTop, context)
+        UserViewBinder(quote.userID, context, userTop)
     }
 
     private fun QuotescardBinding.setupQuote() {
-
+        quoteData = quote
         quoteTextView.typeface = Tools.fonts(context)[quote.font]
-        defineTextSize(quote.phrase.length, quoteTextView)
+        defineTextSize(quote.quote.length, quoteTextView)
+        background.setCardBackgroundColor(quote.backgroundcolor)
+        quoteTextView.text = quote.quote
+        author.text = quote.author
         val color = ColorUtils.lighten(quote.textcolor, 0.3)
         val readMoreOption = ReadMoreOption.Builder(context)
                 .textLength(120, ReadMoreOption.TYPE_CHARACTER)
@@ -92,43 +97,31 @@ class QuoteCardBinder(
                 .lessLabelColor(color)
                 .expandAnimation(true)
                 .build()
-        readMoreOption.addReadMoreTo(quoteTextView, quote.phrase)
+        readMoreOption.addReadMoreTo(quoteTextView, quote.quote)
         quoteDate.text = data()
     }
 
     private fun QuotescardBinding.setupLike() {
-        like.setOnClickListener {
-            likePresenter.currentUser?.let {
-                val like = Likes(it.uid,
-                        it.displayName,
-                        it.photoUrl?.path!!)
-
-                if (viewBind.like.isChecked) {
-                    deslikeQuote(like)
-                } else {
-                    likeQuote(like)
-                }
-            }
-        }
+        LikeCardBinder(quote.id, context, likeView)
     }
 
     private fun QuotescardBinding.setupCard() {
+
         background.setOnClickListener {
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (vibrator.hasVibrator()) {
                 val mVibratePattern = longArrayOf(100, 150)
                 vibrator.vibrate(mVibratePattern, -1) // for 500 ms
             }
-
             val popup = PopupMenu(context, background)
-            popup.menuInflater.inflate(R.menu.menu, popup.menu)
+            popup.menuInflater.inflate(R.menu.quotemenu, popup.menu)
             popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                 override fun onMenuItemClick(item: MenuItem?): Boolean {
                     item?.let {
                         when (it.itemId) {
                             R.id.quoteCopy -> {
                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                val clip = ClipData.newPlainText("${quote.author}", quote.phrase)
+                                val clip = ClipData.newPlainText("${quote.author}", quote.quote)
                                 clipboard.setPrimaryClip(clip)
                                 return true
                             }
@@ -136,7 +129,7 @@ class QuoteCardBinder(
                                 val shareintent = Intent(Intent.ACTION_SEND)
                                 shareintent.type = "text/pain"
                                 shareintent.putExtra(Intent.EXTRA_SUBJECT, "Motiv")
-                                shareintent.putExtra(Intent.EXTRA_TEXT, quote.phrase + " -" + quote.author)
+                                shareintent.putExtra(Intent.EXTRA_TEXT, quote.quote + " -" + quote.author)
                                 context.startActivity(Intent.createChooser(shareintent, "Escolha onde quer compartilhar"))
                                 return true
                             }
@@ -147,7 +140,7 @@ class QuoteCardBinder(
                                         buttonMessage = "denunciar",
                                         icon = R.drawable.flamencodeleteconfirmation,
                                         okClick = {
-                                            QuoteModel(presenter).denunciar(quote)
+                                            QuoteModel(presenter()).denunciar(quote)
                                         }, cancelClick = null)
                                 return true
                             }
@@ -183,18 +176,6 @@ class QuoteCardBinder(
                 fmt.format(postdia)
             }
         }
-    }
-
-    fun loadLikes() {
-        likePresenter.loadData()
-    }
-
-    fun likeQuote(like: Likes) {
-        likePresenter.likeQuote(like)
-    }
-
-    fun deslikeQuote(like: Likes) {
-        likePresenter.deslikeQuote(like)
     }
 
     override fun onLoading() {

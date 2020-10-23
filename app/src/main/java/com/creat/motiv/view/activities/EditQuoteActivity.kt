@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityEditQuoteBinding
-import com.creat.motiv.model.Beans.Quote
+import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.view.binders.EditQuoteBinder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

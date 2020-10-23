@@ -1,16 +1,13 @@
 package com.creat.motiv.model
 
-import com.creat.motiv.model.Beans.Quote
+import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.BasePresenter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 
-class QuoteModel(override val presenter: BasePresenter<Quote>) : BaseModel<Quote>() {
-
-
-    override val path: String = "Quotes"
+class QuoteModel(override val presenter: BasePresenter<Quote>, override val path: String = "Quotes") : BaseModel<Quote>() {
 
 
     fun getFavorites() {
@@ -34,21 +31,10 @@ class QuoteModel(override val presenter: BasePresenter<Quote>) : BaseModel<Quote
         })
     }
 
-    fun pesquisar(pesquisa: String) {
-        query(pesquisa, "quote")
-    }
-
-    private fun PesquisarAuthor(pesquisa: String) {
-        query(pesquisa, "author")
-    }
-
-    private fun PesquisarUsuario(pesquisa: String) {
-        query(pesquisa, "username")
-    }
-
 
     fun denunciar(quote: Quote) {
-        quote.isReport = true
+        quote.isReport = false
+
         editData(quote, quote.id)
 
     }

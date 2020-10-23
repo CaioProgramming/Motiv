@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     tools:context=".view.fragments.HomeFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -11,13 +12,12 @@
         android:padding="16dp">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/composesrecycler"
+        <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:itemCount="10"
-            tools:listitem="@layout/quotescard" />
+            android:id="@+id/quotesView"
+            layout="@layout/quote_recycler" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:background="?android:colorBackground"
@@ -33,7 +33,6 @@
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/home_search"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:background="@drawable/round"
                     app:iconifiedByDefault="false"
                     android:layout_width="match_parent"

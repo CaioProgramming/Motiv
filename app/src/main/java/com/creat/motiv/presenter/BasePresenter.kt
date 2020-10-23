@@ -1,29 +1,32 @@
 package com.creat.motiv.presenter
 
 import android.util.Log
-import com.creat.motiv.model.Beans.BaseBean
+import com.creat.motiv.model.beans.BaseBean
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 
 abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
 
-    val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    fun currentUser(): FirebaseUser? = FirebaseAuth.getInstance().currentUser
+
 
     fun loadData() {
         model.getAllData()
     }
 
+    fun loadSingleData(key: String) {
+        model.getSingleData(key)
+    }
+
     fun saveData(data: T, forcedID: String? = null) {
-        if (currentUser == null) {
-            onError()
-            return
-        }
+        view.onLoading()
         if (forcedID == null) {
             model.addData(data)
         } else {
             model.addData(data, forcedID)
         }
+        view.onLoadFinish()
     }
 
     override fun onDataRetrieve(data: List<T>) {
@@ -34,13 +37,18 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
         view.showData(data)
     }
 
-    override fun onSuccess() {
+    override fun onSuccess(message: String) {
         Log.d(javaClass.simpleName, "onSuccess called")
+        view.success(message)
     }
 
-    override fun onError() {
+    override fun onError(message: String) {
         Log.e(javaClass.simpleName, "onError called ")
+        view.error(message)
     }
 
+    override fun queryData(value: String, field: String) {
+        model.query(value, field)
+    }
 
 }

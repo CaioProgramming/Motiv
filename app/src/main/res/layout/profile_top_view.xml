@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userData"
+            type="com.creat.motiv.model.beans.User" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        tools:showIn="@layout/fragment_profile">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilepic"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:contentDescription="Profile picture"
+            android:fitsSystemWindows="true"
+            android:tooltipText="Alterar foto de perfil"
+            android:transitionName="profilepic"
+            app:civ_border_width="0dp"
+            tools:src="@drawable/notfound" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{userData.name}"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            tools:text="Caio Alves Ferreira" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/messageButton"
+                android:background="@drawable/round"
+                android:text="Seguir usuário"
+                android:textStyle="bold"
+                app:backgroundTint="@color/colorPrimaryDark" />
+
+            <ImageButton
+
+                android:id="@+id/messageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/colorAccent"
+                android:contentDescription="Message button"
+                android:padding="12dp"
+                android:src="@drawable/ic_paper_plane"
+                android:tint="@color/white" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

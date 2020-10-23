@@ -11,13 +11,13 @@ import com.creat.motiv.databinding.ColorCardBinding
 import java.util.*
 
 
-enum class COLOR_SELECT_VIEW {
+enum class SelectedViewType {
     BACKGROUND, TEXT
 }
 
 class PickedColor(
         val color: Int,
-        val selectedView: COLOR_SELECT_VIEW
+        val selectedView: SelectedViewType
 )
 
 class RecyclerColorAdapter(private val colorsList: ArrayList<Int>,
@@ -44,9 +44,9 @@ class RecyclerColorAdapter(private val colorsList: ArrayList<Int>,
                 builder.setTitle("Plano de fundo ou texto")
                         .setItems(options) { dialogInterface, i ->
                             if (i == 0) {
-                                onColorPick(PickedColor(colorsList[position], COLOR_SELECT_VIEW.TEXT))
+                                onColorPick(PickedColor(colorsList[position], SelectedViewType.TEXT))
                             } else {
-                                onColorPick(PickedColor(colorsList[position], COLOR_SELECT_VIEW.BACKGROUND))
+                                onColorPick(PickedColor(colorsList[position], SelectedViewType.BACKGROUND))
                             }
                         }
                 builder.show()

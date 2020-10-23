@@ -8,7 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.model.Beans.Developers
+import com.creat.motiv.model.beans.Developers
 import java.util.*
 
 class RecyclerCreatorsAdapter(private val mData: ArrayList<Developers>,

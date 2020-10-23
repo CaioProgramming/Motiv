@@ -1,4 +1,4 @@
-package com.creat.motiv.utils
+package com.creat.motiv.view.custom
 
 import android.content.Context
 import android.os.Handler

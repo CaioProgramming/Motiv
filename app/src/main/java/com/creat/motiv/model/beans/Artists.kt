@@ -1,4 +1,4 @@
-package com.creat.motiv.model.Beans
+package com.creat.motiv.model.beans
 
 class Artists {
     var nome: String? = null

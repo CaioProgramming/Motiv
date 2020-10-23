@@ -4,6 +4,7 @@
 
     <corners android:radius="15dp" />
 
+
     <!-- below code for different radius for each corner. -->
 
 
@@ -15,6 +16,6 @@
 
 
     <!-- Background color -->
-    <solid android:color="@color/grey_200" />
+    <solid android:color="?android:shadowColor" />
 
 </shape>

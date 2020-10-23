@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.GradientCardBinding
-import com.creat.motiv.model.Beans.Gradient
+import com.creat.motiv.model.beans.Gradient
 import com.mikhaellopez.gradientview.GradientView
 import java.util.*
 

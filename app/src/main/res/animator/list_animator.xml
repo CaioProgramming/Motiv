@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true">
+    <item android:state_pressed="false">
         <set>
             <objectAnimator
                 android:propertyName="scaleX"
@@ -11,7 +11,7 @@
                 android:valueTo="1" />
         </set>
     </item>
-    <item android:state_pressed="false">
+    <item android:state_pressed="true">
         <set>
             <objectAnimator
                 android:propertyName="scaleX"
@@ -19,7 +19,7 @@
 
             <objectAnimator
                 android:propertyName="scaleY"
-                android:valueTo="0.8" />
+                android:valueTo="0.7" />
         </set>
     </item>
 </selector>

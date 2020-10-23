@@ -38,21 +38,14 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            android:id="@+id/quoteFormView"
+            layout="@layout/newquotepopup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            android:layout_alignParentTop="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-            <include
-                android:id="@+id/quoteFormView"
-                layout="@layout/newquotepopup"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

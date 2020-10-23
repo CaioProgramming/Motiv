@@ -1,6 +1,6 @@
 package com.creat.motiv.model
 
-import com.creat.motiv.model.Beans.BaseBean
+import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.presenter.BasePresenter
 import com.google.firebase.database.DataSnapshot
 

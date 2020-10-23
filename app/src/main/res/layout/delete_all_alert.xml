@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.budiyev.android.circularprogressbar.CircularProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:foregroundStrokeWidth="1dp"
+            app:indeterminate="true" />
+
+        <LinearLayout
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/mirage_delete" />
+
+            <TextView
+                style="@style/ToolbarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Tem certeza?"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/messageTextView"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Se você deletar todas as suas frases não poderá recuperá-las nunca mais!"
+                android:textAlignment="center" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteConfirm"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirmar exclusão"
+                android:textColor="@color/red_500" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:text="Cancelar"
+                app:backgroundTint="@color/blue_500" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

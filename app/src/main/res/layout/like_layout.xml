@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/likeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/like"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/favoritecheck"
+            android:button="@color/transparent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/likers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/user_picview" />
+    </LinearLayout>
+</layout>

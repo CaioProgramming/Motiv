@@ -2,7 +2,7 @@ package com.creat.motiv.contract
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
-import com.creat.motiv.model.Beans.BaseBean
+import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.presenter.BasePresenter
 
 
@@ -15,9 +15,11 @@ interface ViewContract<T> where  T : BaseBean {
 
     val context: Context
     val viewBind: ViewDataBinding
-    val presenter: BasePresenter<T>
+    fun presenter(): BasePresenter<T>
     fun onLoading()
     fun onLoadFinish()
+    fun error(message: String)
+    fun success(message: String)
     fun initView()
     fun showListData(list: List<T>)
     fun showData(data: T)

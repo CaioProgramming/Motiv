@@ -1,19 +1,19 @@
 package com.creat.motiv.view.binders
 
-import android.app.Activity
 import android.content.Context
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.Beans.User
+import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.DIALOG_STYLES
 import com.creat.motiv.view.BaseView
-import com.creat.motiv.view.adapters.QuotePagerAdapter
+import com.creat.motiv.view.adapters.QuotesProfileAdapter
 
-class ProfileBinder(override val context: Context, override val viewBind: FragmentProfileBinding, val user: User? = null) : BaseView<User>() {
+class ProfileBinder(override val context: Context,
+                    override val viewBind: FragmentProfileBinding,
+                    val user: User? = null) : BaseView<User>() {
 
-    override val presenter = UserPresenter(this)
+    override fun presenter() = UserPresenter(this)
 
     override fun onLoading() {
         TODO("Not yet implemented")
@@ -24,21 +24,25 @@ class ProfileBinder(override val context: Context, override val viewBind: Fragme
     }
 
     override fun initView() {
-        user?.let {
-            showData(it)
-        }
+        if (user == null) presenter().getUser(presenter().currentUser()!!.uid) else showData(user)
     }
 
     override fun showData(data: User) {
-        Glide.with(context).load(data.picurl).into(viewBind.profilepic)
-        viewBind.profilepic.setOnClickListener {
-            if (presenter.currentUser!!.uid.equals(data.uid)) {
-                Alert(context as Activity, DIALOG_STYLES.BOTTOM_NO_BORDER).picturePicker(presenter)
-            }
+        viewBind.run {
+            ProfileTopBinder(data.uid, data, viewBind.profileTopView, context)
+            setupRecycler()
         }
 
-        viewBind.quotespager.run {
-            adapter = QuotePagerAdapter(context)
+    }
+
+    init {
+        initView()
+    }
+
+    fun FragmentProfileBinding.setupRecycler() {
+        profileRecycler.run {
+            layoutManager = LinearLayoutManager(context, VERTICAL, false)
+            adapter = QuotesProfileAdapter(context)
         }
     }
 

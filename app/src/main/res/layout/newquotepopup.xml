@@ -9,11 +9,12 @@
     <data>
 
         <variable
-            name="quote"
-            type="com.creat.motiv.model.Beans.Quote" />
+            name="qData"
+            type="com.creat.motiv.model.beans.Quote" />
     </data>
 
     <RelativeLayout
+        android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -41,7 +42,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:orientation="vertical"
                 android:stateListAnimator="@animator/list_animator"
-                app:cardBackgroundColor="@{quote.backgroundcolor}"
+                app:cardBackgroundColor="@{qData.backgroundcolor}"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="@dimen/cardview_default_elevation"
                 tools:backgroundTint="@color/colorPrimaryDark">
@@ -53,7 +54,7 @@
 
                     <include
                         android:id="@+id/userTop"
-                        layout="@layout/user_view"
+                        layout="@layout/user_quote_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -66,8 +67,8 @@
                         android:hint="@string/quote"
                         android:importantForAutofill="no"
                         android:padding="16dp"
-                        android:text="@{quote.phrase}"
-                        android:textColor="@{quote.textcolor}"
+                        android:text="@{qData.quote}"
+                        android:textColor="@{qData.textcolor}"
                         android:textSize="50sp"
                         android:textStyle="bold"
                         android:typeface="normal" />
@@ -82,8 +83,8 @@
                         android:backgroundTint="@color/transparent"
                         android:hint="@string/author"
                         android:padding="16dp"
-                        android:text="@{quote.author}"
-                        android:textColor="@{quote.textcolor}"
+                        android:text="@{qData.author}"
+                        android:textColor="@{qData.textcolor}"
                         android:textSize="24sp"
                         android:typeface="normal" />
 
@@ -104,7 +105,7 @@
                             android:contentDescription="Alterar cor do texto"
                             android:padding="10dp"
                             android:src="@drawable/ic_format_color_text_black_24dp"
-                            android:tint="@{quote.textcolor}" />
+                            android:tint="@{qData.textcolor}" />
 
                         <TextView
                             android:id="@+id/fontSelector"
@@ -133,7 +134,7 @@
                             android:contentDescription="Alterar plano de fundo"
                             android:padding="10dp"
                             android:src="@drawable/ic_format_color_fill_white_24dp"
-                            android:tint="@{quote.backgroundcolor}" />
+                            android:tint="@{qData.backgroundcolor}" />
 
                     </LinearLayout>
 
@@ -150,7 +151,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/quoteScroll"
-            android:backgroundTint="@color/colorAccent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round"
+            app:backgroundTint="@color/colorPrimaryDark"
             android:padding="16dp"
             android:text="Salvar Frase"
             android:textStyle="bold"

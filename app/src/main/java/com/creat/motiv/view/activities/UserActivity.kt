@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.Beans.User
+import com.creat.motiv.model.beans.User
 import com.creat.motiv.view.binders.ProfileBinder
 
 

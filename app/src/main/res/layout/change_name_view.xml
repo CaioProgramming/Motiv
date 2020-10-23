@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_settings">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/round_low">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/changename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/changeStatus"
+            android:background="@color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            android:hint="Alterar nome"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:maxLength="50"
+            android:padding="10dp"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/changeStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveName"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salvar" />
+
+            <ProgressBar
+                android:id="@+id/nameProgress"
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

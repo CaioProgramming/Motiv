@@ -7,6 +7,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <include layout="@layout/user_view" />
+        <include layout="@layout/user_quote_card_view" />
     </LinearLayout>
 </layout>

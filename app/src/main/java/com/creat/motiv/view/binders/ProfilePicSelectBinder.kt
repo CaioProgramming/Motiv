@@ -2,7 +2,7 @@ package com.creat.motiv.view.binders
 
 import android.content.Context
 import com.creat.motiv.databinding.ProfilepicselectBinding
-import com.creat.motiv.model.Beans.Pics
+import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.presenter.PicsPresenter
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerPicAdapter
@@ -10,7 +10,11 @@ import com.creat.motiv.view.adapters.RecyclerPicAdapter
 class ProfilePicSelectBinder(override val context: Context,
                              override val viewBind: ProfilepicselectBinding, val picSelected: (Pics) -> Unit) : BaseView<Pics>() {
 
-    override val presenter = PicsPresenter(this)
+    init {
+        initView()
+    }
+
+    override fun presenter() = PicsPresenter(this)
 
     override fun onLoading() {
         TODO("Not yet implemented")
@@ -21,7 +25,7 @@ class ProfilePicSelectBinder(override val context: Context,
     }
 
     override fun initView() {
-        presenter.loadData()
+        presenter().loadData()
     }
 
     override fun showListData(list: List<Pics>) {

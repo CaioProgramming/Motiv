@@ -8,12 +8,6 @@
         android:layout_height="match_parent">
 
 
-        <androidx.viewpager.widget.ViewPager
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            android:id="@+id/quotespager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
         <com.google.android.material.appbar.AppBarLayout
             android:animateLayoutChanges="true"
             android:background="?android:colorBackground"
@@ -30,34 +24,13 @@
                 android:background="?android:colorBackground"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        tools:src="@drawable/notfound"
-                        android:layout_margin="10dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/profilepic"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:contentDescription="Profile picture"
-                        android:fitsSystemWindows="true"
-                        android:transitionName="profilepic"
-                        android:tooltipText="Alterar foto de perfil"
-                        app:civ_border_width="0dp" />
+                <include
+                    android:id="@+id/profileTopView"
+                    layout="@layout/profile_top_view" />
+
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/usertabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
-                app:tabIconTint="?android:textColorPrimary"
-                app:tabIndicatorColor="?android:textColorPrimary"
-                app:tabIndicatorFullWidth="true"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="?android:textColorPrimary"
-                app:tabTextColor="?android:textColorHint" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -68,7 +41,12 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profileRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:listitem="@layout/quote_header_view" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
