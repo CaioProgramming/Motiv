@@ -1,11 +1,14 @@
 package com.creat.motiv.utils
 
+import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import com.creat.motiv.R
+import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
@@ -59,4 +62,22 @@ fun View.fadeOut(duration: Long = 500): Completable {
 
 fun toHex(intColor: Int): String {
     return format("#%06X", 0xFFFFFF and intColor)
+}
+
+fun blurView(context: Context) {
+    if (context is Activity) {
+        val blur: RealtimeBlurView? = context.findViewById(R.id.rootblur)
+        blur?.fadeIn()?.subscribe()
+    } else {
+        Log.e("Blur view", "blurView: context isn't an activity")
+    }
+}
+
+fun unblurView(context: Context) {
+    if (context is Activity) {
+        val blur: RealtimeBlurView? = context.findViewById(R.id.rootblur)
+        blur?.fadeOut()?.subscribe()
+    } else {
+        Log.e("Unblur view", "blurView: context isn't an activity")
+    }
 }

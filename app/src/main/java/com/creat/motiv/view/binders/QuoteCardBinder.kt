@@ -21,9 +21,7 @@ import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.ColorUtils
-import com.creat.motiv.utils.Tools
+import com.creat.motiv.utils.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
@@ -110,7 +108,7 @@ class QuoteCardBinder(
                 val mVibratePattern = longArrayOf(100, 150)
                 vibrator.vibrate(mVibratePattern, -1) // for 500 ms
             }
-            val popup = PopupMenu(context, background)
+            val popup = PopupMenu(context, viewBind.quoteTextView)
             popup.run {
                 menuInflater.inflate(R.menu.quotemenu, popup.menu)
                 val user = presenter().currentUser()
@@ -129,6 +127,7 @@ class QuoteCardBinder(
                                     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                     val clip = ClipData.newPlainText(quote.author, quote.quote)
                                     clipboard.setPrimaryClip(clip)
+                                    Alert(context as Activity).snackmessage(message = "Frase copiada para a área de transferência")
                                     return true
                                 }
                                 R.id.quoteShare -> {
@@ -167,7 +166,12 @@ class QuoteCardBinder(
                         return false
                     }
                 })
+                setOnDismissListener {
+                    unblurView(context)
+                }
                 show()
+                blurView(context)
+
             }
             false
         }

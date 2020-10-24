@@ -22,25 +22,32 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
 
+    fun saveComplete(data: T): OnCompleteListener<DocumentReference> {
+        return OnCompleteListener {
+            if (it.isSuccessful) {
+                presenter.modelCallBack(successMessage("Dados salvos com sucesso: $data"))
+            } else {
+                presenter.modelCallBack(errorMessage("Ocorreu um erro ao salvar os dados de $data \n ${it.exception?.message} "))
+            }
+        }
+    }
+
+    fun updateComplete(data: T): OnCompleteListener<Void> {
+        return OnCompleteListener {
+            if (it.isSuccessful) {
+                presenter.modelCallBack(successMessage("Dados atualizados com sucesso: $data"))
+            } else {
+                presenter.modelCallBack(errorMessage("Ocorreu um erro ao atualizar os dados de $data \n ${it.exception?.message} "))
+            }
+        }
+    }
+
     override fun addData(data: T, forcedID: String?) {
         GlobalScope.launch {
             if (forcedID.isNullOrEmpty()) {
-                db().add(data).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        successMessage("")
-                        presenter.modelCallBack(successMessage())
-                    } else {
-                        presenter.modelCallBack(errorMessage())
-                    }
-                }
+                db().add(data).addOnCompleteListener(saveComplete(data))
             } else {
-                db().document(forcedID).set(data).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        presenter.modelCallBack(successMessage())
-                    } else {
-                        presenter.modelCallBack(errorMessage())
-                    }
-                }
+                editData(data)
             }
         }
     }
@@ -48,9 +55,11 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     fun errorMessage(message: String = "Ocorreu um erro ao processar", errorType: ErrorType = ErrorType.UNKNOW): DTOMessage = DTOMessage(message, MessageType.ERROR, errorType)
     fun successMessage(message: String = "Operação concluída com sucesso"): DTOMessage = DTOMessage(message, MessageType.SUCCESS)
     fun warningMessage(message: String = "Um erro inesperado aconteceu, recomenda-se verificar"): DTOMessage = DTOMessage(message, MessageType.WARNING)
+    fun infoMessage(message: String): DTOMessage = DTOMessage(message, MessageType.INFO)
 
     override fun editData(data: T) {
         if (isDisconnected()) return
+        Log.i(javaClass.simpleName, "editing: $data")
         db().document(data.id).set(data).addOnCompleteListener(this@BaseModel)
     }
 
@@ -77,6 +86,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
 
     override fun query(query: String, field: String) {
         if (isDisconnected()) return
+        presenter.modelCallBack(infoMessage("Buscando por $query em $field na collection $path"))
         db().whereEqualTo(field, query).addSnapshotListener(this)
     }
 
@@ -89,6 +99,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
         for (doc in value!!) {
             deserializeDataSnapshot(doc)?.let { dataList.add(it) }
         }
+        presenter.modelCallBack(successMessage("Dados recebidos: $dataList"))
         presenter.onDataRetrieve(dataList)
 
     }

@@ -25,7 +25,10 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <com.google.android.material.tabs.TabLayout
-                    android:paddingTop="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
                     android:id="@+id/navigation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

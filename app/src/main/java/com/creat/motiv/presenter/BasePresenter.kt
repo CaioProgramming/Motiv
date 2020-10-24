@@ -24,7 +24,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
 
     fun saveData(data: T, forcedID: String? = null) {
         view.onLoading()
-        if (forcedID == null) {
+        if (forcedID.isNullOrBlank()) {
             model.addData(data)
         } else {
             model.addData(data, forcedID)
@@ -45,6 +45,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
             MessageType.ERROR -> Log.ERROR
             MessageType.SUCCESS -> Log.DEBUG
             MessageType.WARNING -> Log.WARN
+            MessageType.INFO -> Log.INFO
         }
         Log.println(priority, javaClass.simpleName, dtoMessage.message)
     }

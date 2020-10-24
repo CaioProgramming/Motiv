@@ -15,8 +15,8 @@ import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.beans.Version
 import com.creat.motiv.utils.Alert
 import com.creat.motiv.utils.Pref
+import com.creat.motiv.utils.RC_SIGN_IN
 import com.creat.motiv.utils.Tools
-import com.creat.motiv.utils.Tools.RC_SIGN_IN
 import com.creat.motiv.utils.Tools.setLightStatusBar
 import com.creat.motiv.utils.Tools.uimode
 import com.creat.motiv.view.adapters.MainAdapter

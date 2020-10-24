@@ -11,7 +11,7 @@ class HomeBinder(
         override val context: Context, override val viewBind: FragmentHomeBinding) : BaseView<Quote>(), SearchView.OnQueryTextListener {
 
     override fun presenter() = QuotePresenter(this)
-    var quotesListBinder: QuotesListBinder? = null
+    var quotesListBinder: QuotesListBinder = QuotesListBinder(context, viewBind.quotesView)
 
 
     init {
@@ -25,13 +25,13 @@ class HomeBinder(
     }
 
 
-    override fun onQueryTextSubmit(p0: String?): Boolean {
-        p0?.let { quotesListBinder?.searchData(it) }
+    override fun onQueryTextSubmit(p0: String): Boolean {
+        quotesListBinder.searchData(p0)
         return false
     }
 
-    override fun onQueryTextChange(p0: String?): Boolean {
-        p0?.let { quotesListBinder?.searchData(it) }
+    override fun onQueryTextChange(p0: String): Boolean {
+        quotesListBinder.searchData(p0)
         return false
     }
 }

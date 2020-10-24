@@ -188,7 +188,7 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
-            presenter().saveData(it)
+            presenter().saveData(it, it.id)
         }
     }
 

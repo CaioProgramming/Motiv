@@ -22,6 +22,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
+            android:elevation="@dimen/cardview_default_elevation"
             android:animateLayoutChanges="true"
             android:id="@+id/background"
             android:stateListAnimator="@animator/list_animator"
@@ -44,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/fade_gradient"
                     android:orientation="vertical"
-                    android:padding="4dp">
+                    android:padding="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"

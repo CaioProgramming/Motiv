@@ -20,11 +20,7 @@ import com.creat.motiv.view.binders.ProfilePicSelectBinder
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.material.snackbar.Snackbar
 
-enum class DialogStyles(val style: Int) {
-    DEFAULT_NO_BORDER(R.style.Dialog_No_Border),
-    BOTTOM_NO_BORDER(R.style.Bottom_Dialog_No_Border),
-    FULL_SCREEN(R.style.Full_Screen_Dialog)
-}
+
 
 class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogStyles.DEFAULT_NO_BORDER) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
 
@@ -82,10 +78,11 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
     }
 
 
-    fun snackmessage(backcolor: Int = Color.WHITE, message: String) {
+    fun snackmessage(backcolor: Int = Color.BLACK, textColor: Int = Color.WHITE, message: String) {
 
         val contextView = activity.findViewById<View>(R.id.mainContainer)
         Snackbar.make(contextView, message, Snackbar.LENGTH_SHORT)
+                .setTextColor(textColor)
                 .setBackgroundTint(backcolor)
                 .show()
 
@@ -94,11 +91,11 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
 
 
     override fun onShow(dialogInterface: DialogInterface) {
-        blur?.fadeIn()?.subscribe()
+        blurView(activity)
     }
 
     override fun onDismiss(dialogInterface: DialogInterface) {
-        blur?.fadeOut()?.subscribe()
+        blurView(activity)
     }
 
 
