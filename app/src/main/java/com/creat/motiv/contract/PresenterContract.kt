@@ -1,6 +1,7 @@
 package com.creat.motiv.contract
 
 import com.creat.motiv.model.BaseModel
+import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.view.BaseView
 
@@ -12,6 +13,5 @@ interface PresenterContract<T> where T : BaseBean {
     fun queryData(value: String, field: String)
     fun onDataRetrieve(data: List<T>)
     fun onSingleData(data: T)
-    fun onError(message: String)
-    fun onSuccess(message: String)
+    fun modelCallBack(dtoMessage: DTOMessage)
 }

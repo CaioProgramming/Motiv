@@ -2,7 +2,9 @@ package com.creat.motiv.presenter
 
 import android.util.Log
 import com.creat.motiv.contract.PresenterContract
+import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.BaseBean
+import com.creat.motiv.utils.MessageType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -16,7 +18,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
         model.getAllData()
     }
 
-    fun loadSingleData(key: String) {
+    protected fun loadSingleData(key: String) {
         model.getSingleData(key)
     }
 
@@ -38,15 +40,15 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
         view.showData(data)
     }
 
-    override fun onSuccess(message: String) {
-        Log.d(javaClass.simpleName, "onSuccess called")
-        view.success(message)
+    override fun modelCallBack(dtoMessage: DTOMessage) {
+        val priority = when (dtoMessage.type) {
+            MessageType.ERROR -> Log.ERROR
+            MessageType.SUCCESS -> Log.DEBUG
+            MessageType.WARNING -> Log.WARN
+        }
+        Log.println(priority, javaClass.simpleName, dtoMessage.message)
     }
 
-    override fun onError(message: String) {
-        Log.e(javaClass.simpleName, "onError called ${message}")
-        view.error(message)
-    }
 
     override fun queryData(value: String, field: String) {
         model.query(value, field)

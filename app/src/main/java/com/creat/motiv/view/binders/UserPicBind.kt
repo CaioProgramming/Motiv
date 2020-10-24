@@ -17,6 +17,14 @@ class UserPicBind(
         initView()
     }
 
+    override fun onLoading() {
+        viewBind.picShimmer.startShimmer()
+    }
+
+    override fun onLoadFinish() {
+        viewBind.picShimmer.stopShimmer()
+        viewBind.picShimmer.hideShimmer()
+    }
 
     override fun showData(data: User) {
         super.showData(data)

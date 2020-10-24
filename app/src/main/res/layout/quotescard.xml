@@ -22,6 +22,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
+            android:animateLayoutChanges="true"
             android:id="@+id/background"
             android:stateListAnimator="@animator/list_animator"
             android:layout_width="match_parent"
@@ -30,7 +31,7 @@
             android:orientation="vertical"
             app:cardBackgroundColor="@{quoteData.intBackColor}"
             app:cardCornerRadius="15dp"
-            app:cardElevation="3dp"
+            app:cardElevation="0dp"
             tools:backgroundTint="@color/colorAccent">
 
             <LinearLayout
@@ -47,18 +48,19 @@
 
                     <TextView
                         android:id="@+id/quoteDate"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="8dp"
                         android:textColor="@color/white"
-                        android:textSize="12sp"
                         tools:text="10 de Outubro de 2019" />
-
                     <include
                         android:id="@+id/userTop"
                         layout="@layout/user_quote_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+
+
                 </LinearLayout>
 
 
@@ -92,28 +94,38 @@
                     tools:text="Lana Del Rey" />
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/likers"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/fade_gradient_inversed"
-                    android:orientation="horizontal"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/user_picview" />
+                    android:background="@drawable/fade_gradient_inversed"
+                    android:padding="4dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/likers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/like"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/user_picview" />
+
+                    <CheckBox
+                        android:id="@+id/like"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:background="@drawable/favoritecheck"
+                        android:button="@color/transparent" />
+                </RelativeLayout>
+
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <CheckBox
-            android:id="@+id/like"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:background="@drawable/favoritecheck"
-            android:button="@color/transparent" />
 
 
     </LinearLayout>

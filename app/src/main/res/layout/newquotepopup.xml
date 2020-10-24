@@ -25,7 +25,7 @@
             app:spanCount="2"
             android:id="@+id/colorlibrary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             tools:listitem="@layout/color_card" />
 
         <ScrollView
@@ -34,128 +34,136 @@
             android:layout_width="match_parent"
             android:layout_below="@id/colorlibrary">
 
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/background"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                android:orientation="vertical"
-                android:stateListAnimator="@animator/list_animator"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="@dimen/cardview_default_elevation"
-                tools:backgroundTint="@color/colorPrimaryDark">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include
-                        android:id="@+id/userTop"
-                        layout="@layout/user_quote_card_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <EditText
-
-                        android:id="@+id/quoteTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:hint="@string/quote"
-                        android:importantForAutofill="no"
-                        android:padding="16dp"
-                        android:text="@{qData.quote}"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        android:typeface="normal" />
-
-                    <EditText
-                        android:id="@+id/author_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:alpha="0.8"
-                        android:background="@color/transparent"
-                        android:backgroundTint="@color/transparent"
-                        android:hint="@string/author"
-                        android:padding="16dp"
-                        android:text="@{qData.author}"
-                        android:textSize="24sp"
-                        android:typeface="normal" />
+                    android:foreground="?attr/selectableItemBackground"
+                    android:orientation="vertical"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="@dimen/cardview_default_elevation"
+                    tools:backgroundTint="@color/colorPrimaryDark">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:orientation="vertical"
+                        android:padding="4dp">
 
-                        <ImageButton
-                            android:id="@+id/textcolorfab"
+                        <include
+                            android:id="@+id/userTop"
+                            layout="@layout/user_quote_card_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <EditText
+
+                            android:id="@+id/quoteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:hint="@string/quote"
+                            android:importantForAutofill="no"
+                            android:padding="16dp"
+                            android:text="@{qData.quote}"
+                            android:textSize="50sp"
+                            android:textStyle="bold"
+                            android:typeface="normal" />
+
+                        <EditText
+                            android:id="@+id/author_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="start"
                             android:alpha="0.8"
-                            android:background="@drawable/round"
-                            android:backgroundTint="@color/lwhite"
-                            android:contentDescription="Alterar cor do texto"
-                            android:padding="10dp"
-                            android:src="@drawable/ic_format_color_text_black_24dp"
-                            android:tint="@{qData.intTextColor}" />
+                            android:background="@color/transparent"
+                            android:backgroundTint="@color/transparent"
+                            android:hint="@string/author"
+                            android:padding="16dp"
+                            android:text="@{qData.author}"
+                            android:textSize="24sp"
+                            android:typeface="normal" />
 
-                        <TextView
-                            android:id="@+id/fontSelector"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:alpha="0.8"
-                            android:background="@drawable/round"
-                            android:backgroundTint="@color/lwhite"
-                            android:contentDescription="Alterar fonte"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="10dp"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:text="T"
-                            android:textSize="24sp" />
+                            android:orientation="horizontal"
+                            android:padding="8dp">
 
-                        <ImageButton
-                            android:id="@+id/backcolorfab"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:alpha="0.8"
-                            android:background="@drawable/round"
-                            android:backgroundTint="@color/lwhite"
-                            android:contentDescription="Alterar plano de fundo"
-                            android:padding="10dp"
-                            android:src="@drawable/ic_format_color_fill_white_24dp"
-                            android:tint="@{qData.intBackColor}" />
+                            <ImageButton
+                                android:id="@+id/textcolorfab"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:alpha="0.8"
+                                android:background="@drawable/round"
+                                android:backgroundTint="@color/lwhite"
+                                android:contentDescription="Alterar cor do texto"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_format_color_text_black_24dp"
+                                android:tint="@{qData.intTextColor}" />
+
+                            <TextView
+                                android:id="@+id/fontSelector"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:alpha="0.8"
+                                android:background="@drawable/round"
+                                android:backgroundTint="@color/lwhite"
+                                android:contentDescription="Alterar fonte"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:padding="10dp"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp"
+                                android:text="T"
+                                android:textSize="24sp" />
+
+                            <ImageButton
+                                android:id="@+id/backcolorfab"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:alpha="0.8"
+                                android:background="@drawable/round"
+                                android:backgroundTint="@color/lwhite"
+                                android:contentDescription="Alterar plano de fundo"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_format_color_fill_white_24dp"
+                                android:tint="@{qData.intBackColor}" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
 
-                </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/save_quote_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/quoteScroll"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round"
+                    android:padding="16dp"
+                    android:text="Salvar Frase"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/colorPrimaryDark"
 
-            </com.google.android.material.card.MaterialCardView>
+                    />
+            </LinearLayout>
+
 
         </ScrollView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_quote_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/quoteScroll"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round"
-            app:backgroundTint="@color/colorPrimaryDark"
-            android:padding="16dp"
-            android:text="Salvar Frase"
-            android:textStyle="bold"
-
-            />
 
     </RelativeLayout>
 

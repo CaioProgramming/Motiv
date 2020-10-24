@@ -10,6 +10,7 @@ import android.os.Vibrator
 import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -37,6 +38,7 @@ class QuoteCardBinder(
 
 
     override fun presenter(): QuotePresenter = QuotePresenter(this)
+    var userViewBinder = UserViewBinder(quote.userID, context, viewBind.userTop)
 
     init {
         initView()
@@ -47,7 +49,6 @@ class QuoteCardBinder(
             Log.d(javaClass.simpleName, "initView: setup view")
             setupCard()
             setupQuote()
-            setupUser()
         }
     }
 
@@ -77,9 +78,7 @@ class QuoteCardBinder(
         }
     }
 
-    private fun QuotescardBinding.setupUser() {
-        UserViewBinder(quote.userID, context, userTop)
-    }
+
 
     private fun QuotescardBinding.setupQuote() {
         quoteData = quote
@@ -172,9 +171,24 @@ class QuoteCardBinder(
             }
             false
         }
+        background.setOnHoverListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_HOVER_ENTER, MotionEvent.ACTION_HOVER_MOVE, MotionEvent.ACTION_BUTTON_PRESS -> {
+                    userViewBinder.displayView()
+                    false
+                }
+                MotionEvent.ACTION_HOVER_EXIT -> {
+                    userViewBinder.hideView()
+                    false
+                }
+                else -> false
+            }
+        }
 
+
+        like.isChecked = quote.likes.contains(presenter().currentUser()?.uid)
         like.setOnClickListener {
-            if (like.isChecked) {
+            if (quote.likes.contains(presenter().currentUser()?.uid)) {
                 presenter().deslikeQuote(quote)
             } else {
                 presenter().likeQuote(quote)
@@ -183,7 +197,9 @@ class QuoteCardBinder(
 
 
         likers.run {
-            layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+            val linearLayoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+            linearLayoutManager.stackFromEnd = true
+            layoutManager = linearLayoutManager
             adapter = CardLikeAdapter(quote.likes.toList(), context)
         }
 

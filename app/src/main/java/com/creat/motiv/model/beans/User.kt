@@ -11,11 +11,12 @@ data class User(var name: String = "",
 
 
     companion object {
-        fun fromFirebase(firebaseUser: FirebaseUser): User {
+        fun fromFirebaseWithToken(firebaseUser: FirebaseUser, token: String): User {
             return User(
                     uid = firebaseUser.uid,
                     name = firebaseUser.displayName ?: "Nome não informado",
                     picurl = firebaseUser.photoUrl.toString(),
+                    token = token,
                     phonenumber = firebaseUser.phoneNumber ?: "",
                     email = firebaseUser.email ?: ""
             )

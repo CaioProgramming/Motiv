@@ -34,7 +34,7 @@ class RecyclerAdapter(var quoteList: List<Quote> = emptyList(),
     }
 
     override fun getItemCount(): Int {
-        return if (quoteList.size > 0) quoteList.size else 1
+        return if (quoteList.isNotEmpty()) quoteList.size else 1
     }
 
 

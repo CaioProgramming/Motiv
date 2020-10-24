@@ -25,7 +25,7 @@ class ProfileBinder(override val context: Context,
 
     override fun initView() {
         if (user == null) {
-            showData(User.fromFirebase(presenter().currentUser()!!))
+            presenter().getUser(presenter().currentUser()!!.uid)
         } else {
             showData(user)
         }

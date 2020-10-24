@@ -5,7 +5,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 data class Quote(
-        var key: String? = null,
         var quote: String = "",
         var author: String = "",
         val data: Date = Date(),
@@ -14,7 +13,7 @@ data class Quote(
         var textcolor: String = "#000000",
         var isReport: Boolean = false,
         var likes: ArrayList<String> = ArrayList(),
-        var font: Int = 0) : BaseBean(key ?: "") {
+        var font: Int = 0, override var id: String = "") : BaseBean(id) {
 
     fun intTextColor(): Int = Color.parseColor(textcolor)
     fun intBackColor(): Int = Color.parseColor(backgroundcolor)

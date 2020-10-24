@@ -25,15 +25,14 @@
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/userContainer"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:stateListAnimator="@animator/list_animator">
+            android:orientation="horizontal">
 
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_height="match_parent"
+                android:stateListAnimator="@animator/list_animator"
                 android:id="@+id/userpic"
                 android:layout_width="60dp"
-                android:layout_marginStart="10dp"
                 android:transitionName="profilepic"
                 tools:src="@drawable/notfound" />
 
@@ -46,7 +45,7 @@
                 android:gravity="center"
                 android:fontFamily="@font/lato_bold"
                 android:text="@{userData.name}"
-                android:textColor="@color/white"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="12sp"
                 tools:text="Caio Alves Ferreira" />
 

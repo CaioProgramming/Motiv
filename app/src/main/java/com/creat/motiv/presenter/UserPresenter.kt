@@ -8,13 +8,6 @@ import com.creat.motiv.view.BaseView
 class UserPresenter(override val view: BaseView<User>) : BasePresenter<User>() {
 
     fun getUser(uid: String) {
-        currentUser()?.let {
-            if (it.uid == uid) {
-                view.onLoadFinish()
-                onSingleData(User.fromFirebase(it))
-                return
-            }
-        }
         model.getSingleData(uid)
     }
 

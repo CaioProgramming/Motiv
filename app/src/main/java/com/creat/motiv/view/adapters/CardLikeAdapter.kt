@@ -23,7 +23,7 @@ class CardLikeAdapter(val likes: List<String>, val context: Context) : RecyclerV
         }
     }
 
-    override fun getItemCount(): Int = likes.size
+    override fun getItemCount(): Int = if (likes.size <= 5) likes.size else 3
 
     class MyViewHolder(val userPicviewBinding: UserPicviewBinding) : RecyclerView.ViewHolder(userPicviewBinding.root)
 }

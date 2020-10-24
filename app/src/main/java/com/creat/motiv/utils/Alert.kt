@@ -3,6 +3,7 @@ package com.creat.motiv.utils
 import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -17,7 +18,7 @@ import com.creat.motiv.presenter.UserPresenter
 import com.creat.motiv.view.binders.DeleteAllBinder
 import com.creat.motiv.view.binders.ProfilePicSelectBinder
 import com.github.mmin18.widget.RealtimeBlurView
-import com.pd.chocobar.ChocoBar
+import com.google.android.material.snackbar.Snackbar
 
 enum class DialogStyles(val style: Int) {
     DEFAULT_NO_BORDER(R.style.Dialog_No_Border),
@@ -81,26 +82,13 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
     }
 
 
-    fun snackmessage(backcolor: Int?, message: String) {
+    fun snackmessage(backcolor: Int = Color.WHITE, message: String) {
 
-        if (backcolor != null) {
-            ChocoBar.builder()
-                    .setText(message)
-                    .setMaxLines(4)
-                    .setBackgroundColor(activity.resources.getColor(backcolor))
-                    .setActivity(activity)
-                    .setDuration(ChocoBar.LENGTH_LONG)
-                    .build()
-                    .show()
-        } else {
-            ChocoBar.builder()
-                    .setText(message)
-                    .setMaxLines(4)
-                    .setActivity(activity)
-                    .setDuration(ChocoBar.LENGTH_LONG)
-                    .build()
-                    .show()
-        }
+        val contextView = activity.findViewById<View>(R.id.mainContainer)
+        Snackbar.make(contextView, message, Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(backcolor)
+                .show()
+
 
     }
 

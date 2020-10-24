@@ -49,14 +49,13 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
 
 
     override fun showListData(list: List<Quote>) {
-        if (list.isNotEmpty()) {
-            viewBind.quotesrecyclerview.run {
-                adapter = RecyclerAdapter(list.reversed(), context)
-                layoutManager = GridLayoutManager(context, 1, VERTICAL, false)
-                setHasFixedSize(true)
-            }
-        } else {
-            if (searchQuery != null && currentField != fields.lastIndex) {
+        viewBind.quotesrecyclerview.run {
+            adapter = RecyclerAdapter(list.reversed(), context)
+            layoutManager = GridLayoutManager(context, 1, VERTICAL, false)
+            setHasFixedSize(true)
+        }
+        if (searchQuery != null) {
+            if (currentField != fields.lastIndex) {
                 currentField++
                 searchQuery?.let {
                     searchData(it)

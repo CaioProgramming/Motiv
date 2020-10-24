@@ -1,23 +1,25 @@
 package com.creat.motiv.model
 
+import android.util.Log
 import com.creat.motiv.contract.ModelContract
 import com.creat.motiv.model.beans.BaseBean
+import com.creat.motiv.utils.ErrorType
+import com.creat.motiv.utils.MessageType
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void> where T : BaseBean {
+abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventListener<QuerySnapshot> where T : BaseBean {
 
 
-    fun db() = FirebaseFirestore.getInstance().collection(path)
+    fun db(): CollectionReference = FirebaseFirestore.getInstance().collection(path)
 
 
     val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
 
 
     override fun addData(data: T, forcedID: String?) {
@@ -25,55 +27,56 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void> where T
             if (forcedID.isNullOrEmpty()) {
                 db().add(data).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        presenter.onSuccess("Atualizado com sucesso")
+                        successMessage("")
+                        presenter.modelCallBack(successMessage())
                     } else {
-                        presenter.onError("Ocorreu um erro ao processar")
+                        presenter.modelCallBack(errorMessage())
                     }
                 }
             } else {
                 db().document(forcedID).set(data).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        presenter.onSuccess("Atualizado com sucesso")
+                        presenter.modelCallBack(successMessage())
                     } else {
-                        presenter.onError("Ocorreu um erro ao processar")
+                        presenter.modelCallBack(errorMessage())
                     }
                 }
             }
         }
     }
 
+    fun errorMessage(message: String = "Ocorreu um erro ao processar", errorType: ErrorType = ErrorType.UNKNOW): DTOMessage = DTOMessage(message, MessageType.ERROR, errorType)
+    fun successMessage(message: String = "Operação concluída com sucesso"): DTOMessage = DTOMessage(message, MessageType.SUCCESS)
+    fun warningMessage(message: String = "Um erro inesperado aconteceu, recomenda-se verificar"): DTOMessage = DTOMessage(message, MessageType.WARNING)
+
     override fun editData(data: T) {
-        if (checkUser()) return
-        GlobalScope.launch {
-            db().document(data.id).set(data).addOnCompleteListener(this@BaseModel)
-        }
+        if (isDisconnected()) return
+        db().document(data.id).set(data).addOnCompleteListener(this@BaseModel)
     }
 
     fun editField(data: Any, id: String, field: String) {
-        if (checkUser()) return
+        if (isDisconnected()) return
         GlobalScope.launch {
             db().document(id).update(field, data).addOnCompleteListener(this@BaseModel)
         }
 
     }
 
-    private fun checkUser(): Boolean {
+    protected fun isDisconnected(): Boolean {
         if (currentUser == null) {
-            presenter.onError("Usuário desconectado")
+            presenter.modelCallBack(DTOMessage("Usuário desconectado", MessageType.ERROR))
             return true
         }
         return false
     }
 
     override fun deleteData(id: String) {
-        if (checkUser()) return
-        GlobalScope.launch {
-            db().document(id).delete().addOnCompleteListener(this@BaseModel)
-        }
+        if (isDisconnected()) return
+        db().document(id).delete().addOnCompleteListener(this@BaseModel)
     }
 
     override fun query(query: String, field: String) {
-        if (checkUser()) return
+        if (isDisconnected()) return
         db().whereEqualTo(field, query).get().addOnSuccessListener { documents ->
             val dataList: ArrayList<T> = ArrayList()
             for (document in documents) {
@@ -86,28 +89,36 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void> where T
         }
     }
 
-    override fun getAllData() {
-        if (checkUser()) return
-        db().get().addOnSuccessListener { documents ->
-            val dataList: ArrayList<T> = ArrayList()
-            for (document in documents) {
-                val data = deserializeDataSnapshot(document)
-                data?.let {
-                    dataList.add(it)
-                }
-                presenter.onDataRetrieve(dataList)
-            }
+    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+        if (error != null) {
+            presenter.modelCallBack(errorMessage("Erro ao receber dados"))
+            return
         }
+        val dataList: ArrayList<T> = ArrayList()
+        for (doc in value!!) {
+            deserializeDataSnapshot(doc)?.let { dataList.add(it) }
+        }
+        presenter.onDataRetrieve(dataList)
+
+    }
+
+    override fun getAllData() {
+        if (isDisconnected()) return
+        db().addSnapshotListener(this)
     }
 
     override fun getSingleData(id: String) {
-        if (checkUser()) return
-        db().document(id).get().addOnSuccessListener {
-            if (it.exists()) {
-                val bean: T? = deserializeDataSnapshot(it)
-                if (bean != null) presenter.onSingleData(bean) else presenter.onError("Ocorreu um erro ao receber os dados")
+        if (isDisconnected()) return
+        Log.i(javaClass.name, "querying data $id")
+        db().document(id).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                presenter.modelCallBack(errorMessage(e.message
+                        ?: "Ocorreu um erro ao obter dados de $id"))
+            }
+            if (snapshot != null && snapshot.exists()) {
+                deserializeDataSnapshot(snapshot)?.let { presenter.onSingleData(it) }
             } else {
-                presenter.onError("Dados não encontrados")
+                presenter.modelCallBack(errorMessage("Dados não encontrados para $id"))
             }
         }
     }
@@ -115,14 +126,14 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void> where T
 
     override fun onComplete(task: Task<Void>) {
         if (task.isSuccessful) {
-            presenter.onSuccess("Operação concluída")
+            presenter.modelCallBack(DTOMessage("Operação concluída", MessageType.SUCCESS))
         } else {
-            presenter.onError("Ocorreu um erro ao processar ${task.exception?.message ?: ""}")
+            presenter.modelCallBack(DTOMessage("Ocorreu um erro ao processar\n->${task.exception?.message}", MessageType.ERROR))
         }
     }
 
     fun deleteAllData(dataList: List<T>) {
-        if (checkUser()) return
+        if (isDisconnected()) return
         GlobalScope.launch {
             try {
                 for (data in dataList) {
@@ -130,9 +141,8 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void> where T
                         deleteData(data.id)
                     }
                 }
-                presenter.onSuccess("Dados removidos com sucesso")
             } catch (e: Exception) {
-                presenter.onError("Ocorreu um erro ao processar")
+                presenter.modelCallBack(DTOMessage("Ocorreu um erro ${e.message}", MessageType.ERROR))
             }
         }
     }

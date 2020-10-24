@@ -14,14 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utils.Tools
-import com.creat.motiv.utils.invisible
-import com.creat.motiv.utils.toHex
-import com.creat.motiv.utils.visible
+import com.creat.motiv.utils.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.PickedColor
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
-import com.creat.motiv.view.adapters.SelectedViewType
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import java.util.*
 
@@ -105,7 +101,7 @@ class EditQuoteBinder(
             cp.enableAutoClose()
             cp.setCallback { color ->
                 Log.d("Pure Hex", Integer.toHexString(color))
-                val colorFrom = quote?.textcolor
+                val colorFrom = quote?.intTextColor()
                 val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, color)
                 colorAnimation.duration = 2000 // milliseconds
                 colorAnimation.addUpdateListener {
@@ -134,10 +130,9 @@ class EditQuoteBinder(
         colors.sortedDescending()
         val llm = GridLayoutManager(context, 3, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, context) {
-            if (it.selectedView == SelectedViewType.BACKGROUND) {
-                animateBackground(it)
-            } else {
-                animateText(it)
+            when (it.selectedView) {
+                SelectedViewType.BACKGROUND -> animateBackground(it)
+                SelectedViewType.TEXT -> animateText(it)
             }
         }
         colorlibrary.setHasFixedSize(true)
@@ -199,7 +194,7 @@ class EditQuoteBinder(
         return Quote(
                 data = actualday(),
                 author = firebaseUser?.displayName ?: "",
-                userID = firebaseUser?.displayName ?: ""
+                userID = firebaseUser?.uid ?: ""
         )
     }
 
