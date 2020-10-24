@@ -61,12 +61,10 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     override fun showListData(list: List<Quote>) {
         quoteadapter.quoteList = list.reversed()
         quoteadapter.notifyDataSetChanged()
-        if (searchQuery != null && list.isEmpty()) {
+        if (searchQuery.isBlank() && list.isEmpty()) {
             if (currentField != fields.lastIndex) {
                 currentField++
-                searchQuery.let {
-                    searchData(it)
-                }
+                searchData(searchQuery)
             }
         }
     }

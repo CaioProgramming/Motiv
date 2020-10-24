@@ -106,11 +106,13 @@
                     android:padding="4dp">
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="wrap_content"
                         android:id="@+id/likers"
-                        android:layout_width="match_parent"
+                        android:layout_alignParentEnd="true"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/like"
                         android:orientation="horizontal"
+                        android:layout_centerInParent="true"
                         android:padding="8dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="2"
