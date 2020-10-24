@@ -26,15 +26,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/penguin" />
 
-        <ImageButton
-            android:id="@+id/delete"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/transparent"
-            android:foreground="?attr/selectableItemBackground"
-            android:scaleType="fitCenter"
-            android:src="@drawable/delete"
-            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/loading"

@@ -95,7 +95,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
-
     kapt 'com.android.databinding:compiler:3.1.4'
 
 

@@ -5,7 +5,7 @@
         android:title="Compartilhar"
         app:showAsAction="always"
         android:id="@+id/quoteShare"
-        android:icon="@drawable/share" />
+        android:icon="@drawable/ic_share" />
     <item
         android:title="Copiar"
         app:showAsAction="always"

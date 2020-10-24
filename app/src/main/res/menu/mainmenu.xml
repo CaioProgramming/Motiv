@@ -5,7 +5,7 @@
         app:showAsAction="always"
         android:iconTint="@color/colorAccent"
         android:id="@+id/navigation_about"
-        android:icon="@drawable/about"
+        android:icon="@drawable/ic_saturn_and_other_planets"
         android:title="Sobre" />
 
 

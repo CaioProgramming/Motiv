@@ -39,29 +39,33 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/fade_gradient"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="4dp">
 
                     <TextView
+                        android:layout_width="wrap_content"
                         android:id="@+id/quoteDate"
                         style="@style/TextAppearance.MaterialComponents.Caption"
-                        android:layout_width="match_parent"
+                        android:layout_alignParentEnd="true"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:textColor="@color/white"
                         tools:text="10 de Outubro de 2019" />
+
                     <include
                         android:id="@+id/userTop"
+                        android:layout_centerInParent="true"
+                        android:layout_toStartOf="@id/quoteDate"
                         layout="@layout/user_quote_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
                 <TextView

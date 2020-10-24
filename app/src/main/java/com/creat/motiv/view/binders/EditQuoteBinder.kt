@@ -43,12 +43,15 @@ class EditQuoteBinder(
     }
 
     override fun initView() {
-        if (quote == null) quote = emptyQuote()
+        if (quote == null) {
+            quote = emptyQuote()
+        }
         showData(quote!!)
     }
 
     override fun showData(data: Quote) {
         viewBind.qData = data
+        getcolorGallery()
         viewBind.run {
             fontSelector.setOnClickListener {
                 quote?.font = quote?.font!! + 1
@@ -56,7 +59,6 @@ class EditQuoteBinder(
             }
             backColorpicker()
             textColorPicker()
-            colorGallery()
             saveQuoteButton.setOnClickListener {
                 salvar()
             }
@@ -115,31 +117,32 @@ class EditQuoteBinder(
         }
     }
 
-    private fun NewquotepopupBinding.colorGallery() {
+    private fun getcolorGallery() {
         val colors = ArrayList<Int>()
         val fields = Class.forName(context.packageName + ".R\$color").declaredFields
         for (field in fields) {
             val colorName = field.name
             val colorId = field.getInt(null)
             val color = context.resources.getColor(colorId)
-            println("color $colorName $color")
             colors.add(color)
         }
 
         println("Load " + colors.size + " colors")
         colors.sortedDescending()
         val llm = GridLayoutManager(context, 3, GridLayoutManager.HORIZONTAL, false)
-        val recyclerColorAdapter = RecyclerColorAdapter(colors, context) {
-            when (it.selectedView) {
-                SelectedViewType.BACKGROUND -> animateBackground(it)
-                SelectedViewType.TEXT -> animateText(it)
+        val recyclerColorAdapter = RecyclerColorAdapter(colors, context
+        ) { pickedColor ->
+            when (pickedColor.selectedView) {
+                SelectedViewType.BACKGROUND -> viewBind.animateBackground(pickedColor)
+                SelectedViewType.TEXT -> viewBind.animateText(pickedColor)
             }
         }
-        colorlibrary.setHasFixedSize(true)
-        colorlibrary.adapter = recyclerColorAdapter
-        colorlibrary.layoutManager = llm
+        viewBind.colorlibrary.layoutManager = llm
+        viewBind.colorlibrary.adapter = recyclerColorAdapter
+        viewBind.colorlibrary.setHasFixedSize(true)
 
     }
+
 
     private fun NewquotepopupBinding.animateText(it: PickedColor) {
         val colorFrom = quote?.textcolor
@@ -163,14 +166,14 @@ class EditQuoteBinder(
     private fun NewquotepopupBinding.animateBackground(it: PickedColor) {
         background.visibility = View.INVISIBLE
         val color = Color.parseColor(it.color)
-        background.setBackgroundColor(color)
+        background.setCardBackgroundColor(color)
         val cx = background.right
         val cy = background.top
         val radius = Math.max(background.width, background.height)
         val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy, 15f, radius.toFloat())
         background.visibility = View.VISIBLE
         anim.start()
-        background.setBackgroundColor(color)
+        background.setCardBackgroundColor(color)
         backcolorfab.imageTintList = ColorStateList.valueOf(color)
         quote?.backgroundcolor = it.color
     }

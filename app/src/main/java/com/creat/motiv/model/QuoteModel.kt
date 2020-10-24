@@ -9,16 +9,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 class QuoteModel(override val presenter: BasePresenter<Quote>, override val path: String = "Quotes") : BaseModel<Quote>() {
 
     fun getFavorites(uid: String) {
-        db().whereArrayContains("likes", uid).get().addOnSuccessListener { documents ->
-            val dataList: ArrayList<Quote> = ArrayList()
-            for (document in documents) {
-                val data = deserializeDataSnapshot(document)
-                data?.let {
-                    dataList.add(it)
-                }
-                presenter.onDataRetrieve(dataList)
-            }
-        }
+        db().whereArrayContains("likes", uid).addSnapshotListener(this)
     }
 
     fun denunciar(quote: Quote) {

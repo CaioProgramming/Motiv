@@ -147,7 +147,7 @@ class QuoteCardBinder(
                                     alert.showAlert(
                                             message = context.getString(R.string.report_message),
                                             buttonMessage = "denunciar",
-                                            icon = R.drawable.flamencodeleteconfirmation,
+                                            icon = R.drawable.ic_astronaut,
                                             okClick = {
                                                 QuoteModel(presenter()).denunciar(quote)
                                             }, cancelClick = null)

@@ -56,11 +56,19 @@
                         android:orientation="vertical"
                         android:padding="4dp">
 
-                        <include
-                            android:id="@+id/userTop"
-                            layout="@layout/user_quote_card_view"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/fade_gradient">
+
+                            <include
+
+                                android:id="@+id/userTop"
+                                layout="@layout/user_quote_card_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
 
                         <EditText
 
@@ -122,7 +130,7 @@
                                 android:padding="10dp"
                                 android:paddingStart="16dp"
                                 android:paddingEnd="16dp"
-                                android:text="T"
+                                android:text="F"
                                 android:textSize="24sp" />
 
                             <ImageButton
@@ -135,8 +143,7 @@
                                 android:backgroundTint="@color/lwhite"
                                 android:contentDescription="Alterar plano de fundo"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_format_color_fill_white_24dp"
-                                android:tint="@{qData.intBackColor}" />
+                                android:src="@drawable/ic_format_color_fill_white_24dp" />
 
                         </LinearLayout>
 

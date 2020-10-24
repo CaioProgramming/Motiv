@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -63,7 +62,6 @@ class RecyclerPicAdapter(private val pictureList: List<Pics>,
             }
         }).into(holder.pic)
         holder.pic.startAnimation(`in`)
-        holder.delete.visibility = View.GONE
 
         holder.pic.setOnClickListener {
             val user = FirebaseAuth.getInstance().currentUser
@@ -85,13 +83,11 @@ class RecyclerPicAdapter(private val pictureList: List<Pics>,
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var card: CardView
         var pic: ImageView
-        var delete: ImageButton
         var message: TextView
         var loading: ProgressBar
 
         init {
             card = itemView.findViewById(R.id.card)
-            delete = itemView.findViewById(R.id.delete)
             pic = itemView.findViewById(R.id.pic)
             message = itemView.findViewById(R.id.error)
             loading = itemView.findViewById(R.id.loading)

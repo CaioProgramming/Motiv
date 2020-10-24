@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
+import com.creat.motiv.utils.fadeIn
+import com.creat.motiv.utils.gone
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.QuotesProfileAdapter
 
@@ -16,22 +18,25 @@ class ProfileBinder(override val context: Context,
     override fun presenter() = UserPresenter(this)
 
     override fun onLoading() {
-        TODO("Not yet implemented")
+        viewBind.profileRecycler.gone()
+        viewBind.profileTopView.profileContainer.gone()
+        viewBind.loading.fadeIn()
     }
 
     override fun onLoadFinish() {
-        TODO("Not yet implemented")
+        viewBind.loading.gone()
     }
 
     override fun initView() {
         if (user == null) {
-            presenter().getUser(presenter().currentUser()!!.uid)
+            presenter().getUser()
         } else {
             showData(user)
         }
     }
 
     override fun showData(data: User) {
+        onLoadFinish()
         viewBind.run {
             toolbar.title = data.name
             ProfileTopBinder(data.uid, data, viewBind.profileTopView, context)
@@ -40,7 +45,6 @@ class ProfileBinder(override val context: Context,
                 adapter = QuotesProfileAdapter(context, data.uid)
             }
         }
-
     }
 
     init {

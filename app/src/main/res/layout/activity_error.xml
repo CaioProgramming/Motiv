@@ -5,8 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    android:gravity="center"
     tools:context=".view.activities.ErrorActivity">
 
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_astronaut" />
     <TextView
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
@@ -22,11 +28,7 @@
         android:text="Estamos verificando o que você fez porque alguém tem que consertar sua cagada né"
         android:textAlignment="center" />
 
-    <ImageView
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fatalerror" />
 
 
 </LinearLayout>

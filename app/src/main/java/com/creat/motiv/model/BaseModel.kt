@@ -77,16 +77,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
 
     override fun query(query: String, field: String) {
         if (isDisconnected()) return
-        db().whereEqualTo(field, query).get().addOnSuccessListener { documents ->
-            val dataList: ArrayList<T> = ArrayList()
-            for (document in documents) {
-                val data = deserializeDataSnapshot(document)
-                data?.let {
-                    dataList.add(it)
-                }
-                presenter.onDataRetrieve(dataList)
-            }
-        }
+        db().whereEqualTo(field, query).addSnapshotListener(this)
     }
 
     override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
