@@ -19,8 +19,6 @@ class HomeBinder(
     }
 
     override fun initView() {
-        presenter().loadData()
-        QuotesListBinder(context, viewBind.quotesView)
         viewBind.homeSearch.setOnQueryTextListener(this)
     }
 

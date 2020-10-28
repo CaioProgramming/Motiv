@@ -1,4 +1,4 @@
-package com.creat.motiv.utils
+package com.creat.motiv.utilities
 
 
 const val RC_SIGN_IN = 1

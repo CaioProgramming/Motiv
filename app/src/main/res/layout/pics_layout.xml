@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Erro ao encontrar ícone"
-            android:textColor="@color/red_300"
+            android:textColor="@color/material_red300"
             android:visibility="gone" />
     </androidx.cardview.widget.CardView>
 </layout>

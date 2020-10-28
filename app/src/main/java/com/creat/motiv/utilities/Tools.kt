@@ -1,4 +1,4 @@
-package com.creat.motiv.utils
+package com.creat.motiv.utilities
 
 import android.app.Activity
 import android.content.Context
@@ -70,14 +70,14 @@ object Tools {
     }
 
     fun inversebackcolor(activity: Activity): Int {
-        if (uimode(activity)) {
+        if (darkMode(activity)) {
             return Color.BLACK
         }
         return Color.WHITE
     }
 
     fun inversetextcolor(activity: Activity): Int {
-        if (!uimode(activity)) {
+        if (!darkMode(activity)) {
             return Color.BLACK
         }
         return Color.WHITE
@@ -100,7 +100,7 @@ object Tools {
     }
 
 
-    fun uimode(activity: Activity):Boolean {
+    fun darkMode(activity: Activity): Boolean {
 
         return when (activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> true
@@ -117,7 +117,12 @@ object Tools {
 
 
     fun references(activity: Activity): ArrayList<Artists> {
-        val colors = intArrayOf(activity.resources.getColor(R.color.green_500), activity.resources.getColor(R.color.pink_500), activity.resources.getColor(R.color.grey_600), activity.resources.getColor(R.color.blue_500), activity.resources.getColor(R.color.teal_500), activity.resources.getColor(R.color.lime_500))
+        val colors = intArrayOf(activity.resources.getColor(R.color.material_green500),
+                activity.resources.getColor(R.color.material_pink500),
+                activity.resources.getColor(R.color.material_grey600),
+                activity.resources.getColor(R.color.material_blue500),
+                activity.resources.getColor(R.color.material_teal500),
+                activity.resources.getColor(R.color.material_lime500))
         val artists = ArrayList<Artists>()
         for (i in iconssite.indices) {
             artists.add(Artists(iconssite[i].replace(".com", "").replace("https://", ""), iconssite[i], colors[i]))

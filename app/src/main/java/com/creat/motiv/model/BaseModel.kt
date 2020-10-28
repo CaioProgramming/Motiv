@@ -3,8 +3,8 @@ package com.creat.motiv.model
 import android.util.Log
 import com.creat.motiv.contract.ModelContract
 import com.creat.motiv.model.beans.BaseBean
-import com.creat.motiv.utils.ErrorType
-import com.creat.motiv.utils.MessageType
+import com.creat.motiv.utilities.ErrorType
+import com.creat.motiv.utilities.MessageType
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -60,7 +60,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     override fun editData(data: T) {
         if (isDisconnected()) return
         Log.i(javaClass.simpleName, "editing: $data")
-        db().document(data.id).set(data).addOnCompleteListener(this@BaseModel)
+        db().document(data.id).set(data).addOnCompleteListener(updateComplete(data))
     }
 
     fun editField(data: Any, id: String, field: String) {
@@ -103,6 +103,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
         presenter.onDataRetrieve(dataList)
 
     }
+
 
     override fun getAllData() {
         if (isDisconnected()) return

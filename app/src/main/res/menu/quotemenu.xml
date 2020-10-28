@@ -18,7 +18,7 @@
         app:showAsAction="always" />
 
     <item
-        android:iconTint="@color/red_500"
+        android:iconTint="@color/material_red500"
         android:title="Denunciar"
         app:showAsAction="always"
         android:id="@+id/quoteReport"
@@ -28,7 +28,7 @@
     <item
         android:id="@+id/quoteDelete"
         android:icon="@drawable/ic_garbage"
-        android:iconTint="@color/red_500"
+        android:iconTint="@color/material_red500"
         android:title="Remover"
         app:showAsAction="always" />
 </menu>

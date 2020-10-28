@@ -6,14 +6,16 @@
     tools:context=".view.fragments.HomeFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_margin="@dimen/default_padding"
         android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:fitsSystemWindows="true">
 
 
         <include
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
@@ -38,7 +40,7 @@
                     android:backgroundTint="@color/lblack"
                     app:iconifiedByDefault="false"
                     android:layout_width="match_parent"
-                    app:queryHint="Pesquise citações, autores, músicas" />
+                    app:queryHint="Pesquise citações, autores, músicas..." />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

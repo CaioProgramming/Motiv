@@ -8,9 +8,9 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.RC_SIGN_IN
-import com.creat.motiv.utils.Tools
+import com.creat.motiv.utilities.Alert
+import com.creat.motiv.utilities.RC_SIGN_IN
+import com.creat.motiv.utilities.Tools
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth

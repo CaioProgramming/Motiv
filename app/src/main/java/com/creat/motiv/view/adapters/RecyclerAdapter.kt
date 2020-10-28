@@ -4,11 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.beans.Quote
-import com.creat.motiv.utils.fadeIn
+import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.view.binders.QuoteCardBinder
 
 
@@ -16,7 +17,7 @@ class RecyclerAdapter(var quoteList: List<Quote> = emptyList(),
                       val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val quotescardBinding = QuotescardBinding.inflate(LayoutInflater.from(context), null, false)
+        val quotescardBinding: QuotescardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotescard, parent, false)
         return MyViewHolder(quotescardBinding)
     }
 

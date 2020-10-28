@@ -15,8 +15,8 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.utils.Pref
-import com.creat.motiv.utils.Tools
+import com.creat.motiv.utilities.Pref
+import com.creat.motiv.utilities.Tools
 import com.creat.motiv.view.activities.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

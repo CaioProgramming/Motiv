@@ -1,4 +1,4 @@
-package com.creat.motiv.utils
+package com.creat.motiv.utilities
 
 import android.app.Activity
 import android.app.Dialog
@@ -95,7 +95,7 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
     }
 
     override fun onDismiss(dialogInterface: DialogInterface) {
-        blurView(activity)
+        unblurView(activity)
     }
 
 

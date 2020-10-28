@@ -1,4 +1,4 @@
-package com.creat.motiv.utils
+package com.creat.motiv.utilities
 
 import android.app.Activity
 import android.content.Context
@@ -34,10 +34,32 @@ fun View.invisible() {
     visibility = INVISIBLE
 }
 
+
+fun textSize(length: Int, context: Context): Float {
+    return when {
+        length <= 40 -> {
+            context.resources.getDimension(R.dimen.big_quote_size)
+        }
+        length <= 80 -> {
+            context.resources.getDimension(R.dimen.default_quote_size)
+
+        }
+        length >= 90 -> {
+            context.resources.getDimension(R.dimen.medium_quote_size)
+
+        }
+        length >= 150 -> {
+            context.resources.getDimension(R.dimen.low_quote_size)
+
+        }
+        else -> context.resources.getDimension(R.dimen.min_quote_size)
+    }
+}
+
 fun View.fadeIn(duration: Long = 500): Completable {
+    visible()
     val animationSubject = CompletableSubject.create()
     return animationSubject.doOnSubscribe {
-        visible()
         ViewCompat.animate(this)
                 .setDuration(duration)
                 .alpha(1f)

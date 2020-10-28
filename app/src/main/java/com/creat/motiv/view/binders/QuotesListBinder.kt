@@ -1,13 +1,13 @@
 package com.creat.motiv.view.binders
 
+import android.app.Activity
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utils.gone
-import com.creat.motiv.utils.visible
+import com.creat.motiv.utilities.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerAdapter
 
@@ -16,9 +16,6 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
 
     override fun presenter() = QuotePresenter(this)
     val quoteadapter = RecyclerAdapter(ArrayList(), context)
-    var searchQuery: String = ""
-    var currentField = 0
-    val fields = listOf("quote", "author", "username")
 
     init {
         viewBind.quotesrecyclerview.run {
@@ -32,20 +29,20 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     }
 
     override fun onLoading() {
-        viewBind.loading.visible()
+        viewBind.loading.fadeIn().subscribe()
     }
 
     override fun onLoadFinish() {
-        viewBind.loading.gone()
+        viewBind.loading.fadeOut().subscribe()
     }
 
 
     fun searchData(query: String) {
         if (query.isBlank()) {
+            Alert(context as Activity).snackmessage(message = "Não pesquisou nada")
             presenter().loadData()
         } else {
-            searchQuery = query
-            presenter().queryData(searchQuery, fields[currentField])
+            presenter().findQuote(query)
         }
     }
 
@@ -59,14 +56,16 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
 
 
     override fun showListData(list: List<Quote>) {
+        if (list.isEmpty()) {
+            viewBind.quotesrecyclerview.gone()
+            viewBind.emptyList.fadeIn()
+        } else {
+            viewBind.emptyList.fadeOut()
+            viewBind.quotesrecyclerview.visible()
+        }
         quoteadapter.quoteList = list.reversed()
         quoteadapter.notifyDataSetChanged()
-        if (searchQuery.isBlank() && list.isEmpty()) {
-            if (currentField != fields.lastIndex) {
-                currentField++
-                searchData(searchQuery)
-            }
-        }
+        onLoadFinish()
     }
 
     override fun initView() {

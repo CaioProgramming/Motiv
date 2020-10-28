@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utils.fadeIn
-import com.creat.motiv.utils.gone
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.gone
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.QuotesProfileAdapter
 

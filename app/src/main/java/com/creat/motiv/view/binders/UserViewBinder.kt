@@ -12,8 +12,9 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utils.gone
-import com.creat.motiv.utils.visible
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.gone
+import com.creat.motiv.utilities.visible
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.UserActivity
 
@@ -48,6 +49,7 @@ class UserViewBinder(
             userContainer.setOnClickListener {
                 showUserProfile(data)
             }
+            userContainer.fadeIn()
         }
     }
 

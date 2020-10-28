@@ -6,15 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="qData"
-            type="com.creat.motiv.model.beans.Quote" />
-    </data>
 
     <RelativeLayout
-        android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,129 +15,139 @@
             android:layout_alignParentTop="true"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
+            android:layout_height="wrap_content"
             android:id="@+id/colorlibrary"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            app:spanCount="3"
             tools:listitem="@layout/color_card" />
 
         <ScrollView
-            android:id="@+id/quoteScroll"
             android:layout_height="wrap_content"
+            android:layout_below="@id/colorlibrary"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
             android:layout_width="match_parent"
-            android:layout_below="@id/colorlibrary">
+            android:animateLayoutChanges="true">
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/background"
+                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?attr/selectableItemBackground"
                     android:orientation="vertical"
                     android:stateListAnimator="@animator/list_animator"
-                    app:cardCornerRadius="15dp"
+                    app:cardCornerRadius="@dimen/default_radius"
                     app:cardElevation="@dimen/cardview_default_elevation"
                     tools:backgroundTint="@color/colorPrimaryDark">
 
                     <LinearLayout
+                        android:animateLayoutChanges="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="4dp">
+                        android:orientation="vertical">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="8dp"
                             android:background="@drawable/fade_gradient">
 
                             <include
-
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
                                 android:id="@+id/userTop"
                                 layout="@layout/user_quote_card_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
+                                android:layout_centerInParent="true"
+                                android:layout_toStartOf="@id/quotEditButtons" />
 
+                            <LinearLayout
+                                android:id="@+id/quotEditButtons"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="4dp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                        <EditText
+                                <ImageButton
+                                    android:id="@+id/textcolorfab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/round"
+                                    android:backgroundTint="@color/lwhite"
+                                    android:contentDescription="Alterar cor do texto"
+                                    android:padding="10dp"
+                                    android:src="@drawable/ic_format_color_text_black_24dp" />
 
-                            android:id="@+id/quoteTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:hint="@string/quote"
-                            android:importantForAutofill="no"
-                            android:padding="16dp"
-                            android:text="@{qData.quote}"
-                            android:textSize="50sp"
-                            android:textStyle="bold"
-                            android:typeface="normal" />
+                                <TextView
+                                    android:id="@+id/fontSelector"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    android:background="@drawable/round"
+                                    android:backgroundTint="@color/lwhite"
+                                    android:contentDescription="Alterar fonte"
+                                    android:padding="8dp"
+                                    android:paddingStart="16dp"
+                                    android:paddingEnd="16dp"
+                                    android:text="F"
+                                    android:textSize="24sp" />
 
-                        <EditText
-                            android:id="@+id/author_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:alpha="0.8"
-                            android:background="@color/transparent"
-                            android:backgroundTint="@color/transparent"
-                            android:hint="@string/author"
-                            android:padding="16dp"
-                            android:text="@{qData.author}"
-                            android:textSize="24sp"
-                            android:typeface="normal" />
+                                <ImageButton
+                                    android:id="@+id/backcolorfab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/round"
+                                    android:backgroundTint="@color/lwhite"
+                                    android:contentDescription="Alterar plano de fundo"
+                                    android:padding="10dp"
+                                    android:src="@drawable/ic_format_color_fill_white_24dp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="8dp">
+                            android:orientation="vertical">
 
-                            <ImageButton
-                                android:id="@+id/textcolorfab"
+                            <EditText
+                                android:id="@+id/quoteTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:hint="@string/quote"
+                                android:importantForAutofill="no"
+                                android:padding="16dp"
+                                android:textSize="@dimen/default_quote_size"
+                                android:textStyle="bold"
+                                android:typeface="normal" />
+
+                            <EditText
+                                android:id="@+id/author_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+                                android:layout_gravity="start"
                                 android:alpha="0.8"
-                                android:background="@drawable/round"
-                                android:backgroundTint="@color/lwhite"
-                                android:contentDescription="Alterar cor do texto"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_format_color_text_black_24dp"
-                                android:tint="@{qData.intTextColor}" />
-
-                            <TextView
-                                android:id="@+id/fontSelector"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:alpha="0.8"
-                                android:background="@drawable/round"
-                                android:backgroundTint="@color/lwhite"
-                                android:contentDescription="Alterar fonte"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:padding="10dp"
-                                android:paddingStart="16dp"
-                                android:paddingEnd="16dp"
-                                android:text="F"
-                                android:textSize="24sp" />
-
-                            <ImageButton
-                                android:id="@+id/backcolorfab"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:alpha="0.8"
-                                android:background="@drawable/round"
-                                android:backgroundTint="@color/lwhite"
-                                android:contentDescription="Alterar plano de fundo"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_format_color_fill_white_24dp" />
-
+                                android:background="@color/transparent"
+                                android:backgroundTint="@color/transparent"
+                                android:hint="@string/author"
+                                android:padding="16dp"
+                                android:textSize="24sp"
+                                android:typeface="normal" />
                         </LinearLayout>
 
 
@@ -154,24 +157,22 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.button.MaterialButton
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="15dp"
                     android:id="@+id/save_quote_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/quoteScroll"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/round"
                     android:padding="16dp"
                     android:text="Salvar Frase"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/colorPrimaryDark"
-
-                    />
+                    app:backgroundTint="@color/colorPrimaryDark" />
             </LinearLayout>
 
-
         </ScrollView>
-
-
     </RelativeLayout>
 
 </layout>

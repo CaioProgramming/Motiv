@@ -1,4 +1,4 @@
-package com.creat.motiv.utils
+package com.creat.motiv.utilities
 
 import android.content.Context
 import android.content.SharedPreferences

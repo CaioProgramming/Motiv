@@ -6,14 +6,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Vibrator
 import android.util.Log
-import android.util.TypedValue
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
@@ -21,7 +20,7 @@ import com.creat.motiv.databinding.QuotescardBinding
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utils.*
+import com.creat.motiv.utilities.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
@@ -36,60 +35,38 @@ class QuoteCardBinder(
 
 
     override fun presenter(): QuotePresenter = QuotePresenter(this)
-    var userViewBinder = UserViewBinder(quote.userID, context, viewBind.userTop)
+    val userBinder = UserViewBinder(quote.userID, context, viewBind.userTop)
+
 
     init {
         initView()
     }
 
     override fun initView() {
+        onLoading()
         viewBind.run {
             Log.d(javaClass.simpleName, "initView: setup view")
             setupCard()
             setupQuote()
         }
+        onLoadFinish()
     }
 
 
-    private fun defineTextSize(length: Int, textView: TextView) {
-        textView.textSize = when {
-            length <= 40 -> {
-                TypedValue.COMPLEX_UNIT_SP
-                60f
-            }
-            length <= 99 -> {
-                TypedValue.COMPLEX_UNIT_SP
-                40f
-            }
-            length >= 100 -> {
-                TypedValue.COMPLEX_UNIT_SP
-                30f
-            }
-            length >= 200 -> {
-                TypedValue.COMPLEX_UNIT_SP
-                20f
-            }
-            else -> {
-                TypedValue.COMPLEX_UNIT_SP
-                14f
-            }
-        }
-    }
 
 
 
     private fun QuotescardBinding.setupQuote() {
-        quoteData = quote
-
         background.setCardBackgroundColor(quote.intBackColor())
+        quoteTextView.text = quote.quote
+        authorTextView.text = quote.author
         quoteTextView.typeface = Tools.fonts(context)[quote.font]
         authorTextView.typeface = Tools.fonts(context)[quote.font]
         quoteTextView.setTextColor(quote.intTextColor())
         authorTextView.setTextColor(quote.intTextColor())
-        defineTextSize(quote.quote.length, quoteTextView)
         val color = ColorUtils.lighten(quote.intTextColor(), 0.8)
         val readMoreOption = ReadMoreOption.Builder(context)
-                .textLength(120, ReadMoreOption.TYPE_CHARACTER)
+                .textLength(200, ReadMoreOption.TYPE_CHARACTER)
                 .moreLabel("\nVer mais...")
                 .lessLabel("\nVer menos")
                 .moreLabelColor(color)
@@ -98,6 +75,8 @@ class QuoteCardBinder(
                 .build()
         readMoreOption.addReadMoreTo(quoteTextView, quote.quote)
         quoteDate.text = data()
+        quoteTextView.textSize = textSize(quote.quote.length, context)
+        onLoadFinish()
     }
 
     private fun QuotescardBinding.setupCard() {
@@ -175,21 +154,6 @@ class QuoteCardBinder(
             }
             false
         }
-        background.setOnHoverListener { view, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_HOVER_ENTER, MotionEvent.ACTION_HOVER_MOVE, MotionEvent.ACTION_BUTTON_PRESS -> {
-                    userViewBinder.displayView()
-                    false
-                }
-                MotionEvent.ACTION_HOVER_EXIT -> {
-                    userViewBinder.hideView()
-                    false
-                }
-                else -> false
-            }
-        }
-
-
         like.isChecked = quote.likes.contains(presenter().currentUser()?.uid)
         like.setOnClickListener {
             if (quote.likes.contains(presenter().currentUser()?.uid)) {
@@ -198,15 +162,21 @@ class QuoteCardBinder(
                 presenter().likeQuote(quote)
             }
         }
-
-
         likers.run {
             val linearLayoutManager = LinearLayoutManager(context, HORIZONTAL, false)
             linearLayoutManager.stackFromEnd = true
             layoutManager = linearLayoutManager
             adapter = CardLikeAdapter(quote.likes.toList(), context)
         }
+        if (quote.intBackColor() == Color.BLACK) {
+            if (!like.isChecked) {
+                like.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.material_grey300))
+            } else {
+                like.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.material_red500))
 
+            }
+        }
+        background.visible()
     }
 
 
@@ -248,11 +218,12 @@ class QuoteCardBinder(
     }
 
     override fun onLoading() {
-        TODO("Not yet implemented")
+        viewBind.loading.fadeIn().subscribe()
+
     }
 
     override fun onLoadFinish() {
-        TODO("Not yet implemented")
+        viewBind.loading.fadeOut().subscribe()
     }
 
 

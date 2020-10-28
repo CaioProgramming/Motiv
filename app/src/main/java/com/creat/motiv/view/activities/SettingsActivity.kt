@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivitySettingsBinding
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.DialogStyles
+import com.creat.motiv.utilities.Alert
+import com.creat.motiv.utilities.DialogStyles
 import com.creat.motiv.view.binders.ChangeNameBinder
 import com.google.firebase.auth.FirebaseAuth
 

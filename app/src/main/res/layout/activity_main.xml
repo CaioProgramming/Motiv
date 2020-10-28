@@ -19,10 +19,21 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 app:title=""
+
                 app:titleEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:animateLayoutChanges="true"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:paddingStart="8dp"
@@ -60,12 +71,6 @@
                         android:text="Eu" />
                 </com.google.android.material.tabs.TabLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:elevation="0dp"
-                    android:animateLayoutChanges="true" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userpic"
@@ -77,6 +82,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
+            android:paddingVertical="@dimen/default_padding"
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

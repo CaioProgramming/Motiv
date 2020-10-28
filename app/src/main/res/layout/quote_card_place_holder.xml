@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/quoteCardShimmer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        shimmer:duration="800"
+        shimmer:shimmer_highlight_color="@color/colorAccent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            shimmer:cardBackgroundColor="@color/material_grey100"
+            shimmer:cardCornerRadius="@dimen/default_radius">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/material_grey400" />
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/material_grey400" />
+
+            </LinearLayout>
+
+            <!-- Adding 7 rows of placeholders -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/material_grey400" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/material_grey400" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/material_grey400" />
+
+                <View
+                    android:layout_width="90dp"
+                    android:layout_height="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/material_grey400" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</layout>

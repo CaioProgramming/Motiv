@@ -4,7 +4,7 @@ import android.net.Uri
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.BasePresenter
-import com.creat.motiv.utils.ErrorType
+import com.creat.motiv.utilities.ErrorType
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot

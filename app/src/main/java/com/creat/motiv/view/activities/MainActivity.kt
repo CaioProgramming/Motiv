@@ -13,12 +13,12 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.beans.Version
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.Pref
-import com.creat.motiv.utils.RC_SIGN_IN
-import com.creat.motiv.utils.Tools
-import com.creat.motiv.utils.Tools.setLightStatusBar
-import com.creat.motiv.utils.Tools.uimode
+import com.creat.motiv.utilities.Alert
+import com.creat.motiv.utilities.Pref
+import com.creat.motiv.utilities.RC_SIGN_IN
+import com.creat.motiv.utilities.Tools
+import com.creat.motiv.utilities.Tools.darkMode
+import com.creat.motiv.utilities.Tools.setLightStatusBar
 import com.creat.motiv.view.adapters.MainAdapter
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
@@ -84,7 +84,7 @@ open class MainActivity : AppCompatActivity(){
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-        if (!uimode(this)) {
+        if (!darkMode(this)) {
             setLightStatusBar(this)
         }
 

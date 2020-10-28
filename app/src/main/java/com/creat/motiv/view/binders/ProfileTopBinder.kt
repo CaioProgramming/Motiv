@@ -6,8 +6,8 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.databinding.ProfileTopViewBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.DialogStyles
+import com.creat.motiv.utilities.Alert
+import com.creat.motiv.utilities.DialogStyles
 import com.creat.motiv.view.BaseView
 
 class ProfileTopBinder(val uid: String,

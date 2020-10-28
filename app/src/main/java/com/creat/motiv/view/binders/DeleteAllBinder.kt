@@ -5,8 +5,8 @@ import android.content.Context
 import com.creat.motiv.databinding.DeleteAllAlertBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utils.fadeIn
-import com.creat.motiv.utils.fadeOut
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.view.BaseView
 
 class DeleteAllBinder(val dialog: Dialog, override val context: Context, override val viewBind: DeleteAllAlertBinding) : BaseView<Quote>() {

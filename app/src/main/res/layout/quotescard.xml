@@ -4,12 +4,7 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
 
-        <variable
-            name="quoteData"
-            type="com.creat.motiv.model.beans.Quote" />
-    </data>
 
     <LinearLayout
         android:id="@+id/card"
@@ -30,7 +25,6 @@
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
-            app:cardBackgroundColor="@{quoteData.intBackColor}"
             app:cardCornerRadius="15dp"
             app:cardElevation="0dp"
             tools:backgroundTint="@color/colorAccent">
@@ -75,9 +69,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="@{quoteData.quote}"
-                    android:textColor="@{quoteData.intTextColor}"
-                    android:textSize="50sp"
                     android:textStyle="bold"
                     android:typeface="normal"
                     tools:textColor="@color/white"
@@ -85,14 +76,10 @@
 
                 <TextView
                     android:id="@+id/author_text_view"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:alpha="0.9"
                     android:backgroundTint="@color/transparent"
                     android:padding="8dp"
-                    android:text="@{quoteData.author}"
-                    android:textColor="@{quoteData.intTextColor}"
                     android:textSize="24sp"
                     android:textStyle="italic"
                     tools:textColor="@color/white"
@@ -103,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/fade_gradient_inversed"
-                    android:padding="4dp">
+                    android:padding="8dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="wrap_content"
@@ -131,6 +118,16 @@
 
 
             </LinearLayout>
+
+            <com.budiyev.android.circularprogressbar.CircularProgressBar
+                android:id="@+id/loading"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                app:foregroundStrokeColor="@color/colorAccent"
+                app:indeterminate="true" />
         </com.google.android.material.card.MaterialCardView>
 
 

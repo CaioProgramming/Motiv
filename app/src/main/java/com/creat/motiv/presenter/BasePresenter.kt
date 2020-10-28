@@ -4,7 +4,7 @@ import android.util.Log
 import com.creat.motiv.contract.PresenterContract
 import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.BaseBean
-import com.creat.motiv.utils.MessageType
+import com.creat.motiv.utilities.MessageType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -15,10 +15,12 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
 
 
     fun loadData() {
+        view.onLoading()
         model.getAllData()
     }
 
     protected fun loadSingleData(key: String) {
+        view.onLoading()
         model.getSingleData(key)
     }
 
@@ -33,10 +35,12 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
     }
 
     override fun onDataRetrieve(data: List<T>) {
+        view.onLoadFinish()
         view.showListData(data)
     }
 
     override fun onSingleData(data: T) {
+        view.onLoadFinish()
         view.showData(data)
     }
 
@@ -52,7 +56,9 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
 
 
     override fun queryData(value: String, field: String) {
+        view.onLoading()
         model.query(value, field)
+        view.onLoadFinish()
     }
 
 }

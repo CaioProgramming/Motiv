@@ -59,7 +59,7 @@
                     android:stateListAnimator="@animator/list_animator"
                     android:text="Sair"
                     android:textAllCaps="false"
-                    android:textColor="@color/red_500"
+                    android:textColor="@color/material_red500"
                     android:textStyle="bold" />
             </LinearLayout>
 
