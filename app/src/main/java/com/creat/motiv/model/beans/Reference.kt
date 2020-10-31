@@ -6,8 +6,7 @@ data class Reference(val background: Int, val name: String, val description: Str
 
 
     companion object {
-
-        val references = listOf<Reference>(
+        val references = listOf(
                 Reference(
                         R.drawable.flaticon_gradient,
                         "Flaticon",
@@ -28,8 +27,6 @@ data class Reference(val background: Int, val name: String, val description: Str
                         "Icons8/Ouch",
                         "Milhares de ícones gratuitos no maior banco de dados de icones vetoriais.", "wwww.icons8/ouch")
         )
-
-
     }
 
 

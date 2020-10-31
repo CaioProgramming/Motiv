@@ -11,6 +11,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.ReferencesLayoutBinding
 import com.creat.motiv.model.beans.Reference
 import com.creat.motiv.utilities.WEB_URL
+import com.creat.motiv.utilities.fadeIn
 
 
 class RecyclerReferencesAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerReferencesAdapter.MyViewHolder>() {
@@ -31,6 +32,7 @@ class RecyclerReferencesAdapter(private val context: Context) : RecyclerView.Ada
             val intent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(intent)
         }
+        holder.referencesLayoutBinding.referenceCard.fadeIn()
     }
 
 

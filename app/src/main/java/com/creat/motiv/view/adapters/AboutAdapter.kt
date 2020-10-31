@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
+import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.view.binders.DeveloperBinder
 
 class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyViewHolder>() {
@@ -23,11 +24,13 @@ class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyV
 
         holder.quotescardBinding.title.text = if (position == 0) "Desenvolvedores" else "Referências"
         if (position == 0) {
+            holder.quotescardBinding.title.text = "Desenvolvedores"
             DeveloperBinder(context, holder.quotescardBinding.quotesRecycler)
         } else {
             holder.quotescardBinding.quotesRecycler.quotesrecyclerview.run {
                 layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
                 adapter = RecyclerReferencesAdapter(context)
+                fadeIn()
             }
         }
     }

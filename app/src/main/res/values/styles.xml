@@ -40,7 +40,7 @@
         <item name="android:fontFamily">@font/lato_black</item>
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">@dimen/default_padding</item>
     </style>
 
 
