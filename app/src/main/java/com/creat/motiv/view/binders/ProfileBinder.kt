@@ -39,7 +39,7 @@ class ProfileBinder(override val context: Context,
         onLoadFinish()
         viewBind.run {
             toolbar.title = data.name
-            ProfileTopBinder(data.uid, data, viewBind.profileTopView, context)
+            ProfileTopBinder(uid = data.uid, user = data, viewBind = viewBind.profileTopView, context = context)
             profileRecycler.run {
                 layoutManager = LinearLayoutManager(context, VERTICAL, false)
                 adapter = QuotesProfileAdapter(context, data.uid)

@@ -1,64 +1,43 @@
 package com.creat.motiv.view.adapters
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.model.beans.Artists
-import com.creat.motiv.utilities.Tools
-import java.util.*
+import com.creat.motiv.databinding.ReferencesLayoutBinding
+import com.creat.motiv.model.beans.Reference
+import com.creat.motiv.utilities.WEB_URL
 
 
-class RecyclerReferencesAdapter(private val mActivity: Activity) : RecyclerView.Adapter<RecyclerReferencesAdapter.MyViewHolder>() {
-    private val mData: ArrayList<Artists>
+class RecyclerReferencesAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerReferencesAdapter.MyViewHolder>() {
+    private val references = Reference.references
 
-
-    init {
-        mData = Tools.references(mActivity)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view: View
-        val mInflater = LayoutInflater.from(mActivity)
-        view = mInflater.inflate(R.layout.references_layout, parent, false)
-
-        return MyViewHolder(view)
+        val referencesLayoutBinding: ReferencesLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.references_layout, parent, false)
+        return MyViewHolder(referencesLayoutBinding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val a = mData[holder.adapterPosition]
-        holder.nome.text = a.nome
-        holder.nome.setOnClickListener {
-            val uri = Uri.parse(a.uri)
+        val ref = references[position]
+        holder.referencesLayoutBinding.reference = ref
+        holder.referencesLayoutBinding.referenceBackground.setBackgroundResource(ref.background)
+        holder.referencesLayoutBinding.referenceCard.setOnClickListener {
+            val uri = Uri.parse("$WEB_URL${ref.url}")
             val intent = Intent(Intent.ACTION_VIEW, uri)
-            mActivity.startActivity(intent)
+            context.startActivity(intent)
         }
-        Log.println(Log.INFO, "REFERENCE color", a.color.toString())
-        holder.nome.setTextColor(a.color)
-
-
     }
 
 
     override fun getItemCount(): Int {
-
-        return mData.size
+        return references.size
     }
 
 
-    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var nome: TextView
-
-        init {
-            nome = view.findViewById(R.id.reference)
-
-
-        }
-    }
+    inner class MyViewHolder(val referencesLayoutBinding: ReferencesLayoutBinding) : RecyclerView.ViewHolder(referencesLayoutBinding.root)
 }

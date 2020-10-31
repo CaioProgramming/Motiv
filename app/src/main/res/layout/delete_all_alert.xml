@@ -4,64 +4,58 @@
 
 
     <LinearLayout
+        android:id="@+id/mainView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/default_padding">
 
-        <com.budiyev.android.circularprogressbar.CircularProgressBar
-            android:id="@+id/loading"
+        <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:foregroundStrokeWidth="1dp"
-            app:indeterminate="true" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_close"
+            android:tint="?android:textColorPrimary" />
 
-        <LinearLayout
-            android:id="@+id/mainView"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/mirage_delete" />
+
+        <TextView
+            style="@style/ToolbarTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:padding="16dp"
+            android:text="Tem certeza?"
+            android:textAlignment="center" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/mirage_delete" />
+        <TextView
+            android:id="@+id/messageTextView"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Se você deletar todas as suas frases não poderá recuperá-las nunca mais!"
+            android:textAlignment="center" />
 
-            <TextView
-                style="@style/ToolbarTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Tem certeza?"
-                android:textAlignment="center" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteConfirm"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar exclusão"
+            android:textColor="@color/material_red500" />
 
-            <TextView
-                android:id="@+id/messageTextView"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Se você deletar todas as suas frases não poderá recuperá-las nunca mais!"
-                android:textAlignment="center" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/deleteConfirm"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Confirmar exclusão"
-                android:textColor="@color/material_red500" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelDelete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round"
-                android:text="Cancelar"
-                app:backgroundTint="@color/material_blue500" />
-        </LinearLayout>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round"
+            android:text="Cancelar"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/material_blue500" />
     </LinearLayout>
+
 </layout>

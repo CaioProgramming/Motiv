@@ -9,11 +9,11 @@ import com.creat.motiv.databinding.ActivitySettingsBinding
 import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.DialogStyles
 import com.creat.motiv.view.binders.ChangeNameBinder
+import com.creat.motiv.view.binders.ProfileTopBinder
 import com.google.firebase.auth.FirebaseAuth
 
 
-class SettingsActivity : AppCompatActivity() {
-
+class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +25,10 @@ class SettingsActivity : AppCompatActivity() {
                 Alert(this@SettingsActivity, DialogStyles.FULL_SCREEN).deleteAllDialog()
             }
             ChangeNameBinder(this@SettingsActivity, actbind.changenameView)
+            val firebaseUser = FirebaseAuth.getInstance().currentUser
+            firebaseUser?.let {
+                ProfileTopBinder(uid = it.uid, viewBind = this.profileView, context = this@SettingsActivity, isSettings = true)
+            }
             exit.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(applicationContext, Splash::class.java)

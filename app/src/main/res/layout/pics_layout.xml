@@ -5,26 +5,26 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:background="@color/transparent"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="4dp"
+        android:stateListAnimator="@animator/list_animator"
+        app:cardBackgroundColor="@color/oblack"
         android:orientation="vertical"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="100dp"
         app:cardElevation="0dp">
 
         <ImageView
             android:id="@+id/pic"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/icon_info"
-            android:foreground="?attr/selectableItemBackground"
             android:hapticFeedbackEnabled="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/penguin" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/me" />
 
 
         <ProgressBar

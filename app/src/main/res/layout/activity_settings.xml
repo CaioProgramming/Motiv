@@ -15,7 +15,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <LinearLayout
@@ -25,7 +24,7 @@
 
                 <include
                     android:id="@+id/profileView"
-                    layout="@layout/user_profile" />
+                    layout="@layout/profile_top_view" />
 
                 <include
                     android:id="@+id/changenameView"
@@ -37,10 +36,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@drawable/round_low"
+                    android:background="@color/oblack"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center|start"
-                    android:padding="10dp"
+                    android:padding="@dimen/default_padding"
                     android:text="Remover posts"
                     android:textAllCaps="false"
                     android:textStyle="bold"
@@ -53,7 +52,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:padding="10dp"
                     android:stateListAnimator="@animator/list_animator"

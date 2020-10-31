@@ -28,9 +28,7 @@ android {
     }
 
     buildFeatures {
-
         dataBinding true
-
     }
 
     buildTypes {

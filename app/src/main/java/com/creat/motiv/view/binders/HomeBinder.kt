@@ -20,6 +20,10 @@ class HomeBinder(
 
     override fun initView() {
         viewBind.homeSearch.setOnQueryTextListener(this)
+        viewBind.homeSearch.setOnCloseListener {
+            quotesListBinder.initView()
+            false
+        }
     }
 
 

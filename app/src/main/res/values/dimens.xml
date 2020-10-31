@@ -2,12 +2,12 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="big_quote_size">40sp</dimen>
-    <dimen name="default_quote_size">36sp</dimen>
-    <dimen name="medium_quote_size">22sp</dimen>
-    <dimen name="low_quote_size">20sp</dimen>
-    <dimen name="small_quote_size">18sp</dimen>
-    <dimen name="min_quote_size">12sp</dimen>
+    <dimen name="big_quote_size">56sp</dimen>
+    <dimen name="default_quote_size">45sp</dimen>
+    <dimen name="medium_quote_size">34sp</dimen>
+    <dimen name="low_quote_size">28sp</dimen>
+    <dimen name="small_quote_size">24sp</dimen>
+    <dimen name="min_quote_size">20sp</dimen>
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_radius">15dp</dimen>
 </resources>

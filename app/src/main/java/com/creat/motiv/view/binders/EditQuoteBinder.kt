@@ -68,7 +68,9 @@ class EditQuoteBinder(
                 salvar()
             }
             quoteTextView.addTextChangedListener {
-                quoteTextView.textSize = textSize(quote!!.quote.length, context)
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+                    quoteTextView.textSize = textSize(quote!!.quote.length, context)
+                }
             }
         }
         UserViewBinder(data.userID, context, viewBind.userTop)
@@ -78,8 +80,8 @@ class EditQuoteBinder(
     private fun NewquotepopupBinding.updateFont() {
         quoteTextView.typeface = Tools.fonts(context)[quote?.font ?: 0]
         authorTextView.typeface = Tools.fonts(context)[quote?.font ?: 0]
-        quoteTextView.fadeIn().subscribe()
-        authorTextView.fadeIn().subscribe()
+        quoteTextView.bounce()
+        authorTextView.bounce()
     }
 
 
@@ -148,14 +150,14 @@ class EditQuoteBinder(
         quoteTextView.setTextColor(color)
         authorTextView.setTextColor(color)
         textcolorfab.imageTintList = ColorStateList.valueOf(color)
-        quoteTextView.fadeIn().subscribe()
-        authorTextView.fadeIn().subscribe()
+        quoteTextView.bounce()
+        authorTextView.bounce()
     }
 
     private fun NewquotepopupBinding.animateBackground(color: Int) {
         background.setCardBackgroundColor(color)
         val anim = AnimationUtils.loadAnimation(context, R.anim.bounce)
-        background.startAnimation(anim)
+        background.bounce()
         backcolorfab.imageTintList = ColorStateList.valueOf(color)
     }
 

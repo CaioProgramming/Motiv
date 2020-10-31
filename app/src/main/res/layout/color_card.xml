@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     <androidx.cardview.widget.CardView
         android:id="@+id/colorcard"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="4dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="1dp"
         android:stateListAnimator="@animator/list_animator"
-        app:cardCornerRadius="@dimen/default_padding"
+        app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
         tools:backgroundTint="@color/colorPrimaryDark"
 

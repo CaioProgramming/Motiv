@@ -134,9 +134,11 @@
                                 android:padding="16dp"
                                 android:textSize="@dimen/default_quote_size"
                                 android:textStyle="bold"
+                                android:inputType="textCapSentences"
                                 android:typeface="normal" />
 
                             <EditText
+                                android:inputType="textPersonName"
                                 android:id="@+id/author_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

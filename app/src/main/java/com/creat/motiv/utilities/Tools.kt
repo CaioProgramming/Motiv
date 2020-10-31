@@ -9,12 +9,8 @@ import android.os.Build
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import androidx.core.view.ViewCompat
 import com.creat.motiv.R
 import com.creat.motiv.model.beans.Artists
-import com.google.firebase.database.FirebaseDatabase
-import io.reactivex.Completable
-import io.reactivex.subjects.CompletableSubject
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,45 +20,6 @@ object Tools {
 
     internal var iconssite = arrayOf("https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co", "https://mixkit.co", "https://icons8.com/ouch/")
 
-
-    var path = "Quotes"
-    var iconpath = "images"
-    var userpath = "Users"
-    var quotesreference = FirebaseDatabase.getInstance().reference.child(path)
-    var iconsreference = FirebaseDatabase.getInstance().reference.child(iconpath)
-    var userreference = FirebaseDatabase.getInstance().reference.child(userpath)
-
-
-    var spancount = 1
-    var searcharg = "\uf8ff"
-
-    fun fadeIn(view: View, duration: Long): Completable {
-        val animationSubject = CompletableSubject.create()
-        return animationSubject.doOnSubscribe {
-            ViewCompat.animate(view)
-                    .setDuration(duration)
-                    .alpha(1f)
-                    .withEndAction {
-                        animationSubject.onComplete()
-                    }
-        }
-
-
-    }
-
-    fun fadeOut(view: View, duration: Long): Completable {
-        val animationSubject = CompletableSubject.create()
-        return animationSubject.doOnSubscribe {
-            ViewCompat.animate(view)
-                    .setDuration(duration)
-                    .alpha(0f)
-                    .withEndAction {
-                        animationSubject.onComplete()
-                    }
-        }
-
-
-    }
 
     fun dpToPx(dp: Int, context: Context): Int {
         val density = context.resources.displayMetrics.density

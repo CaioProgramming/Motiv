@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
@@ -10,39 +11,27 @@
 
         <androidx.recyclerview.widget.RecyclerView
             tools:visibility="gone"
+            android:visibility="gone"
             tools:listitem="@layout/quotescard"
             android:id="@+id/quotesrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.budiyev.android.circularprogressbar.CircularProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.budiyev.android.circularprogressbar.CircularProgressBar
             app:foregroundStrokeColor="@color/colorPrimaryDark"
             app:indeterminate="true"
             android:id="@+id/loading"
             android:layout_centerInParent="true"
+            android:visibility="gone"
             android:layout_width="64dp"
             android:layout_height="64dp" />
 
-        <LinearLayout
-            android:id="@+id/emptyList"
+        <include
+            android:id="@+id/not_found_include"
+            layout="@layout/empty_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/ic_astronaut_sitting" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Desculpe não encontrei nada" />
-        </LinearLayout>
+            android:layout_centerInParent="true" />
 
 
     </RelativeLayout>

@@ -12,6 +12,7 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
     fun loadFavorites(uid: String) {
         view.onLoading()
         model.getFavorites(uid)
+        view.onLoadFinish()
     }
 
     fun deleteAll(data: List<Quote>) {
@@ -25,13 +26,13 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
     }
 
     override fun onDataRetrieve(data: List<Quote>) {
-        view.onLoading()
         view.showListData(data)
+        view.onLoadFinish()
     }
 
     override fun onSingleData(data: Quote) {
-        view.onLoading()
         view.showData(data)
+        view.onLoadFinish()
     }
 
     fun likeQuote(quote: Quote) {
@@ -50,10 +51,6 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
             quote.likes.remove(user.uid)
             model.addData(quote, quote.id)
         }
-    }
-
-    fun findQuote(search: String) {
-        model.queryQuote(search)
     }
 
 

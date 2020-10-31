@@ -82,20 +82,20 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
-            android:paddingVertical="@dimen/default_padding"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:padding="@dimen/default_padding"
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.github.mmin18.widget.RealtimeBlurView
-            tools:visibility="gone"
             android:id="@+id/rootblur"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent"
-            android:alpha="0"
             app:realtimeBlurRadius="50dp"
-            app:realtimeOverlayColor="@color/transparent" />
+            app:realtimeOverlayColor="@color/owhite" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

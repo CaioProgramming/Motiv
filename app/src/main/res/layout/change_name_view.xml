@@ -5,11 +5,12 @@
 
 
     <RelativeLayout
+        android:background="@color/oblack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="@drawable/round_low">
+        android:padding="@dimen/default_padding">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/changename"
@@ -18,12 +19,10 @@
             android:layout_centerInParent="true"
             android:layout_toStartOf="@id/changeStatus"
             android:background="@color/transparent"
-            android:foreground="?attr/selectableItemBackground"
             android:hint="Alterar nome"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:maxLength="50"
-            android:padding="10dp"
             android:textAllCaps="false"
             android:textStyle="bold" />
 

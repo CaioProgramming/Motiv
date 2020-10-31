@@ -13,7 +13,6 @@
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:stateListAnimator">@animator/list_animator</item>
     </style>
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">

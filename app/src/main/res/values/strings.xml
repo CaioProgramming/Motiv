@@ -12,11 +12,15 @@
     <string name="Welcome">Bem-vindo ao Motiv</string>
     <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="developed_by">Motiv desenvolvido por Inlustris em 2018, todos os direitos reservados</string>
+
     <string name="icon_info">user icon</string>
     <string name="reference">reference</string>
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
     <string name="company">Inlustris 2018 - %d</string>
     <string name="report_message">Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade?</string>
+    <string name="dribble_description">Dribbble is where designers gain inspiration, feedback, community, and jobs and is your best resource to discover and connect with designers worldwide.</string>
+    <string name="support_devs">Apoiar desenvolvedores</string>
+    <string name="follow_user">Seguir usuário</string>
 </resources>

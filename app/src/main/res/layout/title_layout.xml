@@ -9,7 +9,8 @@
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+        app:title=""
+        app:titleEnabled="false">
 
         <TextView
             android:id="@+id/title"
@@ -26,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:animateLayoutChanges="true"
+            app:layout_collapseMode="parallax"
             android:elevation="0dp" />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 

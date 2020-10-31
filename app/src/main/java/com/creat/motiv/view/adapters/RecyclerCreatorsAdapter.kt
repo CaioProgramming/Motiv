@@ -8,10 +8,10 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.model.beans.Developers
+import com.creat.motiv.model.beans.Developer
 import java.util.*
 
-class RecyclerCreatorsAdapter(private val mData: ArrayList<Developers>,
+class RecyclerCreatorsAdapter(private val mData: ArrayList<Developer>,
                               private val mActivity: Activity) : RecyclerView.Adapter<RecyclerCreatorsAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

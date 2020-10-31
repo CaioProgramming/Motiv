@@ -92,7 +92,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
 
     override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
         if (error != null) {
-            presenter.modelCallBack(errorMessage("Erro ao receber dados"))
+            presenter.modelCallBack(errorMessage("Erro ao receber dados ${error.message}"))
             return
         }
         val dataList: ArrayList<T> = ArrayList()

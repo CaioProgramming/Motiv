@@ -1,13 +1,15 @@
 package com.creat.motiv.view.binders
 
-import android.app.Activity
 import android.content.Context
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.GONE
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utilities.*
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.fadeOut
+import com.creat.motiv.utilities.gone
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerAdapter
 
@@ -15,12 +17,12 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
 
 
     override fun presenter() = QuotePresenter(this)
-    val quoteadapter = RecyclerAdapter(ArrayList(), context)
+    val quoteadapter = RecyclerAdapter(context = context)
 
     init {
         viewBind.quotesrecyclerview.run {
             adapter = quoteadapter
-            layoutManager = GridLayoutManager(context, 1, VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, VERTICAL, false)
             setHasFixedSize(true)
         }
         if (useInit) {
@@ -29,21 +31,19 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     }
 
     override fun onLoading() {
-        viewBind.loading.fadeIn().subscribe()
+        if (viewBind.quotesrecyclerview.visibility == GONE) {
+            viewBind.loading.fadeIn()
+            viewBind.quotesrecyclerview.gone()
+        }
     }
 
     override fun onLoadFinish() {
-        viewBind.loading.fadeOut().subscribe()
+        viewBind.loading.fadeOut()
     }
 
 
     fun searchData(query: String) {
-        if (query.isBlank()) {
-            Alert(context as Activity).snackmessage(message = "Não pesquisou nada")
-            presenter().loadData()
-        } else {
-            presenter().findQuote(query)
-        }
+        quoteadapter.searchQuote(query)
     }
 
     fun getUserQuotes(uid: String) {
@@ -58,14 +58,15 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     override fun showListData(list: List<Quote>) {
         if (list.isEmpty()) {
             viewBind.quotesrecyclerview.gone()
-            viewBind.emptyList.fadeIn()
+            viewBind.notFoundInclude.emptyList.fadeIn()
         } else {
-            viewBind.emptyList.fadeOut()
-            viewBind.quotesrecyclerview.visible()
+            viewBind.loading.fadeOut()
+            viewBind.notFoundInclude.emptyList.fadeOut()
+            if (viewBind.quotesrecyclerview.visibility == GONE) {
+                viewBind.quotesrecyclerview.fadeIn()
+            }
         }
-        quoteadapter.quoteList = list.reversed()
-        quoteadapter.notifyDataSetChanged()
-        onLoadFinish()
+        quoteadapter.addData(list)
     }
 
     override fun initView() {

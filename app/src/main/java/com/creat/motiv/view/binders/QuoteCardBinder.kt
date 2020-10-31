@@ -46,8 +46,8 @@ class QuoteCardBinder(
         onLoading()
         viewBind.run {
             Log.d(javaClass.simpleName, "initView: setup view")
-            setupCard()
             setupQuote()
+            setupCard()
         }
         onLoadFinish()
     }
@@ -57,7 +57,7 @@ class QuoteCardBinder(
 
 
     private fun QuotescardBinding.setupQuote() {
-        background.setCardBackgroundColor(quote.intBackColor())
+        quoteCard.setCardBackgroundColor(quote.intBackColor())
         quoteTextView.text = quote.quote
         authorTextView.text = quote.author
         quoteTextView.typeface = Tools.fonts(context)[quote.font]
@@ -75,13 +75,15 @@ class QuoteCardBinder(
                 .build()
         readMoreOption.addReadMoreTo(quoteTextView, quote.quote)
         quoteDate.text = data()
-        quoteTextView.textSize = textSize(quote.quote.length, context)
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+            quoteTextView.textSize = textSize(quote.quote.length, context)
+        }
         onLoadFinish()
     }
 
     private fun QuotescardBinding.setupCard() {
 
-        background.setOnLongClickListener {
+        quoteCard.setOnLongClickListener {
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (vibrator.hasVibrator()) {
                 val mVibratePattern = longArrayOf(100, 150)
@@ -106,7 +108,7 @@ class QuoteCardBinder(
                                     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                     val clip = ClipData.newPlainText(quote.author, quote.quote)
                                     clipboard.setPrimaryClip(clip)
-                                    Alert(context as Activity).snackmessage(message = "Frase copiada para a área de transferência")
+                                    snackmessage(context, message = "Frase de ${quote.author} copiada para a área de transferência")
                                     return true
                                 }
                                 R.id.quoteShare -> {
@@ -176,7 +178,7 @@ class QuoteCardBinder(
 
             }
         }
-        background.visible()
+        quoteCard.fadeIn()
     }
 
 
@@ -218,12 +220,12 @@ class QuoteCardBinder(
     }
 
     override fun onLoading() {
-        viewBind.loading.fadeIn().subscribe()
+        viewBind.loading.fadeIn()
 
     }
 
     override fun onLoadFinish() {
-        viewBind.loading.fadeOut().subscribe()
+        viewBind.loading.fadeOut()
     }
 
 

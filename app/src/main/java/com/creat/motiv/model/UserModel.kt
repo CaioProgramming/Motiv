@@ -17,6 +17,7 @@ class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>()
 
 
     override fun deserializeDataSnapshot(dataSnapshot: QueryDocumentSnapshot): User? = dataSnapshot.toObject(User::class.java)
+
     fun updateUserPic(pic: Pics) {
         if (currentUser == null) {
             presenter.modelCallBack(errorMessage("Usuário desconectado"))
@@ -34,6 +35,12 @@ class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>()
     }
 
 
+    override fun addData(data: User, forcedID: String?) {
+        if (!data.token.isBlank()) {
+            super.addData(data, forcedID)
+        }
+    }
+
     override fun getSingleData(id: String) {
         if (isDisconnected()) return
         db().document(id).addSnapshotListener { snapshot, e ->
@@ -42,7 +49,19 @@ class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>()
                         ?: "Ocorreu um erro ao obter dados de $id"))
             }
             if (snapshot != null && snapshot.exists()) {
-                deserializeDataSnapshot(snapshot)?.let { presenter.onSingleData(it) }
+                deserializeDataSnapshot(snapshot)?.let {
+                    if (it.token.isNotBlank()) {
+                        presenter.modelCallBack(errorMessage("Usuário não encontrado, salvando ele na base de dados...", ErrorType.USERNOTFOUND))
+                        currentUser!!.getIdToken(true).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                addData(User.fromFirebaseWithToken(currentUser, task.result.token!!), currentUser.uid)
+                            } else {
+                                errorMessage("Não foi possível obter o Token do usuário")
+                            }
+                        }
+                    }
+                    presenter.onSingleData(it)
+                }
             } else {
                 if (id == currentUser?.uid) {
                     presenter.modelCallBack(errorMessage("Usuário não encontrado, salvando ele na base de dados...", ErrorType.USERNOTFOUND))
@@ -67,7 +86,7 @@ class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>()
         val profileChangeRequest = UserProfileChangeRequest.Builder().setDisplayName(newName).build()
         currentUser?.updateProfile(profileChangeRequest)?.addOnCompleteListener {
             if (it.isSuccessful) {
-                editField(newName, currentUser.uid, "userName")
+                editField(newName, currentUser.uid, "name")
             }
         }
     }

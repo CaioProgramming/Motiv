@@ -5,20 +5,25 @@ import com.google.firebase.auth.FirebaseUser
 data class User(var name: String = "",
                 val uid: String = "",
                 val token: String = "",
-                var picurl: String = "",
-                val phonenumber: String = "",
-                val email: String = "") : BaseBean(uid) {
+                val admin: Boolean = false,
+                var picurl: String = "") : BaseBean(uid) {
 
 
     companion object {
         fun fromFirebaseWithToken(firebaseUser: FirebaseUser, token: String): User {
             return User(
                     uid = firebaseUser.uid,
-                    name = firebaseUser.displayName ?: "Nome não informado",
+                    name = firebaseUser.displayName ?: "Desconhecido",
                     picurl = firebaseUser.photoUrl.toString(),
-                    token = token,
-                    phonenumber = firebaseUser.phoneNumber ?: "",
-                    email = firebaseUser.email ?: ""
+                    token = token
+            )
+        }
+
+        fun fromFirebase(firebaseUser: FirebaseUser): User {
+            return User(
+                    uid = firebaseUser.uid,
+                    name = firebaseUser.displayName ?: "Desconhecido",
+                    picurl = firebaseUser.photoUrl.toString()
             )
         }
     }

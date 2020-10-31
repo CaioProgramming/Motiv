@@ -16,10 +16,10 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.utilities.Pref
-import com.creat.motiv.utilities.Tools
 import com.creat.motiv.view.activities.MainActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import java.text.MessageFormat
 
 
@@ -48,17 +48,7 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
 
     private fun Carregar() {
 
-        val quotesdb = Tools.quotesreference
-        quotesdb.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                count = dataSnapshot.childrenCount
 
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println(databaseError.message)
-            }
-        })
 
     }
 

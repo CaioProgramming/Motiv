@@ -9,16 +9,8 @@ class PicsModel(override val presenter: BasePresenter<Pics>) : BaseModel<Pics>()
 
     override val path = "Pics"
 
-    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Pics? {
-        val p = dataSnapshot.toObject(Pics::class.java)
-        p?.id = dataSnapshot.id
-        return p
-    }
+    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Pics? = dataSnapshot.toObject(Pics::class.java)
 
 
-    override fun deserializeDataSnapshot(dataSnapshot: QueryDocumentSnapshot): Pics? {
-        val p = dataSnapshot.toObject(Pics::class.java)
-        p.id = dataSnapshot.id
-        return p
-    }
+    override fun deserializeDataSnapshot(dataSnapshot: QueryDocumentSnapshot): Pics? = dataSnapshot.toObject(Pics::class.java)
 }

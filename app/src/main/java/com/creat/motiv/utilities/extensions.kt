@@ -2,19 +2,20 @@ package com.creat.motiv.utilities
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
 import com.creat.motiv.R
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.Completable
-import io.reactivex.subjects.CompletableSubject
 import java.lang.String.format
 
-fun Snackbar.config(context: Context) {
+fun Snackbar.config() {
     val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
     params.setMargins(12, 12, 12, 12)
     this.view.layoutParams = params
@@ -56,30 +57,43 @@ fun textSize(length: Int, context: Context): Float {
     }
 }
 
-fun View.fadeIn(duration: Long = 500): Completable {
+fun View.fadeIn() {
     visible()
-    val animationSubject = CompletableSubject.create()
-    return animationSubject.doOnSubscribe {
-        ViewCompat.animate(this)
-                .setDuration(duration)
-                .alpha(1f)
-                .withEndAction {
-                    animationSubject.onComplete()
-                }
-    }
+    val fadein = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+    startAnimation(fadein)
 }
 
-fun View.fadeOut(duration: Long = 500): Completable {
-    val animationSubject = CompletableSubject.create()
-    return animationSubject.doOnSubscribe {
-        ViewCompat.animate(this)
-                .setDuration(duration)
-                .alpha(0f)
-                .withEndAction {
-                    gone()
-                    animationSubject.onComplete()
-                }
-    }
+fun View.fadeOut() {
+    val fadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+    fadeOut.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(p0: Animation?) {
+        }
+
+        override fun onAnimationEnd(p0: Animation?) {
+            gone()
+        }
+
+        override fun onAnimationRepeat(p0: Animation?) {
+        }
+
+    })
+    startAnimation(fadeOut)
+}
+
+fun View.repeatFade() {
+    val fadeRepeat = AnimationUtils.loadAnimation(context, R.anim.fade_in_repeat)
+    startAnimation(fadeRepeat)
+}
+
+fun View.bounce() {
+    val bounce = AnimationUtils.loadAnimation(context, R.anim.bounce)
+    startAnimation(bounce)
+}
+
+fun View.popIn() {
+    visible()
+    val popIn = AnimationUtils.loadAnimation(context, R.anim.pop_in)
+    startAnimation(popIn)
 }
 
 fun toHex(intColor: Int): String {
@@ -89,7 +103,8 @@ fun toHex(intColor: Int): String {
 fun blurView(context: Context) {
     if (context is Activity) {
         val blur: RealtimeBlurView? = context.findViewById(R.id.rootblur)
-        blur?.fadeIn()?.subscribe()
+
+        blur?.visible()
     } else {
         Log.e("Blur view", "blurView: context isn't an activity")
     }
@@ -98,8 +113,20 @@ fun blurView(context: Context) {
 fun unblurView(context: Context) {
     if (context is Activity) {
         val blur: RealtimeBlurView? = context.findViewById(R.id.rootblur)
-        blur?.fadeOut()?.subscribe()
+        blur?.gone()
     } else {
         Log.e("Unblur view", "blurView: context isn't an activity")
     }
+}
+
+fun snackmessage(context: Context, backcolor: Int = Color.BLACK, textColor: Int = Color.WHITE, message: String) {
+    if (context is Activity) {
+        val contextView = context.findViewById<View>(R.id.mainContainer)
+        Snackbar.make(contextView, message, Snackbar.LENGTH_SHORT)
+                .setTextColor(textColor)
+                .setBackgroundTint(backcolor)
+                .show()
+    }
+
+
 }

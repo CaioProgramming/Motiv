@@ -13,11 +13,12 @@
     </data>
 
     <LinearLayout
+
         android:id="@+id/profileContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="32dp">
+        android:padding="@dimen/default_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilepic"
@@ -27,6 +28,7 @@
             android:contentDescription="Profile picture"
             android:fitsSystemWindows="true"
             android:tooltipText="Alterar foto de perfil"
+            android:stateListAnimator="@animator/list_animator"
             android:transitionName="profilepic"
             tools:src="@drawable/notfound" />
 
@@ -44,15 +46,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:visibility="gone">
+            android:paddingBottom="8dp">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/followButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/messageButton"
                 android:background="@drawable/round"
-                android:text="Seguir usuário"
+                android:text="@string/follow_user"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 app:backgroundTint="@color/colorPrimaryDark" />
 
@@ -61,14 +64,28 @@
                 android:id="@+id/messageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/settingsButton"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/round"
                 android:backgroundTint="@color/colorAccent"
-                android:contentDescription="Message button"
+                android:contentDescription="Enviar mensagem ao usuário"
                 android:padding="12dp"
                 android:src="@drawable/ic_paper_plane"
                 android:tint="@color/white" />
+
+            <ImageButton
+
+                android:id="@+id/settingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/round"
+                android:backgroundTint="?android:textColorPrimary"
+                android:contentDescription="Message button"
+                android:padding="12dp"
+                android:src="@drawable/ic_settings"
+                android:tint="?android:colorBackground" />
 
         </RelativeLayout>
     </LinearLayout>
