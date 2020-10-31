@@ -3,10 +3,7 @@ package com.creat.motiv.utilities
 import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
@@ -16,11 +13,15 @@ import com.creat.motiv.databinding.ProfilepicselectBinding
 import com.creat.motiv.presenter.UserPresenter
 import com.creat.motiv.view.binders.DeleteAllBinder
 import com.creat.motiv.view.binders.ProfilePicSelectBinder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
-class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogStyles.DEFAULT_NO_BORDER) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
+class Alert(private val activity: Activity, val dialogStyle: DialogStyles = DialogStyles.DEFAULT_NO_BORDER) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
 
-    private val myDialog = Dialog(activity, dialogStyle.style)
+    private val myDialog = if (dialogStyle == DialogStyles.FULL_SCREEN || dialogStyle == DialogStyles.DEFAULT_NO_BORDER)
+        Dialog(activity, dialogStyle.style)
+    else
+        BottomSheetDialog(activity, dialogStyle.style)
 
     fun showAlert(message: String,
                   buttonMessage: String? = "Ok",
@@ -71,6 +72,11 @@ class Alert(private val activity: Activity, dialogStyle: DialogStyles = DialogSt
         myDialog.setContentView(view)
         if (showImediatly) {
             myDialog.show()
+        }
+        if (dialogStyle == DialogStyles.FULL_SCREEN) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            myDialog.window?.setLayout(width, height)
         }
     }
 
