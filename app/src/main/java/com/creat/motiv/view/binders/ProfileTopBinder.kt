@@ -2,6 +2,7 @@ package com.creat.motiv.view.binders
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
@@ -64,6 +65,9 @@ class ProfileTopBinder(val uid: String,
                 profilepic.borderColor = context.resources.getColor(R.color.material_yellow600)
                 profilepic.borderWidth = 10
 
+            } else {
+                profilepic.borderColor = Color.TRANSPARENT
+                profilepic.borderWidth = 0
             }
         }
     }
