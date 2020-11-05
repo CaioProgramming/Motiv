@@ -28,7 +28,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
             ChangeNameBinder(this@SettingsActivity, actbind.changenameView)
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             firebaseUser?.let {
-                ProfileTopBinder(uid = it.uid, viewBind = this.profileView, context = this@SettingsActivity, isSettings = true, fragmentManager = supportFragmentManager)
+                ProfileTopBinder(uid = it.uid, viewBind = this.profileView, context = this@SettingsActivity, isSettings = true)
             }
             exit.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()

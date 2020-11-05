@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp"
+                    android:padding="@dimen/default_padding"
                     android:stateListAnimator="@animator/list_animator">
 
                     <androidx.cardview.widget.CardView
@@ -88,6 +88,12 @@
 
         </ScrollView>
 
-
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/rootblur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:realtimeBlurRadius="50dp"
+            app:realtimeOverlayColor="@color/owhite" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

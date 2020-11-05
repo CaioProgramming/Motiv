@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-open class MainActivity : AppCompatActivity(){
+open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var preferences: Pref
     protected lateinit var app: App
     internal lateinit var version: Version
@@ -150,7 +150,7 @@ open class MainActivity : AppCompatActivity(){
         if (home) {
             super.onBackPressed()
         } else {
-            pager?.setCurrentItem(1,true)
+            pager?.setCurrentItem(0, true)
         }
 
     }

@@ -4,60 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card"
+    <LinearLayout
+        android:id="@+id/mainView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:orientation="vertical"
-        app:cardCornerRadius="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="10dp"
-        app:cardElevation="0dp">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <LinearLayout
-            android:id="@+id/mainView"
-            android:visibility="gone"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/picsrecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/pics_layout" />
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/ToolbarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Escolher novo ícone de perfil" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addIcons"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Adicionar novos ícones" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/picsrecycler"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:listitem="@layout/pics_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <include
-                android:id="@+id/not_found_include"
-                layout="@layout/empty_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
+        <include
+            android:id="@+id/not_found_include"
+            layout="@layout/empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.progressindicator.ProgressIndicator
             android:id="@+id/loading"
             style="@style/App_progress_Indicator" />
 
+    </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
 </layout>

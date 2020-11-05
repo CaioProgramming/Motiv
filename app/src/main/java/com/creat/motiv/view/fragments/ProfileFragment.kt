@@ -1,6 +1,8 @@
 package com.creat.motiv.view.fragments
 
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
+import com.creat.motiv.model.beans.Pics
+import com.creat.motiv.utilities.SELECTED_ICON
+import com.creat.motiv.utilities.SELECT_ICON
 import com.creat.motiv.view.binders.ProfileBinder
 
 
@@ -17,6 +22,7 @@ import com.creat.motiv.view.binders.ProfileBinder
  */
 class ProfileFragment : Fragment() {
     var fragmentbind: FragmentProfileBinding? = null
+    lateinit var profileBinder: ProfileBinder
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         fragmentbind = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.fragment_profile, null, false)
@@ -26,8 +32,14 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ProfileBinder(requireContext(), fragmentbind!!, null, childFragmentManager)
+        profileBinder = ProfileBinder(requireContext(), fragmentbind!!, null)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SELECT_ICON && resultCode == RESULT_OK && data != null) {
+            profileBinder.presenter().changeProfilePic(data.getSerializableExtra(SELECTED_ICON) as Pics)
+        }
+    }
 
 }

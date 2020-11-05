@@ -16,13 +16,15 @@
         android:hapticFeedbackEnabled="true"
         android:orientation="vertical"
         android:stateListAnimator="@animator/list_animator"
+        app:cardBackgroundColor="?android:textColorHint"
         app:cardCornerRadius="15dp"
-        app:cardElevation="0dp"
-        tools:backgroundTint="@color/colorAccent">
+        app:cardElevation="0dp">
 
         <RelativeLayout
+            android:id="@+id/quoteMainView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -48,7 +50,7 @@
                     android:id="@+id/userTop"
                     layout="@layout/user_quote_card_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
                     android:layout_centerInParent="true"
                     android:layout_toStartOf="@id/quoteDate" />
 
@@ -62,10 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_above="@id/author_text_view"
                 android:layout_below="@id/quoteInfo"
-                android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                android:autoSizeMinTextSize="@dimen/min_quote_size"
-                android:autoSizeTextType="uniform"
-                android:padding="8dp"
+                android:padding="@dimen/default_padding"
                 android:textSize="@dimen/big_quote_size"
                 android:textStyle="bold"
                 android:typeface="normal"
@@ -78,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/quoteButtons"
                 android:backgroundTint="@color/transparent"
-                android:padding="8dp"
+                android:padding="@dimen/default_padding"
                 android:textSize="24sp"
                 android:textStyle="italic"
                 tools:text="Lana Del Rey"
@@ -91,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/fade_gradient_inversed"
-                android:padding="8dp">
+                android:padding="@dimen/default_padding">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/likers"
@@ -120,10 +119,13 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.progressindicator.ProgressIndicator
-            android:layout_gravity="bottom|end"
-            android:id="@+id/loading"
-            style="@style/App_progress_Indicator" />
+        <include
+            android:id="@+id/cardShimmer"
+            layout="@layout/quote_place_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
     </com.google.android.material.card.MaterialCardView>
 
 

@@ -33,17 +33,6 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
         }
     }
 
-    override fun onLoading() {
-        if (quoteadapter.quoteList.isEmpty()) {
-            viewBind.loading.fadeIn()
-            viewBind.quotesrecyclerview.gone()
-        }
-    }
-
-    override fun onLoadFinish() {
-        viewBind.loading.fadeOut()
-    }
-
 
     fun searchData(query: String) {
         quoteadapter.searchQuote(query)
@@ -64,14 +53,13 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
             viewBind.notFoundInclude.emptyList.fadeIn()
             viewBind.notFoundInclude.emptyImage.repeatBounce()
         } else {
-            viewBind.loading.fadeOut()
             viewBind.notFoundInclude.emptyList.fadeOut()
             if (quoteadapter.quoteList.isEmpty()) {
                 viewBind.quotesrecyclerview.fadeIn()
             }
             viewBind.notFoundInclude.emptyImage.clearAnimation()
+            quoteadapter.addData(list)
         }
-        quoteadapter.addData(list)
     }
 
     override fun initView() {

@@ -1,9 +1,11 @@
 package com.creat.motiv.view.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,6 +14,7 @@ import com.creat.motiv.databinding.PicsLayoutBinding
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.utilities.NEW_PIC
 import com.creat.motiv.utilities.popIn
+import com.creat.motiv.view.activities.AddIconsActivity
 
 class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
                          private val context: Context,
@@ -37,13 +40,22 @@ class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
         holder.picsLayoutBinding.run {
             if (picture.id != NEW_PIC) {
                 Glide.with(context).load(picture.uri).into(pic)
+                card.setOnClickListener {
+                    onSelectPick(picture)
+                }
+                card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_grey200))
             } else {
-                Glide.with(context).load(context.resources.getDrawable(R.drawable.ic_camera)).into(pic)
+                holder.picsLayoutBinding.run {
+                    card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_arrow_upward_24))
+                    card.setOnClickListener {
+                        val i = Intent(context, AddIconsActivity::class.java)
+                        context.startActivity(i)
+                    }
+                }
             }
             card.popIn()
-            card.setOnClickListener {
-                onSelectPick(picture)
-            }
+
         }
     }
 

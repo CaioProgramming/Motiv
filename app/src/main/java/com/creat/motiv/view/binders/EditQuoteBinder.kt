@@ -33,11 +33,14 @@ class EditQuoteBinder(
 
 
     override fun onLoading() {
-        viewBind.editloading?.fadeIn()
+        viewBind.editloading.fadeIn()
+        viewBind.saveQuoteButton.text = ""
     }
 
     override fun onLoadFinish() {
-        viewBind.editloading?.fadeOut()
+        viewBind.editloading.fadeOut()
+        viewBind.saveQuoteButton.text = context.getString(R.string.save_quote_button)
+
     }
 
     override fun initView() {
@@ -70,7 +73,7 @@ class EditQuoteBinder(
             }
             quoteTextView.addTextChangedListener {
                 if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-                    quoteTextView.textSize = textSize(quote!!.quote.length, context)
+                    quoteTextView.autoSizeText()
                 }
             }
         }

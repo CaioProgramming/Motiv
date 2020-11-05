@@ -19,27 +19,15 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 app:title=""
-
                 app:titleEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:animateLayoutChanges="true"
-                    android:elevation="0dp"
-                    app:layout_collapseMode="pin" />
+                app:layout_scrollFlags="scroll|snap">
 
                 <com.google.android.material.tabs.TabLayout
                     android:paddingStart="8dp"
                     android:paddingTop="4dp"
                     android:paddingEnd="8dp"
-                    android:paddingBottom="4dp"
                     android:id="@+id/navigation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,21 +60,24 @@
                 </com.google.android.material.tabs.TabLayout>
 
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="?attr/actionBarSize"
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_margin="10dp"
-                    app:cardBackgroundColor="@color/colorPrimaryDark"
-                    app:cardCornerRadius="80dp">
+                    android:animateLayoutChanges="true"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin" />
 
-                    <ImageView
-                        android:id="@+id/userpic"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_gravity="center"
-                        android:scaleType="fitCenter"
-                        tools:src="@drawable/ic__41_floppy_disk" />
-                </androidx.cardview.widget.CardView>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userpic"
+                    android:layout_width="50dp"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:stateListAnimator="@animator/list_animator"
+                    android:transitionName="profilepic"
+                    app:civ_circle_background_color="@color/colorPrimaryDark"
+                    tools:src="@drawable/notfound" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -5,14 +5,14 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.view.*
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.DefaultDialogBinding
 import com.creat.motiv.databinding.DeleteAllAlertBinding
+import com.creat.motiv.databinding.ProfilepicselectBinding
 import com.creat.motiv.presenter.UserPresenter
 import com.creat.motiv.view.binders.DeleteAllBinder
-import com.creat.motiv.view.fragments.SelectIconFragment
+import com.creat.motiv.view.binders.ProfilePicSelectBinder
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -47,12 +47,16 @@ class Alert(private val activity: Activity, val dialogStyle: DialogStyles = Dial
 
     }
 
-    fun picturePicker(profilePresenter: UserPresenter, admin: Boolean, fragmentManager: FragmentManager) {
-        val picsFragmet = SelectIconFragment(admin, profilePresenter)
-        picsFragmet.show(fragmentManager, SELECT_ICON_FRAGMENT)
+
+    fun picturePicker(profilePresenter: UserPresenter, admin: Boolean) {
+        val profilepicselectBinding = DataBindingUtil.inflate<ProfilepicselectBinding>(LayoutInflater.from(activity), R.layout.profilepicselect_, null, false)
+        ProfilePicSelectBinder(activity, admin, profilepicselectBinding) {
+            profilePresenter.changeProfilePic(it)
+            myDialog.dismiss()
+        }
+        configureDialog(profilepicselectBinding.root)
 
     }
-
 
     fun deleteAllDialog() {
         val deleteAllAlertBinding = DataBindingUtil.inflate<DeleteAllAlertBinding>(LayoutInflater.from(activity), R.layout.delete_all_alert, null, false)

@@ -8,15 +8,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
+import android.os.Handler
 import android.os.Vibrator
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
-import com.creat.motiv.databinding.QuotescardBinding
+import com.creat.motiv.databinding.QuotesCardBinding
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
@@ -31,12 +34,12 @@ import java.util.*
 class QuoteCardBinder(
         var quote: Quote,
         override val context: Context,
-        override val viewBind: QuotescardBinding) : BaseView<Quote>() {
+        override val viewBind: QuotesCardBinding) : BaseView<Quote>() {
 
 
     override fun presenter(): QuotePresenter = QuotePresenter(this)
     val userBinder = UserViewBinder(quote.userID, context, viewBind.userTop)
-
+    val likeAdapter = CardLikeAdapter(quote.likes.toList(), context)
 
     init {
         initView()
@@ -53,10 +56,7 @@ class QuoteCardBinder(
     }
 
 
-
-
-
-    private fun QuotescardBinding.setupQuote() {
+    private fun QuotesCardBinding.setupQuote() {
         quoteCard.setCardBackgroundColor(quote.intBackColor())
         quoteTextView.text = quote.quote
         authorTextView.text = quote.author
@@ -75,85 +75,15 @@ class QuoteCardBinder(
                 .build()
         readMoreOption.addReadMoreTo(quoteTextView, quote.quote)
         quoteDate.text = data()
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-            quoteTextView.textSize = textSize(quote.quote.length, context)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            quoteTextView.autoSizeText()
         }
         onLoadFinish()
     }
 
-    private fun QuotescardBinding.setupCard() {
-
+    private fun QuotesCardBinding.setupCard() {
         quoteCard.setOnLongClickListener {
-            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            if (vibrator.hasVibrator()) {
-                val mVibratePattern = longArrayOf(100, 150)
-                vibrator.vibrate(mVibratePattern, -1) // for 500 ms
-            }
-            val popup = PopupMenu(context, viewBind.quoteTextView)
-            popup.run {
-                menuInflater.inflate(R.menu.quotemenu, popup.menu)
-                val user = presenter().currentUser
-                val editItem = menu.findItem(R.id.quoteEdit)
-                editItem.isVisible = user?.uid.equals(quote.userID)
-                val deleteItem = menu.findItem(R.id.quoteDelete)
-                deleteItem.isVisible = user?.uid.equals(quote.userID)
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                    setForceShowIcon(true)
-                }
-                setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-                    override fun onMenuItemClick(item: MenuItem?): Boolean {
-                        item?.let {
-                            when (it.itemId) {
-                                R.id.quoteCopy -> {
-                                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                    val clip = ClipData.newPlainText(quote.author, quote.quote)
-                                    clipboard.setPrimaryClip(clip)
-                                    snackmessage(context, message = "Frase de ${quote.author} copiada para a área de transferência")
-                                    return true
-                                }
-                                R.id.quoteShare -> {
-                                    Intent(Intent.ACTION_SEND).apply {
-                                        type = "text/pain"
-                                        putExtra(Intent.EXTRA_SUBJECT, "Motiv")
-                                        putExtra(Intent.EXTRA_TEXT, quote.quote + " -" + quote.author)
-                                        context.startActivity(Intent.createChooser(this, "Escolha onde quer compartilhar"))
-
-                                    }
-
-                                    return true
-                                }
-                                R.id.quoteReport -> {
-                                    val alert = Alert(context as Activity)
-                                    alert.showAlert(
-                                            message = context.getString(R.string.report_message),
-                                            buttonMessage = "denunciar",
-                                            icon = R.drawable.ic_astronaut,
-                                            okClick = {
-                                                QuoteModel(presenter()).denunciar(quote)
-                                            }, cancelClick = null)
-                                    return true
-                                }
-                                R.id.quoteEdit -> {
-                                    editQuote()
-                                    return true
-                                }
-                                R.id.quoteDelete -> {
-                                    presenter().delete(quote.id)
-                                    return true
-                                }
-                                else -> return false
-                            }
-                        }
-                        return false
-                    }
-                })
-                setOnDismissListener {
-                    unblurView(context)
-                }
-                show()
-                blurView(context)
-
-            }
+            showQuotePopupMenu()
             false
         }
         like.isChecked = quote.likes.contains(presenter().currentUser?.uid)
@@ -178,7 +108,80 @@ class QuoteCardBinder(
 
             }
         }
-        quoteCard.fadeIn()
+        //quoteCard.fadeIn()
+    }
+
+    private fun showQuotePopupMenu() {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            val mVibratePattern = longArrayOf(100, 150)
+            vibrator.vibrate(mVibratePattern, -1) // for 500 ms
+        }
+        val popup = PopupMenu(context, viewBind.quoteTextView)
+        popup.run {
+            menuInflater.inflate(R.menu.quotemenu, popup.menu)
+            val user = presenter().currentUser
+            val editItem = menu.findItem(R.id.quoteEdit)
+            editItem.isVisible = user?.uid.equals(quote.userID)
+            val deleteItem = menu.findItem(R.id.quoteDelete)
+            deleteItem.isVisible = user?.uid.equals(quote.userID)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                setForceShowIcon(true)
+            }
+            setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+                override fun onMenuItemClick(item: MenuItem?): Boolean {
+                    item?.let {
+                        when (it.itemId) {
+                            R.id.quoteCopy -> {
+                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                val clip = ClipData.newPlainText(quote.author, quote.quote)
+                                clipboard.setPrimaryClip(clip)
+                                snackmessage(context, message = "Frase de ${quote.author} copiada para a área de transferência")
+                                return true
+                            }
+                            R.id.quoteShare -> {
+                                Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/pain"
+                                    putExtra(Intent.EXTRA_SUBJECT, "Motiv")
+                                    putExtra(Intent.EXTRA_TEXT, quote.quote + " -" + quote.author)
+                                    context.startActivity(Intent.createChooser(this, "Escolha onde quer compartilhar"))
+
+                                }
+
+                                return true
+                            }
+                            R.id.quoteReport -> {
+                                val alert = Alert(context as Activity)
+                                alert.showAlert(
+                                        message = context.getString(R.string.report_message),
+                                        buttonMessage = "denunciar",
+                                        icon = R.drawable.ic_astronaut,
+                                        okClick = {
+                                            QuoteModel(presenter()).denunciar(quote)
+                                        }, cancelClick = null)
+                                return true
+                            }
+                            R.id.quoteEdit -> {
+                                editQuote()
+                                return true
+                            }
+                            R.id.quoteDelete -> {
+                                presenter().delete(quote.id)
+                                return true
+                            }
+                            else -> return false
+                        }
+                    }
+                    return false
+                }
+            })
+            setOnDismissListener {
+                unblurView(context)
+            }
+            show()
+            blurView(context)
+
+        }
     }
 
 
@@ -220,12 +223,28 @@ class QuoteCardBinder(
     }
 
     override fun onLoading() {
-        viewBind.loading.fadeIn()
+        if (viewBind.cardShimmer.quoteShimmer.visibility == VISIBLE) {
+            viewBind.cardShimmer.quoteShimmer.run {
+                viewBind.quoteMainView.invisible()
+                fadeIn()
+                startShimmer()
+            }
+        }
 
     }
 
     override fun onLoadFinish() {
-        viewBind.loading.fadeOut()
+        if (viewBind.cardShimmer.quoteShimmer.visibility == VISIBLE) {
+            viewBind.cardShimmer.quoteShimmer.run {
+                Handler().postDelayed({
+                    stopShimmer()
+                    fadeOut()
+                    viewBind.quoteMainView.fadeIn()
+                }, 2500)
+
+            }
+        }
+
     }
 
 

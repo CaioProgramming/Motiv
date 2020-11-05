@@ -9,6 +9,7 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import com.creat.motiv.R
 import com.github.mmin18.widget.RealtimeBlurView
@@ -41,8 +42,9 @@ fun View.repeatBounce() {
 }
 
 
-fun textSize(length: Int, context: Context): Float {
-    return when {
+fun TextView.autoSizeText() {
+    val length = text.toString().length
+    this.textSize = when {
         length <= 40 -> {
             context.resources.getDimension(R.dimen.big_quote_size)
         }

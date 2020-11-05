@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.databinding.QuotescardBinding
+import com.creat.motiv.databinding.QuotesCardBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.utilities.repeatFade
 import com.creat.motiv.view.binders.QuoteCardBinder
@@ -18,7 +18,7 @@ class RecyclerAdapter(var quoteList: List<Quote> = emptyList(),
     private var insideList = quoteList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val quotescardBinding: QuotescardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotescard, parent, false)
+        val quotescardBinding: QuotesCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotes_card, parent, false)
         return MyViewHolder(quotescardBinding)
     }
 
@@ -54,8 +54,8 @@ class RecyclerAdapter(var quoteList: List<Quote> = emptyList(),
 
     }
 
-    override fun getItemCount(): Int = insideList.size
+    override fun getItemCount(): Int = if (insideList.isNotEmpty()) insideList.size else 2
 
 
-    class MyViewHolder(val quotescardBinding: QuotescardBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
+    class MyViewHolder(val quotescardBinding: QuotesCardBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
 }

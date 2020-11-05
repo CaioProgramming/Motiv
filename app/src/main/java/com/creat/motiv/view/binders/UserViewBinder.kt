@@ -3,6 +3,7 @@ package com.creat.motiv.view.binders
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -22,19 +23,21 @@ class UserViewBinder(
 
     override fun presenter() = UserPresenter(this)
 
-    override fun onLoading() {
-        viewBind.userShimmer.startShimmer()
-    }
-
-
-
 
     override fun showData(data: User) {
         viewBind.run {
             userData = data
-            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(viewBind.userpic)
+            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(userpic)
             userContainer.setOnClickListener {
                 showUserProfile(data)
+            }
+            if (data.admin) {
+                userpic.borderColor = context.resources.getColor(R.color.material_yellow600)
+                userpic.borderWidth = 5
+
+            } else {
+                userpic.borderColor = Color.TRANSPARENT
+                userpic.borderWidth = 0
             }
         }
     }
@@ -62,12 +65,6 @@ class UserViewBinder(
         initView()
     }
 
-    override fun onLoadFinish() {
-        viewBind.userShimmer.run {
-            stopShimmer()
-            hideShimmer()
-        }
-    }
 
     override fun initView() {
         presenter().getUser(userID)

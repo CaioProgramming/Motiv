@@ -8,7 +8,7 @@
     <string name="fb_login_protocol_scheme">fb259084328108067</string>
 
     <string name="quote">Escreva uma frase</string>
-    <string name="author">Autor</string>
+    <string name="author">Escre o nome do autor</string>
     <string name="Welcome">Bem-vindo ao Motiv</string>
     <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
 
@@ -26,4 +26,5 @@
     <string name="edit_profile">Editar perfil</string>
     <string name="settings_activity_title">Configurações</string>
     <string name="about_activity_title">Sobre nós</string>
+    <string name="save_quote_button">Salvar Frase</string>
 </resources>

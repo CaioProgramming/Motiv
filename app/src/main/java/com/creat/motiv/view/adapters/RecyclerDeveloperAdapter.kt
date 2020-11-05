@@ -22,16 +22,24 @@ class RecyclerDeveloperAdapter(private var developerList: List<Developer> = empt
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        developerList[position].run {
-            Glide.with(context).load(this.photoURI).into(holder.picsLayoutBinding.pic)
-            holder.picsLayoutBinding.pic.slideInBottom()
+        if (developerList.isNotEmpty()) {
+            developerList[position].run {
+                Glide.with(context).load(this.photoURI).into(holder.picsLayoutBinding.pic)
+                holder.picsLayoutBinding.pic.slideInBottom()
+            }
+            holder.picsLayoutBinding.developerShimmer.run {
+                stopShimmer()
+                hideShimmer()
+            }
+        } else {
+            holder.picsLayoutBinding.developerShimmer.startShimmer()
         }
 
 
     }
 
 
-    override fun getItemCount(): Int = developerList.size
+    override fun getItemCount(): Int = if (developerList.isNotEmpty()) developerList.size else 4
 
 
     inner class MyViewHolder(val picsLayoutBinding: DeveloperLayoutBinding) : RecyclerView.ViewHolder(picsLayoutBinding.root)

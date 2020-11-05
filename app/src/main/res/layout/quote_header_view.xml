@@ -9,8 +9,8 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:padding="@dimen/default_radius"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:padding="@dimen/default_padding"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -21,7 +21,7 @@ class UserActivity : AppCompatActivity(R.layout.user_profile) {
             title = quserData.name
         }
         fragmentbind.run {
-            ProfileBinder(this@UserActivity, this.profileView, quserData, fragmentManager = supportFragmentManager)
+            ProfileBinder(this@UserActivity, this.profileView, quserData)
         }
 
 

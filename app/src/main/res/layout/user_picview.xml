@@ -12,7 +12,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_saturn_and_other_planets_primary"
-        app:civ_circle_background_color="@color/colorPrimaryDark" />
+        android:layout_marginStart="-12dp"
+        app:civ_circle_background_color="?android:textColorHint" />
 
 
 </layout>

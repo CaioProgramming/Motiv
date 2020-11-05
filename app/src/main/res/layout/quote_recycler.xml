@@ -9,19 +9,12 @@
         android:layout_marginTop="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            tools:visibility="gone"
+            tools:visibility="visible"
             android:visibility="gone"
             tools:listitem="@layout/quotescard"
             android:id="@+id/quotesrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <com.google.android.material.progressindicator.ProgressIndicator
-            style="@style/App_progress_Indicator"
-            android:id="@+id/loading"
-            android:layout_centerInParent="true"
-            tools:visibility="visible"
-            android:visibility="gone" />
 
         <include
             android:id="@+id/not_found_include"

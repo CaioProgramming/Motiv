@@ -7,7 +7,6 @@ import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.beans.Developer
 import com.creat.motiv.presenter.DeveloperPresenter
 import com.creat.motiv.utilities.fadeIn
-import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.utilities.gone
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerDeveloperAdapter
@@ -23,12 +22,10 @@ class DeveloperBinder(
     }
 
     override fun onLoading() {
-        viewBind.loading.fadeIn()
         viewBind.quotesrecyclerview.gone()
     }
 
     override fun onLoadFinish() {
-        viewBind.loading.fadeOut()
     }
 
     override fun showListData(list: List<Developer>) {

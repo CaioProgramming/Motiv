@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
+        android:layout_margin="4dp"
         android:id="@+id/card"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="1dp"
+        android:checkable="true"
         android:stateListAnimator="@animator/list_animator"
         app:cardBackgroundColor="@color/oblack"
         android:orientation="vertical"
@@ -22,8 +24,8 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/icon_info"
             android:hapticFeedbackEnabled="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/me" />
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic__41_floppy_disk" />
 
 
         <ProgressBar
@@ -43,6 +45,6 @@
             android:text="Erro ao encontrar ícone"
             android:textColor="@color/material_red300"
             android:visibility="gone" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
 

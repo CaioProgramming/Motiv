@@ -12,22 +12,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_edit_quote.*
 
-class EditQuoteActivity : AppCompatActivity() {
+class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
     var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val popupbind: ActivityEditQuoteBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_quote)
-        setContentView(popupbind.root)
         val quotedata = intent.getSerializableExtra("Quote") as? Quote
         quotedata?.let {
-            EditQuoteBinder(it,
-                    this,
-                    popupbind.quoteFormView)
+            EditQuoteBinder(it, this, popupbind.quoteFormView)
             setSupportActionBar(toolbar)
-            supportActionBar?.let {
-                it.setDisplayShowCustomEnabled(true)
+            supportActionBar?.let { actionBar ->
+                actionBar.setDisplayShowCustomEnabled(true)
                 toolbar.setNavigationOnClickListener { finish() }
             }
         }
