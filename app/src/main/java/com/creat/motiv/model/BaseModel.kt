@@ -5,6 +5,7 @@ import com.creat.motiv.contract.ModelContract
 import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.utilities.ErrorType
 import com.creat.motiv.utilities.MessageType
+import com.creat.motiv.utilities.OperationType
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -25,7 +26,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     fun saveComplete(data: T): OnCompleteListener<DocumentReference> {
         return OnCompleteListener {
             if (it.isSuccessful) {
-                presenter.modelCallBack(successMessage("Dados salvos com sucesso: $data"))
+                presenter.modelCallBack(successMessage("Dados salvos com sucesso: $data", OperationType.DATA_SAVED))
             } else {
                 presenter.modelCallBack(errorMessage("Ocorreu um erro ao salvar os dados de $data \n ${it.exception?.message} "))
             }
@@ -35,12 +36,13 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     fun updateComplete(data: T): OnCompleteListener<Void> {
         return OnCompleteListener {
             if (it.isSuccessful) {
-                presenter.modelCallBack(successMessage("Dados atualizados com sucesso: $data"))
+                presenter.modelCallBack(successMessage("Dados atualizados com sucesso: $data", OperationType.DATA_UPDATED))
             } else {
                 presenter.modelCallBack(errorMessage("Ocorreu um erro ao atualizar os dados de $data \n ${it.exception?.message} "))
             }
         }
     }
+
 
     override fun addData(data: T, forcedID: String?) {
         GlobalScope.launch {
@@ -53,7 +55,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     }
 
     fun errorMessage(message: String = "Ocorreu um erro ao processar", errorType: ErrorType = ErrorType.UNKNOW): DTOMessage = DTOMessage(message, MessageType.ERROR, errorType)
-    fun successMessage(message: String = "Operação concluída com sucesso"): DTOMessage = DTOMessage(message, MessageType.SUCCESS)
+    fun successMessage(message: String = "Operação concluída com sucesso", operationType: OperationType): DTOMessage = DTOMessage(message, MessageType.SUCCESS, operationType = operationType)
     fun warningMessage(message: String = "Um erro inesperado aconteceu, recomenda-se verificar"): DTOMessage = DTOMessage(message, MessageType.WARNING)
     fun infoMessage(message: String): DTOMessage = DTOMessage(message, MessageType.INFO)
 
@@ -99,7 +101,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
         for (doc in value!!) {
             deserializeDataSnapshot(doc)?.let { dataList.add(it) }
         }
-        presenter.modelCallBack(successMessage("Dados recebidos: $dataList"))
+        presenter.modelCallBack(successMessage("Dados recebidos: $dataList", OperationType.DATA_RETRIEVED))
         presenter.onDataRetrieve(dataList)
 
     }

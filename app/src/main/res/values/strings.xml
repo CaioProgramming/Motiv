@@ -12,7 +12,7 @@
     <string name="Welcome">Bem-vindo ao Motiv</string>
     <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
 
-    <string name="developed_by">Motiv desenvolvido por Inlustris em 2018, todos os direitos reservados</string>
+    <string name="developed_by">by Inlustris since 2018</string>
 
     <string name="icon_info">user icon</string>
     <string name="reference">reference</string>
@@ -23,4 +23,7 @@
     <string name="dribble_description">Dribbble is where designers gain inspiration, feedback, community, and jobs and is your best resource to discover and connect with designers worldwide.</string>
     <string name="support_devs">Apoiar desenvolvedores</string>
     <string name="follow_user">Seguir usuário</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="settings_activity_title">Configurações</string>
+    <string name="about_activity_title">Sobre nós</string>
 </resources>

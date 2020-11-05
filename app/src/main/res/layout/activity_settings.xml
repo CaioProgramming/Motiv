@@ -30,20 +30,43 @@
                     android:id="@+id/changenameView"
                     layout="@layout/change_name_view" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/deleteposts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/oblack"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center|start"
-                    android:padding="@dimen/default_padding"
-                    android:text="Remover posts"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_chevron_right_black_24dp" />
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:stateListAnimator="@animator/list_animator">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        app:cardBackgroundColor="@color/material_red500"
+                        app:cardCornerRadius="5dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:importantForAccessibility="no"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_garbage"
+                            app:tint="@color/white" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center|start"
+                        android:text="Remover posts"
+                        android:textAllCaps="false"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/min_quote_size" />
+
+                </LinearLayout>
 
 
                 <TextView
@@ -52,10 +75,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
+                    android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:padding="10dp"
                     android:stateListAnimator="@animator/list_animator"
-                    android:text="Sair"
+                    android:text="Deslogar"
                     android:textAllCaps="false"
                     android:textColor="@color/material_red500"
                     android:textStyle="bold" />

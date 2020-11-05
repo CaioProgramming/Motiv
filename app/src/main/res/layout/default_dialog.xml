@@ -8,7 +8,7 @@
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:orientation="vertical"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="?android:colorBackground"
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp">
 
@@ -35,9 +35,7 @@
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
             <LinearLayout

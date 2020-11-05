@@ -26,6 +26,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:contentDescription="Profile picture"
+            app:civ_circle_background_color="@color/colorPrimaryDark"
             android:fitsSystemWindows="true"
             android:tooltipText="Alterar foto de perfil"
             android:stateListAnimator="@animator/list_animator"
@@ -53,19 +54,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/messageButton"
-                android:background="@drawable/round"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:text="@string/follow_user"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:backgroundTint="@color/colorPrimaryDark" />
+                android:textStyle="bold" />
 
             <ImageButton
 
                 android:id="@+id/messageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/settingsButton"
                 android:layout_marginStart="4dp"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/round"
                 android:backgroundTint="@color/colorAccent"
                 android:contentDescription="Enviar mensagem ao usuário"
@@ -73,19 +72,7 @@
                 android:src="@drawable/ic_paper_plane"
                 android:tint="@color/white" />
 
-            <ImageButton
 
-                android:id="@+id/settingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/round"
-                android:backgroundTint="?android:textColorPrimary"
-                android:contentDescription="Message button"
-                android:padding="12dp"
-                android:src="@drawable/ic_settings"
-                android:tint="?android:colorBackground" />
 
         </RelativeLayout>
     </LinearLayout>

@@ -109,15 +109,10 @@
 
         </LinearLayout>
 
-        <com.budiyev.android.circularprogressbar.CircularProgressBar
-            android:id="@+id/loading"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+        <com.google.android.material.progressindicator.ProgressIndicator
             android:layout_gravity="bottom|end"
-            android:layout_margin="10dp"
-            android:visibility="gone"
-            app:foregroundStrokeColor="@color/colorAccent"
-            app:indeterminate="true" />
+            android:id="@+id/loading"
+            style="@style/App_progress_Indicator" />
     </com.google.android.material.card.MaterialCardView>
 
 

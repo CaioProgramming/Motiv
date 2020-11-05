@@ -11,4 +11,5 @@
     <color name="owhite">#0DFFFFFF</color>
     <color name="transparent">#00ffffff</color>
     <color name="lblack">#1A000000</color>
+    <color name="toolbar_bg">#673AB7</color>
 </resources>

@@ -15,7 +15,8 @@ import com.creat.motiv.view.binders.QuoteCardBinder
 class RecyclerAdapter(var quoteList: List<Quote> = emptyList(),
                       val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
-    var insideList = quoteList
+    private var insideList = quoteList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val quotescardBinding: QuotescardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotescard, parent, false)
         return MyViewHolder(quotescardBinding)

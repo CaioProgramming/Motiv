@@ -49,15 +49,10 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:listitem="@layout/quote_header_view" />
 
-        <com.budiyev.android.circularprogressbar.CircularProgressBar
+        <com.google.android.material.progressindicator.ProgressIndicator
+            style="@style/App_progress_Indicator"
             android:id="@+id/loading"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:foregroundStrokeColor="@color/colorAccent"
-            app:foregroundStrokeWidth="1dp"
-            app:indeterminate="true" />
+            android:layout_gravity="bottom|end" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

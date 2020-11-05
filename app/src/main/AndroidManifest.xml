@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.creat.motiv">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,6 +21,7 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".view.activities.EditQuoteActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:label="Editar post" />
         <activity android:name=".view.activities.UserActivity" />
         <activity
@@ -78,6 +80,7 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.creativ.fileprovider"
+            tools:replace="android:authorities"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

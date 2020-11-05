@@ -35,6 +35,11 @@ fun View.invisible() {
     visibility = INVISIBLE
 }
 
+fun View.repeatBounce() {
+    val bounceRepeat = AnimationUtils.loadAnimation(context, R.anim.bounce_repeat)
+    startAnimation(bounceRepeat)
+}
+
 
 fun textSize(length: Int, context: Context): Float {
     return when {
@@ -94,6 +99,12 @@ fun View.popIn() {
     visible()
     val popIn = AnimationUtils.loadAnimation(context, R.anim.pop_in)
     startAnimation(popIn)
+}
+
+fun View.slideInBottom() {
+    visible()
+    val slideInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom)
+    startAnimation(slideInBottom)
 }
 
 fun toHex(intColor: Int): String {

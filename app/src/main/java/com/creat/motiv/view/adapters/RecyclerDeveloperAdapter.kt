@@ -7,15 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.databinding.PicsLayoutBinding
+import com.creat.motiv.databinding.DeveloperLayoutBinding
 import com.creat.motiv.model.beans.Developer
-import com.creat.motiv.utilities.popIn
+import com.creat.motiv.utilities.slideInBottom
 
 class RecyclerDeveloperAdapter(private var developerList: List<Developer> = emptyList(),
                                private val context: Context) : RecyclerView.Adapter<RecyclerDeveloperAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false)
+        val picsBind: DeveloperLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.developer_layout, parent, false)
         return MyViewHolder(picsBind)
     }
 
@@ -24,8 +24,7 @@ class RecyclerDeveloperAdapter(private var developerList: List<Developer> = empt
 
         developerList[position].run {
             Glide.with(context).load(this.photoURI).into(holder.picsLayoutBinding.pic)
-            holder.picsLayoutBinding.pic.popIn()
-            holder.picsLayoutBinding.card.setCardBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
+            holder.picsLayoutBinding.pic.slideInBottom()
         }
 
 
@@ -35,5 +34,5 @@ class RecyclerDeveloperAdapter(private var developerList: List<Developer> = empt
     override fun getItemCount(): Int = developerList.size
 
 
-    inner class MyViewHolder(val picsLayoutBinding: PicsLayoutBinding) : RecyclerView.ViewHolder(picsLayoutBinding.root)
+    inner class MyViewHolder(val picsLayoutBinding: DeveloperLayoutBinding) : RecyclerView.ViewHolder(picsLayoutBinding.root)
 }

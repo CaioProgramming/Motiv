@@ -15,6 +15,8 @@
         app:cardElevation="0dp">
 
         <LinearLayout
+            android:id="@+id/mainView"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
@@ -26,6 +28,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Escolher novo ícone de perfil" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addIcons"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Adicionar novos ícones" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/picsrecycler"
@@ -44,6 +53,10 @@
 
 
         </LinearLayout>
+
+        <com.google.android.material.progressindicator.ProgressIndicator
+            android:id="@+id/loading"
+            style="@style/App_progress_Indicator" />
 
 
     </androidx.cardview.widget.CardView>

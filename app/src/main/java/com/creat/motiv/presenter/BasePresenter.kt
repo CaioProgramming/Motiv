@@ -5,13 +5,13 @@ import com.creat.motiv.contract.PresenterContract
 import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.utilities.MessageType
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 
 abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
 
-    fun currentUser(): FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    val currentUser: FirebaseUser?
+        get() = model.currentUser
 
 
     fun loadData() {
@@ -52,6 +52,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
             MessageType.INFO -> Log.INFO
         }
         Log.println(priority, javaClass.simpleName, dtoMessage.message)
+        view.getCallBack(dtoMessage)
     }
 
 

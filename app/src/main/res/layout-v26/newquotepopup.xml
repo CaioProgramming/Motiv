@@ -131,6 +131,8 @@
                     android:padding="16dp"
                     android:singleLine="false"
                     android:textStyle="bold"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
                     android:typeface="normal" />
 
                 <EditText

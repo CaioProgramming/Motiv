@@ -11,6 +11,7 @@ import com.creat.motiv.utilities.DialogStyles
 import com.creat.motiv.view.binders.ChangeNameBinder
 import com.creat.motiv.view.binders.ProfileTopBinder
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.title_layout.*
 
 
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
@@ -27,7 +28,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
             ChangeNameBinder(this@SettingsActivity, actbind.changenameView)
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             firebaseUser?.let {
-                ProfileTopBinder(uid = it.uid, viewBind = this.profileView, context = this@SettingsActivity, isSettings = true)
+                ProfileTopBinder(uid = it.uid, viewBind = this.profileView, context = this@SettingsActivity, isSettings = true, fragmentManager = supportFragmentManager)
             }
             exit.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
@@ -36,6 +37,16 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                 startActivity(intent)
             }
         }
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            toolbar.setNavigationOnClickListener {
+                onBackPressed()
+            }
+            it.title = ""
+        }
+
+        collapseTitle.text = getString(R.string.settings_activity_title)
     }
 
 }

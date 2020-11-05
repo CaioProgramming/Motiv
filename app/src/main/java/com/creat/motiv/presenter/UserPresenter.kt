@@ -7,7 +7,7 @@ import com.creat.motiv.view.BaseView
 
 class UserPresenter(override val view: BaseView<User>) : BasePresenter<User>() {
 
-    fun getUser(uid: String = currentUser()!!.uid) {
+    fun getUser(uid: String = currentUser!!.uid) {
         model.getSingleData(uid)
     }
 

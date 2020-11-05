@@ -72,18 +72,29 @@
                 </com.google.android.material.tabs.TabLayout>
 
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/userpic"
-                    android:layout_width="90dp"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="?attr/actionBarSize"
                     android:layout_height="?attr/actionBarSize"
-                    tools:src="@drawable/notfound" />
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/colorPrimaryDark"
+                    app:cardCornerRadius="80dp">
+
+                    <ImageView
+                        android:id="@+id/userpic"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        tools:src="@drawable/ic__41_floppy_disk" />
+                </androidx.cardview.widget.CardView>
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
-            android:layout_marginBottom="?attr/actionBarSize"
             android:padding="@dimen/default_padding"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

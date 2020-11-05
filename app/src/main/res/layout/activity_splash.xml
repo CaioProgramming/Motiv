@@ -2,27 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:colorBackground"
     android:layout_height="match_parent"
     android:id="@+id/layout"
     tools:context=".view.activities.Splash">
 
 
+    <com.veeyaar.supergradienttextview.GradientTextView
+        android:id="@+id/splashTitle"
+        style="@style/TextAppearance.MaterialComponents.Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:textStyle="bold"
+        app:endColor="@color/colorPrimaryDark"
+        app:startColor="@color/colorPrimary" />
 
-        <ImageView
-            android:layout_centerInParent="true"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_saturn_and_other_planets" />
 
-
-    <TextView
-        android:text="Inlustris"
+    <com.veeyaar.supergradienttextview.GradientTextView
+        android:text="@string/developed_by"
+        app:endColor="@color/material_teal800"
+        app:startColor="@color/material_blue900"
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:textColor="@color/lwhite"
         android:id="@+id/inlustrisbrand"
-         android:layout_width="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

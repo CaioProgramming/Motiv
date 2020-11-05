@@ -2,6 +2,7 @@ package com.creat.motiv.contract
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
+import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.presenter.BasePresenter
 
@@ -23,6 +24,7 @@ interface ViewContract<T> where  T : BaseBean {
     fun initView()
     fun showListData(list: List<T>)
     fun showData(data: T)
+    fun getCallBack(dtoMessage: DTOMessage)
 
 
 }

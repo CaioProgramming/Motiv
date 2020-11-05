@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
+import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utilities.*
@@ -33,11 +33,11 @@ class EditQuoteBinder(
 
 
     override fun onLoading() {
-        Toast.makeText(context, "Salvando frase...", Toast.LENGTH_LONG).show()
+        viewBind.editloading?.fadeIn()
     }
 
     override fun onLoadFinish() {
-
+        viewBind.editloading?.fadeOut()
     }
 
     override fun initView() {
@@ -54,6 +54,7 @@ class EditQuoteBinder(
             authorTextView.setTextColor(data.intTextColor())
             quoteTextView.setText(data.quote)
             authorTextView.setText(data.author)
+            updateFont()
             textcolorfab.imageTintList = ColorStateList.valueOf(data.intTextColor())
             fontSelector.setTextColor(data.intTextColor())
             background.setCardBackgroundColor(data.intBackColor())
@@ -166,16 +167,31 @@ class EditQuoteBinder(
         return Calendar.getInstance().time
     }
 
+    override fun getCallBack(dtoMessage: DTOMessage) {
+        super.getCallBack(dtoMessage)
+        if (dtoMessage.operationType == OperationType.DATA_SAVED) {
+            snackmessage(context, message = "Citação salva com sucesso!", backcolor = context.resources.getColor(R.color.material_green500))
+            quote = emptyQuote()
+            quote?.let { showData(it) }
+        } else if (dtoMessage.operationType == OperationType.DATA_UPDATED) {
+            snackmessage(context, message = "Citação atualizada com sucesso!", backcolor = context.resources.getColor(R.color.material_green500))
+            if (context is Activity) {
+                context.finish()
+            }
+        }
+    }
+
     fun salvar() {
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
+            snackmessage(context, message = if (it.id.isBlank()) "Salvando citação" else "Atualizando citação")
             presenter().saveData(it, it.id)
         }
     }
 
     private fun emptyQuote(): Quote {
-        val firebaseUser = presenter().currentUser()
+        val firebaseUser = presenter().currentUser
         val backcolor = if (Tools.darkMode(context as Activity)) toHex(Color.BLACK) else toHex(Color.WHITE)
         val textcolor = if (!Tools.darkMode(context)) toHex(Color.BLACK) else toHex(Color.WHITE)
         return Quote(

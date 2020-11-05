@@ -29,7 +29,6 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
                 onBackPressed()
             }
         }
-
     }
 
 

@@ -4,17 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utilities.fadeIn
-import com.creat.motiv.utilities.gone
-import com.creat.motiv.utilities.visible
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.UserActivity
 
@@ -30,31 +27,20 @@ class UserViewBinder(
     }
 
 
-    fun displayView() {
-        viewBind.userContainer.visible()
-        val inAnim = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom)
-        viewBind.userContainer.startAnimation(inAnim)
-    }
 
-    fun hideView() {
-        val outAnim = AnimationUtils.loadAnimation(context, R.anim.slide_out)
-        viewBind.userContainer.startAnimation(outAnim)
-        viewBind.userContainer.gone()
-    }
 
     override fun showData(data: User) {
         viewBind.run {
             userData = data
-            Glide.with(context).load(data.picurl).into(viewBind.userpic)
+            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(viewBind.userpic)
             userContainer.setOnClickListener {
                 showUserProfile(data)
             }
-            userContainer.fadeIn()
         }
     }
 
     private fun showUserProfile(user: User) {
-        if (user.uid != presenter().currentUser()?.uid) {
+        if (user.uid != presenter().currentUser?.uid) {
             val i = Intent(context, UserActivity::class.java)
             i.putExtra("USER", user)
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity,

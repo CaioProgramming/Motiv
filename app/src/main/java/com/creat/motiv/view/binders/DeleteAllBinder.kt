@@ -1,5 +1,6 @@
 package com.creat.motiv.view.binders
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import com.creat.motiv.databinding.DeleteAllAlertBinding
@@ -29,10 +30,16 @@ class DeleteAllBinder(val dialog: Dialog, override val context: Context, overrid
             cancelDelete.setOnClickListener {
                 dialog.dismiss()
             }
+
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
             deleteConfirm.setOnClickListener {
                 presenter().deleteAll(list)
             }
-            dialog.show()
+            if (!(context as Activity).isFinishing) {
+                dialog.show()
+            }
         }
     }
 }

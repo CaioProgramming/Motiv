@@ -50,13 +50,22 @@ class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>()
             }
             if (snapshot != null && snapshot.exists()) {
                 deserializeDataSnapshot(snapshot)?.let {
-                    if (it.token.isNotBlank()) {
+                    if (it.token.isBlank()) {
                         presenter.modelCallBack(errorMessage("Usuário não encontrado, salvando ele na base de dados...", ErrorType.USERNOTFOUND))
-                        currentUser!!.getIdToken(true).addOnCompleteListener { task ->
+                        currentUser!!.getIdToken(false).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 addData(User.fromFirebaseWithToken(currentUser, task.result.token!!), currentUser.uid)
                             } else {
                                 errorMessage("Não foi possível obter o Token do usuário")
+                            }
+                        }
+                    } else {
+                        if (currentUser!!.uid == it.uid) {
+                            currentUser.getIdToken(false).addOnSuccessListener { result ->
+                                if (result.token != null && it.token != result.token) {
+                                    it.token = result.token!!
+                                    addData(it, it.id)
+                                }
                             }
                         }
                     }
@@ -65,7 +74,7 @@ class UserModel(override val presenter: BasePresenter<User>) : BaseModel<User>()
             } else {
                 if (id == currentUser?.uid) {
                     presenter.modelCallBack(errorMessage("Usuário não encontrado, salvando ele na base de dados...", ErrorType.USERNOTFOUND))
-                    currentUser.getIdToken(true).addOnCompleteListener {
+                    currentUser.getIdToken(false).addOnCompleteListener {
                         if (it.isSuccessful) {
                             addData(User.fromFirebaseWithToken(currentUser, it.result.token!!), currentUser.uid)
                         } else {

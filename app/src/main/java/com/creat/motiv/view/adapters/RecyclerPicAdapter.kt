@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.PicsLayoutBinding
 import com.creat.motiv.model.beans.Pics
+import com.creat.motiv.utilities.NEW_PIC
 import com.creat.motiv.utilities.popIn
 
 class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
@@ -34,9 +35,13 @@ class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val picture = pictureList[holder.adapterPosition]
         holder.picsLayoutBinding.run {
-            Glide.with(context).load(picture.uri).into(pic)
+            if (picture.id != NEW_PIC) {
+                Glide.with(context).load(picture.uri).into(pic)
+            } else {
+                Glide.with(context).load(context.resources.getDrawable(R.drawable.ic_camera)).into(pic)
+            }
             card.popIn()
-            pic.setOnClickListener {
+            card.setOnClickListener {
                 onSelectPick(picture)
             }
         }

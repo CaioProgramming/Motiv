@@ -89,4 +89,24 @@
         <item name="android:popupBackground">@drawable/round</item>
     </style>
 
+    <style name="App_progress_Indicator">
+        <item name="trackColor">@color/transparent</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="indicatorType">circular</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15%</item>
+    </style>
+
 </resources>

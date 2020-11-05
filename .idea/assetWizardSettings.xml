@@ -214,7 +214,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_bookmark_black_24dp.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/delete_forever/baseline_delete_forever_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -226,8 +226,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
-                            <entry key="outputName" value="ic_camera" />
-                            <entry key="sourceFile" value="C:\Users\cacai\Downloads\camera.svg" />
+                            <entry key="outputName" value="ic_pen" />
+                            <entry key="sourceFile" value="C:\Users\cacai\Downloads\pen.svg" />
                           </map>
                         </option>
                       </PersistentState>

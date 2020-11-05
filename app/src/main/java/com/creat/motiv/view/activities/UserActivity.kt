@@ -11,18 +11,17 @@ import com.creat.motiv.view.binders.ProfileBinder
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity(R.layout.user_profile) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fragmentbind: UserProfileBinding = DataBindingUtil.setContentView(this, R.layout.user_profile)
-        setContentView(fragmentbind.root)
         val quserData = intent.getSerializableExtra("USER") as User
         setSupportActionBar(toolbar).run {
             title = quserData.name
         }
         fragmentbind.run {
-            ProfileBinder(this@UserActivity, this.profileView, quserData)
+            ProfileBinder(this@UserActivity, this.profileView, quserData, fragmentManager = supportFragmentManager)
         }
 
 

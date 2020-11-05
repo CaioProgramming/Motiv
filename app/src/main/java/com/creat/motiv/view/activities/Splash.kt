@@ -5,30 +5,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.repeatFade
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 
-class Splash : AppCompatActivity() {
+class Splash : AppCompatActivity(R.layout.activity_splash) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
-
-
-        setContentView(R.layout.activity_splash)
-        val brand = findViewById<TextView>(R.id.inlustrisbrand)
+        splashTitle.repeatFade()
         val datenow = Calendar.getInstance().time
         val calendar = GregorianCalendar()
         calendar.time = datenow
-        brand.text = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
+        inlustrisbrand.text = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val handler = Handler()
         handler.postDelayed({
@@ -64,6 +61,7 @@ class Splash : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
+            splashTitle.fadeIn()
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
                 val i = Intent(this, MainActivity::class.java)

@@ -92,7 +92,7 @@ class QuoteCardBinder(
             val popup = PopupMenu(context, viewBind.quoteTextView)
             popup.run {
                 menuInflater.inflate(R.menu.quotemenu, popup.menu)
-                val user = presenter().currentUser()
+                val user = presenter().currentUser
                 val editItem = menu.findItem(R.id.quoteEdit)
                 editItem.isVisible = user?.uid.equals(quote.userID)
                 val deleteItem = menu.findItem(R.id.quoteDelete)
@@ -156,9 +156,9 @@ class QuoteCardBinder(
             }
             false
         }
-        like.isChecked = quote.likes.contains(presenter().currentUser()?.uid)
+        like.isChecked = quote.likes.contains(presenter().currentUser?.uid)
         like.setOnClickListener {
-            if (quote.likes.contains(presenter().currentUser()?.uid)) {
+            if (quote.likes.contains(presenter().currentUser?.uid)) {
                 presenter().deslikeQuote(quote)
             } else {
                 presenter().likeQuote(quote)

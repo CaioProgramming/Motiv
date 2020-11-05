@@ -37,7 +37,7 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
 
     fun likeQuote(quote: Quote) {
         view.onLoading()
-        val user = currentUser()
+        val user = currentUser
         user?.let {
             quote.likes.add(user.uid)
             model.addData(quote, quote.id)
@@ -46,7 +46,7 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
 
     fun deslikeQuote(quote: Quote) {
         view.onLoading()
-        val user = currentUser()
+        val user = currentUser
         user?.let {
             quote.likes.remove(user.uid)
             model.addData(quote, quote.id)

@@ -2,16 +2,18 @@ package com.creat.motiv.view.binders
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.GONE
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.utilities.gone
+import com.creat.motiv.utilities.repeatBounce
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerAdapter
+
 
 class QuotesListBinder(override val context: Context, override val viewBind: QuoteRecyclerBinding, useinit: Boolean = true) : BaseView<Quote>(useinit) {
 
@@ -21,6 +23,7 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
 
     init {
         viewBind.quotesrecyclerview.run {
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             adapter = quoteadapter
             layoutManager = LinearLayoutManager(context, VERTICAL, false)
             setHasFixedSize(true)
@@ -31,7 +34,7 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
     }
 
     override fun onLoading() {
-        if (viewBind.quotesrecyclerview.visibility == GONE) {
+        if (quoteadapter.quoteList.isEmpty()) {
             viewBind.loading.fadeIn()
             viewBind.quotesrecyclerview.gone()
         }
@@ -59,12 +62,14 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
         if (list.isEmpty()) {
             viewBind.quotesrecyclerview.gone()
             viewBind.notFoundInclude.emptyList.fadeIn()
+            viewBind.notFoundInclude.emptyImage.repeatBounce()
         } else {
             viewBind.loading.fadeOut()
             viewBind.notFoundInclude.emptyList.fadeOut()
-            if (viewBind.quotesrecyclerview.visibility == GONE) {
+            if (quoteadapter.quoteList.isEmpty()) {
                 viewBind.quotesrecyclerview.fadeIn()
             }
+            viewBind.notFoundInclude.emptyImage.clearAnimation()
         }
         quoteadapter.addData(list)
     }

@@ -4,8 +4,9 @@ import com.google.firebase.auth.FirebaseUser
 
 data class User(var name: String = "",
                 val uid: String = "",
-                val token: String = "",
+                var token: String = "",
                 val admin: Boolean = false,
+                var followers: ArrayList<User> = ArrayList(),
                 var picurl: String = "") : BaseBean(uid) {
 
 
