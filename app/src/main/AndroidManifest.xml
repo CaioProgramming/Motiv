@@ -12,7 +12,8 @@
 
 
     <application
-        android:name=".view.activities.App"
+        android:name=".MotivApplication"
+
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,8 +28,10 @@
             android:name=".view.activities.EditQuoteActivity"
             android:label="Editar post"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.activities.UserActivity" />
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".view.activities.UserActivity"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".view.activities.ErrorActivity"
             android:clearTaskOnLaunch="true"
@@ -65,6 +68,7 @@
         </activity> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <activity
             android:name=".view.activities.MainActivity"
+            android:hardwareAccelerated="true"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
@@ -80,7 +84,7 @@
             android:resource="@color/colorPrimaryDark" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4979584089010597~4181793255" />
+            android:value="ca-app-pub-8016530757684172~1819154029" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

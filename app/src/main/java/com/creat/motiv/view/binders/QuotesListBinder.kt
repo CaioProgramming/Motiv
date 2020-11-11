@@ -12,14 +12,14 @@ import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.utilities.gone
 import com.creat.motiv.utilities.repeatBounce
 import com.creat.motiv.view.BaseView
-import com.creat.motiv.view.adapters.RecyclerAdapter
+import com.creat.motiv.view.adapters.QuoteRecyclerAdapter
 
 
 class QuotesListBinder(override val context: Context, override val viewBind: QuoteRecyclerBinding, useinit: Boolean = true) : BaseView<Quote>(useinit) {
 
 
     override fun presenter() = QuotePresenter(this)
-    val quoteadapter = RecyclerAdapter(context = context)
+    val quoteadapter = QuoteRecyclerAdapter(context = context)
 
     init {
         viewBind.quotesrecyclerview.run {
@@ -58,7 +58,10 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
                 viewBind.quotesrecyclerview.fadeIn()
             }
             viewBind.notFoundInclude.emptyImage.clearAnimation()
-            quoteadapter.addData(list)
+            viewBind.notFoundInclude.emptyList.fadeOut()
+            val quotes = ArrayList<Quote>(list)
+            quotes.add(Quote.advertise_quote())
+            quoteadapter.addData(quotes.toList())
         }
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,8 +39,11 @@ class EditQuoteBinder(
     }
 
     override fun onLoadFinish() {
-        viewBind.editloading.fadeOut()
-        viewBind.saveQuoteButton.text = context.getString(R.string.save_quote_button)
+        Handler().postDelayed({
+            viewBind.editloading.fadeOut()
+            viewBind.saveQuoteButton.text = context.getString(R.string.save_quote_button)
+        }, 1500)
+
 
     }
 
@@ -188,7 +192,7 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
-            snackmessage(context, message = if (it.id.isBlank()) "Salvando citação" else "Atualizando citação")
+            //snackmessage(context, message = if (it.id.isBlank()) "Salvando citação" else "Atualizando citação")
             presenter().saveData(it, it.id)
         }
     }

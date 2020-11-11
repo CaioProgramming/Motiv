@@ -29,10 +29,12 @@ abstract class BaseView<T>(val useInit: Boolean = true) : ViewContract<T> where 
 
     override fun showListData(list: List<T>) {
         Log.i(javaClass.simpleName, "showListData: $list")
+        onLoadFinish()
     }
 
     override fun showData(data: T) {
         Log.i(javaClass.simpleName, "showData: $data")
+        onLoadFinish()
     }
 
     override fun success(message: String) {

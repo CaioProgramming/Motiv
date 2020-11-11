@@ -43,11 +43,18 @@
         <item name="android:padding">@dimen/default_padding</item>
     </style>
 
+    <style name="TabsTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/lato_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/default_padding</item>
+    </style>
+
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/pop_in</item>
         <item name="android:windowExitAnimation">@anim/pop_out</item>
     </style>
+
     <style name="BottomDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>

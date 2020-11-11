@@ -3,43 +3,24 @@ package com.creat.motiv.utilities
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
-import android.os.Handler
 import android.util.Log
 import android.view.View
-import com.creat.motiv.R
-import com.creat.motiv.model.beans.Artists
-import java.text.ParseException
-import java.text.SimpleDateFormat
+import com.bumptech.glide.Glide
+import com.creat.motiv.BuildConfig
+import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_PORTRAIT
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import java.util.*
 
 
 object Tools {
-
-    internal var iconssite = arrayOf("https://flaticon.com", "https://dribbble.com", "https://material.io", "https://undraw.co", "https://mixkit.co", "https://icons8.com/ouch/")
-
-
-    fun dpToPx(dp: Int, context: Context): Int {
-        val density = context.resources.displayMetrics.density
-        return Math.round(dp.toFloat() * density)
-    }
-
-    fun inversebackcolor(activity: Activity): Int {
-        if (darkMode(activity)) {
-            return Color.BLACK
-        }
-        return Color.WHITE
-    }
-
-    fun inversetextcolor(activity: Activity): Int {
-        if (!darkMode(activity)) {
-            return Color.BLACK
-        }
-        return Color.WHITE
-    }
-
 
     fun setLightStatusBar(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -72,30 +53,6 @@ object Tools {
 
     private val empyquotes = arrayOf("Você não vai escrever nada? Tá achando que é festa?", "O vazio da sua existência não necessariamente precisa ser o vazio do bloco de texto, escreva algo!", "Você não quer ver o feed e ver um texto vazio né? Então por favor escreve algo aí", "Eu sei que as vezes você se sente vazio, " + "mas esse bloco de texto te ajuda a mostrar que ainda tem alguma coisa aí, então escreve por favor")
 
-
-    fun references(activity: Activity): ArrayList<Artists> {
-        val colors = intArrayOf(activity.resources.getColor(R.color.material_green500),
-                activity.resources.getColor(R.color.material_pink500),
-                activity.resources.getColor(R.color.material_grey600),
-                activity.resources.getColor(R.color.material_blue500),
-                activity.resources.getColor(R.color.material_teal500),
-                activity.resources.getColor(R.color.material_lime500))
-        val artists = ArrayList<Artists>()
-        for (i in iconssite.indices) {
-            artists.add(Artists(iconssite[i].replace(".com", "").replace("https://", ""), iconssite[i], colors[i]))
-        }
-
-
-
-        return artists
-    }
-
-    fun delayAction(runnable: Runnable, delay: Long) {
-        val handler = Handler()
-        handler.postDelayed(runnable, delay)
-    }
-
-
     fun fonts(context: Context): ArrayList<Typeface> {
         val fontsarchieves = arrayOf(Typeface.createFromAsset(context.assets, "fonts/Arvo-Regular_201.ttf"), Typeface.createFromAsset(context.assets, "fonts/Audrey-Normal.otf"), Typeface.createFromAsset(context.assets, "fonts/Cornerstone.ttf"), Typeface.createFromAsset(context.assets, "fonts/times.ttf"), Typeface.createFromAsset(context.assets, "fonts/MightypeScript.otf"), Typeface.createFromAsset(context.assets, "fonts/AmaticSC-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Amiko-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/BlackHanSans-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Cabin-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Cinzel-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/CinzelDecorative-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Farsan-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/FingerPaint-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/FredokaOne-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Inconsolata-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Lalezar-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Lobster-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Mogra-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Nunito-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/NunitoSans-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Pacifico-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Quicksand-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Rakkas-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Ranga-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Rasa-Regular.ttf"))
 
@@ -119,27 +76,35 @@ object Tools {
     }
 
 
-    fun convertDate(dia: String): Date {
+    fun loadAd(context: Context, quoteAdvertiseLayoutBinding: QuoteAdvertiseLayoutBinding) {
+        val adLoader = AdLoader.Builder(context, if (BuildConfig.DEBUG) TEST_ADS_ID else APP_AD_ID)
+        adLoader.forUnifiedNativeAd { ad: UnifiedNativeAd ->
+            if (context is Activity && context.isDestroyed) {
+                ad.destroy()
+                return@forUnifiedNativeAd
+            }
+            quoteAdvertiseLayoutBinding.advertise = ad
+            if (ad.icon != null) {
+                Glide.with(context).load(ad.icon.uri).into(quoteAdvertiseLayoutBinding.adAppIcon)
+            } else {
+                quoteAdvertiseLayoutBinding.adAppIcon.gone()
+            }
+            Glide.with(context).load(ad.images[0].uri).into(quoteAdvertiseLayoutBinding.adAppImage)
+            quoteAdvertiseLayoutBinding.appRating.isEnabled = false
 
+            quoteAdvertiseLayoutBinding.adCard.fadeIn()
 
-        //2. Test - Convert Date to Calendar
-        //3. Test - Convert Calendar to Date
-        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        var result = Date()
-
-        try {
-
-            result = df.parse(dia)
-            println("post day $result")
-        } catch (e: ParseException) {
-            e.printStackTrace()
         }
-
-        println(dia)
-
-
-        return result
-
+                .withAdListener(object : AdListener() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        Log.e("AdMob", "onAdFailedToLoad: ${adError.message}")
+                        quoteAdvertiseLayoutBinding.adCard.gone()
+                    }
+                })
+                .withNativeAdOptions(NativeAdOptions.Builder().setMediaAspectRatio(NATIVE_MEDIA_ASPECT_RATIO_PORTRAIT).build())
+        val loader = adLoader.build()
+        val adrequest = AdRequest.Builder().build()
+        loader.loadAd(adrequest)
     }
 
 

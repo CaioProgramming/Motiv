@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.creat.motiv.MotivApplication
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.beans.Version
@@ -28,7 +29,7 @@ import java.util.*
 
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var preferences: Pref
-    protected lateinit var app: App
+    protected lateinit var motivApplication: MotivApplication
     internal lateinit var version: Version
     internal var a: Alert? = null
     internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -50,7 +51,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         val actbind: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setContentView(actbind.root)
-        app = application as App
+        motivApplication = application as MotivApplication
         internetconnection()
 
         user = FirebaseAuth.getInstance().currentUser

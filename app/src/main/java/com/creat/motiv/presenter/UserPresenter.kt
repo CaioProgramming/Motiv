@@ -17,14 +17,13 @@ class UserPresenter(override val view: BaseView<User>) : BasePresenter<User>() {
     }
 
     fun changeProfilePic(pics: Pics) {
-
+        view.onLoading()
         model.updateUserPic(pics)
     }
 
     fun changeUserName(newName: String) {
         view.onLoading()
         model.updateUserName(newName)
-        view.onLoadFinish()
     }
 
 

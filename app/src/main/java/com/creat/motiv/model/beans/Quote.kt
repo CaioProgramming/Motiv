@@ -1,6 +1,7 @@
 package com.creat.motiv.model.beans
 
 import android.graphics.Color
+import com.creat.motiv.utilities.AD_QUOTE
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,4 +18,8 @@ data class Quote(
 
     fun intTextColor(): Int = Color.parseColor(textcolor)
     fun intBackColor(): Int = Color.parseColor(backgroundcolor)
+
+    companion object {
+        fun advertise_quote(): Quote = Quote(id = AD_QUOTE)
+    }
 }
