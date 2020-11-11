@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userData"
+            type="com.creat.motiv.model.beans.User" />
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/userContainer"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userpic"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:stateListAnimator="@animator/list_animator"
+            android:transitionName="profilepic"
+            app:civ_circle_background_color="@color/colorPrimaryDark"
+            tools:src="@drawable/notfound" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="@{userData.name}"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="Caio Alves Ferreira" />
+
+    </LinearLayout>
+</layout>

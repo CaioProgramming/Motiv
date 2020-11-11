@@ -1,70 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        app:title="Configurações"
-        app:titleTextAppearance="@style/ToolbarTitle" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:theme="@style/AppTheme">
 
 
-    <TextView
-        android:id="@+id/changename"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Alterar nome"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+        <include layout="@layout/title_layout" />
 
-    <TextView
-        android:id="@+id/deleteposts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Remover posts"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/profileView"
+                    layout="@layout/profile_top_view" />
+
+                <include
+                    android:id="@+id/changenameView"
+                    layout="@layout/change_name_view" />
+
+                <LinearLayout
+                    android:id="@+id/deleteposts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/default_padding"
+                    android:stateListAnimator="@animator/list_animator">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        app:cardBackgroundColor="@color/material_red500"
+                        app:cardCornerRadius="5dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:importantForAccessibility="no"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_garbage"
+                            app:tint="@color/white" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center|start"
+                        android:text="Remover posts"
+                        android:textAllCaps="false"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/min_quote_size" />
+
+                </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/deleteaccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Remover conta"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:stateListAnimator="@animator/list_animator"
+                    android:text="Deslogar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/material_red500"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Sair"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textStyle="bold" />
+        </ScrollView>
 
-
-</LinearLayout>
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/rootblur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:realtimeBlurRadius="50dp"
+            app:realtimeOverlayColor="@color/owhite" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

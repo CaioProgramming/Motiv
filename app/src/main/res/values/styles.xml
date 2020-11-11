@@ -3,27 +3,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/lato_regular</item>
-        <item name="colorPrimary">@color/purple_400</item>
-        <item name="colorPrimaryDark">@color/purple_800</item>
-        <item name="colorAccent">@color/deep_purple_A200</item>
+        <item name="colorPrimary">@color/material_purple400</item>
+        <item name="colorPrimaryDark">@color/material_purple800</item>
+        <item name="colorAccent">@color/material_purpleA100</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
-        <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="android:windowActivityTransitions">true</item>
-    </style>
-
-    <style name="TabsTheme" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorFullWidth">false</item>
-        <item name="tabIndicatorColor">?android:textColor</item>
-        <item name="tabSelectedTextColor">?android:textColor</item>
-        <item name="tabTextColor">?android:textColorHint</item>
-        <item name="tabIconTint">?android:textColorPrimary</item>
-        <item name="tabMode">auto</item>
-        <item name="android:animateLayoutChanges">true</item>
     </style>
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">
@@ -36,48 +25,9 @@
         <item name="queryBackground">@color/transparent</item>
     </style>
 
-    <style name="inversebutton" parent="Widget.AppCompat.Button">
-        <item name="android:backgroundTint">?android:actionMenuTextColor</item>
-        <item name="android:textColor">?android:colorBackground</item>
-        <item name="android:fontFamily">@font/lato_black</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:clickable">true</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:layout_margin">-1dp</item>
-        <item name="android:padding">0dp</item>
-        <item name="android:background">@drawable/ripple_button</item>
-    </style>
-
-    <style name="Settingslist" parent="Widget.AppCompat.TextView">
-         <item name="android:drawablePadding">5dp</item>
-        <item name="android:fontFamily">@font/lato_regular</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="android:textStyle">bold</item>
-          <item name="android:padding">5dp</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:foregroundTint">@color/colorPrimaryDark</item>
-    </style>
-
     <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:panelBackground">@drawable/round</item>
         <item name="android:fontFamily">@font/lato_light</item>
-    </style>
-
-    <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-    </style>
-
-    <style name="BottomOptionstext" parent="@style/TextAppearance.MaterialComponents.Body1">
-        <item name="android:padding">5dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:foregroundTint">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="bottomnavtext" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/lato_light</item>
-        <item name="android:textColor">?android:textColor</item>
     </style>
 
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
@@ -86,24 +36,17 @@
         <item name="backgroundColor">?android:colorBackground</item>
     </style>
 
-    <style name="AppActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="backgroundColor">?android:colorBackground</item>
-        <item name="titleTextAppearance">@style/ToolbarTitle</item>
-    </style>
-
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/lato_black</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">@dimen/default_padding</item>
     </style>
 
-    <style name="Tabstitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/lato_bold</item>
-        <item name="android:capitalize">words</item>
-        <item name="android:textSize">18sp</item>
+    <style name="TabsTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/lato_black</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">@dimen/default_padding</item>
     </style>
 
 
@@ -111,6 +54,7 @@
         <item name="android:windowEnterAnimation">@anim/pop_in</item>
         <item name="android:windowExitAnimation">@anim/pop_out</item>
     </style>
+
     <style name="BottomDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
@@ -119,20 +63,57 @@
     <style name="Dialog_No_Border">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="android:fontFamily">@font/lato_regular</item>
-        <item name="colorPrimary">@color/purple_400</item>
-        <item name="colorPrimaryDark">@color/purple_800</item>
-        <item name="colorAccent">@color/deep_purple_A200</item>
+        <item name="colorPrimary">@color/material_purple400</item>
+        <item name="colorPrimaryDark">@color/material_purple800</item>
+        <item name="colorAccent">@color/material_purpleA100</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowBackground">@color/transparent</item>
     </style>
+
     <style name="Bottom_Dialog_No_Border">
         <item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
         <item name="android:fontFamily">@font/lato_regular</item>
-        <item name="colorPrimary">@color/purple_400</item>
-        <item name="colorPrimaryDark">@color/purple_800</item>
+        <item name="colorPrimary">@color/material_purple400</item>
+        <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="android:textColor">?android:textColor</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="Full_Screen_Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/round</item>
+    </style>
+
+    <style name="App_progress_Indicator">
+        <item name="trackColor">@color/transparent</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="indicatorType">circular</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15%</item>
     </style>
 
 </resources>

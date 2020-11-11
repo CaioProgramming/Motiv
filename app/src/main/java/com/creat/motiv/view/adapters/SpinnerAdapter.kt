@@ -11,7 +11,7 @@ import android.widget.Spinner
 import android.widget.TextView
 
 import com.creat.motiv.R
-import com.creat.motiv.utils.Tools
+import com.creat.motiv.utilities.Tools
 
 class SpinnerAdapter(private val mContext: Context, private val quote: EditText, private val author: EditText, private val select: TextView, internal var selector: Spinner) : BaseAdapter() {
     private val mData: List<Typeface>

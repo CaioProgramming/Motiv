@@ -5,35 +5,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.ColorUtils.ERROR
-import com.creat.motiv.utils.Tools
-import com.creat.motiv.utils.Tools.RC_SIGN_IN
+import com.creat.motiv.utilities.Alert
+import com.creat.motiv.utilities.RC_SIGN_IN
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.repeatFade
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 
-class Splash : AppCompatActivity() {
+class Splash : AppCompatActivity(R.layout.activity_splash) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
-
-
-        setContentView(R.layout.activity_splash)
-        val brand = findViewById<TextView>(R.id.inlustrisbrand)
+        splashTitle.repeatFade()
         val datenow = Calendar.getInstance().time
         val calendar = GregorianCalendar()
         calendar.time = datenow
-        brand.text = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
+        inlustrisbrand.text = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val handler = Handler()
         handler.postDelayed({
@@ -47,7 +39,7 @@ class Splash : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
-                    AuthUI.IdpConfig.FacebookBuilder().build(),
+                    //AuthUI.IdpConfig.FacebookBuilder().build(),
                     //new AuthUI.IdpConfig.TwitterBuilder().build(),
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build())
@@ -69,38 +61,27 @@ class Splash : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
+            splashTitle.fadeIn()
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-
-
-                newuser()
-
-
+                val i = Intent(this, MainActivity::class.java)
+                i.putExtra("novo", false)
+                i.putExtra("notification", true)
+                startActivity(i)
+                this.finish()
             } else {
                 if (response != null) {
-                    Alert.builder(this).snackmessage(ERROR, "Erro  + ${response.error!!.message}  causa   ${response.error!!.cause}")
+                    Alert(this).showAlert(
+                            message = "Ocorreu um erro ao fazer seu login tente novamente", okClick = {
+                        SignIn()
+                    },
+                            icon = R.drawable.ic_sad
+                    )
                 }
 
             }
 
         }
-    }
-
-    private fun newuser() {
-        val user = FirebaseAuth.getInstance().currentUser
-        val reference = Tools.userreference
-        reference.child(user!!.uid)
-        reference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                begin(dataSnapshot.exists())
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-
-
     }
 
     private fun begin(exists: Boolean) {
@@ -109,11 +90,7 @@ class Splash : AppCompatActivity() {
             startActivity(i)
             this.finish()
         } else {
-            val i = Intent(this, MainActivity::class.java)
-            i.putExtra("novo", false)
-            i.putExtra("notification", true)
-            startActivity(i)
-            this.finish()
+
         }
     }
 

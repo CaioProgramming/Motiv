@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:showIn="@layout/fragment_profile"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userData"
+            type="com.creat.motiv.model.beans.User" />
+    </data>
+
+    <LinearLayout
+
+        android:id="@+id/profileContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/topShimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <LinearLayout
+                    android:id="@+id/userInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profilepic"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Profile picture"
+                        android:fitsSystemWindows="true"
+                        android:stateListAnimator="@animator/list_animator"
+                        android:tooltipText="Alterar foto de perfil"
+                        android:transitionName="profilepic"
+                        app:civ_circle_background_color="@color/colorPrimaryDark"
+                        tools:src="@drawable/notfound" />
+
+                    <EditText
+                        android:id="@+id/username"
+                        style="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/transparent"
+                        android:imeOptions="actionDone|actionGo"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        android:text="@{userData.name}"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        tools:text="Caio Alves Ferreira" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/followButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/messageButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:text="@string/follow_user"
+                android:textStyle="bold" />
+
+            <ImageButton
+
+                android:id="@+id/messageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/colorAccent"
+                android:contentDescription="Enviar mensagem ao usuário"
+                android:padding="12dp"
+                android:src="@drawable/ic_paper_plane"
+                android:tint="@color/white" />
+
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/quoteCard"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginVertical="10dp"
+        android:animateLayoutChanges="true"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:foreground="?attr/selectableItemBackground"
+        android:hapticFeedbackEnabled="true"
+        android:orientation="vertical"
+        android:stateListAnimator="@animator/list_animator"
+        app:cardBackgroundColor="?android:textColorHint"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/quoteMainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/quoteInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/fade_gradient"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/quoteDate"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    tools:text="10 de Outubro de 2019" />
+
+                <include
+                    android:id="@+id/userTop"
+                    layout="@layout/user_quote_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_centerInParent="true"
+                    android:layout_toStartOf="@id/quoteDate" />
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/quoteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/author_text_view"
+                android:layout_below="@id/quoteInfo"
+                android:padding="@dimen/default_padding"
+                android:textSize="@dimen/big_quote_size"
+                android:textStyle="bold"
+                android:typeface="normal"
+                tools:text="Everything I do \nI tell you all the time"
+                tools:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/author_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/quoteButtons"
+                android:backgroundTint="@color/transparent"
+                android:padding="@dimen/default_padding"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                tools:text="Lana Del Rey"
+                tools:textColor="@color/white" />
+
+
+            <RelativeLayout
+                android:id="@+id/quoteButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/fade_gradient_inversed"
+                android:padding="@dimen/default_padding">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/likers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@id/like"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/user_picview" />
+
+                <CheckBox
+                    android:id="@+id/like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/favoritecheck"
+                    android:button="@color/transparent" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/cardShimmer"
+            layout="@layout/quote_place_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>
+
+

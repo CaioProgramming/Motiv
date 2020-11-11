@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.creat.motiv">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
-        android:name=".view.activities.App"
+        android:name=".MotivApplication"
+
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,10 +21,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.activities.AddIconsActivity" />
+        <activity android:name=".view.activities.PickIconActivity" />
+        <activity android:name=".view.activities.AboutActivity" />
         <activity
             android:name=".view.activities.EditQuoteActivity"
-            android:label="Editar post" />
-        <activity android:name=".view.activities.UserActivity" />
+            android:label="Editar post"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".view.activities.UserActivity"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".view.activities.ErrorActivity"
             android:clearTaskOnLaunch="true"
@@ -46,6 +58,7 @@
         <activity
             android:name=".view.activities.Splash"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,10 +68,12 @@
         </activity> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <activity
             android:name=".view.activities.MainActivity"
+            android:hardwareAccelerated="true"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".view.activities.NewUser" />
 
         <meta-data
@@ -69,14 +84,16 @@
             android:resource="@color/colorPrimaryDark" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4979584089010597~4181793255" />
+            android:value="ca-app-pub-8016530757684172~1819154029" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.creativ.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
+                tools:replace="android:resource"
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
             <meta-data

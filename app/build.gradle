@@ -8,12 +8,12 @@ android {
 
     }
 
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 17
         versionName "9.5"
         renderscriptTargetApi 19
@@ -22,9 +22,15 @@ android {
         multiDexEnabled true
 
     }
-    dataBinding {
-        enabled = true
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    buildFeatures {
+        dataBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,6 +38,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -49,52 +59,63 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
-    implementation 'com.google.android.play:core:1.7.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
-    //Firebase libs
+    implementation 'com.google.android.material:material:1.3.0-alpha03'
+    implementation 'com.google.android.play:core:1.8.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0'
 
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10'
+    implementation "androidx.core:core-ktx:1.3.2"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+    implementation 'com.github.mcginty:material-colors:1.1.0'
+
+    //Firebase libs
     //implementation 'com.google.firebase:firebase-admin:6.4.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
-    implementation 'com.firebaseui:firebase-ui-database:1.0.1'
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.google.firebase:firebase-core:17.2.3'
-    implementation 'com.google.firebase:firebase-messaging:20.1.3'
-    implementation 'com.google.android.gms:play-services-ads:19.0.1'
-    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
-    implementation 'com.hmomeni.progresscircula:progresscircula:0.2.1'
-    implementation "com.github.skydoves:balloon:1.1.0"
-    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'com.google.firebase:firebase-auth:20.0.0'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
+    implementation 'com.firebaseui:firebase-ui-database:2.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+    implementation 'com.google.android.gms:play-services-ads:19.5.0'
+    implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pes.materialcolorpicker:library:1.2.4'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
     implementation 'com.github.devendroid:ReadMoreOption:1.0.2'
-    implementation 'com.github.silvestrpredko:dot-progress-bar:1.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'com.mikhaellopez:rxanimation:1.0.0'
-    implementation 'com.mikhaellopez:gradientview:1.1.0'
-    implementation 'com.google.android:flexbox:2.0.1'
-    implementation 'com.github.Pradyuman7:ChocoBar:V1.0'
+    implementation 'cat.ereza:customactivityoncrash:2.3.0'
+    implementation 'com.opensooq.supernova:gligar:1.1.0'
+    implementation 'gun0912.ted:tedbottompicker:2.0.1'
+    implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
+    implementation 'com.github.veeyaarVR:SuperGradientTextView:1.1'
+
     kapt 'com.android.databinding:compiler:3.1.4'
 
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 repositories {
     mavenCentral()

@@ -2,7 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <corners android:radius="25dp" />
+    <corners android:radius="@dimen/default_padding" />
+
 
     <!-- below code for different radius for each corner. -->
 
@@ -15,6 +16,6 @@
 
 
     <!-- Background color -->
-    <solid android:color="@color/grey_200" />
+    <solid android:color="?android:shadowColor" />
 
 </shape>

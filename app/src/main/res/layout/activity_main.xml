@@ -1,73 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:orientation="vertical"
-        android:id="@+id/container"
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:fitsSystemWindows="true">
 
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/navigation"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:animateLayoutChanges="true"
-            app:tabGravity="center"
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="scrollable"
-            app:tabIconTint="?android:textColorPrimary"
-            app:tabIndicatorColor="?android:textColorPrimary"
-            app:tabSelectedTextColor="?android:textColorPrimary"
-            app:tabTextColor="?android:textColorHint" />
+            android:background="?android:colorBackground"
+             >
 
-        <androidx.cardview.widget.CardView
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                app:title=""
+                app:titleEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userpic"
+                    android:layout_width="50dp"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:stateListAnimator="@animator/list_animator"
+                    android:transitionName="profilepic"
+                    app:civ_circle_background_color="@color/colorPrimaryDark"
+                    tools:src="@drawable/notfound" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:animateLayoutChanges="true"
+                    app:layout_collapseMode="parallax" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/navigation"
+                    android:layout_width="match_parent"
+                    app:layout_collapseMode="pin"
+                    android:layout_marginTop="?android:actionBarSize"
+                    android:animateLayoutChanges="true"
+                    app:tabIndicatorColor="@color/colorPrimaryDark"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIconTint="?android:textColorPrimary"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    app:tabTextColor="?android:textColorHint">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Home" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Escrever" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Eu" />
+                </com.google.android.material.tabs.TabLayout>
+
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:padding="@dimen/default_padding"
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/navigation"
-            android:layout_below="@id/toolbar"
-            app:cardBackgroundColor="?android:colorBackground"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.appcompat.widget.Toolbar
-            app:title="Home"
-            android:id="@+id/toolbar"
-            android:elevation="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:animateLayoutChanges="true"
-            >
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilepic"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_gravity="left"
-                android:layout_margin="1dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="5dp"
-                android:src="@drawable/penguin" />
-
-        </androidx.appcompat.widget.Toolbar>
-
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.github.mmin18.widget.RealtimeBlurView
             android:id="@+id/rootblur"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent"
-            android:alpha="0"
             app:realtimeBlurRadius="50dp"
-            app:realtimeOverlayColor="@color/transparent" />
+            app:realtimeOverlayColor="@color/owhite" />
 
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

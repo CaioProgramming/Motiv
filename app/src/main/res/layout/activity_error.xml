@@ -5,8 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    android:gravity="center"
     tools:context=".view.activities.ErrorActivity">
 
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_astronaut" />
     <TextView
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
@@ -15,25 +21,14 @@
         android:text="Aparentemente alguma coisa voce fez errado, ou você tá achando que a culpa é nossa?"
         android:textAlignment="center" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/errorcat" />
-
     <TextView
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Estamos verificando o que você fez porque alguém tem que consertar sua cagada né"
         android:textAlignment="center" />
 
-    <ProgressBar
-        android:id="@+id/loading"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/circle" />
+
+
+
 </LinearLayout>

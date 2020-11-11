@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userpic"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_saturn_and_other_planets_primary"
+        android:layout_marginStart="-12dp"
+        app:civ_circle_background_color="?android:textColorHint" />
+
+
+</layout>

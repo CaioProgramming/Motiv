@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +15,12 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.model.Beans.Pics
-import com.creat.motiv.utils.Pref
-import com.creat.motiv.utils.Tools
+import com.creat.motiv.utilities.Pref
 import com.creat.motiv.view.activities.MainActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import java.text.MessageFormat
-import java.util.*
 
 
 class ViewPagerAdapter(private val context: Context, private val activity: Activity) : PagerAdapter() {
@@ -52,17 +48,7 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
 
     private fun Carregar() {
 
-        val quotesdb = Tools.quotesreference
-        quotesdb.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                count = dataSnapshot.childrenCount
 
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println(databaseError.message)
-            }
-        })
 
     }
 
@@ -71,9 +57,9 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
         return slide_titles.size
     }
 
-        override fun isViewFromObject(view: View, `object`: Any): Boolean {
-            return view === `object`
-        }
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object`
+    }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -138,57 +124,15 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
     private fun Comecar() {
         val i = Intent(context, MainActivity::class.java)
 
-
         quotesdb = FirebaseDatabase.getInstance().reference
         quotesdb!!.keepSynced(false)
-         preferences!!.setAgree(true)
-
-        setnewpicture()
+        preferences!!.setAgree(true)
         i.putExtra("novo", true)
         context.startActivity(i)
         activity.finish()
 
-
     }
 
-    private fun setnewpicture() {
-        val picsdb = FirebaseDatabase.getInstance().reference.child("images")
-
-        picsdb.keepSynced(false)
-        picsdb.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val random = Random()
-                val questionCount = dataSnapshot.childrenCount.toInt()
-                val rand = random.nextInt(questionCount)
-                val itr = dataSnapshot.children.iterator()
-                for (i in 0 until rand) {
-                    itr.next()
-                }
-                val childSnapshot = itr.next() as DataSnapshot
-                val pic = childSnapshot.getValue(Pics::class.java)
-                val p = Pics()
-                if (pic != null) {
-                    p.uri = pic.uri
-                }
-                println("photo " + uri!!)
-                uri = p.uri
-
-                val profileChangeRequest: UserProfileChangeRequest
-                if (p.uri != null || !p.uri!!.isEmpty()) {
-                    profileChangeRequest = UserProfileChangeRequest.Builder()
-                            .setPhotoUri(Uri.parse(p.uri))
-                            .setDisplayName(user!!.displayName).build()
-                    user.updateProfile(profileChangeRequest)
-                }
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-
-    }
 
     companion object {
         private val user = FirebaseAuth.getInstance().currentUser

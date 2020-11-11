@@ -2,26 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     tools:context=".view.fragments.HomeFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_margin="@dimen/default_padding"
         android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:fitsSystemWindows="true">
 
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refresh"
+        <include
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/composesrecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:id="@+id/quotesView"
+            layout="@layout/quote_recycler" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:background="?android:colorBackground"
@@ -31,52 +29,16 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:background="@drawable/bottom_line"
-                    android:id="@+id/banner"
-                    app:layout_collapseMode="parallax"
-                    android:orientation="vertical"
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/home_search"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round"
+                    android:backgroundTint="@color/lblack"
+                    app:iconifiedByDefault="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:drawablePadding="5dp"
-                        android:id="@+id/message"
-                        android:textColor="?android:textColorPrimary"
-                        android:fontFamily="@font/lato_light"
-                        android:padding="10dp"
-                        android:textSize="16sp"
-                        android:text="Uma nova atualização está disponível"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_gravity="end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/update"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:textColor="@color/colorAccent"
-                            android:padding="10dp"
-                            android:text="Atuazlizar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:id="@+id/dismiss"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:textColor="?android:attr/textColorHint"
-                            android:padding="10dp"
-                            android:text="Deixar para depois"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                    app:queryHint="Pesquise citações, autores, músicas..." />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

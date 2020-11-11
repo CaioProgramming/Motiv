@@ -1,19 +1,17 @@
 package com.creat.motiv.view.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.viewpager.widget.PagerAdapter
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.model.UserDB
-import com.creat.motiv.presenter.ProfilePresenter
+import com.creat.motiv.view.binders.QuotesListBinder
 
-class QuotePagerAdapter(private val uid:String,private val profilePresenter: ProfilePresenter): PagerAdapter() {
+class QuotePagerAdapter(val context: Context) : PagerAdapter() {
 
 
     override fun getCount(): Int {
@@ -25,22 +23,16 @@ class QuotePagerAdapter(private val uid:String,private val profilePresenter: Pro
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeViewInLayout(`object` as RelativeLayout)
+        container.removeViewInLayout(`object` as CardView)
     }
 
 
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val quoteRecyclerBinding:QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(profilePresenter.activity),
-                R.layout.quote_recycler,null,false)
-        val recyclerAdapter = RecyclerAdapter(null, profilePresenter.activity)
-        quoteRecyclerBinding.quotesrecyclerview.adapter = recyclerAdapter
-        quoteRecyclerBinding.quotesrecyclerview.layoutManager = LinearLayoutManager(profilePresenter.activity, VERTICAL, false)
-        if(position == 0){
-            UserDB(recyclerAdapter).finduserquotes(uid, quoteRecyclerBinding.notfound)
-        }else{
-            UserDB(recyclerAdapter).findfavorites(uid, quoteRecyclerBinding.notfound)
-        }
+        val quoteRecyclerBinding: QuoteRecyclerBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
+                R.layout.quote_recycler, null, false)
+
+        QuotesListBinder(context, quoteRecyclerBinding, position == 1)
         container.addView(quoteRecyclerBinding.root)
         return quoteRecyclerBinding.root
     }

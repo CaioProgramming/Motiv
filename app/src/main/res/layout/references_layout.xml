@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-     android:foreground="?attr/selectableItemBackground"
-     app:cardBackgroundColor="@color/transparent"
-    app:cardCornerRadius="25dp"
-    app:cardElevation="0dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-  <TextView
-      android:textStyle="bold"
-      android:padding="10dp"
-      android:layout_width="match_parent"
-      android:foreground="?attr/selectableItemBackground"
-      android:layout_gravity="center"
-      android:id="@+id/reference"
-      android:textSize="16sp"
-      android:text="@string/reference"
-      android:textAlignment="center"
-      android:layout_height="wrap_content" />
+    <data>
 
-</androidx.cardview.widget.CardView>
+        <variable
+            name="reference"
+            type="com.creat.motiv.model.beans.Reference" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/reference_card"
+        android:layout_width="230dp"
+        android:layout_height="250dp"
+        android:layout_margin="10dp"
+        android:stateListAnimator="@animator/list_animator"
+        app:cardCornerRadius="@dimen/default_radius"
+        app:cardElevation="4dp">
+
+
+        <View
+            android:id="@+id/reference_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:textColorHint"
+            tools:background="@drawable/ouch_gradient" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{reference.name}"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="Icons8/Ouch" />
+
+            <TextView
+                android:id="@+id/reference_description"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/lato_bold"
+                android:text="@{reference.description}"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                tools:text="@string/dribble_description" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

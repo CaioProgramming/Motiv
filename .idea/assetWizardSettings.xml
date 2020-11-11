@@ -214,7 +214,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_bookmark_black_24dp.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/arrow_upward/baseline_arrow_upward_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -224,9 +224,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
-                            <entry key="outputName" value="ic_bookmark_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\caiof\Downloads\share.svg" />
+                            <entry key="outputName" value="ic_adchoices" />
+                            <entry key="sourceFile" value="C:\Users\cacai\Downloads\adchoices.svg" />
                           </map>
                         </option>
                       </PersistentState>

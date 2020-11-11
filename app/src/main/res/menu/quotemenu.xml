@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Compartilhar"
+        app:showAsAction="always"
+        android:id="@+id/quoteShare"
+        android:icon="@drawable/ic_share" />
+    <item
+        android:title="Copiar"
+        app:showAsAction="always"
+        android:id="@+id/quoteCopy"
+        android:icon="@drawable/ic_copy" />
+    <item
+        android:id="@+id/quoteEdit"
+        android:icon="@drawable/ic_edit"
+        android:title="Editar"
+        app:showAsAction="always" />
+
+    <item
+        android:iconTint="@color/material_red500"
+        android:title="Denunciar"
+        app:showAsAction="always"
+        android:id="@+id/quoteReport"
+        android:icon="@drawable/ic_flag" />
+
+
+    <item
+        android:id="@+id/quoteDelete"
+        android:icon="@drawable/ic_garbage"
+        android:iconTint="@color/material_red500"
+        android:title="Remover"
+        app:showAsAction="always" />
+</menu>

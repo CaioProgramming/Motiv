@@ -1,91 +1,63 @@
 package com.creat.motiv.view.adapters
 
-import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ImageButton
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
+import com.creat.motiv.databinding.ColorCardBinding
+import com.creat.motiv.utilities.SelectedViewType
+import com.creat.motiv.utilities.blurView
+import com.creat.motiv.utilities.toHex
+import com.creat.motiv.utilities.unblurView
 import java.util.*
 
-class RecyclerColorAdapter(private val ColorsList: ArrayList<Int>, private val activity: Activity, private val background: View, private val textView: TextView, private val author: TextView, private val textcolor: TextView, private val backcolor: TextView, private val textbutton: ImageButton, private val backgroundbutton: ImageButton) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
+
+
+
+class RecyclerColorAdapter(private val colorsList: ArrayList<Int>,
+                           private val context: Context,
+                           private val onColorPick: ((PickedColor) -> Unit)) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view: View
-        val mInflater = LayoutInflater.from(activity)
-        view = mInflater.inflate(R.layout.color_card, parent, false)
-
-        return RecyclerColorAdapter.MyViewHolder(view)
+        val colorCardBinding: ColorCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.color_card, parent, false)
+        return MyViewHolder(colorCardBinding)
     }
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        println(ColorsList[position])
-        val animation = AnimationUtils.loadAnimation(activity, R.anim.pop_in)
-
-        holder.colorcard.backgroundTintList = ColorStateList.valueOf(ColorsList[position])
-        holder.colorcard.startAnimation(animation)
-        holder.colorcard.setOnClickListener {
-            val options = arrayOf("Texto", "Plano de fundo")
-            val color = ColorsList[position]
-
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle("Plano de fundo ou texto")
-
-                    .setItems(options) { dialogInterface, i ->
-                        if (i == 0) {
-                            textView.setTextColor(color)
-                            author.setTextColor(color)
-                            textcolor.text = color.toString()
-                            textbutton.backgroundTintList = ColorStateList.valueOf(color)
-                            println(textcolor.text)
-                        } else {
-                            background.visibility = View.INVISIBLE
-                            background.setBackgroundColor(color)
-                            val cx = background.right
-                            val cy = background.top
-                            val radius = Math.max(background.width, background.height)
-                            val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy,
-                                    0f, radius.toFloat())
-                            background.visibility = View.VISIBLE
-                            anim.start()
-                            background.setBackgroundColor(color)
-                            backgroundbutton.imageTintList = ColorStateList.valueOf(color)
-
-                            backcolor.text = color.toString()
-                            println(backcolor.text)
+        holder.colorCardBinding.run {
+            this.colorcard.backgroundTintList = ColorStateList.valueOf(colorsList[position])
+            val animation = AnimationUtils.loadAnimation(context, R.anim.fui_slide_in_right)
+            colorcard.startAnimation(animation)
+            colorcard.setOnClickListener {
+                val options = arrayOf("Texto", "Plano de fundo")
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Plano de fundo ou texto")
+                        .setItems(options) { dialogInterface, i ->
+                            val hexColor = toHex(colorsList[position])
+                            onColorPick(PickedColor(hexColor, if (i == 0) SelectedViewType.TEXT else SelectedViewType.BACKGROUND))
                         }
-                    }
-            builder.show()
+                builder.setOnDismissListener {
+                    unblurView(context)
+                }
+                blurView(context)
+                builder.show()
+            }
         }
 
     }
 
 
-    override fun getItemCount(): Int {
-        return if (ColorsList.size == 0) {
-            0
-        } else {
-            ColorsList.size
-        }
-    }
+    override fun getItemCount(): Int = colorsList.size
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var colorcard: CardView
-
-        init {
-            colorcard = itemView.findViewById(R.id.colorcard)
-        }
-    }
+    class MyViewHolder(val colorCardBinding: ColorCardBinding) : RecyclerView.ViewHolder(colorCardBinding.root)
 }
 
 

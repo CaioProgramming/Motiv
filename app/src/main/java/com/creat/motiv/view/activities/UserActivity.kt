@@ -5,30 +5,25 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
-import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.databinding.UserProfileBinding
-import com.creat.motiv.model.Beans.User
-import com.creat.motiv.model.UserDB
-import com.creat.motiv.presenter.ProfilePresenter
-import com.creat.motiv.utils.Alert
-import com.creat.motiv.utils.ColorUtils.ERROR
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.creat.motiv.model.beans.User
+import com.creat.motiv.view.binders.ProfileBinder
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
-class UserActivity : AppCompatActivity() {
-    private var uid: String? = null
+class UserActivity : AppCompatActivity(R.layout.user_profile) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fragmentbind: UserProfileBinding = DataBindingUtil.setContentView(this, R.layout.user_profile)
-        setContentView(fragmentbind.root)
+        val quserData = intent.getSerializableExtra("USER") as User
+        setSupportActionBar(toolbar).run {
+            title = quserData.name
+        }
+        fragmentbind.run {
+            ProfileBinder(this@UserActivity, this.profileView, quserData)
+        }
 
-        uid = intent.getStringExtra("uid")
-        setupdata(fragmentbind.profileView)
-        //initView(fragmentbind)
 
     }
 
@@ -45,33 +40,6 @@ class UserActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupdata(profileBinding: FragmentProfileBinding){
-        val userdb = UserDB()
-        uid?.let {
-            userdb.getUser(it, object : ValueEventListener {
-                override fun onCancelled(dataSnapshot: DatabaseError) {
-
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val user = dataSnapshot.getValue(User::class.java)
-                        user.let {
-                            val profilePresenter = ProfilePresenter(this@UserActivity,profileBinding,user!!)
-                            setSupportActionBar(toolbar)
-                            toolbar.title = user.name
-                            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                            toolbar.setNavigationOnClickListener { finish() }
-                        }
-
-                    } else {
-                        Alert.builder(this@UserActivity).snackmessage(ERROR, "Usuário não encontrado")
-                        finish()
-                    }
-                }
-            })
-        }
-    }
 
 
 }

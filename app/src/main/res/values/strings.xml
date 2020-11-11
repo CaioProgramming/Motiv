@@ -4,31 +4,27 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="facebook_app_id">259084328108067</string>
-    <string name="facebook_application_id">259084328108067</string>
 
     <string name="fb_login_protocol_scheme">fb259084328108067</string>
 
-    <string name="username">username</string>
     <string name="quote">Escreva uma frase</string>
-    <string name="author">Autor</string>
+    <string name="author">Escre o nome do autor</string>
     <string name="Welcome">Bem-vindo ao Motiv</string>
     <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="developed_by">by Inlustris since 2018</string>
+
     <string name="icon_info">user icon</string>
     <string name="reference">reference</string>
-    <string name="suporrt_ad">Ajude-nos vendo a um anúncio em vídeo!</string>
-    <string name="firebase">Desenvolvido com a ferramenta Firebase</string>
-    <string name="motiv_desenvolvido_por_inlustris_em_2018_todos_os_direitos_reservados">Motiv desenvolvido por Inlustris em 2018, todos os direitos reservados</string>
-    <string name="usepolicy">A Inlustris é contra qualquer propagação de ódio e manifestação que ferem os direitos básicos da vida, qualquer conteúdo que possa ferir e ser ofensivo será excluído e caso o usuário sofra número elevado de denúncias, será banido da rede social. Ao utilizar o Motiv o usuário concorda com as regras da comunidade e as punições que poderá sofrer caso quebre alguma das regras. As denúncias serão analisadas e caso não violem as regras da comunidade retornarão  ao aplicativo. Todas as frases denunciadas não são exibidas até que sejam analisadas. As regras que devem ser seguidas para a utilização do motiv: São vetadas estritamente quaisquer categorias de perseguição política e/ou religiosa, assim como também é indevido publicações de teor político(publicações de teor poderam ser apagadas); É proibido qualquer tipo de ataque pessoal a outros usuários, caso ocorra o agressor poderá ser banido do motiv; É proibido qualquer tipo de ataque a qualquer tipo de grupo social seja minoria ou não; É proibido a promoção de ataques que firam qualquer grupo e/ou pessoa, caso ocorra, não só o líder do ataque será banido mas como todos os atuantes também irão; Discriminação racial e/ou sexual não são toleradas e qualquer publicação que viole isso irá ser apagada e caso o usuário persista será banido; É proibida qualquer publicação com conteúdo sexual explícito, o usuário que a publicar será banido.</string>
-    <string name="policyusetitle">Políticas de uso</string>
-    <string name="privacypolicy">A Inlustris assegura a proteção dos dados do usuário, todos os dados coletados são utilizado apenas para o registro do usuário, são coletados o mínimo dos dados sendo eles o email(caso não seja feito registro pelo google ou facebook será necessário também uma senha) e nome do utilizador para que suas publicações possam ser identificadas. As informações do utilizador não será distrubuida para terceiros e nem compartilhadas para outros usuários. A única informação do usuário apresentada para todos os usuários é o seu nome de usuário e nada mais além disso.</string>
-    <string name="privacypolicytitle">Políticas de privacidade</string>
-    <string name="profile_intro">Aqui é o seu perfil, onde poderá ver todas suas postagens e se quiser apagá-las,alterar seu nome e foto de perfil</string>
-    <string name="new_quoteintro">Aqui é o seu cantinho mágico, onde poderá criar suas frases!</string>
-    <string name="home_intro">Bem-vindo a sua tela inicial, veja todas as frases aqui, compartilhe-as quando quiser!</string>
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
     <string name="company">Inlustris 2018 - %d</string>
     <string name="report_message">Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade?</string>
+    <string name="dribble_description">Dribbble is where designers gain inspiration, feedback, community, and jobs and is your best resource to discover and connect with designers worldwide.</string>
+    <string name="support_devs">Apoiar desenvolvedores</string>
+    <string name="follow_user">Seguir usuário</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="settings_activity_title">Configurações</string>
+    <string name="about_activity_title">Sobre nós</string>
+    <string name="save_quote_button">Salvar Frase</string>
 </resources>
