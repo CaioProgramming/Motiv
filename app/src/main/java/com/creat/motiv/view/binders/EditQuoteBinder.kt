@@ -192,8 +192,7 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
-            //snackmessage(context, message = if (it.id.isBlank()) "Salvando citação" else "Atualizando citação")
-            presenter().saveData(it, it.id)
+            if (it.quote.isNotEmpty()) presenter().saveData(it, it.id) else snackmessage(context, message = Tools.emptyquote())
         }
     }
 

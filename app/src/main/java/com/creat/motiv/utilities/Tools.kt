@@ -51,7 +51,6 @@ object Tools {
     private val offlinefrases = arrayOf("Sem internet é? Acontece né vá aproveitar a vida", "Parece que você está desconectado. Quando você se reconectar eu mostro umas frases", "Bom... Parece que você tá sem internet, então acho que não tem oque fazer...")
 
 
-    private val empyquotes = arrayOf("Você não vai escrever nada? Tá achando que é festa?", "O vazio da sua existência não necessariamente precisa ser o vazio do bloco de texto, escreva algo!", "Você não quer ver o feed e ver um texto vazio né? Então por favor escreve algo aí", "Eu sei que as vezes você se sente vazio, " + "mas esse bloco de texto te ajuda a mostrar que ainda tem alguma coisa aí, então escreve por favor")
 
     fun fonts(context: Context): ArrayList<Typeface> {
         val fontsarchieves = arrayOf(Typeface.createFromAsset(context.assets, "fonts/Arvo-Regular_201.ttf"), Typeface.createFromAsset(context.assets, "fonts/Audrey-Normal.otf"), Typeface.createFromAsset(context.assets, "fonts/Cornerstone.ttf"), Typeface.createFromAsset(context.assets, "fonts/times.ttf"), Typeface.createFromAsset(context.assets, "fonts/MightypeScript.otf"), Typeface.createFromAsset(context.assets, "fonts/AmaticSC-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Amiko-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/BlackHanSans-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Cabin-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Cinzel-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/CinzelDecorative-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Farsan-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/FingerPaint-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/FredokaOne-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Inconsolata-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Lalezar-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Lobster-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Mogra-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Nunito-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/NunitoSans-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Pacifico-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Quicksand-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Rakkas-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Ranga-Regular.ttf"), Typeface.createFromAsset(context.assets, "fonts/Rasa-Regular.ttf"))
@@ -61,10 +60,12 @@ object Tools {
     }
 
     fun emptyquote(): String {
-        val q: Int
+        val empyquotes = arrayOf("Você não vai escrever nada? Tá achando que é festa?",
+                "O vazio da sua existência não necessariamente precisa ser o vazio do bloco de texto, escreva algo!",
+                "Você não quer ver o feed e ver um texto vazio né? Então por favor escreve algo aí",
+                "Ah qual é qual a necessidade de não escrever nada?")
         val x = Random()
-        q = x.nextInt(empyquotes.size)
-        return empyquotes[q]
+        return empyquotes[x.nextInt(empyquotes.size)]
     }
 
 
