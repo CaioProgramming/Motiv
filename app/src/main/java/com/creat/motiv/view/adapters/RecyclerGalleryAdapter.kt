@@ -16,6 +16,10 @@ import com.creat.motiv.utilities.slideInBottom
 class RecyclerGalleryAdapter(var pictureList: ArrayList<String> = ArrayList(),
                              private val context: Context, private val openPicker: () -> Unit) : RecyclerView.Adapter<RecyclerGalleryAdapter.MyViewHolder>() {
 
+    init {
+        if (pictureList.isEmpty()) pictureList.add(NEW_PIC)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false)

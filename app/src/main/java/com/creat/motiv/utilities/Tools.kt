@@ -87,20 +87,28 @@ object Tools {
             if (ad.icon != null) {
                 Glide.with(context).load(ad.icon.uri).into(quoteAdvertiseLayoutBinding.adAppIcon)
             } else {
-                quoteAdvertiseLayoutBinding.adAppIcon.gone()
+                quoteAdvertiseLayoutBinding.adIconCard.gone()
             }
             Glide.with(context).load(ad.images[0].uri).into(quoteAdvertiseLayoutBinding.adAppImage)
             quoteAdvertiseLayoutBinding.appRating.isEnabled = false
-
+            quoteAdvertiseLayoutBinding.adView.run {
+                headlineView = quoteAdvertiseLayoutBinding.adHeadline
+                advertiserView = quoteAdvertiseLayoutBinding.adAdvertiser
+                adChoicesView = quoteAdvertiseLayoutBinding.adChoices
+                bodyView = quoteAdvertiseLayoutBinding.adBody
+                starRatingView = quoteAdvertiseLayoutBinding.appRating
+                callToActionView = quoteAdvertiseLayoutBinding.adActionButton
+                iconView = quoteAdvertiseLayoutBinding.adAppIcon
+                imageView = quoteAdvertiseLayoutBinding.adAppImage
+            }
             quoteAdvertiseLayoutBinding.adCard.fadeIn()
 
-        }
-                .withAdListener(object : AdListener() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        Log.e("AdMob", "onAdFailedToLoad: ${adError.message}")
-                        quoteAdvertiseLayoutBinding.adCard.gone()
-                    }
-                })
+        }.withAdListener(object : AdListener() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.e("AdMob", "onAdFailedToLoad: ${adError.message}")
+                quoteAdvertiseLayoutBinding.adCard.gone()
+            }
+        })
                 .withNativeAdOptions(NativeAdOptions.Builder().setMediaAspectRatio(NATIVE_MEDIA_ASPECT_RATIO_PORTRAIT).build())
         val loader = adLoader.build()
         val adrequest = AdRequest.Builder().build()

@@ -9,5 +9,6 @@
     <dimen name="small_quote_size">24sp</dimen>
     <dimen name="min_quote_size">20sp</dimen>
     <dimen name="default_padding">16dp</dimen>
+    <dimen name="default_margin">10dp</dimen>
     <dimen name="default_radius">15dp</dimen>
 </resources>

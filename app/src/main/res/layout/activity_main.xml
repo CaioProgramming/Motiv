@@ -21,7 +21,7 @@
                 app:titleEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -32,7 +32,6 @@
                     android:stateListAnimator="@animator/list_animator"
                     android:transitionName="profilepic"
                     app:civ_circle_background_color="@color/colorPrimaryDark"
-                    app:layout_collapseMode="parallax"
                     tools:src="@drawable/notfound" />
 
                 <androidx.appcompat.widget.Toolbar

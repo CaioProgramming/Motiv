@@ -108,7 +108,7 @@ class QuoteCardBinder(
 
             }
         }
-        //quoteCard.fadeIn()
+       onLoadFinish()
     }
 
     private fun showQuotePopupMenu() {

@@ -60,7 +60,9 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
             viewBind.notFoundInclude.emptyImage.clearAnimation()
             viewBind.notFoundInclude.emptyList.fadeOut()
             val quotes = ArrayList<Quote>(list)
+
             quotes.add(Quote.advertise_quote())
+
             quoteadapter.addData(quotes.toList())
         }
     }
