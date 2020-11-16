@@ -7,9 +7,11 @@ import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.creat.motiv.BuildConfig
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
+import com.creat.motiv.model.beans.User
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -80,28 +82,30 @@ object Tools {
     fun loadAd(context: Context, quoteAdvertiseLayoutBinding: QuoteAdvertiseLayoutBinding) {
         val adLoader = AdLoader.Builder(context, if (BuildConfig.DEBUG) TEST_ADS_ID else APP_AD_ID)
         adLoader.forUnifiedNativeAd { ad: UnifiedNativeAd ->
-            if (context is Activity && context.isDestroyed) {
-                ad.destroy()
-                return@forUnifiedNativeAd
-            }
-            quoteAdvertiseLayoutBinding.advertise = ad
             if (ad.icon != null) {
-                Glide.with(context).load(ad.icon.uri).into(quoteAdvertiseLayoutBinding.adAppIcon)
+                Glide.with(context).load(ad.icon.uri).into(quoteAdvertiseLayoutBinding.userTop.userpic)
             } else {
-                quoteAdvertiseLayoutBinding.adIconCard.gone()
+                quoteAdvertiseLayoutBinding.userTop.userpic.gone()
             }
-            Glide.with(context).load(ad.images[0].uri).into(quoteAdvertiseLayoutBinding.adAppImage)
-            quoteAdvertiseLayoutBinding.appRating.isEnabled = false
             quoteAdvertiseLayoutBinding.adView.run {
+                setNativeAd(ad)
                 headlineView = quoteAdvertiseLayoutBinding.adHeadline
-                advertiserView = quoteAdvertiseLayoutBinding.adAdvertiser
+                advertiserView = quoteAdvertiseLayoutBinding.userTop.userContainer
                 adChoicesView = quoteAdvertiseLayoutBinding.adChoices
                 bodyView = quoteAdvertiseLayoutBinding.adBody
                 starRatingView = quoteAdvertiseLayoutBinding.appRating
-                callToActionView = quoteAdvertiseLayoutBinding.adActionButton
-                iconView = quoteAdvertiseLayoutBinding.adAppIcon
-                imageView = quoteAdvertiseLayoutBinding.adAppImage
+                callToActionView = quoteAdvertiseLayoutBinding.adCard
+                iconView = quoteAdvertiseLayoutBinding.userTop.userpic
+                mediaView = quoteAdvertiseLayoutBinding.adAppMedia
             }
+            quoteAdvertiseLayoutBinding.userTop.userData = User(name = ad.advertiser
+                    ?: "Anúnciante não identificado")
+            quoteAdvertiseLayoutBinding.adAppMedia.run {
+                setMediaContent(ad.mediaContent)
+                setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+            }
+            quoteAdvertiseLayoutBinding.appRating.isEnabled = false
+            quoteAdvertiseLayoutBinding.advertise = ad
             quoteAdvertiseLayoutBinding.adCard.fadeIn()
 
         }.withAdListener(object : AdListener() {

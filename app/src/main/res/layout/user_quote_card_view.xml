@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="@layout/quotes_card"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -20,7 +21,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userpic"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:stateListAnimator="@animator/list_animator"
             android:transitionName="profilepic"
@@ -33,7 +34,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/lato_bold"
             android:gravity="center"
             android:text="@{userData.name}"
             android:textColor="@color/white"
