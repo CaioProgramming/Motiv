@@ -18,14 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_black"
-        android:text="Aparentemente alguma coisa voce fez errado, ou você tá achando que a culpa é nossa?"
+        android:text="@string/fatal_error_title"
         android:textAlignment="center" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Estamos verificando o que você fez porque alguém tem que consertar sua cagada né"
+        android:text="@string/fatal_error_message"
         android:textAlignment="center" />
 
 

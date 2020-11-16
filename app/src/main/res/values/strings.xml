@@ -24,4 +24,6 @@
     <string name="follow_user">Seguir usuário</string>
     <string name="settings_activity_title">Configurações</string>
     <string name="save_quote_button">Salvar Frase</string>
+    <string name="fatal_error_message">Por favor nos perdoe, cometemos um erro fatal e já estamos trabalhando nisso, não vá reclamar da gente pros amigos.</string>
+    <string name="fatal_error_title">Alguma coisa deu errado :(</string>
 </resources>
