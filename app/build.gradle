@@ -15,7 +15,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 17
-        versionName "9.5"
+        versionName "10.0.0"
         renderscriptTargetApi 19
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

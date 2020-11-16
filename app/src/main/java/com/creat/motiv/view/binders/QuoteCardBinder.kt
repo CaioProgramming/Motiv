@@ -114,7 +114,7 @@ class QuoteCardBinder(
     private fun showQuotePopupMenu() {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (vibrator.hasVibrator()) {
-            val mVibratePattern = longArrayOf(100, 150)
+            val mVibratePattern = longArrayOf(50, 100)
             vibrator.vibrate(mVibratePattern, -1) // for 500 ms
         }
         val popup = PopupMenu(context, viewBind.quoteTextView)

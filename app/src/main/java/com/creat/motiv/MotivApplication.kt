@@ -6,23 +6,21 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
+import com.creat.motiv.utilities.Tools
 import com.creat.motiv.view.activities.ErrorActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
-import java.util.*
 
 
 class MotivApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        MobileAds.initialize(this) {
-            Log.d(javaClass.simpleName, "Mobile ads initialized")
-        }
-        RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("0B05DB678D8A74AECB7F8E90C0AC97B5"))
+        MobileAds.initialize(this)
+        RequestConfiguration.Builder().setTestDeviceIds(Tools.TEST_DEVICES)
         CaocConfig.Builder.create()
-                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //default: CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM
-                .trackActivities(true) //default: false
+                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
+                .trackActivities(true)
                 .errorActivity(ErrorActivity::class.java)
                 .apply()
         // Thread.setDefaultUncaughtExceptionHandler { thread, e -> handleUncaughtException(e) }

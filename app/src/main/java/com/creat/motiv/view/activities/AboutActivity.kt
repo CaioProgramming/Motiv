@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
+import com.creat.motiv.utilities.REWARD_VIDEO_AD
 import com.creat.motiv.utilities.snackmessage
 import com.creat.motiv.view.adapters.AboutAdapter
 import com.google.android.gms.ads.AdRequest
@@ -34,8 +35,6 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
 
     private fun showAd() {
 
-        MobileAds.initialize(this, "ca-app-pub-4979584089010597~4181793255")
-
         val rewardedVideoAd: RewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
         rewardedVideoAd.rewardedVideoAdListener = object : RewardedVideoAdListener {
             override fun onRewardedVideoAdLoaded() {
@@ -55,7 +54,6 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
             }
 
             override fun onRewarded(p0: RewardItem?) {
-                TODO("Not yet implemented")
             }
 
 
@@ -76,7 +74,7 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
     }
 
     private fun loadRewardedVideoAd(rewardedVideoAd: RewardedVideoAd) {
-        rewardedVideoAd.loadAd("ca-app-pub-4979584089010597/9410101997",
+        rewardedVideoAd.loadAd(REWARD_VIDEO_AD,
                 AdRequest.Builder().build())
 
     }
