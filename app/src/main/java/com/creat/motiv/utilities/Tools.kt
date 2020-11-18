@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.creat.motiv.BuildConfig
+import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
 import com.creat.motiv.model.beans.User
 import com.google.android.gms.ads.AdListener
@@ -29,7 +29,7 @@ object Tools {
             var flags = activity.window.decorView.systemUiVisibility
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             activity.window.decorView.systemUiVisibility = flags
-            var navigationflag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val navigationflag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             } else {
                 Log.println(Log.INFO, "Navigation Style", "Device is lower than android O")
@@ -100,7 +100,7 @@ object Tools {
 
 
     fun loadAd(context: Context, quoteAdvertiseLayoutBinding: QuoteAdvertiseLayoutBinding) {
-        val adLoader = AdLoader.Builder(context, if (BuildConfig.DEBUG) TEST_ADS_ID else APP_AD_ID)
+        val adLoader = AdLoader.Builder(context, context.resources.getString(R.string.feed_advertisement_id))
         adLoader.forUnifiedNativeAd { ad: UnifiedNativeAd ->
             if (ad.icon != null) {
                 Glide.with(context).load(ad.icon.uri).into(quoteAdvertiseLayoutBinding.userTop.userpic)

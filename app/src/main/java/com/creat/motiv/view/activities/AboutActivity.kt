@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
-import com.creat.motiv.utilities.REWARD_VIDEO_AD
 import com.creat.motiv.utilities.snackmessage
 import com.creat.motiv.view.adapters.AboutAdapter
 import com.google.android.gms.ads.AdRequest
@@ -74,8 +73,7 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
     }
 
     private fun loadRewardedVideoAd(rewardedVideoAd: RewardedVideoAd) {
-        rewardedVideoAd.loadAd(REWARD_VIDEO_AD,
-                AdRequest.Builder().build())
+        rewardedVideoAd.loadAd(getString(R.string.video_advertisement_id), AdRequest.Builder().build())
 
     }
 

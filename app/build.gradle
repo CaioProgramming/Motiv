@@ -14,14 +14,27 @@ android {
         applicationId "com.creat.motiv"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 19
-        versionName "10.0.1"
+        versionCode 20
+        versionName "10.0.2"
         renderscriptTargetApi 19
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
     }
+
+    buildTypes {
+        debug {
+            resValue("string",  "feed_advertisement_id", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "video_advertisement_id", "ca-app-pub-3940256099942544/5224354917")
+        }
+
+        release {
+            resValue("string", "feed_advertisement_id", "ca-app-pub-8016530757684172/3873976887")
+            resValue("string", "video_advertisement_id", "ca-app-pub-8016530757684172/4401117155")
+        }
+    }
+
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
