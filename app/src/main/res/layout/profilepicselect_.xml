@@ -7,18 +7,16 @@
     <LinearLayout
         android:background="?android:colorBackground"
         android:id="@+id/mainView"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:padding="@dimen/default_padding"
         android:orientation="vertical">
 
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="wrap_content"
+            style="@style/ToolbarTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="@dimen/default_padding"
             android:text="Selecione um ícone de perfil" />
 
         <androidx.recyclerview.widget.RecyclerView

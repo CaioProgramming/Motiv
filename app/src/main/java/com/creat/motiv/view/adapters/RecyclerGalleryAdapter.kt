@@ -21,6 +21,13 @@ class RecyclerGalleryAdapter(var pictureList: ArrayList<String> = ArrayList(),
         notifyDataSetChanged()
     }
 
+    fun updateSaved(count: Int) {
+        savedPics.add(count)
+        notifyDataSetChanged()
+    }
+
+    var savedPics = ArrayList<Int>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false)
         return MyViewHolder(picsBind)
@@ -30,18 +37,24 @@ class RecyclerGalleryAdapter(var pictureList: ArrayList<String> = ArrayList(),
         if (pictureList.isNotEmpty() && position < pictureList.size) {
             val picture = pictureList[position]
             holder.picsLayoutBinding.run {
-                if (picture != NEW_PIC) {
-                    Glide.with(context).load(picture).into(pic)
-                    card.setOnLongClickListener {
-                        pictureList.add(position, NEW_PIC)
-                        notifyItemChanged(position)
-                        false
+                if (!savedPics.contains(position)) {
+                    if (picture != NEW_PIC) {
+                        Glide.with(context).load(picture).into(pic)
+                        card.setOnLongClickListener {
+                            pictureList.add(position, NEW_PIC)
+                            notifyItemChanged(position)
+                            false
+                        }
+                    } else {
+                        pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_arrow_upward_24))
+                        pic.setOnClickListener {
+                            openPicker.invoke()
+                        }
                     }
                 } else {
-                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_arrow_upward_24))
-                    pic.setOnClickListener {
-                        openPicker.invoke()
-                    }
+                    card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_blue500))
+                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp))
+
                 }
                 card.slideInBottom()
             }

@@ -25,7 +25,7 @@
             android:contentDescription="@string/icon_info"
             android:hapticFeedbackEnabled="true"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic__41_floppy_disk" />
+            tools:src="@drawable/ic_saturn_and_other_planets_primary" />
 
 
         <ProgressBar

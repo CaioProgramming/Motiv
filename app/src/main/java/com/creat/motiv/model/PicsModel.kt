@@ -23,7 +23,7 @@ class PicsModel(override val presenter: BasePresenter<Pics>) : BaseModel<Pics>()
         }.addOnSuccessListener { task ->
             iconReference.downloadUrl.addOnSuccessListener {
                 data.uri = it.toString()
-                super.addData(data, forcedID)
+                super.addData(data, null)
             }
         }.addOnFailureListener {
             errorMessage("Ocorre um erro ao enviar a imagem ${it.message}")

@@ -30,6 +30,13 @@
                 app:spanCount="2"
                 tools:listitem="@layout/pics_layout" />
 
+            <com.google.android.material.progressindicator.ProgressIndicator
+                android:id="@+id/loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:growMode="bidirectional" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/saveIcons"
                 android:layout_width="match_parent"

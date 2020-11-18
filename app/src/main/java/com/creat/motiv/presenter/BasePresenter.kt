@@ -24,6 +24,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
         model.getSingleData(key)
     }
 
+
     fun saveData(data: T, forcedID: String? = null) {
         view.onLoading()
         if (forcedID.isNullOrBlank()) {

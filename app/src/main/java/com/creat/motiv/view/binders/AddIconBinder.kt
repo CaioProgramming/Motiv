@@ -5,10 +5,10 @@ import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import com.creat.motiv.databinding.ActivityAddIconsBinding
+import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.presenter.PicsPresenter
-import com.creat.motiv.utilities.NEW_PIC
-import com.creat.motiv.utilities.snackmessage
+import com.creat.motiv.utilities.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerGalleryAdapter
 import com.gun0912.tedpermission.PermissionListener
@@ -20,18 +20,43 @@ class AddIconBinder(override val context: Context, override val viewBind: Activi
 
     override fun presenter() = PicsPresenter(this)
     var previewAdapter = RecyclerGalleryAdapter(context = context, openPicker = ::openPicker)
-
+    var savedCount = 0
     init {
         initView()
     }
 
 
-    fun addIcons(picList: ArrayList<String>) {
+    private fun addIcons(picList: ArrayList<String>) {
         picList.forEach {
-            presenter().saveData(Pics(it))
+            if (it != NEW_PIC) {
+                presenter().saveData(Pics(it))
+            }
         }
     }
 
+    override fun getCallBack(dtoMessage: DTOMessage) {
+        super.getCallBack(dtoMessage)
+        if (dtoMessage.operationType == OperationType.DATA_SAVED) {
+            previewAdapter.updateSaved(savedCount)
+            savedCount++
+            if (savedCount == previewAdapter.pictureList.size - 1) {
+                snackmessage(context, message = "Ícones adicionados com sucesso!")
+            }
+        }
+
+    }
+
+    override fun onLoading() {
+        super.onLoading()
+        viewBind.loading.fadeIn()
+        viewBind.saveIcons.isEnabled = false
+    }
+
+    override fun onLoadFinish() {
+        super.onLoadFinish()
+        viewBind.loading.fadeOut()
+        viewBind.saveIcons.isEnabled = true
+    }
 
     override fun initView() {
 
