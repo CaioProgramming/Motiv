@@ -4,32 +4,59 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    signingConfigs {
-
-    }
 
     compileSdkVersion 30
+    buildToolsVersion '26.0.3'
+
+    def versionPropsFile = file('version.properties')
+    Properties versionProps = new Properties()
+
+    if (versionPropsFile.canRead()) {
+        versionProps.load(new FileInputStream(versionPropsFile))
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
+    def versionMajor = versionProps['MAJOR_VERSION']
+    def versionMinor = versionProps['MINOR_VERSION']
+    def versionPatch = versionProps['PATCH_VERSION'].toInteger() + 1
+    def versionBuild = versionProps['BUILD_VERSION'].toInteger() + 1
+    def versionNumber = versionProps['VERSION_NUMBER'].toInteger() + 1
+    def vName = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
+
+
     defaultConfig {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 20
-        versionName "10.0.2"
+        versionCode versionNumber
+        versionName vName
         renderscriptTargetApi 19
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
     }
-
+    versionProps['VERSION_PATCH'] = versionPatch.toString()
+    versionProps['VERSION_BUILD'] = versionBuild.toString()
+    versionProps['VERSION_NUMBER'] = versionNumber.toString()
+    versionPropsFile.withWriter { versionProps.store(it, null) }
     buildTypes {
         debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("string",  "feed_advertisement_id", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "video_advertisement_id", "ca-app-pub-3940256099942544/5224354917")
+            resValue("string","actual_version",vName + "(debug)")
+
         }
 
         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string","actual_version",vName + "(release)")
             resValue("string", "feed_advertisement_id", "ca-app-pub-8016530757684172/3873976887")
             resValue("string", "video_advertisement_id", "ca-app-pub-8016530757684172/4401117155")
         }
@@ -67,6 +94,8 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude("META-INF/*.kotlin_module")
     }
+
+
 }
 
 dependencies {

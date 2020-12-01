@@ -13,6 +13,7 @@
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="navigationIcon">@drawable/ic_baseline_arrow_back_ios_24</item>
     </style>
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">

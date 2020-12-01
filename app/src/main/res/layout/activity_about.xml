@@ -57,6 +57,13 @@
                     app:startColor="@color/material_blue900"
                     android:textAlignment="center" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/actual_version" />
+
             </LinearLayout>
         </RelativeLayout>
 
