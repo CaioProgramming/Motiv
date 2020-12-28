@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
 import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.view.binders.DeveloperBinder
 
 class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyViewHolder>() {
@@ -30,7 +31,9 @@ class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyV
             holder.quotescardBinding.quotesRecycler.quotesrecyclerview.run {
                 layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
                 adapter = RecyclerReferencesAdapter(context)
+                holder.quotescardBinding.quotesRecycler.loading.fadeOut()
                 fadeIn()
+
             }
         }
     }

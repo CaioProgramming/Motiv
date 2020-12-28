@@ -6,8 +6,6 @@
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="colorAccent">@color/material_purpleA100</item>
-        <item name="android:statusBarColor">?android:colorBackground</item>
-        <item name="android:navigationBarColor">?android:colorBackground</item>
         <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
         <item name="toolbarStyle">@style/AppToolbar</item>
         <item name="searchViewStyle">@style/Searchtheme</item>
@@ -15,6 +13,7 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="navigationIcon">@drawable/ic_baseline_arrow_back_ios_24</item>
     </style>
+
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">
         <item name="android:textStyle">bold</item>
@@ -32,16 +31,21 @@
     </style>
 
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:elevation">3dp</item>
         <item name="titleTextAppearance">@style/ToolbarTitle</item>
-        <item name="backgroundColor">?android:colorBackground</item>
+        <item name="background">@drawable/bottom_line</item>
+        <item name="android:background">@drawable/bottom_line</item>
     </style>
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/lato_black</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:padding">@dimen/default_padding</item>
+    </style>
+
+    <style name="TabsTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">@font/lato_black</item>
+        <item name="android:stateListAnimator">@animator/text_animator</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -83,13 +87,11 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-    <style name="App_progress_Indicator">
-        <item name="trackColor">@color/transparent</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="indicatorType">circular</item>
-        <item name="android:layout_gravity">center</item>
+
+    <style name="AppProgressIndicator">
         <item name="android:indeterminate">true</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 

@@ -6,13 +6,17 @@ import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.utilities.ErrorType
 import com.creat.motiv.utilities.MessageType
 import com.creat.motiv.utilities.OperationType
+import com.creat.motiv.utilities.SEARCH_SUFFIX
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventListener<QuerySnapshot> where T : BaseBean {
 
@@ -89,43 +93,55 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     override fun query(query: String, field: String) {
         if (isDisconnected()) return
         presenter.modelCallBack(infoMessage("Buscando por $query em $field na collection $path"))
+        db().orderBy(field).startAt(query).endAt(query.toLowerCase(Locale.getDefault()) + SEARCH_SUFFIX).addSnapshotListener(this)
+    }
+
+    fun explicitSearch(query: String, field: String) {
+        if (isDisconnected()) return
+        presenter.modelCallBack(infoMessage("Buscando por $query em $field na collection $path"))
         db().whereEqualTo(field, query).addSnapshotListener(this)
     }
 
     override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-        if (error != null) {
-            presenter.modelCallBack(errorMessage("Erro ao receber dados ${error.message}"))
-            return
+        GlobalScope.launch(Dispatchers.IO) {
+            if (error != null) {
+                presenter.modelCallBack(errorMessage("Erro ao receber dados ${error.message}"))
+                return@launch
+            }
+            val dataList: ArrayList<T> = ArrayList()
+            for (doc in value!!) {
+                deserializeDataSnapshot(doc)?.let { dataList.add(it) }
+            }
+            presenter.modelCallBack(successMessage("Dados recebidos: $dataList", OperationType.DATA_RETRIEVED))
+            presenter.onDataRetrieve(dataList)
         }
-        val dataList: ArrayList<T> = ArrayList()
-        for (doc in value!!) {
-            deserializeDataSnapshot(doc)?.let { dataList.add(it) }
-        }
-        presenter.modelCallBack(successMessage("Dados recebidos: $dataList", OperationType.DATA_RETRIEVED))
-        presenter.onDataRetrieve(dataList)
-
     }
 
 
     override fun getAllData() {
         if (isDisconnected()) return
-        db().addSnapshotListener(this)
+        GlobalScope.launch(Dispatchers.IO) {
+            db().addSnapshotListener(this@BaseModel)
+        }
     }
 
     override fun getSingleData(id: String) {
         if (isDisconnected()) return
-        Log.i(javaClass.name, "querying data $id")
-        db().document(id).addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                presenter.modelCallBack(errorMessage(e.message
-                        ?: "Ocorreu um erro ao obter dados de $id"))
-            }
-            if (snapshot != null && snapshot.exists()) {
-                deserializeDataSnapshot(snapshot)?.let { presenter.onSingleData(it) }
-            } else {
-                presenter.modelCallBack(errorMessage("Dados não encontrados para $id"))
+        GlobalScope.launch(Dispatchers.IO) {
+            Log.i(javaClass.name, "querying data $id")
+            db().document(id).addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    presenter.modelCallBack(errorMessage(e.message
+                            ?: "Ocorreu um erro ao obter dados de $id"))
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    deserializeDataSnapshot(snapshot)?.let { presenter.onSingleData(it) }
+                } else {
+                    presenter.modelCallBack(errorMessage("Dados não encontrados para $id"))
+                }
             }
         }
+
     }
 
 

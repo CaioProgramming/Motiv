@@ -3,16 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="10dp"
     android:gravity="center"
     tools:context=".view.activities.ErrorActivity">
 
-    <ImageView
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_height="400dp"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/error_animation"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_astronaut" />
+        app:tint="@color/colorPrimaryDark" />
+
     <TextView
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"

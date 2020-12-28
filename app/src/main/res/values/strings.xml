@@ -21,9 +21,12 @@
     <string name="report_message">Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade?</string>
     <string name="dribble_description">Dribbble is where designers gain inspiration, feedback, community, and jobs and is your best resource to discover and connect with designers worldwide.</string>
     <string name="support_devs">Apoiar desenvolvedores</string>
-    <string name="follow_user">Seguir usuário</string>
+    <string name="follow_user">seguir</string>
+    <string name="message_user">mensagem</string>
     <string name="settings_activity_title">Configurações</string>
     <string name="save_quote_button">Salvar Frase</string>
     <string name="fatal_error_message">Por favor nos perdoe, cometemos um erro fatal e já estamos trabalhando nisso, não vá reclamar da gente pros amigos.</string>
     <string name="fatal_error_title">Alguma coisa deu errado :(</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="query_hint">Pesquise citações, autores, músicas...</string>
 </resources>

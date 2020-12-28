@@ -10,11 +10,27 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import com.creat.motiv.R
 import com.github.mmin18.widget.RealtimeBlurView
 import com.google.android.material.snackbar.Snackbar
 import java.lang.String.format
+
+
+fun Context.hideBackButton() {
+    if (this is AppCompatActivity) {
+        val activity: AppCompatActivity = this
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+}
+
+fun Context.showSupportActionBar() {
+    if (this is AppCompatActivity) {
+        val activity: AppCompatActivity = this
+        activity.supportActionBar?.show()
+    }
+}
 
 fun Snackbar.config() {
     val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
@@ -103,6 +119,23 @@ fun View.popIn() {
     startAnimation(popIn)
 }
 
+fun View.popOut() {
+    val popOut = AnimationUtils.loadAnimation(context, R.anim.pop_out)
+    popOut.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(p0: Animation?) {
+        }
+
+        override fun onAnimationEnd(p0: Animation?) {
+            gone()
+        }
+
+        override fun onAnimationRepeat(p0: Animation?) {
+        }
+
+    })
+    startAnimation(popOut)
+}
+
 fun View.slideInBottom() {
     visible()
     val slideInBottom = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom)
@@ -132,7 +165,7 @@ fun unblurView(context: Context) {
     }
 }
 
-fun snackmessage(context: Context, backcolor: Int = Color.BLACK, textColor: Int = Color.WHITE, message: String) {
+fun snackmessage(context: Context, message: String, backcolor: Int = Color.BLACK, textColor: Int = Color.WHITE) {
     if (context is Activity) {
         val contextView = context.findViewById<View>(R.id.mainContainer)
         Snackbar.make(contextView, message, Snackbar.LENGTH_SHORT)

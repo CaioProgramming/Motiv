@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding"
+        tools:context=".view.fragments.SettingsFragment">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userpic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            app:civ_border_color="@color/colorAccent"
+            app:civ_border_width="1dp"
+            tools:src="@drawable/ic__41_floppy_disk" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changeIconPic"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alterar foto de perfil"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/oblack" />
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nameTitle"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/default_padding"
+                android:text="Nome" />
+
+            <EditText
+                android:id="@+id/userNameEditText"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="start"
+                android:layout_toStartOf="@id/saveButton"
+                android:layout_toEndOf="@id/nameTitle"
+                android:background="@color/transparent"
+                android:focusedByDefault="true"
+                android:padding="@dimen/default_padding"
+                app:layout_constraintBottom_toBottomOf="@id/nameTitle"
+                app:layout_constraintEnd_toStartOf="@id/saveButton"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/nameTitle"
+                app:layout_constraintTop_toTopOf="@id/nameTitle"
+                tools:text="Caio Alves Ferreira" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:text="Salvar"
+                android:textAllCaps="false"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/nameTitle"
+                android:background="@color/oblack" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/default_padding">
+
+            <TextView
+                android:id="@+id/providerTitle"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:padding="@dimen/default_padding"
+                android:text="Email" />
+
+            <TextView
+                android:id="@+id/provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/providerTitle"
+                android:enabled="false"
+                android:padding="@dimen/default_padding"
+                tools:text="Google" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/providerTitle"
+                android:background="@color/oblack" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/uidTitle"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:padding="@dimen/default_padding"
+                android:text="ID"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/userID"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/uidTitle"
+                android:enabled="false"
+                android:padding="@dimen/default_padding"
+                android:textStyle="bold"
+                tools:text="caioferre.ira@gmail.com" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/singOutButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            android:text="Desconectar"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/material_red500" />
+
+    </LinearLayout>
+</layout>

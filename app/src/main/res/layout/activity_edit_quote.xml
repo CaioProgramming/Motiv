@@ -5,7 +5,6 @@
 
     <LinearLayout
         android:id="@+id/mainContainer"
-        android:padding="@dimen/default_padding"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,14 +13,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Editar Frase" />
+            />
 
         <include
             android:id="@+id/quoteFormView"
             layout="@layout/newquotepopup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 

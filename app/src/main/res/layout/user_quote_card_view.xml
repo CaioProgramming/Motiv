@@ -34,9 +34,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
+            android:textColor="?android:colorBackground"
             android:gravity="center"
             android:text="@{userData.name}"
-            android:textColor="@color/white"
             android:textSize="12sp"
             tools:text="Caio Alves Ferreira" />
 

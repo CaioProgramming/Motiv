@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
     <LinearLayout
         android:id="@+id/emptyList"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/default_padding"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
+        tools:visibility="visible"
         tools:showIn="@layout/quote_recycler">
 
-        <ImageView
-            android:id="@+id/emptyImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_astronaut_sitting" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/birdanim"
+            app:lottie_repeatMode="reverse" />
+
 
         <TextView
+            android:text="Desculpe não encontrei nada, mas o passarinho é fofo né?"
+            android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Desculpe não encontrei nada" />
+            android:textColor="?android:textColorPrimary" />
     </LinearLayout>
 </layout>

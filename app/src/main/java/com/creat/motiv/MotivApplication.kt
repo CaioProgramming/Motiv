@@ -6,10 +6,8 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
-import com.creat.motiv.utilities.Tools
 import com.creat.motiv.view.activities.ErrorActivity
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 
 
 class MotivApplication : MultiDexApplication() {
@@ -17,7 +15,7 @@ class MotivApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         MobileAds.initialize(this)
-        RequestConfiguration.Builder().setTestDeviceIds(Tools.TEST_DEVICES)
+        //RequestConfiguration.Builder().setTestDeviceIds(Tools.TEST_DEVICES)
         CaocConfig.Builder.create()
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
                 .trackActivities(true)

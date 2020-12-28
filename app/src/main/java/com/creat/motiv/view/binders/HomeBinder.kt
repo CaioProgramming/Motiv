@@ -19,10 +19,8 @@ class HomeBinder(
     }
 
     override fun initView() {
-        viewBind.homeSearch.setOnQueryTextListener(this)
-        viewBind.homeSearch.setOnCloseListener {
+        if (useInit) {
             quotesListBinder.initView()
-            false
         }
     }
 
@@ -33,7 +31,7 @@ class HomeBinder(
     }
 
     override fun onQueryTextChange(p0: String): Boolean {
-        quotesListBinder.searchData(p0)
+
         return false
     }
 }

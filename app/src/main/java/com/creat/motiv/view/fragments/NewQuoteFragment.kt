@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
+import com.creat.motiv.utilities.hideBackButton
+import com.creat.motiv.utilities.showSupportActionBar
 import com.creat.motiv.view.binders.EditQuoteBinder
 
 
@@ -21,6 +23,8 @@ class NewQuoteFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context?.hideBackButton()
+        context?.showSupportActionBar()
         popupbind?.let {
             context?.let { it1 -> EditQuoteBinder(context = it1, viewBind = it, quote = null) }
         }

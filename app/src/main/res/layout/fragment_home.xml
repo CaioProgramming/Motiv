@@ -5,13 +5,10 @@
 
     tools:context=".view.fragments.HomeFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_margin="@dimen/default_padding"
-        android:id="@+id/home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <include
             android:layout_marginTop="10dp"
@@ -20,29 +17,8 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:id="@+id/quotesView"
             layout="@layout/quote_recycler" />
+    </LinearLayout>
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:background="?android:colorBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/home_search"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round"
-                    android:backgroundTint="@color/lblack"
-                    app:iconifiedByDefault="false"
-                    android:layout_width="match_parent"
-                    app:queryHint="Pesquise citações, autores, músicas..." />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -23,11 +23,11 @@
                 android:layout_height="wrap_content"
                 android:background="?android:colorBackground"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
                 <include
                     android:id="@+id/profileTopView"
-                    layout="@layout/profile_top_view" />
-
+                    layout="@layout/profile_top_view"
+                    app:layout_anchor="@+id/profileRecycler"
+                    app:layout_anchorGravity="center" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -48,11 +48,6 @@
             tools:itemCount="2"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:listitem="@layout/quote_header_view" />
-
-        <com.google.android.material.progressindicator.ProgressIndicator
-            style="@style/App_progress_Indicator"
-            android:id="@+id/loading"
-            android:layout_gravity="bottom|end" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

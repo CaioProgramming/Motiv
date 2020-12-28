@@ -20,13 +20,13 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
         super.onCreate(savedInstanceState)
         val popupbind: ActivityEditQuoteBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_quote)
         val quotedata = intent.getSerializableExtra("Quote") as? Quote
-        quotedata?.let {
-            EditQuoteBinder(it, this, popupbind.quoteFormView)
-            setSupportActionBar(toolbar)
-            supportActionBar?.let { actionBar ->
-                actionBar.setDisplayShowCustomEnabled(true)
-                toolbar.setNavigationOnClickListener { finish() }
-            }
+        EditQuoteBinder(quotedata, this, popupbind.quoteFormView)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.let { actionBar ->
+            actionBar.setDisplayShowCustomEnabled(true)
+            toolbar.setNavigationOnClickListener { finish() }
+            title = if (quotedata == null) "Nova publicação" else "Editar publicação"
         }
 
     }

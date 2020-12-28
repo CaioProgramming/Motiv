@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
@@ -49,14 +48,6 @@ class UserViewBinder(
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity,
                     viewBind.userpic as View, "profilepic")
             context.startActivity(i, options.toBundle())
-        } else {
-            if (context is Activity) {
-                val activity: Activity = context
-                activity.run {
-                    val pager = findViewById<ViewPager>(R.id.pager)
-                    pager.currentItem = 2
-                }
-            }
         }
 
     }

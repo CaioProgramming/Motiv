@@ -17,15 +17,14 @@ import kotlinx.android.synthetic.main.title_layout.*
 class AboutActivity : AppCompatActivity(R.layout.activity_about) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(about_toolbar)
         aboutRecycler.adapter = AboutAdapter(this)
         support_devs.setOnClickListener {
             showAd()
         }
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
-            it.title = ""
-            toolbar.setNavigationOnClickListener {
+            about_toolbar.setNavigationOnClickListener {
                 onBackPressed()
             }
         }
@@ -60,11 +59,11 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
             }
 
             override fun onRewardedVideoAdFailedToLoad(i: Int) {
-                snackmessage(this@AboutActivity, resources.getColor(R.color.material_red500), Color.WHITE, "Ocorreu um erro carregando o vídeo \uD83D\uDE22")
+                snackmessage(this@AboutActivity, "Ocorreu um erro carregando o vídeo \uD83D\uDE22", resources.getColor(R.color.material_red500), Color.WHITE)
             }
 
             override fun onRewardedVideoCompleted() {
-                snackmessage(this@AboutActivity, resources.getColor(R.color.colorPrimary), Color.WHITE, "Obrigado por nos ajudar, esses anúncios fazem uma diferença enorme para nós!")
+                snackmessage(this@AboutActivity, "Obrigado por nos ajudar, esses anúncios fazem uma diferença enorme para nós!", resources.getColor(R.color.colorPrimary), Color.WHITE)
 
             }
         }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
@@ -27,6 +28,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (context is AppCompatActivity) {
+            val activity: AppCompatActivity = context as AppCompatActivity
+            activity.supportActionBar?.show()
+        }
         homeBinding.run {
             context?.let { this?.let { it1 -> HomeBinder(it, it1) } }
         }

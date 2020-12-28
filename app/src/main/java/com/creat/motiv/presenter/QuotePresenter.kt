@@ -3,17 +3,21 @@ package com.creat.motiv.presenter
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.view.BaseView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>() {
 
     override val model: QuoteModel = QuoteModel(this)
 
-
     fun loadFavorites(uid: String) {
         view.onLoading()
-        model.getFavorites(uid)
-        view.onLoadFinish()
+        GlobalScope.launch {
+            model.getFavorites(uid)
+        }
+
     }
+
 
     fun deleteAll(data: List<Quote>) {
         view.onLoading()
@@ -23,16 +27,6 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
     fun delete(id: String) {
         view.onLoading()
         model.deleteData(id)
-    }
-
-    override fun onDataRetrieve(data: List<Quote>) {
-        view.showListData(data)
-        view.onLoadFinish()
-    }
-
-    override fun onSingleData(data: Quote) {
-        view.showData(data)
-        view.onLoadFinish()
     }
 
     fun likeQuote(quote: Quote) {
@@ -52,6 +46,5 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
             model.addData(quote, quote.id)
         }
     }
-
 
 }

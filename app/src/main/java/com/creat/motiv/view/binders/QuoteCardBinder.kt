@@ -9,12 +9,9 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
-import android.os.Handler
 import android.os.Vibrator
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.View.VISIBLE
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
@@ -28,8 +25,6 @@ import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.devs.readmoreoption.ReadMoreOption
-import java.text.SimpleDateFormat
-import java.util.*
 
 class QuoteCardBinder(
         var quote: Quote,
@@ -38,21 +33,14 @@ class QuoteCardBinder(
 
 
     override fun presenter(): QuotePresenter = QuotePresenter(this)
-    val userBinder = UserViewBinder(quote.userID, context, viewBind.userTop)
-    val likeAdapter = CardLikeAdapter(quote.likes.toList(), context)
+
 
     init {
         initView()
     }
 
     override fun initView() {
-        onLoading()
-        viewBind.run {
-            Log.d(javaClass.simpleName, "initView: setup view")
-            setupQuote()
-            setupCard()
-        }
-        onLoadFinish()
+        showData(quote)
     }
 
 
@@ -60,8 +48,8 @@ class QuoteCardBinder(
         quoteCard.setCardBackgroundColor(quote.intBackColor())
         quoteTextView.text = quote.quote
         authorTextView.text = quote.author
-        quoteTextView.typeface = Tools.fonts(context)[quote.font]
-        authorTextView.typeface = Tools.fonts(context)[quote.font]
+        quoteTextView.typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[quote.font].path)
+        authorTextView.typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[quote.font].path)
         quoteTextView.setTextColor(quote.intTextColor())
         authorTextView.setTextColor(quote.intTextColor())
         val color = ColorUtils.lighten(quote.intTextColor(), 0.8)
@@ -74,7 +62,7 @@ class QuoteCardBinder(
                 .expandAnimation(true)
                 .build()
         readMoreOption.addReadMoreTo(quoteTextView, quote.quote)
-        quoteDate.text = data()
+        quoteDate.text = TextUtils.data(quote.data)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             quoteTextView.autoSizeText()
         }
@@ -108,7 +96,6 @@ class QuoteCardBinder(
 
             }
         }
-       onLoadFinish()
     }
 
     private fun showQuotePopupMenu() {
@@ -117,6 +104,10 @@ class QuoteCardBinder(
             val mVibratePattern = longArrayOf(50, 100)
             vibrator.vibrate(mVibratePattern, -1) // for 500 ms
         }
+        quotePopup()
+    }
+
+    private fun quotePopup() {
         val popup = PopupMenu(context, viewBind.quoteTextView)
         popup.run {
             menuInflater.inflate(R.menu.quotemenu, popup.menu)
@@ -194,63 +185,18 @@ class QuoteCardBinder(
         context.startActivity(i, options.toBundle())
     }
 
-    fun data(): String {
-        val postdia = quote.data
-        val now = Calendar.getInstance().time
-        val fmt = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
-        val dayCount = ((now.time - postdia.time) / 1000 / 60 / 60 / 24).toInt()
-        return when {
-            dayCount < 1 -> {
-                "Hoje"
-            }
-            dayCount == 1 -> {
-                "Ontem"
-            }
-            dayCount <= 6 -> "Há ${dayCount} dias"
-
-            dayCount == 7 -> "Há 1 semana"
-
-            dayCount <= 28 -> "Há ${dayCount / 7} semanas"
-
-            dayCount == 30 -> "Há 1 mês"
-
-            dayCount <= 90 -> "Há ${dayCount / 30} meses"
-
-            else -> {
-                fmt.format(postdia)
-            }
-        }
-    }
-
-    override fun onLoading() {
-        if (viewBind.cardShimmer.quoteShimmer.visibility == VISIBLE) {
-            viewBind.cardShimmer.quoteShimmer.run {
-                viewBind.quoteMainView.invisible()
-                fadeIn()
-                startShimmer()
-            }
-        }
-
-    }
-
-    override fun onLoadFinish() {
-        if (viewBind.cardShimmer.quoteShimmer.visibility == VISIBLE) {
-            viewBind.cardShimmer.quoteShimmer.run {
-                Handler().postDelayed({
-                    stopShimmer()
-                    fadeOut()
-                    viewBind.quoteMainView.fadeIn()
-                }, 2500)
-
-            }
-        }
-
-    }
-
-
     override fun showData(data: Quote) {
         this.quote = data
-        initView()
+        fillQuoteData(data)
+    }
+
+    private fun fillQuoteData(data: Quote) {
+        UserViewBinder(data.userID, context, viewBind.userTop)
+        CardLikeAdapter(data.likes.toList(), context)
+        viewBind.run {
+            setupQuote()
+            setupCard()
+        }
     }
 
 

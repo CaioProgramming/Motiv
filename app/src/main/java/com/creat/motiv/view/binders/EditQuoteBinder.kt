@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Handler
-import android.view.animation.AnimationUtils
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.creat.motiv.R
@@ -17,7 +16,12 @@ import com.creat.motiv.utilities.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.PickedColor
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
+import com.google.android.material.tabs.TabLayout
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.createBalloon
+import com.skydoves.balloon.showAlignTop
 import java.util.*
 
 class EditQuoteBinder(
@@ -31,7 +35,6 @@ class EditQuoteBinder(
     init {
         initView()
     }
-
 
     override fun onLoading() {
         viewBind.editloading.fadeIn()
@@ -51,25 +54,35 @@ class EditQuoteBinder(
         if (quote == null) {
             quote = emptyQuote()
         }
+        val balloon = createBalloon(context) {
+            setArrowSize(10)
+            setWidthRatio(0.5f)
+            setHeight(50)
+            setCornerRadius(10f)
+            setArrowOrientation(ArrowOrientation.BOTTOM)
+            setAutoDismissDuration(5000)
+            setText("Deslize para ver as outras fontes")
+            setTextColorResource(R.color.white)
+            setBackgroundColorResource(R.color.colorPrimary)
+            setBalloonAnimation(BalloonAnimation.ELASTIC)
+            setLifecycleOwner(lifecycleOwner)
+        }
+        viewBind.currentFont.showAlignTop(balloon)
         showData(quote!!)
     }
 
     override fun showData(data: Quote) {
         getcolorGallery()
+        getFonts()
         viewBind.run {
             quoteTextView.setTextColor(data.intTextColor())
             authorTextView.setTextColor(data.intTextColor())
             quoteTextView.setText(data.quote)
             authorTextView.setText(data.author)
-            updateFont()
-            textcolorfab.imageTintList = ColorStateList.valueOf(data.intTextColor())
-            fontSelector.setTextColor(data.intTextColor())
-            background.setCardBackgroundColor(data.intBackColor())
-            backcolorfab.imageTintList = ColorStateList.valueOf(ColorUtils.darken(data.intBackColor(), 0.8))
-            fontSelector.setOnClickListener {
-                quote?.font = quote?.font!! + 1
-                updateFont()
-            }
+            updateFont(data.font)
+            textcolorfab.backgroundTintList = ColorStateList.valueOf(data.intTextColor())
+            textcolorfab.imageTintList = ColorStateList.valueOf(if (data.intTextColor() == Color.BLACK) Color.WHITE else Color.BLACK)
+            backcolorfab.backgroundTintList = if (data.intTextColor() == Color.BLACK) ColorStateList.valueOf(ColorUtils.lighten(data.intBackColor(), 1.5)) else ColorStateList.valueOf(ColorUtils.darken(data.intBackColor(), 1.6))
             backColorpicker()
             textColorPicker()
             saveQuoteButton.setOnClickListener {
@@ -81,15 +94,20 @@ class EditQuoteBinder(
                 }
             }
         }
+
         UserViewBinder(data.userID, context, viewBind.userTop)
     }
 
 
-    private fun NewquotepopupBinding.updateFont() {
-        quoteTextView.typeface = Tools.fonts(context)[quote?.font ?: 0]
-        authorTextView.typeface = Tools.fonts(context)[quote?.font ?: 0]
-        quoteTextView.bounce()
-        authorTextView.bounce()
+    private fun updateFont(newPosition: Int) {
+        quote?.let {
+            it.font = newPosition
+            val typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[it.font].path)
+            viewBind.quoteTextView.typeface = typeface
+            viewBind.authorTextView.typeface = typeface
+            viewBind.authorTextView.bounce()
+            viewBind.authorTextView.bounce()
+        }
     }
 
 
@@ -120,7 +138,6 @@ class EditQuoteBinder(
         }
     }
 
-
     private fun getcolorGallery() {
         val colors = ArrayList<Int>()
         val fields = Class.forName("com.github.mcginty" + ".R\$color").declaredFields
@@ -132,12 +149,39 @@ class EditQuoteBinder(
             }
         }
         println("Load " + colors.size + " colors")
-        val llm = GridLayoutManager(context, 3, GridLayoutManager.HORIZONTAL, false)
+        val llm = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         val recyclerColorAdapter = RecyclerColorAdapter(colors, context, ::getSelectedColor)
         viewBind.colorlibrary.layoutManager = llm
         viewBind.colorlibrary.adapter = recyclerColorAdapter
         viewBind.colorlibrary.setHasFixedSize(true)
 
+
+    }
+
+    private fun getFonts() {
+        viewBind.fontTabs.apply {
+            TextUtils.fonts().forEach {
+                addTab(newTab().apply {
+                    text = it.name
+                })
+            }
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    if (tab == null) return
+                    updateFont(tab.position)
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
+            quote?.let {
+                getTabAt(it.font)?.select()
+            }
+        }
     }
 
 
@@ -157,16 +201,15 @@ class EditQuoteBinder(
     private fun NewquotepopupBinding.animateText(color: Int) {
         quoteTextView.setTextColor(color)
         authorTextView.setTextColor(color)
-        textcolorfab.imageTintList = ColorStateList.valueOf(color)
+        textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
         quoteTextView.bounce()
         authorTextView.bounce()
     }
 
     private fun NewquotepopupBinding.animateBackground(color: Int) {
-        background.setCardBackgroundColor(color)
-        val anim = AnimationUtils.loadAnimation(context, R.anim.bounce)
-        background.bounce()
-        backcolorfab.imageTintList = ColorStateList.valueOf(color)
+        background.setBackgroundColor(color)
+        backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
+        background.fadeIn()
     }
 
 

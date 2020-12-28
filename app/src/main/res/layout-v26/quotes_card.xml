@@ -6,10 +6,10 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        android:layout_margin="@dimen/default_padding"
         android:id="@+id/quoteCard"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:layout_marginVertical="10dp"
         android:animateLayoutChanges="true"
         android:elevation="@dimen/cardview_default_elevation"
         android:foreground="?attr/selectableItemBackground"
@@ -121,13 +121,6 @@
 
 
         </RelativeLayout>
-
-        <include
-            android:id="@+id/cardShimmer"
-            layout="@layout/quote_place_holder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -6,6 +6,9 @@ import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.BaseBean
 import com.creat.motiv.utilities.MessageType
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
@@ -22,6 +25,7 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
     protected fun loadSingleData(key: String) {
         view.onLoading()
         model.getSingleData(key)
+
     }
 
 
@@ -36,31 +40,43 @@ abstract class BasePresenter<T> : PresenterContract<T> where T : BaseBean {
     }
 
     override fun onDataRetrieve(data: List<T>) {
-        view.onLoadFinish()
-        view.showListData(data)
+        GlobalScope.launch(Dispatchers.Main) {
+            view.showListData(data)
+            view.onLoadFinish()
+        }
+
     }
 
     override fun onSingleData(data: T) {
-        view.onLoadFinish()
-        view.showData(data)
+        GlobalScope.launch(Dispatchers.Main) {
+            view.showData(data)
+            view.onLoadFinish()
+        }
+
     }
 
     override fun modelCallBack(dtoMessage: DTOMessage) {
-        val priority = when (dtoMessage.type) {
-            MessageType.ERROR -> Log.ERROR
-            MessageType.SUCCESS -> Log.DEBUG
-            MessageType.WARNING -> Log.WARN
-            MessageType.INFO -> Log.INFO
+        GlobalScope.launch(Dispatchers.Main) {
+            val priority = when (dtoMessage.type) {
+                MessageType.ERROR -> Log.ERROR
+                MessageType.SUCCESS -> Log.DEBUG
+                MessageType.WARNING -> Log.WARN
+                MessageType.INFO -> Log.INFO
+            }
+            Log.println(priority, javaClass.simpleName, dtoMessage.message)
+            view.getCallBack(dtoMessage)
         }
-        Log.println(priority, javaClass.simpleName, dtoMessage.message)
-        view.getCallBack(dtoMessage)
     }
 
 
     override fun queryData(value: String, field: String) {
         view.onLoading()
         model.query(value, field)
-        view.onLoadFinish()
+    }
+
+    fun findPreciseData(value: String, field: String) {
+        view.onLoading()
+        model.explicitSearch(value, field)
     }
 
 }

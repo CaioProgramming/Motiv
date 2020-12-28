@@ -25,14 +25,9 @@ class RecyclerDeveloperAdapter(private var developerList: List<Developer> = empt
         if (developerList.isNotEmpty()) {
             developerList[position].run {
                 Glide.with(context).load(this.photoURI).into(holder.picsLayoutBinding.pic)
+                holder.picsLayoutBinding.developerName.text = this.nome
                 holder.picsLayoutBinding.pic.slideInBottom()
             }
-            holder.picsLayoutBinding.developerShimmer.run {
-                stopShimmer()
-                hideShimmer()
-            }
-        } else {
-            holder.picsLayoutBinding.developerShimmer.startShimmer()
         }
 
 

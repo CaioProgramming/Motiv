@@ -14,6 +14,8 @@ import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.utilities.SELECTED_ICON
 import com.creat.motiv.utilities.SELECT_ICON
+import com.creat.motiv.utilities.hideBackButton
+import com.creat.motiv.utilities.showSupportActionBar
 import com.creat.motiv.view.binders.ProfileBinder
 
 
@@ -32,6 +34,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context?.hideBackButton()
+        context?.showSupportActionBar()
         profileBinder = ProfileBinder(requireContext(), fragmentbind!!, null)
     }
 

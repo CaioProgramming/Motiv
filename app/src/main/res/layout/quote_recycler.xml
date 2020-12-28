@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
     <RelativeLayout
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp">
+        android:layout_width="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            tools:visibility="visible"
-            android:visibility="gone"
-            tools:listitem="@layout/quotescard"
+            tools:itemCount="4"
+            tools:listitem="@layout/quotes_card"
             android:id="@+id/quotesrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -22,6 +21,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/colorPrimaryDark"
+            app:indicatorSize="50dp"
+            app:trackColor="@color/colorAccent"
+            app:trackCornerRadius="@dimen/default_radius"
+            app:trackThickness="5dp" />
 
 
     </RelativeLayout>

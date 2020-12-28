@@ -3,7 +3,6 @@ package com.creat.motiv.utilities
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
 import android.view.View
@@ -59,34 +58,6 @@ object Tools {
             "Ah qual é qual a necessidade de não escrever nada?")
 
 
-    fun fonts(context: Context): List<Typeface> {
-        return listOf(Typeface.createFromAsset(context.assets, "fonts/Arvo-Regular_201.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Audrey-Normal.otf"),
-                Typeface.createFromAsset(context.assets, "fonts/Cornerstone.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/times.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/MightypeScript.otf"),
-                Typeface.createFromAsset(context.assets, "fonts/AmaticSC-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Amiko-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/BlackHanSans-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Cabin-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Cinzel-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/CinzelDecorative-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Farsan-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/FingerPaint-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/FredokaOne-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Inconsolata-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Lalezar-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Lobster-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Mogra-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Nunito-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/NunitoSans-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Pacifico-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Quicksand-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Rakkas-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Ranga-Regular.ttf"),
-                Typeface.createFromAsset(context.assets, "fonts/Rasa-Regular.ttf"))
-    }
-
     fun emptyquote(): String {
         val x = Random()
         return empyquotes[x.nextInt(empyquotes.size)]
@@ -117,21 +88,27 @@ object Tools {
                 callToActionView = quoteAdvertiseLayoutBinding.adCard
                 iconView = quoteAdvertiseLayoutBinding.userTop.userpic
                 mediaView = quoteAdvertiseLayoutBinding.adAppMedia
+
             }
+
             quoteAdvertiseLayoutBinding.userTop.userData = User(name = ad.advertiser
-                    ?: "Anúnciante não identificado")
-            quoteAdvertiseLayoutBinding.adAppMedia.run {
+                    ?: "Anunciante não identificado")
+            quoteAdvertiseLayoutBinding.adAppMedia.apply {
                 setMediaContent(ad.mediaContent)
                 setImageScaleType(ImageView.ScaleType.CENTER_CROP)
             }
             quoteAdvertiseLayoutBinding.appRating.isEnabled = false
             quoteAdvertiseLayoutBinding.advertise = ad
-            quoteAdvertiseLayoutBinding.adCard.fadeIn()
+            if (!ad.headline.contains("Test ad") && !ad.body.contains("Test ad") && !ad.advertiser.contains("Test ad")) {
+                quoteAdvertiseLayoutBinding.adCard.slideInBottom()
+            }
+            quoteAdvertiseLayoutBinding.loading.fadeOut()
 
         }.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Log.e("AdMob", "onAdFailedToLoad: ${adError.message}")
                 quoteAdvertiseLayoutBinding.adCard.gone()
+                quoteAdvertiseLayoutBinding.loading.popIn()
             }
         }).withNativeAdOptions(NativeAdOptions.Builder().build())
         val loader = adLoader.build()

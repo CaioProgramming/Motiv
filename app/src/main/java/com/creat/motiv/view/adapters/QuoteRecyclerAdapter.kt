@@ -13,15 +13,17 @@ import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.utilities.AD_QUOTE
 import com.creat.motiv.utilities.Tools
 import com.creat.motiv.view.binders.QuoteCardBinder
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
                            val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var insideList = quoteList
+    private var insideList: ArrayList<Quote> = ArrayList(quoteList)
     private val QUOTE_VIEW = 0
     private val AD_VIEW = 1
-    private val NO_QUOTES = 2
+    private val created = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == QUOTE_VIEW) {
@@ -33,28 +35,32 @@ class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
         }
     }
 
-    override fun getItemViewType(position: Int): Int = if (quoteList.isEmpty()) NO_QUOTES else if (quoteList[position].id == AD_QUOTE) AD_VIEW else QUOTE_VIEW
-
+    override fun getItemViewType(position: Int): Int = if (insideList[position].id == AD_QUOTE) AD_VIEW else QUOTE_VIEW
 
     fun addData(quotes: List<Quote>) {
         quoteList = quotes
-        insideList = quoteList.sortedByDescending {
-            it.likes.size
+        insideList.clear()
+
+        var swapIndex = Random().nextInt(quoteList.size)
+        if (swapIndex == 0) {
+            swapIndex = Random().nextInt(quoteList.size)
+        }
+        val quote = quoteList[swapIndex]
+
+        insideList.addAll(quoteList)
+
+        insideList[swapIndex] = Quote.advertise_quote()
+        if (!checkIfQuotesExists(quote.id)) {
+            insideList.add(quote)
         }
         notifyDataSetChanged()
     }
 
-    fun searchQuote(query: String) {
-        if (query.isBlank()) {
-            addData(quoteList)
-        } else {
-            val newList = quoteList.filter {
-                it.quote.contains(query, true) || it.author.contains(query, true)
-            }
-            insideList = newList
+    fun checkIfQuotesExists(id: String): Boolean {
+        quoteList.forEach {
+            return it.id == id
         }
-        notifyDataSetChanged()
-
+        return false
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -68,7 +74,6 @@ class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
     }
 
     override fun getItemCount(): Int = if (insideList.isNotEmpty()) insideList.size else 2
-
 
     inner class QuoteViewHolder(val quotescardBinding: QuotesCardBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
 

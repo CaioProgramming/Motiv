@@ -42,7 +42,17 @@ android {
     versionProps['VERSION_PATCH'] = versionPatch.toString()
     versionProps['VERSION_BUILD'] = versionBuild.toString()
     versionProps['VERSION_NUMBER'] = versionNumber.toString()
-    versionPropsFile.withWriter { versionProps.store(it, null) }
+
+
+    dependencies.metaClass.allCompile { dependency ->
+        buildTypes.each { buildType ->
+            "${buildType.name}Compile" project(path: ":${dependency.name}", configuration: buildType.name)
+            if (buildType.name.contains("release")) {
+                versionPropsFile.withWriter { versionProps.store(it, null) }
+            }
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -105,11 +115,19 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.3.0-alpha03'
-    implementation 'com.google.android.play:core:1.8.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0'
+    implementation 'com.google.android.material:material:1.3.0-beta01'
+    implementation 'com.google.android.play:core:1.9.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2-native-mt'
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10'
+
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+    implementation 'com.github.mcginty:material-colors:1.1.0'
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20'
     implementation "androidx.core:core-ktx:1.3.2"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
@@ -118,7 +136,7 @@ dependencies {
 
     //Firebase libs
     //implementation 'com.google.firebase:firebase-admin:6.4.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.2-native-mt'
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -127,13 +145,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
-    implementation 'com.google.firebase:firebase-auth:20.0.0'
-    implementation 'com.google.firebase:firebase-database:19.5.1'
+    implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation 'com.google.firebase:firebase-database:19.6.0'
     implementation 'com.firebaseui:firebase-ui-database:2.1.0'
-    implementation 'com.google.firebase:firebase-storage:19.2.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
     implementation 'com.google.firebase:firebase-core:18.0.0'
-    implementation 'com.google.firebase:firebase-messaging:21.0.0'
-    implementation 'com.google.android.gms:play-services-ads:19.5.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.google.android.gms:play-services-ads:19.6.0'
     implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -151,6 +169,8 @@ dependencies {
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
     implementation 'com.github.veeyaarVR:SuperGradientTextView:1.1'
+    implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation "com.github.skydoves:balloon:1.2.7"
 
     kapt 'com.android.databinding:compiler:3.1.4'
 

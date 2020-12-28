@@ -10,6 +10,7 @@ interface PresenterContract<T> where T : BaseBean {
     val view: BaseView<T>
     val model: BaseModel<T>
 
+
     fun queryData(value: String, field: String)
     fun onDataRetrieve(data: List<T>)
     fun onSingleData(data: T)

@@ -17,6 +17,7 @@ class QuoteModel(override val presenter: BasePresenter<Quote>, override val path
         editData(quote)
     }
 
+
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Quote? {
         val q = dataSnapshot.toObject(Quote::class.java)
         q?.id = dataSnapshot.id

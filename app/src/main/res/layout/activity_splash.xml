@@ -3,22 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?android:colorBackground"
     android:layout_height="match_parent"
     tools:context=".view.activities.Splash">
 
 
-    <com.veeyaar.supergradienttextview.GradientTextView
-        android:id="@+id/splashTitle"
-        style="@style/TextAppearance.MaterialComponents.Headline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/splash_animation"
         android:layout_centerInParent="true"
-        android:text="@string/app_name"
-        android:textStyle="bold"
-        app:endColor="@color/material_purple800"
-        app:isVertical="true"
-        app:startColor="@color/material_purple900" />
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:lottie_autoPlay="true"
+        app:lottie_colorFilter="@color/colorPrimaryDark"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/fill_animation"
+        app:lottie_repeatMode="reverse"
+        app:tint="@color/colorPrimaryDark" />
 
 
     <com.veeyaar.supergradienttextview.GradientTextView

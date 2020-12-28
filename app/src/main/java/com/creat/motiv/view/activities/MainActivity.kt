@@ -8,36 +8,29 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import com.bumptech.glide.Glide
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.creat.motiv.MotivApplication
 import com.creat.motiv.R
-import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.model.beans.Version
 import com.creat.motiv.utilities.Alert
-import com.creat.motiv.utilities.Pref
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.creat.motiv.utilities.Tools
-import com.creat.motiv.utilities.Tools.darkMode
-import com.creat.motiv.utilities.Tools.setLightStatusBar
-import com.creat.motiv.view.adapters.MainAdapter
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private lateinit var preferences: Pref
-    protected lateinit var motivApplication: MotivApplication
+    private lateinit var motivApplication: MotivApplication
     internal lateinit var version: Version
     internal var a: Alert? = null
     internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private val home: Boolean
-        get() {
-            return pager.currentItem == 0
-        }
-    var previoustab = 0
+
 
     private val isNetworkAvailable: Boolean
         get() {
@@ -49,46 +42,26 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val actbind: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setContentView(actbind.root)
-        motivApplication = application as MotivApplication
+        setSupportActionBar(toolbar)
+        if (savedInstanceState == null) {
+            setupNavigation()
+        }
         internetconnection()
-
+        motivApplication = application as MotivApplication
         user = FirebaseAuth.getInstance().currentUser
         checkUser()
-        preferences = Pref(this)
-        pager.run {
-            adapter = MainAdapter(supportFragmentManager)
-            navigation.setupWithViewPager(pager, true)
-            navigation.getTabAt(0)?.text = "Home"
-            navigation.getTabAt(1)?.text = "Escrever"
-            navigation.getTabAt(2)?.text = FirebaseAuth.getInstance().currentUser?.displayName
-                    ?: "Deslogado"
 
-        }
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            Glide.with(this).load(it.photoUrl).error(R.drawable.notfound).into(userpic)
-            userpic.setOnClickListener {
-                pager.currentItem = 2
-            }
-        }
+    }
 
-        if (!user!!.isEmailVerified) {
-            Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar",
-                    icon = R.drawable.fui_ic_mail_white_24dp,
-                    okClick = {
-                        user.sendEmailVerification()
-                    })
 
-        }
+    private fun setupNavigation() {
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
-        if (!darkMode(this)) {
-            setLightStatusBar(this)
-        }
+        val navController = findNavController(R.id.nav_host_fragment)
 
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     private fun checkUser() {
@@ -103,6 +76,16 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     .setAvailableProviders(providers)
                     .setTheme(R.style.AppTheme)
                     .build(), RC_SIGN_IN)
+        } else {
+            val user = FirebaseAuth.getInstance().currentUser
+            if (!user!!.isEmailVerified) {
+                Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar",
+                        icon = R.drawable.fui_ic_mail_white_24dp,
+                        okClick = {
+                            user.sendEmailVerification()
+                        })
+
+            }
         }
     }
 
@@ -146,15 +129,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         internetconnection()
     }
 
-    override fun onBackPressed() {
-
-        if (home) {
-            super.onBackPressed()
-        } else {
-            pager?.setCurrentItem(0,true)
-        }
-
-    }
 
     private fun internetconnection() {
         if (a == null) {
@@ -162,8 +136,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar", icon = R.drawable.ic_broken_link)
             }
         }
-
-
     }
 
 }

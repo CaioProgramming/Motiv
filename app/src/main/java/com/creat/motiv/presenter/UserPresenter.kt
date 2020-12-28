@@ -4,16 +4,15 @@ import com.creat.motiv.model.UserModel
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.view.BaseView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class UserPresenter(override val view: BaseView<User>) : BasePresenter<User>() {
 
     fun getUser(uid: String = currentUser!!.uid) {
-        model.getSingleData(uid)
-    }
-
-    override fun onSingleData(data: User) {
-        view.onLoadFinish()
-        view.showData(data)
+        GlobalScope.launch {
+            model.getSingleData(uid)
+        }
     }
 
     fun changeProfilePic(pics: Pics) {

@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/developerShimmer"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:padding="4dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_padding"
+        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:contentDescription="@string/icon_info"
             android:hapticFeedbackEnabled="true"
             android:src="@drawable/me"
             app:civ_border_overlay="true"
-            app:civ_circle_background_color="@color/colorAccent" />
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            app:civ_circle_background_color="@color/transparent" />
+
+        <TextView
+            android:id="@+id/developerName"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="Caio Alves Ferreira" />
+    </LinearLayout>
 
 
 </layout>
