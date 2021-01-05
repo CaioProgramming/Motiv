@@ -49,11 +49,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/default_padding"
+                android:textStyle="bold"
                 android:text="Nome" />
 
             <EditText
                 android:id="@+id/userNameEditText"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -61,7 +62,6 @@
                 android:layout_toStartOf="@id/saveButton"
                 android:layout_toEndOf="@id/nameTitle"
                 android:background="@color/transparent"
-                android:focusedByDefault="true"
                 android:padding="@dimen/default_padding"
                 app:layout_constraintBottom_toBottomOf="@id/nameTitle"
                 app:layout_constraintEnd_toStartOf="@id/saveButton"
@@ -90,10 +90,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/bottom_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingVertical="@dimen/default_padding">
+            android:padding="@dimen/default_padding">
 
             <TextView
                 android:id="@+id/providerTitle"
@@ -101,28 +102,25 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:padding="@dimen/default_padding"
                 android:text="Email" />
 
             <TextView
+                android:maxLines="1"
                 android:id="@+id/provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_toEndOf="@id/providerTitle"
                 android:enabled="false"
-                android:padding="@dimen/default_padding"
                 tools:text="Google" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/providerTitle"
-                android:background="@color/oblack" />
+
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/bottom_line"
+            android:padding="@dimen/default_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -134,28 +132,28 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:padding="@dimen/default_padding"
                 android:text="ID"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/userID"
+                android:maxLines="1"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_toEndOf="@id/uidTitle"
                 android:enabled="false"
-                android:padding="@dimen/default_padding"
                 android:textStyle="bold"
                 tools:text="caioferre.ira@gmail.com" />
 
 
         </RelativeLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/singOutButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:rippleColor="@color/material_red500"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_padding"

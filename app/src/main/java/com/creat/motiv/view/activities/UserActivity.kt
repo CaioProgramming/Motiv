@@ -16,12 +16,13 @@ class UserActivity : AppCompatActivity(R.layout.user_profile) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fragmentbind: UserProfileBinding = DataBindingUtil.setContentView(this, R.layout.user_profile)
-        val quserData = intent.getSerializableExtra("USER") as User
-        setSupportActionBar(toolbar).run {
-            title = quserData.name
+        val userData = intent.getSerializableExtra("USER") as User
+        actionBar?.let {
+            it.title = userData.name
+            it.setDisplayHomeAsUpEnabled(true)
         }
         fragmentbind.run {
-            ProfileBinder(this@UserActivity, this.profileView, quserData)
+            ProfileBinder(this@UserActivity, this.profileView, userData)
         }
 
 

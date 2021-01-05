@@ -12,6 +12,7 @@ import com.creat.motiv.databinding.DeleteAllAlertBinding
 import com.creat.motiv.databinding.ProfilepicselectBinding
 import com.creat.motiv.presenter.UserPresenter
 import com.creat.motiv.view.binders.DeleteAllBinder
+import com.creat.motiv.view.binders.LikesBinder
 import com.creat.motiv.view.binders.ProfilePicSelectBinder
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -50,12 +51,18 @@ class Alert(private val activity: Activity, val dialogStyle: DialogStyles = Dial
 
     fun picturePicker(profilePresenter: UserPresenter, admin: Boolean) {
         val profilepicselectBinding = DataBindingUtil.inflate<ProfilepicselectBinding>(LayoutInflater.from(activity), R.layout.profilepicselect_, null, false)
-        ProfilePicSelectBinder(activity, admin, profilepicselectBinding) {
+        ProfilePicSelectBinder(myDialog, activity, admin, profilepicselectBinding) {
             profilePresenter.changeProfilePic(it)
             myDialog.dismiss()
         }
         configureDialog(profilepicselectBinding.root)
 
+    }
+
+    fun showLikes(likes: List<String>) {
+        val profilepicselectBinding = DataBindingUtil.inflate<ProfilepicselectBinding>(LayoutInflater.from(activity), R.layout.profilepicselect_, null, false)
+        LikesBinder(myDialog, likes, activity, profilepicselectBinding)
+        configureDialog(profilepicselectBinding.root)
     }
 
     fun deleteAllDialog() {

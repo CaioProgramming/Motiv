@@ -5,13 +5,13 @@
 
     <LinearLayout
         android:id="@+id/userContainer"
+        android:background="@drawable/bottom_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/dividers"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/default_padding">q\
+        android:padding="@dimen/default_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilepic"
@@ -21,7 +21,8 @@
 
         <TextView
             android:id="@+id/username"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_padding"

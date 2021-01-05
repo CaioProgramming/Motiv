@@ -9,3 +9,5 @@ const val NEW_PIC = "NEW_PIC"
 const val ADMIN_USER = "ADMIN_USER"
 const val AD_QUOTE = "ADVERTISEMENT_QUOTE"
 const val SEARCH_SUFFIX = "\uf8ff"
+
+const val SHARED_PROFILE_PIC = "PROFILEPIC"

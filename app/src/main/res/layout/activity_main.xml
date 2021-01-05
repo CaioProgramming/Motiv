@@ -14,7 +14,6 @@
             style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="3dp"
             app:menu="@menu/mainmenu"
             app:title="@string/app_name" />
 
@@ -23,13 +22,18 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/nav_view"
             android:layout_below="@id/toolbar"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/main_navigation" />
 
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/navigation_blur"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            app:realtimeBlurRadius="25dp"
+            app:realtimeOverlayColor="@color/lwhite" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
@@ -37,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@drawable/top_line"
+            app:elevation="0dp"
             app:itemIconTint="@color/selected_navigation"
             app:itemRippleColor="@color/colorAccent"
             app:itemTextColor="@color/selected_navigation"

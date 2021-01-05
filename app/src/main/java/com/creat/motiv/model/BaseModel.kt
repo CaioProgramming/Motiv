@@ -47,7 +47,6 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
         }
     }
 
-
     override fun addData(data: T, forcedID: String?) {
         GlobalScope.launch {
             if (forcedID.isNullOrEmpty()) {
@@ -93,7 +92,7 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
     override fun query(query: String, field: String) {
         if (isDisconnected()) return
         presenter.modelCallBack(infoMessage("Buscando por $query em $field na collection $path"))
-        db().orderBy(field).startAt(query).endAt(query.toLowerCase(Locale.getDefault()) + SEARCH_SUFFIX).addSnapshotListener(this)
+        db().orderBy(field).startAt(query).endAt(query + SEARCH_SUFFIX).addSnapshotListener(this)
     }
 
     fun explicitSearch(query: String, field: String) {
@@ -116,7 +115,6 @@ abstract class BaseModel<T> : ModelContract<T>, OnCompleteListener<Void>, EventL
             presenter.onDataRetrieve(dataList)
         }
     }
-
 
     override fun getAllData() {
         if (isDisconnected()) return

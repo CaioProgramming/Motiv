@@ -25,6 +25,10 @@ import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.devs.readmoreoption.ReadMoreOption
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.createBalloon
+import com.skydoves.balloon.showAlignBottom
 
 class QuoteCardBinder(
         var quote: Quote,
@@ -127,7 +131,21 @@ class QuoteCardBinder(
                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 val clip = ClipData.newPlainText(quote.author, quote.quote)
                                 clipboard.setPrimaryClip(clip)
-                                snackmessage(context, message = "Frase de ${quote.author} copiada para a área de transferência")
+                                val balloon = createBalloon(context) {
+                                    setArrowSize(10)
+                                    setWidthRatio(0.5f)
+                                    setHeight(70)
+                                    setCornerRadius(10f)
+                                    setArrowOrientation(ArrowOrientation.TOP)
+                                    setAutoDismissDuration(5000)
+                                    setPadding(8)
+                                    setText("copiada para a área de transferência")
+                                    setTextColorResource(R.color.white)
+                                    setBackgroundColorResource(R.color.colorAccent)
+                                    setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+                                    setLifecycleOwner(lifecycleOwner)
+                                }
+                                viewBind.quoteTextView.showAlignBottom(balloon)
                                 return true
                             }
                             R.id.quoteShare -> {
@@ -180,8 +198,7 @@ class QuoteCardBinder(
         val i = Intent(context, EditQuoteActivity::class.java)
         i.putExtra("Quote", quote)
         val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,
-                android.util.Pair(viewBind.quoteTextView as View, "quote"),
-                android.util.Pair(viewBind.authorTextView as View, "author"))
+                android.util.Pair(viewBind.quoteCard as View, context.getString(R.string.card_transaction)))
         context.startActivity(i, options.toBundle())
     }
 

@@ -1,5 +1,6 @@
 package com.creat.motiv.view.binders
 
+import android.app.Dialog
 import android.content.Context
 import android.view.View.GONE
 import com.creat.motiv.databinding.ProfilepicselectBinding
@@ -10,7 +11,8 @@ import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerPicAdapter
 
-class ProfilePicSelectBinder(override val context: Context,
+class ProfilePicSelectBinder(val dialog: Dialog? = null,
+                             override val context: Context,
                              val admin: Boolean,
                              override val viewBind: ProfilepicselectBinding, val picSelected: (Pics) -> Unit) : BaseView<Pics>() {
 
@@ -30,16 +32,14 @@ class ProfilePicSelectBinder(override val context: Context,
         viewBind.loading.fadeIn()
     }
 
-    fun uploadIcon(icons: Array<String>?) {
-        icons?.forEach { icon ->
-            presenter().saveData(Pics(icon))
-        }
-    }
 
 
     override fun onLoadFinish() {
         super.onLoadFinish()
         viewBind.loading.fadeOut()
+        viewBind.closeButton.setOnClickListener {
+            dialog?.dismiss()
+        }
         if (viewBind.mainView.visibility == GONE) {
             viewBind.mainView.fadeIn()
         }

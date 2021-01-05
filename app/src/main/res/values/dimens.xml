@@ -7,6 +7,7 @@
     <dimen name="medium_quote_size">34sp</dimen>
     <dimen name="low_quote_size">28sp</dimen>
     <dimen name="min_quote_size">20sp</dimen>
-    <dimen name="default_padding">8dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
     <dimen name="default_radius">10dp</dimen>
+    <dimen name="card_size">350dp</dimen>
 </resources>

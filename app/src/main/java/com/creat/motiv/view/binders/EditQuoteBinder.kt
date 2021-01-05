@@ -2,11 +2,11 @@ package com.creat.motiv.view.binders
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Handler
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.model.DTOMessage
@@ -14,14 +14,13 @@ import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utilities.*
 import com.creat.motiv.view.BaseView
+import com.creat.motiv.view.adapters.FontAdapter
 import com.creat.motiv.view.adapters.PickedColor
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
-import com.google.android.material.tabs.TabLayout
-import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
-import com.skydoves.balloon.showAlignTop
+import com.skydoves.balloon.showAlignBottom
 import java.util.*
 
 class EditQuoteBinder(
@@ -30,7 +29,7 @@ class EditQuoteBinder(
         override val viewBind: NewquotepopupBinding) : BaseView<Quote>() {
 
     override fun presenter() = QuotePresenter(this)
-
+    lateinit var fontAdapter: FontAdapter
 
     init {
         initView()
@@ -59,7 +58,7 @@ class EditQuoteBinder(
             setWidthRatio(0.5f)
             setHeight(50)
             setCornerRadius(10f)
-            setArrowOrientation(ArrowOrientation.BOTTOM)
+            setArrowOrientation(ArrowOrientation.TOP)
             setAutoDismissDuration(5000)
             setText("Deslize para ver as outras fontes")
             setTextColorResource(R.color.white)
@@ -67,7 +66,7 @@ class EditQuoteBinder(
             setBalloonAnimation(BalloonAnimation.ELASTIC)
             setLifecycleOwner(lifecycleOwner)
         }
-        viewBind.currentFont.showAlignTop(balloon)
+        viewBind.fontSelector.showAlignBottom(balloon)
         showData(quote!!)
     }
 
@@ -77,14 +76,10 @@ class EditQuoteBinder(
         viewBind.run {
             quoteTextView.setTextColor(data.intTextColor())
             authorTextView.setTextColor(data.intTextColor())
+            quoteCard.setCardBackgroundColor(data.intBackColor())
             quoteTextView.setText(data.quote)
             authorTextView.setText(data.author)
             updateFont(data.font)
-            textcolorfab.backgroundTintList = ColorStateList.valueOf(data.intTextColor())
-            textcolorfab.imageTintList = ColorStateList.valueOf(if (data.intTextColor() == Color.BLACK) Color.WHITE else Color.BLACK)
-            backcolorfab.backgroundTintList = if (data.intTextColor() == Color.BLACK) ColorStateList.valueOf(ColorUtils.lighten(data.intBackColor(), 1.5)) else ColorStateList.valueOf(ColorUtils.darken(data.intBackColor(), 1.6))
-            backColorpicker()
-            textColorPicker()
             saveQuoteButton.setOnClickListener {
                 salvar()
             }
@@ -94,8 +89,6 @@ class EditQuoteBinder(
                 }
             }
         }
-
-        UserViewBinder(data.userID, context, viewBind.userTop)
     }
 
 
@@ -103,6 +96,7 @@ class EditQuoteBinder(
         quote?.let {
             it.font = newPosition
             val typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[it.font].path)
+            viewBind.fontSelector.currentItem = it.font
             viewBind.quoteTextView.typeface = typeface
             viewBind.authorTextView.typeface = typeface
             viewBind.authorTextView.bounce()
@@ -110,39 +104,11 @@ class EditQuoteBinder(
         }
     }
 
-
-    private fun NewquotepopupBinding.backColorpicker() {
-        backcolorfab.setOnClickListener {
-            if (context is Activity) {
-                val cp = ColorPicker(context as Activity?)
-                cp.show()
-                cp.enableAutoClose()
-                cp.setCallback { color ->
-                    quote?.backgroundcolor = toHex(color)
-                    animateBackground(color)
-                }
-            }
-        }
-    }
-
-    private fun NewquotepopupBinding.textColorPicker() {
-        textcolorfab.setOnClickListener {
-            val cp = ColorPicker(context as Activity?)
-            cp.show()
-            cp.enableAutoClose()
-            cp.setCallback { color ->
-                quote?.textcolor = toHex(color)
-                viewBind.animateText(color)
-
-            }
-        }
-    }
-
     private fun getcolorGallery() {
         val colors = ArrayList<Int>()
         val fields = Class.forName("com.github.mcginty" + ".R\$color").declaredFields
         for (field in fields) {
-            if (field.getInt(null) != R.color.transparent) {
+            if (field.getInt(null) != Color.TRANSPARENT) {
                 val colorId = field.getInt(null)
                 val color = context.resources.getColor(colorId)
                 colors.add(color)
@@ -159,28 +125,15 @@ class EditQuoteBinder(
     }
 
     private fun getFonts() {
-        viewBind.fontTabs.apply {
-            TextUtils.fonts().forEach {
-                addTab(newTab().apply {
-                    text = it.name
-                })
-            }
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    if (tab == null) return
-                    updateFont(tab.position)
+        viewBind.fontSelector.apply {
+            fontAdapter = FontAdapter(context, quote!!.intTextColor())
+            adapter = fontAdapter
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    updateFont(position)
                 }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                }
-
             })
-            quote?.let {
-                getTabAt(it.font)?.select()
-            }
         }
     }
 
@@ -201,15 +154,16 @@ class EditQuoteBinder(
     private fun NewquotepopupBinding.animateText(color: Int) {
         quoteTextView.setTextColor(color)
         authorTextView.setTextColor(color)
-        textcolorfab.backgroundTintList = ColorStateList.valueOf(color)
+        quoteTextView.setHintTextColor(ColorUtils.lighten(color, 0.5))
+        authorTextView.setHintTextColor(ColorUtils.lighten(color, 0.5))
+        fontAdapter.updateTextColor(color)
         quoteTextView.bounce()
         authorTextView.bounce()
     }
 
     private fun NewquotepopupBinding.animateBackground(color: Int) {
-        background.setBackgroundColor(color)
-        backcolorfab.backgroundTintList = ColorStateList.valueOf(color)
-        background.fadeIn()
+        quoteCard.setCardBackgroundColor(color)
+        quoteCard.bounce()
     }
 
 

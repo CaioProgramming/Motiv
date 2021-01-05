@@ -5,10 +5,11 @@
 
     <TextView
         android:id="@+id/fontTextView"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?android:textColorPrimary"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textAlignment="center"
         android:textStyle="bold"
         tools:text="Arvo">
 

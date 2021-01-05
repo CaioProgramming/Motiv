@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSearchBinding
-import com.creat.motiv.utilities.fadeIn
-import com.creat.motiv.utilities.fadeOut
-import com.creat.motiv.utilities.slideInBottom
-import com.creat.motiv.utilities.snackmessage
+import com.creat.motiv.utilities.*
 import com.creat.motiv.view.adapters.SearchResultAdapter
 
 
@@ -29,10 +25,7 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is AppCompatActivity) {
-            val activity: AppCompatActivity = context as AppCompatActivity
-            activity.supportActionBar?.hide()
-        }
+        context?.hideBackButton()
         searchBinding.searchview.run {
             setOnQueryTextListener(this@SearchFragment)
             requestFocus()

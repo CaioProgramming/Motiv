@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +20,6 @@ import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.creat.motiv.utilities.Tools
 import com.firebase.ui.auth.AuthUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -54,14 +54,22 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
 
+
     private fun setupNavigation() {
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
 
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        nav_view.setupWithNavController(navController)
+        if (Tools.darkMode(this)) {
+            rootblur.setOverlayColor(ContextCompat.getColor(this, R.color.lblack))
+            navigation_blur.setOverlayColor(ContextCompat.getColor(this, R.color.nblack))
+        } else {
+            rootblur.setOverlayColor(ContextCompat.getColor(this, R.color.lwhite))
+            navigation_blur.setOverlayColor(ContextCompat.getColor(this, R.color.nwhite))
+
+        }
     }
 
     private fun checkUser() {
@@ -112,6 +120,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onResume()
         checkUser()
         internetconnection()
+        setupNavigation()
 
     }
 

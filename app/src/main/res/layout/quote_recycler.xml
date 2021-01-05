@@ -11,6 +11,7 @@
         <androidx.recyclerview.widget.RecyclerView
             tools:itemCount="4"
             tools:listitem="@layout/quotes_card"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/quotesrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

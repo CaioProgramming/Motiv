@@ -42,18 +42,21 @@ class ProfileTopBinder(val uid: String,
         super.showData(data)
         viewBind.run {
             userData = data
-            profilepic.setOnClickListener {
-                if (user?.uid == presenter().currentUser?.uid || isSettings) {
+            Glide.with(context).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(profilepic)
+            if (data.uid == presenter().currentUser!!.uid) {
+                profilepic.setOnClickListener {
                     Alert(context as Activity, DialogStyles.BOTTOM_NO_BORDER).picturePicker(presenter(), data.admin)
                 }
             }
-            Glide.with(context).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(profilepic)
+            profilepic.borderColor = if (data.admin) {
+                ContextCompat.getColor(context, R.color.material_yellow600)
+            } else {
+                ContextCompat.getColor(context, R.color.colorPrimaryDark)
+            }
             if (data.admin) {
                 backgroundAnimation.setColorFilter(ContextCompat.getColor(context, R.color.material_yellow600))
-
             } else {
                 backgroundAnimation.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-
             }
             if (data.uid == presenter().currentUser?.uid) {
                 viewBind.followButton.gone()

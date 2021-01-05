@@ -38,6 +38,7 @@ class UsersListBinder(override val context: Context,
     override fun onLoading() {
         super.onLoading()
         viewBind.loading.fadeIn()
+
         viewBind.quotesrecyclerview.gone()
     }
 

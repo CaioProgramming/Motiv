@@ -2,7 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <corners android:radius="10dp" />
+    <corners
+        android:bottomLeftRadius="@dimen/default_radius"
+        android:bottomRightRadius="@dimen/default_radius" />
 
     <!-- below code for different radius for each corner. -->
 
@@ -15,6 +17,6 @@
 
 
     <!-- Background color -->
-    <solid android:color="@color/lblack" />
+    <solid android:color="@color/material_grey200" />
 
 </shape>

@@ -17,13 +17,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
+class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>,
                            val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var insideList: ArrayList<Quote> = ArrayList(quoteList)
     private val QUOTE_VIEW = 0
     private val AD_VIEW = 1
-    private val created = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == QUOTE_VIEW) {
@@ -35,11 +33,10 @@ class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
         }
     }
 
-    override fun getItemViewType(position: Int): Int = if (insideList[position].id == AD_QUOTE) AD_VIEW else QUOTE_VIEW
+    override fun getItemViewType(position: Int): Int = if (quoteList[position].id == AD_QUOTE) AD_VIEW else QUOTE_VIEW
 
     fun addData(quotes: List<Quote>) {
-        quoteList = quotes
-        insideList.clear()
+        quoteList = ArrayList(quotes)
 
         var swapIndex = Random().nextInt(quoteList.size)
         if (swapIndex == 0) {
@@ -47,12 +44,8 @@ class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
         }
         val quote = quoteList[swapIndex]
 
-        insideList.addAll(quoteList)
+        quoteList.add(swapIndex, Quote.advertise_quote())
 
-        insideList[swapIndex] = Quote.advertise_quote()
-        if (!checkIfQuotesExists(quote.id)) {
-            insideList.add(quote)
-        }
         notifyDataSetChanged()
     }
 
@@ -66,14 +59,14 @@ class QuoteRecyclerAdapter(var quoteList: List<Quote> = emptyList(),
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == QUOTE_VIEW) {
             (holder as QuoteViewHolder).run {
-                if (insideList[position].id != AD_QUOTE) QuoteCardBinder(insideList[position], context, quotescardBinding)
+                if (quoteList[position].id != AD_QUOTE) QuoteCardBinder(quoteList[position], context, quotescardBinding)
             }
         } else {
             holder as AdViewHolder
         }
     }
 
-    override fun getItemCount(): Int = if (insideList.isNotEmpty()) insideList.size else 2
+    override fun getItemCount(): Int = quoteList.size
 
     inner class QuoteViewHolder(val quotescardBinding: QuotesCardBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
 

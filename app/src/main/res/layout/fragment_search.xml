@@ -15,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusedByDefault="true"
-            android:padding="@dimen/default_padding"
+            android:layout_marginHorizontal="@dimen/default_padding"
+            android:layout_marginVertical="2dp"
+            android:background="@drawable/round_low"
             app:iconifiedByDefault="false"
             app:queryHint="@string/query_hint" />
 

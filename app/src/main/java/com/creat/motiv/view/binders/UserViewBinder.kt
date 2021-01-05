@@ -46,7 +46,7 @@ class UserViewBinder(
             val i = Intent(context, UserActivity::class.java)
             i.putExtra("USER", user)
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity,
-                    viewBind.userpic as View, "profilepic")
+                    viewBind.userpic as View, context.getString(R.string.profilepictransiction))
             context.startActivity(i, options.toBundle())
         }
 

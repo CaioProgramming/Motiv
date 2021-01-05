@@ -6,8 +6,10 @@
     <color name="colorAccent">#7C4DFF</color>
     <color name="white">#FFFFFF</color>
     <color name="lwhite">#CCFFFFFF</color>
+    <color name="nwhite">#66FFFFFF</color>
     <color name="oblack">#0D000000</color>
     <color name="owhite">#0DFFFFFF</color>
     <color name="transparent">#00ffffff</color>
     <color name="lblack">#1A000000</color>
+    <color name="nblack">#66000000</color>
 </resources>

@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
+import com.creat.motiv.utilities.gone
 import com.creat.motiv.view.binders.QuotesListBinder
 
 class QuotesProfileAdapter(val context: Context, val uid: String) : RecyclerView.Adapter<QuotesProfileAdapter.MyViewHolder>() {
@@ -20,6 +21,7 @@ class QuotesProfileAdapter(val context: Context, val uid: String) : RecyclerView
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.quotescardBinding.title.text = if (position == 0) "Posts" else "Favoritos"
+        holder.quotescardBinding.headerDivider.gone()
         QuotesListBinder(context, holder.quotescardBinding.quotesRecycler, false).run {
             if (position == 0) {
                 getUserQuotes(uid)

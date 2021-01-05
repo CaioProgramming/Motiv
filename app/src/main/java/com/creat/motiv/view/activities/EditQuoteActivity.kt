@@ -24,7 +24,7 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
         setSupportActionBar(toolbar)
 
         supportActionBar?.let { actionBar ->
-            actionBar.setDisplayShowCustomEnabled(true)
+            actionBar.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { finish() }
             title = if (quotedata == null) "Nova publicação" else "Editar publicação"
         }

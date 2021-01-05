@@ -6,10 +6,12 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_margin="@dimen/default_padding"
         android:id="@+id/quoteCard"
+        android:layout_height="@dimen/card_size"
+        android:layout_margin="@dimen/default_padding"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_marginVertical="4dp"
+        android:transitionName="@string/card_transaction"
         android:animateLayoutChanges="true"
         android:elevation="@dimen/cardview_default_elevation"
         android:foreground="?attr/selectableItemBackground"
@@ -22,9 +24,9 @@
 
         <RelativeLayout
             android:id="@+id/quoteMainView"
-            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -37,6 +39,7 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/quoteDate"
                     style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="wrap_content"
@@ -60,15 +63,15 @@
 
             <TextView
                 android:id="@+id/quoteTextView"
+                android:padding="@dimen/default_padding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/author_text_view"
                 android:layout_below="@id/quoteInfo"
+                android:transitionName="@string/quote_transaction"
                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
                 android:autoSizeMinTextSize="@dimen/min_quote_size"
                 android:autoSizeTextType="uniform"
-                android:padding="8dp"
-                android:textSize="@dimen/big_quote_size"
                 android:textStyle="bold"
                 android:typeface="normal"
                 tools:text="Everything I do \nI tell you all the time"
@@ -76,11 +79,12 @@
 
             <TextView
                 android:id="@+id/author_text_view"
+                android:padding="@dimen/default_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/quoteButtons"
                 android:backgroundTint="@color/transparent"
-                android:padding="8dp"
+                android:transitionName="@string/author_transaction"
                 android:textSize="24sp"
                 android:textStyle="italic"
                 tools:text="Lana Del Rey"
@@ -93,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/fade_gradient_inversed"
-                android:padding="8dp">
+                android:padding="@dimen/default_padding">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/likers"

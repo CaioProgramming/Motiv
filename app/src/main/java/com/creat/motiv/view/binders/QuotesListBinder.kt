@@ -2,8 +2,6 @@ package com.creat.motiv.view.binders
 
 import android.content.Context
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Quote
@@ -21,8 +19,7 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
 
 
     override fun presenter() = QuotePresenter(this)
-    private val quoteRecyclerAdapter = QuoteRecyclerAdapter(context = context)
-    private val linearLayoutManager = LinearLayoutManager(context, VERTICAL, false)
+    private var quoteRecyclerAdapter: QuoteRecyclerAdapter? = null
 
     init {
         if (useInit) {
@@ -67,19 +64,21 @@ class QuotesListBinder(override val context: Context, override val viewBind: Quo
                 viewBind.notFoundInclude.emptyList.fadeIn()
             }
             noResultCallback?.invoke()
-
         } else {
-            setupRecyclerView(list)
+            if (quoteRecyclerAdapter == null) {
+                setupRecyclerView(list)
+            } else {
+                quoteRecyclerAdapter!!.addData(list)
+            }
         }
     }
 
     private fun setupRecyclerView(list: List<Quote>) {
         viewBind.quotesrecyclerview.run {
-            adapter = quoteRecyclerAdapter
-            layoutManager = linearLayoutManager
-            quoteRecyclerAdapter.addData(list.sortedByDescending { quote ->
+            quoteRecyclerAdapter = QuoteRecyclerAdapter(ArrayList((list.sortedByDescending { quote ->
                 quote.likes.size
-            })
+            })), context)
+            adapter = quoteRecyclerAdapter
         }
     }
 

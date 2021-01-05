@@ -27,7 +27,7 @@ object TextUtils {
 
             dayCount == 30 -> "Há 1 mês"
 
-            dayCount <= 90 -> "Há ${dayCount / 30} meses"
+            dayCount <= 90 -> "Há ${dayCount / 30} ${if (dayCount / 30 < 2) "mês" else "meses"}"
 
             else -> {
                 fmt.format(qDate)

@@ -1,18 +1,20 @@
 package com.creat.motiv.view.binders
 
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserPicviewBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utilities.popIn
+import com.creat.motiv.utilities.Alert
+import com.creat.motiv.utilities.DialogStyles
 import com.creat.motiv.view.BaseView
 
 class UserPicBind(
+        val quotesLikes: List<String>,
         val uid: String,
         override val context: Context,
         override val viewBind: UserPicviewBinding) : BaseView<User>() {
@@ -28,18 +30,18 @@ class UserPicBind(
 
     override fun showData(data: User) {
         super.showData(data)
-        viewBind.run {
-            Glide.with(context).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(userpic)
+        viewBind.userpic.run {
+            Glide.with(context).load(data.picurl).into(this)
             if (data.admin) {
-                userpic.borderColor = context.resources.getColor(R.color.material_yellow600)
-                userpic.borderWidth = 2
-
+                borderColor = context.resources.getColor(R.color.material_yellow600)
+                borderWidth = 2
             } else {
-                userpic.borderColor = Color.TRANSPARENT
-                userpic.borderWidth = 0
+                borderColor = Color.TRANSPARENT
+                borderWidth = 0
             }
-            userpic.popIn()
-
+            setOnClickListener {
+                Alert(context as Activity, DialogStyles.BOTTOM_NO_BORDER).showLikes(quotesLikes)
+            }
         }
     }
 

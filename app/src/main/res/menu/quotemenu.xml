@@ -28,7 +28,7 @@
     <item
         android:id="@+id/quoteDelete"
         android:icon="@drawable/ic_garbage"
-        android:iconTint="@color/material_red500"
+        android:iconTint="?android:textColorHint"
         android:title="Remover"
         app:showAsAction="always" />
 </menu>

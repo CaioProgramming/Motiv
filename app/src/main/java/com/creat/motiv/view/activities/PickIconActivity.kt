@@ -17,7 +17,11 @@ class PickIconActivity : AppCompatActivity(R.layout.activity_pick_icon) {
         super.onCreate(savedInstanceState)
         val admin = intent.getBooleanExtra(ADMIN_USER, false)
         val pickIconBinding: ActivityPickIconBinding = DataBindingUtil.setContentView(this, R.layout.activity_pick_icon)
-        ProfilePicSelectBinder(this, admin, pickIconBinding.iconBind, ::onSelectPick)
+        ProfilePicSelectBinder(dialog = null,
+                admin = admin,
+                viewBind = pickIconBinding.iconBind,
+                picSelected = ::onSelectPick,
+                context = this)
         collapseTitle.text = "Selecionar ícone de perfil"
         setSupportActionBar(toolbar)
         supportActionBar?.let {

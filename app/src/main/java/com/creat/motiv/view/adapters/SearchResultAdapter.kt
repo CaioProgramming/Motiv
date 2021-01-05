@@ -29,6 +29,7 @@ class SearchResultAdapter(val context: Context, var query: String, val noResultC
             1 -> "Autores"
             else -> "Posts"
         }
+
         when (position) {
             0 -> UsersListBinder(context,
                     holder.quotescardBinding.quotesRecycler,

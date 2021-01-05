@@ -15,7 +15,7 @@
             <solid android:color="@color/owhite" />
             <stroke
                 android:width="1dp"
-                android:color="?android:textColorHint" />
+                android:color="@color/oblack" />
         </shape>
     </item>
 
