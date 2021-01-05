@@ -11,8 +11,13 @@
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
+
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/round</item>
+    </style>
 
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">
         <item name="android:textStyle">bold</item>

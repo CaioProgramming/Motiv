@@ -25,6 +25,7 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
         supportActionBar?.let { actionBar ->
             actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24)
             toolbar.setNavigationOnClickListener { finish() }
             title = if (quotedata == null) "Nova publicação" else "Editar publicação"
         }

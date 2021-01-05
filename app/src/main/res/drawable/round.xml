@@ -16,6 +16,6 @@
 
 
     <!-- Background color -->
-    <solid android:color="?android:shadowColor" />
+    <solid android:color="?android:colorBackground" />
 
 </shape>

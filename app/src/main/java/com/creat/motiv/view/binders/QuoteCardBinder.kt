@@ -10,9 +10,12 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Vibrator
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
@@ -120,6 +123,10 @@ class QuoteCardBinder(
             editItem.isVisible = user?.uid.equals(quote.userID)
             val deleteItem = menu.findItem(R.id.quoteDelete)
             deleteItem.isVisible = user?.uid.equals(quote.userID)
+            val item = menu.getItem(3)
+            val span = SpannableString(item.title)
+            span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.material_red500)), 0, item.title.length, 0)
+            item.title = span
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 setForceShowIcon(true)
             }
