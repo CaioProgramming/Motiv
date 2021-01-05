@@ -12,6 +12,8 @@
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
 

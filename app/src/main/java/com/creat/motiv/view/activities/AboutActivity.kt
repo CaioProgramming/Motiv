@@ -73,7 +73,6 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
 
     private fun loadRewardedVideoAd(rewardedVideoAd: RewardedVideoAd) {
         rewardedVideoAd.loadAd(getString(R.string.video_advertisement_id), AdRequest.Builder().build())
-
     }
 
 

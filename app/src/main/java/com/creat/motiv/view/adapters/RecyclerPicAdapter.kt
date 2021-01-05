@@ -13,7 +13,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.PicsLayoutBinding
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.utilities.NEW_PIC
-import com.creat.motiv.utilities.popIn
+import com.creat.motiv.utilities.slideInBottom
 import com.creat.motiv.view.activities.AddIconsActivity
 
 class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
@@ -54,7 +54,7 @@ class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
                     }
                 }
             }
-            card.popIn()
+            card.slideInBottom()
 
         }
     }

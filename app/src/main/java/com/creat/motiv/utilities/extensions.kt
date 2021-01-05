@@ -168,7 +168,7 @@ fun unblurView(context: Context) {
 fun snackmessage(context: Context, message: String, backcolor: Int = Color.BLACK, textColor: Int = Color.WHITE) {
     if (context is Activity) {
         val contextView = context.findViewById<View>(R.id.mainContainer)
-        Snackbar.make(contextView, message, Snackbar.LENGTH_SHORT)
+        Snackbar.make(contextView, message, Snackbar.LENGTH_LONG)
                 .setTextColor(textColor)
                 .setBackgroundTint(backcolor)
                 .show()
