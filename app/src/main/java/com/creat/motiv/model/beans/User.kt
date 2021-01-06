@@ -1,6 +1,7 @@
 package com.creat.motiv.model.beans
 
 import com.google.firebase.auth.FirebaseUser
+import com.ilustriscore.core.base.BaseBean
 
 data class User(var name: String = "",
                 val uid: String = "",

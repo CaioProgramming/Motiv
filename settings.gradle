@@ -1,2 +1,4 @@
+include ':ilustris:widgets'
+include ':ilustris:core'
 include ':nativetemplates'
 include ':app'

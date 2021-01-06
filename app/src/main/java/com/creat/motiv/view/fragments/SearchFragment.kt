@@ -39,13 +39,13 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query == null) {
-            snackmessage(context = requireContext(), message = "Não da para pesquisar o vazio :(")
+            snackmessage(context = requireContext(), message = "Não da para pesquisar o vazio :(", parentContainer = R.id.mainContainer)
             return false
         }
         searchBinding.searchResultRecyclerview.apply {
             searchBinding.searchIllustration.fadeOut()
             adapter = SearchResultAdapter(requireContext(), query) {
-                snackmessage(requireContext(), "Nenhum resultado encontrado")
+                snackmessage(requireContext(), "Nenhum resultado encontrado", parentContainer = R.id.mainContainer)
                 searchBinding.searchIllustration.fadeIn()
             }
             slideInBottom()

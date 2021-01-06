@@ -1,0 +1,28 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileBackground"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:background="@drawable/ilustris_gradient"
+        android:scaleType="center"
+        android:src="@drawable/ilustris_gradient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="?android:textColorPrimary"
+        app:civ_circle_background_color="?hintTextColor"
+        app:layout_constraintBottom_toBottomOf="@id/profileBackground"
+        app:layout_constraintEnd_toEndOf="@id/profileBackground"
+        app:layout_constraintStart_toStartOf="@id/profileBackground"
+        app:layout_constraintTop_toTopOf="@id/profileBackground" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

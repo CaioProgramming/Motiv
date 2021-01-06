@@ -5,12 +5,16 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utilities.*
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.fadeOut
+import com.creat.motiv.utilities.gone
+import com.creat.motiv.utilities.slideInBottom
 import com.creat.motiv.view.adapters.UserRecyclerAdapter
+import com.ilustriscore.core.base.BaseView
+import com.ilustriscore.core.base.DTOMessage
+import com.ilustriscore.core.utilities.OperationType
 
 
 class UsersListBinder(override val context: Context,

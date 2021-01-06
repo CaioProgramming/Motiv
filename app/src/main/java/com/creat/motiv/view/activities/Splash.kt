@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
-import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.ilustriscore.core.view.dialog.VerticalDialog
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 
@@ -29,14 +29,13 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
             }
 
             override fun onAnimationEnd(p0: Animator?) {
-                SignIn()
             }
 
             override fun onAnimationCancel(p0: Animator?) {
             }
 
             override fun onAnimationRepeat(p0: Animator?) {
-                SignIn()
+                signIn()
 
             }
 
@@ -47,12 +46,10 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
     }
 
 
-    private fun SignIn() {
+    private fun signIn() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
-            val providers = Arrays.asList<AuthUI.IdpConfig>(
-                    //AuthUI.IdpConfig.FacebookBuilder().build(),
-                    //new AuthUI.IdpConfig.TwitterBuilder().build(),
+            val providers = Arrays.asList(
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build())
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
@@ -80,11 +77,12 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
                 this.finish()
             } else {
                 if (response != null) {
-                    Alert(this).showAlert(
-                            message = "Ocorreu um erro ao fazer seu login tente novamente", okClick = {
-                        SignIn()
-                    },
-                            icon = R.drawable.ic_sad
+                    VerticalDialog.build(
+                            R.id.rootblur,
+                            fragmentManager = supportFragmentManager,
+                            message = "Atenção, ocorreu um erro ao realizar o login! Tente novamente \n (${response.error?.message})",
+                            okMessage = "Tentar novamente",
+                            okClick = { signIn() }
                     )
                 }
 
@@ -92,16 +90,5 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
 
         }
     }
-
-    private fun begin(exists: Boolean) {
-        if (!exists) {
-            val i = Intent(this, NewUser::class.java)
-            startActivity(i)
-            this.finish()
-        } else {
-
-        }
-    }
-
 
 }

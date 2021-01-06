@@ -8,12 +8,13 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utilities.Alert
-import com.creat.motiv.utilities.DialogStyles
 import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.utilities.fadeOut
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.utilities.getSupportFragmentManager
+import com.creat.motiv.view.fragments.IconPickerFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.ilustriscore.core.base.BaseView
+import com.ilustriscore.core.view.dialog.VerticalDialog
 
 
 class SettingsBinder(
@@ -35,7 +36,9 @@ class SettingsBinder(
         super.showData(data)
         viewBind.run {
             changeIconPic.setOnClickListener {
-                Alert(context as Activity, DialogStyles.BOTTOM_NO_BORDER).picturePicker(presenter(), data.admin)
+                context.getSupportFragmentManager()?.let {
+                    IconPickerFragment.build(it, presenter(), data.admin)
+                }
             }
             provider.text = presenter().currentUser?.email
             userID.text = data.uid
@@ -61,14 +64,14 @@ class SettingsBinder(
 
             singOutButton.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
-                Alert(context as Activity).showAlert(
-                        message = "Você se desconectou, faça login novamente para usar o app",
-                        buttonMessage = "Ok",
-                        okClick = {
-                            context.finish()
-                        },
-                        icon = R.drawable.ic_astronaut
-                )
+                context.getSupportFragmentManager()?.let {
+                    VerticalDialog.build(R.id.rootblur, it, "Você se desconectou, faça login novamente para usar o app", okClick = {
+                        (context as Activity).finish()
+                    }, cancelClick = {
+                        (context as Activity).finish()
+                    })
+
+                }
             }
         }
     }

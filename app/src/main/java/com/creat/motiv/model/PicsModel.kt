@@ -2,11 +2,12 @@ package com.creat.motiv.model
 
 
 import com.creat.motiv.model.beans.Pics
-import com.creat.motiv.presenter.BasePresenter
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.ilustriscore.core.base.BaseModel
+import com.ilustriscore.core.base.BasePresenter
 import java.io.File
 import java.io.FileInputStream
 

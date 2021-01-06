@@ -5,7 +5,7 @@ import androidx.appcompat.widget.SearchView
 import com.creat.motiv.databinding.FragmentHomeBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.view.BaseView
+import com.ilustriscore.core.base.BaseView
 
 class HomeBinder(
         override val context: Context, override val viewBind: FragmentHomeBinding) : BaseView<Quote>(), SearchView.OnQueryTextListener {

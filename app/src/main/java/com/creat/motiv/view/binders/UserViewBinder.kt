@@ -12,8 +12,8 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.UserActivity
+import com.ilustriscore.core.base.BaseView
 
 class UserViewBinder(
         val userID: String,
@@ -31,7 +31,7 @@ class UserViewBinder(
                 showUserProfile(data)
             }
             if (data.admin) {
-                userpic.borderColor = context.resources.getColor(R.color.material_yellow600)
+                userpic.borderColor = context.resources.getColor(com.ilustriscore.R.color.gold)
                 userpic.borderWidth = 5
 
             } else {

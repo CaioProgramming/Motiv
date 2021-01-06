@@ -2,7 +2,8 @@ package com.creat.motiv.presenter
 
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.beans.Quote
-import com.creat.motiv.view.BaseView
+import com.ilustriscore.core.base.BasePresenter
+import com.ilustriscore.core.base.BaseView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

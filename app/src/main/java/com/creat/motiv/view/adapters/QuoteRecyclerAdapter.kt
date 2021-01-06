@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.creat.motiv.AdUtils
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
 import com.creat.motiv.databinding.QuotesCardBinding
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.utilities.AD_QUOTE
-import com.creat.motiv.utilities.Tools
 import com.creat.motiv.view.binders.QuoteCardBinder
 import java.util.*
 import kotlin.collections.ArrayList
@@ -73,7 +73,7 @@ class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>,
     inner class AdViewHolder(advertiseBind: QuoteAdvertiseLayoutBinding) : RecyclerView.ViewHolder(advertiseBind.root) {
         init {
             Log.i(javaClass.simpleName, "Criando card de anúncio!")
-            Tools.loadAd(context, advertiseBind)
+            AdUtils.loadCardAdvertise(context, advertiseBind)
         }
     }
 

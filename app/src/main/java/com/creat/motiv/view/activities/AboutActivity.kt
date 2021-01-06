@@ -59,11 +59,11 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
             }
 
             override fun onRewardedVideoAdFailedToLoad(i: Int) {
-                snackmessage(this@AboutActivity, "Ocorreu um erro carregando o vídeo \uD83D\uDE22", resources.getColor(R.color.material_red500), Color.WHITE)
+                snackmessage(this@AboutActivity, "Ocorreu um erro carregando o vídeo \uD83D\uDE22", backcolor = Color.RED, textColor = Color.WHITE, mainContainer.id)
             }
 
             override fun onRewardedVideoCompleted() {
-                snackmessage(this@AboutActivity, "Obrigado por nos ajudar, esses anúncios fazem uma diferença enorme para nós!", resources.getColor(R.color.colorPrimary), Color.WHITE)
+                snackmessage(this@AboutActivity, "Obrigado por nos ajudar, esses anúncios fazem uma diferença enorme para nós!", resources.getColor(R.color.colorPrimary), Color.WHITE, mainContainer.id)
 
             }
         }

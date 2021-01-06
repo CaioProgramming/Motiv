@@ -16,19 +16,19 @@ import androidx.navigation.ui.setupWithNavController
 import com.creat.motiv.MotivApplication
 import com.creat.motiv.R
 import com.creat.motiv.model.beans.Version
-import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
-import com.creat.motiv.utilities.Tools
+import com.creat.motiv.utilities.isDarkMode
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ilustriscore.core.utilities.Tools
+import com.ilustriscore.core.view.dialog.VerticalDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var motivApplication: MotivApplication
     internal lateinit var version: Version
-    internal var a: Alert? = null
     internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
 
@@ -62,7 +62,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
-        if (Tools.darkMode(this)) {
+        if (isDarkMode()) {
             rootblur.setOverlayColor(ContextCompat.getColor(this, R.color.lblack))
             navigation_blur.setOverlayColor(ContextCompat.getColor(this, R.color.nblack))
         } else {
@@ -87,12 +87,8 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         } else {
             val user = FirebaseAuth.getInstance().currentUser
             if (!user!!.isEmailVerified) {
-                Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar",
-                        icon = R.drawable.fui_ic_mail_white_24dp,
-                        okClick = {
-                            user.sendEmailVerification()
-                        })
 
+                VerticalDialog.build(rootblur.id, supportFragmentManager, "Para publicar frases você precisamos que você verifique seu e-mail!", okMessage = "Ok", okClick = {})
             }
         }
     }
@@ -140,11 +136,11 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 
     private fun internetconnection() {
-        if (a == null) {
-            if (!isNetworkAvailable) {
-                Alert(this).showAlert(message = Tools.offlinemessage(), buttonMessage = "Conectar", icon = R.drawable.ic_broken_link)
-            }
-        }
+        VerticalDialog.build(rootblur.id, supportFragmentManager, Tools.offlinemessage(), okMessage = "Reconectar", okClick = {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.setClassName("com.android.phone", "com.android.phone.NetworkSetting")
+            startActivity(intent)
+        })
     }
 
 }

@@ -1,12 +1,14 @@
 package com.creat.motiv.model
 
 import com.creat.motiv.model.beans.Quote
-import com.creat.motiv.presenter.BasePresenter
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.ilustriscore.core.base.BaseModel
+import com.ilustriscore.core.base.BasePresenter
 
 
-class QuoteModel(override val presenter: BasePresenter<Quote>, override val path: String = "Quotes") : BaseModel<Quote>() {
+class QuoteModel(override val presenter: BasePresenter<Quote>,
+                 override val path: String = "Quotes") : BaseModel<Quote>() {
 
     fun getFavorites(uid: String) {
         db().whereArrayContains("likes", uid).addSnapshotListener(this)

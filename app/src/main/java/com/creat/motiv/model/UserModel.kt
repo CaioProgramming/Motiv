@@ -3,11 +3,12 @@ package com.creat.motiv.model
 import android.net.Uri
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.model.beans.User
-import com.creat.motiv.presenter.BasePresenter
-import com.creat.motiv.utilities.ErrorType
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.ilustriscore.core.base.BaseModel
+import com.ilustriscore.core.base.BasePresenter
+import com.ilustriscore.core.utilities.ErrorType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -21,7 +21,7 @@ class SettingsFragment : Fragment() {
     lateinit var settingsBinding: FragmentSettingsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         settingsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
         return settingsBinding.root
     }
@@ -32,11 +32,10 @@ class SettingsFragment : Fragment() {
         context?.hideBackButton()
         context?.showSupportActionBar()
         if (user == null) {
-            snackmessage(requireContext(), "Você está desconectado")
+            snackmessage(requireContext(), "Você está desconectado", parentContainer = R.id.mainContainer)
         } else {
             SettingsBinder(user.uid, requireContext(), settingsBinding)
         }
     }
-
 
 }

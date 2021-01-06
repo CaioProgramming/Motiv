@@ -18,16 +18,23 @@ import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.creat.motiv.FontUtils
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotesCardBinding
 import com.creat.motiv.model.QuoteModel
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utilities.*
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.utilities.autoSizeText
+import com.creat.motiv.utilities.blurView
+import com.creat.motiv.utilities.getSupportFragmentManager
+import com.creat.motiv.utilities.unblurView
 import com.creat.motiv.view.activities.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.devs.readmoreoption.ReadMoreOption
+import com.ilustriscore.core.base.BaseView
+import com.ilustriscore.core.utilities.ColorUtils
+import com.ilustriscore.core.utilities.TextUtils
+import com.ilustriscore.core.view.dialog.VerticalDialog
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
@@ -55,8 +62,8 @@ class QuoteCardBinder(
         quoteCard.setCardBackgroundColor(quote.intBackColor())
         quoteTextView.text = quote.quote
         authorTextView.text = quote.author
-        quoteTextView.typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[quote.font].path)
-        authorTextView.typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[quote.font].path)
+        quoteTextView.typeface = TextUtils.getTypeFace(context, FontUtils.fonts()[quote.font].path)
+        authorTextView.typeface = TextUtils.getTypeFace(context, FontUtils.fonts()[quote.font].path)
         quoteTextView.setTextColor(quote.intTextColor())
         authorTextView.setTextColor(quote.intTextColor())
         val color = ColorUtils.lighten(quote.intTextColor(), 0.8)
@@ -97,9 +104,9 @@ class QuoteCardBinder(
         }
         if (quote.intBackColor() == Color.BLACK) {
             if (!like.isChecked) {
-                like.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.material_grey300))
+                like.backgroundTintList = ColorStateList.valueOf(Color.LTGRAY)
             } else {
-                like.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.material_red500))
+                like.backgroundTintList = ColorStateList.valueOf(Color.RED)
 
             }
         }
@@ -125,7 +132,7 @@ class QuoteCardBinder(
             deleteItem.isVisible = user?.uid.equals(quote.userID)
             val item = menu.getItem(3)
             val span = SpannableString(item.title)
-            span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.material_red500)), 0, item.title.length, 0)
+            span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, com.ilustriscore.R.color.red_01)), 0, item.title.length, 0)
             item.title = span
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 setForceShowIcon(true)
@@ -167,14 +174,10 @@ class QuoteCardBinder(
                                 return true
                             }
                             R.id.quoteReport -> {
-                                val alert = Alert(context as Activity)
-                                alert.showAlert(
-                                        message = context.getString(R.string.report_message),
-                                        buttonMessage = "denunciar",
-                                        icon = R.drawable.ic_astronaut,
-                                        okClick = {
-                                            QuoteModel(presenter()).denunciar(quote)
-                                        }, cancelClick = null)
+                                context.getSupportFragmentManager()?.let { it1 ->
+                                    VerticalDialog.build(R.id.rootblur, it1,
+                                            context.getString(R.string.report_message), okMessage = "denunciar", okClick = { QuoteModel(presenter()).denunciar(quote) })
+                                }
                                 return true
                             }
                             R.id.quoteEdit -> {
@@ -192,10 +195,10 @@ class QuoteCardBinder(
                 }
             })
             setOnDismissListener {
-                unblurView(context)
+                unblurView(context, R.id.rootblur)
             }
             show()
-            blurView(context)
+            blurView(context, R.id.rootblur)
 
         }
     }

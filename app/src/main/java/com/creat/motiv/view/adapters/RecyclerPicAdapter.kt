@@ -2,6 +2,7 @@ package com.creat.motiv.view.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
                 card.setOnClickListener {
                     onSelectPick(picture)
                 }
-                card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_grey200))
+                card.setCardBackgroundColor(Color.LTGRAY)
             } else {
                 holder.picsLayoutBinding.run {
                     card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))

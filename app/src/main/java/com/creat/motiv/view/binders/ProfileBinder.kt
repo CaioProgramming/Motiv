@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.QuotesProfileAdapter
+import com.ilustriscore.core.base.BaseView
 
 class ProfileBinder(override val context: Context,
                     override val viewBind: FragmentProfileBinding,

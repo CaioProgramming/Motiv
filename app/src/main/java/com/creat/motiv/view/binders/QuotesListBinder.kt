@@ -3,12 +3,16 @@ package com.creat.motiv.view.binders
 import android.content.Context
 import android.view.View
 import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.utilities.*
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.fadeOut
+import com.creat.motiv.utilities.gone
+import com.creat.motiv.utilities.slideInBottom
 import com.creat.motiv.view.adapters.QuoteRecyclerAdapter
+import com.ilustriscore.core.base.BaseView
+import com.ilustriscore.core.base.DTOMessage
+import com.ilustriscore.core.utilities.OperationType
 
 
 class QuotesListBinder(override val context: Context, override val viewBind: QuoteRecyclerBinding,

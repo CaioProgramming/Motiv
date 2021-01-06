@@ -8,8 +8,8 @@ import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.presenter.PicsPresenter
 import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.utilities.fadeOut
-import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerPicAdapter
+import com.ilustriscore.core.base.BaseView
 
 class ProfilePicSelectBinder(val dialog: Dialog? = null,
                              override val context: Context,

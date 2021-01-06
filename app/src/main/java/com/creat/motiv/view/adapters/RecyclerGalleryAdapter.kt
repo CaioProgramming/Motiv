@@ -53,7 +53,7 @@ class RecyclerGalleryAdapter(var pictureList: ArrayList<String> = ArrayList(),
                     }
                 } else {
                     card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_blue500))
-                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp))
+                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.fui_ic_check_circle_black_128dp))
 
                 }
                 card.slideInBottom()

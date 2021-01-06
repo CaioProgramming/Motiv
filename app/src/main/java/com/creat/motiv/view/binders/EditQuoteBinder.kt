@@ -7,18 +7,20 @@ import android.os.Handler
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.creat.motiv.FontUtils
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
-import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utilities.*
-import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.FontAdapter
 import com.creat.motiv.view.adapters.PickedColor
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.BalloonAnimation
+import com.ilustriscore.core.base.BaseView
+import com.ilustriscore.core.base.DTOMessage
+import com.ilustriscore.core.utilities.*
+import com.skydoves.balloon.ArrowOrientation.TOP
+import com.skydoves.balloon.BalloonAnimation.ELASTIC
 import com.skydoves.balloon.createBalloon
 import com.skydoves.balloon.showAlignBottom
 import java.util.*
@@ -58,12 +60,12 @@ class EditQuoteBinder(
             setWidthRatio(0.5f)
             setHeight(50)
             setCornerRadius(10f)
-            setArrowOrientation(ArrowOrientation.TOP)
+            setArrowOrientation(TOP)
             setAutoDismissDuration(10000)
             setText("Deslize para baixo ver as outras fontes")
             setTextColorResource(R.color.white)
             setBackgroundColorResource(R.color.colorPrimary)
-            setBalloonAnimation(BalloonAnimation.ELASTIC)
+            setBalloonAnimation(ELASTIC)
             setLifecycleOwner(lifecycleOwner)
         }
         viewBind.fontSelector.showAlignBottom(balloon)
@@ -95,7 +97,7 @@ class EditQuoteBinder(
     private fun updateFont(newPosition: Int) {
         quote?.let {
             it.font = newPosition
-            val typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[it.font].path)
+            val typeface = TextUtils.getTypeFace(context, FontUtils.fonts()[it.font].path)
             viewBind.fontSelector.currentItem = it.font
             viewBind.quoteTextView.typeface = typeface
             viewBind.authorTextView.typeface = typeface
@@ -174,11 +176,11 @@ class EditQuoteBinder(
     override fun getCallBack(dtoMessage: DTOMessage) {
         super.getCallBack(dtoMessage)
         if (dtoMessage.operationType == OperationType.DATA_SAVED) {
-            snackmessage(context, message = "Citação salva com sucesso!", backcolor = context.resources.getColor(R.color.material_green500))
+            snackmessage(context, message = "Citação salva com sucesso!", parentContainer = R.id.mainContainer)
             quote = emptyQuote()
             quote?.let { showData(it) }
         } else if (dtoMessage.operationType == OperationType.DATA_UPDATED) {
-            snackmessage(context, message = "Citação atualizada com sucesso!", backcolor = context.resources.getColor(R.color.material_green500))
+            snackmessage(context, message = "Citação atualizada com sucesso!", parentContainer = R.id.mainContainer)
             if (context is Activity) {
                 context.finish()
             }
@@ -189,7 +191,7 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
-            if (it.quote.isNotEmpty()) presenter().saveData(it, it.id) else snackmessage(context, message = Tools.emptyquote())
+            if (it.quote.isNotEmpty()) presenter().saveData(it, it.id) else snackmessage(context, message = Tools.emptyquote(), parentContainer = R.id.mainContainer)
         }
     }
 

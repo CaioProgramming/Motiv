@@ -3,7 +3,8 @@ package com.creat.motiv.presenter
 import com.creat.motiv.model.UserModel
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.model.beans.User
-import com.creat.motiv.view.BaseView
+import com.ilustriscore.core.base.BasePresenter
+import com.ilustriscore.core.base.BaseView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

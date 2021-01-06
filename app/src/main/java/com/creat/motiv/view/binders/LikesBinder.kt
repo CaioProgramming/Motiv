@@ -10,8 +10,8 @@ import com.creat.motiv.presenter.UserPresenter
 import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.utilities.slideInBottom
-import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.LikersRecyclerAdapter
+import com.ilustriscore.core.base.BaseView
 
 class LikesBinder(val dialog: Dialog,
                   val likeList: List<String>,

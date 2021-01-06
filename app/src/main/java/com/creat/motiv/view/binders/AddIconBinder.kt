@@ -4,15 +4,20 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
+import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityAddIconsBinding
-import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Pics
 import com.creat.motiv.presenter.PicsPresenter
-import com.creat.motiv.utilities.*
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.utilities.NEW_PIC
+import com.creat.motiv.utilities.fadeIn
+import com.creat.motiv.utilities.fadeOut
+import com.creat.motiv.utilities.snackmessage
 import com.creat.motiv.view.adapters.RecyclerGalleryAdapter
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.ilustriscore.core.base.BaseView
+import com.ilustriscore.core.base.DTOMessage
+import com.ilustriscore.core.utilities.OperationType
 import gun0912.tedbottompicker.TedBottomPicker
 
 
@@ -40,7 +45,7 @@ class AddIconBinder(override val context: Context, override val viewBind: Activi
             previewAdapter.updateSaved(savedCount)
             savedCount++
             if (savedCount == previewAdapter.pictureList.size - 1) {
-                snackmessage(context, message = "Ícones adicionados com sucesso!")
+                snackmessage(context, message = "Ícones adicionados com sucesso!", parentContainer = R.id.mainContainer)
             }
         }
 
@@ -65,7 +70,7 @@ class AddIconBinder(override val context: Context, override val viewBind: Activi
             if (previewAdapter.pictureList.isNotEmpty()) {
                 addIcons(previewAdapter.pictureList)
             } else {
-                snackmessage(context, message = "Você não selecionou nenhuma imagem!")
+                snackmessage(context, message = "Você não selecionou nenhuma imagem!", parentContainer = R.id.mainContainer)
             }
         }
         if (allpermmitted()) {

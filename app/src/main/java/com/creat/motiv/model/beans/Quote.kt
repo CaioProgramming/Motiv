@@ -2,6 +2,7 @@ package com.creat.motiv.model.beans
 
 import android.graphics.Color
 import com.creat.motiv.utilities.AD_QUOTE
+import com.ilustriscore.core.base.BaseBean
 import java.util.*
 import kotlin.collections.ArrayList
 

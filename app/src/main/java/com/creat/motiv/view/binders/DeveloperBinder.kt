@@ -9,8 +9,8 @@ import com.creat.motiv.presenter.DeveloperPresenter
 import com.creat.motiv.utilities.fadeIn
 import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.utilities.gone
-import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.RecyclerDeveloperAdapter
+import com.ilustriscore.core.base.BaseView
 
 class DeveloperBinder(
         override val context: Context,
@@ -26,9 +26,7 @@ class DeveloperBinder(
         viewBind.quotesrecyclerview.gone()
     }
 
-    override fun onLoadFinish() {
-        viewBind.loading.fadeOut()
-    }
+    override fun onLoadFinish() = viewBind.loading.fadeOut()
 
     override fun showListData(list: List<Developer>) {
         super.showListData(list)

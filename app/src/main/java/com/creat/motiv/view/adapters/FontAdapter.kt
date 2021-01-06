@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.creat.motiv.FontUtils
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FontPagerBinding
-import com.creat.motiv.utilities.TextUtils
+import com.ilustriscore.core.utilities.TextUtils
 
 class FontAdapter(val context: Context, var currentTextColor: Int) : RecyclerView.Adapter<FontAdapter.FontHolder>() {
 
-    val fontList = TextUtils.fonts()
+    val fontList = FontUtils.fonts()
 
     inner class FontHolder(val fontPagerBinding: FontPagerBinding) : RecyclerView.ViewHolder(fontPagerBinding.root)
 
