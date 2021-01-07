@@ -29,7 +29,6 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
             }
 
             override fun onAnimationEnd(p0: Animator?) {
-                SignIn()
             }
 
             override fun onAnimationCancel(p0: Animator?) {
@@ -37,7 +36,6 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
 
             override fun onAnimationRepeat(p0: Animator?) {
                 SignIn()
-
             }
 
 
@@ -67,6 +65,8 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
             startActivity(i)
             this.finish()
         }
+        splash_animation.cancelAnimation()
+
     }
 
 
