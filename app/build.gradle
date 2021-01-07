@@ -20,9 +20,9 @@ android {
 
     def versionMajor = versionProps['MAJOR_VERSION']
     def versionMinor = versionProps['MINOR_VERSION']
-    def versionPatch = versionProps['VERSION_PATCH'].toInteger() + 1
-    def versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
-    def versionNumber = versionProps['VERSION_NUMBER'].toInteger() + 1
+    def versionPatch = versionProps['VERSION_PATCH'].toInteger()
+    def versionBuild = versionProps['VERSION_BUILD'].toInteger()
+    def versionNumber = versionProps['VERSION_NUMBER'].toInteger()
     def vName = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
 
 
@@ -38,19 +38,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
-    }
-    versionProps['VERSION_PATCH'] = versionPatch.toString()
-    versionProps['VERSION_BUILD'] = versionBuild.toString()
-    versionProps['VERSION_NUMBER'] = versionNumber.toString()
-
-
-    dependencies.metaClass.allCompile { dependency ->
-        buildTypes.each { buildType ->
-            "${buildType.name}Compile" project(path: ":${dependency.name}", configuration: buildType.name)
-            if (buildType.name.contains("release")) {
-                versionPropsFile.withWriter { versionProps.store(it, null) }
-            }
-        }
     }
 
     buildTypes {
@@ -71,7 +58,6 @@ android {
             resValue("string", "video_advertisement_id", "ca-app-pub-8016530757684172/4401117155")
         }
     }
-
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -183,3 +169,103 @@ repositories {
     mavenCentral()
 }
 apply plugin: 'com.google.gms.google-services'
+
+
+task updateVersion(dependsOn: "getReleaseBundle") {
+
+    doLast {
+        def versionPropsFile = file("version.properties")
+        Properties versionProps = new Properties()
+        println "Updating version"
+        if (versionPropsFile.canRead()) {
+            versionProps.load(new FileInputStream(versionPropsFile))
+        }
+        else {
+
+            throw new GradleException("Could not read version.properties!")
+        }
+        def versionPatch = versionProps["VERSION_PATCH"].toInteger() + 1
+        def versionBuild = versionProps["VERSION_BUILD"].toInteger() + 1
+        def versionNumber = versionProps["VERSION_NUMBER"].toInteger() + 1
+        versionProps["VERSION_PATCH"] = versionPatch.toString()
+        versionProps["VERSION_BUILD"] = versionBuild.toString()
+        versionProps["VERSION_NUMBER"] = versionNumber.toString()
+        versionPropsFile.withWriter { versionProps.store(it, null) }
+    }
+}
+
+task generateProduction(dependsOn: "bundleRelease") {
+    println "Deploying new app version"
+
+    def versionPropsFile = file("version.properties")
+    Properties versionProps = new Properties()
+    versionProps.load(new FileInputStream(versionPropsFile))
+
+    def versionPatch = versionProps["VERSION_PATCH"].toInteger()
+    def versionBuild = versionProps["VERSION_BUILD"].toInteger()
+    def versionNumber = versionProps["VERSION_NUMBER"].toInteger()
+    def versionMajor = versionProps['MAJOR_VERSION']
+    def versionMinor = versionProps['MINOR_VERSION']
+
+    def vName = "${versionMajor}_${versionMinor}_${versionPatch}_${versionBuild}_${versionNumber}"
+
+
+    doLast {
+        def destination = "C:/Users/cacai/Documents/Develop/Motiv/"
+        def name = "motiv-release-${vName}.aab"
+        def releaseBundle = file("release/app-release.aab")
+        if (releaseBundle.exists()) {
+            copy {
+                from releaseBundle
+                into file("${destination}")
+                rename {name}
+            }
+            println "Generated new release bundle at $destination/$name"
+        } else {
+            throw new GradleException("Could not find app bundle")
+
+        }
+    }
+}
+
+task getReleaseBundle(dependsOn: "generateProduction") {
+
+    doLast{
+        def destination = "C:/Users/cacai/Documents/Develop/Motiv"
+        def versionPropsFile = file("version.properties")
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def versionPatch = versionProps["VERSION_PATCH"]
+        def versionBuild = versionProps["VERSION_BUILD"]
+        def versionNumber = versionProps["VERSION_NUMBER"]
+        def versionMajor = versionProps['MAJOR_VERSION']
+        def versionMinor = versionProps['MINOR_VERSION']
+
+        def vName = "${versionMajor}_${versionMinor}_${versionPatch}_${versionBuild}_${versionNumber}"
+
+
+        def name = "motiv-release-${vName}.aab"
+        def rls = file("${destination}")
+
+        if (rls.exists()) {
+            def os = org.gradle.internal.os.OperatingSystem.current()
+            if (os.isWindows()) {
+                exec { commandLine 'cmd', '/c', "start $rls.path" }
+            } else if (os.isMacOsX()) {
+                exec { commandLine 'open', "$path" }
+            }
+            println "Apk located on -> $rls.absolutePath/$name"
+            println "Deploy successful -> version $vName"
+        } else {
+            throw new GradleException("Could not find app bundle on $destination/$name")
+        }
+    }
+
+}
+
+
+
+
+
+
