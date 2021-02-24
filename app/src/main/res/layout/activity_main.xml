@@ -11,7 +11,6 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/mainmenu"
@@ -33,7 +32,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             app:realtimeBlurRadius="25dp"
-            app:realtimeOverlayColor="@color/lwhite" />
+            app:realtimeOverlayColor="?attr/navblurOverLayColor" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
@@ -59,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:realtimeBlurRadius="50dp"
-            app:realtimeOverlayColor="@color/owhite" />
+            app:realtimeOverlayColor="?attr/blurOverLayColor" />
     </RelativeLayout>
 
 

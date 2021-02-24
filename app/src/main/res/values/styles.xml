@@ -1,22 +1,4 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:fontFamily">@font/lato_regular</item>
-        <item name="colorPrimary">@color/material_purple400</item>
-        <item name="colorPrimaryDark">@color/material_purple800</item>
-        <item name="colorAccent">@color/material_purpleA100</item>
-        <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
-        <item name="toolbarStyle">@style/AppToolbar</item>
-        <item name="searchViewStyle">@style/Searchtheme</item>
-        <item name="snackbarStyle">@style/AppSnackbar</item>
-        <item name="android:windowActivityTransitions">true</item>
-        <item name="popupMenuStyle">@style/PopupMenu</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowLightNavigationBar">false</item>
-    </style>
-
-
     <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">@drawable/round</item>
     </style>
@@ -38,6 +20,7 @@
 
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="elevation">3dp</item>
+        <item name="homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
         <item name="titleTextAppearance">@style/ToolbarTitle</item>
         <item name="background">@drawable/bottom_line</item>
         <item name="paddingStart">@dimen/default_padding</item>
@@ -95,11 +78,22 @@
     </style>
 
 
-    <style name="AppProgressIndicator">
+    <style name="CircularProgress">
         <item name="android:indeterminate">true</item>
+        <item name="trackColor">?android:colorBackground</item>
+        <item name="indicatorColor">@color/colorAccent</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.AppTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.AppTheme.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
 </resources>

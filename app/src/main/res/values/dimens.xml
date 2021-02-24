@@ -10,4 +10,7 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_radius">10dp</dimen>
     <dimen name="card_size">350dp</dimen>
+    <dimen name="pageMargin">40dp</dimen>
+    <dimen name="offset">50dp</dimen>
+    <dimen name="pageMarginAndOffset">75dp</dimen>
 </resources>

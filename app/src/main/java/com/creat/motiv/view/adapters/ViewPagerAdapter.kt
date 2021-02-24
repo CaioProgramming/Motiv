@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.utilities.Pref
 import com.creat.motiv.view.activities.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -37,7 +36,6 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
 
             "A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!", "O Motiv é sincronizado em tempo real,sempre que um novo usuário posta algo,você pode visualizar no mesmo momento.", "Seus dados estão seguros e não são compartilhados, fique tranquilo é um ambiente seguro.", "Compartilhe tudo o que imaginar, esse espaço é seu!", "Use a imaginação e criatividade sem medo com a ferramenta de edição.", "Já são inúmeras  frases compartilhadas no mundo!", "Agora que sabe onde se meteu " + user!!.displayName + ",é hora de explorar comunidade do motiv, veja o que os usuários estão compartilhando, compartilhe,explore!")
 
-    private var preferences: Pref? = null
 
     init {
 
@@ -100,7 +98,6 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
 
             val i = Intent(context, MainActivity::class.java)
 
-            preferences = Pref(context)
 
             start.setOnClickListener {
                 i.putExtra("novo", true)
@@ -126,7 +123,6 @@ class ViewPagerAdapter(private val context: Context, private val activity: Activ
 
         quotesdb = FirebaseDatabase.getInstance().reference
         quotesdb!!.keepSynced(false)
-        preferences!!.setAgree(true)
         i.putExtra("novo", true)
         context.startActivity(i)
         activity.finish()

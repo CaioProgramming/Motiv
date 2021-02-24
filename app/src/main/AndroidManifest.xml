@@ -10,17 +10,19 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".MotivApplication"
-
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Motiv.Theme">
+        <activity
+            android:name=".view.activities.FullQuoteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="" />
         <activity android:name=".view.activities.AddIconsActivity" />
         <activity android:name=".view.activities.PickIconActivity" />
         <activity android:name=".view.activities.AboutActivity" />
@@ -36,9 +38,6 @@
             android:name=".view.activities.ErrorActivity"
             android:clearTaskOnLaunch="true"
             android:process=":report_process" />
-        <activity
-            android:name=".view.activities.SettingsActivity"
-            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -58,8 +57,7 @@
         <activity
             android:name=".view.activities.Splash"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,8 +66,8 @@
         </activity> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <activity
             android:name=".view.activities.MainActivity"
-            android:hardwareAccelerated="true"
             android:exported="true"
+            android:hardwareAccelerated="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -93,9 +91,9 @@
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
             <meta-data
-                tools:replace="android:resource"
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource" />
             <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id" />

@@ -10,6 +10,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             tools:itemCount="4"
+            android:paddingBottom="?attr/actionBarSize"
             tools:listitem="@layout/quotes_card"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/quotesrecyclerview"
@@ -25,16 +26,10 @@
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/loading"
+            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:indicatorColor="@color/colorPrimaryDark"
-            app:indicatorSize="50dp"
-            app:trackColor="@color/colorAccent"
-            app:trackCornerRadius="@dimen/default_radius"
-            app:trackThickness="5dp" />
+            tools:visibility="visible" />
 
 
     </RelativeLayout>

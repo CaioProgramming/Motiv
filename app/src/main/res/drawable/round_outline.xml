@@ -16,6 +16,7 @@
 
 
     <!-- Background color -->
+    <solid android:color="@color/transparent" />
     <stroke
         android:width="3dp"
         android:color="?android:textColorPrimary" />

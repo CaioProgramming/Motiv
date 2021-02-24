@@ -3,13 +3,14 @@ package com.creat.motiv.view.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FontPagerBinding
 import com.creat.motiv.utilities.TextUtils
 
-class FontAdapter(val context: Context, var currentTextColor: Int) : RecyclerView.Adapter<FontAdapter.FontHolder>() {
+class FontAdapter(val context: Context) : RecyclerView.Adapter<FontAdapter.FontHolder>() {
 
     val fontList = TextUtils.fonts()
 
@@ -22,17 +23,13 @@ class FontAdapter(val context: Context, var currentTextColor: Int) : RecyclerVie
 
     override fun onBindViewHolder(holder: FontHolder, position: Int) {
         holder.fontPagerBinding.fontTextView.run {
+
             val font = fontList[position]
             text = font.name
-            setTextColor(currentTextColor)
             typeface = TextUtils.getTypeFace(context, font.path)
         }
     }
 
-    fun updateTextColor(newColor: Int) {
-        currentTextColor = newColor
-        notifyDataSetChanged()
-    }
 
     override fun getItemCount(): Int {
         return fontList.size

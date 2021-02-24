@@ -1,5 +1,6 @@
 package com.creat.motiv.view.binders
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.ClipData
@@ -12,7 +13,9 @@ import android.os.Build
 import android.os.Vibrator
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.GestureDetector
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -26,6 +29,7 @@ import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utilities.*
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.activities.EditQuoteActivity
+import com.creat.motiv.view.activities.FullQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.devs.readmoreoption.ReadMoreOption
 import com.skydoves.balloon.ArrowOrientation
@@ -51,6 +55,7 @@ class QuoteCardBinder(
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun QuotesCardBinding.setupQuote() {
         quoteCard.setCardBackgroundColor(quote.intBackColor())
         quoteTextView.text = quote.quote
@@ -61,7 +66,7 @@ class QuoteCardBinder(
         authorTextView.setTextColor(quote.intTextColor())
         val color = ColorUtils.lighten(quote.intTextColor(), 0.8)
         val readMoreOption = ReadMoreOption.Builder(context)
-                .textLength(200, ReadMoreOption.TYPE_CHARACTER)
+                .textLength(150, ReadMoreOption.TYPE_CHARACTER)
                 .moreLabel("\nVer mais...")
                 .lessLabel("\nVer menos")
                 .moreLabelColor(color)
@@ -69,6 +74,13 @@ class QuoteCardBinder(
                 .expandAnimation(true)
                 .build()
         readMoreOption.addReadMoreTo(quoteTextView, quote.quote)
+        quoteTextView.setOnClickListener {
+            fullScreenQuote()
+        }
+
+        quoteCard.setOnTouchListener { view, motionEvent ->
+            gestureDetector().onTouchEvent(motionEvent)
+        }
         quoteDate.text = TextUtils.data(quote.data)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             quoteTextView.autoSizeText()
@@ -76,14 +88,24 @@ class QuoteCardBinder(
         onLoadFinish()
     }
 
+    private fun gestureDetector(): GestureDetector {
+        return GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                fullScreenQuote()
+                return super.onDoubleTap(e)
+            }
+        })
+    }
+
+
     private fun QuotesCardBinding.setupCard() {
         quoteCard.setOnLongClickListener {
             showQuotePopupMenu()
             false
         }
-        like.isChecked = quote.likes.contains(presenter().currentUser?.uid)
+        like.isChecked = quote.likes.contains(presenter().currentUser.uid)
         like.setOnClickListener {
-            if (quote.likes.contains(presenter().currentUser?.uid)) {
+            if (quote.likes.contains(presenter().currentUser.uid)) {
                 presenter().deslikeQuote(quote)
             } else {
                 presenter().likeQuote(quote)
@@ -120,9 +142,9 @@ class QuoteCardBinder(
             menuInflater.inflate(R.menu.quotemenu, popup.menu)
             val user = presenter().currentUser
             val editItem = menu.findItem(R.id.quoteEdit)
-            editItem.isVisible = user?.uid.equals(quote.userID)
+            editItem.isVisible = user.uid.equals(quote.userID)
             val deleteItem = menu.findItem(R.id.quoteDelete)
-            deleteItem.isVisible = user?.uid.equals(quote.userID)
+            deleteItem.isVisible = user.uid.equals(quote.userID)
             val item = menu.getItem(3)
             val span = SpannableString(item.title)
             span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.material_red500)), 0, item.title.length, 0)
@@ -200,6 +222,14 @@ class QuoteCardBinder(
         }
     }
 
+
+    fun fullScreenQuote() {
+        val i = Intent(context, FullQuoteActivity::class.java)
+        i.putExtra("Quote", quote)
+        val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,
+                android.util.Pair(viewBind.quoteCard as View, context.getString(R.string.card_transaction)))
+        context.startActivity(i, options.toBundle())
+    }
 
     fun editQuote() {
         val i = Intent(context, EditQuoteActivity::class.java)

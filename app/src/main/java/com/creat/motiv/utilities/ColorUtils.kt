@@ -15,6 +15,11 @@ object ColorUtils {
     val SUCCESS = R.color.material_green500
     val WARNING = R.color.material_yellow500
     val INFO = R.color.material_blue500
+
+    fun toHex(intColor: Int): String {
+        return java.lang.String.format("#%06X", 0xFFFFFF and intColor)
+    }
+
     fun lighten(color: Int, fraction: Double): Int {
         var red = Color.red(color)
         var green = Color.green(color)

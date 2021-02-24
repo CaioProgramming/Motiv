@@ -33,4 +33,7 @@
     <string name="card_transaction">quoteCard</string>
     <string name="quote_transaction">quoteTransaction</string>
     <string name="author_transaction">authorTransaction</string>
+    <string name="title_activity_full_quote">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

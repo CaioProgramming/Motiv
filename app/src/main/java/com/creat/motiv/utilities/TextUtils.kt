@@ -46,7 +46,7 @@ object TextUtils {
                 FontObject("Amatic", "fonts/AmaticSC-Regular.ttf"),
                 FontObject("BlackHan", "fonts/BlackHanSans-Regular.ttf"),
                 FontObject("Cabin", "fonts/Cabin-Regular.ttf"),
-                FontObject("Cinzel regular", "fonts/Cinzel-Regular.ttf"),
+                FontObject("Cinzel", "fonts/Cinzel-Regular.ttf"),
                 FontObject("Farsan", "fonts/Farsan-Regular.ttf"),
                 FontObject("FingerPaint", "fonts/FingerPaint-Regular.ttf"),
                 FontObject("Fredoka One", "fonts/FredokaOne-Regular.ttf"),

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.creat.motiv.model.beans.User
 import com.creat.motiv.presenter.UserPresenter
+import com.creat.motiv.utilities.slideInBottom
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.QuotesProfileAdapter
 
@@ -36,8 +37,9 @@ class ProfileBinder(override val context: Context,
             }
             if (context is AppCompatActivity) {
                 val activity = context
-                activity.supportActionBar?.title = data.name
+                activity.supportActionBar.title = data.name
             }
+            profileContainer.slideInBottom()
         }
     }
 

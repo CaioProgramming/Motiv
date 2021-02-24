@@ -10,9 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ColorCardBinding
+import com.creat.motiv.utilities.ColorUtils.toHex
 import com.creat.motiv.utilities.SelectedViewType
 import com.creat.motiv.utilities.blurView
-import com.creat.motiv.utilities.toHex
 import com.creat.motiv.utilities.unblurView
 import java.util.*
 

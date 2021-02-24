@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Handler
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -13,15 +16,19 @@ import com.creat.motiv.model.DTOMessage
 import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.presenter.QuotePresenter
 import com.creat.motiv.utilities.*
+import com.creat.motiv.utilities.ColorUtils.toHex
 import com.creat.motiv.view.BaseView
 import com.creat.motiv.view.adapters.FontAdapter
 import com.creat.motiv.view.adapters.PickedColor
 import com.creat.motiv.view.adapters.RecyclerColorAdapter
+import com.google.android.material.tabs.TabLayout
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
 import com.skydoves.balloon.showAlignBottom
 import java.util.*
+import kotlin.math.abs
+
 
 class EditQuoteBinder(
         var quote: Quote? = null,
@@ -53,21 +60,35 @@ class EditQuoteBinder(
         if (quote == null) {
             quote = emptyQuote()
         }
+        showData(quote!!)
+        showBalloonTip()
+
+    }
+
+    private fun showBalloonTip() {
         val balloon = createBalloon(context) {
             setArrowSize(10)
             setWidthRatio(0.5f)
             setHeight(50)
             setCornerRadius(10f)
             setArrowOrientation(ArrowOrientation.TOP)
-            setAutoDismissDuration(10000)
+            setAutoDismissDuration(50000)
             setText("Deslize para baixo ver as outras fontes")
             setTextColorResource(R.color.white)
             setBackgroundColorResource(R.color.colorPrimary)
             setBalloonAnimation(BalloonAnimation.ELASTIC)
+            setOnBalloonDismissListener {
+                viewBind.fontSelector.run {
+                    if (tabCount > 0 && quote?.font == 0) {
+                        val randomFont = Random().nextInt(tabCount)
+                        getTabAt(randomFont).select()
+
+                    }
+                }
+            }
             setLifecycleOwner(lifecycleOwner)
         }
         viewBind.fontSelector.showAlignBottom(balloon)
-        showData(quote!!)
     }
 
     override fun showData(data: Quote) {
@@ -84,9 +105,7 @@ class EditQuoteBinder(
                 salvar()
             }
             quoteTextView.addTextChangedListener {
-                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
-                    quoteTextView.autoSizeText()
-                }
+                quoteTextView.autoSizeText()
             }
         }
     }
@@ -96,10 +115,10 @@ class EditQuoteBinder(
         quote?.let {
             it.font = newPosition
             val typeface = TextUtils.getTypeFace(context, TextUtils.fonts()[it.font].path)
-            viewBind.fontSelector.currentItem = it.font
+            viewBind.fontSelector.getTabAt(newPosition).select()
             viewBind.quoteTextView.typeface = typeface
             viewBind.authorTextView.typeface = typeface
-            viewBind.authorTextView.bounce()
+            viewBind.quoteTextView.bounce()
             viewBind.authorTextView.bounce()
         }
     }
@@ -124,17 +143,51 @@ class EditQuoteBinder(
 
     }
 
+    fun setupTab(position: Int, tab: TabLayout.Tab) {
+        val f = TextUtils.fonts()[position]
+        tab.view.let {
+            val viewGroup = it as ViewGroup
+            for (i in 0 until viewGroup.childCount) {
+                val child = viewGroup.getChildAt(i)
+                if (child is TextView) {
+                    child.run {
+                        typeface = TextUtils.getTypeFace(context, f.path)
+                        text = f.name
+                        //Toast.makeText(context, "Updated tab at $position font", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    fun buildtabs() {
+        for (i in 0..viewBind.fontSelector.tabCount) {
+            viewBind.fontSelector.getTabAt(i).let { setupTab(i, it) }
+        }
+    }
+
     private fun getFonts() {
         viewBind.fontSelector.apply {
-            fontAdapter = FontAdapter(context, quote!!.intTextColor())
-            adapter = fontAdapter
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    updateFont(position)
+            val fonts = TextUtils.fonts()
+            for (i in 0 until fonts.count()) {
+                addTab(this.newTab().setText(fonts[i].name))
+            }
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab.let {
+                        updateFont(it.position)
+                    }
                 }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
             })
         }
+        buildtabs()
     }
 
 
@@ -156,7 +209,6 @@ class EditQuoteBinder(
         authorTextView.setTextColor(color)
         quoteTextView.setHintTextColor(ColorUtils.lighten(color, 0.5))
         authorTextView.setHintTextColor(ColorUtils.lighten(color, 0.5))
-        fontAdapter.updateTextColor(color)
         quoteTextView.bounce()
         authorTextView.bounce()
     }
@@ -201,8 +253,8 @@ class EditQuoteBinder(
                 data = actualday(),
                 backgroundcolor = backcolor,
                 textcolor = textcolor,
-                author = firebaseUser?.displayName ?: "",
-                userID = firebaseUser?.uid ?: ""
+                author = firebaseUser.displayName ?: "",
+                userID = firebaseUser.uid ?: ""
         )
     }
 

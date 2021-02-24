@@ -104,9 +104,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0-beta01'
     implementation 'com.google.android.play:core:1.9.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2-native-mt'
-
-
-
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
@@ -172,11 +169,11 @@ apply plugin: 'com.google.gms.google-services'
 
 
 task updateVersion(dependsOn: "getReleaseBundle") {
-
     doLast {
+        println "Updating version"
+
         def versionPropsFile = file("version.properties")
         Properties versionProps = new Properties()
-        println "Updating version"
         if (versionPropsFile.canRead()) {
             versionProps.load(new FileInputStream(versionPropsFile))
         }
@@ -192,6 +189,7 @@ task updateVersion(dependsOn: "getReleaseBundle") {
         versionProps["VERSION_NUMBER"] = versionNumber.toString()
         versionPropsFile.withWriter { versionProps.store(it, null) }
     }
+
 }
 
 task generateProduction(dependsOn: "bundleRelease") {
@@ -207,7 +205,7 @@ task generateProduction(dependsOn: "bundleRelease") {
     def versionMajor = versionProps['MAJOR_VERSION']
     def versionMinor = versionProps['MINOR_VERSION']
 
-    def vName = "${versionMajor}_${versionMinor}_${versionPatch}_${versionBuild}_${versionNumber}"
+    def vName = "${versionMajor}-${versionMinor}-${versionPatch}-${versionBuild}-${versionNumber}"
 
 
     doLast {
@@ -229,7 +227,6 @@ task generateProduction(dependsOn: "bundleRelease") {
 }
 
 task getReleaseBundle(dependsOn: "generateProduction") {
-
     doLast{
         def destination = "C:/Users/cacai/Documents/Develop/Motiv"
         def versionPropsFile = file("version.properties")
@@ -242,8 +239,7 @@ task getReleaseBundle(dependsOn: "generateProduction") {
         def versionMajor = versionProps['MAJOR_VERSION']
         def versionMinor = versionProps['MINOR_VERSION']
 
-        def vName = "${versionMajor}_${versionMinor}_${versionPatch}_${versionBuild}_${versionNumber}"
-
+        def vName = "${versionMajor}-${versionMinor}-${versionPatch}-${versionBuild}-${versionNumber}"
 
         def name = "motiv-release-${vName}.aab"
         def rls = file("${destination}")

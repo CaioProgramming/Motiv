@@ -82,7 +82,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
                     .setLogo(R.mipmap.ic_launcher)
                     .setAvailableProviders(providers)
-                    .setTheme(R.style.AppTheme)
+                    .setTheme(R.style.Motiv_Theme)
                     .build(), RC_SIGN_IN)
         } else {
             val user = FirebaseAuth.getInstance().currentUser

@@ -56,7 +56,7 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
                     .setLogo(R.mipmap.ic_launcher)
                     .setAvailableProviders(providers)
-                    .setTheme(R.style.AppTheme)
+                    .setTheme(R.style.Motiv_Theme)
                     .build(), RC_SIGN_IN)
         } else {
             val i = Intent(this, MainActivity::class.java)

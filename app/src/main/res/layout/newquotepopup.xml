@@ -8,21 +8,23 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/background"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/fontSelector"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
             android:layout_margin="@dimen/default_padding"
-            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabMode="scrollable" />
 
-            />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/quoteCard"
@@ -47,7 +49,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_size"
                     android:layout_above="@+id/author_text_view"
-                    android:layout_marginBottom="39dp"
                     android:autoSizeMaxTextSize="@dimen/big_quote_size"
                     android:autoSizeMinTextSize="@dimen/min_quote_size"
                     android:autoSizeTextType="uniform"
@@ -114,17 +115,16 @@
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/editloading"
-            style="@style/AppProgressIndicator"
             android:layout_alignBaseline="@id/save_quote_button"
-            android:elevation="4dp"
-            android:indeterminateTint="@color/white"
-            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:indicatorColor="@color/colorPrimaryDark"
+            android:elevation="4dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/save_quote_button"
             app:layout_constraintEnd_toEndOf="@id/save_quote_button"
             app:layout_constraintStart_toStartOf="@id/save_quote_button"
             app:layout_constraintTop_toTopOf="@id/save_quote_button"
-            app:trackColor="@color/white"
             tools:visibility="visible" />
 
 
