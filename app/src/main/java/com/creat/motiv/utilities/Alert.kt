@@ -9,11 +9,12 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.DefaultDialogBinding
 import com.creat.motiv.databinding.ProfilepicselectBinding
-import com.creat.motiv.profile.model.beans.Pics
-import com.creat.motiv.profile.view.binders.CoversBinder
-import com.creat.motiv.view.binders.LikesBinder
-import com.creat.motiv.profile.view.binders.ProfilePicSelectBinder
+import com.ilustris.motiv.base.beans.Pics
+import com.creat.motiv.profile.cover.view.CoversBinder
+import com.creat.motiv.quote.view.binder.LikesBinder
+import com.creat.motiv.profile.icon.view.ProfilePicSelectBinder
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ilustris.motiv.base.DialogStyles
 
 
 class Alert(private val activity: Activity, val dialogStyle: DialogStyles = DialogStyles.DEFAULT_NO_BORDER) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
@@ -59,6 +60,7 @@ class Alert(private val activity: Activity, val dialogStyle: DialogStyles = Dial
         val profilepicselectBinding = DataBindingUtil.inflate<ProfilepicselectBinding>(LayoutInflater.from(activity), R.layout.profilepicselect_, null, false)
         CoversBinder(profilepicselectBinding) {
             onCoverPick.invoke(it.url)
+            myDialog.dismiss()
         }
         configureDialog(profilepicselectBinding.root)
     }

@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserProfileBinding
-import com.creat.motiv.model.beans.User
 import com.creat.motiv.profile.view.binders.ProfileBinder
+import com.ilustris.motiv.base.beans.User
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.user_profile.*
 

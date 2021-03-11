@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
-import com.creat.motiv.view.binders.DeveloperBinder
+import com.creat.motiv.developer.view.DeveloperBinder
 import com.ilustris.animations.fadeIn
 
 class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyViewHolder>() {

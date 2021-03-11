@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserPicviewBinding
-import com.creat.motiv.profile.presenter.UserPresenter
-import com.creat.motiv.profile.model.beans.User
+import com.ilustris.motiv.base.presenter.UserPresenter
 import com.creat.motiv.utilities.Alert
-import com.creat.motiv.utilities.DialogStyles
+import com.ilustris.motiv.base.DialogStyles
+import com.ilustris.motiv.base.beans.User
 import com.silent.ilustriscore.core.view.BaseView
 
 class UserPicBind(

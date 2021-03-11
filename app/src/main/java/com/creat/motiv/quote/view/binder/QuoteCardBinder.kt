@@ -12,15 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotesCardBinding
-import com.creat.motiv.quote.beans.Quote
 import com.creat.motiv.quote.beans.QuoteStyle
 import com.creat.motiv.quote.beans.TextSize
-import com.creat.motiv.quote.presenter.QuotePresenter
-import com.creat.motiv.utilities.*
+import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.creat.motiv.quote.view.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.creat.motiv.profile.view.binders.UserViewBinder
+import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.utils.TextUtils
+import com.ilustris.motiv.base.utils.autoSizeText
+import com.ilustris.motiv.base.utils.FontUtils
 import com.silent.ilustriscore.core.utilities.gone
+import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
 
@@ -33,8 +36,8 @@ class QuoteCardBinder(
 
     private fun updateStyle(quoteStyle: QuoteStyle) {
         viewBind.run {
-            quoteTextView.typeface = TextUtils.getTypeFace(context, quoteStyle.font)
-            authorTextView.typeface = TextUtils.getTypeFace(context, quoteStyle.font)
+            quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+            authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
             val color = Color.parseColor(quoteStyle.textColor)
             quoteTextView.setTextColor(color)
             authorTextView.setTextColor(color)
@@ -78,7 +81,7 @@ class QuoteCardBinder(
                 val mVibratePattern = longArrayOf(50, 200)
                 vibrator.vibrate(mVibratePattern, -1)
             }
-            snackmessage(context, "Copiado para área de transferência")
+            showSnackBar(context, "Copiado para área de transferência", rootView = root)
             false
         }
         like.isChecked = quote.likes.contains(presenter.user?.uid)

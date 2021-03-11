@@ -11,8 +11,6 @@
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
-        <item name="blurOverLayColor">@color/lblack</item>
-        <item name="navblurOverLayColor">@color/nblack</item>
         <item name="android:navigationBarColor">@color/material_black</item>
         <item name="dividerColor">@color/material_grey800</item>
         <item name="android:statusBarColor">@color/material_black</item>
@@ -52,21 +50,9 @@
     </style>
 
 
-    <style name="TabsTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:stateListAnimator">@animator/text_animator</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/pop_in</item>
         <item name="android:windowExitAnimation">@anim/pop_out</item>
-    </style>
-
-    <style name="BottomDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
-        <item name="android:windowExitAnimation">@anim/slide_out</item>
     </style>
 
     <style name="Dialog_No_Border">
@@ -79,12 +65,15 @@
     </style>
 
     <style name="Bottom_Dialog_No_Border">
-        <item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
-        <item name="colorPrimary">@color/material_purple400</item>
-        <item name="colorPrimaryDark">@color/material_purple800</item>
-        <item name="android:textColor">?android:textColor</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Full_Screen_Dialog">
@@ -95,23 +84,5 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-
-    <style name="CircularProgress">
-        <item name="android:indeterminate">true</item>
-        <item name="trackColor">?android:colorBackground</item>
-        <item name="indicatorColor">@color/colorAccent</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="Widget.AppTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="Widget.AppTheme.ButtonBar.Fullscreen" parent="">
-        <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
-    </style>
 
 </resources>

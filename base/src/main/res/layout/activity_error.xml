@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center"
+    tools:context="com.ilustris.motiv.base.ErrorActivity">
+
+    <ImageView
+        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        app:tint="@color/colorPrimaryDark" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fatal_error_title"
+        android:textAlignment="center" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fatal_error_message"
+        android:textAlignment="center" />
+
+
+</RelativeLayout>

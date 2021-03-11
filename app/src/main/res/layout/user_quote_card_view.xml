@@ -8,7 +8,7 @@
 
         <variable
             name="userData"
-            type="com.creat.motiv.profile.model.beans.User" />
+            type="com.ilustris.motiv.base.beans.User" />
     </data>
 
 

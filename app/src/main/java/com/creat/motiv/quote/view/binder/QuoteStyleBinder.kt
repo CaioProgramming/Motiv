@@ -2,7 +2,7 @@ package com.creat.motiv.quote.view.binder
 
 import com.bumptech.glide.Glide
 import com.creat.motiv.databinding.StyleLayoutViewBinding
-import com.creat.motiv.quote.presenter.QuoteStylePresenter
+import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.creat.motiv.quote.beans.*
 import com.silent.ilustriscore.core.view.BaseView
 

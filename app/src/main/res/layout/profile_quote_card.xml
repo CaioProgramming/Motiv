@@ -9,12 +9,12 @@
         android:id="@+id/quoteCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:hapticFeedbackEnabled="true"
         android:orientation="vertical"
         android:transitionName="@string/card_transaction">
 
         <ImageView
+            android:foreground="?selectableItemBackground"
             android:id="@+id/userBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

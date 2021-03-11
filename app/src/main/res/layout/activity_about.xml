@@ -48,15 +48,14 @@
                 android:textColor="@color/colorAccent" />
 
 
-            <com.veeyaar.supergradienttextview.GradientTextView
+            <TextView
                 android:id="@+id/mainInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/developed_by"
                 android:textAlignment="center"
-                app:endColor="@color/material_teal800"
-                app:startColor="@color/material_blue900" />
+                android:textColor="@color/material_teal500" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.MaterialComponents.Caption"

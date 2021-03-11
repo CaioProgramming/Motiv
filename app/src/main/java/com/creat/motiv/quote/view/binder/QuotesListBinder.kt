@@ -3,10 +3,10 @@ package com.creat.motiv.quote.view.binder
 import android.view.View
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.quote.beans.Quote
-import com.creat.motiv.quote.presenter.QuotePresenter
-import com.creat.motiv.quote.view.QuoteRecyclerAdapter
+import com.ilustris.motiv.base.presenter.QuotePresenter
+import com.creat.motiv.quote.view.adapter.QuoteRecyclerAdapter
 import com.ilustris.animations.slideUp
+import com.ilustris.motiv.base.beans.Quote
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.gone
@@ -29,6 +29,25 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
         }
     }
 
+    override fun initView() {
+        presenter.loadData()
+    }
+
+    override fun showListData(list: List<Quote>) {
+        if (list.isEmpty()) {
+            setupRecyclerView(listOf(Quote.noResultsQuote()))
+        } else {
+            setupRecyclerView(list)
+            viewBind.quotesrecyclerview.visible()
+        }
+    }
+
+    override fun getCallBack(dtoMessage: DTOMessage) {
+        super.getCallBack(dtoMessage)
+        if (dtoMessage.operationType == OperationType.DATA_SAVED) {
+            initView()
+        }
+    }
 
     fun addSearchQuote() {
         setupRecyclerView(listOf(Quote.searchQuote()))
@@ -72,15 +91,6 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
         presenter.loadFavorites(uid)
     }
 
-    override fun showListData(list: List<Quote>) {
-        if (list.isEmpty()) {
-            setupRecyclerView(listOf(Quote.noResultsQuote()))
-        } else {
-            setupRecyclerView(list)
-            viewBind.quotesrecyclerview.visible()
-        }
-    }
-
     private fun setupRecyclerView(list: List<Quote>) {
         val quotesList: ArrayList<Quote> = ArrayList(list)
 
@@ -105,16 +115,5 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
 
     }
 
-
-    override fun initView() {
-        presenter.loadData()
-    }
-
-    override fun getCallBack(dtoMessage: DTOMessage) {
-        super.getCallBack(dtoMessage)
-        if (dtoMessage.operationType == OperationType.DATA_SAVED) {
-            initView()
-        }
-    }
 
 }

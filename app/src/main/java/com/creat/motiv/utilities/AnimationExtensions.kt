@@ -3,9 +3,6 @@ package com.creat.motiv.utilities
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import com.creat.motiv.R
 import com.github.mmin18.widget.RealtimeBlurView
 import com.ilustris.animations.fadeIn

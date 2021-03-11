@@ -9,17 +9,21 @@ import androidx.core.widget.addTextChangedListener
 
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
-import com.creat.motiv.quote.beans.Quote
 import com.creat.motiv.quote.beans.QuoteStyle
 import com.creat.motiv.quote.beans.TextSize
-import com.creat.motiv.quote.presenter.QuotePresenter
-import com.creat.motiv.utilities.*
+import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.presenter.QuotePresenter
 
 import com.ilustris.animations.bounce
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
+import com.ilustris.motiv.base.utils.TextUtils
+import com.ilustris.motiv.base.Tools
+import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.utils.autoSizeText
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
+import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.view.BaseView
 import com.skydoves.balloon.*
 import java.util.*
@@ -101,8 +105,8 @@ class EditQuoteBinder(
 
 
     private fun NewquotepopupBinding.animateText(quoteStyle: QuoteStyle) {
-        quoteTextView.typeface = TextUtils.getTypeFace(context, quoteStyle.font)
-        authorTextView.typeface = TextUtils.getTypeFace(context, quoteStyle.font)
+        quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+        authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         val textColor = Color.parseColor(quoteStyle.textColor)
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
@@ -127,11 +131,11 @@ class EditQuoteBinder(
     override fun getCallBack(dtoMessage: DTOMessage) {
         super.getCallBack(dtoMessage)
         if (dtoMessage.operationType == OperationType.DATA_SAVED) {
-            snackmessage(context, message = "Citação salva com sucesso!", backcolor = context.resources.getColor(R.color.material_green500))
+            showSnackBar(context, message = "Citação salva com sucesso!", backColor = context.resources.getColor(R.color.material_green500), rootView = viewBind.root)
             quote = emptyQuote()
             quote?.let { showData(it) }
         } else if (dtoMessage.operationType == OperationType.DATA_UPDATED) {
-            snackmessage(context, message = "Citação atualizada com sucesso!", backcolor = context.resources.getColor(R.color.material_green500))
+            showSnackBar(context, message = "Citação atualizada com sucesso!", backColor = context.resources.getColor(R.color.material_green500), rootView = viewBind.root)
             if (context is AppCompatActivity) {
                 (context as AppCompatActivity).finish()
             }
@@ -142,7 +146,7 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
-            if (it.quote.isNotEmpty()) presenter.saveData(it, it.id) else snackmessage(context, message = Tools.emptyquote())
+            if (it.quote.isNotEmpty()) presenter.saveData(it, it.id) else showSnackBar(context, message = Tools.emptyQuote(), rootView = viewBind.root)
         }
     }
 

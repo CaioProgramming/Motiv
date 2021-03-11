@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserItemBinding
-import com.creat.motiv.model.beans.User
 import com.creat.motiv.profile.view.UserActivity
+import com.ilustris.motiv.base.beans.User
 
 class UserRecyclerAdapter(val userList: List<User>) : RecyclerView.Adapter<UserRecyclerAdapter.UserViewHolder>() {
 

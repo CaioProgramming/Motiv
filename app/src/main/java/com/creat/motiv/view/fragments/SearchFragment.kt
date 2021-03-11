@@ -10,6 +10,8 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSearchBinding
 import com.creat.motiv.utilities.*
 import com.creat.motiv.quote.view.binder.QuotesListBinder
+import com.ilustris.motiv.base.utils.hideSupporActionBar
+import com.silent.ilustriscore.core.utilities.showSnackBar
 
 
 class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -42,7 +44,7 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query == null) {
-            snackmessage(context = requireContext(), message = "Não da para pesquisar o vazio :(")
+            view?.let { showSnackBar(context = requireContext(), message = "Não da para pesquisar o vazio :(", rootView = it) }
             return false
         }
         quotesListBinder?.searchData(query)

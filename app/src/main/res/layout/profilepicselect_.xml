@@ -5,7 +5,7 @@
 
 
     <RelativeLayout
-        android:background="?android:colorBackground"
+        android:background="@color/nblack"
         android:id="@+id/mainView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -13,14 +13,7 @@
         android:orientation="vertical">
 
 
-        <ImageButton
-            android:id="@+id/close_button"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:contentDescription="Botão fechar"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_close"
-            android:tint="?android:textColorHint" />
+
 
         <TextView
             android:id="@+id/dialog_title"
@@ -35,7 +28,7 @@
             android:layout_below="@id/dialog_title"
             android:id="@+id/picsrecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:foregroundGravity="center"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -61,6 +54,18 @@
             app:trackCornerRadius="@dimen/default_radius"
             app:trackThickness="5dp" />
 
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignTop="@id/dialog_title"
+            android:layout_alignBottom="@id/dialog_title"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/dialog_title"
+            android:background="@color/transparent"
+            android:contentDescription="Botão fechar"
+            android:src="@drawable/ic_close"
+            android:tint="@color/white" />
     </RelativeLayout>
 
 </layout>

@@ -9,7 +9,6 @@
         android:id="@+id/quoteCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:background="?android:colorBackground"
         android:hapticFeedbackEnabled="true"
         android:orientation="vertical"
@@ -128,6 +127,16 @@
                     android:background="@color/transparent"
                     android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_share"
+                    android:stateListAnimator="@animator/list_animator" />
+
+                <ImageButton
+                    android:id="@+id/reportButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="@dimen/margin_default"
+                    android:background="@color/transparent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_flag"
                     android:stateListAnimator="@animator/list_animator" />
 
                 <androidx.recyclerview.widget.RecyclerView

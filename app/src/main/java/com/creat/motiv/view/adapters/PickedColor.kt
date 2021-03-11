@@ -1,6 +1,6 @@
 package com.creat.motiv.view.adapters
 
-import com.creat.motiv.utilities.SelectedViewType
+import com.ilustris.motiv.base.SelectedViewType
 
 class PickedColor(
         val color: String,

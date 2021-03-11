@@ -3,17 +3,18 @@ package com.creat.motiv.view.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuotesCardBinding
-import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.creat.motiv.quote.view.binder.QuoteCardBinder
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.ilustris.motiv.base.beans.Quote
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 
@@ -53,13 +54,15 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
                     .setTheme(R.style.Motiv_Theme)
                     .build(), RC_SIGN_IN)
         } else {
-            val i = Intent(this, MainActivity::class.java)
-            i.putExtra("novo", false)
-            i.putExtra("notification", true)
-            startActivity(i)
-            this.finish()
+            Handler().postDelayed({
+                val i = Intent(this, MainActivity::class.java)
+                i.putExtra("novo", false)
+                i.putExtra("notification", true)
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_up)
+                startActivity(i)
+                this.finish()
+            }, 5000)
         }
-
     }
 
 

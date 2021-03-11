@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ReferencesLayoutBinding
-import com.creat.motiv.model.beans.Reference
+import com.creat.motiv.utilities.Reference
 import com.creat.motiv.utilities.WEB_URL
 import com.ilustris.animations.fadeIn
 

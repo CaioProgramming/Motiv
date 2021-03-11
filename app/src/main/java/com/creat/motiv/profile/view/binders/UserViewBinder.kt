@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
-import com.creat.motiv.profile.presenter.UserPresenter
+import com.ilustris.motiv.base.presenter.UserPresenter
 import com.creat.motiv.profile.view.UserActivity
-import com.creat.motiv.profile.model.beans.User
+import com.ilustris.motiv.base.beans.User
 import com.silent.ilustriscore.core.view.BaseView
 
 class UserViewBinder(

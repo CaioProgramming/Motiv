@@ -15,7 +15,6 @@
         android:id="@+id/adCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:elevation="@dimen/cardview_default_elevation"
         android:foreground="?attr/selectableItemBackground"
         android:hapticFeedbackEnabled="true"

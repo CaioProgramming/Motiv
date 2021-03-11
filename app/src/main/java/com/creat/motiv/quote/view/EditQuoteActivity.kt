@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityEditQuoteBinding
-import com.creat.motiv.quote.beans.Quote
 import com.creat.motiv.quote.view.binder.EditQuoteBinder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ilustris.motiv.base.beans.Quote
 import kotlinx.android.synthetic.main.activity_edit_quote.*
 
 class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {

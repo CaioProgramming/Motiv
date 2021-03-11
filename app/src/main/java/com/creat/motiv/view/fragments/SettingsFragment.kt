@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
-import com.creat.motiv.utilities.hideBackButton
-import com.creat.motiv.utilities.showSupportActionBar
-import com.creat.motiv.utilities.snackmessage
+import com.ilustris.motiv.base.utils.hideBackButton
+import com.ilustris.motiv.base.utils.showSupportActionBar
 import com.creat.motiv.profile.view.binders.SettingsBinder
 import com.google.firebase.auth.FirebaseAuth
+import com.silent.ilustriscore.core.utilities.showSnackBar
 
 
 class SettingsFragment : Fragment() {
@@ -32,7 +32,7 @@ class SettingsFragment : Fragment() {
         context?.hideBackButton()
         context?.showSupportActionBar()
         if (user == null) {
-            snackmessage(requireContext(), "Você está desconectado")
+            showSnackBar(requireContext(), "Você está desconectado", rootView = view)
         } else {
             SettingsBinder(user.uid, settingsBinding)
         }

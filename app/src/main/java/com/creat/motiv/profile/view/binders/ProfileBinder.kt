@@ -2,9 +2,9 @@ package com.creat.motiv.profile.view.binders
 
 import android.content.Context
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.profile.presenter.UserPresenter
-import com.creat.motiv.profile.model.beans.User
+import com.ilustris.motiv.base.presenter.UserPresenter
 import com.creat.motiv.quote.view.binder.QuotesListBinder
+import com.ilustris.motiv.base.beans.User
 import com.silent.ilustriscore.core.view.BaseView
 
 class ProfileBinder(override val context: Context,
