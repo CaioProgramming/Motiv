@@ -10,35 +10,38 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="@dimen/default_padding"
         tools:context=".view.fragments.SettingsFragment">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userpic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            app:civ_border_color="@color/colorAccent"
-            app:civ_border_width="1dp"
-            tools:src="@drawable/ic__41_floppy_disk" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/changeIconPic"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Alterar foto de perfil"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
-
-        <View
-
+        <RelativeLayout
+            android:id="@+id/profileTop"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/oblack" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/userBackground"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="?attr/actionBarSize">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userpic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    app:civ_border_width="0dp"
+                    tools:src="@drawable/ic__41_floppy_disk" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
 
         <RelativeLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -91,7 +94,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:background="@drawable/bottom_line"
+            android:background="@color/material_grey900"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -120,7 +123,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:background="@drawable/bottom_line"
+            android:background="@color/material_grey900"
             android:padding="@dimen/default_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

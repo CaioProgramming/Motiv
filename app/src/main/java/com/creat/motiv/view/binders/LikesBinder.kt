@@ -6,18 +6,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.databinding.ProfilepicselectBinding
 import com.creat.motiv.model.beans.User
-import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.utilities.fadeIn
-import com.creat.motiv.utilities.fadeOut
-import com.creat.motiv.utilities.slideInBottom
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.profile.presenter.UserPresenter
 import com.creat.motiv.view.adapters.LikersRecyclerAdapter
+import com.ilustris.animations.fadeIn
+import com.ilustris.animations.fadeOut
+import com.ilustris.animations.slideUp
+import com.silent.ilustriscore.core.view.BaseView
 
 class LikesBinder(val dialog: Dialog,
                   val likeList: List<String>,
                   override val context: Context,
                   override val viewBind: ProfilepicselectBinding) : BaseView<User>() {
-    override fun presenter() = UserPresenter(this)
+    override val presenter = UserPresenter(this)
 
     init {
         initView()
@@ -42,7 +42,7 @@ class LikesBinder(val dialog: Dialog,
     override fun onLoadFinish() {
         super.onLoadFinish()
         viewBind.loading.fadeOut()
-        viewBind.picsrecycler.slideInBottom()
+        viewBind.picsrecycler.slideUp()
     }
 
 }

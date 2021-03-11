@@ -20,7 +20,6 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_black"
         android:text="@string/fatal_error_title"
         android:textAlignment="center" />
 

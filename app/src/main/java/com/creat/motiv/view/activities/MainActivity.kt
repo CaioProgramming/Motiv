@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
@@ -25,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
+
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var motivApplication: MotivApplication
     internal lateinit var version: Version
@@ -42,6 +46,8 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val w: Window = window
+        //w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         setSupportActionBar(toolbar)
         if (savedInstanceState == null) {
             setupNavigation()
@@ -62,20 +68,12 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
-        if (Tools.darkMode(this)) {
-            rootblur.setOverlayColor(ContextCompat.getColor(this, R.color.lblack))
-            navigation_blur.setOverlayColor(ContextCompat.getColor(this, R.color.nblack))
-        } else {
-            rootblur.setOverlayColor(ContextCompat.getColor(this, R.color.lwhite))
-            navigation_blur.setOverlayColor(ContextCompat.getColor(this, R.color.nwhite))
-
-        }
     }
 
     private fun checkUser() {
         if (user == null) {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
-                    AuthUI.IdpConfig.FacebookBuilder().build(),
+                    //AuthUI.IdpConfig.FacebookBuilder().build(),
                     //new AuthUI.IdpConfig.TwitterBuilder().build(),
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build())

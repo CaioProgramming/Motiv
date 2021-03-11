@@ -9,7 +9,8 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.DeveloperLayoutBinding
 import com.creat.motiv.model.beans.Developer
-import com.creat.motiv.utilities.slideInBottom
+import com.ilustris.animations.popIn
+import com.ilustris.animations.slideUp
 
 class RecyclerDeveloperAdapter(private var developerList: List<Developer> = emptyList(),
                                private val context: Context) : RecyclerView.Adapter<RecyclerDeveloperAdapter.MyViewHolder>() {
@@ -26,7 +27,7 @@ class RecyclerDeveloperAdapter(private var developerList: List<Developer> = empt
             developerList[position].run {
                 Glide.with(context).load(this.photoURI).into(holder.picsLayoutBinding.pic)
                 holder.picsLayoutBinding.developerName.text = this.nome
-                holder.picsLayoutBinding.pic.slideInBottom()
+                holder.picsLayoutBinding.pic.popIn()
             }
         }
 

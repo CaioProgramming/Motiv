@@ -1,14 +1,16 @@
 package com.creat.motiv.view.activities
 
-import android.animation.Animator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
+import com.creat.motiv.databinding.QuotesCardBinding
+import com.creat.motiv.model.beans.Quote
 import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
+import com.creat.motiv.quote.view.binder.QuoteCardBinder
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -22,30 +24,22 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
         val datenow = Calendar.getInstance().time
         val calendar = GregorianCalendar()
         calendar.time = datenow
-        inlustrisbrand.text = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
+        QuoteCardBinder(Quote.splashQuote().apply {
+            val dateNow = Calendar.getInstance().time
+            val calendar = GregorianCalendar()
+            calendar.time = dateNow
+            author = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
+        }, QuotesCardBinding.bind(quoteCard))
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        splash_animation.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {
-            }
-
-            override fun onAnimationEnd(p0: Animator?) {
-            }
-
-            override fun onAnimationCancel(p0: Animator?) {
-            }
-
-            override fun onAnimationRepeat(p0: Animator?) {
-                SignIn()
-            }
-
-
-        })
-
-
     }
 
 
-    private fun SignIn() {
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        signIn()
+    }
+
+    private fun signIn() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
             val providers = Arrays.asList<AuthUI.IdpConfig>(
@@ -65,7 +59,6 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
             startActivity(i)
             this.finish()
         }
-        splash_animation.cancelAnimation()
 
     }
 
@@ -82,7 +75,7 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
                 if (response != null) {
                     Alert(this).showAlert(
                             message = "Ocorreu um erro ao fazer seu login tente novamente", okClick = {
-                        SignIn()
+                        signIn()
                     },
                             icon = R.drawable.ic_sad
                     )

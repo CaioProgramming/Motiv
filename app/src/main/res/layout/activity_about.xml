@@ -42,7 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/oblack"
-                android:fontFamily="@font/lato_light"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
                 android:text="@string/support_devs"

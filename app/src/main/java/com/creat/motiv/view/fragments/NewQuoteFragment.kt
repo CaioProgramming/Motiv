@@ -10,7 +10,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.creat.motiv.utilities.hideBackButton
 import com.creat.motiv.utilities.showSupportActionBar
-import com.creat.motiv.view.binders.EditQuoteBinder
+import com.creat.motiv.quote.view.binder.EditQuoteBinder
 
 
 class NewQuoteFragment: Fragment() {
@@ -26,7 +26,7 @@ class NewQuoteFragment: Fragment() {
         context?.hideBackButton()
         context?.showSupportActionBar()
         popupbind?.let {
-            context?.let { it1 -> EditQuoteBinder(context = it1, viewBind = it, quote = null) }
+            EditQuoteBinder(viewBind = it, quote = null)
         }
     }
 

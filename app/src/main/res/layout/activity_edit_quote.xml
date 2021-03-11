@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mainContainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            />
+            android:background="@drawable/fade_gradient" />
 
         <include
             android:id="@+id/quoteFormView"
@@ -23,7 +23,7 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </layout>

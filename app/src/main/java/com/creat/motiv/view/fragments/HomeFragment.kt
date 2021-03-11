@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
-import com.creat.motiv.view.binders.HomeBinder
+import com.creat.motiv.quote.view.binder.QuotesListBinder
 
 
 /**
@@ -18,8 +18,9 @@ import com.creat.motiv.view.binders.HomeBinder
  */
 class HomeFragment : Fragment() {
     var homeBinding: FragmentHomeBinding? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         homeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return homeBinding!!.root
@@ -32,8 +33,13 @@ class HomeFragment : Fragment() {
             val activity: AppCompatActivity = context as AppCompatActivity
             activity.supportActionBar?.show()
         }
-        homeBinding.run {
-            context?.let { this?.let { it1 -> HomeBinder(it, it1) } }
+
+        homeBinding?.let {
+            QuotesListBinder(it.quotesView, false).initView()
         }
+
     }
+
+
+
 }

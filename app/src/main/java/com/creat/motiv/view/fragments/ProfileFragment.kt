@@ -11,12 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.model.beans.Pics
+import com.creat.motiv.profile.model.beans.Pics
 import com.creat.motiv.utilities.SELECTED_ICON
 import com.creat.motiv.utilities.SELECT_ICON
 import com.creat.motiv.utilities.hideBackButton
 import com.creat.motiv.utilities.showSupportActionBar
-import com.creat.motiv.view.binders.ProfileBinder
+import com.creat.motiv.profile.view.binders.ProfileBinder
 
 
 /**
@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SELECT_ICON && resultCode == RESULT_OK && data != null) {
-            profileBinder.presenter().changeProfilePic(data.getSerializableExtra(SELECTED_ICON) as Pics)
+            profileBinder.presenter.changeProfilePic(data.getSerializableExtra(SELECTED_ICON) as Pics)
         }
     }
 

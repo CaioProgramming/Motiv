@@ -3,55 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:id="@+id/profileContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:animateLayoutChanges="true"
-            android:background="?android:colorBackground"
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp"
-            >
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsetoolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:colorBackground"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-                <include
-                    android:id="@+id/profileTopView"
-                    layout="@layout/profile_top_view"
-                    app:layout_anchor="@+id/profileRecycler"
-                    app:layout_anchorGravity="center" />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:visibility="gone" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profileRecycler"
+        <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:itemCount="2"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:listitem="@layout/quote_header_view" />
+            android:id="@+id/quotesView"
+            layout="@layout/quote_recycler" />
 
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
 
 
 </layout>

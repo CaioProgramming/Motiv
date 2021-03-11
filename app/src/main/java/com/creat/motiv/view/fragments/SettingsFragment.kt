@@ -11,7 +11,7 @@ import com.creat.motiv.databinding.FragmentSettingsBinding
 import com.creat.motiv.utilities.hideBackButton
 import com.creat.motiv.utilities.showSupportActionBar
 import com.creat.motiv.utilities.snackmessage
-import com.creat.motiv.view.binders.SettingsBinder
+import com.creat.motiv.profile.view.binders.SettingsBinder
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -21,7 +21,7 @@ class SettingsFragment : Fragment() {
     lateinit var settingsBinding: FragmentSettingsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         settingsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
         return settingsBinding.root
     }
@@ -34,7 +34,7 @@ class SettingsFragment : Fragment() {
         if (user == null) {
             snackmessage(requireContext(), "Você está desconectado")
         } else {
-            SettingsBinder(user.uid, requireContext(), settingsBinding)
+            SettingsBinder(user.uid, settingsBinding)
         }
     }
 

@@ -17,6 +17,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
+import com.ilustris.animations.*
+import com.silent.ilustriscore.core.utilities.gone
 import java.util.*
 
 
@@ -71,10 +73,12 @@ object Tools {
 
 
     fun loadAd(context: Context, quoteAdvertiseLayoutBinding: QuoteAdvertiseLayoutBinding) {
+        Glide.with(context).asGif().centerCrop().load(AD_GIF).into(quoteAdvertiseLayoutBinding.advertiseGif)
+        quoteAdvertiseLayoutBinding.loading.repeatFade()
         val adLoader = AdLoader.Builder(context, context.resources.getString(R.string.feed_advertisement_id))
         adLoader.forUnifiedNativeAd { ad: UnifiedNativeAd ->
             if (ad.icon != null) {
-                Glide.with(context).load(ad.icon.uri).into(quoteAdvertiseLayoutBinding.userTop.userpic)
+                Glide.with(context).load(ad.icon.drawable).into(quoteAdvertiseLayoutBinding.userTop.userpic)
             } else {
                 quoteAdvertiseLayoutBinding.userTop.userpic.gone()
             }
@@ -99,21 +103,18 @@ object Tools {
             }
             quoteAdvertiseLayoutBinding.appRating.isEnabled = false
             quoteAdvertiseLayoutBinding.advertise = ad
-            if (!ad.headline.contains("Test ad") && !ad.body.contains("Test ad") && !ad.advertiser.contains("Test ad")) {
-                quoteAdvertiseLayoutBinding.adCard.slideInBottom()
-            }
+            quoteAdvertiseLayoutBinding.adView.fadeIn()
             quoteAdvertiseLayoutBinding.loading.fadeOut()
 
         }.withAdListener(object : AdListener() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Log.e("AdMob", "onAdFailedToLoad: ${adError.message}")
-                quoteAdvertiseLayoutBinding.adCard.gone()
-                quoteAdvertiseLayoutBinding.loading.popIn()
+                quoteAdvertiseLayoutBinding.adCard.fadeOut()
             }
         }).withNativeAdOptions(NativeAdOptions.Builder().build())
         val loader = adLoader.build()
-        val adrequest = AdRequest.Builder().build()
-        loader.loadAd(adrequest)
+        val adRequest = AdRequest.Builder().build()
+        loader.loadAd(adRequest)
     }
 
 

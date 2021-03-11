@@ -15,6 +15,6 @@
 
 
     <!-- Background color -->
-    <solid android:color="@color/lblack" />
+    <solid android:color="@color/material_grey900" />
 
 </shape>

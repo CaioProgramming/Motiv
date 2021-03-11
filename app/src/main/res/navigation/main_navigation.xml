@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.creat.motiv.view.fragments.HomeFragment"
-        android:label="Home"
+        android:label="Motiv"
         tools:layout="@layout/fragment_home">
 
     </fragment>
@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.creat.motiv.view.fragments.ProfileFragment"
-        android:label=""
+        android:label="Perfil"
         tools:layout="@layout/fragment_profile">
 
     </fragment>

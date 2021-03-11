@@ -22,14 +22,21 @@ import java.lang.String.format
 fun Context.hideBackButton() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
-        activity.supportActionBar.setDisplayHomeAsUpEnabled(false)
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }
 
 fun Context.showSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
-        activity.supportActionBar.show()
+        activity.supportActionBar?.show()
+    }
+}
+
+fun Context.hideSupporActionBar() {
+    if (this is AppCompatActivity) {
+        val activity: AppCompatActivity = this
+        activity.supportActionBar?.hide()
     }
 }
 
@@ -45,40 +52,20 @@ fun Snackbar.config() {
     ViewCompat.setElevation(this.view, 6f)
 }
 
-fun View.gone() {
-    visibility = GONE
-}
 
-fun View.visible() {
-    visibility = VISIBLE
-}
-
-fun View.invisible() {
-    visibility = INVISIBLE
-}
-
-
-
-
-fun TextView.autoSizeText() {
+fun TextView.autoSizeText(maxSize: Int) {
+    val size = context.resources.getDimension(maxSize)
     val length = text.toString().length
     val txtSize = when {
-        length <= 40 -> {
-            context.resources.getDimension(R.dimen.big_quote_size)
-        }
-        length <= 80 -> {
-            context.resources.getDimension(R.dimen.default_quote_size)
+        length <= 40 -> size
 
-        }
-        length >= 90 -> {
-            context.resources.getDimension(R.dimen.medium_quote_size)
+        length <= 80 -> size - 10
 
-        }
-        length >= 150 -> {
-            context.resources.getDimension(R.dimen.low_quote_size)
+        length >= 90 -> size - 15
 
-        }
-        else -> context.resources.getDimension(R.dimen.min_quote_size)
+        length >= 150 -> size - 20
+
+        else -> size - 25
     }
     setTextSize(TypedValue.COMPLEX_UNIT_PX, txtSize)
 }

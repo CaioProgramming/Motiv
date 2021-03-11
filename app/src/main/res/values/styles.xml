@@ -1,4 +1,25 @@
 <resources>
+
+    <style name="Motiv.Theme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:fontFamily">@font/questrial</item>
+        <item name="colorPrimary">@color/material_purple400</item>
+        <item name="colorPrimaryDark">@color/material_purple800</item>
+        <item name="colorAccent">@color/material_purpleA100</item>
+        <item name="alertDialogStyle">@style/AppTheme.AlertDialog</item>
+        <item name="toolbarStyle">@style/AppToolbar</item>
+        <item name="searchViewStyle">@style/Searchtheme</item>
+        <item name="snackbarStyle">@style/AppSnackbar</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="blurOverLayColor">@color/lblack</item>
+        <item name="navblurOverLayColor">@color/nblack</item>
+        <item name="android:navigationBarColor">@color/material_black</item>
+        <item name="dividerColor">@color/material_grey800</item>
+        <item name="android:statusBarColor">@color/material_black</item>
+        <item name="fontFamily">@font/questrial</item>
+        <item name="font">@font/questrial</item>
+    </style>
+
     <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">@drawable/round</item>
     </style>
@@ -15,7 +36,6 @@
 
     <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:panelBackground">@drawable/round</item>
-        <item name="android:fontFamily">@font/lato_light</item>
     </style>
 
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
@@ -27,12 +47,12 @@
     </style>
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/lato_black</item>
         <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
+
     <style name="TabsTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/lato_black</item>
         <item name="android:stateListAnimator">@animator/text_animator</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
@@ -51,7 +71,6 @@
 
     <style name="Dialog_No_Border">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-        <item name="android:fontFamily">@font/lato_regular</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="colorAccent">@color/material_purpleA100</item>
@@ -61,7 +80,6 @@
 
     <style name="Bottom_Dialog_No_Border">
         <item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
-        <item name="android:fontFamily">@font/lato_regular</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="android:textColor">?android:textColor</item>

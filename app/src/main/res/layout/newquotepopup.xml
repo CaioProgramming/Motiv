@@ -1,133 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<!-- TODO: Update blank fragment layout -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginTop="?attr/actionBarSize"
+    <RelativeLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/fontSelector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/default_padding"
-            android:layout_margin="@dimen/default_padding"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/transparent"
-            app:tabMode="scrollable" />
+        <include
+            android:id="@+id/stylesPager"
+            layout="@layout/style_pager" />
 
-
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
+            android:layout_above="@id/save_quote_button"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginVertical="@dimen/padding_big"
+            android:gravity="center"
             android:id="@+id/quoteCard"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_padding"
+            android:padding="@dimen/padding_default"
             android:stateListAnimator="@animator/list_animator"
-            app:cardCornerRadius="@dimen/default_radius"
-            app:layout_constraintBottom_toTopOf="@+id/save_quote_button"
-            app:layout_constraintTop_toBottomOf="@+id/fontSelector"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0">
+            android:transitionName="@string/quote_transaction">
 
-            <RelativeLayout
+            <EditText
+                android:id="@+id/quoteTextView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/card_size">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                android:autoSizeTextType="uniform"
+                android:background="@color/transparent"
+                android:breakStrategy="high_quality"
+                android:hint="@string/quote"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:textAlignment="center"
+                android:textSize="@dimen/default_quote_size"
+                android:textStyle="bold"
+                android:typeface="normal"
+                tools:text="Change is a powerful thing, I feel it coming to me." />
 
+            <EditText
+                android:id="@+id/author_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                android:autoSizeTextType="uniform"
+                android:backgroundTint="@color/transparent"
+                android:hint="@string/author"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                tools:textColor="@color/white" />
 
-                <EditText
-                    android:id="@+id/quoteTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_size"
-                    android:layout_above="@+id/author_text_view"
-                    android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                    android:autoSizeMinTextSize="@dimen/min_quote_size"
-                    android:autoSizeTextType="uniform"
-                    android:background="@color/transparent"
-                    android:breakStrategy="high_quality"
-                    android:hint="@string/quote"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:padding="@dimen/default_padding"
-                    android:textSize="@dimen/default_quote_size"
-                    android:textStyle="bold"
-                    android:typeface="normal"
-                    tools:text="Change is a powerful thing, I feel it coming to me." />
+        </LinearLayout>
 
-                <EditText
-                    android:id="@+id/author_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                    android:autoSizeMinTextSize="@dimen/min_quote_size"
-                    android:autoSizeTextType="uniform"
-                    android:backgroundTint="@color/transparent"
-                    android:hint="@string/author"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName"
-                    android:padding="@dimen/default_padding"
-                    android:textSize="24sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:textColor="@color/white" />
-
-            </RelativeLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/colorlibrary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/default_padding"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="@id/quoteCard"
-            app:layout_constraintStart_toStartOf="@id/quoteCard"
-            app:layout_constraintTop_toBottomOf="@id/quoteCard"
-            app:spanCount="1"
-            tools:itemCount="13"
-            tools:listitem="@layout/color_card" />
-
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/save_quote_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:padding="@dimen/default_padding"
             android:text="@string/save_quote_button"
-            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
             android:textStyle="bold"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:cornerRadius="@dimen/default_radius"
-            app:layout_constraintTop_toBottomOf="@id/colorlibrary" />
+            android:background="@drawable/fade_gradient_inversed"
+            android:foreground="?selectableItemBackground"
+            android:stateListAnimator="@animator/list_animator"
+            android:textColor="@color/colorPrimaryDark"
+            app:cornerRadius="@dimen/default_radius" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/editloading"
-            android:layout_alignBaseline="@id/save_quote_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:indicatorColor="@color/colorPrimaryDark"
             android:elevation="4dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/save_quote_button"
-            app:layout_constraintEnd_toEndOf="@id/save_quote_button"
-            app:layout_constraintStart_toStartOf="@id/save_quote_button"
-            app:layout_constraintTop_toTopOf="@id/save_quote_button"
+            android:layout_alignTop="@id/save_quote_button"
+            android:layout_alignBottom="@id/save_quote_button"
+            android:layout_centerInParent="true"
             tools:visibility="visible" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>

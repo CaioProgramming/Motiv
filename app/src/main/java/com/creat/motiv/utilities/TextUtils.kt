@@ -38,32 +38,31 @@ object TextUtils {
 
     fun fonts(): List<FontObject> {
         return listOf(
-                FontObject("Arvo", "fonts/Arvo-Regular_201.ttf"),
-                FontObject("Audrey", "fonts/Audrey-Normal.otf"),
-                FontObject("Cornerstone", "fonts/Cornerstone.ttf"),
-                FontObject("Times", "fonts/times.ttf"),
-                FontObject("Mightype", "fonts/MightypeScript.otf"),
-                FontObject("Amatic", "fonts/AmaticSC-Regular.ttf"),
-                FontObject("BlackHan", "fonts/BlackHanSans-Regular.ttf"),
-                FontObject("Cabin", "fonts/Cabin-Regular.ttf"),
-                FontObject("Cinzel", "fonts/Cinzel-Regular.ttf"),
-                FontObject("Farsan", "fonts/Farsan-Regular.ttf"),
-                FontObject("FingerPaint", "fonts/FingerPaint-Regular.ttf"),
-                FontObject("Fredoka One", "fonts/FredokaOne-Regular.ttf"),
-                FontObject("Incosolata", "fonts/Inconsolata-Regular.ttf"),
-                FontObject("Lalezar", "fonts/Lalezar-Regular.ttf"),
-                FontObject("Lobster", "fonts/Lobster-Regular.ttf"),
-                FontObject("Mogra", "fonts/Mogra-Regular.ttf"),
-                FontObject("Nunito", "fonts/Nunito-Regular.ttf"),
+                FontObject("Amatic", "fonts/AmaticSC-Bold.ttf"),
+                FontObject("Bangers", "fonts/Bangers-Regular.ttf"),
+                FontObject("Bigelow", "fonts/BigelowRules-Regular.ttf"),
+                FontObject("Bungee Shade", "fonts/BungeeShade-Regular.ttf"),
+                FontObject("Caveat", "fonts/Caveat-Medium.ttf"),
+                FontObject("Cormorant", "fonts/CormorantUnicase-Regular.ttf"),
+                FontObject("Cutive Mono", "fonts/CutiveMono-Regular.ttf"),
+                FontObject("Dot Gothic", "fonts/DotGothic16-Regular.ttf"),
+                FontObject("Indie Flower", "fonts/IndieFlower-Regular.ttf"),
+                FontObject("Lexend Zetta", "fonts/LexendZetta-Regular.ttf"),
+                FontObject("Libre Barcode", "fonts/LibreBarcode39Text-Regular.ttf"),
+                FontObject("Lalezar", "fonts/Oswald-Bold.ttf"),
+                FontObject("Redressed", "fonts/Redressed-Regular.ttf"),
+                FontObject("Righteous", "fonts/Righteous-Regular.ttf"),
+                FontObject("Sacramento", "fonts/Sacramento-Regular.ttf"),
                 FontObject("Pacifico", "fonts/Pacifico-Regular.ttf"),
-                FontObject("Quicksand", "fonts/Quicksand-Regular.ttf"),
-                FontObject("Rakkas", "fonts/Rakkas-Regular.ttf"),
-                FontObject("Ranga", "fonts/Ranga-Regular.ttf"),
-                FontObject("Rasa", "fonts/Rasa-Regular.ttf")
+                FontObject("Satisfy", "fonts/Satisfy-Regular.ttf")
         )
     }
 
-    fun getTypeFace(context: Context, path: String): Typeface {
+    fun getTypeFace(context: Context, position: Int): Typeface {
+        return loadTypeFace(context, fonts()[position].path)
+    }
+
+    private fun loadTypeFace(context: Context, path: String): Typeface {
         return Typeface.createFromAsset(context.assets, path)
     }
 

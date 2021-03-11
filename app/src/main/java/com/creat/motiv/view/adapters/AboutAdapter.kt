@@ -4,14 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
-import com.creat.motiv.utilities.fadeIn
-import com.creat.motiv.utilities.fadeOut
 import com.creat.motiv.view.binders.DeveloperBinder
+import com.ilustris.animations.fadeIn
 
 class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyViewHolder>() {
 
@@ -23,15 +20,13 @@ class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyV
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.quotescardBinding.title.text = if (position == 0) "Desenvolvedores" else "Referências"
+        holder.quoteHeaderBinding.title.text = if (position == 0) "Desenvolvedores" else "Referências"
         if (position == 0) {
-            holder.quotescardBinding.title.text = "Desenvolvedores"
-            DeveloperBinder(context, holder.quotescardBinding.quotesRecycler)
+            holder.quoteHeaderBinding.title.text = "Desenvolvedores"
+            DeveloperBinder(holder.quoteHeaderBinding).initView()
         } else {
-            holder.quotescardBinding.quotesRecycler.quotesrecyclerview.run {
-                layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+            holder.quoteHeaderBinding.recyclerView.run {
                 adapter = RecyclerReferencesAdapter(context)
-                holder.quotescardBinding.quotesRecycler.loading.fadeOut()
                 fadeIn()
 
             }
@@ -43,7 +38,7 @@ class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyV
     }
 
 
-    class MyViewHolder(val quotescardBinding: QuoteHeaderViewBinding) : RecyclerView.ViewHolder(quotescardBinding.root)
+    class MyViewHolder(val quoteHeaderBinding: QuoteHeaderViewBinding) : RecyclerView.ViewHolder(quoteHeaderBinding.root)
 
 
 }

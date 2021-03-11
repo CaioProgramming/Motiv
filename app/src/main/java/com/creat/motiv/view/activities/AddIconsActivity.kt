@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
-import com.creat.motiv.view.binders.AddIconBinder
+import com.creat.motiv.profile.view.binders.AddIconBinder
 import kotlinx.android.synthetic.main.title_layout.*
 
 

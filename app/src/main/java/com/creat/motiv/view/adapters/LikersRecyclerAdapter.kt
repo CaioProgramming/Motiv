@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.UserQuoteCardViewBinding
-import com.creat.motiv.view.binders.UserViewBinder
+import com.creat.motiv.profile.view.binders.UserViewBinder
 
 class LikersRecyclerAdapter(val userList: List<String>) : RecyclerView.Adapter<LikersRecyclerAdapter.UserViewHolder>() {
 
@@ -17,7 +17,7 @@ class LikersRecyclerAdapter(val userList: List<String>) : RecyclerView.Adapter<L
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.userQuoteCardViewBinding.run {
-            UserViewBinder(userList[position], holder.itemView.context, holder.userQuoteCardViewBinding).run {
+            UserViewBinder(userList[position], holder.userQuoteCardViewBinding).run {
                 viewBind.username.setTextAppearance(R.style.TextAppearance_MaterialComponents_Body1)
             }
         }

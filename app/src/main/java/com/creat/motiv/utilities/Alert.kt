@@ -8,12 +8,11 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.DefaultDialogBinding
-import com.creat.motiv.databinding.DeleteAllAlertBinding
 import com.creat.motiv.databinding.ProfilepicselectBinding
-import com.creat.motiv.presenter.UserPresenter
-import com.creat.motiv.view.binders.DeleteAllBinder
+import com.creat.motiv.profile.model.beans.Pics
+import com.creat.motiv.profile.view.binders.CoversBinder
 import com.creat.motiv.view.binders.LikesBinder
-import com.creat.motiv.view.binders.ProfilePicSelectBinder
+import com.creat.motiv.profile.view.binders.ProfilePicSelectBinder
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -49,14 +48,19 @@ class Alert(private val activity: Activity, val dialogStyle: DialogStyles = Dial
     }
 
 
-    fun picturePicker(profilePresenter: UserPresenter, admin: Boolean) {
+    fun picturePicker(admin: Boolean, onPickSelect: (Pics) -> Unit) {
         val profilepicselectBinding = DataBindingUtil.inflate<ProfilepicselectBinding>(LayoutInflater.from(activity), R.layout.profilepicselect_, null, false)
-        ProfilePicSelectBinder(myDialog, activity, admin, profilepicselectBinding) {
-            profilePresenter.changeProfilePic(it)
-            myDialog.dismiss()
-        }
+        ProfilePicSelectBinder(myDialog, admin, profilepicselectBinding, onPickSelect).initView()
         configureDialog(profilepicselectBinding.root)
 
+    }
+
+    fun coverPicker(onCoverPick: (String) -> Unit) {
+        val profilepicselectBinding = DataBindingUtil.inflate<ProfilepicselectBinding>(LayoutInflater.from(activity), R.layout.profilepicselect_, null, false)
+        CoversBinder(profilepicselectBinding) {
+            onCoverPick.invoke(it.url)
+        }
+        configureDialog(profilepicselectBinding.root)
     }
 
     fun showLikes(likes: List<String>) {
@@ -65,11 +69,6 @@ class Alert(private val activity: Activity, val dialogStyle: DialogStyles = Dial
         configureDialog(profilepicselectBinding.root)
     }
 
-    fun deleteAllDialog() {
-        val deleteAllAlertBinding = DataBindingUtil.inflate<DeleteAllAlertBinding>(LayoutInflater.from(activity), R.layout.delete_all_alert, null, false)
-        DeleteAllBinder(myDialog, activity, deleteAllAlertBinding)
-        configureDialog(deleteAllAlertBinding.root, false)
-    }
 
     private fun configureDialog(view: View, showImediatly: Boolean = true) {
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

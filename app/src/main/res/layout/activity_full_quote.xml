@@ -8,9 +8,7 @@
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_animation"
-        android:theme="@style/Motiv.Fullscreen"
-        tools:context=".view.activities.FullQuoteActivity">
+        android:background="@drawable/gradient_animation">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -101,7 +99,6 @@
                         android:id="@+id/author_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_above="@id/quoteButtons"
                         android:backgroundTint="@color/transparent"
                         android:focusable="true"
                         android:longClickable="true"

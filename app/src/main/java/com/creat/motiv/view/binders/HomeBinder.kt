@@ -1,17 +1,16 @@
 package com.creat.motiv.view.binders
 
-import android.content.Context
 import androidx.appcompat.widget.SearchView
 import com.creat.motiv.databinding.FragmentHomeBinding
 import com.creat.motiv.model.beans.Quote
-import com.creat.motiv.presenter.QuotePresenter
-import com.creat.motiv.view.BaseView
+import com.creat.motiv.quote.presenter.QuotePresenter
+import com.creat.motiv.quote.view.binder.QuotesListBinder
+import com.silent.ilustriscore.core.view.BaseView
 
-class HomeBinder(
-        override val context: Context, override val viewBind: FragmentHomeBinding) : BaseView<Quote>(), SearchView.OnQueryTextListener {
+class HomeBinder(override val viewBind: FragmentHomeBinding) : BaseView<Quote>(), SearchView.OnQueryTextListener {
 
-    override fun presenter() = QuotePresenter(this)
-    var quotesListBinder: QuotesListBinder = QuotesListBinder(context, viewBind.quotesView)
+    override val presenter = QuotePresenter(this)
+    var quotesListBinder: QuotesListBinder = QuotesListBinder(viewBind.quotesView)
 
 
     init {

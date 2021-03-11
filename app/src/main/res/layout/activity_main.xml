@@ -5,23 +5,15 @@
     <RelativeLayout
         android:layout_height="match_parent"
         android:id="@+id/mainContainer"
-        android:layout_width="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_width="match_parent">
 
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/mainmenu"
-            app:title="@string/app_name" />
 
         <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
+            android:layout_above="@id/nav_view"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar"
             app:defaultNavHost="true"
             app:navGraph="@navigation/main_navigation" />
 
@@ -38,27 +30,36 @@
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/top_line"
+            android:layout_alignParentBottom="true"
             app:elevation="0dp"
             app:itemIconTint="@color/selected_navigation"
             app:itemRippleColor="@color/colorAccent"
             app:itemTextColor="@color/selected_navigation"
+            app:itemIconSize="20dp"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/navigation_menu" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/fade_gradient" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/mainmenu"
+            app:title="@string/app_name" />
 
         <com.github.mmin18.widget.RealtimeBlurView
             android:id="@+id/rootblur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:realtimeBlurRadius="50dp"
-            app:realtimeOverlayColor="?attr/blurOverLayColor" />
+            app:realtimeBlurRadius="25dp" />
     </RelativeLayout>
 
 

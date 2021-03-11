@@ -9,13 +9,14 @@ import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSearchBinding
 import com.creat.motiv.utilities.*
-import com.creat.motiv.view.adapters.SearchResultAdapter
+import com.creat.motiv.quote.view.binder.QuotesListBinder
 
 
 class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
 
     private lateinit var searchBinding: FragmentSearchBinding
+    private var quotesListBinder: QuotesListBinder? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -25,12 +26,14 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.hideBackButton()
+        context?.hideSupporActionBar()
+        quotesListBinder = QuotesListBinder(searchBinding.quotesView, useInit = false)
+        quotesListBinder?.addSearchQuote()
         searchBinding.searchview.run {
             setOnQueryTextListener(this@SearchFragment)
             requestFocus()
             setOnCloseListener {
-                searchBinding.searchResultRecyclerview.fadeOut()
+                quotesListBinder?.addSearchQuote()
                 false
             }
         }
@@ -42,22 +45,11 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
             snackmessage(context = requireContext(), message = "Não da para pesquisar o vazio :(")
             return false
         }
-        searchBinding.searchResultRecyclerview.apply {
-            searchBinding.searchIllustration.fadeOut()
-            adapter = SearchResultAdapter(requireContext(), query) {
-                snackmessage(requireContext(), "Nenhum resultado encontrado")
-                searchBinding.searchIllustration.fadeIn()
-            }
-            slideInBottom()
-        }
+        quotesListBinder?.searchData(query)
         return false
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        searchBinding.searchResultRecyclerview.fadeOut()
-        if (searchBinding.searchIllustration.visibility == View.GONE) {
-            searchBinding.searchIllustration.fadeIn()
-        }
         return false
     }
 }
