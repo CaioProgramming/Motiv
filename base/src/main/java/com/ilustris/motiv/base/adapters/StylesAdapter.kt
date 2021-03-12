@@ -1,4 +1,4 @@
-package com.creat.motiv.quote.view.adapter
+package com.ilustris.motiv.base.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.R
-import com.creat.motiv.databinding.StylePagerLayoutBinding
 import com.creat.motiv.quote.beans.QuoteStyle
+import com.ilustris.motiv.base.R
+import com.ilustris.motiv.base.databinding.StylePagerLayoutBinding
 
 class StylesAdapter(val styles: List<QuoteStyle>) : RecyclerView.Adapter<StylesAdapter.StyleHolder>() {
 

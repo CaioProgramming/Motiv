@@ -5,23 +5,33 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="10dp"
     android:gravity="center"
     tools:context="com.ilustris.motiv.base.ErrorActivity">
 
     <ImageView
-        android:layout_height="400dp"
+        android:id="@+id/errorBackground"
         android:layout_width="match_parent"
-        app:tint="@color/colorPrimaryDark" />
+        android:layout_height="match_parent" />
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Title"
+        android:id="@+id/title"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_default"
+        android:gravity="center"
+        android:padding="@dimen/padding_default"
+        android:textColor="@color/md_white"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/fatal_error_title"
         android:textAlignment="center" />
 
     <TextView
+        android:layout_below="@id/title"
+        android:layout_margin="@dimen/margin_default"
+        android:gravity="center"
+        android:padding="@dimen/padding_small"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

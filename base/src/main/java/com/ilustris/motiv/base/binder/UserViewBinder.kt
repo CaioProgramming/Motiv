@@ -1,4 +1,4 @@
-package com.creat.motiv.profile.view.binders
+package com.ilustris.motiv.base.binder
 
 import android.app.Activity
 import android.content.Intent
@@ -7,12 +7,13 @@ import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.creat.motiv.R
-import com.creat.motiv.databinding.UserQuoteCardViewBinding
 import com.ilustris.motiv.base.presenter.UserPresenter
-import com.creat.motiv.profile.view.UserActivity
+import com.ilustris.motiv.base.R
+import com.ilustris.motiv.base.Routes
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.databinding.UserQuoteCardViewBinding
 import com.silent.ilustriscore.core.view.BaseView
+import com.squareup.okhttp.Route
 
 class UserViewBinder(
         val userID: String,
@@ -24,7 +25,7 @@ class UserViewBinder(
     override fun showData(data: User) {
         viewBind.run {
             userData = data
-            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic__41_floppy_disk)).into(userpic)
+            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.avatarnotfound)).into(userpic)
             userContainer.setOnClickListener {
                 showUserProfile(data)
             }
@@ -41,11 +42,7 @@ class UserViewBinder(
 
     private fun showUserProfile(user: User) {
         if (user.uid != presenter.user?.uid) {
-            val i = Intent(context, UserActivity::class.java)
-            i.putExtra("USER", user)
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity,
-                    viewBind.userpic as View, context.getString(R.string.profilepictransiction))
-            context.startActivity(i, options.toBundle())
+            Routes(context).openUserProfile(user, viewBind.userpic)
         }
 
     }

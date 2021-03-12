@@ -8,5 +8,11 @@ import com.silent.ilustriscore.core.view.BaseView
 class PicsPresenter(override val view: BaseView<Pics>) : BasePresenter<Pics>() {
     override val model = PicsModel(this)
 
+    fun savePics(pic: ArrayList<Pics>) {
+        pic.forEach {
+            model.addData(it)
+        }
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.creat.motiv.profile.cover.view
+package com.ilustris.motiv.base.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.R
+import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.beans.Cover
 import com.ilustris.motiv.base.databinding.PicsLayoutBinding
 

@@ -25,7 +25,6 @@ import java.util.*
 
 
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private var motivApplication = application as MotivApplication
 
     internal var a: Alert? = null
     internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -46,17 +45,13 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
             setupNavigation()
         }
         internetconnection()
-        user = FirebaseAuth.getInstance().currentUser
         checkUser()
-
     }
 
 
 
     private fun setupNavigation() {
-
         val navController = findNavController(R.id.nav_host_fragment)
-
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)

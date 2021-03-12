@@ -7,7 +7,7 @@
         android:id="@+id/navigation_home"
         android:name="com.creat.motiv.view.fragments.HomeFragment"
         android:label="Motiv"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_manager_home">
 
     </fragment>
 

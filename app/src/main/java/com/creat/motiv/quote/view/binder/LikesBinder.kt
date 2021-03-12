@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.databinding.ProfilepicselectBinding
-import com.ilustris.motiv.base.presenter.UserPresenter
 import com.creat.motiv.view.adapters.LikersRecyclerAdapter
+import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideUp

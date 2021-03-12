@@ -4,4 +4,9 @@
     <string name="fatal_error_title">Alguma coisa deu errado :(</string>
     <string name="facebook_app_id">259084328108067</string>
     <string name="fb_login_protocol_scheme">fb259084328108067</string>
+    <string name="card_transaction">quoteCard</string>
+    <string name="quote_transaction">quoteTransaction</string>
+    <string name="author_transaction">authorTransaction</string>
+    <string name="company">Ilustris 2018 - %d</string>
+
 </resources>

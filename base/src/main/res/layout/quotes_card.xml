@@ -22,6 +22,7 @@
             layout="@layout/style_layout_view" />
 
         <LinearLayout
+            android:padding="@dimen/padding_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/quoteInfo"
@@ -46,7 +47,7 @@
                 android:typeface="normal"
                 android:visibility="gone"
                 tools:text="Everything I do \nI tell you all the time"
-                tools:textColor="@color/white"
+                tools:textColor="@color/md_white"
                 tools:visibility="visible" />
 
             <TextView
@@ -61,7 +62,7 @@
                 android:transitionName="@string/author_transaction"
                 android:visibility="gone"
                 tools:text="Lana Del Rey"
-                tools:textColor="@color/white"
+                tools:textColor="@color/md_white"
                 tools:visibility="visible" />
         </LinearLayout>
 
@@ -88,6 +89,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/margin_default"
                 android:padding="@dimen/padding_small">
 
                 <CheckBox

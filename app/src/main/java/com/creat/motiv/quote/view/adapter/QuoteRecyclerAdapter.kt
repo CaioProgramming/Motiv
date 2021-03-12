@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ProfileQuoteCardBinding
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
-import com.creat.motiv.databinding.QuotesCardBinding
 import com.creat.motiv.profile.view.binders.ProfilePageBinder
 import com.creat.motiv.quote.view.binder.QuoteCardBinder
 import com.creat.motiv.utilities.AD_GIF
@@ -23,6 +22,7 @@ import com.ilustris.motiv.base.beans.AD_QUOTE
 import com.ilustris.motiv.base.beans.PROFILE_QUOTE
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.silent.ilustriscore.core.utilities.gone
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,6 +30,7 @@ import kotlin.collections.ArrayList
 
 class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var viewList = quoteList.toList()
     private val quoteView = 0
     private val advertiseView = 1
     private val profileView = 2
@@ -54,7 +55,7 @@ class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapt
 
     override fun getItemViewType(position: Int): Int = if (quoteList[position].id == AD_QUOTE) advertiseView else if (quoteList[position].id == PROFILE_QUOTE) profileView else quoteView
 
-    fun addData(quotes: List<Quote>, clearFirst: Boolean = false) {
+    fun addData(quotes: List<Quote>) {
 
         quoteList.addAll(quotes)
 
@@ -67,15 +68,15 @@ class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         if (actualQuote.isUserQuote()) {
             quoteList.add(swapIndex, Quote.advertiseQuote())
         }
-
+        viewList = quoteList
         notifyDataSetChanged()
     }
 
-    fun checkIfQuotesExists(id: String): Boolean {
-        quoteList.forEach {
-            return it.id == id
+    fun filter(query: String) {
+        viewList = quoteList.filter {
+            it.quote.contains(query, true) || it.author.contains(query, true)
         }
-        return false
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -98,7 +99,7 @@ class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         }
     }
 
-    override fun getItemCount(): Int = quoteList.size
+    override fun getItemCount(): Int = viewList.size
 
     inner class QuoteViewHolder(private val quotescardBinding: QuotesCardBinding) : RecyclerView.ViewHolder(quotescardBinding.root) {
         fun bind(quote: Quote) {

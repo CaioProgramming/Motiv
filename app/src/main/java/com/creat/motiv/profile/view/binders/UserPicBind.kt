@@ -7,11 +7,11 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.databinding.UserPicviewBinding
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.creat.motiv.utilities.Alert
 import com.ilustris.motiv.base.DialogStyles
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.databinding.UserPicviewBinding
 import com.silent.ilustriscore.core.view.BaseView
 
 class UserPicBind(

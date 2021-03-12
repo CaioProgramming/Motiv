@@ -3,8 +3,8 @@ package com.creat.motiv.quote.view.binder
 import android.view.View
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.creat.motiv.quote.view.adapter.QuoteRecyclerAdapter
+import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.beans.Quote
 import com.silent.ilustriscore.core.model.DTOMessage
@@ -51,6 +51,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
 
     fun addSearchQuote() {
         setupRecyclerView(listOf(Quote.searchQuote()))
+        presenter.loadData()
     }
 
     fun addSplashQuote() {
@@ -76,19 +77,11 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
     }
 
     fun searchData(query: String) {
-        presenter.queryData(query, "quote")
-    }
-
-    fun searchAuthor(query: String) {
-        presenter.queryData(query, "author")
+        quoteRecyclerAdapter?.filter(query)
     }
 
     fun getUserQuotes(uid: String) {
         presenter.findPreciseData(uid, "userID")
-    }
-
-    fun getFavorites(uid: String) {
-        presenter.loadFavorites(uid)
     }
 
     private fun setupRecyclerView(list: List<Quote>) {

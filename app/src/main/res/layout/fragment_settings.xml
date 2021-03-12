@@ -154,6 +154,34 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/adminView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/material_grey900"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/adminBackground"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:transitionName="@string/quote_transaction" />
+
+            <TextView
+                android:id="@+id/adminText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/padding_default"
+                android:text="Motiv +"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/singOutButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"

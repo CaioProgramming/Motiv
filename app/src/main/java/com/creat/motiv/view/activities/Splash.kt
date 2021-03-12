@@ -6,16 +6,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
-import com.creat.motiv.databinding.QuotesCardBinding
-import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.creat.motiv.quote.view.binder.QuoteCardBinder
+import com.creat.motiv.utilities.Alert
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.motiv.base.beans.Quote
-import kotlinx.android.synthetic.main.activity_splash.*
+import com.ilustris.motiv.base.databinding.ActivitySplashBinding
 import java.util.*
 
 class Splash : AppCompatActivity(R.layout.activity_splash) {
@@ -25,12 +25,16 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
         val datenow = Calendar.getInstance().time
         val calendar = GregorianCalendar()
         calendar.time = datenow
-        QuoteCardBinder(Quote.splashQuote().apply {
-            val dateNow = Calendar.getInstance().time
-            val calendar = GregorianCalendar()
-            calendar.time = dateNow
-            author = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
-        }, QuotesCardBinding.bind(quoteCard))
+        val splashBinding = DataBindingUtil.setContentView<ActivitySplashBinding>(this, R.layout.activity_splash)
+        splashBinding.run {
+            QuoteCardBinder(Quote.splashQuote().apply {
+                val dateNow = Calendar.getInstance().time
+                val calendar = GregorianCalendar()
+                calendar.time = dateNow
+                author = String.format(getString(R.string.company), calendar.get(Calendar.YEAR))
+            }, quoteCard)
+        }
+
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 

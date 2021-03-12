@@ -7,6 +7,7 @@ import com.ilustris.motiv.base.beans.Cover
 import com.ilustris.motiv.base.model.CoversPresenter
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
+import com.ilustris.motiv.base.adapters.RecyclerCoverAdapter
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.view.BaseView
 

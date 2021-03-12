@@ -11,14 +11,14 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.R
-import com.creat.motiv.databinding.QuotesCardBinding
 import com.creat.motiv.quote.beans.QuoteStyle
 import com.creat.motiv.quote.beans.TextSize
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.creat.motiv.quote.view.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
-import com.creat.motiv.profile.view.binders.UserViewBinder
+import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.TextUtils
 import com.ilustris.motiv.base.utils.autoSizeText
 import com.ilustris.motiv.base.utils.FontUtils

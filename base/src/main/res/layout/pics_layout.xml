@@ -8,10 +8,10 @@
         android:layout_width="match_parent"
         android:id="@+id/card"
         android:layout_margin="@dimen/margin_default"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:checkable="true"
         android:stateListAnimator="@animator/list_animator"
-        app:cardBackgroundColor="@color/oblack"
+        app:cardBackgroundColor="?android:textColorHint"
         android:orientation="vertical"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp">
@@ -22,7 +22,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/icon_info"
             android:hapticFeedbackEnabled="true"
             android:scaleType="centerCrop"
             tools:src="@drawable/ic_saturn_and_other_planets_primary" />

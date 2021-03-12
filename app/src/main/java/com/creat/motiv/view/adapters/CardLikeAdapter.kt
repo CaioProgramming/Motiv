@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.databinding.UserPicviewBinding
 import com.creat.motiv.profile.view.binders.UserPicBind
+import com.ilustris.motiv.base.databinding.UserPicviewBinding
 
 class CardLikeAdapter(val likes: List<String>, val context: Context) : RecyclerView.Adapter<CardLikeAdapter.MyViewHolder>() {
 

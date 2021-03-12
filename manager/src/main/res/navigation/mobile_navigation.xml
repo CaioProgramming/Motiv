@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.ilustris.motiv.manager.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_manager_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.ilustris.motiv.manager.ui.icons.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.ilustris.motiv.manager.ui.icons.IconsFragment"
+        android:label="Ícones"
+        tools:layout="@layout/fragment_icons" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.ilustris.motiv.manager.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.ilustris.motiv.manager.ui.notifications.CoversFragment"
+        android:label="Planos de fundo"
+        tools:layout="@layout/fragment_covers" />
 </navigation>

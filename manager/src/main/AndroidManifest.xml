@@ -5,10 +5,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" />
+    <application android:theme="@style/Motiv.Theme">
+        <activity android:name=".ManagerActivity" />
+        <activity android:name=".ManagerSplash" />
     </application>
 
 </manifest>

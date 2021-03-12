@@ -21,13 +21,13 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userpic"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:stateListAnimator="@animator/list_animator"
             android:transitionName="profilepic"
             app:civ_circle_background_color="@color/colorPrimaryDark"
-            tools:src="@drawable/notfound" />
+            tools:src="@drawable/avatarnotfound" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,21 +37,21 @@
 
             <TextView
                 android:id="@+id/username"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@{userData.name}"
-                android:textColor="@color/white"
+                android:textColor="@color/md_white"
                 android:textStyle="bold"
                 tools:text="Caio Alves Ferreira" />
 
             <TextView
                 android:id="@+id/quoteDate"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/md_white"
                 tools:text="10 de Outubro de 2019" />
         </LinearLayout>
 

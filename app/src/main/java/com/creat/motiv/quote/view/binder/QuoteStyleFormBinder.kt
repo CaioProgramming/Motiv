@@ -3,8 +3,8 @@ package com.creat.motiv.quote.view.binder
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.databinding.StylePagerBinding
 import com.creat.motiv.quote.beans.QuoteStyle
+import com.ilustris.motiv.base.adapters.StylesAdapter
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
-import com.creat.motiv.quote.view.adapter.StylesAdapter
 import com.silent.ilustriscore.core.view.BaseView
 import kotlin.random.Random
 
