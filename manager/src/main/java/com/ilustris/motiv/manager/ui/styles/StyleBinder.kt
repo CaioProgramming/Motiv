@@ -69,13 +69,9 @@ class StyleBinder(override val viewBind: FragmentStylesBinding): SearchView.OnQu
         super.showListData(list)
         viewBind.stylesRecycler.stylesRecycler.run {
             adapter = StylePreviewAdapter(list,true) {
-                if (it.id != NEW_STYLE_ID) {
-                    BottomSheetAlert(context, "Tem certeza?", "Ao remover esse estilo não será possível recuperá-lo", {
-                        presenter.deleteData(it)
-                    })
-                } else {
-                    context.startActivity(Intent(context,NewStyleActivity::class.java))
-                }
+                BottomSheetAlert(context, "Tem certeza?", "Ao remover esse estilo não será possível recuperá-lo", {
+                    presenter.deleteData(it)
+                })
             }
         }
     }

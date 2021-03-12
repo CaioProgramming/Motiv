@@ -32,7 +32,7 @@
         app:navGraph="@navigation/mobile_navigation" />
     <include layout="@layout/blur_layout"/>
     <androidx.appcompat.widget.Toolbar
-        android:background="@drawable/fade_gradient_inversed"
+        android:background="@drawable/fade_gradient"
         android:id="@+id/managerToolbar"
         style="@style/AppToolbar"
         android:layout_width="match_parent"
