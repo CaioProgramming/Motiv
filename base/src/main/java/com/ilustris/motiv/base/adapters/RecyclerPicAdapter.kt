@@ -1,5 +1,6 @@
 package com.ilustris.motiv.base.adapters
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -43,6 +44,9 @@ class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
                     }
                     card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_grey200))
                 } else {
+                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_up_arrow))
+                    card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_blue300))
+                    pic.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.material_white))
                     Glide.with(context).load(R.drawable.ic_up_arrow).into(pic)
                     pic.repeatBounce()
                     card.setOnClickListener {
