@@ -80,76 +80,82 @@
                 layout="@layout/user_quote_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_default" />
+                />
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/quoteOptions"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_marginHorizontal="@dimen/margin_default"
                 android:padding="@dimen/padding_small">
+                <LinearLayout
+                    android:layout_toStartOf="@id/likers"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:id="@+id/like"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:background="@drawable/favoritecheck"
+                        android:button="@color/transparent" />
 
-                <CheckBox
-                    android:id="@+id/like"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:background="@drawable/favoritecheck"
-                    android:button="@color/transparent" />
+                    <ImageButton
+                        android:id="@+id/editButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_edit"
+                        android:stateListAnimator="@animator/list_animator" />
 
-                <ImageButton
-                    android:id="@+id/editButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:background="@color/transparent"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_edit"
-                    android:stateListAnimator="@animator/list_animator" />
+                    <ImageButton
+                        android:id="@+id/deleteButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_delete"
+                        android:stateListAnimator="@animator/list_animator" />
 
-                <ImageButton
-                    android:id="@+id/deleteButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:background="@color/transparent"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_delete"
-                    android:stateListAnimator="@animator/list_animator" />
+                    <ImageButton
+                        android:id="@+id/shareButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_share"
+                        android:stateListAnimator="@animator/list_animator" />
 
-                <ImageButton
-                    android:id="@+id/shareButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:background="@color/transparent"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_share"
-                    android:stateListAnimator="@animator/list_animator" />
+                    <ImageButton
+                        android:id="@+id/reportButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_flag"
+                        android:stateListAnimator="@animator/list_animator" />
+                </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/reportButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:background="@color/transparent"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_flag"
-                    android:stateListAnimator="@animator/list_animator" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/likers"
-                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/user_picview" />
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

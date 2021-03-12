@@ -33,6 +33,10 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
         quotesListBinder?.addSearchQuote()
         searchBinding.searchview.run {
             setOnQueryTextListener(this@SearchFragment)
+            setOnCloseListener {
+                quotesListBinder?.initView()
+                false
+            }
             requestFocus()
             setOnCloseListener {
                 quotesListBinder?.addSearchQuote()

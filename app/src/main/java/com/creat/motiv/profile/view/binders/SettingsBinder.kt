@@ -4,21 +4,20 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
+import com.creat.motiv.quote.beans.QuoteStyle
 import com.creat.motiv.utilities.Alert
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.DialogStyles
-import com.ilustris.motiv.base.MANAGER_ACTIVITY
-import com.ilustris.motiv.base.Routes
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.manager.ManagerActivity
 import com.ilustris.motiv.manager.ManagerSplash
 import com.silent.ilustriscore.core.view.BaseView
@@ -78,10 +77,12 @@ class SettingsBinder(
                 }
             }
             if (data.admin) {
-                Glide.with(context).asGif().centerCrop().load(ADMIN_BACKGROUND).into(adminBackground)
+               val adminStyle = QuoteStyle.adminStyle
+                Glide.with(context).asGif().centerCrop().load(adminStyle.backgroundURL).into(adminBackground)
+                adminText.typeface = FontUtils.getTypeFace(context,adminStyle.font)
                 adminView.fadeIn()
                 adminView.setOnClickListener {
-                    val i = Intent(context, ManagerSplash::class.java).apply {
+                    val i = Intent(context, ManagerActivity::class.java).apply {
                         putExtra("User", data)
                     }
                     val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,

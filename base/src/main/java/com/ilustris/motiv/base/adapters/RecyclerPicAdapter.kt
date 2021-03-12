@@ -11,6 +11,7 @@ import com.ilustris.motiv.base.beans.Pics
 import com.creat.motiv.utilities.NEW_PIC
 import com.ilustris.animations.popIn
 import com.ilustris.animations.repeatBounce
+import com.ilustris.animations.repeatFade
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.PicsLayoutBinding
 
@@ -44,11 +45,10 @@ class RecyclerPicAdapter(private var pictureList: ArrayList<Pics> = ArrayList(),
                     }
                     card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_grey200))
                 } else {
-                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_up_arrow))
+                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_arrow_upward_24))
                     card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_blue300))
                     pic.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.material_white))
-                    Glide.with(context).load(R.drawable.ic_up_arrow).into(pic)
-                    pic.repeatBounce()
+                    pic.repeatFade()
                     card.setOnClickListener {
                         requestNewPic?.invoke()
                     }

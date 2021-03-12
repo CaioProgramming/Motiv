@@ -15,6 +15,8 @@ import com.creat.motiv.quote.view.binder.LikesBinder
 import com.creat.motiv.profile.icon.view.ProfilePicSelectBinder
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ilustris.motiv.base.DialogStyles
+import com.ilustris.motiv.base.utils.blurView
+import com.ilustris.motiv.base.utils.unblurView
 
 
 class Alert(private val activity: Activity, val dialogStyle: DialogStyles = DialogStyles.DEFAULT_NO_BORDER) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener {

@@ -8,9 +8,10 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.notifications.CoversFragment">
+        tools:context=".ui.covers.CoversFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -28,13 +29,15 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.SearchView
-                        android:id="@+id/search_view"
+                        android:id="@+id/searchview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_default"
+                        android:focusedByDefault="true"
+                        android:layout_marginHorizontal="@dimen/padding_default"
                         android:background="@drawable/round"
                         android:backgroundTint="@color/md_black"
-                        app:queryHint="busque um tema" />
+                        app:iconifiedByDefault="false"
+                        app:queryHint="Buscar gifs" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -56,10 +59,6 @@
 
                 </LinearLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="parallax" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

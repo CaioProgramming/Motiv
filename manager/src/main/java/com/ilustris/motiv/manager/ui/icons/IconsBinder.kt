@@ -11,7 +11,7 @@ import com.ilustris.motiv.base.presenter.PicsPresenter
 import com.ilustris.motiv.manager.databinding.FragmentIconsBinding
 import com.silent.ilustriscore.core.view.BaseView
 
-class IconsBinder(override val viewBind: FragmentIconsBinding, val fragmentManager: FragmentManager) : BaseView<Pics>() {
+class IconsBinder(override val viewBind: FragmentIconsBinding, private val fragmentManager: FragmentManager) : BaseView<Pics>() {
     override val presenter = PicsPresenter(this)
 
     override fun initView() {
@@ -24,7 +24,7 @@ class IconsBinder(override val viewBind: FragmentIconsBinding, val fragmentManag
         pictures.add(0, Pics.addPic())
         viewBind.managerRecycler.run {
             adapter = RecyclerPicAdapter(pictures, {
-                BottomSheetAlert.buildAlert(fragmentManager, "Não gostou?", "Caso queira apagar esse ícone basta confirmar", { presenter.deleteData(it) })
+                BottomSheetAlert(context, "Não gostou?", "Caso queira apagar esse ícone basta confirmar", { presenter.deleteData(it) })
             }, {
                 AddIconsDialog.buildNewIconsDialog(fragmentManager) { presenter.savePics(it) }
             })

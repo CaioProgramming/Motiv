@@ -15,8 +15,7 @@ class RecyclerCoverAdapter(private var covers: List<Cover>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoverHolder {
         val context = parent.context
-        val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false)
-        return CoverHolder(picsBind)
+        return CoverHolder(DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false))
     }
 
 

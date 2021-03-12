@@ -44,13 +44,8 @@
             app:menu="@menu/mainmenu"
             app:title="@string/app_name" />
 
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:id="@+id/rootblur"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:realtimeOverlayColor="@color/transparent"
-            app:realtimeBlurRadius="25dp" />
+        <include layout="@layout/blur_layout"/>
+
     </RelativeLayout>
 
 

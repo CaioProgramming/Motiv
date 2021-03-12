@@ -19,7 +19,14 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.ilustris.motiv.manager.ui.notifications.CoversFragment"
+        android:name="com.ilustris.motiv.manager.ui.covers.CoversFragment"
         android:label="Planos de fundo"
         tools:layout="@layout/fragment_covers" />
+
+    <fragment
+        android:id="@+id/navigation_styles"
+        android:name="com.ilustris.motiv.manager.ui.styles.StylesFragment"
+        android:label="Estilos"
+        />
+
 </navigation>

@@ -83,14 +83,14 @@ class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         when {
             getItemViewType(position) == quoteView -> {
                 (holder as QuoteViewHolder).run {
-                    if (quoteList[position].id != AD_QUOTE) {
-                        bind(quoteList[position])
+                    if (viewList[position].id != AD_QUOTE) {
+                        bind(viewList[position])
                     }
                 }
             }
             getItemViewType(position) == profileView -> {
                 (holder as ProfileViewHolder).run {
-                    bind(quoteList[position].userID)
+                    bind(viewList[position].userID)
                 }
             }
             else -> {

@@ -65,13 +65,19 @@ class QuoteManagerCardBinder(
     }
 
     private fun setupCard() {
-        viewBind.deleteButton.run {
-            setOnClickListener {
-                presenter.delete(quote.id)
+        viewBind.run {
+            deleteButton.run {
+                setOnClickListener {
+                    presenter.delete(quote.id)
+                }
+                visible()
             }
-            visible()
+            reportButton.gone()
+            shareButton.gone()
+            editButton.gone()
+            like.gone()
+            likers.gone()
         }
-
     }
 
     override fun showData(data: Quote) {

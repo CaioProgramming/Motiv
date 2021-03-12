@@ -2,10 +2,14 @@ package com.ilustris.motiv.base.utils
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import com.creat.motiv.quote.beans.TextAlignment
+import com.creat.motiv.quote.beans.TextSize
 import com.google.android.material.snackbar.Snackbar
 import com.ilustris.motiv.base.R
 
@@ -59,5 +63,32 @@ fun TextView.autoSizeText(maxSize: Int) {
         else -> size - 25
     }
     setTextSize(TypedValue.COMPLEX_UNIT_PX, txtSize)
+}
+
+fun TextView.defineTextSize(textSize: TextSize) {
+        val maxSize = when (textSize) {
+            com.creat.motiv.quote.beans.TextSize.DEFAULT -> R.dimen.default_quote_size
+            com.creat.motiv.quote.beans.TextSize.BIG -> R.dimen.big_quote_size
+            com.creat.motiv.quote.beans.TextSize.SMALL -> R.dimen.low_quote_size
+            com.creat.motiv.quote.beans.TextSize.EXTRASMALL -> R.dimen.min_quote_size
+        }
+        autoSizeText(maxSize)
+}
+
+fun TextView.defineTextAlignment(textAlign: TextAlignment) {
+    when(textAlign) {
+        TextAlignment.CENTER -> {
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            gravity = Gravity.CENTER
+        }
+        TextAlignment.START -> {
+            textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+            gravity = Gravity.START
+        }
+        TextAlignment.END -> {
+            textAlignment = View.TEXT_ALIGNMENT_TEXT_END
+            gravity = Gravity.END
+        }
+    }
 }
 

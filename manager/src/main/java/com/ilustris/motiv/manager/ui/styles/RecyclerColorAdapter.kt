@@ -1,4 +1,4 @@
-package com.creat.motiv.view.adapters
+package com.ilustris.motiv.manager.ui.styles
 
 import android.app.AlertDialog
 import android.content.Context
@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.creat.motiv.R
-import com.creat.motiv.databinding.ColorCardBinding
-import com.creat.motiv.utilities.blurView
-import com.creat.motiv.utilities.unblurView
+
+import com.ilustris.motiv.base.utils.blurView
+import com.ilustris.motiv.base.utils.unblurView
 import com.ilustris.motiv.base.utils.ColorUtils.toHex
 import com.ilustris.motiv.base.SelectedViewType
+import com.ilustris.motiv.manager.R
+import com.ilustris.motiv.manager.databinding.ColorCardBinding
 import java.util.*
 
 
@@ -21,7 +22,7 @@ import java.util.*
 
 class RecyclerColorAdapter(private val colorsList: ArrayList<Int>,
                            private val context: Context,
-                           private val onColorPick: ((PickedColor) -> Unit)) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
+                           private val onColorPick: ((String) -> Unit)) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -37,18 +38,8 @@ class RecyclerColorAdapter(private val colorsList: ArrayList<Int>,
             val animation = AnimationUtils.loadAnimation(context, R.anim.fui_slide_in_right)
             colorcard.startAnimation(animation)
             colorcard.setOnClickListener {
-                val options = arrayOf("Texto", "Plano de fundo")
-                val builder = AlertDialog.Builder(context)
-                builder.setTitle("Plano de fundo ou texto")
-                        .setItems(options) { dialogInterface, i ->
-                            val hexColor = toHex(colorsList[position])
-                            onColorPick(PickedColor(hexColor, if (i == 0) SelectedViewType.TEXT else SelectedViewType.BACKGROUND))
-                        }
-                builder.setOnDismissListener {
-                    unblurView(context)
-                }
-                blurView(context)
-                builder.show()
+                val hexColor = toHex(colorsList[position])
+                onColorPick(hexColor)
             }
         }
 
