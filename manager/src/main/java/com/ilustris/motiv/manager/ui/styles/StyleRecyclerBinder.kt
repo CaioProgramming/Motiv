@@ -1,6 +1,8 @@
 package com.ilustris.motiv.manager.ui.styles
 
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.quote.beans.QuoteStyle
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
@@ -20,11 +22,12 @@ class StyleRecyclerBinder(override val viewBind: StylesRecyclerBinding) : BaseVi
         val styles = ArrayList(list)
         styles.add(0, QuoteStyle.newStyle)
         viewBind.stylesRecycler.run {
-            adapter = StylePreviewAdapter(list,false) {
+            adapter = StylePreviewAdapter(list, false) {
                 BottomSheetAlert(context, "Tem certeza?", "Ao remover esse estilo não será possível recuperá-lo", {
                     presenter.deleteData(it)
                 })
             }
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
     }
 

@@ -24,7 +24,7 @@ class StylePreviewAdapter(private val styles: List<QuoteStyle>, private val isPr
 
             stylePreviewCardBinding.run {
                 val context: Context = root.context
-                Glide.with(context).load(quoteStyle.backgroundURL).into(styleImage)
+                Glide.with(context).load(quoteStyle.backgroundURL).centerCrop().into(styleImage)
                 styleText.typeface = FontUtils.getTypeFace(context,quoteStyle.font)
                 styleText.defineTextSize(quoteStyle.textSize)
                 styleText.defineTextAlignment(quoteStyle.textAlignment)
@@ -43,7 +43,7 @@ class StylePreviewAdapter(private val styles: List<QuoteStyle>, private val isPr
 
             stylePreviewCardBinding.run {
                 val context: Context = root.context
-                Glide.with(context).load(quoteStyle.backgroundURL).into(styleImage)
+                Glide.with(context).load(quoteStyle.backgroundURL).centerCrop().into(styleImage)
                 styleText.typeface = FontUtils.getTypeFace(context,quoteStyle.font)
                 styleText.defineTextSize(quoteStyle.textSize)
                 styleText.defineTextAlignment(quoteStyle.textAlignment)
@@ -60,8 +60,8 @@ class StylePreviewAdapter(private val styles: List<QuoteStyle>, private val isPr
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (!isPreview) StyleHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_preview_card,parent,false))
-        else StylePreviewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_preview_card,parent,false))
+        return if (!isPreview) StyleHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_card, parent, false))
+        else StylePreviewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_preview_card, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
