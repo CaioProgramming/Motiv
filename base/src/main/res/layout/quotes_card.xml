@@ -91,10 +91,13 @@
                 android:layout_width="match_parent"
                 android:padding="@dimen/padding_small">
                 <LinearLayout
-                    android:layout_toStartOf="@id/likers"
+                    android:id="@+id/quotebuttons"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
                     android:layout_height="wrap_content">
+
                     <CheckBox
                         android:id="@+id/like"
                         android:layout_width="24dp"
@@ -149,9 +152,11 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/likers"
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_toEndOf="@id/quotebuttons"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    app:reverseLayout="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/user_picview" />

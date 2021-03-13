@@ -51,7 +51,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
     fun goToRandomStyle() {
         viewBind.stylesPager.run {
             adapter.let {
-                val position = Random.nextInt(0, it.itemCount)
+                val position = Random.nextInt(0, it!!.itemCount)
                 setCurrentItem(position, true)
             }
 

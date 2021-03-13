@@ -90,7 +90,7 @@ class SettingsBinder(
                     context.startActivity(i, options.toBundle())
                 }
                 val matrix = ColorMatrix().apply {
-                    setSaturation(100f)
+                    reset()
                 }
                 val filter = ColorMatrixColorFilter(matrix)
 
