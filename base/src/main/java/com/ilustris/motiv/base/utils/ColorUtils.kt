@@ -1,8 +1,10 @@
 package com.ilustris.motiv.base.utils
 
+import android.content.Context
 import android.graphics.Color
 import com.ilustris.motiv.base.R
 import java.util.*
+import kotlin.collections.ArrayList
 
 object ColorUtils {
     val randomColor: Int
@@ -18,6 +20,19 @@ object ColorUtils {
 
     fun toHex(intColor: Int): String {
         return java.lang.String.format("#%06X", 0xFFFFFF and intColor)
+    }
+
+    fun getColors(context: Context): ArrayList<String> {
+        val colors = ArrayList<String>()
+        val fields = Class.forName("com.github.mcginty" + ".R\$color").declaredFields
+        fields.forEach {
+            if (it.getInt(null) != Color.TRANSPARENT) {
+                val colorId = it.getInt(null)
+                val color = context.resources.getColor(colorId)
+                colors.add(toHex(color))
+            }
+        }
+        return colors
     }
 
     fun lighten(color: Int, fraction: Double): Int {

@@ -1,6 +1,6 @@
 package com.ilustris.motiv.base.model
 
-import com.creat.motiv.quote.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.QuoteStyle
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.silent.ilustriscore.core.model.BaseModel

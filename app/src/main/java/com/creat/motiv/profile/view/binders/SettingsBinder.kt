@@ -3,26 +3,27 @@ package com.creat.motiv.profile.view.binders
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
-import com.creat.motiv.quote.beans.QuoteStyle
 import com.creat.motiv.utilities.Alert
-import com.ilustris.motiv.base.presenter.UserPresenter
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.DialogStyles
+import com.ilustris.motiv.base.beans.QuoteStyle.Companion.adminStyle
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.manager.ManagerActivity
-import com.ilustris.motiv.manager.ManagerSplash
 import com.silent.ilustriscore.core.view.BaseView
 
-const val ADMIN_BACKGROUND = "https://media.giphy.com/media/3oEduStjWYGgvIJo0E/giphy.gif"
+
 class SettingsBinder(
         val uid: String,
         override val viewBind: FragmentSettingsBinding) : BaseView<User>() {
@@ -76,11 +77,10 @@ class SettingsBinder(
                     }
                 }
             }
+
+            Glide.with(context).asGif().centerCrop().load(adminStyle.backgroundURL).into(adminBackground)
             if (data.admin) {
-               val adminStyle = QuoteStyle.adminStyle
-                Glide.with(context).asGif().centerCrop().load(adminStyle.backgroundURL).into(adminBackground)
-                adminText.typeface = FontUtils.getTypeFace(context,adminStyle.font)
-                adminView.fadeIn()
+                adminText.typeface = FontUtils.getTypeFace(context, adminStyle.font)
                 adminView.setOnClickListener {
                     val i = Intent(context, ManagerActivity::class.java).apply {
                         putExtra("User", data)
@@ -89,7 +89,21 @@ class SettingsBinder(
                             android.util.Pair(viewBind.adminText, context.getString(com.ilustris.motiv.base.R.string.quote_transaction)))
                     context.startActivity(i, options.toBundle())
                 }
+                val matrix = ColorMatrix().apply {
+                    setSaturation(100f)
+                }
+                val filter = ColorMatrixColorFilter(matrix)
+
+                adminBackground.colorFilter = filter
+            } else {
+                val matrix = ColorMatrix().apply {
+                    setSaturation(0f)
+                }
+                val filter = ColorMatrixColorFilter(matrix)
+
+                adminBackground.colorFilter = filter
             }
+            adminView.fadeIn()
 
             singOutButton.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()

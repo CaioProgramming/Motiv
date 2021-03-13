@@ -15,51 +15,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/styleText"
-            android:textSize="@dimen/default_quote_size"
-            android:padding="@dimen/padding_default"
-            android:text="Motiv"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/md_white"
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/fontsTabs"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_above="@id/colorGallery"
+            android:background="@color/transparent"
+            android:layout_width="match_parent"
+            app:tabIndicator="@color/transparent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_default"
-                android:text="Gif de fundo"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
-
-            <androidx.appcompat.widget.SearchView
-                android:layout_marginHorizontal="@dimen/margin_default"
-                android:id="@+id/searchview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round"
-                android:backgroundTint="@color/md_black"
-                android:focusedByDefault="true"
-                app:iconifiedByDefault="false"
-                app:queryHint="Buscar gifs" />
-
-
-            <com.giphy.sdk.ui.views.GiphyGridView
-                android:id="@+id/gifsGridView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:gphCellPadding="@dimen/padding_small"
-                app:gphDirection="horizontal"
-                app:gphShowCheckeredBackground="false"
-                app:gphSpanCount="1" />
-        </LinearLayout>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/styleFontPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/colorGallery"
@@ -72,84 +40,80 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include android:id="@+id/stylesRecycler" layout="@layout/styles_recycler" />
+        <include
+            android:id="@+id/stylesRecycler"
+            layout="@layout/styles_recycler" />
 
-        <RelativeLayout
-            android:animateLayoutChanges="true"
-            android:layout_alignParentBottom="true"
-            android:background="@color/md_black"
-            android:padding="@dimen/padding_default"
-            android:id="@+id/styleEditContainer"
-            android:orientation="horizontal"
+
+        <LinearLayout
+            android:id="@+id/styleOptions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_default"
+            android:layout_toStartOf="@id/saveButton"
+            android:gravity="center|start"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/styleOptions"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/styleSize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@drawable/round_stroke"
+                android:backgroundTint="@color/md_white"
+                android:gravity="center"
+                android:stateListAnimator="@animator/list_animator"
+                android:text="Aa"
+                android:textAlignment="center"
+                android:textColor="@color/md_white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:stateListAnimator="@animator/list_animator"
-                    android:id="@+id/styleSize"
-                    android:text="Aa"
-                    android:textSize="@dimen/low_quote_size"
-                    android:background="@drawable/round_stroke"
-                    android:backgroundTint="@color/md_white"
-                    android:textColor="@color/md_white"
-                    android:textStyle="bold"
-                    android:padding="@dimen/padding_default"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <ImageButton
-                    android:id="@+id/styleAlign"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:layout_gravity="bottom"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:padding="@dimen/padding_default"
-                    android:tint="@color/md_white"
-                    android:src="@drawable/ic_baseline_format_align_center_24"
-                    android:background="@drawable/round_stroke"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/styleFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/round_stroke"
-                    android:backgroundTint="@color/md_white"
-                    android:padding="@dimen/padding_default"
-                    android:stateListAnimator="@animator/list_animator"
-                    android:text="F"
-                    android:textColor="@color/md_white"
-                    android:textSize="@dimen/min_quote_size"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveButton"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="@dimen/radius_default"
-                android:layout_marginHorizontal="@dimen/margin_default"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/styleOptions"
-                android:layout_alignBottom="@id/styleOptions"
+            <ImageButton
+                android:id="@+id/styleAlign"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@drawable/round_stroke"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="@dimen/padding_default"
-                android:text="Salvar"
-                app:backgroundTint="@color/md_white"
-                android:textAlignment="textEnd"
-                android:textColor="@color/md_black" />
-        </RelativeLayout>
+                android:src="@drawable/ic_baseline_format_align_center_24"
+                android:tint="@color/md_white" />
 
+            <ImageButton
+                android:id="@+id/styleWallpaper"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@drawable/round"
+                android:foreground="?attr/selectableItemBackground"
+
+                android:src="@drawable/ic_baseline_gif_24"
+                android:tint="@color/md_white" />
+
+
+        </LinearLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/styleOptions"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="@dimen/padding_big"
+            android:paddingVertical="@dimen/padding_default"
+            android:text="Salvar"
+            android:textAlignment="center"
+            android:textColor="@color/md_black"
+            android:textStyle="bold"
+            app:backgroundTint="@color/md_white"
+            app:cornerRadius="@dimen/radius_default" />
 
     </RelativeLayout>
 </layout>

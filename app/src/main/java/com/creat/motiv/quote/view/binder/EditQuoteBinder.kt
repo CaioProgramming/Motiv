@@ -9,15 +9,14 @@ import androidx.core.widget.addTextChangedListener
 
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
-import com.creat.motiv.quote.beans.QuoteStyle
-import com.creat.motiv.quote.beans.TextSize
+import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.TextSize
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.presenter.QuotePresenter
 
 import com.ilustris.animations.bounce
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
-import com.ilustris.motiv.base.utils.TextUtils
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.utils.autoSizeText

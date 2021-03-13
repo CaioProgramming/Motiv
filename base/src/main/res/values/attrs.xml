@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppTitle">
+        <attr name="title" format="string" />
+
+    </declare-styleable>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+    <attr name="blurOverLayColor" format="color" />
+    <attr name="navblurOverLayColor" format="color" />
+    <attr name="dividerColor" format="color" />
+</resources>

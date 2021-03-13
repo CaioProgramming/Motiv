@@ -2,8 +2,8 @@ package com.ilustris.motiv.manager.ui.home.binder
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import com.creat.motiv.quote.beans.QuoteStyle
-import com.creat.motiv.quote.beans.TextSize
+import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.TextSize
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.beans.Quote

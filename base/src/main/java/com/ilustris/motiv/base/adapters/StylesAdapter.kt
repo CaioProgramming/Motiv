@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.quote.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.StylePagerLayoutBinding
 

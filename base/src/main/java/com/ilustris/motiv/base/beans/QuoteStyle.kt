@@ -1,4 +1,4 @@
-package com.creat.motiv.quote.beans
+package com.ilustris.motiv.base.beans
 
 import com.silent.ilustriscore.core.bean.BaseBean
 
@@ -11,7 +11,7 @@ const val EMPTY_STYLE_ID = "EMPTY_STYLE"
 const val FAVORITES_STYLE_ID = "FAVORITES_STYLE"
 const val NEW_STYLE_ID = "NEW_STYLE"
 const val DEFAULT_TEXT_COLOR = "#ffffff"
-const val DEFAULT_SHADOW_COLOR = "#00ffffff"
+const val DEFAULT_SHADOW_COLOR = "#000000"
 
 enum class TextSize {
     DEFAULT, BIG, SMALL, EXTRASMALL
@@ -57,14 +57,12 @@ data class QuoteStyle(override var id: String = "",
         val adminStyle = QuoteStyle(
                 id = ADMIN_STYLE_ID,
                 font = 12,
-                textColor = DEFAULT_TEXT_COLOR,
                 backgroundURL = "https://media.giphy.com/media/xUOwGcu6wd0cXBj5n2/giphy.gif"
         )
         val newStyle = QuoteStyle(
-            id = NEW_STYLE_ID,
-                font = 11,
-                textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/tQgB6lM6XCle8/giphy.gif"
+                id = NEW_STYLE_ID,
+                font = 6,
+                backgroundURL = "https://media.giphy.com/media/bLdgTj2jCKe9Wf94Km/giphy.gif"
         )
 
     }

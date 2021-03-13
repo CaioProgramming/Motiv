@@ -12,6 +12,7 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
         <item name="android:navigationBarColor">@color/material_black</item>
+        <item name="dividerColor">@color/material_grey800</item>
         <item name="android:statusBarColor">@color/material_black</item>
         <item name="fontFamily">@font/questrial</item>
         <item name="font">@font/questrial</item>
@@ -40,7 +41,7 @@
         <item name="homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
         <item name="titleTextAppearance">@style/ToolbarTitle</item>
         <item name="background">@drawable/bottom_line</item>
-        <item name="paddingStart">@dimen/padding_default</item>
+        <item name="paddingStart">@dimen/default_padding</item>
     </style>
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

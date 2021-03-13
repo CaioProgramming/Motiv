@@ -2,7 +2,7 @@ package com.creat.motiv.quote.view.binder
 
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.databinding.StylePagerBinding
-import com.creat.motiv.quote.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.adapters.StylesAdapter
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.silent.ilustriscore.core.view.BaseView
@@ -50,7 +50,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
 
     fun goToRandomStyle() {
         viewBind.stylesPager.run {
-            adapter?.let {
+            adapter.let {
                 val position = Random.nextInt(0, it.itemCount)
                 setCurrentItem(position, true)
             }

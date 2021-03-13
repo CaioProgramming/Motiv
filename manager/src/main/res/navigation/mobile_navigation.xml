@@ -27,6 +27,7 @@
         android:id="@+id/navigation_styles"
         android:name="com.ilustris.motiv.manager.ui.styles.StylesFragment"
         android:label="Estilos"
+        tools:layout="@layout/styles_recycler"
         />
 
 </navigation>

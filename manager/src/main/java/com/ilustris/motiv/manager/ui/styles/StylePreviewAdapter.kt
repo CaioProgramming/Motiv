@@ -1,14 +1,14 @@
 package com.ilustris.motiv.manager.ui.styles
 
 import android.content.Context
-import android.view.Gravity
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.quote.beans.NEW_STYLE_ID
-import com.creat.motiv.quote.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.NEW_STYLE_ID
+import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.defineTextSize
@@ -16,21 +16,28 @@ import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StyleCardBinding
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 
-class StylePreviewAdapter(private val styles: List<QuoteStyle>, private val isPreview: Boolean = false, val onRequestDelete: (QuoteStyle) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StylePreviewAdapter(private var styles: List<QuoteStyle>, private val isPreview: Boolean = false, val onRequestDelete: (QuoteStyle) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class StylePreviewHolder(private val stylePreviewCardBinding: StylePreviewCardBinding): RecyclerView.ViewHolder(stylePreviewCardBinding.root) {
+    fun updateStyles(list: List<QuoteStyle>) {
+        styles = list
+        notifyDataSetChanged()
+    }
+
+    inner class StylePreviewHolder(private val stylePreviewCardBinding: StylePreviewCardBinding) : RecyclerView.ViewHolder(stylePreviewCardBinding.root) {
 
         fun bind(quoteStyle: QuoteStyle) {
 
             stylePreviewCardBinding.run {
                 val context: Context = root.context
                 Glide.with(context).load(quoteStyle.backgroundURL).centerCrop().into(styleImage)
-                styleText.typeface = FontUtils.getTypeFace(context,quoteStyle.font)
-                styleText.defineTextSize(quoteStyle.textSize)
-                styleText.defineTextAlignment(quoteStyle.textAlignment)
-                root.setOnLongClickListener {
+                styleText.run {
+                    typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+                    defineTextSize(quoteStyle.textSize)
+                    defineTextAlignment(quoteStyle.textAlignment)
+                    setTextColor(Color.parseColor(quoteStyle.textColor))
+                }
+                root.setOnClickListener {
                     onRequestDelete.invoke(quoteStyle)
-                    false
                 }
             }
         }
@@ -44,15 +51,20 @@ class StylePreviewAdapter(private val styles: List<QuoteStyle>, private val isPr
             stylePreviewCardBinding.run {
                 val context: Context = root.context
                 Glide.with(context).load(quoteStyle.backgroundURL).centerCrop().into(styleImage)
-                styleText.typeface = FontUtils.getTypeFace(context,quoteStyle.font)
-                styleText.defineTextSize(quoteStyle.textSize)
-                styleText.defineTextAlignment(quoteStyle.textAlignment)
-                root.setOnLongClickListener {
+                styleText.run {
+                    typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+                    defineTextSize(quoteStyle.textSize)
+                    defineTextAlignment(quoteStyle.textAlignment)
+                    setTextColor(Color.parseColor(quoteStyle.textColor))
+                }
+
+                root.setOnClickListener {
                     onRequestDelete.invoke(quoteStyle)
-                    false
                 }
                 if (quoteStyle.id == NEW_STYLE_ID) {
                     styleText.text = "Criar novo estilo"
+                } else {
+                    styleText.text = "Motiv"
                 }
             }
         }

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import com.creat.motiv.quote.beans.TextAlignment
-import com.creat.motiv.quote.beans.TextSize
+import com.ilustris.motiv.base.beans.TextAlignment
+import com.ilustris.motiv.base.beans.TextSize
 import com.google.android.material.snackbar.Snackbar
 import com.ilustris.motiv.base.R
 
@@ -67,10 +67,10 @@ fun TextView.autoSizeText(maxSize: Int) {
 
 fun TextView.defineTextSize(textSize: TextSize) {
         val maxSize = when (textSize) {
-            com.creat.motiv.quote.beans.TextSize.DEFAULT -> R.dimen.default_quote_size
-            com.creat.motiv.quote.beans.TextSize.BIG -> R.dimen.big_quote_size
-            com.creat.motiv.quote.beans.TextSize.SMALL -> R.dimen.low_quote_size
-            com.creat.motiv.quote.beans.TextSize.EXTRASMALL -> R.dimen.min_quote_size
+            TextSize.DEFAULT -> R.dimen.default_quote_size
+            TextSize.BIG -> R.dimen.big_quote_size
+            TextSize.SMALL -> R.dimen.low_quote_size
+            TextSize.EXTRASMALL -> R.dimen.min_quote_size
         }
         autoSizeText(maxSize)
 }

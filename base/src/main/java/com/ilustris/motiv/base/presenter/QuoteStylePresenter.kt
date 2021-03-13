@@ -1,6 +1,6 @@
 package com.ilustris.motiv.base.presenter
 
-import com.creat.motiv.quote.beans.*
+import com.ilustris.motiv.base.beans.*
 import com.ilustris.motiv.base.model.QuoteStyleModel
 import com.silent.ilustriscore.core.presenter.BasePresenter
 import com.silent.ilustriscore.core.view.BaseView

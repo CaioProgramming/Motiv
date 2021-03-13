@@ -164,12 +164,14 @@
 
             <ImageView
                 android:id="@+id/adminBackground"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:transitionName="@string/quote_transaction" />
 
             <TextView
                 android:id="@+id/adminText"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
