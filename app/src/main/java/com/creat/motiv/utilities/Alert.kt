@@ -10,7 +10,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.DefaultDialogBinding
 import com.creat.motiv.databinding.ProfilepicselectBinding
 import com.ilustris.motiv.base.beans.Pics
-import com.creat.motiv.profile.cover.view.CoversBinder
+import com.creat.motiv.profile.cover.CoversBinder
 import com.creat.motiv.quote.view.binder.LikesBinder
 import com.creat.motiv.profile.icon.view.ProfilePicSelectBinder
 import com.google.android.material.bottomsheet.BottomSheetDialog

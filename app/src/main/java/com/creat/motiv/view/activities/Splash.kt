@@ -93,15 +93,6 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
         }
     }
 
-    private fun begin(exists: Boolean) {
-        if (!exists) {
-            val i = Intent(this, NewUser::class.java)
-            startActivity(i)
-            this.finish()
-        } else {
-
-        }
-    }
 
 
 }

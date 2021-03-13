@@ -5,8 +5,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application android:theme="@style/Motiv.Theme">
-        <activity android:name=".ui.styles.NewStyleActivity"></activity>
+    <application
+        android:name="com.ilustris.motiv.base.MotivApplication"
+        android:theme="@style/Motiv.Theme">
+        <activity android:name=".ui.styles.NewStyleActivity" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".ManagerSplash" />
     </application>

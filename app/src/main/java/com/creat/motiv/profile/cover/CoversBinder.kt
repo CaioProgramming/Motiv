@@ -1,4 +1,4 @@
-package com.creat.motiv.profile.cover.view
+package com.creat.motiv.profile.cover
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

@@ -16,7 +16,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".profile.icon.PickIconActivity" />
         <activity android:name=".view.activities.AboutActivity" />
         <activity
             android:name=".quote.view.EditQuoteActivity"
@@ -59,7 +58,6 @@
         <activity
             android:name="com.ilustris.motiv.manager.ManagerActivity"
             android:label="Motiv+" />
-        <activity android:name=".view.activities.NewUser" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
