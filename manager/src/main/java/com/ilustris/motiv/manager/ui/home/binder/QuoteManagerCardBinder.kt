@@ -14,6 +14,7 @@ import com.ilustris.motiv.base.utils.TextUtils
 import com.ilustris.motiv.base.utils.autoSizeText
 import com.ilustris.motiv.base.utils.FontUtils
 import com.silent.ilustriscore.core.utilities.gone
+import com.silent.ilustriscore.core.utilities.invisible
 import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
 
@@ -76,7 +77,7 @@ class QuoteManagerCardBinder(
             shareButton.gone()
             editButton.gone()
             like.gone()
-            likers.gone()
+            likers.invisible()
         }
     }
 
