@@ -8,7 +8,7 @@ object FontUtils {
             FontObject("Amatic", "fonts/AmaticSC-Bold.ttf"),
             FontObject("Bangers", "fonts/Bangers-Regular.ttf"),
             FontObject("Bigelow", "fonts/BigelowRules-Regular.ttf"),
-            FontObject("Bungee Shade", "fonts/BungeeShade-Regular.ttf"),
+            FontObject("Exo-Light", "fonts/Exo-Light.ttf"),
             FontObject("Caveat", "fonts/Caveat-Medium.ttf"),
             FontObject("Cormorant", "fonts/CormorantUnicase-Regular.ttf"),
             FontObject("Cutive Mono", "fonts/CutiveMono-Regular.ttf"),

@@ -11,6 +11,7 @@ const val FAVORITE_QUOTE = "FAVORITE_QUOTE"
 const val SEARCH_QUOTE = "SEARCH_QUOTE"
 const val SPLASH_QUOTE = "SPLASH_QUOTE"
 const val ADMIN_QUOTE = "ADMIN_QUOTE"
+const val COMPANY_QUOTE = "COMPANY_QUOTE"
 
 data class Quote(
         var quote: String = "",
@@ -34,5 +35,6 @@ data class Quote(
         fun searchQuote(): Quote = Quote(id = SEARCH_QUOTE, style = SEARCH_STYLE_ID, quote = "Hora de buscar coisas milaborantes...")
         fun splashQuote(): Quote = Quote(id = SPLASH_QUOTE, style = SPLASH_STYLE_ID, quote = "Motiv", author = "O melhor app do mundo...")
         fun adminQuote(): Quote = Quote(id = ADMIN_QUOTE, style = ADMIN_STYLE_ID, quote = "Motiv +", author = "Bem-vindo ao motiv+, você tem acesso a todas as frases e tem o poder de fazer o que quiser com elas. Ah e também você pode adicionar novos ícones e até estilos novos")
+        fun companyQuote(): Quote = Quote(id = COMPANY_QUOTE, style = COMPANY_STYLE_ID, quote = "Ilustris")
     }
 }

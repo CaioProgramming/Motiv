@@ -6,6 +6,7 @@ private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/cmNOuH
 const val DEFAULT_STYLE_ID = "DEFAULT_STYLE"
 const val SPLASH_STYLE_ID = "SPLASH_STYLE"
 const val ADMIN_STYLE_ID = "ADMIN_STYLE"
+const val COMPANY_STYLE_ID = "COMPANY_STYLE"
 const val SEARCH_STYLE_ID = "SEARCH_STYLE"
 const val EMPTY_STYLE_ID = "EMPTY_STYLE"
 const val FAVORITES_STYLE_ID = "FAVORITES_STYLE"
@@ -63,6 +64,11 @@ data class QuoteStyle(override var id: String = "",
                 id = NEW_STYLE_ID,
                 font = 6,
                 backgroundURL = "https://media.giphy.com/media/bLdgTj2jCKe9Wf94Km/giphy.gif"
+        )
+        val companyStyle = QuoteStyle(
+                id = COMPANY_STYLE_ID,
+                font = 2,
+                backgroundURL = "https://media.giphy.com/media/3ohzdVKKcOOUQfcQWk/giphy.gif"
         )
 
     }

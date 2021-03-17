@@ -12,8 +12,9 @@
         android:layout_width="match_parent">
 
         <com.google.android.material.card.MaterialCardView
+            android:layout_above="@id/mainBottom"
             android:layout_height="match_parent"
-            android:layout_above="@id/playerView"
+            android:animateLayoutChanges="true"
             android:layout_margin="@dimen/margin_small"
             app:cardCornerRadius="@dimen/radius_default"
             android:layout_width="match_parent"
@@ -29,26 +30,43 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-        <include
-            android:id="@+id/playerView"
-            layout="@layout/player_layout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_above="@id/nav_view" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
+        <LinearLayout
+            android:id="@+id/mainBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_black"
             android:layout_alignParentBottom="true"
-            app:elevation="0dp"
-            app:itemIconTint="@color/selected_navigation"
-            app:itemRippleColor="@color/colorAccent"
-            app:itemTextColor="@color/selected_navigation"
-            app:itemIconSize="20dp"
-            app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/navigation_menu" />
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding_small"
+                android:text="Arrasta para cima para ver mais frases 🤪"
+                android:textAlignment="center" />
+
+            <include
+                android:id="@+id/playerView"
+                layout="@layout/player_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_black"
+                app:elevation="0dp"
+                app:itemIconSize="20dp"
+                app:itemIconTint="@color/selected_navigation"
+                app:itemRippleColor="@color/colorAccent"
+                app:itemTextColor="@color/selected_navigation"
+                app:labelVisibilityMode="unlabeled"
+                app:menu="@menu/navigation_menu" />
+        </LinearLayout>
 
 
         <View

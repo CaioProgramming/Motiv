@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
@@ -24,8 +25,13 @@ import com.ilustris.motiv.base.Tools
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -45,7 +51,16 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(10000)
+            GlobalScope.launch(Dispatchers.Main) {
+                message.fadeOut()
+            }
+        }
 
+    }
 
     private fun setupNavigation() {
         val navController = findNavController(R.id.nav_host_fragment)
@@ -53,7 +68,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)

@@ -14,8 +14,7 @@
         android:background="@color/md_black"
         android:orientation="horizontal"
         android:padding="@dimen/padding_small"
-        android:visibility="gone"
-        tools:showIn="@layout/activity_main">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/playing_animation"

@@ -24,6 +24,7 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
     fun playRadio(radio: Radio) {
         Handler().postDelayed({
             mediaPlayer?.stop()
+            viewBind.playingAnimation.pauseAnimation()
             mediaPlayer = MediaPlayer().apply {
                 val uri = Uri.parse(radio.url)
                 setAudioStreamType(AudioManager.STREAM_MUSIC)
@@ -46,6 +47,9 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
                     mediaPlayer.stop()
                     viewBind.playingAnimation.pauseAnimation()
                     false
+                }
+                setOnCompletionListener {
+                    viewBind.playingAnimation.cancelAnimation()
                 }
             }
         }, 2000)
