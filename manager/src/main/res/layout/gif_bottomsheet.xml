@@ -23,48 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/padding_default"
-            android:text="Tem deseja que deseja prosseguir com?"
+            android:text="Gostou desse gif? Clique em confirmar para adicionar como um plano de fundo do app."
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-        <include android:id="@+id/picView"
-            layout="@layout/pics_layout"/>
+        <include
+            android:id="@+id/picView"
+            layout="@layout/pics_layout" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelButton"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/material_grey900"
-                android:paddingHorizontal="@dimen/padding_big"
-                android:paddingVertical="@dimen/padding_default"
-                android:text="Cancelar"
-                android:textAllCaps="false"
-                android:textColor="@color/material_grey200"
-                app:backgroundTint="@color/material_grey400"
-                app:cornerRadius="@dimen/radius_default"
-                app:elevation="0dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/okButton"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_default"
-                android:paddingHorizontal="@dimen/padding_big"
-                android:paddingVertical="@dimen/padding_default"
-                android:text="Confirmar"
-                android:textAllCaps="false"
-                android:textColor="@color/md_white"
-                app:backgroundTint="@color/md_blue500"
-                app:cornerRadius="@dimen/radius_default"
-                app:elevation="0dp" />
-
-
-        </LinearLayout>
+        <include
+            android:id="@+id/dialog_buttons"
+            layout="@layout/horizontal_buttons_layout" />
     </LinearLayout>
 </layout>

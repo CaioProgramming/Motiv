@@ -7,10 +7,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.ilustris.motiv.base.beans.User
 import com.silent.ilustriscore.core.model.BaseModel
-import com.silent.ilustriscore.core.model.DTOMessage
+import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.presenter.BasePresenter
-import com.silent.ilustriscore.core.utilities.ErrorType
-import com.silent.ilustriscore.core.utilities.MessageType
 
 class UserModel(val presenter: BasePresenter<User>) : BaseModel<User>(presenter) {
 
@@ -18,17 +17,14 @@ class UserModel(val presenter: BasePresenter<User>) : BaseModel<User>(presenter)
 
 
     fun updateUserPic(pic: Pics) {
-        if (currentUser == null) {
-            presenter.modelCallBack(DTOMessage("Usuário desconectado", MessageType.ERROR, ErrorType.USERNOTFOUND))
-            return
-        }
+
 
         val profileChangeRequest = UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(pic.uri)).build()
         currentUser?.updateProfile(profileChangeRequest)?.addOnCompleteListener {
             if (it.isSuccessful) {
                 editField(pic.uri, currentUser!!.uid, "picurl")
             } else {
-                presenter.modelCallBack(DTOMessage("Erro ao processar dados", MessageType.ERROR, ErrorType.UPDATE_ERROR))
+                presenter.errorCallBack(DataException("Ocorreu um erro ao atualizar os dados do usuário", ErrorType.UPDATE))
             }
         }
 

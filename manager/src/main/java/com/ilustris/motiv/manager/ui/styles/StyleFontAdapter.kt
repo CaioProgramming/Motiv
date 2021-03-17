@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.animations.bounce
+import com.ilustris.animations.fadeIn
+import com.ilustris.animations.popIn
 import com.ilustris.motiv.base.beans.DEFAULT_TEXT_COLOR
 import com.ilustris.motiv.base.beans.TextAlignment
 import com.ilustris.motiv.base.beans.TextSize
@@ -46,7 +48,7 @@ class StyleFontAdapter : RecyclerView.Adapter<StyleFontAdapter.FontHolder>() {
                 defineTextSize(currentTextSize)
                 typeface = FontUtils.getTypeFace(context, adapterPosition)
                 setTextColor(Color.parseColor(styleTextColor))
-                bounce()
+                fadeIn()
             }
 
         }

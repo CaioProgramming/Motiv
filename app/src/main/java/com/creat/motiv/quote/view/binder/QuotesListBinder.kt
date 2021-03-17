@@ -16,7 +16,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boolean = true) : BaseView<Quote>(useInit) {
+class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boolean = true) : BaseView<Quote>() {
 
 
     override val presenter = QuotePresenter(this)
@@ -104,7 +104,9 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
             } else {
                 quoteRecyclerAdapter?.addData(quotesList)
             }
+
         }
+
 
     }
 

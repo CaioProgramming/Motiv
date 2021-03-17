@@ -2,7 +2,7 @@ package com.ilustris.motiv.base.beans
 
 import com.silent.ilustriscore.core.bean.BaseBean
 
-private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/jaOXKCxtBPLieRLI0c/giphy.gif"
+private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/cmNOuHOgTq3MODgSeP/giphy.gif"
 const val DEFAULT_STYLE_ID = "DEFAULT_STYLE"
 const val SPLASH_STYLE_ID = "SPLASH_STYLE"
 const val ADMIN_STYLE_ID = "ADMIN_STYLE"
@@ -52,7 +52,7 @@ data class QuoteStyle(override var id: String = "",
                 id = SPLASH_STYLE_ID,
                 font = 9,
                 textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/3o7aDcrsww5Ybp18hq/giphy.gif"
+                backgroundURL = "https://media.giphy.com/media/ij1WvlilscRFoIRn7u/giphy.gif"
         )
         val adminStyle = QuoteStyle(
                 id = ADMIN_STYLE_ID,

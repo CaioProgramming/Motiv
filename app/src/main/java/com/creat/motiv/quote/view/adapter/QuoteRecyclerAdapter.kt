@@ -28,7 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class QuoteRecyclerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var viewList = quoteList.toList()
     private val quoteView = 0

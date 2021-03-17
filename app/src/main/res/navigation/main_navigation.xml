@@ -18,13 +18,6 @@
         tools:layout="@layout/fragment_profile">
 
     </fragment>
-    <fragment
-        android:id="@+id/navigation_add"
-        android:name="com.creat.motiv.quote.view.NewQuoteFragment"
-        android:label="Nova publicação"
-        tools:layout="@layout/newquotepopup">
-
-    </fragment>
 
 
     <fragment

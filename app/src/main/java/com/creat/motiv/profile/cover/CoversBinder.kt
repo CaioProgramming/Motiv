@@ -20,7 +20,6 @@ class CoversBinder(override val viewBind: ProfilepicselectBinding, private val o
 
     override fun initView() {
         viewBind.dialogTitle.text = "Selecione uma Capa de perfil"
-        viewBind.closeButton.gone()
         presenter.loadData()
     }
 

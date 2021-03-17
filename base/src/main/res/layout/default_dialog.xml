@@ -13,6 +13,7 @@
         app:cardElevation="0dp">
 
         <LinearLayout
+            android:padding="@dimen/padding_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,45 +25,49 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:importantForAccessibility="no"
-                android:scaleType="centerInside"
-                tools:src="@drawable/ic_broken_link" />
+                tools:src="@drawable/ic_saturn_and_other_planets_primary" />
+
+            <TextView
+                android:id="@+id/titleTextView"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/padding_default"
+                tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
             <TextView
                 android:id="@+id/messageTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:padding="10dp"
-                android:textAlignment="center"
+                android:paddingVertical="@dimen/padding_default"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:gravity="start"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/confirm_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    android:paddingVertical="@dimen/padding_small"
+                    android:text="Confirmar"
+                    android:textColor="@color/md_white"
+                    app:elevation="0dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/cancel_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="Cancelar"
                     android:textColor="?android:textColorHint"
                     android:textStyle="bold" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/confirm_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="0dp"
-                    android:padding="16dp"
-                    android:textStyle="bold"
-                    app:elevation="0dp"
-                    tools:text="Tentar novamente" />
 
 
             </LinearLayout>

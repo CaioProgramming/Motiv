@@ -3,7 +3,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/previewCard"
+        android:id="@+id/styleCard"
         android:background="@color/colorPrimaryDark"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@animator/list_animator"
@@ -20,6 +20,7 @@
             android:id="@+id/styleText"
             android:gravity="center"
             android:textAlignment="center"
+            android:transitionName="@string/style_text_transtition"
             android:text="Motiv"
             android:textSize="@dimen/default_quote_size"
             android:layout_width="match_parent"

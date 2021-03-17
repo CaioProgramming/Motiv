@@ -91,7 +91,7 @@
                     android:text="@{advertise.body}"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/md_white"
                     android:textSize="@dimen/min_quote_size"
                     android:textStyle="bold"
                     android:typeface="normal"
@@ -107,7 +107,7 @@
                     android:text="@{advertise.headline}"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/md_white"
                     tools:text="Ilustris" />
 
                 <RatingBar
@@ -133,10 +133,11 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
 
         <ImageView
+            android:alpha="0.2"
             android:id="@+id/advertiseGif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.5"
+            tools:visibility="gone"
             android:scaleType="center" />
     </RelativeLayout>
 

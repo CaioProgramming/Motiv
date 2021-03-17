@@ -6,80 +6,90 @@
 
 
     <RelativeLayout
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/stylesPager"
-            layout="@layout/style_pager" />
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_above="@id/save_quote_button"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_marginVertical="@dimen/padding_big"
-            android:gravity="center"
-            android:id="@+id/quoteCard"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_default"
-            android:stateListAnimator="@animator/list_animator"
-            android:transitionName="@string/quote_transaction">
+            android:layout_margin="@dimen/margin_small"
+            app:cardCornerRadius="@dimen/radius_default"
+            app:cardElevation="0dp">
 
-            <EditText
-                android:id="@+id/quoteTextView"
+            <include
+                android:id="@+id/stylesPager"
+                layout="@layout/style_pager" />
+
+            <LinearLayout
+                android:id="@+id/quoteCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                android:autoSizeMinTextSize="@dimen/min_quote_size"
-                android:autoSizeTextType="uniform"
-                android:background="@color/transparent"
-                android:breakStrategy="high_quality"
-                android:hint="@string/quote"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:maxLength="500"
-                android:textAlignment="center"
-                android:textSize="@dimen/default_quote_size"
-                android:textStyle="bold"
-                android:typeface="normal"
-                tools:text="Change is a powerful thing, I feel it coming to me." />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_default"
+                android:stateListAnimator="@animator/list_animator"
+                android:transitionName="@string/quote_transaction">
 
-            <EditText
-                android:id="@+id/author_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                android:autoSizeMinTextSize="@dimen/min_quote_size"
-                android:autoSizeTextType="uniform"
-                android:backgroundTint="@color/transparent"
-                android:hint="@string/author"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="italic"
-                tools:textColor="@color/white" />
+                <EditText
+                    android:id="@+id/quoteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                    android:autoSizeMinTextSize="@dimen/min_quote_size"
+                    android:autoSizeTextType="uniform"
+                    android:background="@color/transparent"
+                    android:breakStrategy="high_quality"
+                    android:hint="@string/quote"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:maxLength="500"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/default_quote_size"
+                    android:textStyle="bold"
+                    android:typeface="normal"
+                    tools:text="Change is a powerful thing, I feel it coming to me." />
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/author_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                    android:autoSizeMinTextSize="@dimen/min_quote_size"
+                    android:autoSizeTextType="uniform"
+                    android:backgroundTint="@color/transparent"
+                    android:hint="@string/author"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="italic"
+                    tools:textColor="@color/white" />
 
-        <TextView
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/save_quote_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:padding="@dimen/default_padding"
             android:text="@string/save_quote_button"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             android:textStyle="bold"
-            android:background="@drawable/fade_gradient_inversed"
+            android:textColor="@color/white"
             android:foreground="?selectableItemBackground"
             android:stateListAnimator="@animator/list_animator"
-            android:textColor="@color/colorPrimaryDark"
+            app:backgroundTint="@color/colorPrimaryDark"
             app:cornerRadius="@dimen/default_radius" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator

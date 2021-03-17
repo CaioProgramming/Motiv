@@ -16,6 +16,7 @@ import com.ilustris.motiv.base.beans.TextSize
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.creat.motiv.quote.view.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
+import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
@@ -78,7 +79,7 @@ class QuoteCardBinder(
         quoteTextView.setOnLongClickListener {
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (vibrator.hasVibrator()) {
-                val mVibratePattern = longArrayOf(50, 200)
+                val mVibratePattern = longArrayOf(60, 60)
                 vibrator.vibrate(mVibratePattern, -1)
             }
             showSnackBar(context, "Copiado para área de transferência", rootView = root)

@@ -11,15 +11,18 @@ import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
+import com.creat.motiv.profile.cover.CoverPickerDialog
+import com.creat.motiv.profile.icon.view.IconPickerDialog
 import com.creat.motiv.utilities.Alert
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
-import com.ilustris.motiv.base.DialogStyles
+import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.beans.QuoteStyle.Companion.adminStyle
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.utils.activity
 import com.ilustris.motiv.manager.ManagerActivity
 import com.silent.ilustriscore.core.view.BaseView
 
@@ -63,18 +66,20 @@ class SettingsBinder(
             userpic.run {
                 Glide.with(context).load(data.picurl).into(this)
                 setOnClickListener {
-                    Alert(context as Activity, DialogStyles.BOTTOM_NO_BORDER).picturePicker(data.admin) {
-                        presenter.changeProfilePic(it)
-                    }
+                    IconPickerDialog(context) { pic ->
+                        presenter.changeProfilePic(pic)
+                    }.buildDialog()
+
                 }
             }
             userBackground.run {
                 Glide.with(context).asGif().centerCrop().load(data.cover).into(this)
                 setOnClickListener {
-                    Alert(context as Activity, DialogStyles.BOTTOM_NO_BORDER).coverPicker {
-                        data.cover = it
+                    CoverPickerDialog(context) { cover ->
+                        data.cover = cover.url
                         presenter.updateData(data)
-                    }
+                    }.buildDialog()
+
                 }
             }
 
@@ -107,14 +112,7 @@ class SettingsBinder(
 
             singOutButton.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
-                Alert(context as Activity).showAlert(
-                        message = "Você se desconectou, faça login novamente para usar o app",
-                        buttonMessage = "Ok",
-                        okClick = {
-                            (context as AppCompatActivity?)?.finish()
-                        },
-                        icon = R.drawable.ic_astronaut
-                )
+                (context as AppCompatActivity?)?.finish()
             }
         }
     }

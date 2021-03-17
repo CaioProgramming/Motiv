@@ -1,6 +1,7 @@
 package com.ilustris.motiv.manager.ui.styles
 
-import android.graphics.Color
+import android.view.LayoutInflater
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
@@ -19,22 +20,30 @@ import com.giphy.sdk.ui.GPHSettings
 import com.giphy.sdk.ui.themes.GPHTheme
 import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ilustris.animations.fadeIn
+import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.utils.activity
+import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.FragmentStylesBinding
 import com.silent.ilustriscore.core.model.DTOMessage
+import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.view.BaseView
 
-class StyleBinder(override val viewBind: FragmentStylesBinding, val fragmentManager: FragmentManager) : BaseView<QuoteStyle>() {
+class NewStyleBinder(override val viewBind: FragmentStylesBinding, val fragmentManager: FragmentManager) : BaseView<QuoteStyle>() {
     override val presenter = QuoteStylePresenter(this)
 
     var style = QuoteStyle()
     val fontAdapter = StyleFontAdapter()
+    var previewAdapter: StylePreviewAdapter? = null
 
     override fun initView() {
 
@@ -56,27 +65,14 @@ class StyleBinder(override val viewBind: FragmentStylesBinding, val fragmentMana
                 }
                 updateStyle()
             }
+            styleBackground.run {
+                viewBind.styleBackground.loadGif(style.backgroundURL)
+                setOnClickListener {
+                    openGiphyDialog()
+                }
+            }
             styleWallpaper.setOnClickListener {
-                GiphyDialogFragment.newInstance(GPHSettings(GridType.waterfall, GPHTheme.Automatic)).apply {
-                    gifSelectionListener = object : GiphyDialogFragment.GifSelectionListener {
-                        override fun didSearchTerm(term: String) {
-
-                        }
-
-                        override fun onDismissed(selectedContentType: GPHContentType) {
-
-                        }
-
-                        override fun onGifSelected(media: Media, searchTerm: String?, selectedContentType: GPHContentType) {
-                            media.images.downsizedMedium?.gifUrl?.let {
-                                style.backgroundURL = it
-                                updateStyle()
-                            }
-                        }
-
-                    }
-                }.show(fragmentManager, "GIPHYDIALOG")
-
+                openGiphyDialog()
             }
             saveButton.setOnClickListener {
                 if (style.id.isNotEmpty()) {
@@ -94,32 +90,99 @@ class StyleBinder(override val viewBind: FragmentStylesBinding, val fragmentMana
                     }
                 })
                 TabLayoutMediator(viewBind.fontsTabs, this) { tab, position ->
-                    tab.icon = ContextCompat.getDrawable(context, R.drawable.dot)
-                    //this.setCurrentItem(position,true)
+                    val view = LayoutInflater.from(context).inflate(R.layout.tab_font_view, null, false)
+                    tab.customView = view
+                    tab.view.findViewById<TextView>(R.id.fontText).typeface = FontUtils.getTypeFace(context, position)
                 }.attach()
             }
+            fontsTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.customView?.findViewById<TextView>(R.id.fontText)?.run {
+                        setTextColor(ContextCompat.getColor(context, R.color.material_white))
+                        setOnClickListener {
+                            it.isSelected = true
+                        }
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    tab?.customView?.findViewById<TextView>(R.id.fontText)?.run {
+                        setTextColor(ContextCompat.getColor(context, R.color.lwhite))
+                    }
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
+
             getColorGallery()
         }
         presenter.loadData()
         updateStyle()
     }
 
+    private fun openGiphyDialog() {
+        GiphyDialogFragment.newInstance(GPHSettings(GridType.waterfall, GPHTheme.Automatic)).apply {
+            gifSelectionListener = object : GiphyDialogFragment.GifSelectionListener {
+                override fun didSearchTerm(term: String) {
+
+                }
+
+                override fun onDismissed(selectedContentType: GPHContentType) {
+
+                }
+
+                override fun onGifSelected(media: Media, searchTerm: String?, selectedContentType: GPHContentType) {
+                    media.images.downsizedMedium?.gifUrl?.let {
+                        style.backgroundURL = it
+                        Glide.with(this@NewStyleBinder.context).load(style.backgroundURL).into(viewBind.styleBackground)
+                        updateStyle()
+                    }
+                }
+
+            }
+        }.show(fragmentManager, "GIPHYDIALOG")
+
+    }
+
     override fun getCallBack(dtoMessage: DTOMessage) {
         super.getCallBack(dtoMessage)
-        if (dtoMessage.operationType == OperationType.DATA_SAVED) {
-            showSnackBar(context, "Estilo Salvo com sucesso", ContextCompat.getColor(context, R.color.material_purple900), rootView = viewBind.root)
+        if (dtoMessage.operationType == OperationType.DATA_SAVED || dtoMessage.operationType == OperationType.DATA_UPDATED) {
+            DefaultAlert(context, "Ótimo!", "O estilo foi salvo com sucesso!", okClick = {
+                context.activity()?.finish()
+            }, cancelClick = {
+                context.activity()?.finish()
+            }).buildDialog()
+
+            style = QuoteStyle.emptyStyle
+            updateStyle()
         }
+    }
+
+    override fun error(dataException: DataException) {
+        super.error(dataException)
+        when (dataException.code) {
+            ErrorType.UPDATE -> showSnackBar(context, "Ocorreu um erro ao atualizar o estilo", rootView = viewBind.styleContainer)
+            ErrorType.SAVE -> showSnackBar(context, "Ocorreu um erro ao atualizar o estilo", rootView = viewBind.styleContainer)
+            else -> showSnackBar(context, "Ocorreu um erro desconhecido", rootView = viewBind.styleContainer)
+        }
+
     }
 
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
         viewBind.stylesRecycler.stylesRecycler.run {
-            adapter = StylePreviewAdapter(list, true) {
-                style = it
-                updateStyle()
-                viewBind.fontsTabs.getTabAt(it.font)?.select()
-            }
+            previewAdapter = StylePreviewAdapter(list, true, style.id, ::getStyleFromPreview)
+            adapter = previewAdapter
         }
+    }
+
+    private fun getStyleFromPreview(selectedStyle: QuoteStyle) {
+        style = selectedStyle
+        updateStyle()
+        viewBind.fontsTabs.getTabAt(selectedStyle.font)?.select()
+        viewBind.styleBackground.loadGif(style.backgroundURL)
     }
 
     private fun getColorGallery() {
@@ -131,18 +194,6 @@ class StyleBinder(override val viewBind: FragmentStylesBinding, val fragmentMana
 
     fun updateStyle() {
         viewBind.run {
-            Glide.with(context).asGif().centerCrop().load(style.backgroundURL).addListener(object : RequestListener<GifDrawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    styleBackground.setImageDrawable(resource)
-                    styleBackground.fadeIn()
-                    return false
-                }
-
-            }).into(styleBackground)
             styleSize.text = when (style.textSize) {
                 TextSize.DEFAULT -> "Aa"
                 TextSize.BIG -> "AA"
@@ -162,6 +213,7 @@ class StyleBinder(override val viewBind: FragmentStylesBinding, val fragmentMana
                 updateTextColor(style.textColor)
                 updateTextSize(style.textSize)
             }
+            previewAdapter?.setSelectedStyle(style.id)
 
         }
     }

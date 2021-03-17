@@ -21,8 +21,7 @@
             android:textAlignment="center"
             style="@style/ToolbarTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Selecione um ícone de perfil" />
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_below="@id/dialog_title"
@@ -54,18 +53,6 @@
             app:trackCornerRadius="@dimen/default_radius"
             app:trackThickness="5dp" />
 
-        <ImageButton
-            android:id="@+id/close_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignTop="@id/dialog_title"
-            android:layout_alignBottom="@id/dialog_title"
-            android:layout_centerInParent="true"
-            android:layout_toStartOf="@id/dialog_title"
-            android:background="@color/transparent"
-            android:contentDescription="Botão fechar"
-            android:src="@drawable/ic_close"
-            android:tint="@color/white" />
     </RelativeLayout>
 
 </layout>

@@ -11,9 +11,7 @@
         android:id="@+id/stylesRecycler"
         tools:listitem="@layout/style_preview_card"
         android:orientation="horizontal"
-        android:layout_above="@+id/styleOptions"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:showIn="@layout/fragment_styles" />
+        android:layout_height="wrap_content" />
 </layout>

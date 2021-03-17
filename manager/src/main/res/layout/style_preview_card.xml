@@ -9,9 +9,10 @@
         android:layout_height="70dp"
         android:layout_margin="@dimen/margin_small"
         android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@animator/list_animator"
+        android:checkable="true"
+        android:stateListAnimator="@animator/selected_animator"
         app:cardBackgroundColor="?attr/colorPrimaryDark"
-        app:cardCornerRadius="@dimen/radius_default"
+        app:cardCornerRadius="@dimen/radius_small"
         app:cardElevation="0dp">
 
         <ImageView
@@ -25,6 +26,7 @@
             android:id="@+id/styleText"
             android:gravity="center"
             android:textAlignment="center"
+            android:transitionName="@string/style_text_transtition"
             android:text="Motiv"
             android:textSize="@dimen/default_quote_size"
             android:layout_width="match_parent"

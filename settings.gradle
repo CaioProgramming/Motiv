@@ -1,5 +1,3 @@
 include ':base'
 include ':manager'
-include ':core'
-include ':animations'
 include ':app'

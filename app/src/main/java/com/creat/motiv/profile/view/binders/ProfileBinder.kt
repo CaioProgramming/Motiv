@@ -12,7 +12,7 @@ class ProfileBinder(override val context: Context,
                     val user: User? = null) : BaseView<User>() {
 
     override val presenter = UserPresenter(this)
-    var quotesListBinder: QuotesListBinder = QuotesListBinder(viewBind.quotesView, useInit = false)
+    var quotesListBinder: QuotesListBinder = QuotesListBinder(viewBind.quotesView)
 
 
     override fun initView() {

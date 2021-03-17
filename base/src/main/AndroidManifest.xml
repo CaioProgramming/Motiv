@@ -4,4 +4,5 @@
     package="com.ilustris.motiv.base">
 
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

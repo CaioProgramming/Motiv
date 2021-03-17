@@ -13,11 +13,6 @@
         android:title="Busca"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/navigation_add"
-        android:icon="@drawable/ic_add"
-        android:title="Novo post"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/navigation_profile"

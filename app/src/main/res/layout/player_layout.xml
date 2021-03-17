@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/playerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_black"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_small"
+        android:visibility="gone"
+        tools:showIn="@layout/activity_main">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/playing_animation"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:stateListAnimator="@animator/list_animator"
+            app:lottie_colorFilter="@color/colorAccent"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/planet_spinning"
+            app:lottie_repeatMode="reverse"
+            app:lottie_scale="8" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reproduzindo" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/radiosPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -5,21 +5,26 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ilustris.motiv.base.MotivApplication
 import com.creat.motiv.R
+import com.creat.motiv.databinding.PlayerLayoutBinding
+import com.creat.motiv.quote.view.EditQuoteActivity
+import com.creat.motiv.radio.PlayerBinder
 import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.ilustris.motiv.base.Tools
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ilustris.motiv.base.dialog.DefaultAlert
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -27,57 +32,26 @@ import java.util.*
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     internal var a: Alert? = null
-    internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
-
-    private val isNetworkAvailable: Boolean
-        get() {
-            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetworkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected
-        }
+    var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
         if (savedInstanceState == null) {
             setupNavigation()
+            PlayerBinder(PlayerLayoutBinding.bind(playerView)).initView()
         }
-        internetconnection()
-        checkUser()
     }
 
 
 
     private fun setupNavigation() {
         val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_search, R.id.navigation_add, R.id.navigation_profile, R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
-    }
-
-    private fun checkUser() {
-        if (user == null) {
-            val providers = Arrays.asList<AuthUI.IdpConfig>(
-                    AuthUI.IdpConfig.GoogleBuilder().build(),
-                    AuthUI.IdpConfig.EmailBuilder().build())
-            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
-                    .setLogo(R.mipmap.ic_launcher)
-                    .setAvailableProviders(providers)
-                    .setTheme(R.style.Motiv_Theme)
-                    .build(), RC_SIGN_IN)
-        } else {
-            val user = FirebaseAuth.getInstance().currentUser
-            if (!user!!.isEmailVerified) {
-                Alert(this).showAlert(message = Tools.offlineMessage(), buttonMessage = "Conectar",
-                        icon = R.drawable.fui_ic_mail_white_24dp,
-                        okClick = {
-                            user.sendEmailVerification()
-                        })
-
-            }
-        }
     }
 
 
@@ -93,6 +67,9 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 val i = Intent(this, AboutActivity::class.java)
                 startActivity(i)
             }
+            R.id.navigation_add -> {
+                startActivity(Intent(this, EditQuoteActivity::class.java))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -100,33 +77,9 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onResume() {
         super.onResume()
-        checkUser()
-        internetconnection()
         setupNavigation()
 
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        checkUser()
-        internetconnection()
-    }
-
-
-    override fun onRestart() {
-        super.onRestart()
-        checkUser()
-        internetconnection()
-    }
-
-
-    private fun internetconnection() {
-        if (a == null) {
-            if (!isNetworkAvailable) {
-                Alert(this).showAlert(message = Tools.offlineMessage(), buttonMessage = "Conectar", icon = R.drawable.ic_broken_link)
-            }
-        }
-    }
 
 }

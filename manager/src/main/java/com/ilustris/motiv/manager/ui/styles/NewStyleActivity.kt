@@ -11,7 +11,7 @@ class NewStyleActivity : AppCompatActivity(R.layout.fragment_styles) {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
          DataBindingUtil.setContentView<FragmentStylesBinding>(this, R.layout.fragment_styles).run {
-            StyleBinder(this, supportFragmentManager).initView()
+            NewStyleBinder(this, supportFragmentManager).initView()
         }
     }
 }

@@ -16,6 +16,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.databinding.ActivitySplashBinding
+import com.ilustris.motiv.base.dialog.DefaultAlert
 import java.util.*
 
 class Splash : AppCompatActivity(R.layout.activity_splash) {
@@ -77,15 +78,12 @@ class Splash : AppCompatActivity(R.layout.activity_splash) {
             if (resultCode == Activity.RESULT_OK) {
                 val i = Intent(this, MainActivity::class.java)
                 startActivity(i)
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_up)
                 this.finish()
             } else {
                 if (response != null) {
-                    Alert(this).showAlert(
-                            message = "Ocorreu um erro ao fazer seu login tente novamente", okClick = {
-                        signIn()
-                    },
-                            icon = R.drawable.ic_sad
-                    )
+                    DefaultAlert(this, "Atenção", "Ocorreu um erro ao realizar o login", okClick = { signIn() }).buildDialog()
+
                 }
 
             }

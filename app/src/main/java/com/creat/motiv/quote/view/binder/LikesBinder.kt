@@ -9,25 +9,18 @@ import com.creat.motiv.view.adapters.LikersRecyclerAdapter
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
+import com.ilustris.animations.popIn
 import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.beans.User
 import com.silent.ilustriscore.core.view.BaseView
 
-class LikesBinder(val dialog: Dialog,
-                  val likeList: List<String>,
-                  override val context: Context,
+class LikesBinder(private val likeList: List<String>,
                   override val viewBind: ProfilepicselectBinding) : BaseView<User>() {
-    override val presenter = UserPresenter(this)
 
-    init {
-        initView()
-    }
+    override val presenter = UserPresenter(this)
 
     override fun initView() {
         viewBind.dialogTitle.text = "Curtidas"
-        viewBind.closeButton.setOnClickListener {
-            dialog.dismiss()
-        }
         viewBind.picsrecycler.run {
             adapter = LikersRecyclerAdapter(likeList)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -42,7 +35,7 @@ class LikesBinder(val dialog: Dialog,
     override fun onLoadFinish() {
         super.onLoadFinish()
         viewBind.loading.fadeOut()
-        viewBind.picsrecycler.slideUp()
+        viewBind.picsrecycler.popIn()
     }
 
 }

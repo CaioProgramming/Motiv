@@ -5,115 +5,130 @@
 
 
     <RelativeLayout
-        android:theme="@style/Motiv.Theme"
+        android:id="@+id/styleContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/md_black"
+        android:padding="@dimen/padding_small">
 
-        <ImageView
-            android:id="@+id/styleBackground"
-            android:scaleType="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/fontsTabs"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/colorGallery"
-            android:background="@color/transparent"
-            android:layout_width="match_parent"
-            app:tabIndicator="@color/transparent" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/styleFontPager"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:layout_above="@id/stylesBottom"
+            app:cardCornerRadius="@dimen/radius_default">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/colorGallery"
-            android:layout_above="@id/stylesRecycler"
-            android:paddingVertical="@dimen/padding_small"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
-            tools:listitem="@layout/color_card"
-            tools:itemCount="20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/styleBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
-        <include
-            android:id="@+id/stylesRecycler"
-            layout="@layout/styles_recycler" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/styleFontPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/colorGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small"
+                android:stateListAnimator="@animator/list_animator"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="20"
+                tools:listitem="@layout/color_card" />
+
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <LinearLayout
-            android:id="@+id/styleOptions"
+            android:id="@+id/stylesBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/margin_default"
-            android:layout_toStartOf="@id/saveButton"
-            android:gravity="center|start"
-            android:orientation="horizontal">
+            android:background="@color/transparent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/styleSize"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:background="@drawable/round_stroke"
-                android:backgroundTint="@color/md_white"
-                android:gravity="center"
-                android:stateListAnimator="@animator/list_animator"
-                android:text="Aa"
-                android:textAlignment="center"
-                android:textColor="@color/md_white"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/fontsTabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/transparent"
+                app:tabIndicator="@color/transparent"
+                app:tabMode="scrollable" />
 
-            <ImageButton
-                android:id="@+id/styleAlign"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:background="@drawable/round_stroke"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/ic_baseline_format_align_center_24"
-                android:tint="@color/md_white" />
+            <include
+                android:id="@+id/stylesRecycler"
+                layout="@layout/styles_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <ImageButton
-                android:id="@+id/styleWallpaper"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:background="@drawable/round"
-                android:foreground="?attr/selectableItemBackground"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                android:src="@drawable/ic_baseline_gif_24"
-                android:tint="@color/md_white" />
+                <TextView
+                    android:id="@+id/styleSize"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:background="@drawable/round_stroke"
+                    android:backgroundTint="@color/md_white"
+                    android:gravity="center"
+                    android:stateListAnimator="@animator/list_animator"
+                    android:text="Aa"
+                    android:textAlignment="center"
+                    android:textColor="@color/md_white"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
+                <ImageButton
+                    android:id="@+id/styleAlign"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:background="@drawable/round_stroke"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_baseline_format_align_center_24"
+                    android:tint="@color/md_white" />
+
+                <ImageButton
+                    android:id="@+id/styleWallpaper"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:background="@drawable/round"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_baseline_gif_24"
+                    android:tint="@color/md_white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveButton"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingVertical="@dimen/padding_default"
+                    android:text="Salvar"
+                    android:textAlignment="center"
+                    android:textColor="@color/md_black"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/md_white"
+                    app:cornerRadius="@dimen/radius_default" />
+            </LinearLayout>
 
         </LinearLayout>
 
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/saveButton"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/styleOptions"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="@dimen/margin_default"
-            android:foreground="?attr/selectableItemBackground"
-            android:paddingHorizontal="@dimen/padding_big"
-            android:paddingVertical="@dimen/padding_default"
-            android:text="Salvar"
-            android:textAlignment="center"
-            android:textColor="@color/md_black"
-            android:textStyle="bold"
-            app:backgroundTint="@color/md_white"
-            app:cornerRadius="@dimen/radius_default" />
 
     </RelativeLayout>
 </layout>
