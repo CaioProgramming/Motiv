@@ -67,7 +67,7 @@ data class QuoteStyle(override var id: String = "",
         )
         val companyStyle = QuoteStyle(
                 id = COMPANY_STYLE_ID,
-                font = 2,
+                font = 3,
                 backgroundURL = "https://media.giphy.com/media/3ohzdVKKcOOUQfcQWk/giphy.gif"
         )
 
