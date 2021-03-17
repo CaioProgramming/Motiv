@@ -10,20 +10,21 @@
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
-        <item name="android:navigationBarColor">@color/material_black</item>
         <item name="dividerColor">@color/material_grey800</item>
         <item name="fontFamily">@font/questrial</item>
         <item name="font">@font/questrial</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:fitsSystemWindows">false</item>
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_up</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+
     </style>
 
     <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu">

@@ -2,6 +2,7 @@ package com.creat.motiv.quote.view
 
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
@@ -18,6 +19,7 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
         val popupbind: ActivityEditQuoteBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_quote)
         val quotedata = intent.getSerializableExtra("Quote") as? Quote
         EditQuoteBinder(quotedata, popupbind.quoteFormView)

@@ -2,6 +2,7 @@ package com.creat.motiv.view.activities
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.view.adapters.AboutAdapter
