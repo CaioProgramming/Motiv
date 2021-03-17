@@ -6,7 +6,6 @@
 
     <RelativeLayout
         android:animateLayoutChanges="true"
-        android:layout_marginBottom="?android:actionBarSize"
         android:background="@color/md_black"
         android:layout_height="match_parent"
         android:id="@+id/mainContainer"
