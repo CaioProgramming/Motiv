@@ -57,7 +57,7 @@ class CoversBinder(override val viewBind: FragmentCoversBinding) : BaseView<Cove
                         media.images.downsizedMedium?.gifUrl?.let { gif ->
                             CoverBottomSheetAlert(context, "Gostou desse gif?", "Se gostou confirma ai pra salvar", gif, okClick = {
                                 presenter.saveData(Cover(url = gif))
-                            })
+                            }).buildDialog()
 
                         }
 

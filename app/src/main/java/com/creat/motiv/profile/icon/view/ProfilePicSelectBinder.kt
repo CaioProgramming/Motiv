@@ -41,7 +41,7 @@ class ProfilePicSelectBinder(
 
     override fun showListData(list: List<Pics>) {
         super.showListData(list)
-        val pics: ArrayList<Pics> = ArrayList(list)
+        val pics: ArrayList<Pics> = ArrayList(list.sortedBy { it.id })
 
         viewBind.picsrecycler.adapter = RecyclerPicAdapter(onSelectPick = picSelected, pictureList = pics)
     }

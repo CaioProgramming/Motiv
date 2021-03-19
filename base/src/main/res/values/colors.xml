@@ -9,4 +9,5 @@
     <color name="transparent">#00ffffff</color>
     <color name="lblack">#1A000000</color>
     <color name="nblack">#B3000000</color>
+    <color name="adminBorder">#6200EA</color>
 </resources>

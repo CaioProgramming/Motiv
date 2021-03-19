@@ -4,14 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <RelativeLayout
-
+    <LinearLayout
+        android:background="@drawable/round_top"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
-        android:padding="@dimen/padding_default"
-        tools:context=".view.activities.AddIconsActivity">
+        android:padding="@dimen/padding_default">
+
+        <View
+            android:id="@+id/topAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/gradient_animation"
+            android:backgroundTint="?colorPrimaryDark" />
 
         <TextView
             android:id="@+id/collapseTitle"
@@ -55,12 +62,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/padding_default"
-            android:background="@drawable/round"
-            android:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:cornerRadius="@dimen/radius_default"
             android:padding="@dimen/padding_default"
             android:text="Salvar ícones" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

@@ -81,12 +81,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupNavigation()
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
@@ -117,11 +111,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 .setAvailableProviders(providers)
                 .setTheme(R.style.Motiv_Theme)
                 .build(), RC_SIGN_IN)
-    }
-
-    override fun onDestroy() {
-        applicationContext.cacheDir.deleteRecursively()
-        super.onDestroy()
     }
 
 }

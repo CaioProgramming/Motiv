@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.ilustris.motiv.base.beans.Pics
+import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ActivityAddIconsBinding
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -37,8 +38,13 @@ class AddIconsDialog : PermissionListener, BottomSheetDialogFragment() {
             }
             if (checkPermissions()) openPicker() else requestPermissions()
             saveIcons.setOnClickListener {
-                onSaveClick.invoke(buildPics(previewAdapter.pictures))
+                val usablePics = previewAdapter.pictures.filter {
+                    it != NEW_PIC
+                }
+                onSaveClick.invoke(buildPics(ArrayList(usablePics)))
+                dismiss()
             }
+
         }
     }
 

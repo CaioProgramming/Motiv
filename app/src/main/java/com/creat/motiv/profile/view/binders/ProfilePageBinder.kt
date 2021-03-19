@@ -2,6 +2,7 @@ package com.creat.motiv.profile.view.binders
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ProfileQuoteCardBinding
@@ -26,15 +27,17 @@ class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid:
         super.showData(data)
         viewBind.run {
             Glide.with(context).load(data.picurl).error(R.drawable.ic_neptune).into(profilepic)
+            viewBind.profilepic.borderColor = ContextCompat.getColor(context, R.color.adminBorder)
+            viewBind.profilepic.borderWidth = 2
             userBackground.loadGif(data.cover)
             username.text = data.name
 
             if (data.uid == presenter.user?.uid) {
                 userBackground.setOnClickListener {
-                        CoverPickerDialog(context) { cover ->
-                            data.cover = cover.url
-                            presenter.updateData(data)
-                        }.buildDialog()
+                    CoverPickerDialog(context) { cover ->
+                        data.cover = cover.url
+                        presenter.updateData(data)
+                    }.buildDialog()
 
                 }
                 profilepic.setOnClickListener {

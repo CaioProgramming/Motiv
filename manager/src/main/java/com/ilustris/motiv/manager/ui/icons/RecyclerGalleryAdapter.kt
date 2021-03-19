@@ -20,13 +20,6 @@ class RecyclerGalleryAdapter(pictureList: ArrayList<String>? = ArrayList(), priv
         notifyDataSetChanged()
     }
 
-    fun updateSaved(count: Int) {
-        savedPics.add(count)
-        notifyDataSetChanged()
-    }
-
-    var savedPics = ArrayList<Int>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val context = parent.context
         val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false)

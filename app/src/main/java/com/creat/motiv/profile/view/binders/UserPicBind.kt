@@ -4,6 +4,7 @@ package com.creat.motiv.profile.view.binders
 import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.profile.view.LikesDialog
@@ -36,7 +37,7 @@ class UserPicBind(
                 }
             }
             if (data.admin) {
-                borderColor = context.resources.getColor(R.color.material_yellow600)
+                borderColor = ContextCompat.getColor(context, R.color.adminBorder)
                 borderWidth = 2
             } else {
                 borderColor = Color.TRANSPARENT

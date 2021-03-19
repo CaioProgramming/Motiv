@@ -1,4 +1,4 @@
-package com.creat.motiv.Utils
+package com.creat.motiv.utilities
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

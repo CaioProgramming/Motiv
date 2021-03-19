@@ -4,22 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <RelativeLayout
-        android:background="?attr/navblurOverLayColor"
+    <LinearLayout
+        android:background="@drawable/round_top"
         android:id="@+id/mainView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="@dimen/padding_default"
         android:orientation="vertical">
 
-
-
+        <View
+            android:id="@+id/topAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/gradient_animation"
+            android:backgroundTint="?colorPrimaryDark" />
 
         <TextView
             android:id="@+id/dialog_title"
-            android:layout_margin="@dimen/padding_default"
-            android:textAlignment="center"
-            style="@style/ToolbarTitle"
+            android:padding="@dimen/padding_default"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textStyle="bold"
+            tools:text="Escolher ícone de perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -53,6 +59,6 @@
             app:trackCornerRadius="@dimen/radius_default"
             app:trackThickness="5dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

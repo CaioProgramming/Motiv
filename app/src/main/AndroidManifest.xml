@@ -94,7 +94,7 @@
                 android:resource="@color/colorPrimaryDark" />
         </provider>
         <service
-            android:name=".Utils.Notifications"
+            android:name=".utilities.Notifications"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
