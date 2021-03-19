@@ -8,9 +8,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
-import com.creat.motiv.utilities.RC_SIGN_IN
+import com.ilustris.motiv.base.utils.RC_SIGN_IN
 import com.creat.motiv.quote.view.binder.QuoteCardBinder
-import com.creat.motiv.utilities.Alert
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth

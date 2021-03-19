@@ -1,4 +1,4 @@
-package com.creat.motiv.utilities
+package com.ilustris.motiv.base.utils
 
 
 const val RC_SIGN_IN = 1

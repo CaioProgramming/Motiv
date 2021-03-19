@@ -12,7 +12,7 @@ import com.creat.motiv.databinding.ProfileQuoteCardBinding
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
 import com.creat.motiv.profile.view.binders.ProfilePageBinder
 import com.creat.motiv.quote.view.binder.QuoteCardBinder
-import com.creat.motiv.utilities.AD_GIF
+import com.ilustris.motiv.base.utils.AD_GIF
 import com.creat.motiv.utilities.AdvertiseHelper
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.ilustris.animations.*

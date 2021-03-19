@@ -1,16 +1,10 @@
 package com.creat.motiv.view.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
-import android.os.Handler
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,9 +14,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.PlayerLayoutBinding
 import com.creat.motiv.quote.view.EditQuoteActivity
 import com.creat.motiv.radio.PlayerBinder
-import com.creat.motiv.utilities.Alert
-import com.creat.motiv.utilities.RC_SIGN_IN
-import com.ilustris.motiv.base.Tools
+import com.ilustris.motiv.base.utils.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth

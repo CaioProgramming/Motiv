@@ -8,9 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.beans.Pics
-import com.creat.motiv.utilities.NEW_PIC
+import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.animations.popIn
-import com.ilustris.animations.repeatBounce
 import com.ilustris.animations.repeatFade
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.PicsLayoutBinding

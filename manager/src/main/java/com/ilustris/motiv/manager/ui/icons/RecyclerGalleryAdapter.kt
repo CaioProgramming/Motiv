@@ -6,8 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creat.motiv.utilities.NEW_PIC
-import com.ilustris.animations.popIn
+import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.animations.slideInRight
 import com.ilustris.motiv.base.databinding.PicsLayoutBinding
 import com.ilustris.motiv.manager.R

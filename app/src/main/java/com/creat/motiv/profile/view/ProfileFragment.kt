@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.ilustris.motiv.base.beans.Pics
-import com.creat.motiv.utilities.SELECTED_ICON
-import com.creat.motiv.utilities.SELECT_ICON
+import com.ilustris.motiv.base.utils.SELECTED_ICON
+import com.ilustris.motiv.base.utils.SELECT_ICON
 import com.ilustris.motiv.base.utils.hideBackButton
 import com.ilustris.motiv.base.utils.showSupportActionBar
 import com.creat.motiv.profile.view.binders.ProfileBinder
