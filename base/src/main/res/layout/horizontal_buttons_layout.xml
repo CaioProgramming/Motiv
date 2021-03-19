@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:showIn="@layout/default_bottomsheet">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/material_grey700"
+            android:paddingHorizontal="@dimen/padding_big"
+            android:paddingVertical="@dimen/padding_default"
+            android:text="cancelar"
+            android:textAllCaps="false"
+            android:textColor="@color/material_grey500"
+            app:backgroundTint="@color/material_grey700"
+            app:cornerRadius="@dimen/radius_default"
+            app:elevation="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/okButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:paddingHorizontal="@dimen/padding_big"
+            android:paddingVertical="@dimen/padding_default"
+            android:text="confirmar"
+            android:textAllCaps="false"
+            android:textColor="@color/md_white"
+            app:backgroundTint="@color/md_blue500"
+            app:cornerRadius="@dimen/radius_default"
+            app:elevation="0dp" />
+
+
+    </LinearLayout>
+</layout>

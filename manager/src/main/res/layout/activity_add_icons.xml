@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:padding="@dimen/padding_default"
+        tools:context=".view.activities.AddIconsActivity">
+
+        <TextView
+            android:id="@+id/collapseTitle"
+            style="@style/ToolbarTitle"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:animateLayoutChanges="true"
+            android:padding="@dimen/padding_default"
+            android:text="Adicionar novos ícones" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/iconsPreviewRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/saveIcons"
+            android:layout_below="@id/collapseTitle"
+            android:layout_marginVertical="@dimen/margin_default"
+            android:layout_marginBottom="14dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:itemCount="6"
+            tools:listitem="@layout/pics_layout" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/colorPrimaryDark"
+            app:indicatorSize="50dp"
+            app:trackColor="@color/colorAccent"
+            app:trackCornerRadius="@dimen/radius_default"
+            app:trackThickness="5dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveIcons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/padding_default"
+            android:background="@drawable/round"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="@dimen/padding_default"
+            android:text="Salvar ícones" />
+
+
+    </RelativeLayout>
+</layout>

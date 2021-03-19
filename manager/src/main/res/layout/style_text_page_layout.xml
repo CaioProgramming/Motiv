@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:transitionName="@string/style_text_transtition"
+            android:id="@+id/styleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="@dimen/padding_default"
+            android:text="Motiv"
+            android:textAlignment="center"
+            android:textColor="@color/md_white"
+            android:textSize="@dimen/default_quote_size"
+            tools:showIn="@layout/new_style_form" />
+    </RelativeLayout>
+</layout>

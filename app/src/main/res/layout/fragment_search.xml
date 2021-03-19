@@ -9,33 +9,21 @@
         android:orientation="vertical"
         tools:context=".view.fragments.SearchFragment">
 
+        <include
+            android:id="@+id/quotesView"
+            layout="@layout/quote_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusedByDefault="true"
-            android:layout_marginHorizontal="@dimen/default_padding"
-            android:layout_marginVertical="2dp"
-            android:background="@drawable/round_low"
+            android:layout_margin="@dimen/padding_big"
+            android:background="@drawable/round"
+            android:backgroundTint="@color/material_grey500"
             app:iconifiedByDefault="false"
             app:queryHint="@string/query_hint" />
-
-        <ImageView
-            android:id="@+id/search_illustration"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/searchview"
-            android:src="@drawable/serach_illustration" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_result_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/searchview"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/quote_header_view" />
-
-
     </RelativeLayout>
 </layout>

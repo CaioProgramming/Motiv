@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
-import com.creat.motiv.databinding.UserPicviewBinding
-import com.creat.motiv.view.binders.UserPicBind
+import com.creat.motiv.profile.view.binders.UserPicBind
+import com.ilustris.motiv.base.databinding.UserPicviewBinding
 
-class CardLikeAdapter(val likes: List<String>, val context: Context) : RecyclerView.Adapter<CardLikeAdapter.MyViewHolder>() {
+class CardLikeAdapter(private val likes: List<String>, val context: Context) : RecyclerView.Adapter<CardLikeAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -19,11 +19,11 @@ class CardLikeAdapter(val likes: List<String>, val context: Context) : RecyclerV
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.run {
-            UserPicBind(likes, likes[position], context, userPicviewBinding)
+            UserPicBind(likes, likes[position], context, userPicviewBinding).initView()
         }
     }
 
-    override fun getItemCount(): Int = if (likes.size <= 5) likes.size else 3
+    override fun getItemCount(): Int = if (likes.size <= 5) likes.size else 5
 
     class MyViewHolder(val userPicviewBinding: UserPicviewBinding) : RecyclerView.ViewHolder(userPicviewBinding.root)
 }

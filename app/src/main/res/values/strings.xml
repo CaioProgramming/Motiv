@@ -1,39 +1,22 @@
 <resources>
 
-    <string name="app_name">Motiv</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="facebook_app_id">259084328108067</string>
-
     <string name="fb_login_protocol_scheme">fb259084328108067</string>
-
     <string name="quote">Escreva uma frase</string>
     <string name="author">Escre o nome do autor</string>
     <string name="Welcome">Bem-vindo ao Motiv</string>
-    <string name="titleone">A sua rede social para os amantes da poesia,você é livre para expressar-se com suas palavras!</string>
-
-    <string name="developed_by">by Inlustris since 2018</string>
-
-    <string name="profilepictransiction">profilepic</string>
+    <string name="titleone">A sua rede social para os amantes da poesia, você é livre para expressar-se com suas palavras!</string>
+    <string name="developed_by">by\nIlustris since 2018</string>
     <string name="icon_info">user icon</string>
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
-    <string name="company">Inlustris 2018 - %d</string>
-    <string name="report_message">Opa,opa,opa, uma denúncia? Tem certeza que está frase tem algo inapropriado para a comunidade?</string>
     <string name="dribble_description">Dribbble is where designers gain inspiration, feedback, community, and jobs and is your best resource to discover and connect with designers worldwide.</string>
     <string name="support_devs">Apoiar desenvolvedores</string>
-    <string name="follow_user">seguir</string>
-    <string name="message_user">mensagem</string>
-    <string name="settings_activity_title">Configurações</string>
+
     <string name="save_quote_button">Salvar Frase</string>
     <string name="fatal_error_message">Por favor nos perdoe, cometemos um erro fatal e já estamos trabalhando nisso, não vá reclamar da gente pros amigos.</string>
     <string name="fatal_error_title">Alguma coisa deu errado :(</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="query_hint">Pesquise citações, autores, músicas...</string>
-    <string name="card_transaction">quoteCard</string>
-    <string name="quote_transaction">quoteTransaction</string>
-    <string name="author_transaction">authorTransaction</string>
-    <string name="title_activity_full_quote">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="query_hint">Pesquisar frases...</string>
+    <string name="report_quote_message">Você tem certeza que deseja denunciar essa citação, caso ela seja ofensiva dealguma forma será removida e o usuário será devidamente punido</string>
+
 </resources>

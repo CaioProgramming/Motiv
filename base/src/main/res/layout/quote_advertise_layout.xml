@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="advertise"
+            type="com.google.android.gms.ads.formats.UnifiedNativeAd" />
+    </data>
+
+
+    <RelativeLayout
+        android:id="@+id/adCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:foreground="?attr/selectableItemBackground"
+        android:hapticFeedbackEnabled="true"
+        android:orientation="vertical"
+        android:stateListAnimator="@animator/list_animator"
+        app:cardBackgroundColor="@color/lblack"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp">
+
+        <com.google.android.gms.ads.formats.UnifiedNativeAdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <RelativeLayout
+
+                android:id="@+id/quoteMainView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <com.google.android.gms.ads.formats.MediaView
+                    android:id="@+id/adAppMedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <RelativeLayout
+                    android:id="@+id/quoteInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_default">
+
+                    <com.google.android.gms.ads.formats.AdChoicesView
+                        android:id="@+id/adChoices"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/userTop"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerHorizontal="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Conteúdo patrocinado"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </com.google.android.gms.ads.formats.AdChoicesView>
+
+
+                    <include
+                        android:id="@+id/userTop"
+                        layout="@layout/user_quote_card_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_centerInParent="true"
+                        android:layout_toStartOf="@id/adChoices" />
+
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/adHeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/padding_default"
+                    android:text="@{advertise.body}"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textColor="@color/md_white"
+                    android:textSize="@dimen/min_quote_size"
+                    android:textStyle="bold"
+                    android:typeface="normal"
+                    tools:text="Experience the best app for mental healthy, download today" />
+
+                <TextView
+                    android:id="@+id/adBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/adHeadline"
+                    android:layout_centerInParent="true"
+                    android:backgroundTint="@color/transparent"
+                    android:text="@{advertise.headline}"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/md_white"
+                    tools:text="Ilustris" />
+
+                <RatingBar
+                    android:id="@+id/appRating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/adBody"
+                    android:layout_centerInParent="true"
+                    android:progressTint="@color/material_yellow600"
+                    android:rating="@{advertise.starRating.intValue()}"
+                    android:stepSize="1"
+                    tools:rating="5" />
+            </RelativeLayout>
+        </com.google.android.gms.ads.formats.UnifiedNativeAdView>
+
+        <TextView
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Carregando"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+        <ImageView
+            android:alpha="0.2"
+            android:id="@+id/advertiseGif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="gone"
+            android:scaleType="center" />
+    </RelativeLayout>
+
+</layout>

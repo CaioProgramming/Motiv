@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="big_quote_size">48sp</dimen>
+    <dimen name="default_quote_size">34sp</dimen>
+    <dimen name="low_quote_size">24sp</dimen>
+    <dimen name="min_quote_size">20sp</dimen>
+    <dimen name="topBlurSize">80dp</dimen>
+</resources>

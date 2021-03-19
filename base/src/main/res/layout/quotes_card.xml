@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:id="@+id/quoteCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground"
+        android:hapticFeedbackEnabled="true"
+        android:orientation="vertical"
+        android:transitionName="@string/card_transaction">
+
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/styleView"
+            layout="@layout/style_layout_view" />
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/topBlurSize"
+            android:padding="@dimen/padding_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/quoteInfo"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:transitionName="@string/quote_transaction">
+
+            <TextView
+                android:id="@+id/quoteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                android:autoSizeTextType="none"
+                android:breakStrategy="high_quality"
+                android:textAlignment="center"
+                android:textSize="@dimen/big_quote_size"
+                android:textStyle="bold"
+                android:transitionName="@string/quote_transaction"
+                android:typeface="normal"
+                android:visibility="gone"
+                tools:text="Everything I do \nI tell you all the time"
+                tools:textColor="@color/md_white"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/author_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
+                android:paddingVertical="@dimen/padding_small"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                android:transitionName="@string/author_transaction"
+                android:visibility="gone"
+                tools:text="Lana Del Rey"
+                tools:textColor="@color/md_white"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/quoteInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/fade_gradient_inversed"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default">
+
+            <include
+                android:id="@+id/userTop"
+                layout="@layout/user_quote_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/quoteOptions"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:padding="@dimen/padding_small">
+                <LinearLayout
+                    android:paddingVertical="@dimen/padding_small"
+                    android:id="@+id/quotebuttons"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/like"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:background="@drawable/favoritecheck"
+                        android:button="@color/transparent" />
+
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:id="@+id/editButton"
+                        android:layout_height="32dp"
+                        android:tint="@color/white"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_edit"
+                        android:stateListAnimator="@animator/list_animator" />
+
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:id="@+id/deleteButton"
+                        android:layout_height="32dp"
+                        android:tint="@color/white"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_delete"
+                        android:stateListAnimator="@animator/list_animator" />
+
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:id="@+id/shareButton"
+                        android:layout_height="32dp"
+                        android:tint="@color/white"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_share"
+                        android:stateListAnimator="@animator/list_animator" />
+
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:id="@+id/reportButton"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:tint="@color/white"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_flag"
+                        android:stateListAnimator="@animator/list_animator" />
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/likers"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_toEndOf="@id/quotebuttons"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:reverseLayout="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/user_picview" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>
+
+

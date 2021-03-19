@@ -1,0 +1,79 @@
+<resources>
+
+
+
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/round</item>
+    </style>
+
+    <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:colorBackground</item>
+    </style>
+
+
+    <style name="Searchtheme" parent="Widget.AppCompat.Light.SearchView">
+        <item name="queryBackground">@color/transparent</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:panelBackground">@drawable/round</item>
+    </style>
+
+    <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="elevation">3dp</item>
+        <item name="homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
+        <item name="background">@drawable/bottom_line</item>
+        <item name="paddingStart">@dimen/padding_default</item>
+        <item name="android:paddingTop">15dp</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/pop_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
+
+    <style name="Dialog_No_Border">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+        <item name="colorPrimary">@color/material_purple400</item>
+        <item name="colorPrimaryDark">@color/material_purple800</item>
+        <item name="colorAccent">@color/material_purpleA100</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="Bottom_Dialog_No_Border">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Full_Screen_Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.BottomCornerRadius" parent="">
+        <item name="cornerSizeBottomLeft">@dimen/radius_medium</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_medium</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+    </style>
+</resources>

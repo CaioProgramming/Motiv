@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:background="@drawable/round_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_default">
+
+        <View
+            android:id="@+id/topAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/gradient_animation"
+            android:backgroundTint="?colorPrimaryDark" />
+
+        <TextView
+            android:paddingVertical="@dimen/padding_small"
+            android:id="@+id/titleTextview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textStyle="bold"
+            tools:text="Atenção" />
+
+        <TextView
+            tools:text="Deseja prosseguir com essa ação?"
+            android:id="@+id/messageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/padding_default"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <include
+            android:id="@+id/buttons_view"
+            layout="@layout/horizontal_buttons_layout" />
+    </LinearLayout>
+</layout>

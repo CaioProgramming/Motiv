@@ -3,27 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout
+    <RelativeLayout
+        android:background="@color/md_black"
         android:id="@+id/mainContainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            />
 
         <include
             android:id="@+id/quoteFormView"
             layout="@layout/newquotepopup"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+            android:layout_height="match_parent" />
 
+        <include
+            android:id="@+id/motiv_top"
+            layout="@layout/motiv_toolbar" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </layout>

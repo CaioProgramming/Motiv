@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_padding"
+        android:layout_margin="@dimen/margin_default"
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -16,7 +16,7 @@
             android:layout_height="150dp"
             android:contentDescription="@string/icon_info"
             android:hapticFeedbackEnabled="true"
-            android:src="@drawable/me"
+            android:src="@drawable/avatarnotfound"
             app:civ_border_overlay="true"
             app:civ_circle_background_color="@color/transparent" />
 

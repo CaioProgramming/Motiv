@@ -2,28 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_navigation"
     app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.creat.motiv.view.fragments.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home">
+        android:label="Motiv"
+        tools:layout="@layout/fragment_manager_home">
 
     </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.creat.motiv.view.fragments.ProfileFragment"
-        android:label=""
+        android:name="com.creat.motiv.profile.view.ProfileFragment"
+        android:label="Perfil"
         tools:layout="@layout/fragment_profile">
-
-    </fragment>
-    <fragment
-        android:id="@+id/navigation_add"
-        android:name="com.creat.motiv.view.fragments.NewQuoteFragment"
-        android:label="Nova publicação"
-        tools:layout="@layout/newquotepopup">
 
     </fragment>
 

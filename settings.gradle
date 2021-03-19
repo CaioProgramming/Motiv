@@ -1,2 +1,3 @@
-include ':nativetemplates'
+include ':base'
+include ':manager'
 include ':app'

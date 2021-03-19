@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
-import com.creat.motiv.utilities.hideBackButton
-import com.creat.motiv.utilities.showSupportActionBar
-import com.creat.motiv.utilities.snackmessage
-import com.creat.motiv.view.binders.SettingsBinder
+import com.ilustris.motiv.base.utils.hideBackButton
+import com.ilustris.motiv.base.utils.showSupportActionBar
+import com.creat.motiv.profile.view.binders.SettingsBinder
 import com.google.firebase.auth.FirebaseAuth
+import com.silent.ilustriscore.core.utilities.showSnackBar
 
 
 class SettingsFragment : Fragment() {
@@ -21,7 +21,7 @@ class SettingsFragment : Fragment() {
     lateinit var settingsBinding: FragmentSettingsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         settingsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
         return settingsBinding.root
     }
@@ -32,9 +32,9 @@ class SettingsFragment : Fragment() {
         context?.hideBackButton()
         context?.showSupportActionBar()
         if (user == null) {
-            snackmessage(requireContext(), "Você está desconectado")
+            showSnackBar(requireContext(), "Você está desconectado", rootView = view)
         } else {
-            SettingsBinder(user.uid, requireContext(), settingsBinding)
+            SettingsBinder(user.uid, settingsBinding)
         }
     }
 
