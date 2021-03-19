@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Vibrator
 import android.util.Log
@@ -51,7 +52,7 @@ class QuoteCardBinder(
     private fun updateStyle(quoteStyle: QuoteStyle) {
         viewBind.run {
             quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-            authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+            authorTextView.setTypeface(FontUtils.getTypeFace(context, quoteStyle.font), Typeface.ITALIC)
             val color = Color.parseColor(quoteStyle.textColor)
             quoteTextView.setTextColor(color)
             authorTextView.setTextColor(color)

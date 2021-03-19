@@ -6,7 +6,7 @@
         <item name="font">@font/questrial</item>
         <item name="android:colorBackground">@color/md_white</item>
         <item name="dividerColor">@color/material_grey200</item>
-        <item name="navblurOverLayColor">@color/owhite</item>
+        <item name="navblurOverLayColor">@color/lwhite</item>
         <item name="blurOverLayColor">@color/lwhite</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>

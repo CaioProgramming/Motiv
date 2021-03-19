@@ -11,6 +11,6 @@ class ErrorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_error)
         val errorBackground: ImageView = findViewById(R.id.errorBackground)
-        Glide.with(this).asGif().centerCrop().load("https://media.giphy.com/media/kg19fN5BXbZGIDznzG/giphy.gif").into(errorBackground)
+        Glide.with(this).asGif().centerCrop().load("https://media.giphy.com/media/xT9Igqq02d80wIqUpy/giphy.gif").into(errorBackground)
     }
 }
