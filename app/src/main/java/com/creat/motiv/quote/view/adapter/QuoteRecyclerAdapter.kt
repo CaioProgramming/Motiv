@@ -1,5 +1,6 @@
 package com.creat.motiv.quote.view.adapter
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -145,6 +146,7 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
                 }
 
                 userTop.userData = User(name = ad.advertiser ?: "Anunciante não identificado")
+                userTop.username.setTextColor(Color.BLACK)
                 adAppMedia.apply {
                     setMediaContent(ad.mediaContent)
                     setImageScaleType(ImageView.ScaleType.CENTER_CROP)

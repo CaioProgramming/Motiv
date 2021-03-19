@@ -16,7 +16,7 @@
             android:layout_height="150dp"
             android:contentDescription="@string/icon_info"
             android:hapticFeedbackEnabled="true"
-            android:src="@drawable/avatarnotfound"
+            tools:src="@drawable/ic_neptune"
             app:civ_border_overlay="true"
             app:civ_circle_background_color="@color/transparent" />
 

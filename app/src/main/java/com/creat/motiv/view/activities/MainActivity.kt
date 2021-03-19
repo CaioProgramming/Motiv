@@ -119,4 +119,9 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 .build(), RC_SIGN_IN)
     }
 
+    override fun onDestroy() {
+        applicationContext.cacheDir.deleteRecursively()
+        super.onDestroy()
+    }
+
 }

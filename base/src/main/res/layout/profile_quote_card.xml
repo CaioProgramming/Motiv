@@ -49,7 +49,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/avatarnotfound" />
+                tools:src="@drawable/ic_neptune" />
 
             <TextView
                 android:id="@+id/username"

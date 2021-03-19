@@ -157,6 +157,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
         viewBind.styleTabs.styleTabs.run {
+            removeAllTabs()
             list.forEach {
                 addTab(newTab().apply {
                     val view = LayoutInflater.from(context).inflate(R.layout.style_preview_card, null, false)
@@ -199,9 +200,14 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
 
     private fun getStyleFromPreview(selectedStyle: QuoteStyle) {
         style = selectedStyle
-        updateStyle()
         viewBind.fontsTabs.getTabAt(selectedStyle.font)?.select()
         viewBind.styleBackground.loadGif(style.backgroundURL)
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(2000)
+            GlobalScope.launch(Dispatchers.Main) {
+                updateStyle()
+            }
+        }
     }
 
     private fun getColorGallery() {
@@ -212,16 +218,13 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     }
 
     fun updateStyle() {
-        GlobalScope.launch(Dispatchers.IO) {
-            delay(3000)
-            GlobalScope.launch(Dispatchers.Main) {
                 viewBind.run {
 
                     styleAlign.run {
                         val src = when (style.textAlignment) {
                             TextAlignment.CENTER -> R.drawable.ic_baseline_format_align_center_24
                             TextAlignment.START -> R.drawable.ic_baseline_format_align_left_24
-                            TextAlignment.END -> R.drawable.ic_baseline_format_align_left_24
+                            TextAlignment.END -> R.drawable.ic_baseline_format_align_right_24
                         }
                         setImageResource(src)
                     }
@@ -233,7 +236,5 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                     previewAdapter?.setSelectedStyle(style.id)
 
                 }
-            }
-        }
     }
 }

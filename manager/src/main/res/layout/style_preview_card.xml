@@ -11,7 +11,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:checkable="true"
         android:stateListAnimator="@animator/selected_animator"
-        app:cardBackgroundColor="?attr/colorPrimaryDark"
+        app:cardBackgroundColor="?attr/dividerColor"
         app:cardCornerRadius="@dimen/radius_small"
         app:cardElevation="0dp">
 

@@ -5,12 +5,11 @@
 
 
     <RelativeLayout
-        android:fitsSystemWindows="true"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:id="@+id/styleContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:colorBackground"
-        android:padding="@dimen/padding_default">
+        android:background="?android:colorBackground">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -20,6 +19,7 @@
 
             <ImageView
                 android:id="@+id/styleBackground"
+                android:background="?attr/dividerColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
@@ -48,6 +48,7 @@
 
 
         <LinearLayout
+            android:paddingHorizontal="@dimen/padding_default"
             android:id="@+id/stylesBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

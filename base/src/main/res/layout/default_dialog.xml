@@ -8,9 +8,9 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_default"
         android:orientation="vertical"
-        app:cardBackgroundColor="?android:colorBackground"
+        app:cardBackgroundColor="?attr/dividerColor"
         app:cardCornerRadius="15dp"
-        app:cardElevation="0dp">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:padding="@dimen/padding_default"
@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iconImageView"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"

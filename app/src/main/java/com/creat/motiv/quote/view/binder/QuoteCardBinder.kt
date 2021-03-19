@@ -109,6 +109,7 @@ class QuoteCardBinder(
                     presenter.delete(quote.id)
                 }).buildDialog()
             }
+
             if (quote.userID == presenter.user?.uid) {
                 visible()
             } else {
@@ -199,6 +200,8 @@ class QuoteCardBinder(
     private fun fillQuoteData(data: Quote) {
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
+            viewBind.userTop.username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
+
             CardLikeAdapter(data.likes.toList(), context)
             viewBind.quoteOptions.slideInBottom()
         } else {

@@ -23,16 +23,11 @@ class MotivApplication : MultiDexApplication() {
         // Thread.setDefaultUncaughtExceptionHandler { thread, e -> handleUncaughtException(e) }
     }
 
+
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
 
-    private fun handleUncaughtException(e: Throwable) {
-        e.message?.let { Log.println(Log.ERROR, "Erro", it) }
-        val intent = Intent(applicationContext, ErrorActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-    }
 
 }

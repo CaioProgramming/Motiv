@@ -37,7 +37,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
         if (list.isEmpty()) {
             setupRecyclerView(listOf(Quote.noResultsQuote()))
         } else {
-            setupRecyclerView(list)
+            setupRecyclerView(list.sortedByDescending { it.data })
             GlobalScope.launch(Dispatchers.IO) {
                 delay(4000)
                 if (viewBind.quotesrecyclerview.childCount > 1) {

@@ -27,7 +27,7 @@
             android:stateListAnimator="@animator/list_animator"
             android:transitionName="profilepic"
             app:civ_circle_background_color="@color/colorPrimaryDark"
-            tools:src="@drawable/avatarnotfound" />
+            tools:src="@drawable/ic_neptune" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@{userData.name}"
-                android:textColor="@color/md_white"
+                android:textColor="?android:textColorPrimary"
                 android:textStyle="bold"
                 tools:text="Caio Alves Ferreira" />
 

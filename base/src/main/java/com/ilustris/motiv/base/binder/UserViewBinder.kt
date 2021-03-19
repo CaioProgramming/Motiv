@@ -21,7 +21,7 @@ class UserViewBinder(
     override fun showData(data: User) {
         viewBind.run {
             userData = data
-            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.avatarnotfound)).into(userpic)
+            Glide.with(context.applicationContext).load(data.picurl).error(ContextCompat.getDrawable(context, R.drawable.ic_neptune)).into(userpic)
             userContainer.setOnClickListener {
                 showUserProfile(data)
             }
@@ -40,7 +40,6 @@ class UserViewBinder(
     private fun showUserProfile(user: User) {
         if (user.uid != presenter.user?.uid) {
             Routes(context).openUserProfile(user, viewBind.userpic)
-
         }
 
     }

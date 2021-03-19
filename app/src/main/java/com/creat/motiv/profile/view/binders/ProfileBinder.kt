@@ -54,7 +54,7 @@ class ProfileBinder(override val context: Context,
             if (data.picurl.isEmpty()) {
                 DefaultAlert(context, "Atenção",
                         "Você não possui nenhum ícone de perfil, gostaria de adicionar agora?",
-                        R.drawable.avatarnotfound,
+                        R.drawable.impressed_avatar,
                         okClick = {
                             IconPickerDialog(context, onSelectPic = { presenter.changeProfilePic(it) }).buildDialog()
                         }).buildDialog()

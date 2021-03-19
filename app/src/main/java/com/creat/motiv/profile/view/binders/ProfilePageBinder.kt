@@ -25,7 +25,7 @@ class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid:
     override fun showData(data: User) {
         super.showData(data)
         viewBind.run {
-            Glide.with(context).load(data.picurl).error(R.drawable.avatarnotfound).into(profilepic)
+            Glide.with(context).load(data.picurl).error(R.drawable.ic_neptune).into(profilepic)
             userBackground.loadGif(data.cover)
             username.text = data.name
 

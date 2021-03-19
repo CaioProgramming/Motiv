@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="@dimen/topBlurSize"
+        android:paddingTop="?attr/actionBarSize"
         android:id="@+id/managerRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

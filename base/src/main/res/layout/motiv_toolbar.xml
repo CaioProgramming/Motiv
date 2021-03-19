@@ -7,17 +7,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.github.mmin18.widget.RealtimeBlurView
+        <View
             android:id="@+id/topBlur"
             android:layout_width="match_parent"
             android:layout_height="@dimen/topBlurSize"
-            app:realtimeBlurRadius="10dp"
-            app:realtimeOverlayColor="?navblurOverLayColor" />
+            android:background="@drawable/fade_gradient" />
 
         <androidx.appcompat.widget.Toolbar
+            android:theme="@style/Theme.MaterialComponents"
             android:id="@+id/motiv_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/white"
             android:layout_marginTop="@dimen/padding_default"
             app:title="@string/app_name" />
     </RelativeLayout>

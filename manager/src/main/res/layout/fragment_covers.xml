@@ -14,7 +14,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:background="?android:colorBackground"
-            android:paddingTop="@dimen/topBlurSize"
+            android:paddingTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

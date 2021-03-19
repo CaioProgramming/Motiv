@@ -40,13 +40,14 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         app:civ_border_width="0dp"
-                        tools:src="@drawable/avatarnotfound" />
+                        tools:src="@drawable/ic_neptune" />
 
                 </LinearLayout>
             </RelativeLayout>
 
 
             <RelativeLayout
+                android:background="?android:colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -101,7 +102,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?navblurOverLayColor"
+                android:background="?attr/dividerColor"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_default">
 
@@ -129,7 +130,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?navblurOverLayColor"
+                android:background="?attr/dividerColor"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_default">

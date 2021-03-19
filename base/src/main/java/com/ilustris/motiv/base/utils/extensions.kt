@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.R
+import com.silent.ilustriscore.core.utilities.visible
 
 
 fun Context.hideBackButton() {
@@ -35,7 +36,7 @@ fun Context.showSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.show()
-        activity.findViewById<RealtimeBlurView?>(R.id.topBlur)?.fadeIn()
+        activity.findViewById<View?>(R.id.topBlur)?.fadeIn()
 
     }
 }
@@ -44,7 +45,7 @@ fun Context.hideSupporActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.hide()
-        activity.findViewById<RealtimeBlurView?>(R.id.topBlur)?.fadeOut()
+        activity.findViewById<View?>(R.id.topBlur)?.fadeOut()
     }
 }
 
@@ -58,20 +59,21 @@ fun Snackbar.config() {
 }
 
 fun ImageView.loadGif(url: String) {
-    Glide.with(context).asGif().centerCrop().load(url).error(R.drawable.motiv_gradient).addListener(object : RequestListener<GifDrawable> {
-        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-            setImageResource(R.drawable.motiv_gradient)
-            fadeIn()
-            return false
-        }
+    context?.let {
+        Glide.with(it).asGif().centerCrop().load(url).error(R.drawable.motiv_gradient).addListener(object : RequestListener<GifDrawable> {
+            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
+                setImageResource(R.drawable.motiv_gradient)
+                visible()
+                return false
+            }
 
-        override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            setImageDrawable(resource)
-            fadeIn()
-            return false
-        }
-    }).into(this)
-
+            override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                setImageDrawable(resource)
+                visible()
+                return false
+            }
+        }).into(this)
+    }
 }
 
 fun Context.activity(): Activity? {

@@ -9,7 +9,7 @@
         android:id="@+id/quoteCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:colorBackground"
+        android:background="?attr/dividerColor"
         android:hapticFeedbackEnabled="true"
         android:orientation="vertical"
         android:transitionName="@string/card_transaction">

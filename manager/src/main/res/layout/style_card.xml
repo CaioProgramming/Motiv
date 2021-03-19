@@ -4,7 +4,7 @@
 
     <RelativeLayout
         android:id="@+id/styleCard"
-        android:background="@color/colorPrimaryDark"
+        android:background="?attr/dividerColor"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@animator/list_animator"
         android:layout_width="match_parent"

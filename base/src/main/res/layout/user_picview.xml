@@ -12,7 +12,7 @@
         android:id="@+id/userpic"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        tools:src="@drawable/avatarnotfound"
+        tools:src="@drawable/ic_neptune"
         android:layout_marginStart="-12dp"
         app:civ_circle_background_color="?android:textColorHint" />
 
