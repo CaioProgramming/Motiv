@@ -11,9 +11,10 @@
         android:id="@+id/playerContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/md_black"
+        android:background="@color/transparent"
         android:orientation="horizontal"
         android:padding="@dimen/padding_small"
+        tools:visibility="visible"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView

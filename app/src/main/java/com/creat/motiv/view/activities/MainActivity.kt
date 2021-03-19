@@ -1,5 +1,6 @@
 package com.creat.motiv.view.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -23,6 +24,7 @@ import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.ilustris.motiv.base.Tools
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.animations.fadeOut
@@ -32,22 +34,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    internal var a: Alert? = null
     var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
+    var playerBinder: PlayerBinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(toolbar)
-        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        setSupportActionBar(findViewById(R.id.motiv_toolbar))
         if (savedInstanceState == null) {
             setupNavigation()
-            PlayerBinder(PlayerLayoutBinding.bind(playerView)).initView()
+            playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
+                initView()
+            }
+            nav_view.isEnabled = user == null
         }
     }
 
@@ -59,7 +61,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 message.fadeOut()
             }
         }
-
     }
 
     private fun setupNavigation() {
@@ -88,12 +89,42 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onResume() {
         super.onResume()
         setupNavigation()
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val response = IdpResponse.fromResultIntent(data)
+            if (resultCode == Activity.RESULT_OK) {
+                playerBinder?.initView()
+                nav_view.isEnabled = true
+            } else {
+                if (response != null) {
+                    DefaultAlert(this, "Atenção", "Ocorreu um erro ao realizar o login",
+                            okClick = {
+                                signIn()
+                            }).buildDialog()
+
+                }
+
+            }
+
+        }
+    }
+
+    private fun signIn() {
+        val providers = listOf(
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.EmailBuilder().build())
+        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
+                .setLogo(R.mipmap.ic_launcher)
+                .setAvailableProviders(providers)
+                .setTheme(R.style.Motiv_Theme)
+                .build(), RC_SIGN_IN)
+    }
 
 }

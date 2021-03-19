@@ -17,6 +17,7 @@
             tools:context=".view.fragments.SettingsFragment">
 
             <RelativeLayout
+                android:background="?navblurOverLayColor"
                 android:id="@+id/profileTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -27,11 +28,11 @@
                     android:layout_height="250dp" />
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/topBlurSize"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="?attr/actionBarSize">
+                    android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/userpic"
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
-                    android:padding="@dimen/default_padding"
+                    android:padding="@dimen/padding_default"
                     android:text="Nome"
                     android:textStyle="bold" />
 
@@ -70,7 +71,7 @@
                     android:layout_toStartOf="@id/saveButton"
                     android:layout_toEndOf="@id/nameTitle"
                     android:background="@color/transparent"
-                    android:padding="@dimen/default_padding"
+                    android:padding="@dimen/padding_default"
                     app:layout_constraintBottom_toBottomOf="@id/nameTitle"
                     app:layout_constraintEnd_toStartOf="@id/saveButton"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -100,9 +101,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/material_grey900"
+                android:background="?navblurOverLayColor"
                 android:orientation="horizontal"
-                android:padding="@dimen/default_padding">
+                android:padding="@dimen/padding_default">
 
                 <TextView
                     android:id="@+id/providerTitle"
@@ -128,10 +129,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/material_grey900"
+                android:background="?navblurOverLayColor"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/default_padding">
+                android:padding="@dimen/padding_default">
 
                 <TextView
                     android:id="@+id/uidTitle"
@@ -161,7 +162,7 @@
                 android:id="@+id/adminView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/material_grey900"
+                android:background="?navblurOverLayColor"
                 android:visibility="gone"
                 tools:visibility="visible">
 
@@ -192,9 +193,10 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/default_padding"
+                android:padding="@dimen/padding_default"
                 android:text="Desconectar"
-                android:textAlignment="textStart"
+
+                android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/material_red500"
                 app:rippleColor="@color/material_red500" />

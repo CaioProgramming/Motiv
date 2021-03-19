@@ -1,44 +1,40 @@
 package com.ilustris.motiv.manager.ui.styles
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.beans.TextAlignment
-import com.ilustris.motiv.base.beans.TextSize
 import com.giphy.sdk.core.models.Media
 import com.giphy.sdk.ui.GPHContentType
 import com.giphy.sdk.ui.GPHSettings
 import com.giphy.sdk.ui.themes.GPHTheme
 import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
-import com.google.android.material.shape.CornerFamily
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ilustris.animations.fadeIn
+import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
-import com.ilustris.motiv.base.utils.FontUtils
-import com.ilustris.motiv.base.utils.activity
-import com.ilustris.motiv.base.utils.loadGif
+import com.ilustris.motiv.base.utils.*
 import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.databinding.FragmentStylesBinding
+import com.ilustris.motiv.manager.databinding.NewStyleFormBinding
+import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.view.BaseView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class NewStyleBinder(override val viewBind: FragmentStylesBinding, val fragmentManager: FragmentManager) : BaseView<QuoteStyle>() {
+class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentManager: FragmentManager) : BaseView<QuoteStyle>() {
     override val presenter = QuoteStylePresenter(this)
 
     var style = QuoteStyle()
@@ -48,15 +44,7 @@ class NewStyleBinder(override val viewBind: FragmentStylesBinding, val fragmentM
     override fun initView() {
 
         viewBind.run {
-            styleSize.setOnClickListener {
-                when (style.textSize) {
-                    TextSize.DEFAULT -> style.textSize = TextSize.BIG
-                    TextSize.BIG -> style.textSize = TextSize.EXTRASMALL
-                    TextSize.SMALL -> style.textSize = TextSize.DEFAULT
-                    TextSize.EXTRASMALL -> style.textSize = TextSize.SMALL
-                }
-                updateStyle()
-            }
+
             styleAlign.setOnClickListener {
                 when (style.textAlignment) {
                     TextAlignment.CENTER -> style.textAlignment = TextAlignment.END
@@ -92,23 +80,19 @@ class NewStyleBinder(override val viewBind: FragmentStylesBinding, val fragmentM
                 TabLayoutMediator(viewBind.fontsTabs, this) { tab, position ->
                     val view = LayoutInflater.from(context).inflate(R.layout.tab_font_view, null, false)
                     tab.customView = view
-                    tab.view.findViewById<TextView>(R.id.fontText).typeface = FontUtils.getTypeFace(context, position)
+                    tab.view.findViewById<TextView>(R.id.fontText).run {
+                        typeface = FontUtils.getTypeFace(context, position)
+                        setOnClickListener {
+                            tab.select()
+                        }
+                    }
                 }.attach()
             }
             fontsTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.customView?.findViewById<TextView>(R.id.fontText)?.run {
-                        setTextColor(ContextCompat.getColor(context, R.color.material_white))
-                        setOnClickListener {
-                            it.isSelected = true
-                        }
-                    }
-                }
+                override fun onTabSelected(tab: TabLayout.Tab?) {}
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    tab?.customView?.findViewById<TextView>(R.id.fontText)?.run {
-                        setTextColor(ContextCompat.getColor(context, R.color.lwhite))
-                    }
+
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -172,10 +156,45 @@ class NewStyleBinder(override val viewBind: FragmentStylesBinding, val fragmentM
 
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
-        viewBind.stylesRecycler.stylesRecycler.run {
-            previewAdapter = StylePreviewAdapter(list, true, style.id, ::getStyleFromPreview)
-            adapter = previewAdapter
+        viewBind.styleTabs.styleTabs.run {
+            list.forEach {
+                addTab(newTab().apply {
+                    val view = LayoutInflater.from(context).inflate(R.layout.style_preview_card, null, false)
+                    val stylePreviewCardBinding = StylePreviewCardBinding.bind(view)
+                    stylePreviewCardBinding.run {
+                        styleText.typeface = FontUtils.getTypeFace(context, it.font)
+                        styleText.setTextColor(Color.parseColor(it.textColor))
+
+                        styleText.defineTextAlignment(it.textAlignment)
+                        styleImage.loadGif(it.backgroundURL)
+                        styleCard.setOnClickListener {
+                            select()
+                        }
+                        styleCard.setOnLongClickListener {
+                            BottomSheetAlert(context, "Deseja remover esse estilo?", context.getString(R.string.style_delete_message))
+                            false
+                        }
+                    }
+                    customView = stylePreviewCardBinding.root
+                })
+            }
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.let {
+                        getStyleFromPreview(list[it.position])
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
         }
+
+
     }
 
     private fun getStyleFromPreview(selectedStyle: QuoteStyle) {
@@ -193,28 +212,28 @@ class NewStyleBinder(override val viewBind: FragmentStylesBinding, val fragmentM
     }
 
     fun updateStyle() {
-        viewBind.run {
-            styleSize.text = when (style.textSize) {
-                TextSize.DEFAULT -> "Aa"
-                TextSize.BIG -> "AA"
-                TextSize.SMALL -> "aa"
-                TextSize.EXTRASMALL -> "ᵃᵃ"
-            }
-            styleAlign.run {
-                val src = when (style.textAlignment) {
-                    TextAlignment.CENTER -> R.drawable.ic_baseline_format_align_center_24
-                    TextAlignment.START -> R.drawable.ic_baseline_format_align_left_24
-                    TextAlignment.END -> R.drawable.ic_baseline_format_align_left_24
-                }
-                setImageResource(src)
-            }
-            fontAdapter.run {
-                updateAlignment(style.textAlignment)
-                updateTextColor(style.textColor)
-                updateTextSize(style.textSize)
-            }
-            previewAdapter?.setSelectedStyle(style.id)
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(3000)
+            GlobalScope.launch(Dispatchers.Main) {
+                viewBind.run {
 
+                    styleAlign.run {
+                        val src = when (style.textAlignment) {
+                            TextAlignment.CENTER -> R.drawable.ic_baseline_format_align_center_24
+                            TextAlignment.START -> R.drawable.ic_baseline_format_align_left_24
+                            TextAlignment.END -> R.drawable.ic_baseline_format_align_left_24
+                        }
+                        setImageResource(src)
+                    }
+                    fontAdapter.run {
+                        updateAlignment(style.textAlignment)
+                        updateTextColor(style.textColor)
+
+                    }
+                    previewAdapter?.setSelectedStyle(style.id)
+
+                }
+            }
         }
     }
 }

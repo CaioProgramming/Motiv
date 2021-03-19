@@ -31,20 +31,16 @@ class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid:
 
             if (data.uid == presenter.user?.uid) {
                 userBackground.setOnClickListener {
-                    (context as Activity?)?.let {
-                        CoverPickerDialog(it) { cover ->
+                        CoverPickerDialog(context) { cover ->
                             data.cover = cover.url
                             presenter.updateData(data)
-                        }
-                    }
+                        }.buildDialog()
 
                 }
                 profilepic.setOnClickListener {
-                    (context as Activity?)?.let {
-                        IconPickerDialog(it) { pic ->
-                            presenter.changeProfilePic(pic)
-                        }
-                    }
+                    IconPickerDialog(context) { pic ->
+                        presenter.changeProfilePic(pic)
+                    }.buildDialog()
 
                 }
             }

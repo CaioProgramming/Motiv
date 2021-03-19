@@ -15,9 +15,7 @@ import com.creat.motiv.quote.view.binder.QuoteCardBinder
 import com.creat.motiv.utilities.AD_GIF
 import com.creat.motiv.utilities.AdvertiseHelper
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.ilustris.animations.fadeIn
-import com.ilustris.animations.fadeOut
-import com.ilustris.animations.repeatFade
+import com.ilustris.animations.*
 import com.ilustris.motiv.base.beans.AD_QUOTE
 import com.ilustris.motiv.base.beans.PROFILE_QUOTE
 import com.ilustris.motiv.base.beans.Quote
@@ -153,8 +151,8 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
                 }
                 appRating.isEnabled = false
                 advertise = ad
-                adView.fadeIn()
-                loading.fadeOut()
+                adView.slideInBottom()
+                loading.popOut()
             }
         }
     }

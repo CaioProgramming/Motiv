@@ -16,10 +16,11 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.github.mmin18.widget.RealtimeBlurView
 import com.ilustris.motiv.base.beans.TextAlignment
-import com.ilustris.motiv.base.beans.TextSize
 import com.google.android.material.snackbar.Snackbar
 import com.ilustris.animations.fadeIn
+import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.R
 
 
@@ -34,6 +35,8 @@ fun Context.showSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.show()
+        activity.findViewById<RealtimeBlurView?>(R.id.topBlur)?.fadeIn()
+
     }
 }
 
@@ -41,12 +44,10 @@ fun Context.hideSupporActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.hide()
+        activity.findViewById<RealtimeBlurView?>(R.id.topBlur)?.fadeOut()
     }
 }
 
-fun AppCompatActivity.changeNavColor(color: Int) {
-    window.navigationBarColor = color
-}
 
 fun Snackbar.config() {
     val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
@@ -81,32 +82,6 @@ fun Context.activity(): Activity? {
     }
 }
 
-fun TextView.autoSizeText(maxSize: Int) {
-    val size = context.resources.getDimension(maxSize)
-    val length = text.toString().length
-    val txtSize = when {
-        length <= 40 -> size
-
-        length <= 80 -> size - 10
-
-        length >= 90 -> size - 15
-
-        length >= 150 -> size - 20
-
-        else -> size - 25
-    }
-    setTextSize(TypedValue.COMPLEX_UNIT_PX, txtSize)
-}
-
-fun TextView.defineTextSize(textSize: TextSize) {
-        val maxSize = when (textSize) {
-            TextSize.DEFAULT -> R.dimen.default_quote_size
-            TextSize.BIG -> R.dimen.big_quote_size
-            TextSize.SMALL -> R.dimen.low_quote_size
-            TextSize.EXTRASMALL -> R.dimen.min_quote_size
-        }
-        autoSizeText(maxSize)
-}
 
 fun TextView.defineTextAlignment(textAlign: TextAlignment) {
     when(textAlign) {

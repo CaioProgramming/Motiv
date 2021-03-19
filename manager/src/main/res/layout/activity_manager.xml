@@ -13,31 +13,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/top_line"
+        android:background="@color/transparent"
         app:elevation="0dp"
         app:itemIconSize="20dp"
-        app:itemIconTint="@color/selected_navigation"
+        app:itemIconTint="@color/selected_font"
         app:itemRippleColor="@color/colorAccent"
-        app:itemTextColor="@color/selected_navigation"
+        app:itemTextColor="@color/selected_font"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
 
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/nav_view"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation" />
-    <include layout="@layout/blur_layout"/>
-    <androidx.appcompat.widget.Toolbar
-        android:background="@drawable/fade_gradient"
-        android:id="@+id/managerToolbar"
-        style="@style/AppToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true" />
-    ,
+        android:animateLayoutChanges="true"
+        app:cardCornerRadius="@dimen/radius_default"
+        app:cardElevation="0dp">
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/nav_view"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/mobile_navigation" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <include layout="@layout/blur_layout" />
+
+    <include
+        android:id="@+id/motiv_top"
+        layout="@layout/motiv_toolbar" />
+
 
 </RelativeLayout>

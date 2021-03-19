@@ -5,4 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="icon_info">user icon</string>
     <string name="style_text_transtition">styleText</string>
+    <string name="style_delete_message">Se quiser remover esse estilo e deixar os usuários tristes é só clicar em confirmar</string>
 </resources>

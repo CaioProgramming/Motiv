@@ -1,5 +1,6 @@
 package com.ilustris.motiv.base.beans
 
+import com.ilustris.motiv.base.R
 import com.silent.ilustriscore.core.bean.BaseBean
 
 private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/cmNOuHOgTq3MODgSeP/giphy.gif"
@@ -14,9 +15,10 @@ const val NEW_STYLE_ID = "NEW_STYLE"
 const val DEFAULT_TEXT_COLOR = "#ffffff"
 const val DEFAULT_SHADOW_COLOR = "#000000"
 
-enum class TextSize {
-    DEFAULT, BIG, SMALL, EXTRASMALL
+enum class TextSize(val sizeResource: Int) {
+    DEFAULT(R.dimen.default_quote_size), BIG(R.dimen.big_quote_size), SMALL(R.dimen.low_quote_size), LOWEST(R.dimen.min_quote_size)
 }
+
 enum class TextAlignment {
     CENTER, START, END
 }
@@ -38,9 +40,10 @@ data class QuoteStyle(override var id: String = "",
         )
         val emptyStyle = QuoteStyle(
                 id = EMPTY_STYLE_ID,
+                textSize = TextSize.LOWEST,
                 font = 3,
                 textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/4P9cnXkNigoYo/giphy.gif"
+                backgroundURL = "https://media.giphy.com/media/PnIpBoEJl7aaoBDxHt/giphy.gif"
         )
         val searchStyle = QuoteStyle(
                 id = SEARCH_STYLE_ID,

@@ -10,5 +10,5 @@
         android:fitsSystemWindows="true"
         android:scaleType="centerCrop"
         tools:showIn="@layout/quotes_card"
-        tools:src="@drawable/purple_background" />
+        tools:src="@drawable/motiv_gradient" />
 </layout>

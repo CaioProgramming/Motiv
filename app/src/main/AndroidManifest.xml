@@ -75,7 +75,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.creativ.fileprovider"
+            android:authorities="com.creat.motiv.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">

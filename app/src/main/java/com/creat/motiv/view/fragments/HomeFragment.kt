@@ -21,6 +21,10 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.motiv.base.dialog.DefaultAlert
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -45,14 +49,9 @@ class HomeFragment : Fragment() {
         FragmentHomeBinding.bind(view).run {
             quotesListBinder = QuotesListBinder(quotesView).apply {
                 addSplashQuote()
-                if (userLogged()) {
-                    initView()
-                } else {
-                    Toast.makeText(requireContext(), "Precisa realizar login", Toast.LENGTH_SHORT).show()
-                }
             }
-
         }
+        initializeHome()
     }
 
     private fun userLogged(): Boolean {
@@ -74,12 +73,21 @@ class HomeFragment : Fragment() {
                         title = "Email não verificado",
                         message = "Seu email não foi verificado, se não for confirmado você não poderá fazer posts, clique em confirmar para reenviar o email.",
                         icon = R.drawable.fui_ic_mail_white_24dp,
-                        okClick = {
-                            user.sendEmailVerification()
-                        }).buildDialog()
+                        okClick = { user.sendEmailVerification() }).buildDialog()
 
             }
             return true
+        }
+    }
+
+    fun initializeHome() {
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(2000)
+            GlobalScope.launch(Dispatchers.Main) {
+                if (userLogged()) {
+                    quotesListBinder?.initView()
+                }
+            }
         }
     }
 
@@ -88,7 +96,7 @@ class HomeFragment : Fragment() {
         if (requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-                quotesListBinder?.initView()
+                initializeHome()
             } else {
                 if (response != null) {
                     DefaultAlert(requireContext(), "Atenção", "Ocorreu um erro ao realizar o login",

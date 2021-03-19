@@ -90,9 +90,7 @@ class SettingsBinder(
                     val i = Intent(context, ManagerActivity::class.java).apply {
                         putExtra("User", data)
                     }
-                    val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,
-                            android.util.Pair(viewBind.adminText, context.getString(com.ilustris.motiv.base.R.string.quote_transaction)))
-                    context.startActivity(i, options.toBundle())
+                    context.startActivity(i)
                 }
                 val matrix = ColorMatrix().apply {
                     reset()

@@ -18,7 +18,7 @@ class MotivApplication : MultiDexApplication() {
         CaocConfig.Builder.create()
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
                 .trackActivities(true)
-                .errorActivity(ErrorActivity::class.java)
+                .errorActivity(ErrorActivity::class.java).apply()
         RequestConfiguration.Builder().setTestDeviceIds(Tools.TEST_DEVICES)
         // Thread.setDefaultUncaughtExceptionHandler { thread, e -> handleUncaughtException(e) }
     }

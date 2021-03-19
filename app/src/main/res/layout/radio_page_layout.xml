@@ -13,6 +13,5 @@
         android:layout_height="match_parent"
         android:text="Motiv"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:textColor="@color/md_white"
         android:transitionName="@string/style_text_transtition" />
 </layout>

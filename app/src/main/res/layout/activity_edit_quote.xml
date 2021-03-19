@@ -17,13 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_marginVertical="15dp"
-            app:title="Nova frase"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/fade_gradient" />
+        <include
+            android:id="@+id/motiv_top"
+            layout="@layout/motiv_toolbar" />
 
     </RelativeLayout>
 

@@ -4,6 +4,7 @@ import android.view.View
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.quote.view.adapter.QuoteRecyclerAdapter
+import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.beans.Quote
@@ -12,22 +13,21 @@ import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boolean = true) : BaseView<Quote>() {
+class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Quote>() {
 
 
     override val presenter = QuotePresenter(this)
     private var quoteRecyclerAdapter: QuoteRecyclerAdapter? = null
     var showProfile: String? = null
 
-    init {
-        if (useInit) {
-            initView()
-        }
-    }
 
     override fun initView() {
         presenter.loadData()
@@ -38,7 +38,16 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
             setupRecyclerView(listOf(Quote.noResultsQuote()))
         } else {
             setupRecyclerView(list)
-            viewBind.quotesrecyclerview.visible()
+            GlobalScope.launch(Dispatchers.IO) {
+                delay(4000)
+                if (viewBind.quotesrecyclerview.childCount > 1) {
+                    viewBind.quotesrecyclerview.setCurrentItem(Random().nextInt(list.size - 1), true)
+                }
+            }
+            if (viewBind.quotesrecyclerview.visibility == View.GONE) {
+                viewBind.quotesrecyclerview.slideInBottom()
+            }
+
         }
     }
 
@@ -61,19 +70,6 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
             calendar.time = dateNow
             author = String.format(context.getString(R.string.company), calendar.get(Calendar.YEAR))
         }))
-    }
-
-
-    override fun onLoadFinish() {
-        super.onLoadFinish()
-        if (viewBind.quotesrecyclerview.visibility == View.GONE) {
-            viewBind.quotesrecyclerview.slideUp()
-        }
-    }
-
-    override fun onLoading() {
-        super.onLoading()
-        viewBind.quotesrecyclerview.gone()
     }
 
     fun searchData(query: String) {
@@ -104,10 +100,8 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding, useInit: Boo
             } else {
                 quoteRecyclerAdapter?.addData(quotesList)
             }
-
         }
-
-
+        onLoadFinish()
     }
 
 

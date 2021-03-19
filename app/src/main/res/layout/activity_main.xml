@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+
     <RelativeLayout
         android:animateLayoutChanges="true"
-        android:background="@color/md_black"
+        android:background="?android:colorBackground"
         android:layout_height="match_parent"
         android:id="@+id/mainContainer"
         android:layout_width="match_parent">
@@ -15,7 +16,6 @@
             android:layout_above="@id/mainBottom"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:layout_marginHorizontal="@dimen/margin_small"
             app:cardCornerRadius="@dimen/radius_default"
             android:layout_width="match_parent"
             app:cardElevation="0dp">
@@ -56,9 +56,9 @@
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/nav_view"
+                android:background="?android:colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/md_black"
                 app:elevation="0dp"
                 app:itemIconSize="20dp"
                 app:itemIconTint="@color/selected_navigation"
@@ -69,18 +69,10 @@
         </LinearLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/fade_gradient" />
+        <include
+            android:id="@+id/motiv_top"
+            layout="@layout/motiv_toolbar" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:paddingTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/mainmenu"
-            app:title="@string/app_name" />
 
         <include layout="@layout/blur_layout"/>
 

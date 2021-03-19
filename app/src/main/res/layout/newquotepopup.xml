@@ -6,16 +6,16 @@
 
 
     <RelativeLayout
+        android:background="?android:colorBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/save_quote_button"
+            android:layout_above="@id/styleTabs"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_margin="@dimen/margin_small"
             app:cardCornerRadius="@dimen/radius_default"
             app:cardElevation="0dp">
 
@@ -35,6 +35,7 @@
                 android:transitionName="@string/quote_transaction">
 
                 <EditText
+                    android:theme="@style/Theme.MaterialComponents.Light"
                     android:id="@+id/quoteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,22 +76,29 @@
         </com.google.android.material.card.MaterialCardView>
 
 
+        <include
+            android:id="@+id/styleTabs"
+            layout="@layout/style_tabs_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_above="@id/save_quote_button" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_quote_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:padding="@dimen/default_padding"
+            android:padding="@dimen/padding_default"
             android:text="@string/save_quote_button"
             android:layout_marginHorizontal="@dimen/margin_default"
             android:layout_marginBottom="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="?android:colorBackground"
+            app:backgroundTint="?android:textColorPrimary"
             android:foreground="?selectableItemBackground"
             android:stateListAnimator="@animator/list_animator"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:cornerRadius="@dimen/default_radius" />
+            app:cornerRadius="@dimen/radius_default" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/editloading"

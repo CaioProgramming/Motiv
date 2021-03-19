@@ -30,7 +30,7 @@ data class Quote(
     companion object {
         fun advertiseQuote(): Quote = Quote(id = AD_QUOTE)
         fun profileQuote(): Quote = Quote(id = PROFILE_QUOTE)
-        fun noResultsQuote(): Quote = Quote(id = NO_RESULTS_QUOTE, style = EMPTY_STYLE_ID, quote = "Nenhum resultado encontrado\n:(")
+        fun noResultsQuote(): Quote = Quote(id = NO_RESULTS_QUOTE, style = EMPTY_STYLE_ID, quote = "Nenhum resultado encontrado\n\uD83D\uDE14")
         fun favoritesQuote(): Quote = Quote(id = FAVORITE_QUOTE, style = FAVORITES_STYLE_ID, quote = "Favoritos")
         fun searchQuote(): Quote = Quote(id = SEARCH_QUOTE, style = SEARCH_STYLE_ID, quote = "Hora de buscar coisas milaborantes...")
         fun splashQuote(): Quote = Quote(id = SPLASH_QUOTE, style = SPLASH_STYLE_ID, quote = "Motiv", author = "O melhor app do mundo...")

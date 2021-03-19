@@ -3,16 +3,13 @@ package com.ilustris.motiv.manager.ui.styles
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.beans.NEW_STYLE_ID
 import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
-import com.ilustris.motiv.base.utils.defineTextSize
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StyleCardBinding
@@ -42,14 +39,13 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>,
                 styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
                     typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-                    defineTextSize(quoteStyle.textSize)
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                 }
                 selectedStyle?.let {
-                    previewCard.isSelected = quoteStyle.id == it
+                    styleCard.isSelected = quoteStyle.id == it
                 }
-                previewCard.setOnClickListener {
+                styleCard.setOnClickListener {
                     onRequestDelete.invoke(quoteStyle)
                 }
             }
@@ -66,12 +62,9 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>,
                 styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
                     typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-                    defineTextSize(quoteStyle.textSize)
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                 }
-
-
 
                 styleCard.setOnClickListener {
                     onRequestDelete.invoke(quoteStyle)

@@ -4,10 +4,10 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/previewCard"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:layout_margin="@dimen/margin_small"
+        android:id="@+id/styleCard"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/margin_default"
         android:foreground="?attr/selectableItemBackground"
         android:checkable="true"
         android:stateListAnimator="@animator/selected_animator"
@@ -28,7 +28,7 @@
             android:textAlignment="center"
             android:transitionName="@string/style_text_transtition"
             android:text="Motiv"
-            android:textSize="@dimen/default_quote_size"
+            android:textSize="@dimen/min_quote_size"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.card.MaterialCardView>

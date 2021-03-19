@@ -18,7 +18,7 @@ class ManagerActivity : AppCompatActivity(R.layout.activity_manager) {
         super.onCreate(savedInstanceState)
         Giphy.configure(this, GIPHY_KEY)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        setSupportActionBar(managerToolbar)
+        setSupportActionBar(findViewById(R.id.motiv_toolbar))
         if (savedInstanceState == null) {
             setupNavigation()
         }

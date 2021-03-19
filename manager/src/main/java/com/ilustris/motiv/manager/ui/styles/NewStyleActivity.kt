@@ -6,9 +6,9 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.databinding.FragmentStylesBinding
+import com.ilustris.motiv.manager.databinding.NewStyleFormBinding
 
-class NewStyleActivity : AppCompatActivity(R.layout.fragment_styles) {
+class NewStyleActivity : AppCompatActivity(R.layout.new_style_form) {
 
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -18,7 +18,7 @@ class NewStyleActivity : AppCompatActivity(R.layout.fragment_styles) {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        DataBindingUtil.setContentView<FragmentStylesBinding>(this, R.layout.fragment_styles).run {
+        DataBindingUtil.setContentView<NewStyleFormBinding>(this, R.layout.new_style_form).run {
             NewStyleBinder(this, supportFragmentManager).initView()
         }
     }

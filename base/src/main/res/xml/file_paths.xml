@@ -6,5 +6,8 @@
     <external-path
         name="my_images"
         path="." />
+    <cache-path
+        name="cache"
+        path="." />
 
 </paths>

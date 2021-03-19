@@ -10,7 +10,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stylesRecycler"
         tools:listitem="@layout/style_preview_card"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/topBlurSize"
+        app:spanCount="3"
+        tools:itemCount="4"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

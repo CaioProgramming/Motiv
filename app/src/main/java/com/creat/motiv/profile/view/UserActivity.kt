@@ -9,7 +9,7 @@ import com.creat.motiv.databinding.UserProfileBinding
 import com.creat.motiv.profile.view.binders.ProfileBinder
 import com.ilustris.motiv.base.beans.User
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.user_profile.*
+
 
 
 class UserActivity : AppCompatActivity(R.layout.user_profile) {
@@ -18,7 +18,7 @@ class UserActivity : AppCompatActivity(R.layout.user_profile) {
         super.onCreate(savedInstanceState)
         val fragmentbind: UserProfileBinding = DataBindingUtil.setContentView(this, R.layout.user_profile)
         val userData = intent.getSerializableExtra("USER") as User
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.motiv_toolbar))
         actionBar?.let {
             it.title = userData.name
             it.setDisplayHomeAsUpEnabled(true)

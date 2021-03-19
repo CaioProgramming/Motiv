@@ -14,17 +14,14 @@ import com.ilustris.motiv.base.beans.TextSize
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.presenter.QuotePresenter
 
-import com.ilustris.animations.bounce
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.utils.autoSizeText
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.view.BaseView
-import com.skydoves.balloon.*
 import java.util.*
 
 
@@ -33,7 +30,7 @@ class EditQuoteBinder(
         override val viewBind: NewquotepopupBinding) : BaseView<Quote>() {
 
     override val presenter = QuotePresenter(this)
-    private val styleFormBinder = QuoteStyleFormBinder(viewBind.stylesPager, this::updateStyle)
+    private val styleFormBinder = QuoteStyleFormBinder(viewBind.stylesPager, this::updateStyle, viewBind.styleTabs.styleTabs)
 
     init {
         initView()
@@ -66,30 +63,10 @@ class EditQuoteBinder(
         }
         styleFormBinder.initView()
         showData(quote!!)
-        showBalloonTip()
 
     }
 
-    private fun showBalloonTip() {
-        val balloon = createBalloon(context) {
-            setArrowSize(10)
-            setWidthRatio(0.5f)
-            setHeight(50)
-            setCornerRadius(10f)
-            setWidth(100)
-            setArrowOrientation(ArrowOrientation.BOTTOM)
-            setAutoDismissDuration(5000)
-            setText("Deslize para ver estilos diferentes")
-            setTextColorResource(R.color.white)
-            setBackgroundColorResource(R.color.md_black)
-            setBalloonAnimation(BalloonAnimation.ELASTIC)
-            setOnBalloonDismissListener {
-                styleFormBinder.goToRandomStyle()
-            }
-            setLifecycleOwner(lifecycleOwner)
-        }
-        viewBind.quoteTextView.showAlignTop(balloon)
-    }
+
 
     override fun showData(data: Quote) {
         viewBind.run {
@@ -109,17 +86,9 @@ class EditQuoteBinder(
         val textColor = Color.parseColor(quoteStyle.textColor)
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
-        quoteTextView.bounce()
-        authorTextView.bounce()
-        val maxSize = when (quoteStyle.textSize) {
-            TextSize.DEFAULT -> R.dimen.default_quote_size
-            TextSize.BIG -> R.dimen.big_quote_size
-            TextSize.SMALL -> R.dimen.low_quote_size
-            TextSize.EXTRASMALL -> R.dimen.min_quote_size
-        }
-        quoteTextView.addTextChangedListener {
-            quoteTextView.autoSizeText(maxSize)
-        }
+        quoteTextView.fadeIn()
+        authorTextView.fadeIn()
+
     }
 
 
