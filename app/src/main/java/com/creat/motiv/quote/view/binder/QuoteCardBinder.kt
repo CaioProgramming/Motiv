@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
@@ -20,8 +19,7 @@ import com.creat.motiv.BuildConfig
 import com.creat.motiv.R
 import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.presenter.QuotePresenter
-import com.creat.motiv.quote.view.EditQuoteActivity
-import com.creat.motiv.quote.view.QuoteShareDialog
+import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.binder.UserViewBinder
@@ -36,9 +34,6 @@ import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 

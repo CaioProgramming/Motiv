@@ -21,6 +21,8 @@
             android:id="@+id/motiv_top"
             layout="@layout/motiv_toolbar" />
 
+        <include layout="@layout/blur_layout" />
+
     </RelativeLayout>
 
 

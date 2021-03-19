@@ -12,7 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.creat.motiv.R
 import com.creat.motiv.databinding.PlayerLayoutBinding
-import com.creat.motiv.quote.view.EditQuoteActivity
+import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.radio.PlayerBinder
 import com.ilustris.motiv.base.utils.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
@@ -88,6 +88,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
             if (resultCode == Activity.RESULT_OK) {
                 playerBinder?.initView()
                 nav_view.isEnabled = true
+
             } else {
                 if (response != null) {
                     DefaultAlert(this, "Atenção", "Ocorreu um erro ao realizar o login",

@@ -1,4 +1,4 @@
-package com.creat.motiv.quote.view
+package com.creat.motiv.quote
 
 
 import android.os.Bundle
@@ -9,10 +9,13 @@ import androidx.databinding.DataBindingUtil
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityEditQuoteBinding
 import com.creat.motiv.quote.view.binder.EditQuoteBinder
+import com.creat.motiv.utilities.MotivPreferences
+import com.creat.motiv.utilities.NEW_QUOTE_TUTORIAL
+import com.creat.motiv.tutorial.HomeTutorialDialog
+import com.creat.motiv.tutorial.NewPostTutorialDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.motiv.base.beans.Quote
-import kotlinx.android.synthetic.main.activity_edit_quote.*
 
 class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
@@ -33,11 +36,14 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
             motivToolbar.setNavigationOnClickListener { finish() }
             title = if (quotedata == null) "Nova publicação" else "Editar publicação"
         }
-
+        showTutorial()
     }
 
-
-
-
+    private fun showTutorial() {
+        val motivPreferences = MotivPreferences(this)
+        if (!motivPreferences.checkTutorial(NEW_QUOTE_TUTORIAL)) {
+            NewPostTutorialDialog(this).buildDialog()
+        }
+    }
 
 }

@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
 import com.creat.motiv.quote.view.binder.QuotesListBinder
+import com.creat.motiv.utilities.HOME_TUTORIAL
+import com.creat.motiv.utilities.MotivPreferences
+import com.creat.motiv.tutorial.HomeTutorialDialog
 import com.ilustris.motiv.base.utils.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -82,8 +85,16 @@ class HomeFragment : Fragment() {
             GlobalScope.launch(Dispatchers.Main) {
                 if (userLogged()) {
                     quotesListBinder?.initView()
+                    showTutorial()
                 }
             }
+        }
+    }
+
+    private fun showTutorial() {
+        val motivPreferences = MotivPreferences(requireContext())
+        if (!motivPreferences.checkTutorial(HOME_TUTORIAL)) {
+            HomeTutorialDialog(requireActivity()).buildDialog()
         }
     }
 

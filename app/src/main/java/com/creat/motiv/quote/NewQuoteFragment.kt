@@ -1,4 +1,4 @@
-package com.creat.motiv.quote.view
+package com.creat.motiv.quote
 
 import android.os.Bundle
 import android.view.LayoutInflater

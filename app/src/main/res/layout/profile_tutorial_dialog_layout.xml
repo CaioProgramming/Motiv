@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/blurOverLayColor"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_default">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_default"
+            android:text="Seu perfil de cara nova!"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_swipe_up"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="Simples e prático como sempre! Arrasta para cima que para ver seus posts e claro seus favoritos também!"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_user_filled"
+            android:drawablePadding="@dimen/padding_small"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="Como nos velhos tempos você ainda pode trocar sua foto de perfil por um de nossos ícones!"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_imagesearch_roller_24"
+            android:drawablePadding="@dimen/padding_small"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="A grande novidade são as capas de perfil, começamos a introduzi-las agora, mas com certeza teremos muito mais com o tempo!"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_continue"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/padding_default"
+            android:stateListAnimator="@animator/list_animator"
+            android:text="continuar"
+            android:textAllCaps="false"
+            android:textColor="?android:textColorPrimary" />
+
+    </LinearLayout>
+</layout>
