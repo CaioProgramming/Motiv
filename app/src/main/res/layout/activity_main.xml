@@ -1,48 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
 
     <RelativeLayout
+        android:animateLayoutChanges="true"
+        android:background="?android:colorBackground"
         android:layout_height="match_parent"
         android:id="@+id/mainContainer"
         android:layout_width="match_parent">
 
-
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_above="@id/nav_view"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_above="@id/mainBottom"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/main_navigation" />
+            android:animateLayoutChanges="true"
+            app:cardCornerRadius="@dimen/radius_default"
+            android:layout_width="match_parent"
+            app:cardElevation="0dp">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
+            <fragment
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/main_navigation" />
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <LinearLayout
+            android:id="@+id/mainBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/top_line"
             android:layout_alignParentBottom="true"
-            app:elevation="0dp"
-            app:itemIconTint="@color/selected_navigation"
-            app:itemRippleColor="@color/colorAccent"
-            app:itemTextColor="@color/selected_navigation"
-            app:itemIconSize="20dp"
-            app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/navigation_menu" />
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding_small"
+                android:text="Arrasta para cima para ver mais frases 🤪"
+                android:textAlignment="center" />
+
+            <include
+                android:id="@+id/playerView"
+                layout="@layout/player_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/nav_view"
+                android:background="?android:colorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                app:itemIconSize="20dp"
+                app:itemIconTint="@color/selected_navigation"
+                app:itemRippleColor="@color/colorAccent"
+                app:itemTextColor="@color/selected_navigation"
+                app:labelVisibilityMode="unlabeled"
+                app:menu="@menu/navigation_menu" />
+        </LinearLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/fade_gradient" />
+        <include
+            android:id="@+id/motiv_top"
+            layout="@layout/motiv_toolbar" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/mainmenu"
-            app:title="@string/app_name" />
 
         <include layout="@layout/blur_layout"/>
 

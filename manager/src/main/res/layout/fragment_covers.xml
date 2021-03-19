@@ -8,16 +8,18 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.covers.CoversFragment">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:background="?android:colorBackground"
+            android:paddingTop="@dimen/topBlurSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
+                app:contentScrim="?android:colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:expandedTitleGravity="top|center"
@@ -35,7 +37,7 @@
                         android:focusedByDefault="true"
                         android:layout_marginHorizontal="@dimen/padding_default"
                         android:background="@drawable/round"
-                        android:backgroundTint="@color/md_black"
+                        android:backgroundTint="?attr/dividerColor"
                         app:iconifiedByDefault="false"
                         app:queryHint="Buscar gifs" />
 
@@ -50,11 +52,13 @@
 
                     <com.giphy.sdk.ui.views.GiphyGridView
                         android:id="@+id/gifsGridView"
+                        android:background="@color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         app:gphCellPadding="@dimen/padding_default"
                         app:gphDirection="horizontal"
                         app:gphShowCheckeredBackground="false"
+
                         app:gphSpanCount="2" />
 
                 </LinearLayout>

@@ -1,85 +1,74 @@
 package com.creat.motiv.view.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Handler
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ilustris.motiv.base.MotivApplication
 import com.creat.motiv.R
+import com.creat.motiv.databinding.PlayerLayoutBinding
+import com.creat.motiv.quote.view.EditQuoteActivity
+import com.creat.motiv.radio.PlayerBinder
 import com.creat.motiv.utilities.Alert
 import com.creat.motiv.utilities.RC_SIGN_IN
 import com.ilustris.motiv.base.Tools
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ilustris.animations.fadeOut
+import com.ilustris.motiv.base.dialog.DefaultAlert
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    internal var a: Alert? = null
-    internal var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-
-
-    private val isNetworkAvailable: Boolean
-        get() {
-            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetworkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected
-        }
-
+    var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    var playerBinder: PlayerBinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.motiv_toolbar))
         if (savedInstanceState == null) {
             setupNavigation()
+            playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
+                initView()
+            }
+            nav_view.isEnabled = user == null
         }
-        internetconnection()
-        checkUser()
     }
 
-
-
-    private fun setupNavigation() {
-        val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_profile))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        nav_view.setupWithNavController(navController)
-    }
-
-    private fun checkUser() {
-        if (user == null) {
-            val providers = Arrays.asList<AuthUI.IdpConfig>(
-                    AuthUI.IdpConfig.GoogleBuilder().build(),
-                    AuthUI.IdpConfig.EmailBuilder().build())
-            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
-                    .setLogo(R.mipmap.ic_launcher)
-                    .setAvailableProviders(providers)
-                    .setTheme(R.style.Motiv_Theme)
-                    .build(), RC_SIGN_IN)
-        } else {
-            val user = FirebaseAuth.getInstance().currentUser
-            if (!user!!.isEmailVerified) {
-                Alert(this).showAlert(message = Tools.offlineMessage(), buttonMessage = "Conectar",
-                        icon = R.drawable.fui_ic_mail_white_24dp,
-                        okClick = {
-                            user.sendEmailVerification()
-                        })
-
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(10000)
+            GlobalScope.launch(Dispatchers.Main) {
+                message.fadeOut()
             }
         }
     }
 
+    private fun setupNavigation() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_search, R.id.navigation_add, R.id.navigation_profile, R.id.navigation_settings))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mainmenu, menu)
@@ -93,40 +82,49 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 val i = Intent(this, AboutActivity::class.java)
                 startActivity(i)
             }
+            R.id.navigation_add -> {
+                startActivity(Intent(this, EditQuoteActivity::class.java))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onResume() {
         super.onResume()
-        checkUser()
-        internetconnection()
         setupNavigation()
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val response = IdpResponse.fromResultIntent(data)
+            if (resultCode == Activity.RESULT_OK) {
+                playerBinder?.initView()
+                nav_view.isEnabled = true
+            } else {
+                if (response != null) {
+                    DefaultAlert(this, "Atenção", "Ocorreu um erro ao realizar o login",
+                            okClick = {
+                                signIn()
+                            }).buildDialog()
 
-    override fun onStart() {
-        super.onStart()
-        checkUser()
-        internetconnection()
-    }
+                }
 
-
-    override fun onRestart() {
-        super.onRestart()
-        checkUser()
-        internetconnection()
-    }
-
-
-    private fun internetconnection() {
-        if (a == null) {
-            if (!isNetworkAvailable) {
-                Alert(this).showAlert(message = Tools.offlineMessage(), buttonMessage = "Conectar", icon = R.drawable.ic_broken_link)
             }
+
         }
+    }
+
+    private fun signIn() {
+        val providers = listOf(
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.EmailBuilder().build())
+        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
+                .setLogo(R.mipmap.ic_launcher)
+                .setAvailableProviders(providers)
+                .setTheme(R.style.Motiv_Theme)
+                .build(), RC_SIGN_IN)
     }
 
 }

@@ -10,16 +10,16 @@ import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.silent.ilustriscore.core.view.BaseView
 
-class ProfilePicSelectBinder(val dialog: Dialog? = null,
-                             val admin: Boolean,
-                             override val viewBind: ProfilepicselectBinding,
-                             val picSelected: (Pics) -> Unit) : BaseView<Pics>() {
+class ProfilePicSelectBinder(
+        override val viewBind: ProfilepicselectBinding,
+        val picSelected: (Pics) -> Unit) : BaseView<Pics>() {
 
 
     override val presenter = PicsPresenter(this)
 
 
     override fun initView() {
+        viewBind.dialogTitle.text = "Selecionar ícone de perfil"
         presenter.loadData()
     }
 
@@ -33,9 +33,7 @@ class ProfilePicSelectBinder(val dialog: Dialog? = null,
     override fun onLoadFinish() {
         super.onLoadFinish()
         viewBind.loading.fadeOut()
-        viewBind.closeButton.setOnClickListener {
-            dialog?.dismiss()
-        }
+
         if (viewBind.mainView.visibility == GONE) {
             viewBind.mainView.fadeIn()
         }

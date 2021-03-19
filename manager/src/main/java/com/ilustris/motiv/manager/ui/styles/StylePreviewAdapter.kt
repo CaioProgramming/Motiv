@@ -6,20 +6,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.beans.NEW_STYLE_ID
 import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
-import com.ilustris.motiv.base.utils.defineTextSize
+import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StyleCardBinding
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 
-class StylePreviewAdapter(private var styles: List<QuoteStyle>, private val isPreview: Boolean = false, val onRequestDelete: (QuoteStyle) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StylePreviewAdapter(private var styles: List<QuoteStyle>,
+                          private val isPreview: Boolean = false,
+                          private var selectedStyle: String? = null,
+                          val onRequestDelete: (QuoteStyle) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun updateStyles(list: List<QuoteStyle>) {
         styles = list
+        notifyDataSetChanged()
+    }
+
+    fun setSelectedStyle(style: String) {
+        selectedStyle = style
         notifyDataSetChanged()
     }
 
@@ -29,14 +36,16 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>, private val isPr
 
             stylePreviewCardBinding.run {
                 val context: Context = root.context
-                Glide.with(context).load(quoteStyle.backgroundURL).centerCrop().into(styleImage)
+                styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
                     typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-                    defineTextSize(quoteStyle.textSize)
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                 }
-                root.setOnClickListener {
+                selectedStyle?.let {
+                    styleCard.isSelected = quoteStyle.id == it
+                }
+                styleCard.setOnClickListener {
                     onRequestDelete.invoke(quoteStyle)
                 }
             }
@@ -50,15 +59,14 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>, private val isPr
 
             stylePreviewCardBinding.run {
                 val context: Context = root.context
-                Glide.with(context).load(quoteStyle.backgroundURL).centerCrop().into(styleImage)
+                styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
                     typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-                    defineTextSize(quoteStyle.textSize)
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                 }
 
-                root.setOnClickListener {
+                styleCard.setOnClickListener {
                     onRequestDelete.invoke(quoteStyle)
                 }
                 if (quoteStyle.id == NEW_STYLE_ID) {

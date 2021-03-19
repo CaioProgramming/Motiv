@@ -9,7 +9,7 @@ import com.creat.motiv.R
 import com.creat.motiv.profile.view.binders.UserPicBind
 import com.ilustris.motiv.base.databinding.UserPicviewBinding
 
-class CardLikeAdapter(val likes: List<String>, val context: Context) : RecyclerView.Adapter<CardLikeAdapter.MyViewHolder>() {
+class CardLikeAdapter(private val likes: List<String>, val context: Context) : RecyclerView.Adapter<CardLikeAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -23,7 +23,7 @@ class CardLikeAdapter(val likes: List<String>, val context: Context) : RecyclerV
         }
     }
 
-    override fun getItemCount(): Int = if (likes.size <= 5) likes.size else 3
+    override fun getItemCount(): Int = if (likes.size <= 5) likes.size else 5
 
     class MyViewHolder(val userPicviewBinding: UserPicviewBinding) : RecyclerView.ViewHolder(userPicviewBinding.root)
 }

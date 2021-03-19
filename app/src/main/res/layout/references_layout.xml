@@ -16,7 +16,7 @@
         android:layout_height="250dp"
         android:layout_margin="10dp"
         android:stateListAnimator="@animator/list_animator"
-        app:cardCornerRadius="@dimen/default_radius"
+        app:cardCornerRadius="@dimen/radius_default"
         app:cardElevation="4dp">
 
 

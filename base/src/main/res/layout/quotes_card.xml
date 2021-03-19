@@ -22,6 +22,7 @@
             layout="@layout/style_layout_view" />
 
         <LinearLayout
+            android:layout_marginTop="@dimen/topBlurSize"
             android:padding="@dimen/padding_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,17 +101,18 @@
 
                     <CheckBox
                         android:id="@+id/like"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="@drawable/favoritecheck"
                         android:button="@color/transparent" />
 
                     <ImageButton
+                        android:layout_width="32dp"
                         android:id="@+id/editButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_height="32dp"
+                        android:tint="@color/white"
                         android:layout_marginHorizontal="@dimen/margin_default"
                         android:background="@color/transparent"
                         android:foreground="?attr/selectableItemBackground"
@@ -118,9 +120,10 @@
                         android:stateListAnimator="@animator/list_animator" />
 
                     <ImageButton
+                        android:layout_width="32dp"
                         android:id="@+id/deleteButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_height="32dp"
+                        android:tint="@color/white"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="@color/transparent"
                         android:foreground="?attr/selectableItemBackground"
@@ -128,9 +131,10 @@
                         android:stateListAnimator="@animator/list_animator" />
 
                     <ImageButton
+                        android:layout_width="32dp"
                         android:id="@+id/shareButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_height="32dp"
+                        android:tint="@color/white"
                         android:layout_marginHorizontal="@dimen/margin_default"
                         android:background="@color/transparent"
                         android:foreground="?attr/selectableItemBackground"
@@ -138,10 +142,11 @@
                         android:stateListAnimator="@animator/list_animator" />
 
                     <ImageButton
+                        android:layout_width="32dp"
                         android:id="@+id/reportButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:tint="@color/white"
                         android:background="@color/transparent"
                         android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_flag"
@@ -152,6 +157,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/likers"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
                     android:layout_width="match_parent"
                     android:layout_toEndOf="@id/quotebuttons"
                     android:layout_height="wrap_content"

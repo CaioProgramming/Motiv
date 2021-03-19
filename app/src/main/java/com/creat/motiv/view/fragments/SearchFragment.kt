@@ -29,7 +29,7 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.hideSupporActionBar()
-        quotesListBinder = QuotesListBinder(searchBinding.quotesView, useInit = false)
+        quotesListBinder = QuotesListBinder(searchBinding.quotesView)
         quotesListBinder?.addSearchQuote()
         searchBinding.searchview.run {
             setOnQueryTextListener(this@SearchFragment)

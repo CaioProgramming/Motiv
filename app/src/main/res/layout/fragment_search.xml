@@ -20,8 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusedByDefault="true"
-            android:layout_margin="@dimen/padding_default"
-            android:background="@drawable/round_low"
+            android:layout_margin="@dimen/padding_big"
+            android:background="@drawable/round"
+            android:backgroundTint="@color/material_grey500"
             app:iconifiedByDefault="false"
             app:queryHint="@string/query_hint" />
     </RelativeLayout>

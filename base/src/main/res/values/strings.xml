@@ -9,5 +9,7 @@
     <string name="quote_transaction">quoteTransaction</string>
     <string name="author_transaction">authorTransaction</string>
     <string name="company">Ilustris 2018 - %d</string>
-
+    <string name="profilepictransiction">profilepic</string>
+    <string name="follow_user">seguir</string>
+    <string name="message_user">mensagem</string>
 </resources>

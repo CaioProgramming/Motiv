@@ -1,5 +1,6 @@
 package com.ilustris.motiv.manager.ui.icons
 
+import android.app.Activity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,8 +24,13 @@ class IconsBinder(override val viewBind: FragmentIconsBinding, private val fragm
         val pictures = ArrayList(list)
         pictures.add(0, Pics.addPic())
         viewBind.managerRecycler.run {
-            adapter = RecyclerPicAdapter(pictures, {
-                BottomSheetAlert(context, "Não gostou?", "Caso queira apagar esse ícone basta confirmar", { presenter.deleteData(it) })
+            adapter = RecyclerPicAdapter(pictures, { pic ->
+                (context as Activity?)?.let {
+                    BottomSheetAlert(it, "Não gostou?", "Caso queira apagar esse ícone basta confirmar", {
+                        presenter.deleteData(pic)
+                    }).buildDialog()
+
+                }
             }, {
                 AddIconsDialog.buildNewIconsDialog(fragmentManager) { presenter.savePics(it) }
             })

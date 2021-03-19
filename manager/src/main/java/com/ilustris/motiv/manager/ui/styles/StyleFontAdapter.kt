@@ -3,16 +3,13 @@ package com.ilustris.motiv.manager.ui.styles
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.animations.bounce
+import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.DEFAULT_TEXT_COLOR
 import com.ilustris.motiv.base.beans.TextAlignment
-import com.ilustris.motiv.base.beans.TextSize
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
-import com.ilustris.motiv.base.utils.defineTextSize
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StyleTextPageLayoutBinding
 
@@ -20,7 +17,6 @@ class StyleFontAdapter : RecyclerView.Adapter<StyleFontAdapter.FontHolder>() {
 
     var styleTextColor: String = DEFAULT_TEXT_COLOR
     var currentAlignment = TextAlignment.CENTER
-    var currentTextSize = TextSize.DEFAULT
 
     fun updateTextColor(newColor: String) {
         styleTextColor = newColor
@@ -32,9 +28,8 @@ class StyleFontAdapter : RecyclerView.Adapter<StyleFontAdapter.FontHolder>() {
         notifyDataSetChanged()
     }
 
-    fun updateTextSize(textSize: TextSize) {
-        currentTextSize = textSize
-        notifyDataSetChanged()
+    fun getFont(position: Int): String {
+        return FontUtils.fonts[position].name
     }
 
     inner class FontHolder(private val styleTextPageLayoutBinding: StyleTextPageLayoutBinding) : RecyclerView.ViewHolder(styleTextPageLayoutBinding.root) {
@@ -43,10 +38,9 @@ class StyleFontAdapter : RecyclerView.Adapter<StyleFontAdapter.FontHolder>() {
             val context = itemView.context
             styleTextPageLayoutBinding.styleText.run {
                 defineTextAlignment(currentAlignment)
-                defineTextSize(currentTextSize)
                 typeface = FontUtils.getTypeFace(context, adapterPosition)
                 setTextColor(Color.parseColor(styleTextColor))
-                bounce()
+                fadeIn()
             }
 
         }

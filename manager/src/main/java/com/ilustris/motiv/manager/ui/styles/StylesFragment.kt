@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.databinding.FragmentCoversBinding
-import com.ilustris.motiv.manager.databinding.FragmentStylesBinding
 import com.ilustris.motiv.manager.databinding.StylesRecyclerBinding
 
 class StylesFragment : Fragment() {

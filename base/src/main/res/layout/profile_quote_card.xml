@@ -42,14 +42,14 @@
                 android:padding="@dimen/padding_default"
                 android:stateListAnimator="@animator/list_animator"
                 android:tooltipText="Alterar foto de perfil"
-                android:transitionName="@string/profilepictransiction"
+                android:transitionName="profilepic"
                 app:civ_border_color="?android:textColorPrimary"
                 app:civ_border_width="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic__41_floppy_disk" />
+                tools:src="@drawable/avatarnotfound" />
 
             <TextView
                 android:id="@+id/username"
@@ -77,7 +77,7 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_padding"
+                    android:layout_margin="@dimen/padding_default"
                     android:layout_toStartOf="@id/messageButton"
                     android:text="@string/follow_user"
                     android:textColor="?android:textColorPrimary"
@@ -92,17 +92,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/default_padding"
+                    android:layout_margin="@dimen/padding_default"
                     android:drawableEnd="@drawable/ic_paper_plane"
-                    android:drawableTint="@color/white"
+                    android:drawableTint="@color/md_white"
                     android:text="@string/message_user"
-                    android:textColor="@color/white"
+                    android:textColor="@color/md_white"
                     android:textStyle="bold"
                     android:visibility="gone"
                     app:backgroundTint="@color/colorPrimaryDark"
                     app:cornerRadius="@dimen/radius_small"
                     app:elevation="0dp"
-                    app:iconTint="@color/white"
+                    app:iconTint="@color/md_white"
                     tools:visibility="visible" />
 
             </RelativeLayout>

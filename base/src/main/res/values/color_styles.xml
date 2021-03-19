@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="color_styles">
+        <item>@array/black_white</item>
+        <item>@array/white_black</item>
+        <item>@array/blue_gold</item>
+    </array>
+
+    <array name="black_white">
+        <item>@color/md_black</item>
+        <item>@color/md_white</item>
+    </array>
+    <array name="white_black">
+        <item>@color/md_black</item>
+        <item>@color/md_white</item>
+    </array>
+    <array name="blue_gold">
+        <item>@color/material_blueA400</item>
+        <item>@color/material_yellow600</item>
+    </array>
+    <array name="red_white">
+        <item>@color/material_redA400</item>
+        <item>@color/material_white</item>
+    </array>
+    <array name="white_red">
+        <item>@color/material_white</item>
+        <item>@color/material_redA400</item>
+    </array>
+</resources>

@@ -5,27 +5,27 @@
 
     <LinearLayout
         android:id="@+id/userContainer"
-        android:background="@drawable/bottom_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/default_padding">
+        android:padding="@dimen/padding_default">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilepic"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            tools:src="@drawable/ic__41_floppy_disk" />
+            tools:src="@drawable/avatarnotfound" />
 
         <TextView
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:id="@+id/username"
-            style="@style/TextAppearance.MaterialComponents.Body2"
-            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_padding"
+            android:textColor="?android:textColorPrimary"
             tools:text="Caio Alves Ferreira" />
 
     </LinearLayout>

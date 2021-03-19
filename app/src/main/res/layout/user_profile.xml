@@ -7,18 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:title="@string/app_name"
-            android:background="@drawable/fade_gradient"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-
         <include
             android:id="@+id/profileView"
             layout="@layout/fragment_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <include layout="@layout/blur_layout" />
+
+        <include layout="@layout/motiv_toolbar" />
+
     </RelativeLayout>
 
 

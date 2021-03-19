@@ -1,19 +1,15 @@
 package com.ilustris.motiv.base.binder
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
-import android.view.View
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.Routes
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.databinding.UserQuoteCardViewBinding
 import com.silent.ilustriscore.core.view.BaseView
-import com.squareup.okhttp.Route
 
 class UserViewBinder(
         val userID: String,
@@ -37,12 +33,14 @@ class UserViewBinder(
                 userpic.borderColor = Color.TRANSPARENT
                 userpic.borderWidth = 0
             }
+            userContainer.fadeIn()
         }
     }
 
     private fun showUserProfile(user: User) {
         if (user.uid != presenter.user?.uid) {
             Routes(context).openUserProfile(user, viewBind.userpic)
+
         }
 
     }

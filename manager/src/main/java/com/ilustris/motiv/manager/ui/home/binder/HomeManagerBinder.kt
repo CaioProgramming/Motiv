@@ -20,11 +20,6 @@ class HomeManagerBinder(override val viewBind: FragmentManagerHomeBinding) : Bas
     override val presenter = QuotePresenter(this)
     private var quoteRecyclerAdapter: QuoteManagerAdapter? = null
 
-    init {
-        if (useInit) {
-            initView()
-        }
-    }
 
     override fun initView() {
         presenter.loadData()

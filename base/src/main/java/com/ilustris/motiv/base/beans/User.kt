@@ -15,20 +15,12 @@ data class User(var name: String = "",
 
 
     companion object {
-        fun fromFirebaseWithToken(firebaseUser: FirebaseUser, token: String): User {
-            return User(
-                    uid = firebaseUser.uid,
-                    name = firebaseUser.displayName ?: "Desconhecido",
-                    picurl = firebaseUser.photoUrl.toString(),
-                    token = token
-            )
-        }
+
 
         fun fromFirebase(firebaseUser: FirebaseUser): User {
             return User(
                     uid = firebaseUser.uid,
-                    name = firebaseUser.displayName ?: "Desconhecido",
-                    picurl = firebaseUser.photoUrl.toString()
+                    name = firebaseUser.displayName ?: "Desconhecido"
             )
         }
     }

@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ilustris.animations.slideInBottom
 
-import com.ilustris.motiv.base.utils.blurView
-import com.ilustris.motiv.base.utils.unblurView
-import com.ilustris.motiv.base.utils.ColorUtils.toHex
-import com.ilustris.motiv.base.SelectedViewType
+
 import com.ilustris.motiv.base.utils.ColorUtils
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ColorCardBinding
@@ -38,8 +36,7 @@ class RecyclerColorAdapter(private val context: Context,
         holder.colorCardBinding.run {
             val colorValue = colorsList[position]
             this.colorcard.setCardBackgroundColor(Color.parseColor(colorValue))
-            val animation = AnimationUtils.loadAnimation(context, R.anim.fui_slide_in_right)
-            colorcard.startAnimation(animation)
+            colorcard.slideInBottom()
             colorcard.setOnClickListener {
                 onColorPick(colorValue)
             }

@@ -1,5 +1,7 @@
 package com.creat.motiv.developer.view
 
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
 import com.ilustris.motiv.base.beans.Developer
 import com.creat.motiv.developer.presenter.DeveloperPresenter
@@ -25,6 +27,7 @@ class DeveloperBinder(override val viewBind: QuoteHeaderViewBinding) : BaseView<
         super.showListData(list)
         viewBind.recyclerView.run {
             adapter = RecyclerDeveloperAdapter(list, context)
+            layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
             fadeIn()
         }
     }
