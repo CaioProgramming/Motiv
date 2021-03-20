@@ -38,22 +38,15 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setSupportActionBar(findViewById(R.id.motiv_toolbar))
         if (savedInstanceState == null) {
             setupNavigation()
-            playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
-                initView()
+            if (user != null) {
+                playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
+                    initView()
+                }
             }
             nav_view.isEnabled = user == null
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        GlobalScope.launch(Dispatchers.IO) {
-            delay(10000)
-            GlobalScope.launch(Dispatchers.Main) {
-                message.fadeOut()
-            }
-        }
-    }
 
     private fun setupNavigation() {
         val navController = findNavController(R.id.nav_host_fragment)
@@ -86,7 +79,12 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-                playerBinder?.initView()
+                if (playerBinder == null) {
+                    playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
+                        initView()
+                    }
+                }
+
                 nav_view.isEnabled = true
 
             } else {

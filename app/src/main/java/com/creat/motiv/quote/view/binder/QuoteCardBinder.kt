@@ -197,7 +197,6 @@ class QuoteCardBinder(
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
             viewBind.userTop.username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
-
             CardLikeAdapter(data.likes.toList(), context)
             viewBind.quoteOptions.slideInBottom()
         } else {

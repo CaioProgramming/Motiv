@@ -76,13 +76,6 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-        <include
-            android:id="@+id/styleTabs"
-            layout="@layout/style_tabs_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_above="@id/save_quote_button" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_quote_button"
             android:layout_width="match_parent"
@@ -96,6 +89,7 @@
             android:textStyle="bold"
             android:textColor="?android:colorBackground"
             app:backgroundTint="?android:textColorPrimary"
+            app:elevation="0dp"
             android:foreground="?selectableItemBackground"
             android:stateListAnimator="@animator/list_animator"
             app:cornerRadius="@dimen/radius_default" />
@@ -104,9 +98,12 @@
             android:id="@+id/editloading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:indicatorColor="@color/colorPrimaryDark"
-            android:elevation="4dp"
+            android:indeterminate="true"
             android:visibility="gone"
+            app:indicatorColor="?android:textColorPrimary"
+            android:elevation="4dp"
+            app:indicatorDirectionCircular="clockwise"
+            app:trackThickness="1dp"
             android:layout_alignTop="@id/save_quote_button"
             android:layout_alignBottom="@id/save_quote_button"
             android:layout_centerInParent="true"

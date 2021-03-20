@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.beans.QuoteStyle
@@ -156,51 +158,18 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
 
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
-        viewBind.styleTabs.styleTabs.run {
-            removeAllTabs()
-            list.forEach {
-                addTab(newTab().apply {
-                    val view = LayoutInflater.from(context).inflate(R.layout.style_preview_card, null, false)
-                    val stylePreviewCardBinding = StylePreviewCardBinding.bind(view)
-                    stylePreviewCardBinding.run {
-                        styleText.typeface = FontUtils.getTypeFace(context, it.font)
-                        styleText.setTextColor(Color.parseColor(it.textColor))
-
-                        styleText.defineTextAlignment(it.textAlignment)
-                        styleImage.loadGif(it.backgroundURL)
-                        styleCard.setOnClickListener {
-                            select()
-                        }
-                        styleCard.setOnLongClickListener {
-                            BottomSheetAlert(context, "Deseja remover esse estilo?", context.getString(R.string.style_delete_message))
-                            false
-                        }
-                    }
-                    customView = stylePreviewCardBinding.root
-                })
-            }
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.let {
-                        getStyleFromPreview(list[it.position])
-                    }
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                }
-
-            })
+        viewBind.styleTabs.stylesRecycler.run {
+            previewAdapter = StylePreviewAdapter(list, true, onRequestDelete = this@NewStyleBinder::getStyleFromPreview)
+            adapter = previewAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         }
-
 
     }
 
     private fun getStyleFromPreview(selectedStyle: QuoteStyle) {
         style = selectedStyle
-        viewBind.fontsTabs.getTabAt(selectedStyle.font)?.select()
+        previewAdapter?.setSelectedStyle(style.id)
+        viewBind.fontsTabs.getTabAt(style.font)?.select()
         viewBind.styleBackground.loadGif(style.backgroundURL)
         GlobalScope.launch(Dispatchers.IO) {
             delay(2000)
@@ -218,23 +187,19 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     }
 
     fun updateStyle() {
-                viewBind.run {
-
-                    styleAlign.run {
-                        val src = when (style.textAlignment) {
-                            TextAlignment.CENTER -> R.drawable.ic_baseline_format_align_center_24
-                            TextAlignment.START -> R.drawable.ic_baseline_format_align_left_24
-                            TextAlignment.END -> R.drawable.ic_baseline_format_align_right_24
-                        }
-                        setImageResource(src)
-                    }
-                    fontAdapter.run {
-                        updateAlignment(style.textAlignment)
-                        updateTextColor(style.textColor)
-
-                    }
-                    previewAdapter?.setSelectedStyle(style.id)
-
+        viewBind.run {
+            styleAlign.run {
+                val src = when (style.textAlignment) {
+                    TextAlignment.CENTER -> R.drawable.ic_baseline_format_align_center_24
+                    TextAlignment.START -> R.drawable.ic_baseline_format_align_left_24
+                    TextAlignment.END -> R.drawable.ic_baseline_format_align_right_24
                 }
+                setImageResource(src)
+            }
+            fontAdapter.run {
+                updateAlignment(style.textAlignment)
+                updateTextColor(style.textColor)
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.profile.view.LikesDialog
+import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.databinding.UserPicviewBinding
@@ -33,12 +34,12 @@ class UserPicBind(
             if (context is AppCompatActivity) {
                 val act = context as AppCompatActivity
                 if (!act.isDestroyed) {
-                    Glide.with(act).load(data.picurl).into(this)
+                    Glide.with(act).load(data.picurl).error(R.drawable.ic_neptune).into(this)
                 }
             }
             if (data.admin) {
                 borderColor = ContextCompat.getColor(context, R.color.adminBorder)
-                borderWidth = 2
+                borderWidth = 5
             } else {
                 borderColor = Color.TRANSPARENT
                 borderWidth = 0
@@ -46,7 +47,9 @@ class UserPicBind(
             setOnClickListener {
                 context.activity()?.let { activity -> LikesDialog(activity, quotesLikes).buildDialog() }
             }
+            slideInBottom()
         }
+
     }
 
     override val presenter = UserPresenter(this)

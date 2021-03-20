@@ -27,7 +27,7 @@ class UserViewBinder(
             }
             if (data.admin) {
                 userpic.borderColor = context.resources.getColor(R.color.adminBorder)
-                userpic.borderWidth = 2
+                userpic.borderWidth = 5
 
             } else {
                 userpic.borderColor = Color.TRANSPARENT

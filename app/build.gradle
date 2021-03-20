@@ -20,8 +20,8 @@ android {
         throw new GradleException("Could not read version.properties!")
     }
 
-    def versionMajor = versionProps['MAJOR_VERSION'].toInteger()
-    def versionMinor = versionProps['MINOR_VERSION'].toInteger()
+    def versionMajor = versionProps['VERSION_MAJOR'].toInteger()
+    def versionMinor = versionProps['VERSION_MINOR'].toInteger()
     def versionPatch = versionProps['VERSION_PATCH'].toInteger()
     def versionBuild = versionProps['VERSION_BUILD'].toInteger()
     def versionNumber = versionProps['VERSION_NUMBER'].toInteger()
@@ -127,9 +127,36 @@ task updateVersion(dependsOn: "getReleaseBundle") {
 
             throw new GradleException("Could not read version.properties!")
         }
-        def versionPatch = versionProps["VERSION_PATCH"].toInteger() + 1
-        def versionBuild = versionProps["VERSION_BUILD"].toInteger() + 1
+
+        def versionMajor = versionProps["VERSION_MAJOR"].toInteger()
+        def versionMinor = versionProps["VERSION_MINOR"].toInteger()
+        def versionPatch = versionProps["VERSION_PATCH"].toInteger()
+        def versionBuild = versionProps["VERSION_BUILD"].toInteger()
         def versionNumber = versionProps["VERSION_NUMBER"].toInteger() + 1
+
+        if (versionBuild < 20) {
+            versionBuild++
+        } else {
+            versionBuild = 0
+            versionPatch++
+        }
+
+        if (versionPatch < 10) {
+            versionPatch++
+        } else {
+            versionPatch = 0
+            versionMinor++
+        }
+
+        if (versionMinor < 15) {
+            versionMinor++
+        }else {
+            versionMinor = 0
+            versionMajor++
+        }
+
+        versionProps["VERSION_MINOR"] = versionMinor.toString()
+        versionProps["VERSION_MAJOR"] = versionMajor.toString()
         versionProps["VERSION_PATCH"] = versionPatch.toString()
         versionProps["VERSION_BUILD"] = versionBuild.toString()
         versionProps["VERSION_NUMBER"] = versionNumber.toString()
@@ -145,11 +172,11 @@ task generateProduction(dependsOn: "bundleRelease") {
     Properties versionProps = new Properties()
     versionProps.load(new FileInputStream(versionPropsFile))
 
-    def versionPatch = versionProps["VERSION_PATCH"].toInteger()
-    def versionBuild = versionProps["VERSION_BUILD"].toInteger()
-    def versionNumber = versionProps["VERSION_NUMBER"].toInteger()
-    def versionMajor = versionProps['MAJOR_VERSION']
-    def versionMinor = versionProps['MINOR_VERSION']
+    def versionPatch = versionProps["VERSION_PATCH"]
+    def versionBuild = versionProps["VERSION_BUILD"]
+    def versionNumber = versionProps["VERSION_NUMBER"]
+    def versionMajor = versionProps['VERSION_MAJOR']
+    def versionMinor = versionProps['VERSION_MINOR']
 
     def vName = "${versionMajor}-${versionMinor}-${versionPatch}-${versionBuild}-${versionNumber}"
 
@@ -182,8 +209,8 @@ task getReleaseBundle(dependsOn: "generateProduction") {
         def versionPatch = versionProps["VERSION_PATCH"]
         def versionBuild = versionProps["VERSION_BUILD"]
         def versionNumber = versionProps["VERSION_NUMBER"]
-        def versionMajor = versionProps['MAJOR_VERSION']
-        def versionMinor = versionProps['MINOR_VERSION']
+        def versionMajor = versionProps['VERSION_MAJOR']
+        def versionMinor = versionProps['VERSION_MINOR']
 
         def vName = "${versionMajor}-${versionMinor}-${versionPatch}-${versionBuild}-${versionNumber}"
 

@@ -1,13 +1,12 @@
-package com.ilustris.motiv.base
+package com.creat.motiv
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
+import com.ilustris.motiv.base.Tools
 
 
 class MotivApplication : MultiDexApplication() {

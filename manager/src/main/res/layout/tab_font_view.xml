@@ -8,6 +8,6 @@
     android:stateListAnimator="@animator/selected_animator"
     android:text="Mm"
     android:textAlignment="center"
-    android:textSize="@dimen/min_quote_size"
+    android:textSize="@dimen/default_quote_size"
     android:textColor="@color/selected_font"
     android:textStyle="bold" />

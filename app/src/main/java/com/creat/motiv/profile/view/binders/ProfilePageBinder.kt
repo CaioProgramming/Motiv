@@ -28,7 +28,7 @@ class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid:
         viewBind.run {
             Glide.with(context).load(data.picurl).error(R.drawable.ic_neptune).into(profilepic)
             viewBind.profilepic.borderColor = ContextCompat.getColor(context, R.color.adminBorder)
-            viewBind.profilepic.borderWidth = 2
+            viewBind.profilepic.borderWidth = 5
             userBackground.loadGif(data.cover)
             username.text = data.name
 

@@ -38,6 +38,7 @@
                         android:id="@+id/userpic"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
+                        app:civ_circle_background_color="@color/colorAccent"
                         android:layout_gravity="center"
                         app:civ_border_width="0dp"
                         tools:src="@drawable/ic_neptune" />
@@ -188,7 +189,6 @@
 
             </RelativeLayout>
 
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/singOutButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -196,7 +196,6 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_default"
                 android:text="Desconectar"
-
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/material_red500"

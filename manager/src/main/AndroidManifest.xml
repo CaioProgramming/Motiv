@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.ilustris.motiv.base.MotivApplication"
+        android:name="com.creat.motiv.MotivApplication"
         android:theme="@style/Motiv.Theme">
         <activity android:name=".ui.styles.NewStyleActivity" />
         <activity android:name=".ManagerActivity" />

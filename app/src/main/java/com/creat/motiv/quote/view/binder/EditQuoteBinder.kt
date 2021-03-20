@@ -30,7 +30,7 @@ class EditQuoteBinder(
         override val viewBind: NewquotepopupBinding) : BaseView<Quote>() {
 
     override val presenter = QuotePresenter(this)
-    private val styleFormBinder = QuoteStyleFormBinder(viewBind.stylesPager, this::updateStyle, viewBind.styleTabs.styleTabs)
+    private val styleFormBinder = QuoteStyleFormBinder(viewBind.stylesPager, this::updateStyle)
 
     init {
         initView()

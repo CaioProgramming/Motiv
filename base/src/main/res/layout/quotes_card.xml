@@ -106,6 +106,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="@drawable/favoritecheck"
+                        android:stateListAnimator="@animator/list_animator"
                         android:button="@color/transparent" />
 
                     <ImageButton
@@ -115,7 +116,6 @@
                         android:tint="@color/white"
                         android:layout_marginHorizontal="@dimen/margin_default"
                         android:background="@color/transparent"
-                        android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_edit"
                         android:stateListAnimator="@animator/list_animator" />
 
@@ -126,7 +126,6 @@
                         android:tint="@color/white"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="@color/transparent"
-                        android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_delete"
                         android:stateListAnimator="@animator/list_animator" />
 
@@ -137,7 +136,6 @@
                         android:tint="@color/white"
                         android:layout_marginHorizontal="@dimen/margin_default"
                         android:background="@color/transparent"
-                        android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_share"
                         android:stateListAnimator="@animator/list_animator" />
 
@@ -148,7 +146,6 @@
                         android:layout_marginStart="@dimen/margin_default"
                         android:tint="@color/white"
                         android:background="@color/transparent"
-                        android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_flag"
                         android:stateListAnimator="@animator/list_animator" />
                 </LinearLayout>

@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context="com.ilustris.motiv.base.ErrorActivity">
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/errorBackground"

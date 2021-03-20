@@ -39,16 +39,6 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/message"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/padding_small"
-                android:text="Arrasta para cima para ver mais frases 🤪"
-                android:textAlignment="center" />
-
             <include
                 android:id="@+id/playerView"
                 layout="@layout/player_layout"

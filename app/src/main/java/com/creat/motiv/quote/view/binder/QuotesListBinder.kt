@@ -37,17 +37,22 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
         if (list.isEmpty()) {
             setupRecyclerView(listOf(Quote.noResultsQuote()))
         } else {
-            setupRecyclerView(list.sortedByDescending { it.data })
-            GlobalScope.launch(Dispatchers.IO) {
-                delay(4000)
-                if (viewBind.quotesrecyclerview.childCount > 1) {
-                    viewBind.quotesrecyclerview.setCurrentItem(Random().nextInt(list.size - 1), true)
-                }
-            }
+            setupRecyclerView(list.sortedByDescending { it.likes.size })
             if (viewBind.quotesrecyclerview.visibility == View.GONE) {
                 viewBind.quotesrecyclerview.slideInBottom()
             }
 
+
+        }
+    }
+
+    private fun slideNextQuote() {
+        quoteRecyclerAdapter?.let {
+            viewBind.quotesrecyclerview.postDelayed({
+                if (it.quoteList.size > 1 && !it.quoteList[0].isUserQuote() && viewBind.quotesrecyclerview.currentItem == 0) {
+                    viewBind.quotesrecyclerview.setCurrentItem(1, true)
+                }
+            }, 5000)
         }
     }
 
@@ -101,6 +106,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
                 quoteRecyclerAdapter?.addData(quotesList)
             }
         }
+        slideNextQuote()
         onLoadFinish()
     }
 

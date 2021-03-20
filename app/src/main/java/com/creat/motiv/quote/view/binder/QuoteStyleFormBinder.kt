@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageChange: (QuoteStyle) -> Unit, val styleTabLayout: TabLayout) : BaseView<QuoteStyle>() {
+class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageChange: (QuoteStyle) -> Unit) : BaseView<QuoteStyle>() {
 
     override val presenter = QuoteStylePresenter(this)
     var quoteStyle: String? = null
@@ -46,34 +46,6 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
                 }
 
             })
-            TabLayoutMediator(styleTabLayout, this) { tab, position ->
-                val view = LayoutInflater.from(context).inflate(R.layout.style_preview_card, null, false)
-                val stylePreviewCardBinding = StylePreviewCardBinding.bind(view)
-                stylePreviewCardBinding.run {
-                    val style = list[position]
-                    styleText.typeface = FontUtils.getTypeFace(context, style.font)
-                    styleText.setTextColor(Color.parseColor(style.textColor))
-                    styleImage.loadGif(style.backgroundURL)
-                    styleCard.setOnClickListener {
-                        tab.select()
-                    }
-                }
-                tab.customView = stylePreviewCardBinding.root
-            }.attach()
-            styleTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.view?.findViewById<MaterialCardView>(R.id.styleCard)?.isSelected = true
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    tab?.view?.findViewById<MaterialCardView>(R.id.styleCard)?.isSelected = false
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-
-                }
-
-            })
         }
         getStyle()
     }
@@ -91,7 +63,6 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
             }
         }
     }
-
 
     fun goToStyle(styleID: String) {
         if (styleID != QuoteStyle.defaultStyle.id) {

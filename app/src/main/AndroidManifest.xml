@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
-        android:name="com.ilustris.motiv.base.MotivApplication"
+        android:name=".MotivApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,7 +34,7 @@
             android:name=".profile.view.UserActivity"
             android:hardwareAccelerated="true" />
         <activity
-            android:name="com.ilustris.motiv.base.ErrorActivity"
+            android:name=".view.activities.ErrorActivity"
             android:clearTaskOnLaunch="true"
             android:process=":report_process" />
         <activity
