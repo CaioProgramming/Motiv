@@ -114,8 +114,7 @@ repositories {
 }
 
 
-task updateVersion(dependsOn: "getReleaseBundle") {
-    doLast {
+task updateVersion() {
         println "Updating version"
 
         def versionPropsFile = file("version.properties")
@@ -161,8 +160,6 @@ task updateVersion(dependsOn: "getReleaseBundle") {
         versionProps["VERSION_BUILD"] = versionBuild.toString()
         versionProps["VERSION_NUMBER"] = versionNumber.toString()
         versionPropsFile.withWriter { versionProps.store(it, null) }
-    }
-
 }
 
 task generateProduction(dependsOn: "bundleRelease") {
