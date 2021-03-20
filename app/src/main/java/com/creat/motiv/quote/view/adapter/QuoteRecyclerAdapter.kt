@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -146,6 +147,8 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
                 }
 
                 userTop.userData = User(name = ad.advertiser ?: "Anunciante não identificado")
+                userTop.username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
+
                 userTop.username.setTextColor(Color.BLACK)
                 adAppMedia.apply {
                     setMediaContent(ad.mediaContent)

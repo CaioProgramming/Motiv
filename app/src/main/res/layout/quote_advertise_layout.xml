@@ -46,8 +46,16 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
+                <ImageView
+                    android:id="@+id/advertiseGif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.2"
+                    android:scaleType="center" />
+
                 <RelativeLayout
                     android:id="@+id/quoteInfo"
+                    android:background="@drawable/fade_gradient_inversed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -63,11 +71,11 @@
                         android:layout_centerHorizontal="true">
 
                         <TextView
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
                             android:text="Conteúdo patrocinado"
-                            android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </com.google.android.gms.ads.formats.AdChoicesView>
@@ -134,12 +142,6 @@
             android:layout_width="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
 
-        <ImageView
-            android:id="@+id/advertiseGif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.5"
-            android:scaleType="center" />
     </RelativeLayout>
 
 </layout>

@@ -30,6 +30,7 @@
             tools:src="@drawable/ic_neptune" />
 
         <LinearLayout
+            android:layout_gravity="center|start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -40,10 +41,8 @@
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:text="@{userData.name}"
                 android:textColor="?android:textColorPrimary"
-                android:textStyle="bold"
                 tools:text="Caio Alves Ferreira" />
 
             <TextView
