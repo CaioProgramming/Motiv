@@ -37,7 +37,7 @@
             android:orientation="horizontal"
             android:transitionName="@string/card_transaction"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"
+            app:spanCount="2"
             tools:listitem="@layout/user_card" />
     </RelativeLayout>
 

@@ -1,8 +1,11 @@
 package com.creat.motiv.quote.view.binder
 
+import android.R.attr.label
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,23 +15,24 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.BuildConfig
 import com.creat.motiv.R
-import com.ilustris.motiv.base.beans.QuoteStyle
-import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.ilustris.animations.slideInBottom
-import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
-import com.ilustris.motiv.base.utils.TextUtils
+import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.utils.TextUtils
 import com.silent.ilustriscore.core.utilities.ColorUtils
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -36,6 +40,7 @@ import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
 import java.io.File
 import java.io.FileOutputStream
+
 
 class QuoteCardBinder(
         var quote: Quote,
@@ -82,6 +87,7 @@ class QuoteCardBinder(
                 val mVibratePattern = longArrayOf(60, 60)
                 vibrator.vibrate(mVibratePattern, -1)
             }
+            copyToClipboard()
             showSnackBar(context, "Copiado para área de transferência", rootView = root)
             false
         }
@@ -130,7 +136,7 @@ class QuoteCardBinder(
         viewBind.shareButton.setOnClickListener {
             generateCardImage { file ->
                 val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
-                // QuoteShareDialog(context,file).buildDialog()
+                copyToClipboard()
                 uri?.let {
                     val shareIntent = Intent().apply {
                         action = Intent.ACTION_SEND
@@ -150,6 +156,12 @@ class QuoteCardBinder(
 
 
         }
+    }
+
+    private fun copyToClipboard() {
+        val clipboard: ClipboardManager? = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        val clip = ClipData.newPlainText("Motiv", quote.quote)
+        clipboard?.setPrimaryClip(clip)
     }
 
 

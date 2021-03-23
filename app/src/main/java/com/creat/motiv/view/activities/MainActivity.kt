@@ -52,6 +52,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_search, R.id.navigation_add, R.id.navigation_profile, R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

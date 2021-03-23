@@ -12,7 +12,10 @@ class CoverPickerDialog(context: Context, private val onCoverPick: (Cover) -> Un
         DialogStyles.BOTTOM_NO_BORDER) {
 
     override fun ProfilepicselectBinding.configure() {
-        CoversBinder(this, onCoverPick::invoke)
+        CoversBinder(this) {
+            onCoverPick.invoke(it)
+            dialog.dismiss()
+        }
     }
 
 

@@ -106,6 +106,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
             } else {
                 quoteRecyclerAdapter?.addData(quotesList)
             }
+            if (visibility == View.GONE) slideInBottom()
         }
         slideNextQuote()
         onLoadFinish()
