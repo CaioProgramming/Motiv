@@ -65,7 +65,7 @@
                 app:tabMode="scrollable" />
 
             <include
-                android:id="@+id/styleTabs"
+                android:id="@+id/style_preview_layout"
                 layout="@layout/styles_recycler" />
 
             <LinearLayout
@@ -97,6 +97,7 @@
                     android:src="@drawable/ic_baseline_gif_24"
                     android:tint="?android:colorBackground" />
 
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveButton"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -111,6 +112,8 @@
                     android:textColor="?android:colorBackground"
                     app:backgroundTint="?android:textColorPrimary"
                     app:cornerRadius="@dimen/radius_default" />
+
+
             </LinearLayout>
 
         </LinearLayout>

@@ -1,10 +1,9 @@
 package com.ilustris.motiv.manager.ui.styles
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -18,13 +17,11 @@ import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.ilustris.motiv.base.utils.*
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.NewStyleFormBinding
-import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
@@ -158,23 +155,37 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
 
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
-        viewBind.styleTabs.stylesRecycler.run {
-            previewAdapter = StylePreviewAdapter(list, true, onRequestDelete = this@NewStyleBinder::getStyleFromPreview)
-            adapter = previewAdapter
-            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        if (previewAdapter == null) {
+            viewBind.stylePreviewLayout.stylesRecycler.run {
+                previewAdapter = StylePreviewAdapter(list, true, onRequestDelete = this@NewStyleBinder::getStyleFromPreview)
+                adapter = previewAdapter
+                setHasFixedSize(true)
+                layoutManager = GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
+            }
+        } else {
+            previewAdapter?.updateStyles(list)
+            viewBind.stylePreviewLayout.stylesRecycler.scheduleLayoutAnimation()
         }
-
     }
 
-    private fun getStyleFromPreview(selectedStyle: QuoteStyle) {
-        style = selectedStyle
-        previewAdapter?.setSelectedStyle(style.id)
-        viewBind.fontsTabs.getTabAt(style.font)?.select()
-        viewBind.styleBackground.loadGif(style.backgroundURL)
-        GlobalScope.launch(Dispatchers.IO) {
-            delay(2000)
-            GlobalScope.launch(Dispatchers.Main) {
-                updateStyle()
+    private fun getStyleFromPreview(position: Int) {
+        previewAdapter?.let {
+            val selectedStyle = it.styles[position]
+            style = if (style.id == selectedStyle.id) {
+                QuoteStyle.defaultStyle
+            } else {
+                selectedStyle
+            }
+            previewAdapter?.setSelectedStyle(style.id)
+            viewBind.styleBackground.loadGif(style.backgroundURL)
+            GlobalScope.launch(Dispatchers.IO) {
+                delay(500)
+                GlobalScope.launch(Dispatchers.Main) {
+                    updateStyle()
+                    viewBind.stylePreviewLayout.stylesRecycler.scheduleLayoutAnimation()
+                    viewBind.stylePreviewLayout.stylesRecycler.smoothScrollToPosition(position)
+
+                }
             }
         }
     }
@@ -199,6 +210,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
             fontAdapter.run {
                 updateAlignment(style.textAlignment)
                 updateTextColor(style.textColor)
+                styleFontPager.setCurrentItem(style.font, true)
             }
         }
     }

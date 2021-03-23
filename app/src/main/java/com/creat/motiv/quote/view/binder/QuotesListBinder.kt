@@ -8,6 +8,7 @@ import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.beans.SPLASH_QUOTE
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.gone
@@ -37,7 +38,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
         if (list.isEmpty()) {
             setupRecyclerView(listOf(Quote.noResultsQuote()))
         } else {
-            setupRecyclerView(list.sortedByDescending { it.likes.size })
+            setupRecyclerView(list)
             if (viewBind.quotesrecyclerview.visibility == View.GONE) {
                 viewBind.quotesrecyclerview.slideInBottom()
             }
@@ -49,7 +50,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
     private fun slideNextQuote() {
         quoteRecyclerAdapter?.let {
             viewBind.quotesrecyclerview.postDelayed({
-                if (it.quoteList.size > 1 && !it.quoteList[0].isUserQuote() && viewBind.quotesrecyclerview.currentItem == 0) {
+                if (it.quoteList.size > 1 && it.quoteList[0].id == SPLASH_QUOTE && viewBind.quotesrecyclerview.currentItem == 0) {
                     viewBind.quotesrecyclerview.setCurrentItem(1, true)
                 }
             }, 5000)

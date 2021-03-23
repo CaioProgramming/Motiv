@@ -43,7 +43,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     initView()
                 }
             }
-            nav_view.isEnabled = user == null
         }
     }
 
@@ -63,10 +62,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.navigation_about -> {
-                val i = Intent(this, AboutActivity::class.java)
-                startActivity(i)
-            }
             R.id.navigation_add -> {
                 startActivity(Intent(this, EditQuoteActivity::class.java))
             }
@@ -84,9 +79,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         initView()
                     }
                 }
-
-                nav_view.isEnabled = true
-
             } else {
                 if (response != null) {
                     DefaultAlert(this, "Atenção", "Ocorreu um erro ao realizar o login",

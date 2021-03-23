@@ -14,7 +14,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_above="@id/mainBottom"
-            app:cardBackgroundColor="?attr/dividerColor"
+            app:cardBackgroundColor="?android:colorBackground"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
             app:cardCornerRadius="@dimen/radius_default"

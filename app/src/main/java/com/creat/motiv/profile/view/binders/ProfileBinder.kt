@@ -45,12 +45,6 @@ class ProfileBinder(override val context: Context,
         viewBind.run {
             quotesListBinder.showProfile = data.uid
             quotesListBinder.getUserQuotes(data.uid)
-            quotesListBinder.viewBind.quotesrecyclerview.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    if (position > 0) context.showSupportActionBar() else context.hideSupporActionBar()
-                }
-            })
             if (data.picurl.isEmpty()) {
                 DefaultAlert(context, "Atenção",
                         "Você não possui nenhum ícone de perfil, gostaria de adicionar agora?",

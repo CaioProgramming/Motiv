@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/userCard"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_default"
+        android:background="?attr/dividerColor"
+        android:stateListAnimator="@animator/list_animator"
+        app:cardCornerRadius="@dimen/radius_default">
+
+        <ImageView
+            android:id="@+id/usercover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/motiv_gradient" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userpic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:transitionName="@string/user_pic_transaction"
+                tools:src="@drawable/ic_neptune" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding_default"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/white"
+                tools:text="Ilustris" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

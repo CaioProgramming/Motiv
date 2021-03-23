@@ -21,11 +21,11 @@
             android:id="@+id/styleView"
             layout="@layout/style_layout_view" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginTop="@dimen/topBlurSize"
             android:padding="@dimen/padding_default"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_above="@id/quoteInfo"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
@@ -34,12 +34,14 @@
             android:transitionName="@string/quote_transaction">
 
             <TextView
+                android:layout_height="match_parent"
                 android:id="@+id/quoteTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_above="@id/author_text_view"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
                 android:autoSizeMinTextSize="@dimen/min_quote_size"
-                android:autoSizeTextType="none"
                 android:breakStrategy="high_quality"
                 android:textAlignment="center"
                 android:textSize="@dimen/big_quote_size"
@@ -52,7 +54,9 @@
                 tools:visibility="visible" />
 
             <TextView
+                android:layout_alignParentBottom="true"
                 android:id="@+id/author_text_view"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
@@ -65,7 +69,7 @@
                 tools:text="Lana Del Rey"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/quoteInfo"

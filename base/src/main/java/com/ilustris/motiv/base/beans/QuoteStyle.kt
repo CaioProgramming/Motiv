@@ -5,6 +5,7 @@ import com.silent.ilustriscore.core.bean.BaseBean
 
 private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/RJy4FQlLbxDz4kJ6GF/giphy.gif"
 const val DEFAULT_STYLE_ID = "DEFAULT_STYLE"
+const val VIEW_USERS_STYLE = "USERS_STYLE"
 const val SPLASH_STYLE_ID = "SPLASH_STYLE"
 const val ADMIN_STYLE_ID = "ADMIN_STYLE"
 const val COMPANY_STYLE_ID = "COMPANY_STYLE"
@@ -72,6 +73,12 @@ data class QuoteStyle(override var id: String = "",
                 id = COMPANY_STYLE_ID,
                 font = 3,
                 backgroundURL = "https://media.giphy.com/media/3ohzdVKKcOOUQfcQWk/giphy.gif"
+        )
+
+        val usersStyle = QuoteStyle(
+                id = VIEW_USERS_STYLE,
+                font = 13,
+                backgroundURL = "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif"
         )
 
     }

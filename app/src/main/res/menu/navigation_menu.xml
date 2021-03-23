@@ -19,9 +19,4 @@
         android:icon="@drawable/ic_person"
         android:title="Meu Perfil"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="Configurações"
-        app:showAsAction="always" />
 </menu>

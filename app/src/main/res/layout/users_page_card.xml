@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/dividerColor"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/viewUsersBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@color/transparent"
+            android:padding="@dimen/padding_default"
+            android:text="Usuários para acompanhar"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/usersRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title"
+            android:hapticFeedbackEnabled="true"
+            android:orientation="horizontal"
+            android:transitionName="@string/card_transaction"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:listitem="@layout/user_card" />
+    </RelativeLayout>
+
+
+</layout>
+
+

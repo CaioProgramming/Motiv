@@ -23,7 +23,7 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        //window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
         val popupbind: ActivityEditQuoteBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_quote)
         val quotedata = intent.getSerializableExtra("Quote") as? Quote
         EditQuoteBinder(quotedata, popupbind.quoteFormView)
@@ -31,7 +31,6 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
         supportActionBar?.let { actionBar ->
             actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24)
             val motivToolbar: Toolbar = findViewById(R.id.motiv_toolbar)
             motivToolbar.setNavigationOnClickListener { finish() }
             title = if (quotedata == null) "Nova publicação" else "Editar publicação"

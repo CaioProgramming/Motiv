@@ -76,6 +76,12 @@ fun ImageView.loadGif(url: String) {
     }
 }
 
+fun ImageView.loadImage(url: String) {
+    context?.let {
+        Glide.with(it).load(url).error(R.drawable.ic_neptune).into(this)
+    }
+}
+
 fun Context.activity(): Activity? {
     return try {
         this as Activity?

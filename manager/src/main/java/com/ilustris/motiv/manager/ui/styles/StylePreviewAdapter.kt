@@ -15,10 +15,10 @@ import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StyleCardBinding
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 
-class StylePreviewAdapter(private var styles: List<QuoteStyle>,
+class StylePreviewAdapter(var styles: List<QuoteStyle>,
                           private val isPreview: Boolean = false,
                           private var selectedStyle: String? = null,
-                          val onRequestDelete: (QuoteStyle) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                          val onRequestDelete: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun updateStyles(list: List<QuoteStyle>) {
         styles = list
@@ -28,6 +28,7 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>,
     fun setSelectedStyle(style: String) {
         selectedStyle = style
         notifyDataSetChanged()
+
     }
 
     inner class StylePreviewHolder(private val stylePreviewCardBinding: StylePreviewCardBinding) : RecyclerView.ViewHolder(stylePreviewCardBinding.root) {
@@ -46,7 +47,7 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>,
                     styleCard.isSelected = quoteStyle.id == it
                 }
                 styleCard.setOnClickListener {
-                    onRequestDelete.invoke(quoteStyle)
+                    onRequestDelete.invoke(adapterPosition)
                 }
             }
         }
@@ -67,7 +68,7 @@ class StylePreviewAdapter(private var styles: List<QuoteStyle>,
                 }
 
                 styleCard.setOnClickListener {
-                    onRequestDelete.invoke(quoteStyle)
+                    onRequestDelete.invoke(adapterPosition)
                 }
                 if (quoteStyle.id == NEW_STYLE_ID) {
                     styleText.text = "Criar novo estilo"

@@ -12,39 +12,43 @@ import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ProfileQuoteCardBinding
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
+import com.creat.motiv.databinding.UsersPageCardBinding
 import com.creat.motiv.profile.view.binders.ProfilePageBinder
+import com.creat.motiv.profile.view.binders.UserPageBinder
 import com.creat.motiv.quote.view.binder.QuoteCardBinder
 import com.ilustris.motiv.base.utils.AD_GIF
 import com.creat.motiv.utilities.AdvertiseHelper
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.ilustris.animations.*
-import com.ilustris.motiv.base.beans.AD_QUOTE
-import com.ilustris.motiv.base.beans.PROFILE_QUOTE
-import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.beans.*
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.silent.ilustriscore.core.utilities.gone
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val QUOTE_VIEW = 0
+private const val ADVERTISE_QUOTE = 1
+private const val USER_PROFILE_QUOTE = 2
+private const val VIEW_USERS_QUOTE = 3
 
 class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var viewList = quoteList.toList()
-    private val quoteView = 0
-    private val advertiseView = 1
-    private val profileView = 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
         return when (viewType) {
-            quoteView -> {
+            QUOTE_VIEW -> {
                 val quotesCardBinding: QuotesCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotes_card, parent, false)
                 QuoteViewHolder(quotesCardBinding)
             }
-            profileView -> {
+            USER_PROFILE_QUOTE -> {
                 val profileQuoteCardBinding: ProfileQuoteCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.profile_quote_card, parent, false)
                 ProfileViewHolder(profileQuoteCardBinding)
+            }
+            VIEW_USERS_QUOTE -> {
+                val userCardBinding: UsersPageCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.users_page_card, parent, false)
+                ViewUsersHolder(userCardBinding)
             }
             else -> {
                 val advertiseLayoutBinding: QuoteAdvertiseLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quote_advertise_layout, parent, false)
@@ -53,12 +57,16 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         }
     }
 
-    override fun getItemViewType(position: Int): Int = if (quoteList[position].id == AD_QUOTE) advertiseView else if (quoteList[position].id == PROFILE_QUOTE) profileView else quoteView
+    override fun getItemViewType(position: Int): Int = when (quoteList[position].id) {
+        AD_QUOTE -> ADVERTISE_QUOTE
+        PROFILE_QUOTE -> USER_PROFILE_QUOTE
+        USERS_QUOTE -> VIEW_USERS_QUOTE
+        else -> QUOTE_VIEW
+    }
 
     fun addData(quotes: List<Quote>) {
 
         quoteList.addAll(quotes)
-
         var swapIndex = Random().nextInt(quoteList.size)
         if (swapIndex == 0) {
             swapIndex = Random().nextInt(quoteList.size)
@@ -68,6 +76,11 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         if (actualQuote.isUserQuote()) {
             quoteList.add(swapIndex, Quote.advertiseQuote())
         }
+
+        if (quoteList[0].id == SPLASH_QUOTE) {
+            quoteList.add(quoteList.size / 2, Quote.usersQuote())
+        }
+
         viewList = quoteList
         notifyDataSetChanged()
     }
@@ -81,16 +94,21 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when {
-            getItemViewType(position) == quoteView -> {
+            getItemViewType(position) == QUOTE_VIEW -> {
                 (holder as QuoteViewHolder).run {
                     if (viewList[position].id != AD_QUOTE) {
                         bind(viewList[position])
                     }
                 }
             }
-            getItemViewType(position) == profileView -> {
+            getItemViewType(position) == USER_PROFILE_QUOTE -> {
                 (holder as ProfileViewHolder).run {
                     bind(viewList[position].userID)
+                }
+            }
+            getItemViewType(position) == VIEW_USERS_QUOTE -> {
+                (holder as ViewUsersHolder).run {
+                    bind()
                 }
             }
             else -> {
@@ -110,6 +128,12 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
     inner class ProfileViewHolder(val profileQuoteCardBinding: ProfileQuoteCardBinding) : RecyclerView.ViewHolder(profileQuoteCardBinding.root) {
         fun bind(uid: String) {
             ProfilePageBinder(profileQuoteCardBinding, uid).initView()
+        }
+    }
+
+    inner class ViewUsersHolder(val usersQuoteCardBinding: UsersPageCardBinding) : RecyclerView.ViewHolder(usersQuoteCardBinding.root) {
+        fun bind() {
+            UserPageBinder(usersQuoteCardBinding).initView()
         }
     }
 

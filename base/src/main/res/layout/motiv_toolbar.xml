@@ -14,12 +14,13 @@
             android:background="@drawable/fade_gradient" />
 
         <androidx.appcompat.widget.Toolbar
-            android:theme="@style/Theme.MaterialComponents"
+            android:layout_marginTop="@dimen/padding_big"
+            android:gravity="center"
             android:id="@+id/motiv_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:titleTextColor="@color/white"
-            android:layout_marginTop="@dimen/padding_default"
+            android:theme="@style/AppToolbar"
             app:title="@string/app_name" />
     </RelativeLayout>
 </layout>

@@ -5,6 +5,7 @@
 
 
     <ScrollView
+        android:background="?android:colorBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +18,7 @@
             tools:context=".view.fragments.SettingsFragment">
 
             <RelativeLayout
-                android:background="?navblurOverLayColor"
+                android:background="?attr/dividerColor"
                 android:id="@+id/profileTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -83,82 +84,36 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveButton"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
                     android:text="Salvar"
+                    android:textColor="@color/md_blue500"
+                    android:textStyle="bold"
                     android:textAllCaps="false"
+                    tools:visibility="visible"
                     android:visibility="gone" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/nameTitle"
-                    android:background="@color/oblack" />
 
             </RelativeLayout>
 
-            <RelativeLayout
+
+            <TextView
+                android:id="@+id/provider"
+                android:background="?attr/dividerColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/dividerColor"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_default">
+                android:drawableStart="@drawable/ic_outline_mail_outline_24"
+                android:drawablePadding="@dimen/padding_default"
+                android:enabled="false"
+                android:maxLines="1"
+                android:padding="@dimen/padding_default"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold"
+                tools:text="motiv@gmail.com" />
 
-                <TextView
-                    android:id="@+id/providerTitle"
-                    style="@style/TextAppearance.MaterialComponents.Body1"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Email" />
-
-                <TextView
-                    android:id="@+id/provider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_toEndOf="@id/providerTitle"
-                    android:enabled="false"
-                    android:maxLines="1"
-                    tools:text="Google" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/dividerColor"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_default">
-
-                <TextView
-                    android:id="@+id/uidTitle"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="ID"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/userID"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_toEndOf="@id/uidTitle"
-                    android:enabled="false"
-                    android:maxLines="1"
-                    android:textStyle="bold"
-                    tools:text="caioferre.ira@gmail.com" />
-
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/adminView"
@@ -184,23 +139,43 @@
                     android:padding="@dimen/padding_default"
                     android:text="Motiv +"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:textStyle="bold" />
 
             </RelativeLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
+                android:id="@+id/aboutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_uranus"
+                android:drawablePadding="@dimen/padding_default"
+                android:foreground="?selectableItemBackground"
+                android:padding="@dimen/padding_default"
+                android:text="Sobre"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/singOutButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_default"
                 android:text="Desconectar"
-                android:textAlignment="center"
-                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="@color/material_red500"
-                app:rippleColor="@color/material_red500" />
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/userID"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:maxLines="1"
+                android:padding="@dimen/padding_default"
+                android:textStyle="bold"
+                tools:text="caioferre.ira@gmail.com" />
         </LinearLayout>
     </ScrollView>
 </layout>

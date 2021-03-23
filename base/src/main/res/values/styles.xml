@@ -21,18 +21,22 @@
     </style>
 
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="elevation">3dp</item>
+        <item name="elevation">0dp</item>
         <item name="homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
         <item name="titleTextAppearance">@style/ToolbarTitle</item>
-        <item name="background">@drawable/bottom_line</item>
-        <item name="paddingStart">@dimen/padding_default</item>
-        <item name="android:paddingTop">15dp</item>
     </style>
 
+    <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
+        <item name="homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
+    </style>
+
+
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="fontFamily">@font/questrial</item>
     </style>
 
 

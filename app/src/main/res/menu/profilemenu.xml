@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_add"
-        android:icon="@drawable/ic_add_outline"
-        android:iconTint="?android:textColorPrimary"
-        android:title="Novo post"
+        android:id="@+id/navigation_settings"
+
+        android:icon="@drawable/ic_settings_outline"
+        android:iconTint="@color/white"
+        android:title="Configurações"
         app:showAsAction="always" />
 
 </menu>

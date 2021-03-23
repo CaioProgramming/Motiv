@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.PROFILE_PIC_TRANSACTION
@@ -29,7 +30,8 @@ class StyleRecyclerBinder(override val viewBind: StylesRecyclerBinding) : BaseVi
         val styles = ArrayList(list)
         styles.add(0, QuoteStyle.newStyle)
         viewBind.stylesRecycler.run {
-            adapter = StylePreviewAdapter(styles.toList(), false) { style ->
+            adapter = StylePreviewAdapter(styles.toList(), false) { position ->
+                val style = styles[position]
                 if (style.id != NEW_STYLE_ID) {
                     BottomSheetAlert(context, "Tem certeza?", "Ao remover esse estilo não será possível recuperá-lo", {
                         presenter.deleteData(style)
@@ -40,7 +42,7 @@ class StyleRecyclerBinder(override val viewBind: StylesRecyclerBinding) : BaseVi
                     context.startActivity(i)
                 }
             }
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         }
     }
 

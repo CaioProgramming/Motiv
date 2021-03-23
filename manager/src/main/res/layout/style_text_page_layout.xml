@@ -21,7 +21,8 @@
             android:text="Motiv"
             android:textAlignment="center"
             android:textColor="@color/md_white"
-            android:textSize="@dimen/default_quote_size"
+            android:autoSizeMinTextSize="@dimen/default_quote_size"
+            android:textSize="@dimen/big_quote_size"
             tools:showIn="@layout/new_style_form" />
     </RelativeLayout>
 </layout>
