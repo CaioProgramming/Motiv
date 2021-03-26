@@ -3,6 +3,7 @@ package com.ilustris.motiv.base.utils
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import android.widget.TextView
 import com.github.mmin18.widget.RealtimeBlurView
 import com.ilustris.animations.*
 import com.ilustris.motiv.base.R
@@ -34,4 +35,5 @@ fun unBlurView(context: Context) {
 
     }
 }
+
 

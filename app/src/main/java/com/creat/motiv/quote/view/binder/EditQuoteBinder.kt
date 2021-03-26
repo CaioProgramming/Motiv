@@ -5,12 +5,10 @@ import android.graphics.Color
 import android.os.Handler
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.ilustris.motiv.base.beans.QuoteStyle
-import com.ilustris.motiv.base.beans.TextSize
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.presenter.QuotePresenter
 
@@ -18,6 +16,7 @@ import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.utils.ColorUtils
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -84,6 +83,8 @@ class EditQuoteBinder(
         quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         val textColor = Color.parseColor(quoteStyle.textColor)
+        quoteTextView.setHintTextColor(ColorUtils.lighten(textColor, 1.5))
+        authorTextView.setHintTextColor(ColorUtils.lighten(textColor, 1.5))
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
         quoteTextView.fadeIn()
@@ -114,7 +115,11 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
-            if (it.quote.isNotEmpty()) presenter.saveData(it, it.id) else showSnackBar(context, message = Tools.emptyQuote(), rootView = viewBind.root)
+            if (it.quote.isNotEmpty()) {
+                presenter.saveData(it, it.id)
+            } else {
+                showSnackBar(context, message = Tools.emptyQuote(), rootView = viewBind.root)
+            }
         }
     }
 

@@ -2,13 +2,16 @@ package com.ilustris.motiv.base.utils
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -21,7 +24,10 @@ import com.ilustris.motiv.base.beans.TextAlignment
 import com.google.android.material.snackbar.Snackbar
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
+import com.ilustris.animations.slideDown
+import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.R
+import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.visible
 
 
@@ -32,31 +38,37 @@ fun Context.hideBackButton() {
     }
 }
 
+fun Activity.getToolbar(): Toolbar? = findViewById(R.id.motiv_toolbar)
+
+fun Activity.setMotivTitle(title: String) {
+    try {
+        val titleTextView: TextView? = findViewById(R.id.motivTitle)
+        titleTextView?.text = title
+    } catch (e: Exception) {
+        Log.e("Motiv title", "setTitle: cannot change app title $e")
+    }
+}
+
 fun Context.showSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.show()
-        activity.findViewById<View?>(R.id.topBlur)?.fadeIn()
-
+        activity.findViewById<RelativeLayout?>(R.id.titleView)?.run {
+            visible()
+        }
     }
 }
 
-fun Context.hideSupporActionBar() {
+fun Context.hideSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.hide()
-        activity.findViewById<View?>(R.id.topBlur)?.fadeOut()
+        activity.findViewById<RelativeLayout?>(R.id.titleView)?.run {
+            gone()
+        }
     }
 }
 
-
-fun Snackbar.config() {
-    val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
-    params.setMargins(12, 12, 12, 12)
-    this.view.layoutParams = params
-    this.view.background = context.getDrawable(R.drawable.bg_snackbar)
-    ViewCompat.setElevation(this.view, 6f)
-}
 
 fun ImageView.loadGif(url: String) {
     context?.let {

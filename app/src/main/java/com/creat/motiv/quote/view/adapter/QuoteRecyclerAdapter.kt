@@ -22,6 +22,7 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.ilustris.animations.*
 import com.ilustris.motiv.base.beans.*
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
+import com.ilustris.motiv.base.utils.loadGif
 import com.silent.ilustriscore.core.utilities.gone
 import java.util.*
 import kotlin.collections.ArrayList
@@ -64,9 +65,11 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         else -> QUOTE_VIEW
     }
 
-    fun addData(quotes: List<Quote>) {
-
+    fun updateData(quotes: List<Quote>) {
+        val firstQuote = quoteList[0]
+        quoteList.clear()
         quoteList.addAll(quotes)
+        if (!firstQuote.isUserQuote()) quoteList.add(0, firstQuote)
         var swapIndex = Random().nextInt(quoteList.size)
         if (swapIndex == 0) {
             swapIndex = Random().nextInt(quoteList.size)
@@ -81,9 +84,10 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
             quoteList.add(quoteList.size / 2, Quote.usersQuote())
         }
 
-        viewList = quoteList
+        viewList = quoteList.toList()
         notifyDataSetChanged()
     }
+
 
     fun filter(query: String) {
         viewList = quoteList.filter {
@@ -142,10 +146,10 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
 
         init {
             Log.i(javaClass.simpleName, "Criando card de anúncio!")
-            Glide.with(context).asGif().centerCrop().load(AD_GIF).into(advertiseBind.advertiseGif)
-            advertiseBind.loading.repeatFade()
+            advertiseBind.advertiseGif.loadGif(AD_GIF)
             AdvertiseHelper(context, context.resources.getString(R.string.feed_advertisement_id)).loadAd(::setupAd) {
                 advertiseBind.loading.text = "Ocorreu um erro ao carregar\n:("
+                advertiseBind.loading.popIn()
             }
         }
 
@@ -182,6 +186,14 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
                 advertise = ad
                 adView.slideInBottom()
                 loading.popOut()
+                if (ad.images.isNotEmpty()) {
+                    if (ad.images.size > 1) {
+                        Glide.with(context).load(ad.images[Random().nextInt(ad.images.size - 1)].uri).into(advertiseGif)
+                    } else {
+                        Glide.with(context).load(ad.images[0].uri).into(advertiseGif)
+                    }
+
+                }
             }
         }
     }

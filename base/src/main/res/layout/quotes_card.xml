@@ -34,6 +34,7 @@
             android:transitionName="@string/quote_transaction">
 
             <TextView
+                android:stateListAnimator="@animator/text_animator"
                 android:layout_height="match_parent"
                 android:id="@+id/quoteTextView"
                 android:layout_width="match_parent"
@@ -76,7 +77,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/fade_gradient_inversed"
             android:orientation="vertical"
             android:padding="@dimen/padding_default">
 
@@ -105,53 +105,38 @@
 
                     <CheckBox
                         android:id="@+id/like"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="@drawable/favoritecheck"
-                        android:stateListAnimator="@animator/list_animator"
+                        android:stateListAnimator="@animator/text_animator"
                         android:button="@color/transparent" />
 
-                    <ImageButton
-                        android:layout_width="24dp"
-                        android:id="@+id/editButton"
-                        android:layout_height="24dp"
-                        android:tint="@color/white"
-                        android:layout_marginHorizontal="@dimen/margin_default"
-                        android:background="@color/transparent"
-                        android:src="@drawable/ic_edit"
-                        android:stateListAnimator="@animator/list_animator" />
 
                     <ImageButton
-                        android:layout_width="24dp"
-                        android:id="@+id/deleteButton"
-                        android:layout_height="24dp"
-                        android:tint="@color/white"
-                        android:layout_marginEnd="@dimen/margin_default"
-                        android:background="@color/transparent"
-                        android:src="@drawable/ic_delete"
-                        android:stateListAnimator="@animator/list_animator" />
-
-                    <ImageButton
-                        android:layout_width="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
                         android:id="@+id/shareButton"
-                        android:layout_height="24dp"
+                        android:src="@drawable/ic_paper_plane"
                         android:tint="@color/white"
-                        android:layout_marginHorizontal="@dimen/margin_default"
                         android:background="@color/transparent"
-                        android:src="@drawable/ic_share"
-                        android:stateListAnimator="@animator/list_animator" />
+                        android:stateListAnimator="@animator/text_animator" />
 
                     <ImageButton
-                        android:layout_width="24dp"
-                        android:id="@+id/reportButton"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="@dimen/margin_default"
+                        android:id="@+id/optionsButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:foreground="?attr/selectableItemBackground"
                         android:tint="@color/white"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_menu"
                         android:background="@color/transparent"
-                        android:src="@drawable/ic_flag"
-                        android:stateListAnimator="@animator/list_animator" />
+                        android:stateListAnimator="@animator/text_animator" />
+
                 </LinearLayout>
 
 

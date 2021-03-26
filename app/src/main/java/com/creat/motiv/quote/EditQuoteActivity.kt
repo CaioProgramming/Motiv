@@ -16,6 +16,7 @@ import com.creat.motiv.tutorial.NewPostTutorialDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.utils.setMotivTitle
 
 class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
 
@@ -28,13 +29,7 @@ class EditQuoteActivity : AppCompatActivity(R.layout.activity_edit_quote) {
         val quotedata = intent.getSerializableExtra("Quote") as? Quote
         EditQuoteBinder(quotedata, popupbind.quoteFormView)
         setSupportActionBar(findViewById(R.id.motiv_toolbar))
-
-        supportActionBar?.let { actionBar ->
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            val motivToolbar: Toolbar = findViewById(R.id.motiv_toolbar)
-            motivToolbar.setNavigationOnClickListener { finish() }
-            title = if (quotedata == null) "Nova publicação" else "Editar publicação"
-        }
+        setMotivTitle(if (quotedata == null) "Nova publicação" else "Editar publicação")
         showTutorial()
     }
 

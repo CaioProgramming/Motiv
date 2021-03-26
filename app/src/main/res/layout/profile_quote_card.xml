@@ -23,6 +23,11 @@
             android:tintMode="src_over"
             app:tint="@color/lblack" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/oblack" />
+
         <LinearLayout
             android:id="@+id/profileContainer"
             android:layout_width="match_parent"
@@ -118,6 +123,15 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:visibility="gone"
             tools:visibility="visible" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/giphy_mark" />
+
     </RelativeLayout>
 
 

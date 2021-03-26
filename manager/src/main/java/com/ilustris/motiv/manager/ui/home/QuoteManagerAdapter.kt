@@ -24,6 +24,8 @@ class QuoteManagerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapte
 
 
     fun addData(quotes: List<Quote>) {
+        quoteList.clear()
+
         quoteList.addAll(quotes)
 
         var swapIndex = Random().nextInt(quoteList.size)

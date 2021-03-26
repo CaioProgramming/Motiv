@@ -5,8 +5,8 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/quotesrecyclerview"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:itemCount="4"

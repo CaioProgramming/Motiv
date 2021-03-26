@@ -16,21 +16,19 @@ const val NEW_STYLE_ID = "NEW_STYLE"
 const val DEFAULT_TEXT_COLOR = "#ffffff"
 const val DEFAULT_SHADOW_COLOR = "#000000"
 
-enum class TextSize(val sizeResource: Int) {
-    DEFAULT(R.dimen.default_quote_size), BIG(R.dimen.big_quote_size), SMALL(R.dimen.low_quote_size), LOWEST(R.dimen.min_quote_size)
-}
-
 enum class TextAlignment {
     CENTER, START, END
 }
 
-data class QuoteStyle(override var id: String = "",
+data class QuoteStyle(override var id: String = DEFAULT_STYLE_ID,
                       var font: Int = 0,
-                      var textSize: TextSize = TextSize.DEFAULT,
                       var textAlignment: TextAlignment = TextAlignment.CENTER,
                       var textColor: String = DEFAULT_TEXT_COLOR,
                       var shadowColor: String = DEFAULT_SHADOW_COLOR,
                       var backgroundURL: String = DEFAULT_BACKGROUND_URL) : BaseBean(id) {
+
+    fun isStoredStyle() = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != COMPANY_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
+
     companion object {
         val defaultStyle = QuoteStyle(id = DEFAULT_STYLE_ID)
         val favoriteStyle = QuoteStyle(
@@ -41,7 +39,6 @@ data class QuoteStyle(override var id: String = "",
         )
         val emptyStyle = QuoteStyle(
                 id = EMPTY_STYLE_ID,
-                textSize = TextSize.LOWEST,
                 font = 3,
                 textColor = DEFAULT_TEXT_COLOR,
                 backgroundURL = "https://media.giphy.com/media/PnIpBoEJl7aaoBDxHt/giphy.gif"
@@ -50,7 +47,6 @@ data class QuoteStyle(override var id: String = "",
                 id = SEARCH_STYLE_ID,
                 font = 7,
                 textColor = DEFAULT_TEXT_COLOR,
-                textSize = TextSize.SMALL,
                 backgroundURL = "https://media.giphy.com/media/3HG8cKDPyl9QoG2KvW/giphy.gif"
         )
         val splashStyle = QuoteStyle(
@@ -77,7 +73,7 @@ data class QuoteStyle(override var id: String = "",
 
         val usersStyle = QuoteStyle(
                 id = VIEW_USERS_STYLE,
-                font = 13,
+                font = 6,
                 backgroundURL = "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif"
         )
 

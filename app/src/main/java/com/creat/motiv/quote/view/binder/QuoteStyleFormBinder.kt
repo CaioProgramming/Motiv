@@ -28,7 +28,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
 
     override val presenter = QuoteStylePresenter(this)
     var quoteStyle: String? = null
-    var styles: List<QuoteStyle>? = null
+    var styles: List<QuoteStyle> = listOf()
 
     override fun initView() {
         presenter.loadData()
@@ -36,24 +36,39 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
 
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
-        styles = list
-        viewBind.stylesPager.apply {
-            adapter = StylesAdapter(list)
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    onPageChange.invoke(list[position])
-                }
+        if (list.isEmpty()) {
+            viewBind.stylesPager.apply {
+                adapter = StylesAdapter(listOf(QuoteStyle.emptyStyle))
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        onPageChange.invoke(list[position])
+                    }
 
-            })
+                })
+            }
+        } else {
+            styles = list
+            viewBind.stylesPager.apply {
+                adapter = StylesAdapter(list)
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        onPageChange.invoke(list[position])
+                    }
+
+                })
+            }
+            getStyle()
         }
-        getStyle()
+
+
     }
 
 
     private fun getStyle() {
         quoteStyle?.let {
-            styles?.let {
+            styles.let {
                 it.forEach { style ->
                     if (style.id == quoteStyle) {
                         val styleIndex = it.indexOf(style)

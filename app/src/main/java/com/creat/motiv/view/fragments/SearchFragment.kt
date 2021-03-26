@@ -4,17 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSearchBinding
 import com.creat.motiv.utilities.*
 import com.creat.motiv.quote.view.binder.QuotesListBinder
-import com.ilustris.motiv.base.utils.hideSupporActionBar
+import com.ilustris.motiv.base.utils.hideSupportActionBar
 import com.silent.ilustriscore.core.utilities.showSnackBar
 
 
-class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
+const val SEARCH_FRAG_TAG = "SEARCH_FRAGMENT"
+
+class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
 
     private lateinit var searchBinding: FragmentSearchBinding
@@ -28,7 +31,7 @@ class SearchFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryT
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.hideSupporActionBar()
+        context?.hideSupportActionBar()
         quotesListBinder = QuotesListBinder(searchBinding.quotesView)
         quotesListBinder?.addSearchQuote()
         searchBinding.searchview.run {

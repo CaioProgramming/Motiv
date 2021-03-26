@@ -5,17 +5,23 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/userCard"
-        android:layout_width="250dp"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_width="200dp"
+        android:layout_margin="1dp"
+        app:cardCornerRadius="0dp"
         android:layout_height="match_parent"
         android:background="?attr/dividerColor"
         android:stateListAnimator="@animator/list_animator"
-        app:cardCornerRadius="@dimen/radius_default">
+        app:cardElevation="0dp">
 
         <ImageView
             android:id="@+id/usercover"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/oblack" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="@dimen/padding_default"
+                android:padding="@dimen/padding_small"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textColor="@color/white"

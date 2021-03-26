@@ -14,6 +14,7 @@ const val SPLASH_QUOTE = "SPLASH_QUOTE"
 const val ADMIN_QUOTE = "ADMIN_QUOTE"
 const val COMPANY_QUOTE = "COMPANY_QUOTE"
 
+typealias quotesList = List<Quote>
 data class Quote(
         var quote: String = "",
         var author: String = "",

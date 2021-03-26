@@ -4,20 +4,14 @@ import android.view.View
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.quote.view.adapter.QuoteRecyclerAdapter
+import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.presenter.QuotePresenter
-import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.SPLASH_QUOTE
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,7 +21,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
 
     override val presenter = QuotePresenter(this)
     private var quoteRecyclerAdapter: QuoteRecyclerAdapter? = null
-    var showProfile: String? = null
+    private var showProfile: String? = null
 
 
     override fun initView() {
@@ -38,7 +32,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
         if (list.isEmpty()) {
             setupRecyclerView(listOf(Quote.noResultsQuote()))
         } else {
-            setupRecyclerView(list)
+            setupRecyclerView(list.sortedByDescending { it.data })
             if (viewBind.quotesrecyclerview.visibility == View.GONE) {
                 viewBind.quotesrecyclerview.slideInBottom()
             }
@@ -83,19 +77,25 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
     }
 
     fun getUserQuotes(uid: String) {
+        showProfile = uid
         presenter.findPreciseData(uid, "userID")
     }
 
+    fun getFavorites(uid: String) {
+        presenter.loadFavorites(uid) { quotes ->
+            val favorites = ArrayList<Quote>()
+            favorites.addAll(quotes.sortedByDescending { it.data })
+            setupRecyclerView(favorites.toList())
+        }
+    }
+
     private fun setupRecyclerView(list: List<Quote>) {
-        val quotesList: ArrayList<Quote> = ArrayList(list)
+        val quotesList: ArrayList<Quote> = ArrayList(list.sortedByDescending { it.data })
 
         showProfile?.let {
             if (quoteRecyclerAdapter == null) {
                 val profileQuote = Quote.profileQuote().apply { userID = it }
                 quotesList.add(0, profileQuote)
-                val favoriteQuote = Quote.favoritesQuote()
-                quotesList.add(favoriteQuote)
-                presenter.loadFavorites(it)
             }
 
         }
@@ -104,7 +104,7 @@ class QuotesListBinder(override val viewBind: QuoteRecyclerBinding) : BaseView<Q
                 quoteRecyclerAdapter = QuoteRecyclerAdapter(quotesList)
                 adapter = quoteRecyclerAdapter
             } else {
-                quoteRecyclerAdapter?.addData(quotesList)
+                quoteRecyclerAdapter?.updateData(quotesList)
             }
             if (visibility == View.GONE) slideInBottom()
         }

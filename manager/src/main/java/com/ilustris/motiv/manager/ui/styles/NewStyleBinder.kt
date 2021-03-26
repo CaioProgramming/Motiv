@@ -62,7 +62,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                 openGiphyDialog()
             }
             saveButton.setOnClickListener {
-                if (style.id.isNotEmpty()) {
+                if (style.isStoredStyle()) {
                     presenter.updateData(style)
                 } else {
                     presenter.saveData(style)

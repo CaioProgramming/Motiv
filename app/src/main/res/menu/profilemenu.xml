@@ -3,11 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:iconTint="@color/white"
+        android:title="Favoritos"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/navigation_settings"
-
         android:icon="@drawable/ic_settings_outline"
         android:iconTint="@color/white"
         android:title="Configurações"
         app:showAsAction="always" />
+
 
 </menu>

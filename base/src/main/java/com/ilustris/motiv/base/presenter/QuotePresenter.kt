@@ -4,6 +4,7 @@ import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.model.QuoteModel
 import com.silent.ilustriscore.core.presenter.BasePresenter
 import com.silent.ilustriscore.core.view.BaseView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -11,10 +12,14 @@ class QuotePresenter(override val view: BaseView<Quote>) : BasePresenter<Quote>(
 
     override val model: QuoteModel = QuoteModel(this)
 
-    fun loadFavorites(uid: String) {
+    fun loadFavorites(uid: String, onGetFavorites: (List<Quote>) -> Unit) {
         view.onLoading()
-        GlobalScope.launch {
-            model.getFavorites(uid)
+        GlobalScope.launch(Dispatchers.IO) {
+            model.getFavorites(uid) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    onGetFavorites.invoke(it)
+                }
+            }
         }
     }
 

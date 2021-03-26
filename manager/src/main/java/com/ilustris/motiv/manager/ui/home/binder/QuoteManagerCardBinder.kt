@@ -8,6 +8,11 @@ import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.binder.QuoteStyleBinder
 import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
+import com.ilustris.motiv.base.dialog.BottomSheetAlert
+import com.ilustris.motiv.base.dialog.DefaultAlert
+import com.ilustris.motiv.base.dialog.listdialog.ListDialog
+import com.ilustris.motiv.base.dialog.listdialog.ListDialogBean
+import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.utils.TextUtils
 import com.ilustris.motiv.base.utils.FontUtils
 import com.silent.ilustriscore.core.utilities.gone
@@ -54,15 +59,17 @@ class QuoteManagerCardBinder(
 
     private fun setupCard() {
         viewBind.run {
-            deleteButton.run {
+            optionsButton.run {
                 setOnClickListener {
-                    presenter.delete(quote.id)
+                    ListDialog(context, listOf(ListDialogBean("Remover post")), {
+                        BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
+                            presenter.delete(quote.id)
+                        }).buildDialog()
+                    }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
                 }
                 visible()
             }
-            reportButton.gone()
             shareButton.gone()
-            editButton.gone()
             like.gone()
             likers.invisible()
         }

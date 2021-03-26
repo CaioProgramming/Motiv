@@ -23,6 +23,7 @@ import com.creat.motiv.BuildConfig
 import com.creat.motiv.R
 import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.view.adapters.CardLikeAdapter
+import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.QuoteStyle
@@ -30,7 +31,11 @@ import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
+import com.ilustris.motiv.base.dialog.listdialog.DialogItems
+import com.ilustris.motiv.base.dialog.listdialog.ListDialog
+import com.ilustris.motiv.base.dialog.listdialog.ListDialogBean
 import com.ilustris.motiv.base.presenter.QuotePresenter
+import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.TextUtils
 import com.silent.ilustriscore.core.utilities.ColorUtils
@@ -56,8 +61,8 @@ class QuoteCardBinder(
             val color = Color.parseColor(quoteStyle.textColor)
             quoteTextView.setTextColor(color)
             authorTextView.setTextColor(color)
-            quoteTextView.visible()
-            authorTextView.visible()
+            if (quoteTextView.visibility == View.GONE) quoteTextView.fadeIn()
+            if (authorTextView.visibility == View.GONE) authorTextView.fadeIn()
         }
     }
 
@@ -91,12 +96,14 @@ class QuoteCardBinder(
             showSnackBar(context, "Copiado para área de transferência", rootView = root)
             false
         }
-        like.isChecked = quote.likes.contains(presenter.user?.uid)
-        like.setOnClickListener {
-            if (quote.likes.contains(presenter.user?.uid)) {
-                presenter.deslikeQuote(quote)
-            } else {
-                presenter.likeQuote(quote)
+        like.run {
+            isChecked = quote.likes.contains(presenter.user?.uid)
+            setOnClickListener {
+                if (quote.likes.contains(presenter.user?.uid)) {
+                    presenter.deslikeQuote(quote)
+                } else {
+                    presenter.likeQuote(quote)
+                }
             }
         }
         likers.run {
@@ -105,33 +112,23 @@ class QuoteCardBinder(
             layoutManager = linearLayoutManager
             adapter = CardLikeAdapter(quote.likes.toList(), context)
         }
-        viewBind.deleteButton.run {
-            setOnClickListener {
-                BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
-                    presenter.delete(quote.id)
-                }).buildDialog()
-            }
+        viewBind.optionsButton.setOnClickListener {
+            ListDialog(context, getQuoteOptions(), {
+                if (quote.userID == presenter.user?.uid) {
+                    if (it == 0) {
+                        editQuote()
+                    } else {
+                        BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
+                            presenter.delete(quote.id)
+                        }).buildDialog()
+                    }
 
-            if (quote.userID == presenter.user?.uid) {
-                visible()
-            } else {
-                gone()
-            }
-        }
-        reportButton.setOnClickListener {
-            DefaultAlert(context, "Eita, isso é muito sério!", context.getString(R.string.report_quote_message), R.drawable.surprised_avatar, okClick = {
-                presenter.reportQuote(quote)
-            }).buildDialog()
-        }
-        viewBind.editButton.run {
-            if (quote.userID == presenter.user?.uid) {
-                visible()
-            } else {
-                gone()
-            }
-            setOnClickListener {
-                editQuote()
-            }
+                } else {
+                    DefaultAlert(context, "Eita, isso é muito sério!", context.getString(R.string.report_quote_message), R.drawable.surprised_avatar, okClick = {
+                        presenter.reportQuote(quote)
+                    }).buildDialog()
+                }
+            }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
         }
         viewBind.shareButton.setOnClickListener {
             generateCardImage { file ->
@@ -150,12 +147,27 @@ class QuoteCardBinder(
                     }
                     context.startActivity(Intent.createChooser(shareIntent, "Compartilhar post em..."))
                 }
-                viewBind.quoteOptions.visible()
-                viewBind.userTop.userContainer.visible()
+                viewBind.run {
+                    styleView.giphyLogo.visible()
+                    quoteOptions.visible()
+                    userTop.userContainer.visible()
+                }
             }
 
 
         }
+    }
+
+    private fun getQuoteOptions(): DialogItems {
+        val dialogList = ArrayList<ListDialogBean>()
+        if (quote.userID == presenter.user?.uid) {
+            dialogList.add(ListDialogBean("Editar publicação"))
+            dialogList.add(ListDialogBean("Remover publicação"))
+        } else {
+            dialogList.add(ListDialogBean("Denunciar publicação"))
+        }
+
+        return dialogList.toList()
     }
 
     private fun copyToClipboard() {
@@ -167,21 +179,26 @@ class QuoteCardBinder(
 
     private fun generateCardImage(onFileSave: (File) -> Unit) {
         try {
-            viewBind.quoteOptions.gone()
-            viewBind.userTop.userContainer.gone()
-            val card = viewBind.quoteCard
-            card.isDrawingCacheEnabled = true
-            val bitmap = Bitmap.createBitmap(card.drawingCache)
-            card.isDrawingCacheEnabled = false
-            val cachePath = context.cacheDir.path + "/shared_quotes/"
-            val cacheDir = File(cachePath)
-            if (!cacheDir.exists()) cacheDir.mkdirs()
-            val stream = FileOutputStream(cachePath + "quote_${quote.id}.png")
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            stream.close()
-            val file = File(cachePath + "quote_${quote.id}.png")
-            Log.i(javaClass.simpleName, "generateCardImage: file saved ${file.absolutePath}")
-            onFileSave.invoke(file)
+            viewBind.run {
+                styleView.giphyLogo.gone()
+                quoteOptions.gone()
+                userTop.userContainer.gone()
+            }
+            viewBind.quoteCard.run {
+                isDrawingCacheEnabled = true
+                val bitmap = Bitmap.createBitmap(drawingCache)
+                isDrawingCacheEnabled = false
+                val cachePath = context.cacheDir.path + "/shared_quotes/"
+                val cacheDir = File(cachePath)
+                if (!cacheDir.exists()) cacheDir.mkdirs()
+                val stream = FileOutputStream(cachePath + "quote_${quote.id}.png")
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                stream.close()
+                val file = File(cachePath + "quote_${quote.id}.png")
+                Log.i(javaClass.simpleName, "generateCardImage: file saved ${file.absolutePath}")
+                onFileSave.invoke(file)
+            }
+
 
         } catch (e: Exception) {
             e.printStackTrace()

@@ -3,12 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <ImageView
-        android:id="@+id/quoteBack"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"
-        tools:showIn="@layout/quotes_card"
-        tools:src="@drawable/motiv_gradient" />
+        android:background="@drawable/fade_gradient_inversed">
+
+        <ImageView
+            android:id="@+id/quoteBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/dividerColor"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            tools:showIn="@layout/quotes_card"
+            tools:src="@drawable/motiv_gradient" />
+
+        <ImageView
+            android:id="@+id/giphyLogo"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.5"
+            android:scaleType="fitCenter"
+            android:src="@drawable/giphy_mark" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/oblack" />
+    </RelativeLayout>
+
 </layout>

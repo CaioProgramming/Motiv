@@ -30,12 +30,14 @@ class UserPageBinder(override val viewBind: UsersPageCardBinding) : BaseView<Use
 
     override fun showListData(list: List<User>) {
         super.showListData(list)
-        viewBind.usersRecycler.run {
-            adapter = UserRecyclerAdapter(list.sortedByDescending { it.name })
+        presenter.user?.let { user ->
+            viewBind.usersRecycler.run {
+                adapter = UserRecyclerAdapter(list.filter { it.uid != user.uid }.sortedByDescending { it.admin })
 
+            }
         }
+
         val viewUserStyle = QuoteStyle.usersStyle
-        viewBind.title.typeface = FontUtils.getTypeFace(context, viewUserStyle.font)
         viewBind.viewUsersBackground.loadGif(viewUserStyle.backgroundURL)
 
     }

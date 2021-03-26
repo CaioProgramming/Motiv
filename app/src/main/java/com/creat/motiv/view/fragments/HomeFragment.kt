@@ -4,46 +4,58 @@ package com.creat.motiv.view.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
+import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.quote.view.binder.QuotesListBinder
 import com.creat.motiv.utilities.HOME_TUTORIAL
 import com.creat.motiv.utilities.MotivPreferences
 import com.creat.motiv.tutorial.HomeTutorialDialog
-import com.ilustris.motiv.base.utils.RC_SIGN_IN
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.motiv.base.dialog.DefaultAlert
+import com.ilustris.motiv.base.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-/**
- * A simple [Fragment] subclass.
- */
+const val HOME_FRAG_TAG = "HOME_FRAGMENT"
 class HomeFragment : Fragment() {
     var quotesListBinder: QuotesListBinder? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_home, container, false).rootView
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.mainmenu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.navigation_add -> {
+                startActivity(Intent(context, EditQuoteActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is AppCompatActivity) {
-            val activity: AppCompatActivity = context as AppCompatActivity
-            activity.supportActionBar?.show()
+        context?.activity()?.run {
+            setMotivTitle(getString(R.string.app_name))
+            showSupportActionBar()
+            hideBackButton()
         }
         FragmentHomeBinding.bind(view).run {
             quotesListBinder = QuotesListBinder(quotesView).apply {
@@ -92,9 +104,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun showTutorial() {
-        val motivPreferences = MotivPreferences(requireContext())
-        if (!motivPreferences.checkTutorial(HOME_TUTORIAL)) {
-            HomeTutorialDialog(requireActivity()).buildDialog()
+        try {
+            context?.let {
+                val motivPreferences = MotivPreferences(it)
+                if (!motivPreferences.checkTutorial(HOME_TUTORIAL)) {
+                    HomeTutorialDialog(it).buildDialog()
+                }
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

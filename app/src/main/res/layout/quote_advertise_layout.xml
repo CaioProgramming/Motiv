@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:id="@+id/adCard"
-        android:background="@drawable/motiv_gradient"
+        android:background="?attr/dividerColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="@dimen/cardview_default_elevation"
@@ -50,8 +50,13 @@
                     android:id="@+id/advertiseGif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.2"
+                    android:alpha="0.5"
                     android:scaleType="center" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/oblack" />
 
                 <RelativeLayout
                     android:id="@+id/quoteInfo"

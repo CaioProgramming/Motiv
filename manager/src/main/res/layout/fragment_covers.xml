@@ -14,7 +14,6 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:background="?android:colorBackground"
-            android:paddingTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -30,25 +29,43 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.appcompat.widget.SearchView
-                        android:id="@+id/searchview"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusedByDefault="true"
-                        android:layout_marginHorizontal="@dimen/padding_default"
-                        android:background="@drawable/round"
-                        android:backgroundTint="?attr/dividerColor"
-                        app:iconifiedByDefault="false"
-                        app:queryHint="Buscar gifs" />
+                        android:layout_height="wrap_content">
+
+
+                        <com.github.mmin18.widget.RealtimeBlurView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/topBlurSize"
+                            app:realtimeBlurRadius="25dp"
+                            app:realtimeOverlayColor="?navblurOverLayColor" />
+
+                        <androidx.appcompat.widget.SearchView
+                            android:id="@+id/searchview"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/topBlurSize"
+                            android:background="@drawable/bottom_line"
+                            android:focusedByDefault="true"
+                            android:paddingTop="@dimen/padding_default"
+                            app:iconifiedByDefault="false"
+                            app:queryHint="Buscar gifs" />
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/padding_default"
+                        android:padding="@dimen/padding_small"
                         android:text="Planos de fundo"
-                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/giphy_mark"
+                        app:tint="?android:textColorPrimary" />
 
                     <com.giphy.sdk.ui.views.GiphyGridView
                         android:id="@+id/gifsGridView"
@@ -58,7 +75,6 @@
                         app:gphCellPadding="@dimen/padding_default"
                         app:gphDirection="horizontal"
                         app:gphShowCheckeredBackground="false"
-
                         app:gphSpanCount="2" />
 
                 </LinearLayout>
