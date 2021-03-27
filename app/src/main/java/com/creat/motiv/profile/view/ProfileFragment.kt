@@ -54,13 +54,20 @@ class ProfileFragment : Fragment() {
                 return false
             }
             R.id.navigation_favorites -> {
-                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, FavoritesFragment(), FAVORITES_FRAG_TAG)?.commit()
+                activity?.supportFragmentManager?.run {
+                    beginTransaction()
+                            .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.slide_out_left)
+                            .replace(R.id.nav_host_fragment, FavoritesFragment(), FAVORITES_FRAG_TAG)
+                            .commit()
+                }
+
             }
         }
 
         return super.onOptionsItemSelected(item)
 
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,6 +80,8 @@ class ProfileFragment : Fragment() {
                 }
             }
             showTutorial()
+            it.showSupportActionBar()
+            it.hideBackButton()
         }
     }
 

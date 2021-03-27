@@ -31,11 +31,16 @@
         android:layout_margin="@dimen/margin_default"
         android:gravity="center"
         android:padding="@dimen/padding_small"
-        style="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/fatal_error_message"
         android:textAlignment="center" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/oblack" />
 
 </RelativeLayout>

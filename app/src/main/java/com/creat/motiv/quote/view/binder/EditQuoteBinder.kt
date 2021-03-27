@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
+import com.ilustris.animations.bounce
 import com.ilustris.motiv.base.beans.QuoteStyle
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.presenter.QuotePresenter
@@ -83,12 +84,12 @@ class EditQuoteBinder(
         quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         val textColor = Color.parseColor(quoteStyle.textColor)
-        quoteTextView.setHintTextColor(ColorUtils.lighten(textColor, 1.5))
-        authorTextView.setHintTextColor(ColorUtils.lighten(textColor, 1.5))
+        quoteTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
+        authorTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
-        quoteTextView.fadeIn()
-        authorTextView.fadeIn()
+        quoteTextView.bounce()
+        authorTextView.bounce()
 
     }
 
@@ -115,6 +116,7 @@ class EditQuoteBinder(
         quote?.let {
             it.quote = viewBind.quoteTextView.text.toString()
             it.author = viewBind.authorTextView.text.toString()
+            if (it.author.isEmpty()) it.author = presenter.user?.displayName ?: "Autor desconhecido"
             if (it.quote.isNotEmpty()) {
                 presenter.saveData(it, it.id)
             } else {
@@ -128,7 +130,6 @@ class EditQuoteBinder(
 
         return Quote(
                 data = actualday(),
-                author = firebaseUser?.displayName ?: "",
                 userID = firebaseUser?.uid ?: ""
         )
     }

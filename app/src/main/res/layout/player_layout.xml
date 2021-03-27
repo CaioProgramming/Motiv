@@ -30,23 +30,11 @@
             app:lottie_repeatMode="reverse"
             app:lottie_scale="8" />
 
-        <LinearLayout
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/radiosPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reproduzindo" />
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/radiosPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </layout>

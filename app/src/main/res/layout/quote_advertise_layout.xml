@@ -30,7 +30,7 @@
             tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            >
 
             <RelativeLayout
 
@@ -50,7 +50,6 @@
                     android:id="@+id/advertiseGif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.5"
                     android:scaleType="center" />
 
                 <View
@@ -58,44 +57,78 @@
                     android:layout_height="match_parent"
                     android:background="@color/oblack" />
 
-                <RelativeLayout
-                    android:id="@+id/quoteInfo"
-                    android:background="@drawable/fade_gradient_inversed"
+
+                <LinearLayout
+                    android:id="@+id/userContainer"
+                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_default">
+                    android:orientation="horizontal">
 
-                    <com.google.android.gms.ads.formats.AdChoicesView
-                        android:id="@+id/adChoices"
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userpic"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:stateListAnimator="@animator/list_animator"
+                        android:transitionName="profilepic"
+                        app:civ_circle_background_color="@color/colorPrimaryDark"
+                        tools:src="@drawable/ic_neptune" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/userTop"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerHorizontal="true">
+                        android:layout_gravity="center|start"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_small">
 
                         <TextView
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                            android:id="@+id/username"
+                            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textColor="?android:textColorPrimary"
+                            tools:text="Caio Alves Ferreira" />
+
+                        <RatingBar
+                            android:id="@+id/appRating"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="Conteúdo patrocinado"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                    </com.google.android.gms.ads.formats.AdChoicesView>
+                            android:layout_below="@id/adBody"
+                            android:progressTint="@color/material_yellow600"
+                            android:rating="@{advertise.starRating.intValue()}"
+                            android:stepSize="1"
+                            tools:rating="5" />
+
+                    </LinearLayout>
 
 
-                    <include
-                        android:id="@+id/userTop"
-                        layout="@layout/user_quote_card_view"
+                </LinearLayout>
+
+
+                <com.google.android.gms.ads.formats.AdChoicesView
+                    android:id="@+id/adChoices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/statusBarHeight">
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_centerInParent="true"
-                        android:layout_toStartOf="@id/adChoices" />
+                        android:layout_height="wrap_content"
 
-
-                </RelativeLayout>
+                        android:layout_margin="@dimen/statusBarHeight"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_default"
+                        android:text="Conteúdo patrocinado"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </com.google.android.gms.ads.formats.AdChoicesView>
 
                 <TextView
                     android:id="@+id/adHeadline"
@@ -125,25 +158,16 @@
                     android:textColor="@color/white"
                     tools:text="Ilustris" />
 
-                <RatingBar
-                    android:id="@+id/appRating"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/adBody"
-                    android:layout_centerInParent="true"
-                    android:progressTint="@color/material_yellow600"
-                    android:rating="@{advertise.starRating.intValue()}"
-                    android:stepSize="1"
-                    tools:rating="5" />
+
             </RelativeLayout>
         </com.google.android.gms.ads.formats.UnifiedNativeAdView>
 
         <TextView
+            android:text="..."
             android:id="@+id/loading"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Carregando"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
 

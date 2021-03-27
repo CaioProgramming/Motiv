@@ -11,6 +11,7 @@ import com.creat.motiv.radio.Radio
 import com.creat.motiv.radio.RadioPresenter
 import com.ilustris.animations.slideInBottom
 import com.silent.ilustriscore.core.view.BaseView
+import kotlin.random.Random
 
 class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>() {
 
@@ -48,9 +49,6 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
                     viewBind.playingAnimation.pauseAnimation()
                     false
                 }
-                setOnCompletionListener {
-                    viewBind.playingAnimation.cancelAnimation()
-                }
             }
         }, 2000)
 
@@ -59,16 +57,19 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
 
     override fun showListData(list: List<Radio>) {
         super.showListData(list)
-        viewBind.radiosPager.run {
-            adapter = StyleRadioAdapter(list.sortedBy {
-                it.name
-            })
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    playRadio(list[position])
-                }
-            })
+        if (list.isNotEmpty()) {
+            viewBind.radiosPager.run {
+                adapter = StyleRadioAdapter(list.sortedBy {
+                    it.name
+                })
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        playRadio(list[position])
+                    }
+                })
+                setCurrentItem(Random.nextInt(list.size - 1), true)
+            }
         }
         if (viewBind.playerContainer.visibility == View.GONE) viewBind.playerContainer.slideInBottom()
     }

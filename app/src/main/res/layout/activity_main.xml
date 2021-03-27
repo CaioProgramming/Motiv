@@ -17,7 +17,7 @@
             app:cardBackgroundColor="?android:colorBackground"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            app:cardCornerRadius="@dimen/radius_default"
+            app:cardCornerRadius="0dp"
             android:layout_width="match_parent"
             app:cardElevation="0dp">
 

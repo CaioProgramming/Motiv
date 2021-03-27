@@ -58,6 +58,7 @@ object ColorUtils {
         return Color.argb(alpha, red, green, blue)
     }
 
+
     private fun darkenColor(color: Int, fraction: Double): Int {
         return Math.max(color - color * fraction, 0.0).toInt()
     }

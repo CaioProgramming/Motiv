@@ -56,7 +56,9 @@ class FavoritesFragment : Fragment() {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 getToolbar()?.let {
                     it.setNavigationOnClickListener {
-                        supportFragmentManager.beginTransaction().remove(this@FavoritesFragment)
+                        supportFragmentManager.beginTransaction()
+                                .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.slide_out_left)
+                                .remove(this@FavoritesFragment)
                                 .replace(R.id.nav_host_fragment, ProfileFragment())
                                 .addToBackStack(null).commit()
                     }

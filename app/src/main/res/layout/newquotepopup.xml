@@ -39,6 +39,7 @@
                 android:gravity="center"
                 android:hint="@string/quote"
                 android:maxHeight="400dp"
+                android:maxLength="200"
                 android:textAlignment="center"
                 android:textSize="@dimen/big_quote_size"
                 android:textStyle="bold"

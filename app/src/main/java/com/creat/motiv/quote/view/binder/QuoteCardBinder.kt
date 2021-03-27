@@ -66,8 +66,6 @@ class QuoteCardBinder(
         }
     }
 
-
-
     init {
         initView()
     }
@@ -75,7 +73,6 @@ class QuoteCardBinder(
     override fun initView() {
         showData(quote)
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     private fun QuotesCardBinding.setupQuote() {
@@ -156,6 +153,9 @@ class QuoteCardBinder(
 
 
         }
+        viewBind.run {
+            if (quoteCard.visibility == View.GONE) quoteCard.fadeIn()
+        }
     }
 
     private fun getQuoteOptions(): DialogItems {
@@ -172,10 +172,9 @@ class QuoteCardBinder(
 
     private fun copyToClipboard() {
         val clipboard: ClipboardManager? = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-        val clip = ClipData.newPlainText("Motiv", quote.quote)
+        val clip = ClipData.newPlainText("Motiv", "${quote.quote}\uD83E\uDE90\n - ${quote.author} \n\n#${context.getString(R.string.app_name)} #${quote.author.replace(" ", "")}")
         clipboard?.setPrimaryClip(clip)
     }
-
 
     private fun generateCardImage(onFileSave: (File) -> Unit) {
         try {
@@ -208,7 +207,6 @@ class QuoteCardBinder(
 
     }
 
-
     private fun editQuote() {
         val i = Intent(context, EditQuoteActivity::class.java)
         i.putExtra("Quote", quote)
@@ -238,6 +236,4 @@ class QuoteCardBinder(
             setupCard()
         }
     }
-
-
 }

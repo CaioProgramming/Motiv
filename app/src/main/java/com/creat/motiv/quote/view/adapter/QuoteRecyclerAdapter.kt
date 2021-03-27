@@ -156,28 +156,25 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         private fun setupAd(ad: UnifiedNativeAd) {
             advertiseBind.run {
                 if (ad.icon != null) {
-                    Glide.with(context).load(ad.icon.drawable).into(userTop.userpic)
+                    Glide.with(context).load(ad.icon.drawable).into(userpic)
                 } else {
-                    userTop.userpic.gone()
+                    userpic.gone()
                 }
 
                 adView.run {
                     setNativeAd(ad)
                     headlineView = adHeadline
-                    advertiserView = userTop.userContainer
+                    advertiserView = userContainer
                     adChoicesView = adChoices
                     bodyView = adBody
                     starRatingView = appRating
                     callToActionView = adCard
-                    iconView = userTop.userpic
+                    iconView = userpic
                     mediaView = adAppMedia
 
                 }
 
-                userTop.userData = User(name = ad.advertiser ?: "Anunciante não identificado")
-                userTop.username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
-
-                userTop.username.setTextColor(Color.BLACK)
+                username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
                 adAppMedia.apply {
                     setMediaContent(ad.mediaContent)
                     setImageScaleType(ImageView.ScaleType.CENTER_CROP)

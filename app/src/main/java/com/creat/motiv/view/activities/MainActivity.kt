@@ -47,6 +47,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
             supportFragmentManager
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .replace(R.id.nav_host_fragment, HomeFragment())
                     .commit()
         }
@@ -72,6 +73,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val favoritesFragment = (supportFragmentManager.findFragmentByTag(FAVORITES_FRAG_TAG) as FavoritesFragment?)
         val searchFragment = (supportFragmentManager.findFragmentByTag(SEARCH_FRAG_TAG) as SearchFragment?)
         val profileFragment = (supportFragmentManager.findFragmentByTag(PROFILE_FRAG_TAG) as ProfileFragment?)
+
         if (favoritesFragment != null) {
             nav_view.selectedItemId = R.id.navigation_profile
             return
@@ -96,6 +98,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         setMotivTitle(getString(R.string.app_name))
                         supportFragmentManager
                                 .beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                                 .replace(R.id.nav_host_fragment, HomeFragment(), HOME_FRAG_TAG)
                                 .commit()
                         true
@@ -103,6 +106,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     R.id.navigation_search -> {
                         supportFragmentManager
                                 .beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                                 .replace(R.id.nav_host_fragment, SearchFragment(), SEARCH_FRAG_TAG)
                                 .commit()
                         true
@@ -111,6 +115,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
                         supportFragmentManager
                                 .beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                                 .replace(R.id.nav_host_fragment, ProfileFragment(), PROFILE_FRAG_TAG)
                                 .commit()
                         true

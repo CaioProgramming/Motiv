@@ -37,7 +37,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
     override fun showListData(list: List<QuoteStyle>) {
         super.showListData(list)
         if (list.isEmpty()) {
-            viewBind.stylesPager.apply {
+            viewBind.stylesPager.run {
                 adapter = StylesAdapter(listOf(QuoteStyle.emptyStyle))
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
@@ -49,7 +49,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
             }
         } else {
             styles = list
-            viewBind.stylesPager.apply {
+            viewBind.stylesPager.run {
                 adapter = StylesAdapter(list)
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
@@ -58,6 +58,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
                     }
 
                 })
+                setCurrentItem(Random.nextInt(list.size - 1), true)
             }
             getStyle()
         }

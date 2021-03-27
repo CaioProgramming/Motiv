@@ -9,6 +9,7 @@ import com.creat.motiv.databinding.ProfileQuoteCardBinding
 import com.creat.motiv.profile.cover.CoverPickerDialog
 import com.creat.motiv.profile.icon.view.IconPickerDialog
 import com.creat.motiv.utilities.Alert
+import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.presenter.UserPresenter
 import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.beans.User
@@ -49,6 +50,7 @@ class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid:
 
                 }
             }
+            quoteCard.fadeIn()
         }
     }
 

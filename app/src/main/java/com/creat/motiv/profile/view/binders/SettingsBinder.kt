@@ -112,7 +112,7 @@ class SettingsBinder(
             }
             singOutButton.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
-                (context as AppCompatActivity?)?.finish()
+                context.activity()?.finishAffinity()
             }
         }
     }
