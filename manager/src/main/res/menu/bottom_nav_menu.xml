@@ -8,11 +8,11 @@
 
     <item
         android:icon="@drawable/ic_icons"
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_icons"
         android:title="Ícones" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_covers"
         android:icon="@drawable/ic_covers"
         android:title="Planos de fundo" />
     <item

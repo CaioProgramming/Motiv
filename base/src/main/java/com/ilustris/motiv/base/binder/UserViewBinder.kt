@@ -1,6 +1,7 @@
 package com.ilustris.motiv.base.binder
 
 import android.graphics.Color
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.ilustris.animations.fadeIn
@@ -33,7 +34,9 @@ class UserViewBinder(
                 userpic.borderColor = Color.TRANSPARENT
                 userpic.borderWidth = 0
             }
-            userContainer.fadeIn()
+            if (userContainer.visibility == View.GONE) {
+                userContainer.fadeIn()
+            }
         }
     }
 

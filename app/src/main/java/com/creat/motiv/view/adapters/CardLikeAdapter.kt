@@ -19,7 +19,7 @@ class CardLikeAdapter(private val likes: List<String>, val context: Context) : R
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.run {
-            UserPicBind(likes, likes[position], context, userPicviewBinding).initView()
+            UserPicBind(likes, likes[position], userPicviewBinding).initView()
         }
     }
 

@@ -58,7 +58,8 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="Planos de fundo"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="80dp"

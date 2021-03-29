@@ -15,6 +15,8 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.PlayerLayoutBinding
 import com.creat.motiv.profile.view.PROFILE_FRAG_TAG
 import com.creat.motiv.profile.view.ProfileFragment
+import com.creat.motiv.profile.view.SETTINGS_FRAG_TAG
+import com.creat.motiv.profile.view.SettingsFragment
 import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.radio.PlayerBinder
 import com.creat.motiv.view.fragments.*
@@ -45,11 +47,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     initView()
                 }
             }
-            supportFragmentManager
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .replace(R.id.nav_host_fragment, HomeFragment())
-                    .commit()
+            nav_view.selectedItemId = R.id.navigation_home
         }
     }
 
@@ -71,18 +69,16 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun handleCurrentFragment() {
         val favoritesFragment = (supportFragmentManager.findFragmentByTag(FAVORITES_FRAG_TAG) as FavoritesFragment?)
+        val settingsFragment = (supportFragmentManager.findFragmentByTag(SETTINGS_FRAG_TAG) as SettingsFragment?)
         val searchFragment = (supportFragmentManager.findFragmentByTag(SEARCH_FRAG_TAG) as SearchFragment?)
         val profileFragment = (supportFragmentManager.findFragmentByTag(PROFILE_FRAG_TAG) as ProfileFragment?)
 
-        if (favoritesFragment != null) {
+
+        if (favoritesFragment != null || settingsFragment != null) {
             nav_view.selectedItemId = R.id.navigation_profile
             return
         }
-        if (searchFragment != null) {
-            nav_view.selectedItemId = R.id.navigation_home
-            return
-        }
-        if (profileFragment != null) {
+        if (searchFragment != null || profileFragment != null) {
             nav_view.selectedItemId = R.id.navigation_home
             return
         }

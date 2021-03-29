@@ -9,6 +9,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:visibility="gone"
         android:id="@+id/userpic"
         android:layout_width="32dp"
         android:layout_height="32dp"

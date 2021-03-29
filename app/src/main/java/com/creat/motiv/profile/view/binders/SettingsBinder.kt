@@ -3,10 +3,12 @@ package com.creat.motiv.profile.view.binders
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
@@ -27,9 +29,7 @@ import com.ilustris.motiv.manager.ManagerActivity
 import com.silent.ilustriscore.core.view.BaseView
 
 
-class SettingsBinder(
-        val uid: String,
-        override val viewBind: FragmentSettingsBinding) : BaseView<User>() {
+class SettingsBinder(override val viewBind: FragmentSettingsBinding) : BaseView<User>() {
 
     override val presenter: UserPresenter = UserPresenter(this)
 
@@ -39,7 +39,7 @@ class SettingsBinder(
 
     override fun initView() {
         viewBind.settingsContainer.left
-        presenter.getUser(uid)
+        presenter.getUser()
     }
 
     override fun showData(data: User) {
@@ -95,9 +95,16 @@ class SettingsBinder(
                     reset()
                 }
                 val filter = ColorMatrixColorFilter(matrix)
-
+                userpic.run {
+                    borderWidth = 5
+                    borderColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
+                }
                 adminBackground.colorFilter = filter
             } else {
+                userpic.run {
+                    borderWidth = 0
+                    borderColor = Color.TRANSPARENT
+                }
                 val matrix = ColorMatrix().apply {
                     setSaturation(0f)
                 }

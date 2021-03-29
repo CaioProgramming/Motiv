@@ -117,7 +117,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                 }
 
                 override fun onGifSelected(media: Media, searchTerm: String?, selectedContentType: GPHContentType) {
-                    media.images.downsizedMedium?.gifUrl?.let {
+                    media.images.downsized?.gifUrl?.let {
                         style.backgroundURL = it
                         Glide.with(this@NewStyleBinder.context).load(style.backgroundURL).into(viewBind.styleBackground)
                         updateStyle()

@@ -225,7 +225,9 @@ class QuoteCardBinder(
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
             viewBind.userTop.username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
             CardLikeAdapter(data.likes.toList(), context)
-            viewBind.quoteOptions.slideInBottom()
+            if (viewBind.quoteOptions.visibility == View.GONE) {
+                viewBind.quoteOptions.slideInBottom()
+            }
         } else {
             viewBind.userTop.userContainer.gone()
             viewBind.quoteOptions.gone()

@@ -1,8 +1,8 @@
 package com.creat.motiv.profile.view.binders
 
 
-import android.content.Context
 import android.graphics.Color
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -18,7 +18,6 @@ import com.silent.ilustriscore.core.view.BaseView
 class UserPicBind(
         private val quotesLikes: List<String>,
         private val uid: String,
-        override val context: Context,
         override val viewBind: UserPicviewBinding) : BaseView<User>() {
 
 
@@ -47,7 +46,9 @@ class UserPicBind(
             setOnClickListener {
                 context.activity()?.let { activity -> LikesDialog(activity, quotesLikes).buildDialog() }
             }
-            slideInBottom()
+            if (visibility == View.GONE) {
+                slideInBottom()
+            }
         }
 
     }
