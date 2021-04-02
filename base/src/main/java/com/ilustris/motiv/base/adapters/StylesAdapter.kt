@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.StylePagerLayoutBinding
 
-class StylesAdapter(val styles: List<QuoteStyle>) : RecyclerView.Adapter<StylesAdapter.StyleHolder>() {
+class StylesAdapter(val styles: List<Style>) : RecyclerView.Adapter<StylesAdapter.StyleHolder>() {
 
 
     inner class StyleHolder(val stylePagerLayoutBinding: StylePagerLayoutBinding) : RecyclerView.ViewHolder(stylePagerLayoutBinding.root) {
 
         val context: Context by lazy { stylePagerLayoutBinding.root.context }
 
-        fun bind(quoteStyle: QuoteStyle) {
+        fun bind(quoteStyle: Style) {
             Glide.with(context).asGif().load(quoteStyle.backgroundURL).centerCrop().into(stylePagerLayoutBinding.styleGif)
         }
 

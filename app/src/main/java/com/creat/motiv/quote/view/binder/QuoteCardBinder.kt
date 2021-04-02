@@ -1,6 +1,5 @@
 package com.creat.motiv.quote.view.binder
 
-import android.R.attr.label
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
@@ -15,7 +14,6 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
@@ -26,7 +24,7 @@ import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
@@ -54,7 +52,7 @@ class QuoteCardBinder(
 
     override val presenter = QuotePresenter(this)
 
-    private fun updateStyle(quoteStyle: QuoteStyle) {
+    private fun updateStyle(quoteStyle: Style) {
         viewBind.run {
             quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
             authorTextView.setTypeface(FontUtils.getTypeFace(context, quoteStyle.font), Typeface.ITALIC)
@@ -63,6 +61,9 @@ class QuoteCardBinder(
             authorTextView.setTextColor(color)
             if (quoteTextView.visibility == View.GONE) quoteTextView.fadeIn()
             if (authorTextView.visibility == View.GONE) authorTextView.fadeIn()
+            quoteStyle.shadowStyle.run {
+                quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+            }
         }
     }
 

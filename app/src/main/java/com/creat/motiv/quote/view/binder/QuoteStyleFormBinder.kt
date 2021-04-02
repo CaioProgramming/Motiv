@@ -1,51 +1,31 @@
 package com.creat.motiv.quote.view.binder
 
-import android.graphics.Color
-import android.view.LayoutInflater
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.databinding.StylePagerBinding
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.creat.motiv.quote.view.adapter.StylePreviewAdapter
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.adapters.StylesAdapter
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
-import com.ilustris.motiv.base.utils.FontUtils
-import com.ilustris.motiv.base.utils.loadGif
-import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.databinding.StyleCardBinding
-import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 import com.silent.ilustriscore.core.view.BaseView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageChange: (QuoteStyle) -> Unit) : BaseView<QuoteStyle>() {
+class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageChange: (Style) -> Unit, val stylesRecyclerView: RecyclerView) : BaseView<Style>() {
 
     override val presenter = QuoteStylePresenter(this)
+    var stylePreviewAdapter: StylePreviewAdapter? = null
     var quoteStyle: String? = null
-    var styles: List<QuoteStyle> = listOf()
+    var styles: List<Style> = listOf()
 
     override fun initView() {
         presenter.loadData()
     }
 
-    override fun showListData(list: List<QuoteStyle>) {
+    override fun showListData(list: List<Style>) {
         super.showListData(list)
         if (list.isEmpty()) {
             viewBind.stylesPager.run {
-                adapter = StylesAdapter(listOf(QuoteStyle.emptyStyle))
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
-                        onPageChange.invoke(list[position])
-                    }
-
-                })
+                adapter = StylesAdapter(listOf(Style.emptyStyle))
             }
         } else {
             styles = list
@@ -55,9 +35,15 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
                         onPageChange.invoke(list[position])
+                        stylePreviewAdapter?.setSelectedStyle(list[position].id)
+                        stylesRecyclerView.smoothScrollToPosition(position)
                     }
 
                 })
+                stylePreviewAdapter = StylePreviewAdapter(list, list[currentItem].id) {
+                    setCurrentItem(it, true)
+                }
+                stylesRecyclerView.adapter = stylePreviewAdapter
                 setCurrentItem(Random.nextInt(list.size - 1), true)
             }
             getStyle()
@@ -81,7 +67,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
     }
 
     fun goToStyle(styleID: String) {
-        if (styleID != QuoteStyle.defaultStyle.id) {
+        if (styleID != Style.defaultStyle.id) {
             quoteStyle = styleID
             if (styles == null) {
                 presenter.loadData()

@@ -1,6 +1,5 @@
 package com.ilustris.motiv.base.beans
 
-import com.ilustris.motiv.base.R
 import com.silent.ilustriscore.core.bean.BaseBean
 
 private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/RJy4FQlLbxDz4kJ6GF/giphy.gif"
@@ -20,58 +19,59 @@ enum class TextAlignment {
     CENTER, START, END
 }
 
-data class QuoteStyle(override var id: String = DEFAULT_STYLE_ID,
-                      var font: Int = 0,
-                      var textAlignment: TextAlignment = TextAlignment.CENTER,
-                      var textColor: String = DEFAULT_TEXT_COLOR,
-                      var shadowColor: String = DEFAULT_SHADOW_COLOR,
-                      var backgroundURL: String = DEFAULT_BACKGROUND_URL) : BaseBean(id) {
+data class Style(override var id: String = DEFAULT_STYLE_ID,
+                 var font: Int = 0,
+                 var textAlignment: TextAlignment = TextAlignment.CENTER,
+                 var textColor: String = DEFAULT_TEXT_COLOR,
+                 var backgroundURL: String = DEFAULT_BACKGROUND_URL,
+                 var shadowStyle: ShadowStyle = ShadowStyle()
+) : BaseBean(id) {
 
-    fun isStoredStyle() = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != COMPANY_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
+    fun isStoredStyle(): Boolean = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != COMPANY_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
 
     companion object {
-        val defaultStyle = QuoteStyle(id = DEFAULT_STYLE_ID)
-        val favoriteStyle = QuoteStyle(
+        val defaultStyle = Style(id = DEFAULT_STYLE_ID)
+        val favoriteStyle = Style(
                 id = FAVORITES_STYLE_ID,
                 font = 4,
                 textColor = DEFAULT_TEXT_COLOR,
                 backgroundURL = "https://media.giphy.com/media/3o7TKoWXm3okO1kgHC/giphy.gif"
         )
-        val emptyStyle = QuoteStyle(
+        val emptyStyle = Style(
                 id = EMPTY_STYLE_ID,
                 font = 3,
                 textColor = DEFAULT_TEXT_COLOR,
                 backgroundURL = "https://media.giphy.com/media/PnIpBoEJl7aaoBDxHt/giphy.gif"
         )
-        val searchStyle = QuoteStyle(
+        val searchStyle = Style(
                 id = SEARCH_STYLE_ID,
                 font = 7,
                 textColor = DEFAULT_TEXT_COLOR,
                 backgroundURL = "https://media.giphy.com/media/3HG8cKDPyl9QoG2KvW/giphy.gif"
         )
-        val splashStyle = QuoteStyle(
+        val splashStyle = Style(
                 id = SPLASH_STYLE_ID,
                 font = 9,
                 textColor = DEFAULT_TEXT_COLOR,
                 backgroundURL = "https://media.giphy.com/media/ij1WvlilscRFoIRn7u/giphy.gif"
         )
-        val adminStyle = QuoteStyle(
+        val adminStyle = Style(
                 id = ADMIN_STYLE_ID,
                 font = 12,
                 backgroundURL = "https://media.giphy.com/media/xUOwGcu6wd0cXBj5n2/giphy.gif"
         )
-        val newStyle = QuoteStyle(
+        val newStyle = Style(
                 id = NEW_STYLE_ID,
                 font = 6,
                 backgroundURL = "https://media.giphy.com/media/bLdgTj2jCKe9Wf94Km/giphy.gif"
         )
-        val companyStyle = QuoteStyle(
+        val companyStyle = Style(
                 id = COMPANY_STYLE_ID,
                 font = 3,
                 backgroundURL = "https://media.giphy.com/media/3ohzdVKKcOOUQfcQWk/giphy.gif"
         )
 
-        val usersStyle = QuoteStyle(
+        val usersStyle = Style(
                 id = VIEW_USERS_STYLE,
                 font = 6,
                 backgroundURL = "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif"
@@ -79,4 +79,6 @@ data class QuoteStyle(override var id: String = DEFAULT_STYLE_ID,
 
     }
 }
+
+data class ShadowStyle(var radius: Float = 1f, var dx: Float = 1f, var dy: Float = 1f, var shadowColor: String = DEFAULT_TEXT_COLOR)
 

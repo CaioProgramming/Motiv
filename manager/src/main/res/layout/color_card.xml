@@ -2,18 +2,28 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/colorcard"
         android:layout_width="24dp"
+        android:layout_margin="1dp"
+        app:cardCornerRadius="@dimen/radius_small"
         android:layout_height="24dp"
-        android:layout_margin="4dp"
+        app:strokeColor="@color/selected_style"
         android:stateListAnimator="@animator/list_animator"
-        app:cardCornerRadius="50dp"
+        app:strokeWidth="1dp"
         app:cardElevation="0dp"
-        tools:backgroundTint="@color/colorPrimaryDark"
+        tools:backgroundTint="@color/colorPrimaryDark">
 
-        >
+        <ImageView
+            android:id="@+id/currentColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/oblack"
+            android:padding="@dimen/padding_small"
+            app:tint="@color/white"
+            tools:src="@drawable/ic_shadow_color" />
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

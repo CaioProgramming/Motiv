@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -19,6 +20,7 @@
 
         <ImageView
             android:id="@+id/styleImage"
+            tools:background="@drawable/motiv_gradient"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -30,6 +32,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Motiv"
+            tools:textColor="@color/white"
             android:textAlignment="center"
             android:transitionName="@string/style_text_transtition" />
     </com.google.android.material.card.MaterialCardView>

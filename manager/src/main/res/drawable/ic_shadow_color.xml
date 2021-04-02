@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_baseline_auto_fix_normal_24" android:state_checked="true" />
+    <item android:drawable="@drawable/ic_outline_auto_fix_high_24" android:state_checked="false" />
+    <item android:drawable="@drawable/ic_baseline_auto_fix_off_24" android:state_enabled="false" />
+</selector>

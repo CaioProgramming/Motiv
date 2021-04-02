@@ -2,7 +2,6 @@ package com.creat.motiv.view.activities
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.view.adapters.AboutAdapter
@@ -11,7 +10,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.loadGif
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -32,7 +31,7 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
                 onBackPressed()
             }
         }
-        val style = QuoteStyle.companyStyle
+        val style = Style.companyStyle
         style.run {
             companyText.run {
                 setTextColor(Color.parseColor(style.textColor))

@@ -20,41 +20,64 @@
             <ImageView
                 android:id="@+id/styleBackground"
                 android:background="?attr/dividerColor"
+                tools:background="@drawable/motiv_gradient"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
 
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/styleFontPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/colorGallery"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/styleText"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_small"
-                android:stateListAnimator="@animator/list_animator"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="20"
-                tools:listitem="@layout/color_card" />
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="@dimen/padding_default"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                android:textColor="?android:textColorPrimary"
+                android:layout_width="match_parent"
+                android:textStyle="bold" />
 
 
         </com.google.android.material.card.MaterialCardView>
 
 
         <LinearLayout
-            android:paddingHorizontal="@dimen/padding_default"
             android:id="@+id/stylesBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/transparent"
             android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stylecolorGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/list_animator"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:itemCount="20"
+                tools:listitem="@layout/color_card" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/styleShadowPropretiesSlider"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:enabled="false"
+                android:valueFrom="0.10"
+                android:valueTo="50"
+                app:haloColor="@color/white"
+                app:haloRadius="@dimen/radius_small"
+                app:thumbColor="@color/white"
+                app:thumbRadius="@dimen/radius_default"
+                app:tickColor="@color/white"
+                app:tickVisible="true"
+                app:trackColorActive="@color/colorPrimaryDark"
+                app:trackColorInactive="?attr/dividerColor"
+                app:trackHeight="?attr/actionBarSize"
+                tools:value="25" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/fontsTabs"
@@ -64,60 +87,108 @@
                 app:tabIndicator="@color/transparent"
                 app:tabMode="scrollable" />
 
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_small">
+
+                    <ImageButton
+                        android:id="@+id/styleWallpaper"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@drawable/round"
+                        android:backgroundTint="?android:textColorPrimary"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_gif_24"
+                        android:tint="?android:colorBackground" />
+
+                    <ImageButton
+                        android:id="@+id/styleAlign"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:background="@color/transparent"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_format_align_center_24"
+                        android:tint="?android:textColorPrimary" />
+
+
+                    <CheckBox
+                        android:id="@+id/styleShadowColor"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_shadow_color"
+                        android:button="@color/transparent"
+                        android:stateListAnimator="@animator/selected_animator" />
+
+                    <RadioGroup
+                        android:id="@+id/optionsGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <RadioButton
+                            android:id="@+id/shadowXposition"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_shadow_dx"
+                            android:button="@color/transparent"
+                            android:stateListAnimator="@animator/selected_animator" />
+
+                        <RadioButton
+                            android:id="@+id/shadowYposition"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_shadow_dy"
+                            android:button="@color/transparent"
+                            android:buttonTint="?android:colorBackground"
+                            android:stateListAnimator="@animator/selected_animator" />
+
+                        <RadioButton
+                            android:id="@+id/shadowRadius"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_shadow_radius"
+                            android:button="@color/transparent"
+                            android:stateListAnimator="@animator/selected_animator" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveButton"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingVertical="@dimen/padding_default"
+                android:text="Salvar"
+                android:textAlignment="center"
+                android:textColor="?android:colorBackground"
+                android:textStyle="bold"
+                app:backgroundTint="?android:textColorPrimary"
+                app:cornerRadius="@dimen/radius_default" />
+
             <include
                 android:id="@+id/style_preview_layout"
                 layout="@layout/styles_recycler" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <ImageButton
-                    android:id="@+id/styleAlign"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:background="@drawable/round_stroke"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_baseline_format_align_center_24"
-                    android:tint="?android:textColorPrimary" />
-
-                <ImageButton
-                    android:id="@+id/styleWallpaper"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="@dimen/margin_default"
-                    android:background="@drawable/round"
-                    android:backgroundTint="?android:textColorPrimary"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_baseline_gif_24"
-                    android:tint="?android:colorBackground" />
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/saveButton"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:paddingVertical="@dimen/padding_default"
-                    android:text="Salvar"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:textColor="?android:colorBackground"
-                    app:backgroundTint="?android:textColorPrimary"
-                    app:cornerRadius="@dimen/radius_default" />
-
-
-            </LinearLayout>
-
         </LinearLayout>
-
-
     </RelativeLayout>
 </layout>

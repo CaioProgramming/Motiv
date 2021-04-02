@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.opensooq.supernova:gligar:1.1.0'
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
+    implementation 'com.hmomeni.verticalslider:verticalslider:0.1.4'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     kapt 'com.android.databinding:compiler:3.1.4'
 }

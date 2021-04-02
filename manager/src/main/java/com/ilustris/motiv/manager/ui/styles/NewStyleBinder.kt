@@ -1,13 +1,14 @@
 package com.ilustris.motiv.manager.ui.styles
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.TextAlignment
 import com.giphy.sdk.core.models.Media
 import com.giphy.sdk.ui.GPHContentType
@@ -15,9 +16,6 @@ import com.giphy.sdk.ui.GPHSettings
 import com.giphy.sdk.ui.themes.GPHTheme
 import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.ilustris.motiv.base.utils.*
 import com.ilustris.motiv.manager.R
@@ -28,82 +26,91 @@ import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.view.BaseView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentManager: FragmentManager) : BaseView<QuoteStyle>() {
+class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentManager: FragmentManager) : BaseView<Style>() {
     override val presenter = QuoteStylePresenter(this)
 
-    var style = QuoteStyle()
-    val fontAdapter = StyleFontAdapter()
+    var style = Style.defaultStyle
     var previewAdapter: StylePreviewAdapter? = null
-
+    var colorAdapter: RecyclerColorAdapter? = null
     override fun initView() {
 
         viewBind.run {
-
-            styleAlign.setOnClickListener {
-                when (style.textAlignment) {
-                    TextAlignment.CENTER -> style.textAlignment = TextAlignment.END
-                    TextAlignment.START -> style.textAlignment = TextAlignment.CENTER
-                    TextAlignment.END -> style.textAlignment = TextAlignment.START
-                }
-                updateStyle()
-            }
-            styleBackground.run {
-                viewBind.styleBackground.loadGif(style.backgroundURL)
-                setOnClickListener {
-                    openGiphyDialog()
-                }
-            }
-            styleWallpaper.setOnClickListener {
-                openGiphyDialog()
-            }
             saveButton.setOnClickListener {
                 if (style.isStoredStyle()) {
                     presenter.updateData(style)
                 } else {
-                    presenter.saveData(style)
+                    presenter.saveData(style.apply { id = "" })
                 }
             }
-            styleFontPager.run {
-                adapter = fontAdapter
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
-                        style.font = position
-                    }
-                })
-                TabLayoutMediator(viewBind.fontsTabs, this) { tab, position ->
-                    val view = LayoutInflater.from(context).inflate(R.layout.tab_font_view, null, false)
-                    tab.customView = view
-                    tab.view.findViewById<TextView>(R.id.fontText).run {
-                        typeface = FontUtils.getTypeFace(context, position)
-                        setOnClickListener {
-                            tab.select()
+            viewBind.fontsTabs.run {
+                repeat(FontUtils.fonts.size) {
+                    addTab(newTab().apply {
+                        val view = LayoutInflater.from(context).inflate(R.layout.tab_font_view, null, false)
+                        customView = view
+                        view.findViewById<TextView>(R.id.fontText).run {
+                            typeface = FontUtils.getTypeFace(context, it)
+                            setOnClickListener {
+                                select()
+                                style.font = position
+                                updateStyle()
+                            }
                         }
-                    }
-                }.attach()
+                    })
+                }
             }
-            fontsTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {}
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                }
-
-            })
-
+            initButtons()
             getColorGallery()
         }
         presenter.loadData()
         updateStyle()
     }
+
+    private fun NewStyleFormBinding.initButtons() {
+        styleAlign.setOnClickListener {
+            style.textAlignment = when (style.textAlignment) {
+                TextAlignment.CENTER -> TextAlignment.END
+                TextAlignment.START -> TextAlignment.CENTER
+                TextAlignment.END -> TextAlignment.START
+            }
+            updateStyle()
+        }
+        styleBackground.run {
+            viewBind.styleBackground.loadGif(style.backgroundURL)
+            setOnClickListener {
+                openGiphyDialog()
+            }
+        }
+        styleWallpaper.setOnClickListener {
+            openGiphyDialog()
+        }
+        styleShadowPropretiesSlider.addOnChangeListener { slider, value, fromUser ->
+            handleSlider(optionsGroup.checkedRadioButtonId, value)
+        }
+        optionsGroup.setOnCheckedChangeListener { group, checkedId ->
+            style.shadowStyle.run {
+                val minValue = styleShadowPropretiesSlider.valueFrom
+                styleShadowPropretiesSlider.value = when (checkedId) {
+                    R.id.shadowRadius -> if (radius >= minValue) radius else minValue
+                    R.id.shadowXposition -> if (dx >= minValue) dx else minValue
+                    R.id.shadowYposition -> if (dy >= minValue) dy else minValue
+                    else -> 0.10f
+                }
+            }
+
+            styleShadowPropretiesSlider.isEnabled = (optionsGroup.checkedRadioButtonId != -1)
+        }
+    }
+
+    private fun handleSlider(checkedID: Int, value: Float) {
+        when (checkedID) {
+            R.id.shadowYposition -> style.shadowStyle.dy = value
+            R.id.shadowXposition -> style.shadowStyle.dx = value
+            R.id.shadowRadius -> style.shadowStyle.radius = value
+        }
+        updateStyle()
+    }
+
 
     private fun openGiphyDialog() {
         GiphyDialogFragment.newInstance(GPHSettings(GridType.waterfall, GPHTheme.Automatic)).apply {
@@ -132,13 +139,9 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     override fun getCallBack(dtoMessage: DTOMessage) {
         super.getCallBack(dtoMessage)
         if (dtoMessage.operationType == OperationType.DATA_SAVED || dtoMessage.operationType == OperationType.DATA_UPDATED) {
-            DefaultAlert(context, "Ótimo!", "O estilo foi salvo com sucesso!", okClick = {
-                context.activity()?.finish()
-            }, cancelClick = {
-                context.activity()?.finish()
-            }).buildDialog()
+            showSnackBar(context, "Estilo salvo com sucesso", Color.GREEN, rootView = viewBind.root)
 
-            style = QuoteStyle.emptyStyle
+            style = Style.emptyStyle
             updateStyle()
         }
     }
@@ -153,7 +156,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
 
     }
 
-    override fun showListData(list: List<QuoteStyle>) {
+    override fun showListData(list: List<Style>) {
         super.showListData(list)
         if (previewAdapter == null) {
             viewBind.stylePreviewLayout.stylesRecycler.run {
@@ -172,29 +175,31 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
         previewAdapter?.let {
             val selectedStyle = it.styles[position]
             style = if (style.id == selectedStyle.id) {
-                QuoteStyle.defaultStyle
+                Style.defaultStyle
             } else {
                 selectedStyle
             }
             previewAdapter?.setSelectedStyle(style.id)
             viewBind.styleBackground.loadGif(style.backgroundURL)
-            GlobalScope.launch(Dispatchers.IO) {
-                delay(500)
-                GlobalScope.launch(Dispatchers.Main) {
-                    updateStyle()
-                    viewBind.stylePreviewLayout.stylesRecycler.scheduleLayoutAnimation()
-                    viewBind.stylePreviewLayout.stylesRecycler.smoothScrollToPosition(position)
+            viewBind.stylePreviewLayout.stylesRecycler.scheduleLayoutAnimation()
+            viewBind.stylePreviewLayout.stylesRecycler.smoothScrollToPosition(position)
+            updateStyle()
 
-                }
-            }
         }
     }
 
     private fun getColorGallery() {
-        viewBind.colorGallery.adapter = RecyclerColorAdapter(context) {
-            style.textColor = it
+        colorAdapter = RecyclerColorAdapter(context) {
+            if (!viewBind.styleShadowColor.isChecked) {
+                style.textColor = it
+                colorAdapter?.updateTextColor(it)
+            } else {
+                style.shadowStyle.shadowColor = it
+                colorAdapter?.updateShadowColor(it)
+            }
             updateStyle()
         }
+        viewBind.stylecolorGallery.adapter = colorAdapter
     }
 
     fun updateStyle() {
@@ -207,11 +212,20 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                 }
                 setImageResource(src)
             }
-            fontAdapter.run {
-                updateAlignment(style.textAlignment)
-                updateTextColor(style.textColor)
-                styleFontPager.setCurrentItem(style.font, true)
+            styleText.run {
+                defineTextAlignment(style.textAlignment)
+                setTextColor(Color.parseColor(style.textColor))
+                typeface = FontUtils.getTypeFace(context, style.font)
+                style.shadowStyle.run {
+                    setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+                }
             }
+            colorAdapter?.run {
+                updateTextColor(style.textColor)
+                updateShadowColor(style.shadowStyle.shadowColor)
+            }
+            fontsTabs.getTabAt(style.font)?.select()
         }
     }
+
 }

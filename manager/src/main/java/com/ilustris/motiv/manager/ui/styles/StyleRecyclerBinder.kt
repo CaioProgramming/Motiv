@@ -1,34 +1,26 @@
 package com.ilustris.motiv.manager.ui.styles
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.motiv.base.PROFILE_PIC_TRANSACTION
 import com.ilustris.motiv.base.beans.NEW_STYLE_ID
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
-import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StylesRecyclerBinding
 import com.silent.ilustriscore.core.view.BaseView
 
-class StyleRecyclerBinder(override val viewBind: StylesRecyclerBinding) : BaseView<QuoteStyle>() {
+class StyleRecyclerBinder(override val viewBind: StylesRecyclerBinding) : BaseView<Style>() {
     override val presenter = QuoteStylePresenter(this)
 
     override fun initView() {
-       presenter.loadData()
+        presenter.loadData()
     }
 
-    override fun showListData(list: List<QuoteStyle>) {
+    override fun showListData(list: List<Style>) {
         super.showListData(list)
         val styles = ArrayList(list)
-        styles.add(0, QuoteStyle.newStyle)
+        styles.add(0, Style.newStyle)
         viewBind.stylesRecycler.run {
             adapter = StylePreviewAdapter(styles.toList(), false) { position ->
                 val style = styles[position]

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewquotepopupBinding
 import com.ilustris.animations.bounce
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.presenter.QuotePresenter
 
@@ -17,7 +17,6 @@ import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.utils.ColorUtils
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -30,14 +29,13 @@ class EditQuoteBinder(
         override val viewBind: NewquotepopupBinding) : BaseView<Quote>() {
 
     override val presenter = QuotePresenter(this)
-    private val styleFormBinder = QuoteStyleFormBinder(viewBind.stylesPager, this::updateStyle)
+    private val styleFormBinder = QuoteStyleFormBinder(viewBind.stylesPager, this::updateStyle, viewBind.stylePreviewRecycler)
 
     init {
         initView()
     }
 
-
-    private fun updateStyle(quoteStyle: QuoteStyle) {
+    private fun updateStyle(quoteStyle: Style) {
         viewBind.run {
             animateText(quoteStyle)
         }
@@ -66,8 +64,6 @@ class EditQuoteBinder(
 
     }
 
-
-
     override fun showData(data: Quote) {
         viewBind.run {
             quoteTextView.setText(data.quote)
@@ -80,7 +76,7 @@ class EditQuoteBinder(
     }
 
 
-    private fun NewquotepopupBinding.animateText(quoteStyle: QuoteStyle) {
+    private fun NewquotepopupBinding.animateText(quoteStyle: Style) {
         quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         val textColor = Color.parseColor(quoteStyle.textColor)
@@ -88,6 +84,9 @@ class EditQuoteBinder(
         authorTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
+        quoteStyle.shadowStyle.run {
+            quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+        }
         quoteTextView.bounce()
         authorTextView.bounce()
 

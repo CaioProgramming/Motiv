@@ -1,8 +1,9 @@
-package com.ilustris.motiv.manager.ui.styles
+package com.creat.motiv.quote.view.adapter
 
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +18,8 @@ import com.ilustris.motiv.manager.databinding.StyleCardBinding
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 
 class StylePreviewAdapter(var styles: List<Style>,
-                          private val isPreview: Boolean = false,
                           private var selectedStyle: String? = null,
-                          val onRequestDelete: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                          private val onSelectStyle: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun updateStyles(list: List<Style>) {
         styles = list
@@ -51,54 +51,23 @@ class StylePreviewAdapter(var styles: List<Style>,
                     styleCard.isSelected = quoteStyle.id == it
                 }
                 styleCard.setOnClickListener {
-                    onRequestDelete.invoke(adapterPosition)
+                    onSelectStyle.invoke(adapterPosition)
                 }
-                styleCard.fadeIn()
-            }
-        }
-
-    }
-
-    inner class StyleHolder(private val stylePreviewCardBinding: StyleCardBinding): RecyclerView.ViewHolder(stylePreviewCardBinding.root) {
-
-        fun bind(quoteStyle: Style) {
-
-            stylePreviewCardBinding.run {
-                val context: Context = root.context
-                styleImage.loadGif(quoteStyle.backgroundURL)
-                styleText.run {
-                    typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-                    defineTextAlignment(quoteStyle.textAlignment)
-                    setTextColor(Color.parseColor(quoteStyle.textColor))
-                    quoteStyle.shadowStyle.run {
-                        setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
-                    }
-                }
-
-                styleCard.setOnClickListener {
-                    onRequestDelete.invoke(adapterPosition)
-                }
-                if (quoteStyle.id == NEW_STYLE_ID) {
-                    styleText.text = "Criar novo estilo"
-                } else {
-                    styleText.text = "Motiv"
+                if (styleCard.visibility == View.GONE) {
+                    styleCard.fadeIn()
                 }
             }
         }
 
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (!isPreview) StyleHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_card, parent, false))
-        else StylePreviewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_preview_card, parent, false))
+        return StylePreviewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_preview_card, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (isPreview) {
-            (holder as StylePreviewHolder).bind(styles[position])
-        } else {
-            (holder as StyleHolder).bind(styles[position])
-        }
+        (holder as StylePreviewHolder).bind(styles[position])
     }
 
     override fun getItemCount(): Int {

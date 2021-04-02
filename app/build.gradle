@@ -147,7 +147,7 @@ task updateVersion {
                 versionPatch = 0
                 if (versionMinor < 15) {
                     versionMinor++
-                }else {
+                } else {
                     versionMinor = 0
                     versionMajor++
                 }

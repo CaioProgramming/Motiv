@@ -2,14 +2,13 @@ package com.ilustris.motiv.manager.ui.home.binder
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import com.ilustris.motiv.base.beans.QuoteStyle
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.binder.QuoteStyleBinder
 import com.ilustris.motiv.base.binder.UserViewBinder
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
-import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.ListDialogBean
 import com.ilustris.motiv.base.utils.DialogStyles
@@ -27,7 +26,7 @@ class QuoteManagerCardBinder(
 
     override val presenter = QuotePresenter(this)
 
-    private fun updateStyle(quoteStyle: QuoteStyle) {
+    private fun updateStyle(quoteStyle: Style) {
         viewBind.run {
             quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
             authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
@@ -36,6 +35,9 @@ class QuoteManagerCardBinder(
             authorTextView.setTextColor(color)
             quoteTextView.visible()
             authorTextView.visible()
+            quoteStyle.shadowStyle.run {
+                quoteTextView.setShadowLayer(radius, dx, dy, color)
+            }
         }
     }
 
