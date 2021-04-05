@@ -49,6 +49,15 @@ fun Activity.setMotivTitle(title: String) {
     }
 }
 
+fun Activity.setMotivTitleColor(color: Int) {
+    try {
+        val titleTextView: TextView? = findViewById(R.id.motivTitle)
+        titleTextView?.setTextColor(color)
+    } catch (e: Exception) {
+        Log.e("Motiv title", "setTitle: cannot change app title $e")
+    }
+}
+
 fun Context.showSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this

@@ -2,10 +2,12 @@ package com.creat.motiv.view.activities
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.creat.motiv.R
 import com.creat.motiv.view.adapters.AboutAdapter
 import com.google.android.gms.ads.AdRequest
@@ -14,10 +16,7 @@ import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.ilustris.motiv.base.beans.Style
-import com.ilustris.motiv.base.utils.FontUtils
-import com.ilustris.motiv.base.utils.WEB_URL
-import com.ilustris.motiv.base.utils.loadGif
-import com.ilustris.motiv.base.utils.setMotivTitle
+import com.ilustris.motiv.base.utils.*
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -40,13 +39,27 @@ class AboutActivity : AppCompatActivity(R.layout.activity_about) {
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         }
+
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
             aboutToolbar.setNavigationOnClickListener {
                 onBackPressed()
             }
             setMotivTitle("Sobre nós")
+            setMotivTitleColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
         }
+    }
+
+    override fun onAttachedToWindow() {
+        instagramText.apply {
+            typeface = FontUtils.getTypeFace(this@AboutActivity, 16)
+            followUsCard.setOnClickListener {
+                val uri = Uri.parse("https://www.instagram.com/motivbr/")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
+        }
+        super.onAttachedToWindow()
     }
 
 

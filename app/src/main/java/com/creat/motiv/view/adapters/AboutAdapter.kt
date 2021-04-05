@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
@@ -26,6 +27,7 @@ class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyV
             DeveloperBinder(holder.quoteHeaderBinding).initView()
         } else {
             holder.quoteHeaderBinding.recyclerView.run {
+                layoutManager = GridLayoutManager(context, 2, RecyclerView.HORIZONTAL, false)
                 adapter = RecyclerReferencesAdapter(context)
                 fadeIn()
 

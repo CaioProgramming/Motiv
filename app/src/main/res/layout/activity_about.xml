@@ -16,7 +16,6 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <include
-                android:id="@+id/motiv_toolbar"
                 layout="@layout/motiv_toolbar" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -39,21 +38,73 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
+                    android:id="@+id/support_devs"
+                    android:layout_margin="@dimen/padding_small"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_default"
-                    app:cardBackgroundColor="@color/colorAccent"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:cardBackgroundColor="@color/colorPrimary"
                     app:cardCornerRadius="@dimen/radius_default"
                     app:cardElevation="0dp">
 
-                    <TextView
-                        android:id="@+id/support_devs"
-                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:padding="@dimen/padding_big"
-                        android:text="@string/support_devs"
-                        android:textColor="@color/white" />
+                        android:background="@drawable/motiv_gradient"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_default">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/support_devs_label"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="@dimen/padding_small"
+                            android:text="@string/support_devs"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/followUsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_small"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:cardCornerRadius="@dimen/radius_default"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/instagram_gradient"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_default">
+
+                        <TextView
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/follow_us"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/instagramText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="@dimen/padding_small"
+                            android:text="Instagram"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+
                 </com.google.android.material.card.MaterialCardView>
 
 
@@ -66,7 +117,8 @@
                     android:padding="@dimen/padding_small"
                     android:text="@string/developed_by"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:stateListAnimator="@animator/list_animator"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:textColor="@color/md_blue500"
                     android:textStyle="bold" />
 
