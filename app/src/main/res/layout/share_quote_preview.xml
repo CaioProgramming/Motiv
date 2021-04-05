@@ -1,36 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="sharedQuote"
+            type="com.ilustris.motiv.base.beans.Quote" />
+    </data>
 
     <LinearLayout
+        android:background="?android:colorBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_top"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_default">
+        android:orientation="vertical">
 
         <TextView
             style="@style/ToolbarTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default"
+            android:padding="@dimen/padding_small"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="Compartilhar frase" />
 
-        <ImageView
-            android:id="@+id/quoteImage"
+        <RelativeLayout
+            android:id="@+id/shareView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="center" />
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:paddingHorizontal="@dimen/padding_default"
+            android:paddingVertical="?attr/actionBarSize">
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_default"
-            android:padding="@dimen/padding_default"
-            android:text="Compartilhar"
-            android:textColor="?android:colorBackground"
-            app:backgroundTint="?android:textColorPrimary"
-            app:cornerRadius="@dimen/radius_default" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/shareCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/shareButton"
+                android:stateListAnimator="@animator/list_animator"
+                app:cardBackgroundColor="?android:colorBackground"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp"
+                app:strokeColor="?android:textColorPrimary"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/cardTop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_small">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:src="@drawable/defaultdot"
+                                app:tint="@color/material_purple500" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:src="@drawable/defaultdot"
+                                app:tint="@color/material_purpleA200" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:src="@drawable/defaultdot"
+                                app:tint="@color/material_purpleA700" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center|top"
+                            android:fontFamily="@font/jost"
+                            android:text="@string/app_name"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:textColor="?android:textColorPrimary"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/quoteContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/quoteImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/lblack" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_default">
+
+                            <TextView
+                                android:id="@+id/quoteTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="400dp"
+                                android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                                android:gravity="center"
+                                android:text="@{sharedQuote.quote}"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/big_quote_size"
+                                tools:text="Everytime I close my eyes, is like a dark paradise, no one compares to you, but i'm scare that you will be waiting on the other side" />
+
+                            <TextView
+                                android:id="@+id/authorTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:autoSizeMaxTextSize="@dimen/low_quote_size"
+                                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                                android:gravity="center"
+                                android:text="@{sharedQuote.author}"
+                                android:textAlignment="center"
+                                android:textStyle="italic"
+                                tools:text="Lana Del Rey" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:indeterminateOnly="true"
+                    app:indicatorColor="@color/colorPrimaryDark"
+                    app:showDelay="500"
+                    app:trackColor="@color/transparent"
+                    app:trackCornerRadius="@dimen/radius_small"
+                    app:trackThickness="1dp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareButton"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:enabled="false"
+                android:padding="@dimen/padding_default"
+                android:text="Compartilhar"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="@color/md_blue500"
+                app:cornerRadius="@dimen/radius_small" />
+        </RelativeLayout>
+
 
     </LinearLayout>
 

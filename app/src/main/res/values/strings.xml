@@ -6,7 +6,7 @@
     <string name="author">Autor</string>
     <string name="Welcome">Bem-vindo ao Motiv</string>
     <string name="titleone">A sua rede social para os amantes da poesia, você é livre para expressar-se com suas palavras!</string>
-    <string name="developed_by">by\nIlustris since 2018</string>
+    <string name="developed_by">by Ilustris since 2018</string>
     <string name="icon_info">user icon</string>
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>

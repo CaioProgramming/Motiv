@@ -17,7 +17,6 @@ class QuoteStylePresenter(override val view: BaseView<Style>) : BasePresenter<St
                 FAVORITES_STYLE_ID -> onSingleData(Style.favoriteStyle)
                 SEARCH_STYLE_ID -> onSingleData(Style.searchStyle)
                 ADMIN_STYLE_ID -> onSingleData(Style.adminStyle)
-                COMPANY_STYLE_ID -> onSingleData(Style.companyStyle)
                 else -> model.getSingleData(key)
             }
         } catch (e: Exception) {

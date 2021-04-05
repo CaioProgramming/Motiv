@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.creat.motiv.BuildConfig
 import com.creat.motiv.R
 import com.creat.motiv.quote.EditQuoteActivity
+import com.creat.motiv.quote.view.QuoteShareDialog
 import com.creat.motiv.view.adapters.CardLikeAdapter
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
@@ -36,6 +37,7 @@ import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.TextUtils
+import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.silent.ilustriscore.core.utilities.ColorUtils
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -51,8 +53,10 @@ class QuoteCardBinder(
 
 
     override val presenter = QuotePresenter(this)
+    var quoteStyle: Style? = null
 
     private fun updateStyle(quoteStyle: Style) {
+        this.quoteStyle = quoteStyle
         viewBind.run {
             quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
             authorTextView.setTypeface(FontUtils.getTypeFace(context, quoteStyle.font), Typeface.ITALIC)
@@ -64,6 +68,8 @@ class QuoteCardBinder(
             quoteStyle.shadowStyle.run {
                 quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             }
+            quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
+            authorTextView.defineTextAlignment(quoteStyle.textAlignment)
         }
     }
 
@@ -129,30 +135,9 @@ class QuoteCardBinder(
             }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
         }
         viewBind.shareButton.setOnClickListener {
-            generateCardImage { file ->
-                val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
-                copyToClipboard()
-                uri?.let {
-                    val shareIntent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        type = "image/*"
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        setDataAndType(uri, context.contentResolver.getType(uri))
-                        putExtra(Intent.EXTRA_SUBJECT, context.resources.getString(R.string.app_name))
-                        putExtra(Intent.EXTRA_TEXT, "${quote.quote}\n - ${quote.author}")
-                        putExtra(Intent.EXTRA_STREAM, uri)
-
-                    }
-                    context.startActivity(Intent.createChooser(shareIntent, "Compartilhar post em..."))
-                }
-                viewBind.run {
-                    styleView.giphyLogo.visible()
-                    quoteOptions.visible()
-                    userTop.userContainer.visible()
-                }
+            quoteStyle?.let { style ->
+                QuoteShareDialog(context, quote, style).buildDialog()
             }
-
-
         }
         viewBind.run {
             if (quoteCard.visibility == View.GONE) quoteCard.fadeIn()

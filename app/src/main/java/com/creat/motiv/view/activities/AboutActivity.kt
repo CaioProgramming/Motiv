@@ -1,8 +1,11 @@
 package com.creat.motiv.view.activities
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.creat.motiv.R
 import com.creat.motiv.view.adapters.AboutAdapter
 import com.google.android.gms.ads.AdRequest
@@ -12,34 +15,38 @@ import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.utils.WEB_URL
 import com.ilustris.motiv.base.utils.loadGif
+import com.ilustris.motiv.base.utils.setMotivTitle
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class AboutActivity : AppCompatActivity(R.layout.activity_about) {
+    val aboutToolbar: Toolbar by lazy {
+        findViewById(R.id.motiv_toolbar)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(about_toolbar)
+
+        setSupportActionBar(aboutToolbar)
         aboutRecycler.adapter = AboutAdapter(this)
         support_devs.setOnClickListener {
             showAd()
         }
+        companyText.setOnClickListener {
+            val uri = Uri.parse("https://play.google.com/store/apps/dev?id=8106172357045720296")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
-            about_toolbar.setNavigationOnClickListener {
+            aboutToolbar.setNavigationOnClickListener {
                 onBackPressed()
             }
+            setMotivTitle("Sobre nós")
         }
-        val style = Style.companyStyle
-        style.run {
-            companyText.run {
-                setTextColor(Color.parseColor(style.textColor))
-                typeface = FontUtils.getTypeFace(context, font)
-            }
-            companyBackground.loadGif(style.backgroundURL)
-        }
-
     }
 
 

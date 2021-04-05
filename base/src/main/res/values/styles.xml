@@ -36,7 +36,7 @@
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="fontFamily">@font/questrial</item>
+        <item name="fontFamily">@font/jost</item>
     </style>
 
 
@@ -63,10 +63,11 @@
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="behavior_peekHeight">700dp</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="Full_Screen_Dialog">
+    <style name="Full_Screen_Dialog" parent="Motiv.Theme">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>

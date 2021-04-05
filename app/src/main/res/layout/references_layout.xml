@@ -10,7 +10,7 @@
             type="com.creat.motiv.utilities.Reference" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/reference_card"
         android:layout_width="230dp"
         android:layout_height="250dp"
@@ -58,5 +58,5 @@
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

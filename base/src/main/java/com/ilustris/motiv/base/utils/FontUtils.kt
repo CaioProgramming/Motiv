@@ -24,8 +24,13 @@ object FontUtils {
             FontObject("Satisfy", "fonts/Satisfy-Regular.ttf")
     )
 
-    fun getTypeFace(context: Context, position: Int): Typeface {
-        return loadTypeFace(context, fonts[position].path)
+    fun getTypeFace(context: Context, position: Int): Typeface? {
+        return try {
+            loadTypeFace(context, fonts[position].path)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 
     private fun loadTypeFace(context: Context, path: String): Typeface {

@@ -15,21 +15,16 @@
             android:orientation="vertical"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/about_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:animateLayoutChanges="true"
-                android:elevation="0dp"
-                app:layout_collapseMode="parallax"
-                app:title="Sobre nós" />
+            <include
+                android:id="@+id/motiv_toolbar"
+                layout="@layout/motiv_toolbar" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/aboutRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/bottom_about"
-                android:layout_below="@id/about_toolbar"
+                tools:itemCount="2"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
@@ -42,44 +37,39 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/support_devs"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/oblack"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:padding="@dimen/padding_default"
-                    android:text="@string/support_devs"
-                    android:textColor="@color/colorAccent" />
-
-                <RelativeLayout
-                    android:id="@+id/companyView"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:background="@color/material_grey900"
-                    tools:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/companyBackground"
-                        android:layout_width="match_parent"
-                        android:layout_height="90dp"
-                        android:scaleType="centerCrop"
-                        android:transitionName="@string/quote_transaction" />
+                    android:layout_margin="@dimen/margin_default"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    app:cardCornerRadius="@dimen/radius_default"
+                    app:cardElevation="0dp">
 
                     <TextView
-                        android:id="@+id/companyText"
+                        android:id="@+id/support_devs"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
+                        android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
-                        android:padding="@dimen/padding_default"
-                        android:text="@string/developed_by"
-                        android:textAlignment="center"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                        android:textStyle="bold" />
+                        android:padding="@dimen/padding_big"
+                        android:text="@string/support_devs"
+                        android:textColor="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
 
-                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/companyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="@dimen/padding_small"
+                    android:text="@string/developed_by"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textColor="@color/md_blue500"
+                    android:textStyle="bold" />
+
 
                 <com.google.android.material.textview.MaterialTextView
                     style="@style/TextAppearance.MaterialComponents.Caption"

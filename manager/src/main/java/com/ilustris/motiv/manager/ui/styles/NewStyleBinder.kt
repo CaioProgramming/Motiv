@@ -215,7 +215,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
             styleText.run {
                 defineTextAlignment(style.textAlignment)
                 setTextColor(Color.parseColor(style.textColor))
-                typeface = FontUtils.getTypeFace(context, style.font)
+                FontUtils.getTypeFace(context, style.font)?.let { typeface = it }
                 style.shadowStyle.run {
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }

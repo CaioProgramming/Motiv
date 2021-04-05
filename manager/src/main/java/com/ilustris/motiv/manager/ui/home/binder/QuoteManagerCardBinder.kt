@@ -36,7 +36,8 @@ class QuoteManagerCardBinder(
             quoteTextView.visible()
             authorTextView.visible()
             quoteStyle.shadowStyle.run {
-                quoteTextView.setShadowLayer(radius, dx, dy, color)
+                quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+                authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             }
         }
     }

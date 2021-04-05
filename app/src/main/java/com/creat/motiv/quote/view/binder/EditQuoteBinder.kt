@@ -17,6 +17,7 @@ import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.beans.Quote
+import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.utilities.OperationType
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -82,10 +83,13 @@ class EditQuoteBinder(
         val textColor = Color.parseColor(quoteStyle.textColor)
         quoteTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
         authorTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
+        quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
+        authorTextView.defineTextAlignment(quoteStyle.textAlignment)
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
         quoteStyle.shadowStyle.run {
             quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+            authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
         }
         quoteTextView.bounce()
         authorTextView.bounce()

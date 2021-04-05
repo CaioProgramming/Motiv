@@ -23,6 +23,11 @@
             android:id="@+id/styleView"
             layout="@layout/style_layout_view" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/oblack" />
+
         <RelativeLayout
             android:layout_marginTop="@dimen/topBlurSize"
             android:padding="@dimen/padding_default"
@@ -42,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_above="@id/author_text_view"
                 android:autoSizeTextType="uniform"
-                android:gravity="center"
+                android:gravity="start"
                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
                 android:autoSizeMinTextSize="@dimen/min_quote_size"
                 android:breakStrategy="high_quality"
@@ -50,7 +55,7 @@
                 android:shadowDx="10"
                 android:shadowDy="0"
                 android:shadowRadius="1"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textSize="@dimen/big_quote_size"
                 android:textStyle="bold"
                 android:transitionName="@string/quote_transaction"

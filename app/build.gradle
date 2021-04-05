@@ -25,7 +25,7 @@ android {
     def versionPatch = versionProps['VERSION_PATCH'].toInteger()
     def versionBuild = versionProps['VERSION_BUILD'].toInteger()
     def versionNumber = versionProps['VERSION_NUMBER'].toInteger()
-    def vName = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
+    def vName = "Motiv.${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
 
 
     defaultConfig {

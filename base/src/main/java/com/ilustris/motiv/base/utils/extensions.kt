@@ -70,32 +70,44 @@ fun Context.hideSupportActionBar() {
 }
 
 
-fun ImageView.loadGif(url: String) {
+fun ImageView.loadGif(url: String, onLoadComplete: (() -> Unit)? = null) {
     Log.i(javaClass.simpleName, "loadGif: loading gif $url ")
-    Glide.with(context)
-            .asGif()
-            .centerCrop()
-            .load(url)
-            .error(R.drawable.motiv_gradient)
-            .addListener(object : RequestListener<GifDrawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-                    setImageResource(R.drawable.motiv_gradient)
-                    visible()
-                    return false
-                }
+    try {
+        Glide.with(context)
+                .asGif()
+                .centerCrop()
+                .load(url)
+                .error(R.drawable.motiv_gradient)
+                .addListener(object : RequestListener<GifDrawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
+                        setImageResource(R.drawable.motiv_gradient)
+                        visible()
+                        return false
+                    }
 
-                override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    Log.i(javaClass.simpleName, "onResourceReady: gif($url) loaded")
-                    setImageDrawable(resource)
-                    if (visibility == View.GONE) fadeIn()
-                    return false
-                }
-            }).into(this)
+                    override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        Log.i(javaClass.simpleName, "onResourceReady: gif($url) loaded")
+                        setImageDrawable(resource)
+                        if (visibility == View.GONE) fadeIn()
+                        onLoadComplete?.invoke()
+                        return false
+                    }
+                }).into(this)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        setImageResource(R.drawable.motiv_gradient)
+    }
+
 }
 
 fun ImageView.loadImage(url: String) {
-    context?.let {
-        Glide.with(it).load(url).error(R.drawable.ic_neptune).into(this)
+    try {
+        context?.let {
+            Glide.with(it).load(url).error(R.drawable.ic_neptune).into(this)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        setImageResource(R.drawable.ic_neptune)
     }
 }
 

@@ -18,6 +18,6 @@
 
 
     <!-- Background color -->
-    <solid android:color="?android:colorBackground" />
+    <solid android:color="?attr/dividerColor" />
 
 </shape>

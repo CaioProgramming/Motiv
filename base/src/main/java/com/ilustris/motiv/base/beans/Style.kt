@@ -7,7 +7,6 @@ const val DEFAULT_STYLE_ID = "DEFAULT_STYLE"
 const val VIEW_USERS_STYLE = "USERS_STYLE"
 const val SPLASH_STYLE_ID = "SPLASH_STYLE"
 const val ADMIN_STYLE_ID = "ADMIN_STYLE"
-const val COMPANY_STYLE_ID = "COMPANY_STYLE"
 const val SEARCH_STYLE_ID = "SEARCH_STYLE"
 const val EMPTY_STYLE_ID = "EMPTY_STYLE"
 const val FAVORITES_STYLE_ID = "FAVORITES_STYLE"
@@ -27,7 +26,7 @@ data class Style(override var id: String = DEFAULT_STYLE_ID,
                  var shadowStyle: ShadowStyle = ShadowStyle()
 ) : BaseBean(id) {
 
-    fun isStoredStyle(): Boolean = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != COMPANY_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
+    fun isStoredStyle(): Boolean = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
 
     companion object {
         val defaultStyle = Style(id = DEFAULT_STYLE_ID)
@@ -65,11 +64,7 @@ data class Style(override var id: String = DEFAULT_STYLE_ID,
                 font = 6,
                 backgroundURL = "https://media.giphy.com/media/bLdgTj2jCKe9Wf94Km/giphy.gif"
         )
-        val companyStyle = Style(
-                id = COMPANY_STYLE_ID,
-                font = 3,
-                backgroundURL = "https://media.giphy.com/media/3ohzdVKKcOOUQfcQWk/giphy.gif"
-        )
+
 
         val usersStyle = Style(
                 id = VIEW_USERS_STYLE,
