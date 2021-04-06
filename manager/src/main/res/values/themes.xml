@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Motiv.Theme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Motiv.Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Motiv.Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

@@ -23,10 +23,8 @@ import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.dialog.BaseAlert
 import com.ilustris.motiv.base.utils.*
+import com.silent.ilustriscore.core.utilities.*
 import com.silent.ilustriscore.core.utilities.ColorUtils
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -70,24 +68,23 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
             }
         }
         shareButton.setOnClickListener {
-            shareButton.gone()
-            GlobalScope.launch(Dispatchers.IO) {
-                delay(1500)
-                GlobalScope.launch(Dispatchers.Main) {
-                    generateCardImage { file ->
-                        val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
-                        copyToClipboard()
-                        uri?.let {
-                            val shareIntent = Intent().apply {
-                                action = Intent.ACTION_SEND
-                                type = "image/*"
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                setDataAndType(uri, context.contentResolver.getType(uri))
-                                putExtra(Intent.EXTRA_SUBJECT, context.resources.getString(R.string.app_name))
-                                putExtra(Intent.EXTRA_TEXT, "${quote.quote}\n - ${quote.author}")
-                                putExtra(Intent.EXTRA_STREAM, uri)
-                            }
-                            context.startActivity(Intent.createChooser(shareIntent, "Compartilhar post em..."))
+            shareButton.invisible()
+            delayedFunction {
+                generateCardImage { file ->
+                    val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
+                    copyToClipboard()
+                    uri?.let {
+                        val shareIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            type = "image/*"
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            setDataAndType(uri, context.contentResolver.getType(uri))
+                            putExtra(Intent.EXTRA_SUBJECT, context.resources.getString(R.string.app_name))
+                            putExtra(Intent.EXTRA_TEXT, "${quote.quote}\n - ${quote.author}")
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                        }
+                        context.startActivity(Intent.createChooser(shareIntent, "Compartilhar post em..."))
+                        delayedFunction {
                             shareButton.fadeIn()
                         }
                     }
@@ -98,7 +95,7 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
 
     private fun copyToClipboard() {
         val clipboard: ClipboardManager? = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-        val clip = ClipData.newPlainText("Motiv", "${quote.quote}\uD83E\uDE90\n - ${quote.author} \n\n#${context.getString(R.string.app_name).toLowerCase()} #${quote.author.replace(" ", "").toLowerCase()}")
+        val clip = ClipData.newPlainText("Motiv", "${quote.quote}\uD83E\uDE90\n - ${quote.author} \nVeja mais em: @motivbr\n#${context.getString(R.string.app_name).toLowerCase()} #${quote.author.replace(" ", "").toLowerCase()}")
         clipboard?.setPrimaryClip(clip)
     }
 
@@ -112,7 +109,7 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
                 val cacheDir = File(cachePath)
                 if (!cacheDir.exists()) cacheDir.mkdirs()
                 val stream = FileOutputStream(cachePath + "quote_${quote.id}.png")
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 stream.close()
                 val file = File(cachePath + "quote_${quote.id}.png")
                 Log.i(javaClass.simpleName, "generateCardImage: file saved ${file.absolutePath}")

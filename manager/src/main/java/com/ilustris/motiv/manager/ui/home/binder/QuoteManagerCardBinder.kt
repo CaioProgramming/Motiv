@@ -2,6 +2,7 @@ package com.ilustris.motiv.manager.ui.home.binder
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.motiv.base.beans.Quote
@@ -14,6 +15,7 @@ import com.ilustris.motiv.base.dialog.listdialog.ListDialogBean
 import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.utils.TextUtils
 import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.invisible
 import com.silent.ilustriscore.core.utilities.visible
@@ -33,8 +35,10 @@ class QuoteManagerCardBinder(
             val color = Color.parseColor(quoteStyle.textColor)
             quoteTextView.setTextColor(color)
             authorTextView.setTextColor(color)
-            quoteTextView.visible()
-            authorTextView.visible()
+            quoteTextView.fadeIn()
+            authorTextView.fadeIn()
+            quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
+            authorTextView.defineTextAlignment(quoteStyle.textAlignment)
             quoteStyle.shadowStyle.run {
                 quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
@@ -86,6 +90,7 @@ class QuoteManagerCardBinder(
     private fun fillQuoteData(data: Quote) {
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
+            viewBind.userTop.username.setTextColor(Color.WHITE)
         } else {
             viewBind.userTop.userContainer.gone()
             viewBind.quoteOptions.gone()

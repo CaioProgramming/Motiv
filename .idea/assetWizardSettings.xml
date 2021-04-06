@@ -214,7 +214,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/gif/baseline_gif_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/auto_fix_normal/baseline_auto_fix_normal_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -224,10 +224,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
-                            <entry key="outputName" value="ic_neptune" />
-                            <entry key="sourceFile" value="C:\Users\cacai\Downloads\neptune.svg" />
+                            <entry key="outputName" value="ic_baseline_auto_fix_normal_24" />
+                            <entry key="sourceFile" value="C:\Users\cacai\Downloads\menu.svg" />
                           </map>
                         </option>
                       </PersistentState>

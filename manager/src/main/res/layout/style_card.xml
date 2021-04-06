@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <RelativeLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/styleCard"
-        android:background="?attr/dividerColor"
+        android:layout_height="250dp"
+        app:cardBackgroundColor="?attr/dividerColor"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:strokeColor="?android:textColorPrimary"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@animator/list_animator"
         android:layout_width="match_parent"
-        android:layout_height="170dp">
+        app:strokeWidth="1dp">
 
         <ImageView
             android:id="@+id/styleImage"
@@ -17,6 +22,7 @@
             android:layout_height="match_parent" />
 
         <TextView
+            android:padding="@dimen/padding_default"
             android:id="@+id/styleText"
             android:gravity="center"
             android:textAlignment="center"
@@ -24,7 +30,7 @@
             android:text="Motiv"
             android:textSize="@dimen/default_quote_size"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </RelativeLayout>
+            android:layout_height="match_parent" />
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

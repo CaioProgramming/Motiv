@@ -29,6 +29,10 @@ import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.R
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.visible
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 fun Context.hideBackButton() {
@@ -128,7 +132,6 @@ fun Context.activity(): Activity? {
     }
 }
 
-
 fun TextView.defineTextAlignment(textAlign: TextAlignment) {
     when(textAlign) {
         TextAlignment.CENTER -> {
@@ -146,3 +149,13 @@ fun TextView.defineTextAlignment(textAlign: TextAlignment) {
     }
 }
 
+fun delayedFunction(delayTime: Long = 1000, function: () -> Unit) {
+    GlobalScope.launch {
+        delay(delayTime)
+        GlobalScope.launch(Dispatchers.Main) {
+            function.invoke()
+        }
+
+    }
+
+}

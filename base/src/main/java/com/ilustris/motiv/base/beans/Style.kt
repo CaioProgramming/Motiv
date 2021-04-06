@@ -29,7 +29,7 @@ data class Style(override var id: String = DEFAULT_STYLE_ID,
     fun isStoredStyle(): Boolean = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
 
     companion object {
-        val defaultStyle = Style(id = DEFAULT_STYLE_ID)
+        val defaultStyle = Style()
         val favoriteStyle = Style(
                 id = FAVORITES_STYLE_ID,
                 font = 4,
@@ -75,5 +75,5 @@ data class Style(override var id: String = DEFAULT_STYLE_ID,
     }
 }
 
-data class ShadowStyle(var radius: Float = 1f, var dx: Float = 1f, var dy: Float = 1f, var shadowColor: String = DEFAULT_TEXT_COLOR)
+data class ShadowStyle(var radius: Float = 0f, var dx: Float = 0f, var dy: Float = 0f, var shadowColor: String = DEFAULT_SHADOW_COLOR)
 
