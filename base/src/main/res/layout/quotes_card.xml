@@ -60,7 +60,6 @@
                 android:textStyle="bold"
                 android:transitionName="@string/quote_transaction"
                 android:typeface="normal"
-                android:visibility="gone"
                 tools:text="Everything I do \nI tell you all the time"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />
@@ -77,7 +76,6 @@
                 android:textSize="24sp"
                 android:textStyle="italic"
                 android:transitionName="@string/author_transaction"
-                android:visibility="gone"
                 tools:text="Lana Del Rey"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />

@@ -58,7 +58,7 @@
                 android:backgroundTint="@color/transparent"
                 android:gravity="center"
                 android:hint="@string/author"
-                android:paddingVertical="@dimen/padding_small"
+                android:paddingVertical="@dimen/padding_default"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"

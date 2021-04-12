@@ -1,5 +1,6 @@
 package com.creat.motiv.radio
 
+import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -9,7 +10,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.databinding.PlayerLayoutBinding
 import com.creat.motiv.radio.Radio
 import com.creat.motiv.radio.RadioPresenter
+import com.ilustris.animations.fadeIn
+import com.ilustris.animations.fadeOut
+import com.ilustris.animations.repeatFade
 import com.ilustris.animations.slideInBottom
+import com.ilustris.motiv.base.utils.delayedFunction
 import com.silent.ilustriscore.core.view.BaseView
 import kotlin.random.Random
 
@@ -18,14 +23,14 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
     override val presenter = RadioPresenter(this)
     var mediaPlayer: MediaPlayer? = null
     override fun initView() {
+        viewBind.playingAnimation.hide()
         presenter.loadData()
     }
 
 
     fun playRadio(radio: Radio) {
-        Handler().postDelayed({
+        delayedFunction {
             mediaPlayer?.stop()
-            viewBind.playingAnimation.pauseAnimation()
             mediaPlayer = MediaPlayer().apply {
                 val uri = Uri.parse(radio.url)
                 setAudioStreamType(AudioManager.STREAM_MUSIC)
@@ -33,25 +38,38 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
                 prepareAsync()
                 setOnPreparedListener {
                     start()
-                    viewBind.playingAnimation.playAnimation()
-                    viewBind.playingAnimation.setOnClickListener {
+                    startLoading()
+                    viewBind.playerContainer.setOnClickListener {
                         if (isPlaying) {
                             pause()
-                            viewBind.playingAnimation.pauseAnimation()
+                            stopLoading()
                         } else {
                             start()
-                            viewBind.playingAnimation.playAnimation()
+                            startLoading()
                         }
                     }
                 }
                 setOnErrorListener { mediaPlayer, i, i2 ->
                     mediaPlayer.stop()
-                    viewBind.playingAnimation.pauseAnimation()
+                    stopLoading()
                     false
                 }
             }
-        }, 2000)
+        }
 
+    }
+
+    private fun stopLoading() {
+        delayedFunction {
+            viewBind.playingAnimation.hide()
+        }
+
+    }
+
+    private fun startLoading() {
+        delayedFunction {
+            viewBind.playingAnimation.show()
+        }
 
     }
 
@@ -68,7 +86,16 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
                         playRadio(list[position])
                     }
                 })
-                setCurrentItem(Random.nextInt(list.size - 1), true)
+                setOnClickListener {
+                    if (currentItem < list.size - 1) {
+                        setCurrentItem(currentItem++, true)
+                    } else {
+                        setCurrentItem(0, true)
+                    }
+                }
+                delayedFunction {
+                    setCurrentItem(Random.nextInt(list.size - 1), true)
+                }
             }
         }
         if (viewBind.playerContainer.visibility == View.GONE) viewBind.playerContainer.slideInBottom()

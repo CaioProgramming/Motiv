@@ -63,8 +63,6 @@ class QuoteCardBinder(
             val color = Color.parseColor(quoteStyle.textColor)
             quoteTextView.setTextColor(color)
             authorTextView.setTextColor(color)
-            if (quoteTextView.visibility == View.GONE) quoteTextView.fadeIn()
-            if (authorTextView.visibility == View.GONE) authorTextView.fadeIn()
             quoteStyle.shadowStyle.run {
                 quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             }

@@ -33,7 +33,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/shareCard"
-                android:layout_height="350dp"
+                android:layout_height="400dp"
                 android:layout_width="match_parent"
                 android:layout_margin="@dimen/margin_default"
                 android:stateListAnimator="@animator/list_animator"
@@ -50,6 +50,7 @@
 
                     <RelativeLayout
                         android:id="@+id/cardTop"
+                        android:background="@drawable/bottom_line_2dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -118,13 +119,13 @@
                             <TextView
                                 android:id="@+id/quoteTextView"
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
+                                android:layout_height="300dp"
                                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
                                 android:autoSizeMinTextSize="@dimen/min_quote_size"
                                 android:gravity="center"
                                 android:text="@{sharedQuote.quote}"
                                 android:textAlignment="center"
-                                android:textSize="@dimen/big_quote_size"
+                                android:textSize="@dimen/default_quote_size"
                                 tools:text="Everytime I close my eyes, is like a dark paradise, no one compares to you, but i'm scare that you will be waiting on the other side" />
 
                             <TextView
@@ -133,6 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:autoSizeMaxTextSize="@dimen/low_quote_size"
                                 android:autoSizeMinTextSize="@dimen/min_quote_size"
+                                android:textSize="@dimen/low_quote_size"
                                 android:gravity="center"
                                 android:text="@{sharedQuote.author}"
                                 android:textAlignment="center"
