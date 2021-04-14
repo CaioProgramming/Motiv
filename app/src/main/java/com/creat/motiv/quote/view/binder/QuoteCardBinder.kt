@@ -65,6 +65,7 @@ class QuoteCardBinder(
             authorTextView.setTextColor(color)
             quoteStyle.shadowStyle.run {
                 quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+                authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             }
             quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
             authorTextView.defineTextAlignment(quoteStyle.textAlignment)

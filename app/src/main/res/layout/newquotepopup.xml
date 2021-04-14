@@ -62,6 +62,7 @@
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"
+                android:maxLength="40"
                 android:transitionName="@string/author_transaction"
                 android:visibility="gone"
                 tools:text="Lana Del Rey"

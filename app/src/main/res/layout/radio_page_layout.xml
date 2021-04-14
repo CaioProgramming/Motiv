@@ -8,13 +8,12 @@
 
 
     <TextView
+        android:stateListAnimator="@animator/list_animator"
         android:id="@+id/radioName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Motiv"
-        android:gravity="center"
         android:paddingVertical="@dimen/padding_small"
-        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"

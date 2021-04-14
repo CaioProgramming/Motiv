@@ -80,6 +80,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/nameTitle"
                     app:layout_constraintTop_toTopOf="@id/nameTitle"
+                    android:maxLength="40"
+                    android:singleLine="true"
                     tools:text="Caio Alves Ferreira" />
 
                 <com.google.android.material.button.MaterialButton

@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.RadioPageLayoutBinding
 
-class StyleRadioAdapter(val radioList: List<Radio>) : RecyclerView.Adapter<StyleRadioAdapter.RadioHolder>() {
+class StyleRadioAdapter(val radioList: List<Radio>, val onRadioClick: () -> Unit) : RecyclerView.Adapter<StyleRadioAdapter.RadioHolder>() {
 
+    var isPlaying = false
 
+    fun updatePlayerStatus(isPlaying: Boolean) {
+        this.isPlaying = isPlaying
+        notifyDataSetChanged()
+    }
 
     inner class RadioHolder(private val styleTextPageLayoutBinding: RadioPageLayoutBinding) : RecyclerView.ViewHolder(styleTextPageLayoutBinding.root) {
 
@@ -18,6 +23,9 @@ class StyleRadioAdapter(val radioList: List<Radio>) : RecyclerView.Adapter<Style
             val radio = radioList[adapterPosition]
             styleTextPageLayoutBinding.radioName.run {
                 text = radio.name
+                setOnClickListener {
+                    onRadioClick.invoke()
+                }
             }
         }
 

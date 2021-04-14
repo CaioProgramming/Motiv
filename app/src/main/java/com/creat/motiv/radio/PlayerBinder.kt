@@ -1,18 +1,11 @@
 package com.creat.motiv.radio
 
-import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Handler
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.databinding.PlayerLayoutBinding
-import com.creat.motiv.radio.Radio
-import com.creat.motiv.radio.RadioPresenter
-import com.ilustris.animations.fadeIn
-import com.ilustris.animations.fadeOut
-import com.ilustris.animations.repeatFade
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.utils.delayedFunction
 import com.silent.ilustriscore.core.view.BaseView
@@ -22,15 +15,22 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
 
     override val presenter = RadioPresenter(this)
     var mediaPlayer: MediaPlayer? = null
+    var radioAdapter: StyleRadioAdapter? = null
     override fun initView() {
-        viewBind.playingAnimation.hide()
         presenter.loadData()
+
     }
 
 
     fun playRadio(radio: Radio) {
         delayedFunction {
-            mediaPlayer?.stop()
+            mediaPlayer?.let {
+                if (it.isPlaying) {
+                    it.stop()
+                    stopLoading()
+                }
+            }
+            radioAdapter?.updatePlayerStatus(mediaPlayer?.isPlaying ?: false)
             mediaPlayer = MediaPlayer().apply {
                 val uri = Uri.parse(radio.url)
                 setAudioStreamType(AudioManager.STREAM_MUSIC)
@@ -39,19 +39,22 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
                 setOnPreparedListener {
                     start()
                     startLoading()
-                    viewBind.playerContainer.setOnClickListener {
-                        if (isPlaying) {
-                            pause()
-                            stopLoading()
-                        } else {
-                            start()
-                            startLoading()
-                        }
-                    }
+                    radioAdapter?.updatePlayerStatus(isPlaying)
                 }
                 setOnErrorListener { mediaPlayer, i, i2 ->
-                    mediaPlayer.stop()
+                    if (mediaPlayer.isPlaying) {
+                        mediaPlayer.stop()
+                    }
                     stopLoading()
+                    try {
+                        viewBind.radiosPager.setCurrentItem(currentPosition + 1, true)
+                    } catch (e: Exception) {
+                        try {
+                            viewBind.radiosPager.setCurrentItem(currentPosition - 1, true)
+                        } catch (e: Exception) {
+                            viewBind.radiosPager.setCurrentItem(currentPosition + 1, true)
+                        }
+                    }
                     false
                 }
             }
@@ -60,15 +63,19 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
     }
 
     private fun stopLoading() {
+        viewBind.radiosPager.isEnabled = true
         delayedFunction {
-            viewBind.playingAnimation.hide()
+            radioAdapter?.updatePlayerStatus(false)
+            viewBind.playingAnimation.pauseAnimation()
         }
 
     }
 
     private fun startLoading() {
+        viewBind.radiosPager.isEnabled = false
         delayedFunction {
-            viewBind.playingAnimation.show()
+            radioAdapter?.updatePlayerStatus(true)
+            viewBind.playingAnimation.playAnimation()
         }
 
     }
@@ -76,10 +83,33 @@ class PlayerBinder(override val viewBind: PlayerLayoutBinding) : BaseView<Radio>
     override fun showListData(list: List<Radio>) {
         super.showListData(list)
         if (list.isNotEmpty()) {
+            viewBind.playingAnimation.setOnClickListener {
+                mediaPlayer?.let {
+                    if (!it.isPlaying) {
+                        it.start()
+                        startLoading()
+                    } else {
+                        it.pause()
+                        stopLoading()
+                    }
+                }
+            }
             viewBind.radiosPager.run {
-                adapter = StyleRadioAdapter(list.sortedBy {
+                radioAdapter = StyleRadioAdapter(list.sortedBy {
                     it.name
-                })
+                }) {
+                    mediaPlayer?.let {
+                        if (it.isPlaying) {
+                            it.pause()
+                            stopLoading()
+                        } else {
+                            it.start()
+                            startLoading()
+                        }
+                        radioAdapter?.updatePlayerStatus(it.isPlaying)
+                    }
+                }
+                adapter = radioAdapter
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
