@@ -17,29 +17,33 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/ToolbarTitle"
+            android:background="@color/md_black"
+            android:paddingVertical="@dimen/padding_small"
+            android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_small"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:text="Compartilhar frase" />
 
         <RelativeLayout
             android:id="@+id/shareView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/statusBarHeight"
+            android:padding="@dimen/padding_default"
             android:background="@color/colorAccent">
 
             <com.google.android.material.card.MaterialCardView
+                android:layout_centerInParent="true"
                 android:id="@+id/shareCard"
                 android:layout_height="350dp"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_small"
                 android:stateListAnimator="@animator/list_animator"
                 app:cardBackgroundColor="?android:colorBackground"
                 app:cardCornerRadius="0dp"
-                app:cardElevation="0dp"
+                app:cardElevation="3dp"
                 app:strokeColor="?android:textColorPrimary"
                 app:strokeWidth="2dp">
 
@@ -54,7 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/padding_small">
+                        android:padding="@dimen/padding_default">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -89,7 +93,7 @@
                             android:layout_gravity="center|top"
                             android:fontFamily="@font/jost"
                             android:text="@string/app_name"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                             android:textColor="?android:textColorPrimary"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -101,12 +105,13 @@
 
                         <ImageView
                             android:id="@+id/quoteImage"
+                            android:background="@drawable/motiv_gradient"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop" />
 
                         <View
-                            android:alpha="0.3"
+                            android:alpha="0.2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/md_black" />
@@ -114,20 +119,33 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:gravity="center"
                             android:orientation="vertical"
                             android:padding="@dimen/padding_default">
 
                             <TextView
                                 android:id="@+id/quoteTextView"
                                 android:layout_width="match_parent"
-                                android:layout_height="250dp"
+                                android:layout_height="200dp"
                                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
                                 android:autoSizeMinTextSize="@dimen/min_quote_size"
-                                android:gravity="center"
+                                android:autoSizeTextType="uniform"
+                                android:breakStrategy="high_quality"
+                                android:gravity="start"
+                                android:shadowColor="@color/md_black"
+                                android:shadowDx="10"
+                                android:shadowDy="0"
+                                android:shadowRadius="1"
+                                android:stateListAnimator="@animator/text_animator"
+                                android:textAlignment="textStart"
+                                android:textSize="@dimen/big_quote_size"
+                                android:textStyle="bold"
+                                android:transitionName="@string/quote_transaction"
+                                android:typeface="normal"
                                 android:text="@{sharedQuote.quote}"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/default_quote_size"
-                                tools:text="Everytime I close my eyes, is like a dark paradise, no one compares to you, but i'm scare that you will be waiting on the other side" />
+                                tools:text="Still dont know what it means to be human"
+                                tools:textColor="@color/md_white"
+                                tools:visibility="visible" />
 
                             <TextView
                                 android:id="@+id/authorTextView"
@@ -135,6 +153,7 @@
                                 android:layout_height="wrap_content"
                                 android:autoSizeMaxTextSize="@dimen/low_quote_size"
                                 android:autoSizeMinTextSize="@dimen/min_quote_size"
+                                android:paddingVertical="@dimen/padding_small"
                                 android:textSize="@dimen/low_quote_size"
                                 android:gravity="center"
                                 android:text="@{sharedQuote.author}"

@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Motiv"
-        android:paddingVertical="@dimen/padding_small"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         android:transitionName="@string/style_text_transtition" />

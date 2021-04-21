@@ -20,17 +20,19 @@
 
         <ImageView
             android:id="@+id/giphyLogo"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
+            android:layout_alignParentTop="true"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:alpha="0.5"
             android:scaleType="fitCenter"
             android:src="@drawable/giphy_mark" />
 
         <View
+            android:alpha="0.3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/oblack" />
+            android:background="@color/md_black" />
     </RelativeLayout>
 
 </layout>

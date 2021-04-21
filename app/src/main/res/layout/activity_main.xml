@@ -43,7 +43,7 @@
                 android:id="@+id/playerView"
                 layout="@layout/player_layout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
+                android:layout_height="32dp" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/nav_view"

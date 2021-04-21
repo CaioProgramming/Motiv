@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style) : BaseAlert<ShareQuotePreviewBinding>(context, R.layout.share_quote_preview, style = DialogStyles.BOTTOM_NO_BORDER) {
+class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style) : BaseAlert<ShareQuotePreviewBinding>(context, R.layout.share_quote_preview, style = DialogStyles.FULL_SCREEN) {
 
 
     override fun ShareQuotePreviewBinding.configure() {
@@ -69,7 +69,7 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
         }
         shareButton.setOnClickListener {
             shareButton.invisible()
-            delayedFunction {
+            delayedFunction(2500) {
                 generateCardImage { file ->
                     val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
                     copyToClipboard()

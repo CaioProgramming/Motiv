@@ -66,16 +66,11 @@ class QuoteManagerCardBinder(
 
     private fun setupCard() {
         viewBind.run {
-            optionsButton.run {
-                setOnClickListener {
-                    ListDialog(context, listOf(ListDialogBean("Remover post")), {
-                        BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
-                            presenter.delete(quote.id)
-                        }).buildDialog()
-                    }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
-                }
-                visible()
-            }
+            /*deleteButton.setOnClickListener {
+                BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
+                    presenter.delete(quote.id)
+                }).buildDialog()
+            }*/
             shareButton.gone()
             like.gone()
             likers.invisible()
