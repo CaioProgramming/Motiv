@@ -6,16 +6,16 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/styleCard"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="1dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="@dimen/margin_small"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@animator/list_animator"
         android:checkable="true"
-        app:cardCornerRadius="0dp"
+        app:cardCornerRadius="@dimen/radius_default"
         app:strokeColor="@color/selected_style"
         app:cardBackgroundColor="?attr/dividerColor"
-        app:strokeWidth="1dp"
+        app:strokeWidth="2dp"
         app:cardElevation="0dp">
 
         <ImageView
@@ -27,12 +27,15 @@
 
         <TextView
             android:id="@+id/styleText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_small"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Motiv"
             tools:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textAlignment="center"
             android:transitionName="@string/style_text_transtition" />
     </com.google.android.material.card.MaterialCardView>

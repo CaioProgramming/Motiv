@@ -44,7 +44,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
             setupNavigation()
             if (user != null) {
                 playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
-                    initView()
+                    //initView()
                 }
             }
             nav_view.selectedItemId = R.id.navigation_home
@@ -132,7 +132,7 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
             if (resultCode == Activity.RESULT_OK) {
                 if (playerBinder == null) {
                     playerBinder = PlayerBinder(PlayerLayoutBinding.bind(playerView)).apply {
-                        initView()
+                        //initView()
                     }
                 }
                 user = FirebaseAuth.getInstance().currentUser

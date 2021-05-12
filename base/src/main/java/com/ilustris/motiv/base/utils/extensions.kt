@@ -2,6 +2,7 @@ package com.ilustris.motiv.base.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Typeface
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -27,6 +28,7 @@ import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideDown
 import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.R
+import com.ilustris.motiv.base.beans.FontStyle
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.visible
 import kotlinx.coroutines.Dispatchers
@@ -82,15 +84,23 @@ fun Context.hideSupportActionBar() {
     }
 }
 
+fun FontStyle.getTypefaceStyle(): Int {
+    return when (this) {
+        FontStyle.REGULAR -> Typeface.NORMAL
+        FontStyle.BOLD -> Typeface.BOLD
+        FontStyle.ITALIC -> Typeface.ITALIC
+    }
+}
+
 
 fun ImageView.loadGif(url: String, onLoadComplete: (() -> Unit)? = null) {
     Log.i(javaClass.simpleName, "loadGif: loading gif $url ")
     try {
         Glide.with(context)
-                .asGif()
-                .centerCrop()
-                .load(url)
-                .error(R.drawable.motiv_gradient)
+            .asGif()
+            .centerCrop()
+            .load(url)
+            .error(R.drawable.motiv_gradient)
                 .addListener(object : RequestListener<GifDrawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
                         setImageResource(R.drawable.motiv_gradient)

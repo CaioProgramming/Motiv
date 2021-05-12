@@ -33,12 +33,16 @@
 
 
     <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="fontFamily">@font/jost</item>
     </style>
 
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">@dimen/radius_default</item>
+    </style>
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/pop_in</item>

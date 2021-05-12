@@ -7,7 +7,7 @@
         <item name="android:colorBackground">@color/md_white</item>
         <item name="dividerColor">@color/material_grey100</item>
         <item name="navblurOverLayColor">@color/lwhite</item>
-        <item name="blurOverLayColor">@color/lwhite</item>
+        <item name="blurOverLayColor">#CCFFFFFF</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="colorAccent">@color/material_purpleA100</item>

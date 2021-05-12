@@ -13,6 +13,7 @@
 
     <LinearLayout
         android:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/userContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,36 +22,54 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userpic"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:stateListAnimator="@animator/list_animator"
             android:transitionName="profilepic"
             app:civ_circle_background_color="@color/colorPrimaryDark"
+            app:civ_border_color="?android:textColorPrimary"
+            app:civ_border_width="2dp"
             tools:src="@drawable/ic_neptune" />
 
         <LinearLayout
             android:layout_gravity="center|start"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:padding="@dimen/padding_small">
 
             <TextView
                 android:id="@+id/username"
+                android:maxLength="40"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@{userData.name}"
                 android:textColor="?android:textColorPrimary"
+                android:maxLines="1"
+                android:textStyle="bold"
                 tools:text="Caio Alves Ferreira" />
 
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginHorizontal="@dimen/margin_small"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_saturn_and_other_planets_primary"
+                app:tint="?android:textColorPrimary" />
+
             <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_gravity="center"
                 android:id="@+id/quoteDate"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:gravity="center"
+                android:textColor="?android:textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/md_white"
+                android:textStyle="normal"
                 tools:text="10 de Outubro de 2019" />
         </LinearLayout>
 

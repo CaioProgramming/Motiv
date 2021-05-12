@@ -11,7 +11,7 @@
         <activity
             android:name=".ui.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/Motiv.Theme.NoActionBar"></activity>
+            android:theme="@style/Motiv.Theme.NoActionBar" />
         <activity android:name=".ui.styles.NewStyleActivity" />
         <activity android:name=".ManagerActivity" />
     </application>

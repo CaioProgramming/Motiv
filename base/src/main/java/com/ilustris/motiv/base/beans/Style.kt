@@ -18,12 +18,18 @@ enum class TextAlignment {
     CENTER, START, END
 }
 
-data class Style(override var id: String = DEFAULT_STYLE_ID,
-                 var font: Int = 0,
-                 var textAlignment: TextAlignment = TextAlignment.CENTER,
-                 var textColor: String = DEFAULT_TEXT_COLOR,
-                 var backgroundURL: String = DEFAULT_BACKGROUND_URL,
-                 var shadowStyle: ShadowStyle = ShadowStyle()
+enum class FontStyle {
+    REGULAR, BOLD, ITALIC
+}
+
+data class Style(
+    override var id: String = DEFAULT_STYLE_ID,
+    var font: Int = 0,
+    var textAlignment: TextAlignment = TextAlignment.CENTER,
+    var fontStyle: FontStyle = FontStyle.REGULAR,
+    var textColor: String = DEFAULT_TEXT_COLOR,
+    var backgroundURL: String = DEFAULT_BACKGROUND_URL,
+    var shadowStyle: ShadowStyle = ShadowStyle()
 ) : BaseBean(id) {
 
     fun isStoredStyle(): Boolean = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
@@ -75,5 +81,11 @@ data class Style(override var id: String = DEFAULT_STYLE_ID,
     }
 }
 
-data class ShadowStyle(var radius: Float = 0f, var dx: Float = 0f, var dy: Float = 0f, var shadowColor: String = DEFAULT_SHADOW_COLOR)
+data class ShadowStyle(
+    var radius: Float = 0f,
+    var dx: Float = 0f,
+    var dy: Float = 0f,
+    var shadowColor: String = DEFAULT_SHADOW_COLOR,
+    var strokeColor: String = DEFAULT_TEXT_COLOR
+)
 

@@ -4,96 +4,149 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <RelativeLayout
-        android:layout_marginBottom="?attr/actionBarSize"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/styleContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
+            android:id="@+id/styleBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/stylesBottom"
-            app:cardCornerRadius="@dimen/radius_default">
+            android:background="?attr/dividerColor"
+            android:scaleType="centerCrop"
+            tools:background="@drawable/motiv_gradient" />
 
-            <ImageView
-                android:id="@+id/styleBackground"
-                android:background="?attr/dividerColor"
-                tools:background="@drawable/motiv_gradient"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbarContainer"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default">
 
             <TextView
                 android:id="@+id/styleText"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="@dimen/padding_default"
                 android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:textColor="?android:textColorPrimary"
                 android:layout_width="match_parent"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+                android:textColor="@color/white" />
 
+            <TextView
+                android:id="@+id/styleAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_default"
+                android:gravity="center"
+                android:text="Ilustris"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/material_grey300"
+                android:textStyle="italic" />
+        </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/toolbarContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="?android:colorBackground"
+                android:paddingTop="@dimen/statusBarHeight">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/motiv_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="center"
+                    android:theme="@style/Motiv.Theme"
+                    app:menu="@menu/new_style_menu"
+                    app:title=" "
+                    app:titleTextColor="@color/white" />
+
+                <RelativeLayout
+                    android:id="@+id/titleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
+
+                    <TextView
+                        android:id="@+id/motivTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/jost"
+                        android:gravity="center"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:text="Novo estilo"
+                        android:textAppearance="@style/ToolbarTitle"
+                        android:textColor="?android:textColorPrimary" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
 
         <LinearLayout
-            android:id="@+id/stylesBottom"
+            android:id="@+id/stylesSettings"
+            android:background="?attr/blurOverLayColor"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default"
+            android:paddingTop="@dimen/statusBarHeight"
+            app:behavior_peekHeight="300dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/transparent"
-            android:orientation="vertical">
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stylecolorGallery"
+            <LinearLayout
+                android:id="@+id/dots"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:stateListAnimator="@animator/list_animator"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:itemCount="20"
-                tools:listitem="@layout/color_card" />
+                android:orientation="horizontal">
 
-            <com.google.android.material.slider.Slider
-                android:id="@+id/styleShadowPropretiesSlider"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:enabled="false"
-                android:valueFrom="-100"
-                android:valueTo="100"
-                app:haloColor="@color/white"
-                app:haloRadius="@dimen/radius_small"
-                app:thumbColor="@color/white"
-                app:thumbRadius="@dimen/radius_default"
-                app:tickColor="@color/white"
-                app:tickVisible="true"
-                app:trackColorActive="@color/colorPrimaryDark"
-                app:trackColorInactive="?attr/dividerColor"
-                app:trackHeight="?attr/actionBarSize"
-                tools:value="25" />
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purple500" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/fontsTabs"
-                android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purpleA200" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purpleA700" />
+            </LinearLayout>
+
+            <TextView
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                app:tabIndicator="@color/transparent"
-                app:tabMode="scrollable" />
+                android:gravity="center"
+                android:text="Ajustes de estilo"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:textStyle="bold" />
 
-
-            <HorizontalScrollView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="@dimen/padding_small">
@@ -102,94 +155,197 @@
                         android:id="@+id/styleWallpaper"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/margin_default"
-                        android:background="@drawable/round"
-                        android:backgroundTint="?android:textColorPrimary"
+                        android:layout_gravity="center"
+                        android:background="@drawable/round_circle"
+                        android:backgroundTint="?attr/dividerColor"
                         android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_baseline_gif_24"
-                        android:tint="?android:colorBackground" />
+                        android:tint="?android:textColorPrimary" />
 
                     <ImageButton
                         android:id="@+id/styleAlign"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginHorizontal="@dimen/margin_default"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:background="@color/transparent"
+                        android:background="@drawable/round_circle"
+                        android:backgroundTint="?attr/dividerColor"
+                        android:padding="@dimen/padding_small"
                         android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_baseline_format_align_center_24"
                         android:tint="?android:textColorPrimary" />
 
-
-                    <CheckBox
-                        android:id="@+id/styleShadowColor"
-                        android:layout_width="40dp"
+                    <ImageButton
+                        android:id="@+id/fontStyle"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:background="@drawable/ic_shadow_color"
-                        android:button="@color/transparent"
-                        android:stateListAnimator="@animator/selected_animator" />
-
-                    <RadioGroup
-                        android:id="@+id/optionsGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-
-                        <RadioButton
-                            android:id="@+id/shadowXposition"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/ic_shadow_dx"
-                            android:button="@color/transparent"
-                            android:stateListAnimator="@animator/selected_animator" />
-
-                        <RadioButton
-                            android:id="@+id/shadowYposition"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/ic_shadow_dy"
-                            android:button="@color/transparent"
-                            android:buttonTint="?android:colorBackground"
-                            android:stateListAnimator="@animator/selected_animator" />
-
-                        <RadioButton
-                            android:id="@+id/shadowRadius"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/ic_shadow_radius"
-                            android:button="@color/transparent"
-                            android:stateListAnimator="@animator/selected_animator" />
-
-                    </RadioGroup>
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:background="@drawable/round_circle"
+                        android:backgroundTint="?attr/dividerColor"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="@dimen/padding_small"
+                        android:src="@drawable/ic_baseline_format_clear_24"
+                        android:tint="?android:textColorPrimary" />
 
                 </LinearLayout>
 
-            </HorizontalScrollView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:text="Fontes"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveButton"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fontsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="18"
+                    tools:listitem="@layout/tab_font_view" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:text="Cor do texto"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stylecolorGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/color_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small"
+                    android:text="Cor da sombra"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/styleExtrudeColorGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/color_card" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/padding_small"
+                    android:text="Cor do contorno"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/styleStrokeColorGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/list_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/color_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/padding_small"
+                    android:text="Tamanho da sombra"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textColor="?android:textColorPrimary" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/extrudeShadowSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:stepSize="0.5"
+                    android:value="0.5"
+                    android:valueFrom="0"
+                    android:valueTo="25"
+                    app:haloColor="?android:textColorPrimary"
+                    app:haloRadius="2dp"
+                    app:thumbColor="@color/colorAccent"
+                    app:thumbElevation="0dp"
+                    app:thumbRadius="@dimen/radius_default"
+                    app:tickColor="?android:textColorPrimary"
+                    app:tickColorInactive="?android:colorBackground"
+                    app:tickVisible="false"
+                    app:trackColorActive="?android:textColorPrimary"
+                    app:trackColorInactive="?android:colorBackground"
+                    app:trackHeight="@dimen/radius_big" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/padding_small"
+                        android:text="Posição da sombra"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="?android:textColorPrimary" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/extrudeDxPosition"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:stepSize="0.5"
+                        android:value="1"
+                        android:valueFrom="-25"
+                        android:valueTo="25"
+                        app:haloColor="?android:textColorPrimary"
+                        app:haloRadius="2dp"
+                        app:thumbColor="@color/colorAccent"
+                        app:thumbElevation="0dp"
+                        app:thumbRadius="@dimen/radius_default"
+                        app:tickColor="?android:textColorPrimary"
+                        app:tickColorInactive="?android:colorBackground"
+                        app:tickVisible="false"
+                        app:trackColorActive="?android:textColorPrimary"
+                        app:trackColorInactive="?android:colorBackground"
+                        app:trackHeight="@dimen/radius_big" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingVertical="@dimen/padding_default"
-                android:layout_margin="@dimen/margin_default"
-                android:text="Salvar"
-                android:textAlignment="center"
-                android:textColor="?android:colorBackground"
-                android:textStyle="bold"
-                app:backgroundTint="?android:textColorPrimary"
-                app:cornerRadius="@dimen/radius_default" />
+                android:paddingVertical="@dimen/padding_small"
+                android:text="Outros estilos"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
             <include
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:id="@+id/style_preview_layout"
                 layout="@layout/styles_recycler" />
+
+
         </LinearLayout>
-    </RelativeLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

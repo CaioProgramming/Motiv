@@ -1,6 +1,8 @@
 package com.creat.motiv.developer.view
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -10,6 +12,7 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.DeveloperLayoutBinding
 import com.ilustris.motiv.base.beans.Developer
 import com.ilustris.animations.popIn
+import com.ilustris.motiv.base.utils.WEB_URL
 
 class RecyclerDeveloperAdapter(private var developerList: List<Developer> = emptyList(),
                                private val context: Context) : RecyclerView.Adapter<RecyclerDeveloperAdapter.MyViewHolder>() {
@@ -27,6 +30,12 @@ class RecyclerDeveloperAdapter(private var developerList: List<Developer> = empt
                 Glide.with(context).load(this.photoURI).into(holder.picsLayoutBinding.pic)
                 holder.picsLayoutBinding.developerName.text = this.nome
                 holder.picsLayoutBinding.pic.popIn()
+                holder.picsLayoutBinding.developerCard.setOnClickListener {
+                    val uri = Uri.parse(socialLink)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    context.startActivity(intent)
+                }
+
             }
         }
 

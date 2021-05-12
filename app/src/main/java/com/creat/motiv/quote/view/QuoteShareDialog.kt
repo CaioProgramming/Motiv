@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.setPadding
@@ -25,6 +26,7 @@ import com.ilustris.motiv.base.dialog.BaseAlert
 import com.ilustris.motiv.base.utils.*
 import com.silent.ilustriscore.core.utilities.*
 import com.silent.ilustriscore.core.utilities.ColorUtils
+import kotlinx.android.synthetic.main.share_quote_preview.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -41,16 +43,7 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
         val paddingHorizontal = shareView.paddingStart
 
         quoteStyle.run {
-            shareCard.setOnClickListener {
-                if (shareView.paddingStart == paddingHorizontal) {
-                    shareView.setPadding(0)
-                    cardTop.gone()
-                } else {
-                    shareView.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
-                    cardTop.visible()
 
-                }
-            }
             quoteImage.loadGif(backgroundURL) {
                 shareButton.isEnabled = true
                 progressBar.fadeOut()

@@ -55,7 +55,7 @@ class ProfileFragment : Fragment() {
                             .replace(R.id.nav_host_fragment, FavoritesFragment(), FAVORITES_FRAG_TAG)
                             .commit()
                 }
-
+              return false
             }
         }
 

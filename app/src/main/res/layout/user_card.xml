@@ -6,8 +6,10 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/userCard"
         android:layout_width="200dp"
-        android:layout_margin="1dp"
-        app:cardCornerRadius="0dp"
+        android:layout_margin="@dimen/margin_default"
+        app:cardCornerRadius="@dimen/radius_default"
+        app:strokeColor="?android:textColorPrimary"
+        app:strokeWidth="2dp"
         android:layout_height="match_parent"
         android:background="?attr/dividerColor"
         android:stateListAnimator="@animator/list_animator"
@@ -23,6 +25,7 @@
             android:layout_height="match_parent"
             android:background="@color/oblack" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,12 +33,34 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/userpic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:transitionName="@string/user_pic_transaction"
-                tools:src="@drawable/ic_neptune" />
+            <LinearLayout
+                android:id="@+id/dots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purple500" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purpleA200" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purpleA700" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/username"
@@ -47,6 +72,19 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textColor="@color/white"
                 tools:text="Ilustris" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userpic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:hapticFeedbackEnabled="true"
+                android:transitionName="@string/user_pic_transaction"
+                app:civ_border_color="?android:textColorPrimary"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
+                app:civ_circle_background_color="?android:colorBackground"
+                tools:src="@drawable/ic_neptune" />
+
 
         </LinearLayout>
 

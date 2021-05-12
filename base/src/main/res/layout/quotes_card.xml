@@ -102,8 +102,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:padding="@dimen/padding_small">
+                android:layout_width="match_parent">
+
                 <LinearLayout
                     android:paddingVertical="@dimen/padding_small"
                     android:id="@+id/quotebuttons"
@@ -114,8 +114,8 @@
 
                     <CheckBox
                         android:id="@+id/like"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="@drawable/favoritecheck"
@@ -124,10 +124,11 @@
 
 
                     <ImageButton
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginHorizontal="@dimen/margin_small"
                         android:layout_gravity="center"
-                        android:scaleType="fitCenter"
+                        android:scaleType="center"
                         android:id="@+id/shareButton"
                         android:src="@drawable/ic_paper_plane"
                         android:tint="@color/white"
@@ -135,9 +136,21 @@
                         android:stateListAnimator="@animator/text_animator" />
 
                     <ImageButton
+                        android:id="@+id/editButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_small"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_baseline_edit_24"
+                        android:stateListAnimator="@animator/text_animator"
+                        android:tint="@color/white" />
+
+                    <ImageButton
                         android:id="@+id/optionsButton"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginHorizontal="@dimen/margin_default"
                         android:foreground="?attr/selectableItemBackground"
                         android:tint="@color/white"

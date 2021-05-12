@@ -27,7 +27,12 @@ class DeveloperBinder(override val viewBind: QuoteHeaderViewBinding) : BaseView<
         super.showListData(list)
         viewBind.recyclerView.run {
             adapter = RecyclerDeveloperAdapter(list, context)
-            layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            layoutManager = GridLayoutManager(
+                context,
+                if (list.size > 4) 2 else 1,
+                RecyclerView.HORIZONTAL,
+                false
+            )
             fadeIn()
         }
     }

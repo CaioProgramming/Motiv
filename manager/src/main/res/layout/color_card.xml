@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/colorcard"
-        android:layout_width="24dp"
-        android:layout_margin="1dp"
-        app:cardCornerRadius="@dimen/radius_small"
-        android:layout_height="24dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="@dimen/margin_small"
+        app:cardCornerRadius="@dimen/radius_default"
         app:strokeColor="@color/selected_style"
         android:stateListAnimator="@animator/list_animator"
-        app:strokeWidth="1dp"
+        app:strokeWidth="2dp"
         app:cardElevation="0dp"
         tools:backgroundTint="@color/colorPrimaryDark">
 

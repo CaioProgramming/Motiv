@@ -3,33 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/developerCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
-        android:orientation="vertical">
+        android:stateListAnimator="@animator/list_animator"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="@dimen/radius_default"
+        app:cardElevation="3dp"
+        app:strokeColor="?android:textColorPrimary"
+        app:strokeWidth="2dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/pic"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:contentDescription="@string/icon_info"
-            android:hapticFeedbackEnabled="true"
-            app:civ_border_overlay="true"
-            app:civ_border_color="?android:textColorPrimary"
-            app:civ_border_width="1dp"
-            app:civ_circle_background_color="@color/colorAccent"
-            tools:src="@drawable/ic_neptune" />
-
-        <TextView
-            android:id="@+id/developerName"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            tools:text="Caio Alves Ferreira" />
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_small">
+
+            <LinearLayout
+                android:id="@+id/dots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purple500" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purpleA200" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/defaultdot"
+                    app:tint="@color/material_purpleA700" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/developerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:maxLines="2"
+                android:padding="@dimen/padding_small"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="?android:colorBackground"
+                android:textStyle="bold"
+                tools:text="Caio Alves Ferreira" />
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pic"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_default"
+                android:contentDescription="@string/icon_info"
+                android:hapticFeedbackEnabled="true"
+                app:civ_border_color="?android:textColorPrimary"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
+                app:civ_circle_background_color="?android:colorBackground"
+                tools:src="@drawable/ic_saturn_and_other_planets_primary" />
+
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 
 
 </layout>

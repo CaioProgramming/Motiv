@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ilustris.animations.popIn
 import com.ilustris.animations.slideInBottom
 
 
@@ -24,7 +25,6 @@ class RecyclerColorAdapter(private val context: Context,
 
     private val colorsList = ColorUtils.getColors(context)
     private var selectedTextColor: String? = null
-    private var selectedShadowColor: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val colorCardBinding: ColorCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.color_card, parent, false)
@@ -37,33 +37,25 @@ class RecyclerColorAdapter(private val context: Context,
         notifyDataSetChanged()
     }
 
-    fun updateShadowColor(shadowColor: String) {
-        selectedShadowColor = shadowColor
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.colorCardBinding.run {
             val colorValue = colorsList[position]
-            this.colorcard.setCardBackgroundColor(Color.parseColor(colorValue))
+            colorcard.setCardBackgroundColor(Color.parseColor(colorValue))
             colorcard.setOnClickListener {
                 onColorPick(colorValue)
+                selectedTextColor = colorValue
+                notifyDataSetChanged()
             }
+            colorcard.isChecked = true
+            colorcard.isSelected = selectedTextColor == colorValue
             if (selectedTextColor == colorValue) {
                 currentColor.setImageResource(R.drawable.ic_baseline_text_fields_24)
-                colorcard.isChecked = true
-                colorcard.isSelected = true
-            } else if (selectedShadowColor == colorValue) {
-                currentColor.setImageResource(R.drawable.ic_baseline_blur_on_24)
-                colorcard.isChecked = true
-                colorcard.isSelected = true
             } else {
                 currentColor.setImageResource(0)
             }
-            if (colorcard.visibility == View.GONE) {
-                colorcard.slideInBottom()
-            }
+            currentColor.imageTintList =
+                ColorStateList.valueOf(ColorUtils.darken(Color.parseColor(colorValue), 0.5))
 
         }
 

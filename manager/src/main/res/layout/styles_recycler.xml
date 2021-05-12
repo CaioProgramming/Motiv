@@ -9,11 +9,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stylesRecycler"
-        app:spanCount="2"
+        app:spanCount="1"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:itemCount="4"
-        tools:listitem="@layout/style_preview"
+        tools:itemCount="16"
+        tools:listitem="@layout/style_preview_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </layout>

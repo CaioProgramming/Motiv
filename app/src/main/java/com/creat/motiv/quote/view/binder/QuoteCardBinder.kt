@@ -7,6 +7,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
@@ -34,10 +35,7 @@ import com.ilustris.motiv.base.dialog.listdialog.DialogItems
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.ListDialogBean
 import com.ilustris.motiv.base.presenter.QuotePresenter
-import com.ilustris.motiv.base.utils.DialogStyles
-import com.ilustris.motiv.base.utils.FontUtils
-import com.ilustris.motiv.base.utils.TextUtils
-import com.ilustris.motiv.base.utils.defineTextAlignment
+import com.ilustris.motiv.base.utils.*
 import com.silent.ilustriscore.core.utilities.ColorUtils
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -48,8 +46,9 @@ import java.io.FileOutputStream
 
 
 class QuoteCardBinder(
-        var quote: Quote,
-        override val viewBind: QuotesCardBinding) : BaseView<Quote>() {
+    var quote: Quote,
+    override val viewBind: QuotesCardBinding
+) : BaseView<Quote>() {
 
 
     override val presenter = QuotePresenter(this)
@@ -58,8 +57,10 @@ class QuoteCardBinder(
     private fun updateStyle(quoteStyle: Style) {
         this.quoteStyle = quoteStyle
         viewBind.run {
-            quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
-            authorTextView.setTypeface(FontUtils.getTypeFace(context, quoteStyle.font), Typeface.ITALIC)
+            FontUtils.getTypeFace(context, quoteStyle.font)?.let {
+                quoteTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
+                authorTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
+            }
             val color = Color.parseColor(quoteStyle.textColor)
             quoteTextView.setTextColor(color)
             authorTextView.setTextColor(color)
@@ -118,20 +119,33 @@ class QuoteCardBinder(
         viewBind.optionsButton.setOnClickListener {
             ListDialog(context, getQuoteOptions(), {
                 if (quote.userID == presenter.user?.uid) {
-                    if (it == 0) {
-                        editQuote()
-                    } else {
-                        BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
+                    BottomSheetAlert(
+                        context,
+                        "Opa, calma aí!",
+                        "Você quer mesmo remover esse post?",
+                        {
                             presenter.delete(quote.id)
                         }).buildDialog()
-                    }
 
                 } else {
-                    DefaultAlert(context, "Eita, isso é muito sério!", context.getString(R.string.report_quote_message), R.drawable.surprised_avatar, okClick = {
-                        presenter.reportQuote(quote)
-                    }).buildDialog()
+                    DefaultAlert(
+                        context,
+                        "Eita, isso é muito sério!",
+                        context.getString(R.string.report_quote_message),
+                        R.drawable.surprised_avatar,
+                        okClick = {
+                            presenter.reportQuote(quote)
+                        }).buildDialog()
                 }
             }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
+        }
+        viewBind.editButton.run {
+            if (quote.userID != presenter.user?.uid) {
+                gone()
+            } else visible()
+            setOnClickListener {
+                editQuote()
+            }
         }
         viewBind.shareButton.setOnClickListener {
             quoteStyle?.let { style ->
@@ -146,7 +160,6 @@ class QuoteCardBinder(
     private fun getQuoteOptions(): DialogItems {
         val dialogList = ArrayList<ListDialogBean>()
         if (quote.userID == presenter.user?.uid) {
-            dialogList.add(ListDialogBean("Editar publicação"))
             dialogList.add(ListDialogBean("Remover publicação"))
         } else {
             dialogList.add(ListDialogBean("Denunciar publicação"))
@@ -195,8 +208,13 @@ class QuoteCardBinder(
     private fun editQuote() {
         val i = Intent(context, EditQuoteActivity::class.java)
         i.putExtra("Quote", quote)
-        val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,
-                android.util.Pair(viewBind.quoteCard as View, context.getString(R.string.quote_transaction)))
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            context as Activity,
+            android.util.Pair(
+                viewBind.quoteCard as View,
+                context.getString(R.string.quote_transaction)
+            )
+        )
         context.startActivity(i, options.toBundle())
     }
 
@@ -208,7 +226,19 @@ class QuoteCardBinder(
     private fun fillQuoteData(data: Quote) {
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
-            viewBind.userTop.username.setTextColor(ContextCompat.getColor(context, R.color.md_white))
+            viewBind.userTop.username.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.md_white
+                )
+            )
+            viewBind.userTop.quoteDate.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.md_white
+                )
+            )
+            viewBind.userTop.logo.imageTintList = ColorStateList.valueOf(Color.WHITE)
             CardLikeAdapter(data.likes.toList(), context)
             if (viewBind.quoteOptions.visibility == View.GONE) {
                 viewBind.quoteOptions.slideInBottom()

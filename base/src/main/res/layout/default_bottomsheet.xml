@@ -5,19 +5,13 @@
 
 
     <LinearLayout
-        android:background="@drawable/round_top"
+        android:background="@drawable/round_stroke"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/padding_default">
 
-        <View
-            android:id="@+id/topAnimation"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/gradient_animation"
-            android:backgroundTint="?colorPrimaryDark" />
+        <include layout="@layout/motiv_dots" />
 
         <TextView
             android:paddingVertical="@dimen/padding_small"

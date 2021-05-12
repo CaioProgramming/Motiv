@@ -44,11 +44,5 @@ class BottomSheetAlert(context: Context,
             cancelClick?.invoke()
             dialog.dismiss()
         }
-        val animationDrawable = topAnimation.background as AnimationDrawable
-        animationDrawable.run {
-            setEnterFadeDuration(1000)
-            setExitFadeDuration(2500)
-            start()
-        }
     }
 }

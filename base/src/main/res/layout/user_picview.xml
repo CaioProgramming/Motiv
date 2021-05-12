@@ -10,9 +10,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:visibility="gone"
+        android:layout_width="24dp"
         android:id="@+id/userpic"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_height="24dp"
+        app:civ_border_color="?android:textColorPrimary"
+        app:civ_border_width="2dp"
+        tools:visibility="visible"
         tools:src="@drawable/ic_neptune"
         android:layout_marginStart="-8dp"
         app:civ_circle_background_color="?android:textColorHint" />

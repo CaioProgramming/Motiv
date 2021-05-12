@@ -11,6 +11,7 @@ import com.ilustris.motiv.base.beans.NEW_STYLE_ID
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
+import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StyleCardBinding
@@ -67,7 +68,9 @@ class StylePreviewAdapter(var styles: List<Style>,
                 val context: Context = root.context
                 styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
-                    typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+                    FontUtils.getTypeFace(context, quoteStyle.font)?.let {
+                        setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
+                    }
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                     quoteStyle.shadowStyle.run {

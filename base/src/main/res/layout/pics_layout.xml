@@ -11,7 +11,9 @@
         android:layout_height="100dp"
         android:checkable="true"
         android:stateListAnimator="@animator/list_animator"
-        app:cardBackgroundColor="?android:textColorHint"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:strokeColor="?android:textColorPrimary"
+        app:strokeWidth="2dp"
         android:orientation="vertical"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp">

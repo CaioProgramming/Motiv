@@ -1,9 +1,7 @@
 package com.ilustris.motiv.manager.ui.styles
 
 import android.graphics.Color
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.TextView
+import android.graphics.Typeface
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +14,9 @@ import com.giphy.sdk.ui.GPHSettings
 import com.giphy.sdk.ui.themes.GPHTheme
 import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.hmomeni.verticalslider.VerticalSlider
+import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.ilustris.motiv.base.utils.*
 import com.ilustris.motiv.manager.R
@@ -33,31 +34,16 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     var style = Style.defaultStyle
     var previewAdapter: StylePreviewAdapter? = null
     var colorAdapter: RecyclerColorAdapter? = null
+    var fontAdapter: StyleFontsAdapter? = null
     override fun initView() {
 
         viewBind.run {
-            saveButton.setOnClickListener {
-                if (style.isStoredStyle()) {
-                    presenter.updateData(style)
-                } else {
-                    presenter.saveData(style.apply { id = "" })
+            fontsRecyclerView.run {
+                fontAdapter = StyleFontsAdapter {
+                    style.font = it
+                    updateStyle()
                 }
-            }
-            viewBind.fontsTabs.run {
-                repeat(FontUtils.fonts.size) {
-                    addTab(newTab().apply {
-                        val view = LayoutInflater.from(context).inflate(R.layout.tab_font_view, null, false)
-                        customView = view
-                        view.findViewById<TextView>(R.id.fontText).run {
-                            typeface = FontUtils.getTypeFace(context, it)
-                            setOnClickListener {
-                                select()
-                                style.font = position
-                                updateStyle()
-                            }
-                        }
-                    })
-                }
+                adapter = fontAdapter
             }
             initButtons()
             getColorGallery()
@@ -66,7 +52,23 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
         updateStyle()
     }
 
+    fun saveStyle() {
+        if (style.id == Style.defaultStyle.id) style.id = ""
+
+        if (style.id.isEmpty()) {
+            presenter.saveData(style)
+        } else {
+            presenter.updateData(style)
+
+        }
+    }
+
+
     private fun NewStyleFormBinding.initButtons() {
+        dots.setOnClickListener {
+            val bottomSheetBehavior = BottomSheetBehavior.from(stylesSettings)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
         styleAlign.setOnClickListener {
             style.textAlignment = when (style.textAlignment) {
                 TextAlignment.CENTER -> TextAlignment.END
@@ -84,31 +86,26 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
         styleWallpaper.setOnClickListener {
             openGiphyDialog()
         }
-        styleShadowPropretiesSlider.addOnChangeListener { slider, value, fromUser ->
-            handleSlider(optionsGroup.checkedRadioButtonId, value)
-        }
-        optionsGroup.setOnCheckedChangeListener { group, checkedId ->
-            style.shadowStyle.run {
-                val minValue = styleShadowPropretiesSlider.valueFrom
-                styleShadowPropretiesSlider.value = when (checkedId) {
-                    R.id.shadowRadius -> if (radius >= minValue) radius else minValue
-                    R.id.shadowXposition -> if (dx >= minValue) dx else minValue
-                    R.id.shadowYposition -> if (dy >= minValue) dy else minValue
-                    else -> 0.10f
-                }
+        fontStyle.setOnClickListener {
+            style.fontStyle = when (style.fontStyle) {
+                FontStyle.REGULAR -> FontStyle.BOLD
+                FontStyle.BOLD -> FontStyle.ITALIC
+                FontStyle.ITALIC -> FontStyle.REGULAR
             }
-
-            styleShadowPropretiesSlider.isEnabled = (optionsGroup.checkedRadioButtonId != -1)
+            updateStyle()
         }
-    }
-
-    private fun handleSlider(checkedID: Int, value: Float) {
-        when (checkedID) {
-            R.id.shadowYposition -> style.shadowStyle.dy = value
-            R.id.shadowXposition -> style.shadowStyle.dx = value
-            R.id.shadowRadius -> style.shadowStyle.radius = value
+        extrudeDxPosition.addOnChangeListener { slider, value, fromUser ->
+            style.shadowStyle.dx = value
+            style.shadowStyle.dy = value
+            updateStyle()
         }
-        updateStyle()
+
+        extrudeShadowSize.addOnChangeListener { slider, value, fromUser ->
+            style.shadowStyle.radius = value
+            updateStyle()
+        }
+
+
     }
 
 
@@ -141,8 +138,9 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
         if (dtoMessage.operationType == OperationType.DATA_SAVED || dtoMessage.operationType == OperationType.DATA_UPDATED) {
             showSnackBar(context, "Estilo salvo com sucesso", Color.GREEN, rootView = viewBind.root)
 
-            style = Style.emptyStyle
+            style = Style.defaultStyle
             updateStyle()
+            viewBind.styleBackground.loadGif(style.backgroundURL)
         }
     }
 
@@ -183,23 +181,44 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
             viewBind.styleBackground.loadGif(style.backgroundURL)
             viewBind.stylePreviewLayout.stylesRecycler.scheduleLayoutAnimation()
             viewBind.stylePreviewLayout.stylesRecycler.smoothScrollToPosition(position)
+            viewBind.extrudeShadowSize.value =
+                if (style.shadowStyle.radius > viewBind.extrudeShadowSize.valueTo) 1f else style.shadowStyle.radius
+            viewBind.extrudeDxPosition.value =
+                if (style.shadowStyle.dx > viewBind.extrudeDxPosition.valueTo) 1f else style.shadowStyle.dx
+            //viewBind.extrudeDyPosition.value = if (style.shadowStyle.radius > viewBind.extrudeDyPosition.valueTo) 1f else  style.shadowStyle.dy.toInt().toFloat()
             updateStyle()
 
         }
     }
 
     private fun getColorGallery() {
-        colorAdapter = RecyclerColorAdapter(context) {
-            if (!viewBind.styleShadowColor.isChecked) {
-                style.textColor = it
-                colorAdapter?.updateTextColor(it)
-            } else {
-                style.shadowStyle.shadowColor = it
-                colorAdapter?.updateShadowColor(it)
+        viewBind.run {
+            stylecolorGallery.run {
+                adapter = RecyclerColorAdapter(
+                    context
+                ) {
+                    style.textColor = it
+                    updateStyle()
+                }
             }
-            updateStyle()
+            styleExtrudeColorGallery.run {
+                adapter = RecyclerColorAdapter(
+                    context
+                ) {
+                    style.shadowStyle.shadowColor = it
+                    updateStyle()
+
+                }
+            }
+            styleStrokeColorGallery.run {
+                adapter = RecyclerColorAdapter(
+                    context
+                ) {
+                    style.shadowStyle.strokeColor = it
+                    updateStyle()
+                }
+            }
         }
-        viewBind.stylecolorGallery.adapter = colorAdapter
     }
 
     fun updateStyle() {
@@ -212,19 +231,39 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                 }
                 setImageResource(src)
             }
+            fontStyle.run {
+                val src = when (style.fontStyle) {
+                    FontStyle.REGULAR -> R.drawable.ic_baseline_format_clear_24
+                    FontStyle.BOLD -> R.drawable.ic_baseline_format_bold_24
+                    FontStyle.ITALIC -> R.drawable.ic_baseline_format_italic_24
+                }
+                setImageResource(src)
+            }
             styleText.run {
                 defineTextAlignment(style.textAlignment)
                 setTextColor(Color.parseColor(style.textColor))
-                FontUtils.getTypeFace(context, style.font)?.let { typeface = it }
+                FontUtils.getTypeFace(context, style.font)?.let {
+                    setTypeface(it, style.fontStyle.getTypefaceStyle())
+                }
+                style.shadowStyle.run {
+                    setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+                }
+            }
+            styleAuthor.run {
+                defineTextAlignment(style.textAlignment)
+                setTextColor(Color.parseColor(style.textColor))
+                FontUtils.getTypeFace(context, style.font)?.let {
+                    setTypeface(it, style.fontStyle.getTypefaceStyle())
+                }
                 style.shadowStyle.run {
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }
             }
             colorAdapter?.run {
                 updateTextColor(style.textColor)
-                updateShadowColor(style.shadowStyle.shadowColor)
             }
-            fontsTabs.getTabAt(style.font)?.select()
+            fontAdapter?.updateFont(style.font, style.fontStyle)
+
         }
     }
 

@@ -14,23 +14,27 @@
         android:background="?attr/dividerColor">
 
         <ImageView
+            android:background="@drawable/motiv_gradient"
             android:id="@+id/styleGif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/dividerColor"
             android:scaleType="center" />
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.4"
+            android:background="@color/md_black" />
+
+
         <ImageView
+            android:layout_centerInParent="true"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:scaleType="fitCenter"
             android:src="@drawable/giphy_mark" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/oblack" />
     </RelativeLayout>
 
 

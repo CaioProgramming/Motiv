@@ -41,129 +41,83 @@
                 android:layout_width="match_parent"
                 android:layout_margin="@dimen/margin_small"
                 android:stateListAnimator="@animator/list_animator"
-                app:cardBackgroundColor="?android:colorBackground"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="3dp"
                 app:strokeColor="?android:textColorPrimary"
                 app:strokeWidth="2dp">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/quoteContent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                    <RelativeLayout
-                        android:id="@+id/cardTop"
-                        android:background="@drawable/bottom_line_2dp"
+                    <ImageView
+                        android:id="@+id/quoteImage"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/motiv_gradient"
+                        android:scaleType="centerCrop" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.4"
+                        android:background="@color/md_black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
                         android:padding="@dimen/padding_default">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerInParent="true"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="12dp"
-                                android:layout_height="12dp"
-                                android:src="@drawable/defaultdot"
-                                app:tint="@color/material_purple500" />
-
-                            <ImageView
-                                android:layout_width="12dp"
-                                android:layout_height="12dp"
-                                android:src="@drawable/defaultdot"
-                                app:tint="@color/material_purpleA200" />
-
-                            <ImageView
-                                android:layout_width="12dp"
-                                android:layout_height="12dp"
-                                android:src="@drawable/defaultdot"
-                                app:tint="@color/material_purpleA700" />
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/quoteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                            android:autoSizeMinTextSize="@dimen/min_quote_size"
+                            android:autoSizeTextType="uniform"
+                            android:breakStrategy="high_quality"
+                            android:gravity="start"
+                            android:shadowColor="@color/md_black"
+                            android:shadowDx="10"
+                            android:shadowDy="0"
+                            android:shadowRadius="1"
+                            android:stateListAnimator="@animator/text_animator"
+                            android:text="@{sharedQuote.quote}"
+                            android:textAlignment="textStart"
+                            android:textSize="@dimen/big_quote_size"
+                            android:textStyle="bold"
+                            android:transitionName="@string/quote_transaction"
+                            android:typeface="normal"
+                            tools:text="Still dont know what it means to be human"
+                            tools:textColor="@color/md_white"
+                            tools:visibility="visible" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/authorTextView"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_gravity="center|top"
-                            android:fontFamily="@font/jost"
-                            android:text="@string/app_name"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                            android:textColor="?android:textColorPrimary"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/quoteContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/quoteImage"
-                            android:background="@drawable/motiv_gradient"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop" />
-
-                        <View
-                            android:alpha="0.2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/md_black" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:autoSizeMaxTextSize="@dimen/low_quote_size"
+                            android:autoSizeMinTextSize="@dimen/min_quote_size"
                             android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="@dimen/padding_default">
+                            android:paddingVertical="@dimen/padding_small"
+                            android:text="@{sharedQuote.author}"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/low_quote_size"
+                            android:textStyle="italic"
+                            tools:text="Lana Del Rey" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/quoteTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                                android:autoSizeMinTextSize="@dimen/min_quote_size"
-                                android:autoSizeTextType="uniform"
-                                android:breakStrategy="high_quality"
-                                android:gravity="start"
-                                android:shadowColor="@color/md_black"
-                                android:shadowDx="10"
-                                android:shadowDy="0"
-                                android:shadowRadius="1"
-                                android:stateListAnimator="@animator/text_animator"
-                                android:textAlignment="textStart"
-                                android:textSize="@dimen/big_quote_size"
-                                android:textStyle="bold"
-                                android:transitionName="@string/quote_transaction"
-                                android:typeface="normal"
-                                android:text="@{sharedQuote.quote}"
-                                tools:text="Still dont know what it means to be human"
-                                tools:textColor="@color/md_white"
-                                tools:visibility="visible" />
+                </RelativeLayout>
 
-                            <TextView
-                                android:id="@+id/authorTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:autoSizeMaxTextSize="@dimen/low_quote_size"
-                                android:autoSizeMinTextSize="@dimen/min_quote_size"
-                                android:paddingVertical="@dimen/padding_small"
-                                android:textSize="@dimen/low_quote_size"
-                                android:gravity="center"
-                                android:text="@{sharedQuote.author}"
-                                android:textAlignment="center"
-                                android:textStyle="italic"
-                                tools:text="Lana Del Rey" />
-                        </LinearLayout>
-
-                    </RelativeLayout>
-                </LinearLayout>
+                <include
+                    layout="@layout/motiv_dots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_default" />
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progress_bar"
@@ -188,12 +142,14 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:padding="@dimen/padding_default"
-                android:layout_margin="@dimen/margin_default"
-                android:text="Compartilhar"
+                android:layout_margin="@dimen/margin_small"
+                android:text="compartilhar"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                app:backgroundTint="@color/md_blue500"
-                app:cornerRadius="@dimen/radius_small" />
+                app:backgroundTint="@color/colorPrimaryDark"
+                app:cornerRadius="0dp"
+                app:strokeColor="@color/md_black"
+                app:strokeWidth="2dp" />
         </RelativeLayout>
 
 
