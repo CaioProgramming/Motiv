@@ -48,13 +48,13 @@ dependencies {
 
 
     api platform('com.google.firebase:firebase-bom:25.12.0')
-    api 'com.google.firebase:firebase-core:18.0.2'
+    api 'com.google.firebase:firebase-core:19.0.0'
     api 'com.google.firebase:firebase-firestore-ktx'
-    api 'com.google.firebase:firebase-auth:20.0.3'
+    api 'com.google.firebase:firebase-auth:21.0.1'
     api 'com.firebaseui:firebase-ui-auth:4.3.1'
     api 'com.google.firebase:firebase-database-ktx'
     api 'com.google.firebase:firebase-storage-ktx'
-    api 'com.google.firebase:firebase-appindexing:19.2.0'
+    api 'com.google.firebase:firebase-appindexing:20.0.0'
     api 'com.firebaseui:firebase-ui-database:2.1.0'
     api 'com.google.firebase:firebase-storage:19.2.1'
     api 'com.google.firebase:firebase-messaging:21.0.1'

@@ -5,20 +5,18 @@
 
 
     <LinearLayout
-        android:background="@drawable/round_top"
+        android:background="@drawable/stroke_filled"
         android:id="@+id/mainView"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="@dimen/padding_default"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/topAnimation"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/gradient_animation"
-            android:backgroundTint="?colorPrimaryDark" />
+        <include
+            layout="@layout/motiv_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_default" />
 
         <ImageView
             android:id="@+id/covers_gif_mark"

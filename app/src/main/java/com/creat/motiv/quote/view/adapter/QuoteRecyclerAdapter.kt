@@ -82,6 +82,9 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
 
         if (quoteList[0].id == SPLASH_QUOTE) {
             quoteList.add(quoteList.size / 2, Quote.usersQuote())
+            if (quoteList.size > 2) {
+                quoteList[0].quote = "Motiv\n${quoteList.size} publicações"
+            }
         }
 
         viewList = quoteList.toList()

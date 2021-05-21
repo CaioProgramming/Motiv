@@ -116,7 +116,7 @@ class QuoteCardBinder(
             layoutManager = linearLayoutManager
             adapter = CardLikeAdapter(quote.likes.toList(), context)
         }
-        viewBind.optionsButton.setOnClickListener {
+        optionsButton.setOnClickListener {
             ListDialog(context, getQuoteOptions(), {
                 if (quote.userID == presenter.user?.uid) {
                     BottomSheetAlert(
@@ -134,12 +134,23 @@ class QuoteCardBinder(
                         context.getString(R.string.report_quote_message),
                         R.drawable.surprised_avatar,
                         okClick = {
-                            presenter.reportQuote(quote)
+                            if (quote.isReport) {
+                                DefaultAlert(
+                                    context, "Opa!",
+                                    "Esta publicação já foi denunciada e está sendo analisada!"
+                                ).buildDialog()
+                            } else {
+                                presenter.reportQuote(quote)
+                                DefaultAlert(
+                                    context, "Denúncia realizada",
+                                    "A sua denúncia foi enviada com sucesso e já está sendo analisada!"
+                                ).buildDialog()
+                            }
                         }).buildDialog()
                 }
             }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
         }
-        viewBind.editButton.run {
+        editButton.run {
             if (quote.userID != presenter.user?.uid) {
                 gone()
             } else visible()
@@ -147,14 +158,13 @@ class QuoteCardBinder(
                 editQuote()
             }
         }
-        viewBind.shareButton.setOnClickListener {
+        shareButton.setOnClickListener {
             quoteStyle?.let { style ->
                 QuoteShareDialog(context, quote, style).buildDialog()
             }
         }
-        viewBind.run {
-            if (quoteCard.visibility == View.GONE) quoteCard.fadeIn()
-        }
+        if (quoteCard.visibility == View.GONE) quoteCard.fadeIn()
+
     }
 
     private fun getQuoteOptions(): DialogItems {
@@ -172,37 +182,6 @@ class QuoteCardBinder(
         val clipboard: ClipboardManager? = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
         val clip = ClipData.newPlainText("Motiv", "${quote.quote}\uD83E\uDE90\n - ${quote.author} \n\n#${context.getString(R.string.app_name).toLowerCase()} #${quote.author.replace(" ", "").toLowerCase()}")
         clipboard?.setPrimaryClip(clip)
-    }
-
-    private fun generateCardImage(onFileSave: (File) -> Unit) {
-        try {
-            viewBind.run {
-                styleView.giphyLogo.gone()
-                quoteOptions.gone()
-                userTop.userContainer.gone()
-            }
-            viewBind.quoteCard.run {
-                isDrawingCacheEnabled = true
-                val bitmap = Bitmap.createBitmap(drawingCache)
-                isDrawingCacheEnabled = false
-                val cachePath = context.cacheDir.path + "/shared_quotes/"
-                val cacheDir = File(cachePath)
-                if (!cacheDir.exists()) cacheDir.mkdirs()
-                val stream = FileOutputStream(cachePath + "quote_${quote.id}.png")
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                stream.close()
-                val file = File(cachePath + "quote_${quote.id}.png")
-                Log.i(javaClass.simpleName, "generateCardImage: file saved ${file.absolutePath}")
-                onFileSave.invoke(file)
-            }
-
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e(javaClass.simpleName, "generateCardImage: ${e.message}")
-            showSnackBar(context, "Ocorreu um erro ao compartilhar a frase", ContextCompat.getColor(context, ColorUtils.ERROR), rootView = viewBind.quoteCard)
-        }
-
     }
 
     private fun editQuote() {
@@ -224,28 +203,26 @@ class QuoteCardBinder(
     }
 
     private fun fillQuoteData(data: Quote) {
+        viewBind.shareButton.gone()
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
-            viewBind.userTop.username.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.md_white
-                )
-            )
-            viewBind.userTop.quoteDate.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.md_white
-                )
-            )
-            viewBind.userTop.logo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            viewBind.userTop.run {
+                username.setTextColor(Color.WHITE)
+                quoteDate.setTextColor(Color.WHITE)
+                logo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            }
             CardLikeAdapter(data.likes.toList(), context)
             if (viewBind.quoteOptions.visibility == View.GONE) {
                 viewBind.quoteOptions.slideInBottom()
+                viewBind.userTop.userContainer.slideInBottom()
+            }
+            delayedFunction(1500) {
+                viewBind.shareButton.slideInBottom()
             }
         } else {
             viewBind.userTop.userContainer.gone()
             viewBind.quoteOptions.gone()
+            viewBind.shareButton.gone()
         }
         QuoteStyleBinder(viewBind.styleView, this::updateStyle).getStyle(data.style)
         viewBind.run {

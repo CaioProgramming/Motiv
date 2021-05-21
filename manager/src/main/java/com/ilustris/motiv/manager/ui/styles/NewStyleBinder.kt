@@ -65,9 +65,10 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
 
 
     private fun NewStyleFormBinding.initButtons() {
-        dots.setOnClickListener {
+        dotslayout.setOnClickListener {
             val bottomSheetBehavior = BottomSheetBehavior.from(stylesSettings)
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
         }
         styleAlign.setOnClickListener {
             style.textAlignment = when (style.textAlignment) {

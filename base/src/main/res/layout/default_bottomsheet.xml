@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+
     <LinearLayout
-        android:background="@drawable/round_stroke"
+        android:layout_margin="@dimen/margin_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/stroke_filled_top"
         android:padding="@dimen/padding_default">
 
         <include layout="@layout/motiv_dots" />

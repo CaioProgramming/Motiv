@@ -5,18 +5,11 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
         android:id="@+id/card"
         android:layout_margin="@dimen/margin_small"
         android:layout_height="100dp"
-        android:checkable="true"
-        android:stateListAnimator="@animator/list_animator"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:strokeColor="?android:textColorPrimary"
-        app:strokeWidth="2dp"
-        android:orientation="vertical"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="0dp">
+        style="@style/MotivCard"
+        android:layout_width="match_parent">
 
         <ImageView
             android:id="@+id/pic"

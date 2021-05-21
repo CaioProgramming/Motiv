@@ -21,7 +21,10 @@ abstract class BaseAlert<V>(var context: Context,
                             val style: DialogStyles = DialogStyles.DEFAULT_NO_BORDER) : DialogInterface.OnShowListener, DialogInterface.OnDismissListener where V : ViewDataBinding {
 
 
-    val dialog = if (style == DialogStyles.BOTTOM_NO_BORDER) BottomSheetDialog(context, style.resource) else Dialog(context, style.resource)
+    val dialog = if (style == DialogStyles.BOTTOM_NO_BORDER) BottomSheetDialog(context) else Dialog(
+        context,
+        style.resource
+    )
     val view: View by lazy {
         LayoutInflater.from(context).inflate(layout, null, false).rootView
     }
@@ -33,7 +36,7 @@ abstract class BaseAlert<V>(var context: Context,
     fun buildDialog() {
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
-            window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            //window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             setCanceledOnTouchOutside(true)
             setOnShowListener(this@BaseAlert)
             setOnDismissListener(this@BaseAlert)

@@ -5,15 +5,17 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application
-        android:name="com.creat.motiv.MotivApplication"
-        android:theme="@style/Motiv.Theme">
+    <application android:name="com.creat.motiv.MotivApplication">
         <activity
             android:name=".ui.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/Motiv.Theme.NoActionBar" />
-        <activity android:name=".ui.styles.NewStyleActivity" />
-        <activity android:name=".ManagerActivity" />
+            android:theme="@style/Motiv.Manager.Theme" />
+        <activity
+            android:name=".ui.styles.NewStyleActivity"
+            android:theme="@style/Motiv.Manager.Theme" />
+        <activity
+            android:name=".ManagerActivity"
+            android:theme="@style/Motiv.Manager.Theme" />
     </application>
 
 </manifest>

@@ -45,14 +45,15 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
         quoteStyle.run {
 
             quoteImage.loadGif(backgroundURL) {
-                shareButton.isEnabled = true
                 progressBar.fadeOut()
                 quoteContent.fadeIn()
             }
+            FontUtils.getTypeFace(context, quoteStyle.font)?.let {
+                quoteTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
+                authorTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
+            }
             quoteTextView.setTextColor(Color.parseColor(textColor))
-            quoteTextView.typeface = FontUtils.getTypeFace(context, font)
             authorTextView.setTextColor(Color.parseColor(textColor))
-            authorTextView.typeface = FontUtils.getTypeFace(context, font)
             quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
             authorTextView.defineTextAlignment(quoteStyle.textAlignment)
             shadowStyle.run {
@@ -60,26 +61,35 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
                 authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             }
         }
-        shareButton.setOnClickListener {
-            shareButton.invisible()
-            delayedFunction(2500) {
-                generateCardImage { file ->
-                    val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
-                    copyToClipboard()
-                    uri?.let {
-                        val shareIntent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            type = "image/*"
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            setDataAndType(uri, context.contentResolver.getType(uri))
-                            putExtra(Intent.EXTRA_SUBJECT, context.resources.getString(R.string.app_name))
-                            putExtra(Intent.EXTRA_TEXT, "${quote.quote}\n - ${quote.author}")
-                            putExtra(Intent.EXTRA_STREAM, uri)
-                        }
-                        context.startActivity(Intent.createChooser(shareIntent, "Compartilhar post em..."))
-                        delayedFunction {
-                            shareButton.fadeIn()
-                        }
+        delayedFunction(3000) {
+            generateCardImage { file ->
+                val uri = FileProvider.getUriForFile(
+                    context,
+                    BuildConfig.APPLICATION_ID + ".fileprovider",
+                    file
+                )
+                copyToClipboard()
+                uri?.let {
+                    val shareIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        type = "image/*"
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        setDataAndType(uri, context.contentResolver.getType(uri))
+                        putExtra(
+                            Intent.EXTRA_SUBJECT,
+                            context.resources.getString(R.string.app_name)
+                        )
+                        putExtra(Intent.EXTRA_TEXT, "${quote.quote}\n - ${quote.author}")
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                    }
+                    context.startActivity(
+                        Intent.createChooser(
+                            shareIntent,
+                            "Compartilhar post em..."
+                        )
+                    )
+                    delayedFunction {
+                        dialog.dismiss()
                     }
                 }
             }

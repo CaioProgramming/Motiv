@@ -1,5 +1,6 @@
 package com.creat.motiv.quote.view.binder
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.databinding.StylePagerBinding
@@ -22,6 +23,7 @@ class QuoteStyleFormBinder(override val viewBind: StylePagerBinding, val onPageC
     }
 
     override fun showListData(list: List<Style>) {
+        Log.i(javaClass.simpleName, "showListData: showing ${list.size}")
         super.showListData(list)
         if (list.isEmpty()) {
             viewBind.stylesPager.run {

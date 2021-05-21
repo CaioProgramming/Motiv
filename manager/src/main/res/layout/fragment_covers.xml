@@ -29,39 +29,27 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/searchview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-
-                        <com.github.mmin18.widget.RealtimeBlurView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/topBlurSize"
-                            app:realtimeBlurRadius="25dp"
-                            app:realtimeOverlayColor="?navblurOverLayColor" />
-
-                        <androidx.appcompat.widget.SearchView
-                            android:id="@+id/searchview"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/topBlurSize"
-                            android:background="@drawable/bottom_line"
-                            android:focusedByDefault="true"
-                            android:paddingTop="@dimen/padding_default"
-                            app:iconifiedByDefault="false"
-                            app:queryHint="Buscar gifs" />
-
-                    </RelativeLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/padding_default"
+                        android:background="@drawable/round_stroke_filled"
+                        android:focusedByDefault="true"
+                        app:iconifiedByDefault="false"
+                        app:queryHint="Buscar gifs" />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small"
+                        android:layout_margin="@dimen/padding_default"
                         android:text="Planos de fundo"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                         android:textStyle="bold" />
 
                     <ImageView
+                        android:layout_marginHorizontal="@dimen/padding_default"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:scaleType="fitCenter"
@@ -73,7 +61,8 @@
                         android:background="@color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        app:gphCellPadding="@dimen/padding_default"
+                        android:layout_marginHorizontal="@dimen/padding_default"
+                        app:gphCellPadding="@dimen/padding_small"
                         app:gphDirection="horizontal"
                         app:gphShowCheckeredBackground="false"
                         app:gphSpanCount="2" />
@@ -89,6 +78,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/coversRecycler"
             android:layout_width="match_parent"
+            tools:listitem="@layout/fragment_covers"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />

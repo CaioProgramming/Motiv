@@ -55,8 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:background="?android:colorBackground"
-                android:paddingTop="@dimen/statusBarHeight">
+                android:background="?android:colorBackground">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/motiv_toolbar"
@@ -71,6 +70,7 @@
                 <RelativeLayout
                     android:id="@+id/titleView"
                     android:layout_width="match_parent"
+                    android:background="@drawable/bottom_line"
                     android:layout_height="?attr/actionBarSize">
 
                     <TextView
@@ -96,38 +96,20 @@
             android:id="@+id/stylesSettings"
             android:background="?attr/blurOverLayColor"
             android:orientation="vertical"
-            android:padding="@dimen/padding_default"
-            android:paddingTop="@dimen/statusBarHeight"
+            android:paddingHorizontal="@dimen/padding_default"
+            android:paddingBottom="?attr/actionBarSize"
             app:behavior_peekHeight="300dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-            <LinearLayout
-                android:id="@+id/dots"
-                android:gravity="center"
-                android:layout_width="match_parent"
+            <include
+                android:id="@+id/dotslayout"
+                layout="@layout/motiv_dots"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/defaultdot"
-                    app:tint="@color/material_purple500" />
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/defaultdot"
-                    app:tint="@color/material_purpleA200" />
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/defaultdot"
-                    app:tint="@color/material_purpleA700" />
-            </LinearLayout>
+                android:layout_margin="@dimen/margin_small" />
 
             <TextView
                 android:layout_height="wrap_content"
@@ -247,6 +229,7 @@
 
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingVertical="@dimen/padding_small"
@@ -254,6 +237,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/styleStrokeColorGallery"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -276,8 +260,7 @@
                     android:id="@+id/extrudeShadowSize"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:stepSize="0.5"
-                    android:value="0.5"
+                    android:value="0"
                     android:valueFrom="0"
                     android:valueTo="25"
                     app:haloColor="?android:textColorPrimary"
@@ -309,7 +292,6 @@
                         android:id="@+id/extrudeDxPosition"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:stepSize="0.5"
                         android:value="1"
                         android:valueFrom="-25"
                         android:valueTo="25"
@@ -339,7 +321,7 @@
 
             <include
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/style_preview_layout"
                 layout="@layout/styles_recycler" />
 

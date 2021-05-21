@@ -12,11 +12,10 @@
             android:id="@+id/quoteBack"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/dividerColor"
+            android:background="@color/colorAccent"
             android:fitsSystemWindows="true"
-            android:scaleType="centerCrop"
-            tools:showIn="@layout/quotes_card"
-            tools:src="@drawable/motiv_gradient" />
+            android:scaleType="center"
+            tools:showIn="@layout/quotes_card" />
 
 
         <View

@@ -1,79 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_default"
-        android:orientation="vertical"
-        app:cardBackgroundColor="?attr/dividerColor"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="4dp">
+        android:background="@color/transparent">
 
-        <LinearLayout
-            android:padding="@dimen/padding_default"
+        <com.google.android.material.card.MaterialCardView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/iconImageView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:importantForAccessibility="no"
-                tools:src="@drawable/ic_saturn_and_other_planets_primary" />
-
-            <TextView
-                android:id="@+id/titleTextView"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/padding_default"
-                tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
-
-            <TextView
-                android:id="@+id/messageTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/padding_default"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
+            android:layout_margin="@dimen/margin_default"
+            android:orientation="vertical"
+            app:cardCornerRadius="@dimen/radius_small"
+            app:cardElevation="4dp"
+            app:strokeColor="?android:textColorPrimary"
+            app:strokeWidth="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_default">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/confirm_button"
+                <include layout="@layout/motiv_dots" />
+
+                <ImageView
+                    android:id="@+id/iconImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    android:visibility="gone"
+                    tools:src="@drawable/ic_saturn_and_other_planets_primary"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="0dp"
-                    android:paddingVertical="@dimen/padding_small"
-                    android:text="Confirmar"
-                    android:textColor="@color/md_white"
-                    app:elevation="0dp" />
+                    android:paddingVertical="@dimen/padding_default"
+                    tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/cancel_button"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                <TextView
+                    android:id="@+id/messageTextView"
+                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/padding_default"
+                    tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="Cancelar"
-                    android:textColor="?android:textColorHint"
-                    android:textStyle="bold" />
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/confirm_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorAccent"
+                        android:elevation="0dp"
+                        android:paddingVertical="@dimen/padding_small"
+                        android:text="confirmar"
+                        android:textColor="@color/md_white"
+                        app:elevation="0dp"
+                        app:strokeColor="?android:textColorPrimary"
+                        app:strokeWidth="@dimen/default_stroke" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cancel_button"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_small"
+                        android:text="Cancelar"
+                        android:textColor="?android:textColorHint"
+                        android:textStyle="bold"
+                        app:strokeColor="?android:textColorHint"
+                        app:strokeWidth="2dp" />
 
 
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
 </layout>

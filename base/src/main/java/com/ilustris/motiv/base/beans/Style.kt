@@ -37,45 +37,46 @@ data class Style(
     companion object {
         val defaultStyle = Style()
         val favoriteStyle = Style(
-                id = FAVORITES_STYLE_ID,
-                font = 4,
-                textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/3o7TKoWXm3okO1kgHC/giphy.gif"
+            id = FAVORITES_STYLE_ID,
+            font = 4,
+            textColor = DEFAULT_TEXT_COLOR,
+            backgroundURL = "https://media.giphy.com/media/3o7TKoWXm3okO1kgHC/giphy.gif"
         )
         val emptyStyle = Style(
-                id = EMPTY_STYLE_ID,
-                font = 3,
-                textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/PnIpBoEJl7aaoBDxHt/giphy.gif"
+            id = EMPTY_STYLE_ID,
+            font = 3,
+            textColor = DEFAULT_TEXT_COLOR,
+            backgroundURL = "https://media.giphy.com/media/PnIpBoEJl7aaoBDxHt/giphy.gif"
         )
         val searchStyle = Style(
-                id = SEARCH_STYLE_ID,
-                font = 7,
-                textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/3HG8cKDPyl9QoG2KvW/giphy.gif"
+            id = SEARCH_STYLE_ID,
+            font = 7,
+            textColor = DEFAULT_TEXT_COLOR,
+            backgroundURL = "https://media.giphy.com/media/3HG8cKDPyl9QoG2KvW/giphy.gif"
         )
         val splashStyle = Style(
-                id = SPLASH_STYLE_ID,
-                font = 9,
-                textColor = DEFAULT_TEXT_COLOR,
-                backgroundURL = "https://media.giphy.com/media/ij1WvlilscRFoIRn7u/giphy.gif"
+            id = SPLASH_STYLE_ID,
+            font = 9,
+            textColor = DEFAULT_TEXT_COLOR,
+            backgroundURL = "https://media.giphy.com/media/Jqy85xanb0iJVQkOaM/giphy.gif",
+            shadowStyle = ShadowStyle(radius = 1f, dx = 2f, dy = 2f, shadowColor = "#6200EA")
         )
         val adminStyle = Style(
-                id = ADMIN_STYLE_ID,
-                font = 12,
-                backgroundURL = "https://media.giphy.com/media/xUOwGcu6wd0cXBj5n2/giphy.gif"
+            id = ADMIN_STYLE_ID,
+            font = 12,
+            backgroundURL = "https://media.giphy.com/media/xUOwGcu6wd0cXBj5n2/giphy.gif"
         )
         val newStyle = Style(
-                id = NEW_STYLE_ID,
-                font = 6,
-                backgroundURL = "https://media.giphy.com/media/bLdgTj2jCKe9Wf94Km/giphy.gif"
+            id = NEW_STYLE_ID,
+            font = 6,
+            backgroundURL = "https://media.giphy.com/media/bLdgTj2jCKe9Wf94Km/giphy.gif"
         )
 
 
         val usersStyle = Style(
-                id = VIEW_USERS_STYLE,
-                font = 6,
-                backgroundURL = "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif"
+            id = VIEW_USERS_STYLE,
+            font = 6,
+            backgroundURL = "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif"
         )
 
     }

@@ -70,6 +70,17 @@
                 tools:visibility="visible" />
         </LinearLayout>
 
+
+        <TextView
+            android:id="@+id/available_styles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/stylePreviewRecycler"
+            android:layout_marginHorizontal="@dimen/margin_default"
+            android:text="Estilos disponíveis"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textStyle="bold" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stylePreviewRecycler"
             android:layout_width="match_parent"
@@ -82,30 +93,30 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_quote_button"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:stateListAnimator="@animator/list_animator"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
             android:padding="@dimen/padding_default"
+            app:backgroundTint="@color/colorAccent"
             android:text="@string/save_quote_button"
+            app:strokeColor="?android:textColorPrimary"
+            app:strokeWidth="@dimen/default_stroke"
             android:layout_marginHorizontal="@dimen/margin_default"
             android:layout_marginBottom="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:textStyle="bold"
-            android:textColor="?android:colorBackground"
-            app:backgroundTint="?android:textColorPrimary"
-            app:elevation="0dp"
-            android:stateListAnimator="@animator/list_animator"
-            app:cornerRadius="@dimen/radius_default" />
+            android:layout_alignParentBottom="true" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/editloading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:indeterminate="true"
             android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="?attr/actionBarSize"
             android:elevation="8dp"
-            app:indicatorColor="@color/colorAccent"
+            app:indicatorColor="?android:textColorPrimary"
             app:indicatorDirectionCircular="clockwise"
             app:trackThickness="1dp"
             android:layout_centerInParent="true"

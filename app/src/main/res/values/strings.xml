@@ -19,6 +19,6 @@
     <string name="fatal_error_message">Por favor nos perdoe, cometemos um erro fatal e já estamos trabalhando nisso, não vá reclamar da gente pros amigos.</string>
     <string name="fatal_error_title">Alguma coisa deu errado :(</string>
     <string name="query_hint">Pesquisar frases...</string>
-    <string name="report_quote_message">Você tem certeza que deseja denunciar essa citação, caso ela seja ofensiva dealguma forma será removida e o usuário será devidamente punido</string>
+    <string name="report_quote_message">Você tem certeza que deseja denunciar essa citação, caso ela seja ofensiva de alguma forma será removida e o usuário será devidamente punido</string>
 
 </resources>

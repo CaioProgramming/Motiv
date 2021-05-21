@@ -8,19 +8,11 @@
         android:id="@+id/styleCard"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_margin="@dimen/margin_small"
-        android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@animator/list_animator"
-        android:checkable="true"
-        app:cardCornerRadius="@dimen/radius_default"
-        app:strokeColor="@color/selected_style"
-        app:cardBackgroundColor="?attr/dividerColor"
-        app:strokeWidth="2dp"
-        app:cardElevation="0dp">
+        style="@style/MotivCard">
 
         <ImageView
             android:id="@+id/styleImage"
-            tools:background="@drawable/motiv_gradient"
+            tools:background="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -34,8 +26,11 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Motiv"
+            android:autoSizeMaxTextSize="@dimen/big_quote_size"
+            android:autoSizeMinTextSize="@dimen/min_quote_size"
+            android:autoSizeTextType="uniform"
+            android:breakStrategy="high_quality"
             tools:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textAlignment="center"
             android:transitionName="@string/style_text_transtition" />
     </com.google.android.material.card.MaterialCardView>

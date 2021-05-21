@@ -1,7 +1,9 @@
 package com.ilustris.motiv.manager.ui.home.binder
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Color
+import androidx.core.content.ContextCompat
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.presenter.QuotePresenter
@@ -16,6 +18,7 @@ import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.utils.TextUtils
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
+import com.ilustris.motiv.manager.R
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.invisible
 import com.silent.ilustriscore.core.utilities.visible
@@ -66,12 +69,21 @@ class QuoteManagerCardBinder(
 
     private fun setupCard() {
         viewBind.run {
-            /*deleteButton.setOnClickListener {
-                BottomSheetAlert(context, "Opa, calma aí!", "Você quer mesmo remover esse post?", {
-                    presenter.delete(quote.id)
-                }).buildDialog()
-            }*/
-            shareButton.gone()
+            shareButton.run {
+                setOnClickListener {
+                    BottomSheetAlert(
+                        context,
+                        "Opa, calma aí!",
+                        "Você quer mesmo remover esse post?",
+                        {
+                            presenter.delete(quote.id)
+                        }).buildDialog()
+                }
+                text = "Remover publicação"
+                setTextColor(ContextCompat.getColor(context, R.color.material_red500))
+                visible()
+            }
+
             like.gone()
             likers.invisible()
         }
@@ -86,9 +98,13 @@ class QuoteManagerCardBinder(
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
             viewBind.userTop.username.setTextColor(Color.WHITE)
+            viewBind.userTop.quoteDate.setTextColor(Color.WHITE)
+            viewBind.userTop.logo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            viewBind.shareButton.visible()
         } else {
             viewBind.userTop.userContainer.gone()
             viewBind.quoteOptions.gone()
+            viewBind.shareButton.gone()
         }
         QuoteStyleBinder(viewBind.styleView, this::updateStyle).getStyle(data.style)
         viewBind.run {

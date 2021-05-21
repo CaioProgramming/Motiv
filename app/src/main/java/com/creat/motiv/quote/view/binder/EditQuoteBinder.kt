@@ -81,12 +81,24 @@ class EditQuoteBinder(
         quoteTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         authorTextView.typeface = FontUtils.getTypeFace(context, quoteStyle.font)
         val textColor = Color.parseColor(quoteStyle.textColor)
-        quoteTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
-        authorTextView.setHintTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(textColor, 60))
+        quoteTextView.setHintTextColor(
+            androidx.core.graphics.ColorUtils.setAlphaComponent(
+                textColor,
+                60
+            )
+        )
+        authorTextView.setHintTextColor(
+            androidx.core.graphics.ColorUtils.setAlphaComponent(
+                textColor,
+                60
+            )
+        )
         quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
         authorTextView.defineTextAlignment(quoteStyle.textAlignment)
         quoteTextView.setTextColor(textColor)
         authorTextView.setTextColor(textColor)
+        availableStyles.setTextColor(textColor)
+        availableStyles.text = "${stylePreviewRecycler.adapter?.itemCount} estilos disponíveis"
         quoteStyle.shadowStyle.run {
             quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))

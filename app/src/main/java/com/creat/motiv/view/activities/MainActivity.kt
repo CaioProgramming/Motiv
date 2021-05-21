@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -58,8 +59,6 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onBackPressed() {
         if (isHome()) super.onBackPressed() else handleCurrentFragment()
-
-
     }
 
     private fun isHome(): Boolean {
@@ -93,25 +92,24 @@ open class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     R.id.navigation_home -> {
                         setMotivTitle(getString(R.string.app_name))
                         supportFragmentManager
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out)
                                 .replace(R.id.nav_host_fragment, HomeFragment(), HOME_FRAG_TAG)
                                 .commit()
                         true
                     }
                     R.id.navigation_search -> {
                         supportFragmentManager
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out)
                                 .replace(R.id.nav_host_fragment, SearchFragment(), SEARCH_FRAG_TAG)
                                 .commit()
                         true
                     }
                     R.id.navigation_profile -> {
-
                         supportFragmentManager
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out)
                                 .replace(R.id.nav_host_fragment, ProfileFragment(), PROFILE_FRAG_TAG)
                                 .commit()
                         true

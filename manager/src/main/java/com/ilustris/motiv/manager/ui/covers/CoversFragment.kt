@@ -25,7 +25,7 @@ class CoversFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CoversBinder(FragmentCoversBinding.bind(view))
-        context?.hideSupportActionBar()
+        //context?.hideSupportActionBar()
 
     }
 }
