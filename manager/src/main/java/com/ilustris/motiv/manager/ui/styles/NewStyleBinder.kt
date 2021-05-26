@@ -1,7 +1,6 @@
 package com.ilustris.motiv.manager.ui.styles
 
 import android.graphics.Color
-import android.graphics.Typeface
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,6 @@ import com.giphy.sdk.ui.themes.GPHTheme
 import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.hmomeni.verticalslider.VerticalSlider
 import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.presenter.QuoteStylePresenter
 import com.ilustris.motiv.base.utils.*
@@ -34,6 +32,8 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     var style = Style.defaultStyle
     var previewAdapter: StylePreviewAdapter? = null
     var colorAdapter: RecyclerColorAdapter? = null
+    var strokeAdapter: RecyclerColorAdapter? = null
+    var shadowAdapter: RecyclerColorAdapter? = null
     var fontAdapter: StyleFontsAdapter? = null
     override fun initView() {
 
@@ -186,7 +186,6 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                 if (style.shadowStyle.radius > viewBind.extrudeShadowSize.valueTo) 1f else style.shadowStyle.radius
             viewBind.extrudeDxPosition.value =
                 if (style.shadowStyle.dx > viewBind.extrudeDxPosition.valueTo) 1f else style.shadowStyle.dx
-            //viewBind.extrudeDyPosition.value = if (style.shadowStyle.radius > viewBind.extrudeDyPosition.valueTo) 1f else  style.shadowStyle.dy.toInt().toFloat()
             updateStyle()
 
         }
@@ -195,29 +194,41 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
     private fun getColorGallery() {
         viewBind.run {
             stylecolorGallery.run {
-                adapter = RecyclerColorAdapter(
-                    context
+                colorAdapter = RecyclerColorAdapter(
+                    context,
+                    R.drawable.ic_baseline_text_fields_24
                 ) {
                     style.textColor = it
                     updateStyle()
+                }.apply {
+                    updateSelectedColor(style.textColor)
                 }
+                adapter = colorAdapter
             }
-            styleExtrudeColorGallery.run {
-                adapter = RecyclerColorAdapter(
-                    context
+            styleShadowColorGallery.run {
+                shadowAdapter = RecyclerColorAdapter(
+                    context,
+                    R.drawable.ic_baseline_brightness_3_24
                 ) {
                     style.shadowStyle.shadowColor = it
                     updateStyle()
 
+                }.apply {
+                    updateSelectedColor(style.shadowStyle.shadowColor)
                 }
+                adapter = shadowAdapter
             }
             styleStrokeColorGallery.run {
-                adapter = RecyclerColorAdapter(
-                    context
+                strokeAdapter = RecyclerColorAdapter(
+                    context,
+                    R.drawable.ic_outline_draw_24
                 ) {
                     style.shadowStyle.strokeColor = it
                     updateStyle()
+                }.apply {
+                    updateSelectedColor(style.shadowStyle.strokeColor)
                 }
+                adapter = strokeAdapter
             }
         }
     }
@@ -249,6 +260,7 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                 style.shadowStyle.run {
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }
+                strokeColor = Color.parseColor(style.shadowStyle.strokeColor)
             }
             styleAuthor.run {
                 defineTextAlignment(style.textAlignment)
@@ -260,12 +272,14 @@ class NewStyleBinder(override val viewBind: NewStyleFormBinding, val fragmentMan
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }
             }
-            colorAdapter?.run {
-                updateTextColor(style.textColor)
-            }
+            updateColors()
             fontAdapter?.updateFont(style.font, style.fontStyle)
-
         }
     }
 
+    private fun updateColors() {
+        colorAdapter?.updateSelectedColor(style.textColor)
+        strokeAdapter?.updateSelectedColor(style.shadowStyle.strokeColor)
+        shadowAdapter?.updateSelectedColor(style.shadowStyle.shadowColor)
+    }
 }

@@ -17,17 +17,19 @@
 
         <ImageView
             android:id="@+id/styleImage"
-            android:scaleType="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:scaleType="center" />
 
-        <TextView
+        <com.ilustris.motiv.base.components.MotivTextView
             android:id="@+id/styleText"
+            android:layout_margin="@dimen/margin_default"
+            android:textColor="@color/white"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="@dimen/padding_default"
-            android:textColor="?android:textColorPrimary"
+            app:motivStrokeWidth="@dimen/default_stroke"
             android:textAlignment="center"
             android:transitionName="@string/style_text_transtition"
             android:autoSizeMaxTextSize="@dimen/big_quote_size"

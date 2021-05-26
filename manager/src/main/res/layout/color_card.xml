@@ -8,21 +8,21 @@
         android:layout_height="40dp"
         android:layout_margin="@dimen/margin_small"
         app:cardCornerRadius="@dimen/radius_default"
+        app:cardBackgroundColor="@color/colorAccent"
         app:strokeColor="@color/selected_style"
         android:stateListAnimator="@animator/list_animator"
         app:strokeWidth="2dp"
-        app:cardElevation="0dp"
-        tools:backgroundTint="@color/colorPrimaryDark">
+        app:cardElevation="0dp">
 
         <ImageView
             android:id="@+id/currentColor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@color/oblack"
-            android:padding="@dimen/padding_small"
-            app:tint="@color/white"
-            tools:src="@drawable/ic_shadow_color" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start"
+            android:background="@color/transparent"
+            android:padding="@dimen/margin_small"
+            app:tint="?android:textColorPrimary"
+            tools:src="@drawable/ic_outline_draw_24" />
 
 
     </com.google.android.material.card.MaterialCardView>

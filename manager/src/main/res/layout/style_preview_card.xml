@@ -17,12 +17,12 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <TextView
+        <com.ilustris.motiv.base.components.MotivTextView
             android:id="@+id/styleText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/margin_default"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="@dimen/padding_small"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Motiv"
@@ -30,6 +30,7 @@
             android:autoSizeMinTextSize="@dimen/min_quote_size"
             android:autoSizeTextType="uniform"
             android:breakStrategy="high_quality"
+            app:motivStrokeWidth="@dimen/default_stroke"
             tools:textColor="@color/white"
             android:textAlignment="center"
             android:transitionName="@string/style_text_transtition" />

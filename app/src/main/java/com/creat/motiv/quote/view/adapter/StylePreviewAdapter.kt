@@ -46,6 +46,7 @@ class StylePreviewAdapter(var styles: List<Style>,
                     quoteStyle.shadowStyle.run {
                         setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                     }
+                    strokeColor = Color.parseColor(quoteStyle.shadowStyle.strokeColor)
                 }
                 selectedStyle?.let {
                     styleCard.isSelected = quoteStyle.id == it
@@ -60,7 +61,6 @@ class StylePreviewAdapter(var styles: List<Style>,
         }
 
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return StylePreviewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_preview_card, parent, false))

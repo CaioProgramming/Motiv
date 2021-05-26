@@ -47,6 +47,7 @@ class StylePreviewAdapter(var styles: List<Style>,
                     quoteStyle.shadowStyle.run {
                         setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                     }
+                    strokeColor = Color.parseColor(quoteStyle.shadowStyle.strokeColor)
                 }
                 selectedStyle?.let {
                     styleCard.isSelected = quoteStyle.id == it
@@ -76,6 +77,7 @@ class StylePreviewAdapter(var styles: List<Style>,
                     quoteStyle.shadowStyle.run {
                         setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                     }
+                    strokeColor = Color.parseColor(quoteStyle.shadowStyle.strokeColor)
                 }
 
                 styleCard.setOnClickListener {

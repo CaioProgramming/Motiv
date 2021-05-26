@@ -40,8 +40,8 @@ class MotivApplication : MultiDexApplication() {
                 size += it.length()
             }
         }
-        if (size >= 50000) {
-            cacheDir.deleteOnExit()
+        if (size >= 20000) {
+            cacheDir.deleteRecursively()
         }
     }
 

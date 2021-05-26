@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="MotivEditText">
+        <attr name="motivEditStrokeWidth" format="float" />
+        <attr name="motivEditStrokeColor" format="reference|color" />
+    </declare-styleable>
+</resources>

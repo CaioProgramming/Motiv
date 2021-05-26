@@ -23,6 +23,7 @@ import com.creat.motiv.R
 import com.creat.motiv.quote.EditQuoteActivity
 import com.creat.motiv.quote.view.QuoteShareDialog
 import com.creat.motiv.view.adapters.CardLikeAdapter
+import com.ilustris.animations.bounce
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Quote
@@ -36,10 +37,9 @@ import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.ListDialogBean
 import com.ilustris.motiv.base.presenter.QuotePresenter
 import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.base.utils.TextUtils
+import com.silent.ilustriscore.core.utilities.*
 import com.silent.ilustriscore.core.utilities.ColorUtils
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 import com.silent.ilustriscore.core.view.BaseView
 import java.io.File
 import java.io.FileOutputStream
@@ -67,9 +67,17 @@ class QuoteCardBinder(
             quoteStyle.shadowStyle.run {
                 quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+                quoteTextView.strokeColor = Color.parseColor(strokeColor)
+                authorTextView.strokeColor = Color.parseColor(strokeColor)
             }
             quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
             authorTextView.defineTextAlignment(quoteStyle.textAlignment)
+            quoteTextView.bounce()
+            authorTextView.bounce()
+            delayedFunction(1500) {
+                viewBind.shareButton.slideInBottom()
+            }
+
         }
     }
 
@@ -203,7 +211,7 @@ class QuoteCardBinder(
     }
 
     private fun fillQuoteData(data: Quote) {
-        viewBind.shareButton.gone()
+        viewBind.shareButton.invisible()
         if (data.isUserQuote()) {
             UserViewBinder(data.userID, viewBind.userTop).setDate(TextUtils.data(quote.data))
             viewBind.userTop.run {
@@ -216,9 +224,7 @@ class QuoteCardBinder(
                 viewBind.quoteOptions.slideInBottom()
                 viewBind.userTop.userContainer.slideInBottom()
             }
-            delayedFunction(1500) {
-                viewBind.shareButton.slideInBottom()
-            }
+
         } else {
             viewBind.userTop.userContainer.gone()
             viewBind.quoteOptions.gone()

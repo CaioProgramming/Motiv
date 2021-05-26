@@ -18,8 +18,9 @@ class QuoteStyleBinder(override val viewBind: StyleLayoutViewBinding, private va
 
     override fun showData(data: Style) {
         super.showData(data)
-        viewBind.quoteBack.loadGif(data.backgroundURL)
-        onFindStyle.invoke(data)
+        viewBind.quoteBack.loadGif(data.backgroundURL, onLoadComplete = {
+            onFindStyle.invoke(data)
+        })
     }
 
     override fun error(dataException: DataException) {

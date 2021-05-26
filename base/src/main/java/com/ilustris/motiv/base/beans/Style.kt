@@ -87,6 +87,6 @@ data class ShadowStyle(
     var dx: Float = 0f,
     var dy: Float = 0f,
     var shadowColor: String = DEFAULT_SHADOW_COLOR,
-    var strokeColor: String = DEFAULT_TEXT_COLOR
+    var strokeColor: String = DEFAULT_SHADOW_COLOR
 )
 

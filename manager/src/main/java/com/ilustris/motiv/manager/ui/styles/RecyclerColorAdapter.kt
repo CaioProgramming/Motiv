@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.animations.popIn
@@ -17,11 +18,16 @@ import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.utils.ColorUtils
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ColorCardBinding
+import com.silent.ilustriscore.core.utilities.gone
+import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
 
 
-class RecyclerColorAdapter(private val context: Context,
-                           private val onColorPick: ((String) -> Unit)) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
+class RecyclerColorAdapter(
+    private val context: Context,
+    private val selectedIcon: Int,
+    private val onColorPick: ((String) -> Unit)
+) : RecyclerView.Adapter<RecyclerColorAdapter.MyViewHolder>() {
 
     private val colorsList = ColorUtils.getColors(context)
     private var selectedTextColor: String? = null
@@ -31,8 +37,7 @@ class RecyclerColorAdapter(private val context: Context,
         return MyViewHolder(colorCardBinding)
     }
 
-
-    fun updateTextColor(textcolor: String) {
+    fun updateSelectedColor(textcolor: String) {
         selectedTextColor = textcolor
         notifyDataSetChanged()
     }
@@ -41,6 +46,7 @@ class RecyclerColorAdapter(private val context: Context,
 
         holder.colorCardBinding.run {
             val colorValue = colorsList[position]
+            currentColor.setImageDrawable(ContextCompat.getDrawable(context, selectedIcon))
             colorcard.setCardBackgroundColor(Color.parseColor(colorValue))
             colorcard.setOnClickListener {
                 onColorPick(colorValue)
@@ -50,13 +56,10 @@ class RecyclerColorAdapter(private val context: Context,
             colorcard.isChecked = true
             colorcard.isSelected = selectedTextColor == colorValue
             if (selectedTextColor == colorValue) {
-                currentColor.setImageResource(R.drawable.ic_baseline_text_fields_24)
+                currentColor.visible()
             } else {
-                currentColor.setImageResource(0)
+                currentColor.gone()
             }
-            currentColor.imageTintList =
-                ColorStateList.valueOf(ColorUtils.darken(Color.parseColor(colorValue), 0.5))
-
         }
 
     }

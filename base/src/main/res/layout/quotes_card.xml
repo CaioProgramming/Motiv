@@ -41,42 +41,43 @@
             android:orientation="vertical"
             android:transitionName="@string/quote_transaction">
 
-            <TextView
+            <com.ilustris.motiv.base.components.MotivTextView
                 android:stateListAnimator="@animator/text_animator"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/padding_default"
                 android:id="@+id/quoteTextView"
                 android:layout_width="match_parent"
                 android:layout_above="@id/author_text_view"
-                android:gravity="start"
+                android:gravity="center"
                 android:autoSizeTextType="uniform"
                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
                 android:autoSizeMinTextSize="@dimen/min_quote_size"
                 android:breakStrategy="high_quality"
-                android:shadowColor="@color/md_black"
-                android:shadowDx="10"
-                android:shadowDy="0"
-                android:shadowRadius="1"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:textSize="@dimen/big_quote_size"
                 android:textStyle="bold"
                 android:transitionName="@string/quote_transaction"
                 android:typeface="normal"
+                app:motivStrokeColor="@color/md_black"
+                app:motivStrokeWidth="@dimen/default_stroke"
                 tools:text="Everything I do \nI tell you all the time"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />
 
-            <TextView
+            <com.ilustris.motiv.base.components.MotivTextView
                 android:layout_alignParentBottom="true"
                 android:id="@+id/author_text_view"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
-                android:paddingVertical="@dimen/padding_small"
+                android:layout_marginVertical="@dimen/padding_small"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"
                 android:transitionName="@string/author_transaction"
+                app:motivStrokeColor="@color/md_black"
+                app:motivStrokeWidth="@dimen/default_stroke"
                 tools:text="Lana Del Rey"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />

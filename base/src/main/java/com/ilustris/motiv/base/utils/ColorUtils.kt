@@ -22,7 +22,7 @@ object ColorUtils {
         return java.lang.String.format("#%06X", 0xFFFFFF and intColor)
     }
 
-    fun getColors(context: Context): ArrayList<String> {
+    fun getColors(context: Context): List<String> {
         val colors = ArrayList<String>()
         val fields = Class.forName("com.github.mcginty" + ".R\$color").declaredFields
         fields.forEach {

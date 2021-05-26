@@ -52,13 +52,17 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
                 quoteTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
                 authorTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
             }
+
             quoteTextView.setTextColor(Color.parseColor(textColor))
             authorTextView.setTextColor(Color.parseColor(textColor))
+
             quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
             authorTextView.defineTextAlignment(quoteStyle.textAlignment)
             shadowStyle.run {
                 quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
+                quoteTextView.strokeColor = Color.parseColor(strokeColor)
+                authorTextView.strokeColor = Color.parseColor(strokeColor)
             }
         }
         delayedFunction(3000) {

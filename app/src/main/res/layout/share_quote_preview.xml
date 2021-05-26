@@ -62,7 +62,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:alpha="0.03"
+                        android:alpha="0.2"
                         android:background="@color/md_black" />
 
                     <LinearLayout
@@ -70,9 +70,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="@dimen/padding_default">
+                        android:layout_margin="@dimen/padding_default">
 
-                        <TextView
+                        <com.ilustris.motiv.base.components.MotivTextView
                             android:id="@+id/quoteTextView"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
@@ -80,14 +80,12 @@
                             android:autoSizeMinTextSize="@dimen/min_quote_size"
                             android:autoSizeTextType="uniform"
                             android:breakStrategy="high_quality"
-                            android:gravity="start"
-                            android:shadowColor="@color/md_black"
-                            android:shadowDx="10"
-                            android:shadowDy="0"
-                            android:shadowRadius="1"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            app:motivStrokeColor="@color/md_black"
                             android:stateListAnimator="@animator/text_animator"
                             android:text="@{sharedQuote.quote}"
-                            android:textAlignment="textStart"
+                            app:motivStrokeWidth="@dimen/default_stroke"
                             android:textSize="@dimen/big_quote_size"
                             android:textStyle="bold"
                             android:transitionName="@string/quote_transaction"
@@ -96,18 +94,21 @@
                             tools:textColor="@color/md_white"
                             tools:visibility="visible" />
 
-                        <TextView
+                        <com.ilustris.motiv.base.components.MotivTextView
                             android:id="@+id/authorTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autoSizeMaxTextSize="@dimen/low_quote_size"
                             android:autoSizeMinTextSize="@dimen/min_quote_size"
                             android:gravity="center"
-                            android:paddingVertical="@dimen/padding_small"
+                            android:layout_marginVertical="@dimen/padding_small"
                             android:text="@{sharedQuote.author}"
                             android:textAlignment="center"
                             android:textSize="@dimen/low_quote_size"
                             android:textStyle="italic"
+                            app:motivStrokeColor="@color/md_black"
+                            app:motivStrokeWidth="@dimen/default_stroke"
+                            tools:textColor="@color/white"
                             tools:text="Lana Del Rey" />
                     </LinearLayout>
 

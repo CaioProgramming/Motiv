@@ -1,10 +1,6 @@
 <resources>
-    <declare-styleable name="ExtrudeTextView">
-        <attr name="extrudeDepth" format="integer" />
-        <attr name="extrudeColor" format="reference|color" />
-        <attr name="extrudeStrokeWidth" format="float" />
-        <attr name="extrudeStrokeColor" format="reference|color" />
-        <attr name="extrudeXPosition" format="float" />
-        <attr name="extrudeYPosition" format="float" />
+    <declare-styleable name="MotivTextView">
+        <attr name="motivStrokeWidth" format="dimension" />
+        <attr name="motivStrokeColor" format="reference|color" />
     </declare-styleable>
 </resources>

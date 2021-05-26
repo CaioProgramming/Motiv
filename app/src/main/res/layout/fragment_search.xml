@@ -15,18 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/topBlurSize"
-            app:realtimeBlurRadius="25dp"
-            app:realtimeOverlayColor="?navblurOverLayColor" />
 
         <androidx.appcompat.widget.SearchView
-            android:layout_height="@dimen/topBlurSize"
+            android:layout_height="wrap_content"
             android:id="@+id/searchview"
-            android:background="@drawable/bottom_line"
+            android:layout_marginHorizontal="@dimen/margin_default"
             android:layout_width="match_parent"
-            android:paddingTop="@dimen/padding_default"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@drawable/round_stroke_filled"
             android:focusedByDefault="true"
             app:iconifiedByDefault="false"
             app:queryHint="@string/query_hint" />
