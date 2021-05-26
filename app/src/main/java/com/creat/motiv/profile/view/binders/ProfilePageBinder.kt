@@ -15,6 +15,8 @@ import com.ilustris.motiv.base.utils.DialogStyles
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
+import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.view.BaseView
 
 class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid: String) : BaseView<User>() {
@@ -54,4 +56,10 @@ class ProfilePageBinder(override val viewBind: ProfileQuoteCardBinding, val uid:
         }
     }
 
+    override fun error(dataException: DataException) {
+        super.error(dataException)
+        if (dataException.code == ErrorType.NOT_FOUND) {
+            presenter.saveUser()
+        }
+    }
 }

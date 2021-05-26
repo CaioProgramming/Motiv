@@ -111,10 +111,13 @@ class MotivTextView
         paint.color = strokeColor
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = strokeWidth
-        layout.draw(canvas)
+        canvas?.let {
+            layout.draw(it)
+        }
         paint.color = originalTextColor
         paint.style = Paint.Style.FILL
-        layout.draw(canvas)
-
+        canvas?.let {
+            layout.draw(it)
+        }
     }
 }

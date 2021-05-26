@@ -17,8 +17,6 @@ class UserModel(val presenter: BasePresenter<User>) : BaseModel<User>(presenter)
 
 
     fun updateUserPic(pic: Pics) {
-
-
         val profileChangeRequest = UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(pic.uri)).build()
         currentUser?.updateProfile(profileChangeRequest)?.addOnCompleteListener {
             if (it.isSuccessful) {
