@@ -3,7 +3,9 @@ package com.ilustris.motiv.base.presenter
 import com.ilustris.motiv.base.model.UserModel
 import com.ilustris.motiv.base.beans.Pics
 import com.ilustris.motiv.base.beans.User
+import com.silent.ilustriscore.core.model.DTOMessage
 import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.presenter.BasePresenter
 import com.silent.ilustriscore.core.view.BaseView
 

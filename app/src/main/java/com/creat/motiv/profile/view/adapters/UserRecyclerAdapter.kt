@@ -25,7 +25,10 @@ import com.ilustris.motiv.base.utils.loadImage
 class UserRecyclerAdapter(val userList: List<User>) : RecyclerView.Adapter<UserRecyclerAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val userItemBinding: UserCardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.user_card, parent, false)
+        val userItemBinding: UserCardBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.user_card, parent, false
+        )
         return UserViewHolder(userItemBinding)
     }
 

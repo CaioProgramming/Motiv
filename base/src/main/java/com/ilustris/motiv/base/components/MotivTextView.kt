@@ -105,19 +105,18 @@ class MotivTextView
 
 
     override fun onDraw(canvas: Canvas?) {
-        val originalTextColor = currentTextColor
-        canvas?.save()
-        // add stroke around text
-        paint.color = strokeColor
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = strokeWidth
         canvas?.let {
+            val originalTextColor = currentTextColor
+            it.save()
+            // add stroke around text
+            paint.color = strokeColor
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = strokeWidth
+            layout.draw(it)
+            paint.color = originalTextColor
+            paint.style = Paint.Style.FILL
             layout.draw(it)
         }
-        paint.color = originalTextColor
-        paint.style = Paint.Style.FILL
-        canvas?.let {
-            layout.draw(it)
-        }
+
     }
 }
