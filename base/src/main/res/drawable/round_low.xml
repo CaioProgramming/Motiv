@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <corners android:radius="@dimen/radius_small" />
+    <corners android:radius="@dimen/radius_small_5dp" />
 
     <!-- below code for different radius for each corner. -->
 

@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 
 const val HOME_FRAG_TAG = "HOME_FRAGMENT"
 class HomeFragment : Fragment() {
-    var quotesListBinder: QuotesListBinder? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
@@ -56,11 +55,6 @@ class HomeFragment : Fragment() {
             setMotivTitle(getString(R.string.app_name))
             showSupportActionBar()
             hideBackButton()
-        }
-        FragmentHomeBinding.bind(view).run {
-            quotesListBinder = QuotesListBinder(quotesView).apply {
-                addSplashQuote()
-            }
         }
         initializeHome()
     }

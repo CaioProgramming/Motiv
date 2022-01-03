@@ -21,7 +21,6 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
 
     private lateinit var searchBinding: FragmentSearchBinding
-    private var quotesListBinder: QuotesListBinder? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -32,17 +31,13 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.hideSupportActionBar()
-        quotesListBinder = QuotesListBinder(searchBinding.quotesView)
-        quotesListBinder?.addSearchQuote()
         searchBinding.searchview.run {
             setOnQueryTextListener(this@SearchFragment)
             setOnCloseListener {
-                quotesListBinder?.initView()
                 false
             }
             requestFocus()
             setOnCloseListener {
-                quotesListBinder?.addSearchQuote()
                 false
             }
         }

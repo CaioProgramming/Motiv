@@ -11,7 +11,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_default">
+        android:padding="@dimen/padding_default_16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilepic"
@@ -25,7 +25,7 @@
             style="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:id="@+id/username"
             android:layout_gravity="center"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?android:textColorPrimary"

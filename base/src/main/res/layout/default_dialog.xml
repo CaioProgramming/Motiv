@@ -13,9 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_margin="@dimen/margin_default_10dp"
             android:orientation="vertical"
-            app:cardCornerRadius="@dimen/radius_small"
+            app:cardCornerRadius="@dimen/radius_small_5dp"
             app:cardElevation="4dp"
             app:strokeColor="?android:textColorPrimary"
             app:strokeWidth="2dp">
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/padding_default">
+                android:padding="@dimen/padding_default_16dp">
 
                 <include layout="@layout/motiv_dots" />
 
@@ -44,7 +44,7 @@
                     style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/padding_default"
+                    android:paddingVertical="@dimen/padding_default_16dp"
                     tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
                 <TextView
@@ -52,7 +52,7 @@
                     style="@style/TextAppearance.MaterialComponents.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/padding_default"
+                    android:paddingVertical="@dimen/padding_default_16dp"
                     tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
                 <LinearLayout
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAccent"
                         android:elevation="0dp"
-                        android:paddingVertical="@dimen/padding_small"
+                        android:paddingVertical="@dimen/padding_small_8dp"
                         android:text="confirmar"
                         android:textColor="@color/md_white"
                         app:elevation="0dp"
@@ -79,7 +79,7 @@
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small"
+                        android:padding="@dimen/padding_small_8dp"
                         android:text="Cancelar"
                         android:textColor="?android:textColorHint"
                         android:textStyle="bold"

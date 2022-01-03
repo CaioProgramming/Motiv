@@ -31,7 +31,7 @@
 
         <RelativeLayout
             android:layout_marginTop="@dimen/topBlurSize"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/quoteInfo"
@@ -44,7 +44,7 @@
             <com.ilustris.motiv.base.components.MotivTextView
                 android:stateListAnimator="@animator/text_animator"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/padding_default"
+                android:layout_marginVertical="@dimen/padding_default_16dp"
                 android:id="@+id/quoteTextView"
                 android:layout_width="match_parent"
                 android:layout_above="@id/author_text_view"
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
-                android:layout_marginVertical="@dimen/padding_small"
+                android:layout_marginVertical="@dimen/padding_small_8dp"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"
@@ -92,14 +92,14 @@
 
             <include
                 android:id="@+id/userTop"
-                android:layout_marginHorizontal="@dimen/margin_default"
+                android:layout_marginHorizontal="@dimen/margin_default_10dp"
                 layout="@layout/user_quote_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:id="@+id/quoteOptions"
-                android:layout_marginHorizontal="@dimen/margin_default"
+                android:layout_marginHorizontal="@dimen/margin_default_10dp"
                 android:visibility="gone"
                 tools:visibility="visible"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent">
 
                 <LinearLayout
-                    android:paddingVertical="@dimen/padding_small"
+                    android:paddingVertical="@dimen/padding_small_8dp"
                     android:id="@+id/quotebuttons"
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
@@ -120,7 +120,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_default"
+                        android:layout_marginEnd="@dimen/margin_default_10dp"
                         android:background="@drawable/favoritecheck"
                         android:button="@color/transparent"
                         android:stateListAnimator="@animator/text_animator" />
@@ -131,24 +131,24 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_small"
+                        android:layout_marginHorizontal="@dimen/margin_small_4dp"
                         android:background="@color/transparent"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_baseline_edit_24"
                         android:stateListAnimator="@animator/text_animator"
-                        android:tint="@color/white" />
+                        app:tint="@color/white" />
 
                     <ImageButton
                         android:id="@+id/optionsButton"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginHorizontal="@dimen/margin_default"
+                        android:layout_marginHorizontal="@dimen/margin_default_10dp"
                         android:foreground="?attr/selectableItemBackground"
-                        android:tint="@color/white"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_menu"
                         android:background="@color/transparent"
-                        android:stateListAnimator="@animator/text_animator" />
+                        android:stateListAnimator="@animator/text_animator"
+                        app:tint="@color/white" />
 
                 </LinearLayout>
 
@@ -174,7 +174,7 @@
                 android:background="@drawable/stroke_filled_top"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/padding_small_8dp"
                 android:text="compartilhar"
                 android:textAlignment="center"
                 android:textAllCaps="false"

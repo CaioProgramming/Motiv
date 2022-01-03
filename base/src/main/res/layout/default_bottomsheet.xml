@@ -6,17 +6,17 @@
 
 
     <LinearLayout
-        android:layout_margin="@dimen/margin_default"
+        android:layout_margin="@dimen/margin_default_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/stroke_filled_top"
-        android:padding="@dimen/padding_default">
+        android:padding="@dimen/padding_default_16dp">
 
         <include layout="@layout/motiv_dots" />
 
         <TextView
-            android:paddingVertical="@dimen/padding_small"
+            android:paddingVertical="@dimen/padding_small_8dp"
             android:id="@+id/titleTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:id="@+id/messageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default"
+            android:paddingVertical="@dimen/padding_default_16dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
         <include

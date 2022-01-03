@@ -8,7 +8,6 @@ import com.ilustris.motiv.base.beans.AD_QUOTE
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.ui.home.binder.QuoteManagerCardBinder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -53,7 +52,6 @@ class QuoteManagerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapte
 
     inner class QuoteViewHolder(private val quotescardBinding: QuotesCardBinding) : RecyclerView.ViewHolder(quotescardBinding.root) {
         fun bind(quote: Quote) {
-            QuoteManagerCardBinder(quote, quotescardBinding)
         }
     }
 

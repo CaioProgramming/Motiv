@@ -25,7 +25,6 @@ class StylesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        StyleRecyclerBinder(StylesRecyclerBinding.bind(view)).initView()
         context?.showSupportActionBar()
         context?.activity()?.setMotivTitle("Estilos")
 

@@ -15,8 +15,8 @@
             layout="@layout/motiv_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/padding_default"
-            android:layout_marginVertical="@dimen/padding_small" />
+            android:layout_marginHorizontal="@dimen/padding_default_16dp"
+            android:layout_marginVertical="@dimen/padding_small_8dp" />
 
 
         <androidx.recyclerview.widget.RecyclerView

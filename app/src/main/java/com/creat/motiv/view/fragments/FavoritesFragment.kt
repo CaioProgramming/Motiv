@@ -70,9 +70,7 @@ class FavoritesFragment : Fragment() {
         FragmentHomeBinding.bind(view).run {
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
-                QuotesListBinder(quotesView).run {
-                    getFavorites(it.uid)
-                }
+
             }
         }
     }

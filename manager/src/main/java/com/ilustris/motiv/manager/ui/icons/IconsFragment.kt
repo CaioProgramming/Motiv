@@ -25,7 +25,6 @@ class IconsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        IconsBinder(FragmentIconsBinding.bind(view), childFragmentManager).initView()
         context?.activity()?.setMotivTitle("Ícones")
     }
 }

@@ -7,7 +7,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
 
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '26.0.3'
 
     def versionPropsFile = file('version.properties')
@@ -32,7 +32,7 @@ android {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode versionNumber
         versionName vName
         renderscriptTargetApi 19

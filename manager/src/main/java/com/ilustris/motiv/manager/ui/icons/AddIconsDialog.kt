@@ -94,7 +94,7 @@ class AddIconsDialog : PermissionListener, BottomSheetDialogFragment() {
                     }
         } else {
             view?.let {
-                showSnackBar(it.context, "Limite de ícones atingidos", rootView = it)
+                it.showSnackBar("Limite de ícones atingidos")
             }
         }
     }
