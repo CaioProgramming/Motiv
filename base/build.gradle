@@ -43,10 +43,9 @@ dependencies {
     api 'com.github.mmin18:realtimeblurview:1.1.2'
     api 'com.android.support:multidex:1.0.3'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
-    api 'com.google.android.gms:play-services-ads:19.7.0'
+    api 'com.google.android.gms:play-services-ads:20.5.0'
     api 'com.facebook.android:facebook-android-sdk:8.1.0'
     api 'cat.ereza:customactivityoncrash:2.3.0'
-
 
     api platform('com.google.firebase:firebase-bom:25.12.0')
     api 'com.google.firebase:firebase-core:20.0.2'
@@ -61,6 +60,10 @@ dependencies {
     api 'com.google.firebase:firebase-messaging:23.0.0'
     api 'com.google.firebase:firebase-crashlytics-ktx'
     api 'com.google.firebase:firebase-analytics-ktx'
+
+    api 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.3.0'
