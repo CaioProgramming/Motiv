@@ -1,4 +1,4 @@
-package com.creat.motiv.radio
+package com.ilustris.motiv.base.beans
 
 import com.silent.ilustriscore.core.bean.BaseBean
 

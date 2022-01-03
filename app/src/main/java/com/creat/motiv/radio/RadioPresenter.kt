@@ -1,6 +1,6 @@
 package com.creat.motiv.radio
 
-import com.silent.ilustriscore.core.model.BaseModel
+import com.ilustris.motiv.base.beans.Radio
 import com.silent.ilustriscore.core.presenter.BasePresenter
 import com.silent.ilustriscore.core.view.BaseView
 

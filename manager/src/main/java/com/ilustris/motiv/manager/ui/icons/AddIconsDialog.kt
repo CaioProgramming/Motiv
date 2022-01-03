@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import com.ilustris.motiv.base.beans.Pics
+import com.ilustris.motiv.base.beans.Icon
 import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ActivityAddIconsBinding
@@ -20,8 +20,9 @@ import gun0912.tedbottompicker.TedBottomPicker
 
 class AddIconsDialog : PermissionListener, BottomSheetDialogFragment() {
 
-    lateinit var onSaveClick: (ArrayList<Pics>) -> Unit
-    var previewAdapter: RecyclerGalleryAdapter = RecyclerGalleryAdapter(openPicker = this@AddIconsDialog::openPicker)
+    lateinit var onSaveClick: (ArrayList<Icon>) -> Unit
+    var previewAdapter: RecyclerGalleryAdapter =
+        RecyclerGalleryAdapter(openPicker = this@AddIconsDialog::openPicker)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_add_icons, container, false)
@@ -48,18 +49,18 @@ class AddIconsDialog : PermissionListener, BottomSheetDialogFragment() {
         }
     }
 
-    private fun buildPics(uris: ArrayList<String>): ArrayList<Pics> {
-        val pics: ArrayList<Pics> = ArrayList()
+    private fun buildPics(uris: ArrayList<String>): ArrayList<Icon> {
+        val pics: ArrayList<Icon> = ArrayList()
         uris.forEach {
-            pics.add(Pics(uri = it))
+            pics.add(Icon(uri = it))
         }
         return pics
     }
 
     private fun requestPermissions() {
         TedPermission.with(context)
-                .setPermissionListener(this)
-                .setDeniedMessage("Se você não aceitar essa permissão não poderá adicionar os ícones...\n\nPor favor ligue as permissões em [Configurações] > [Permissões]")
+            .setPermissionListener(this)
+            .setDeniedMessage("Se você não aceitar essa permissão não poderá adicionar os ícones...\n\nPor favor ligue as permissões em [Configurações] > [Permissões]")
                 .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .check()
     }
@@ -109,7 +110,10 @@ class AddIconsDialog : PermissionListener, BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun buildNewIconsDialog(fragmentManager: FragmentManager, onSavePics: (ArrayList<Pics>) -> Unit) {
+        fun buildNewIconsDialog(
+            fragmentManager: FragmentManager,
+            onSavePics: (ArrayList<Icon>) -> Unit
+        ) {
             AddIconsDialog().apply {
                 onSaveClick = onSavePics
             }.show(fragmentManager, "NEW_ICONS_DIALOG")

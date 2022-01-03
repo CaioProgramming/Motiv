@@ -2,11 +2,11 @@ package com.creat.motiv.radio
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.RadioPageLayoutBinding
+import com.ilustris.motiv.base.beans.Radio
 
 class StyleRadioAdapter(val radioList: List<Radio>, val onRadioClick: () -> Unit) : RecyclerView.Adapter<StyleRadioAdapter.RadioHolder>() {
 
