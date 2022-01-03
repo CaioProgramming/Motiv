@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card"
+    style="@style/MotivCard"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="@dimen/margin_small_4dp">
+
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:hapticFeedbackEnabled="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_saturn_and_other_planets_primary" />
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
-        android:layout_margin="@dimen/margin_small_4dp"
-        android:layout_height="100dp"
-        style="@style/MotivCard"
-        android:layout_width="match_parent">
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:hapticFeedbackEnabled="true"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/ic_saturn_and_other_planets_primary" />
-
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Erro ao encontrar ícone"
-            android:textColor="@color/material_red300"
-            android:visibility="gone" />
-    </com.google.android.material.card.MaterialCardView>
-</layout>
-
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Erro ao encontrar ícone"
+        android:textColor="@color/material_red300"
+        android:visibility="gone" />
+</com.google.android.material.card.MaterialCardView>

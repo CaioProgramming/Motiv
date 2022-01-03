@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbarContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
-        android:id="@+id/toolbarContainer"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/motiv_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/statusBarHeight"
+        android:gravity="center"
+        android:theme="@style/AppToolbar"
+        app:title=" "
+        app:titleTextColor="@color/white" />
 
-        <androidx.appcompat.widget.Toolbar
+    <RelativeLayout
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/statusBarHeight">
+
+        <TextView
+            android:id="@+id/motivTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/jost"
             android:gravity="center"
-            android:layout_marginTop="@dimen/statusBarHeight"
-            android:id="@+id/motiv_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/white"
-            android:theme="@style/AppToolbar"
-            app:title=" " />
-
-        <RelativeLayout
-            android:id="@+id/titleView"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="@dimen/statusBarHeight">
-
-            <TextView
-                android:id="@+id/motivTitle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:text="@string/app_name"
-                android:fontFamily="@font/jost"
-                android:textAppearance="@style/ToolbarTitle"
-                tools:textColor="@color/md_black"
-                android:textColor="@color/white" />
-        </RelativeLayout>
-
+            android:maxLength="50"
+            android:maxLines="1"
+            android:text="@string/app_name"
+            android:textAppearance="@style/ToolbarTitle"
+            android:textColor="@color/white"
+            tools:textColor="@color/md_black" />
     </RelativeLayout>
-</layout>
+
+</RelativeLayout>

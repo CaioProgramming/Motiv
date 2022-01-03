@@ -1,198 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quoteCard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/dividerColor"
+    android:hapticFeedbackEnabled="true"
+    android:orientation="vertical"
+    android:transitionName="@string/card_transaction"
+    android:visibility="gone"
+    tools:visibility="visible">
 
-    xmlns:tools="http://schemas.android.com/tools">
 
+    <include
+        android:id="@+id/styleView"
+        layout="@layout/style_layout_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:id="@+id/quoteCard"
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/dividerColor"
-        android:hapticFeedbackEnabled="true"
+        android:alpha="0.03"
+        android:background="@color/md_black" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/quoteInfo"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/topBlurSize"
+        android:gravity="center"
         android:orientation="vertical"
-        android:transitionName="@string/card_transaction">
+        android:padding="@dimen/padding_default_16dp"
+        android:transitionName="@string/quote_transaction">
 
-
-        <include
+        <com.ilustris.motiv.base.components.MotivTextView
+            android:id="@+id/quoteTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/styleView"
-            layout="@layout/style_layout_view" />
-
-        <View
-            android:alpha="0.03"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/md_black" />
-
-        <RelativeLayout
-            android:layout_marginTop="@dimen/topBlurSize"
-            android:padding="@dimen/padding_default_16dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/quoteInfo"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/author_text_view"
+            android:layout_marginVertical="@dimen/padding_default_16dp"
+            android:autoSizeMaxTextSize="@dimen/big_quote_size"
+            android:autoSizeMinTextSize="@dimen/min_quote_size"
+            android:autoSizeTextType="uniform"
+            android:breakStrategy="high_quality"
             android:gravity="center"
-            android:orientation="vertical"
-            android:transitionName="@string/quote_transaction">
+            android:stateListAnimator="@animator/text_animator"
+            android:textAlignment="center"
+            android:textSize="@dimen/big_quote_size"
+            android:textStyle="bold"
+            android:transitionName="@string/quote_transaction"
+            android:typeface="normal"
+            app:motivStrokeColor="@color/md_black"
+            app:motivStrokeWidth="@dimen/default_stroke"
+            tools:text="Everything I do \nI tell you all the time"
+            tools:textColor="@color/md_white"
+            tools:visibility="visible" />
 
-            <com.ilustris.motiv.base.components.MotivTextView
-                android:stateListAnimator="@animator/text_animator"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/padding_default_16dp"
-                android:id="@+id/quoteTextView"
-                android:layout_width="match_parent"
-                android:layout_above="@id/author_text_view"
-                android:gravity="center"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                android:autoSizeMinTextSize="@dimen/min_quote_size"
-                android:breakStrategy="high_quality"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_quote_size"
-                android:textStyle="bold"
-                android:transitionName="@string/quote_transaction"
-                android:typeface="normal"
-                app:motivStrokeColor="@color/md_black"
-                app:motivStrokeWidth="@dimen/default_stroke"
-                tools:text="Everything I do \nI tell you all the time"
-                tools:textColor="@color/md_white"
-                tools:visibility="visible" />
-
-            <com.ilustris.motiv.base.components.MotivTextView
-                android:layout_alignParentBottom="true"
-                android:id="@+id/author_text_view"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                android:layout_marginVertical="@dimen/padding_small_8dp"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="italic"
-                android:transitionName="@string/author_transaction"
-                app:motivStrokeColor="@color/md_black"
-                app:motivStrokeWidth="@dimen/default_stroke"
-                tools:text="Lana Del Rey"
-                tools:textColor="@color/md_white"
-                tools:visibility="visible" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/quoteInfo"
+        <com.ilustris.motiv.base.components.MotivTextView
+            android:id="@+id/author_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/userTop"
-                android:layout_marginHorizontal="@dimen/margin_default_10dp"
-                layout="@layout/user_quote_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:id="@+id/quoteOptions"
-                android:layout_marginHorizontal="@dimen/margin_default_10dp"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent">
-
-                <LinearLayout
-                    android:paddingVertical="@dimen/padding_small_8dp"
-                    android:id="@+id/quotebuttons"
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:id="@+id/like"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_default_10dp"
-                        android:background="@drawable/favoritecheck"
-                        android:button="@color/transparent"
-                        android:stateListAnimator="@animator/text_animator" />
-
-
-                    <ImageButton
-                        android:id="@+id/editButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_small_4dp"
-                        android:background="@color/transparent"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_baseline_edit_24"
-                        android:stateListAnimator="@animator/text_animator"
-                        app:tint="@color/white" />
-
-                    <ImageButton
-                        android:id="@+id/optionsButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginHorizontal="@dimen/margin_default_10dp"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_menu"
-                        android:background="@color/transparent"
-                        android:stateListAnimator="@animator/text_animator"
-                        app:tint="@color/white" />
-
-                </LinearLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/likers"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="match_parent"
-                    android:layout_toEndOf="@id/quotebuttons"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:reverseLayout="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/user_picview" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/shareButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/stroke_filled_top"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="@dimen/padding_small_8dp"
-                android:text="compartilhar"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:cornerRadius="0dp"
-                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
-                app:drawableTint="@color/colorPrimaryDark"
-                app:elevation="0dp"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="2dp"
-                tools:visibility="visible" />
-
-
-        </LinearLayout>
-
+            android:layout_marginVertical="@dimen/padding_small_8dp"
+            android:backgroundTint="@color/transparent"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="italic"
+            android:transitionName="@string/author_transaction"
+            app:motivStrokeColor="@color/md_black"
+            app:motivStrokeWidth="@dimen/default_stroke"
+            tools:text="Lana Del Rey"
+            tools:textColor="@color/md_white"
+            tools:visibility="visible" />
     </RelativeLayout>
-</layout>
+
+    <LinearLayout
+        android:id="@+id/quoteInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/userTop"
+            layout="@layout/user_quote_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp" />
+
+        <RelativeLayout
+            android:id="@+id/quoteOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/quotebuttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/padding_small_8dp">
+
+                <CheckBox
+                    android:id="@+id/like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_default_10dp"
+                    android:background="@drawable/favoritecheck"
+                    android:button="@color/transparent"
+                    android:stateListAnimator="@animator/text_animator" />
+
+
+                <ImageButton
+                    android:id="@+id/editButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_small_4dp"
+                    android:background="@color/transparent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_baseline_edit_24"
+                    android:stateListAnimator="@animator/text_animator"
+                    app:tint="@color/white" />
+
+                <ImageButton
+                    android:id="@+id/optionsButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="@dimen/margin_default_10dp"
+                    android:background="@color/transparent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_menu"
+                    android:stateListAnimator="@animator/text_animator"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/likers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/quotebuttons"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:reverseLayout="true"
+                tools:itemCount="2"
+                tools:listitem="@layout/user_picview" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/shareButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_filled_top"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/padding_small_8dp"
+            android:text="compartilhar"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="0dp"
+            app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+            app:drawableTint="@color/colorPrimaryDark"
+            app:elevation="0dp"
+            app:strokeColor="?android:textColorPrimary"
+            app:strokeWidth="2dp"
+            tools:visibility="visible" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
 
 

@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="listItem"
-            type="com.ilustris.motiv.base.dialog.listdialog.ListDialogBean" />
-    </data>
-
-    <TextView
-        android:id="@+id/dialogItemView"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_line"
-        android:backgroundTint="?android:textColorPrimary"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="@dimen/padding_default_16dp"
-        android:text="@{listItem.text}"
-        tools:text="@string/app_name">
-
-
-    </TextView>
-</layout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialogItemView"
+    style="@style/TextAppearance.MaterialComponents.Body1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_line"
+    android:backgroundTint="?android:textColorPrimary"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="@dimen/padding_default_16dp"
+    android:text="@{listItem.text}"
+    tools:text="@string/app_name"></TextView>

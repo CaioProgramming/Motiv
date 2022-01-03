@@ -10,13 +10,13 @@
         android:orientation="vertical"
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
-        android:padding="@dimen/padding_default">
+        android:padding="@dimen/padding_default_16dp">
 
         <include
             layout="@layout/motiv_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_default" />
+            android:layout_marginHorizontal="@dimen/margin_default_10dp" />
 
         <TextView
             android:id="@+id/collapseTitle"
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_alignParentTop="true"
             android:animateLayoutChanges="true"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_margin="@dimen/margin_default_10dp"
             android:text="Adicionar novos ícones" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/saveIcons"
             android:layout_below="@id/collapseTitle"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_margin="@dimen/margin_default_10dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
@@ -51,7 +51,7 @@
             app:indicatorColor="@color/colorPrimaryDark"
             app:indicatorSize="50dp"
             app:trackColor="@color/colorAccent"
-            app:trackCornerRadius="@dimen/radius_default"
+            app:trackCornerRadius="@dimen/radius_default_10dp"
             app:trackThickness="5dp" />
 
         <com.google.android.material.button.MaterialButton

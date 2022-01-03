@@ -40,7 +40,7 @@
                 android:id="@+id/styleAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_default"
+                android:layout_marginVertical="@dimen/margin_default_10dp"
                 android:gravity="center"
                 android:text="Ilustris"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"

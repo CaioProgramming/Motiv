@@ -67,7 +67,7 @@
             app:indicatorColor="@color/colorPrimaryDark"
             app:indicatorSize="50dp"
             app:trackColor="@color/colorAccent"
-            app:trackCornerRadius="@dimen/radius_default"
+            app:trackCornerRadius="@dimen/radius_default_10dp"
             app:trackThickness="5dp" />
 
     </LinearLayout>

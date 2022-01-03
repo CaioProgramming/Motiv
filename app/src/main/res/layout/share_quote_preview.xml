@@ -130,7 +130,7 @@
                     app:indicatorColor="@color/white"
                     app:showDelay="500"
                     app:trackColor="@color/transparent"
-                    app:trackCornerRadius="@dimen/radius_small"
+                    app:trackCornerRadius="@dimen/radius_small_5dp"
                     app:trackThickness="1dp" />
 
             </com.google.android.material.card.MaterialCardView>

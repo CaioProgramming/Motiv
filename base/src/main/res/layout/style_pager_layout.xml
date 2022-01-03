@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/dividerColor">
 
-    <data>
-
-    </data>
-
-
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/styleGif"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/dividerColor">
+        android:background="@drawable/motiv_gradient"
+        android:scaleType="center" />
 
-        <ImageView
-            android:background="@drawable/motiv_gradient"
-            android:id="@+id/styleGif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/md_black" />
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.4"
-            android:background="@color/md_black" />
-
-
-        <ImageView
-            android:layout_centerInParent="true"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/giphy_mark" />
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/giphy_mark" />
+</RelativeLayout>
 
 
-</layout>
