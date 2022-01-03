@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/emptyList"
         android:layout_width="match_parent"
-        android:padding="@dimen/padding_default"
+        android:padding="@dimen/padding_default_16dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"

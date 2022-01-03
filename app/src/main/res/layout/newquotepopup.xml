@@ -24,7 +24,7 @@
             android:layout_marginTop="@dimen/topBlurSize"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:transitionName="@string/quote_transaction">
 
             <EditText
@@ -58,7 +58,7 @@
                 android:backgroundTint="@color/transparent"
                 android:gravity="center"
                 android:hint="@string/author"
-                android:paddingVertical="@dimen/padding_default"
+                android:paddingVertical="@dimen/padding_default_16dp"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/stylePreviewRecycler"
-            android:layout_marginHorizontal="@dimen/margin_default"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
             android:text="Estilos disponíveis"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textStyle="bold" />
@@ -98,12 +98,12 @@
             android:textColor="?android:textColorPrimary"
             android:textStyle="bold"
             android:layout_width="match_parent"
-            android:padding="@dimen/padding_default"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
             app:backgroundTint="@color/colorAccent"
             android:text="@string/save_quote_button"
             app:strokeColor="?android:textColorPrimary"
             app:strokeWidth="@dimen/default_stroke"
-            android:layout_marginHorizontal="@dimen/margin_default"
+            android:padding="@dimen/padding_default_16dp"
             android:layout_marginBottom="?attr/actionBarSize"
             android:layout_alignParentBottom="true" />
 

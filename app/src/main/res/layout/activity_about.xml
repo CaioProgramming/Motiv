@@ -39,7 +39,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:id="@+id/support_devs"
-                    android:layout_margin="@dimen/padding_small"
+                    android:layout_margin="@dimen/padding_small_8dp"
                     android:layout_height="wrap_content"
                     android:stateListAnimator="@animator/list_animator"
                     app:cardBackgroundColor="@color/colorPrimary"
@@ -63,7 +63,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingVertical="@dimen/padding_small"
+                            android:paddingVertical="@dimen/padding_small_8dp"
                             android:text="@string/support_devs"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                             android:textColor="@color/white" />
@@ -75,7 +75,7 @@
                     android:id="@+id/followUsCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_small"
+                    android:layout_margin="@dimen/padding_small_8dp"
                     android:stateListAnimator="@animator/list_animator"
                     app:cardCornerRadius="@dimen/radius_default_10dp"
                     app:cardElevation="0dp">
@@ -114,7 +114,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:foreground="?attr/selectableItemBackground"
-                    android:padding="@dimen/padding_small"
+                    android:padding="@dimen/padding_small_8dp"
                     android:text="@string/developed_by"
                     android:textAlignment="center"
                     android:stateListAnimator="@animator/scale_down_animator"

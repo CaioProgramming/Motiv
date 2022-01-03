@@ -19,7 +19,7 @@
         <androidx.appcompat.widget.SearchView
             android:layout_height="wrap_content"
             android:id="@+id/searchview"
-            android:layout_marginHorizontal="@dimen/margin_default"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
             android:layout_width="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
             android:background="@drawable/round_stroke_filled"

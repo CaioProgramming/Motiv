@@ -12,7 +12,7 @@
         android:background="?android:colorBackground"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/padding_default">
+        android:padding="@dimen/padding_default_16dp">
 
         <View
             android:id="@+id/topAnimation"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:text="Bem-vindo ao motiv! Confira a nova navegação!"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_swipe_up"
-            android:paddingVertical="@dimen/padding_small"
+            android:paddingVertical="@dimen/padding_small_8dp"
             android:text="Simples e prático! Arrasta pra cima que para ver o próximo post!"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingVertical="@dimen/padding_small">
+            android:paddingVertical="@dimen/padding_small_8dp">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="24dp"
@@ -69,7 +69,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default"
+            android:paddingVertical="@dimen/padding_default_16dp"
             android:stateListAnimator="@animator/list_animator"
             android:text="continuar"
             android:textAllCaps="false"

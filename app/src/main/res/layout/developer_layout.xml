@@ -7,10 +7,10 @@
         android:id="@+id/developerCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_default"
+        android:layout_margin="@dimen/margin_default_10dp"
         android:stateListAnimator="@animator/list_animator"
         app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="@dimen/radius_default"
+        app:cardCornerRadius="@dimen/radius_default_10dp"
         app:cardElevation="3dp"
         app:strokeColor="?android:textColorPrimary"
         app:strokeWidth="2dp">
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/padding_small">
+            android:padding="@dimen/padding_small_8dp">
 
             <LinearLayout
                 android:id="@+id/dots"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:maxLines="2"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/padding_small_8dp"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textColor="?android:colorBackground"
@@ -70,7 +70,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_default"
+                android:layout_margin="@dimen/margin_default_10dp"
                 android:contentDescription="@string/icon_info"
                 android:hapticFeedbackEnabled="true"
                 app:civ_border_color="?android:textColorPrimary"

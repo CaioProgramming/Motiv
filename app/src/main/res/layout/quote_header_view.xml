@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/TextAppearance.MaterialComponents.Body1"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

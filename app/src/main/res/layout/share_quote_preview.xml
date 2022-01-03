@@ -18,7 +18,7 @@
 
         <TextView
             android:background="@color/md_black"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:id="@+id/shareView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/padding_default"
+            android:padding="@dimen/padding_default_16dp"
             android:background="@color/colorAccent">
 
             <com.google.android.material.card.MaterialCardView
@@ -39,7 +39,7 @@
                 android:id="@+id/shareCard"
                 android:layout_height="350dp"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_small_4dp"
                 android:stateListAnimator="@animator/list_animator"
                 app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="0dp"
@@ -70,7 +70,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:layout_margin="@dimen/padding_default">
+                        android:layout_margin="@dimen/padding_default_16dp">
 
                         <com.ilustris.motiv.base.components.MotivTextView
                             android:id="@+id/quoteTextView"
@@ -101,7 +101,7 @@
                             android:autoSizeMaxTextSize="@dimen/low_quote_size"
                             android:autoSizeMinTextSize="@dimen/min_quote_size"
                             android:gravity="center"
-                            android:layout_marginVertical="@dimen/padding_small"
+                            android:layout_marginVertical="@dimen/padding_small_8dp"
                             android:text="@{sharedQuote.author}"
                             android:textAlignment="center"
                             android:textSize="@dimen/low_quote_size"
@@ -118,7 +118,7 @@
                     layout="@layout/motiv_dots"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_default" />
+                    android:layout_margin="@dimen/padding_default_16dp" />
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progress_bar"
