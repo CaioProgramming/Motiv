@@ -1,272 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/styleContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/styleContainer"
+    <ImageView
+        android:id="@+id/styleBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/dividerColor"
+        android:scaleType="centerCrop"
+        tools:background="@drawable/motiv_gradient" />
 
-        <ImageView
-            android:id="@+id/styleBackground"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarContainer"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_default_16dp">
+
+        <com.ilustris.motiv.base.components.MotivTextView
+            android:id="@+id/styleText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/dividerColor"
-            android:scaleType="centerCrop"
-            tools:background="@drawable/motiv_gradient" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:textColor="@color/white"
+            app:motivStrokeColor="@color/colorAccent"
+            app:motivStrokeWidth="@dimen/default_stroke" />
+
+        <TextView
+            android:id="@+id/styleAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_default_10dp"
+            android:gravity="center"
+            android:text="Ilustris"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/material_grey300"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/toolbarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?android:colorBackground">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/motiv_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="center"
+                android:theme="@style/Motiv.Theme"
+                app:menu="@menu/new_style_menu"
+                app:title=" "
+                app:titleTextColor="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/titleView"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/bottom_line">
+
+                <TextView
+                    android:id="@+id/motivTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/jost"
+                    android:gravity="center"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:text="Novo estilo"
+                    android:textAppearance="@style/ToolbarTitle"
+                    android:textColor="?android:textColorPrimary" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/stylesSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_peekHeight="300dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbarContainer"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:background="?attr/blurOverLayColor"
             android:orientation="vertical"
-            android:padding="@dimen/padding_default_16dp">
+            android:paddingHorizontal="@dimen/padding_default_16dp"
+            android:paddingBottom="?attr/actionBarSize">
 
-            <com.ilustris.motiv.base.components.MotivTextView
-                android:id="@+id/styleText"
-                android:layout_width="match_parent"
-                app:motivStrokeColor="@color/colorAccent"
-                app:motivStrokeWidth="@dimen/default_stroke"
+            <include
+                android:id="@+id/dotslayout"
+                layout="@layout/motiv_dots"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-                android:textColor="@color/white" />
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_small_4dp" />
 
             <TextView
-                android:id="@+id/styleAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_default_10dp"
                 android:gravity="center"
-                android:text="Ilustris"
+                android:text="Ajustes de estilo"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@color/material_grey300"
-                android:textStyle="italic" />
-        </LinearLayout>
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/toolbarContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:background="?android:colorBackground">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/motiv_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:gravity="center"
-                    android:theme="@style/Motiv.Theme"
-                    app:menu="@menu/new_style_menu"
-                    app:title=" "
-                    app:titleTextColor="@color/white" />
-
-                <RelativeLayout
-                    android:id="@+id/titleView"
-                    android:layout_width="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:layout_height="?attr/actionBarSize">
-
-                    <TextView
-                        android:id="@+id/motivTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/jost"
-                        android:gravity="center"
-                        android:maxLength="50"
-                        android:maxLines="1"
-                        android:text="Novo estilo"
-                        android:textAppearance="@style/ToolbarTitle"
-                        android:textColor="?android:textColorPrimary" />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/stylesSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:behavior_peekHeight="300dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/blurOverLayColor"
-                android:orientation="vertical"
-                android:paddingHorizontal="@dimen/padding_default_16dp"
-                android:paddingBottom="?attr/actionBarSize">
+                android:orientation="vertical">
 
-                <include
-                    android:id="@+id/dotslayout"
-                    layout="@layout/motiv_dots"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small_4dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Ajustes de estilo"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_small_8dp">
+
+                    <ImageButton
+                        android:id="@+id/styleWallpaper"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_default_10dp"
+                        android:background="@drawable/round_circle"
+                        android:backgroundTint="?attr/dividerColor"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_baseline_gif_24"
+                        app:tint="?android:textColorPrimary" />
+
+                    <ImageButton
+                        android:id="@+id/styleAlign"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_default_10dp"
+                        android:background="@drawable/round_circle"
+                        android:backgroundTint="?attr/dividerColor"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="@dimen/padding_small_8dp"
+                        android:src="@drawable/ic_baseline_format_align_center_24"
+                        app:tint="?android:textColorPrimary" />
+
+                    <ImageButton
+                        android:id="@+id/fontStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_default_10dp"
+                        android:background="@drawable/round_circle"
+                        android:backgroundTint="?attr/dividerColor"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="@dimen/padding_small_8dp"
+                        android:src="@drawable/ic_baseline_format_clear_24"
+                        app:tint="?android:textColorPrimary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small_8dp"
+                    android:text="Fontes"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fontsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/scale_down_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="18"
+                    tools:listitem="@layout/tab_font_view" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small_8dp"
+                    android:text="Cor do texto"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stylecolorGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/scale_down_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/color_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small_8dp"
+                    android:text="Cor da sombra"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/styleShadowColorGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/scale_down_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/color_card" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/padding_small_8dp"
+                    android:text="Cor do contorno"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/styleStrokeColorGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:stateListAnimator="@animator/scale_down_animator"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/color_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/padding_small_8dp"
+                    android:text="Tamanho da sombra"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textColor="?android:textColorPrimary" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/extrudeShadowSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:value="0"
+                    android:valueFrom="0"
+                    android:valueTo="10"
+                    app:haloColor="?android:textColorPrimary"
+                    app:haloRadius="2dp"
+                    app:thumbColor="@color/colorAccent"
+                    app:thumbElevation="0dp"
+                    app:thumbRadius="@dimen/radius_default_10dp"
+                    app:tickColor="?android:textColorPrimary"
+                    app:tickColorInactive="?android:colorBackground"
+                    app:tickVisible="false"
+                    app:trackColorActive="?android:textColorPrimary"
+                    app:trackColorInactive="?android:colorBackground"
+                    app:trackHeight="@dimen/radius_big_20dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_small_8dp">
-
-                        <ImageButton
-                            android:id="@+id/styleWallpaper"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_default_10dp"
-                            android:background="@drawable/round_circle"
-                            android:backgroundTint="?attr/dividerColor"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:src="@drawable/ic_baseline_gif_24"
-                            app:tint="?android:textColorPrimary" />
-
-                        <ImageButton
-                            android:id="@+id/styleAlign"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_default_10dp"
-                            android:background="@drawable/round_circle"
-                            android:backgroundTint="?attr/dividerColor"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="@dimen/padding_small_8dp"
-                            android:src="@drawable/ic_baseline_format_align_center_24"
-                            app:tint="?android:textColorPrimary" />
-
-                        <ImageButton
-                            android:id="@+id/fontStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_default_10dp"
-                            android:background="@drawable/round_circle"
-                            android:backgroundTint="?attr/dividerColor"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:padding="@dimen/padding_small_8dp"
-                            android:src="@drawable/ic_baseline_format_clear_24"
-                            app:tint="?android:textColorPrimary" />
-
-                    </LinearLayout>
-
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small_8dp"
-                        android:text="Fontes"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/fontsRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:stateListAnimator="@animator/scale_down_animator"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1"
-                        tools:itemCount="18"
-                        tools:listitem="@layout/tab_font_view" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small_8dp"
-                        android:text="Cor do texto"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/stylecolorGallery"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:stateListAnimator="@animator/scale_down_animator"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1"
-                        tools:itemCount="10"
-                        tools:listitem="@layout/color_card" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small_8dp"
-                        android:text="Cor da sombra"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/styleShadowColorGallery"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:stateListAnimator="@animator/scale_down_animator"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1"
-                        tools:itemCount="10"
-                        tools:listitem="@layout/color_card" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/padding_small_8dp"
-                        android:text="Cor do contorno"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/styleStrokeColorGallery"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:stateListAnimator="@animator/scale_down_animator"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1"
-                        tools:itemCount="10"
-                        tools:listitem="@layout/color_card" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/padding_small_8dp"
-                        android:text="Tamanho da sombra"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:text="Posição da sombra"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                         android:textColor="?android:textColorPrimary" />
 
                     <com.google.android.material.slider.Slider
-                        android:id="@+id/extrudeShadowSize"
+                        android:id="@+id/extrudeDxPosition"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:value="0"
-                        android:valueFrom="0"
-                        android:valueTo="10"
+                        android:value="1"
+                        android:valueFrom="-25"
+                        android:valueTo="25"
                         app:haloColor="?android:textColorPrimary"
                         app:haloRadius="2dp"
                         app:thumbColor="@color/colorAccent"
@@ -279,60 +308,27 @@
                         app:trackColorInactive="?android:colorBackground"
                         app:trackHeight="@dimen/radius_big_20dp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="@dimen/padding_small_8dp"
-                            android:text="Posição da sombra"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                            android:textColor="?android:textColorPrimary" />
-
-                        <com.google.android.material.slider.Slider
-                            android:id="@+id/extrudeDxPosition"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:value="1"
-                            android:valueFrom="-25"
-                            android:valueTo="25"
-                            app:haloColor="?android:textColorPrimary"
-                            app:haloRadius="2dp"
-                            app:thumbColor="@color/colorAccent"
-                            app:thumbElevation="0dp"
-                            app:thumbRadius="@dimen/radius_default_10dp"
-                            app:tickColor="?android:textColorPrimary"
-                            app:tickColorInactive="?android:colorBackground"
-                            app:tickVisible="false"
-                            app:trackColorActive="?android:textColorPrimary"
-                            app:trackColorInactive="?android:colorBackground"
-                            app:trackHeight="@dimen/radius_big_20dp" />
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/padding_small_8dp"
-                    android:text="Outros estilos"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                <include
-                    android:id="@+id/style_preview_layout"
-                    layout="@layout/styles_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/padding_small_8dp"
+                android:text="Outros estilos"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+            <include
+                android:id="@+id/style_preview_layout"
+                layout="@layout/styles_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

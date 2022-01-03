@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_margin="@dimen/margin_small_4dp"
+    android:stateListAnimator="@animator/scale_down_animator"
+    app:cardCornerRadius="@dimen/radius_default_10dp"
+    app:cardElevation="0dp"
+    app:strokeColor="?android:textColorPrimary"
+    app:strokeWidth="2dp">
 
-    </data>
+    <TextView
+        android:id="@+id/fontText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/padding_small_8dp"
+        android:text="Mm"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/selected_font"
+        android:textStyle="bold" />
+</com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/background"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="@dimen/margin_small_4dp"
-        android:stateListAnimator="@animator/scale_down_animator"
-        app:cardCornerRadius="@dimen/radius_default_10dp"
-        app:cardElevation="0dp"
-        app:strokeColor="?android:textColorPrimary"
-        app:strokeWidth="2dp">
-
-        <TextView
-            android:id="@+id/fontText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="@dimen/padding_small_8dp"
-            android:text="Mm"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/selected_font"
-            android:textStyle="bold" />
-    </com.google.android.material.card.MaterialCardView>
-
-</layout>

@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout
-        android:background="@drawable/stroke_filled_top"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/stroke_filled_top"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_default_16dp">
+
+    <TextView
+        android:id="@+id/titleTextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_default_16dp">
+        android:paddingVertical="@dimen/padding_default_16dp"
+        android:text="Atenção"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
-        <TextView
-            android:id="@+id/titleTextview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default_16dp"
-            android:text="Atenção"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+    <TextView
+        android:id="@+id/messageTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/padding_default_16dp"
+        android:text="Gostou desse gif? Clique em confirmar para adicionar como um plano de fundo do app."
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-        <TextView
-            android:id="@+id/messageTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default_16dp"
-            android:text="Gostou desse gif? Clique em confirmar para adicionar como um plano de fundo do app."
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+    <include
+        android:id="@+id/picView"
+        layout="@layout/pics_layout" />
 
-        <include
-            android:id="@+id/picView"
-            layout="@layout/pics_layout" />
-
-        <include
-            android:id="@+id/dialog_buttons"
-            layout="@layout/horizontal_buttons_layout" />
-    </LinearLayout>
-</layout>
+    <include
+        android:id="@+id/dialog_buttons"
+        layout="@layout/horizontal_buttons_layout" />
+</LinearLayout>
