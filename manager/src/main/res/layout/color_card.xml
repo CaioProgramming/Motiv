@@ -6,11 +6,11 @@
         android:id="@+id/colorcard"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="@dimen/margin_small"
-        app:cardCornerRadius="@dimen/radius_default"
+        android:layout_margin="@dimen/margin_small_4dp"
+        android:stateListAnimator="@animator/scale_down_animator"
         app:cardBackgroundColor="@color/colorAccent"
         app:strokeColor="@color/selected_style"
-        android:stateListAnimator="@animator/list_animator"
+        app:cardCornerRadius="@dimen/radius_default_10dp"
         app:strokeWidth="2dp"
         app:cardElevation="0dp">
 
@@ -20,7 +20,7 @@
             android:layout_height="24dp"
             android:layout_gravity="start"
             android:background="@color/transparent"
-            android:padding="@dimen/margin_small"
+            android:padding="@dimen/margin_small_4dp"
             app:tint="?android:textColorPrimary"
             tools:src="@drawable/ic_outline_draw_24" />
 

@@ -6,12 +6,12 @@
         android:id="@+id/styleCard"
         android:layout_height="250dp"
         app:cardBackgroundColor="?attr/dividerColor"
-        android:layout_margin="@dimen/margin_default"
-        app:cardCornerRadius="@dimen/radius_small"
+        android:layout_margin="@dimen/margin_default_10dp"
+        android:stateListAnimator="@animator/scale_down_animator"
         app:cardElevation="0dp"
         app:strokeColor="?android:textColorPrimary"
         android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@animator/list_animator"
+        app:cardCornerRadius="@dimen/radius_small_5dp"
         android:layout_width="match_parent"
         app:strokeWidth="2dp">
 
@@ -24,7 +24,7 @@
 
         <com.ilustris.motiv.base.components.MotivTextView
             android:id="@+id/styleText"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_margin="@dimen/margin_default_10dp"
             android:textColor="@color/white"
             android:gravity="center"
             android:layout_height="wrap_content"

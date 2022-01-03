@@ -23,7 +23,7 @@
             android:layout_below="@id/toolbarContainer"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/padding_default">
+            android:padding="@dimen/padding_default_16dp">
 
             <com.ilustris.motiv.base.components.MotivTextView
                 android:id="@+id/styleText"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/blurOverLayColor"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/padding_default"
+                android:paddingHorizontal="@dimen/padding_default_16dp"
                 android:paddingBottom="?attr/actionBarSize">
 
                 <include
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small" />
+                    android:layout_margin="@dimen/margin_small_4dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -137,52 +137,52 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="@dimen/padding_small">
+                        android:padding="@dimen/padding_small_8dp">
 
                         <ImageButton
                             android:id="@+id/styleWallpaper"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_default"
+                            android:layout_marginHorizontal="@dimen/margin_default_10dp"
                             android:background="@drawable/round_circle"
                             android:backgroundTint="?attr/dividerColor"
                             android:foreground="?attr/selectableItemBackground"
                             android:src="@drawable/ic_baseline_gif_24"
-                            android:tint="?android:textColorPrimary" />
+                            app:tint="?android:textColorPrimary" />
 
                         <ImageButton
                             android:id="@+id/styleAlign"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_default"
+                            android:layout_marginHorizontal="@dimen/margin_default_10dp"
                             android:background="@drawable/round_circle"
                             android:backgroundTint="?attr/dividerColor"
                             android:foreground="?attr/selectableItemBackground"
-                            android:padding="@dimen/padding_small"
+                            android:padding="@dimen/padding_small_8dp"
                             android:src="@drawable/ic_baseline_format_align_center_24"
-                            android:tint="?android:textColorPrimary" />
+                            app:tint="?android:textColorPrimary" />
 
                         <ImageButton
                             android:id="@+id/fontStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_default"
+                            android:layout_marginHorizontal="@dimen/margin_default_10dp"
                             android:background="@drawable/round_circle"
                             android:backgroundTint="?attr/dividerColor"
                             android:foreground="?attr/selectableItemBackground"
-                            android:padding="@dimen/padding_small"
+                            android:padding="@dimen/padding_small_8dp"
                             android:src="@drawable/ic_baseline_format_clear_24"
-                            android:tint="?android:textColorPrimary" />
+                            app:tint="?android:textColorPrimary" />
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small"
+                        android:padding="@dimen/padding_small_8dp"
                         android:text="Fontes"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -191,7 +191,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:stateListAnimator="@animator/list_animator"
+                        android:stateListAnimator="@animator/scale_down_animator"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1"
                         tools:itemCount="18"
@@ -200,7 +200,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small"
+                        android:padding="@dimen/padding_small_8dp"
                         android:text="Cor do texto"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -209,7 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:stateListAnimator="@animator/list_animator"
+                        android:stateListAnimator="@animator/scale_down_animator"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1"
                         tools:itemCount="10"
@@ -218,7 +218,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small"
+                        android:padding="@dimen/padding_small_8dp"
                         android:text="Cor da sombra"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -227,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:stateListAnimator="@animator/list_animator"
+                        android:stateListAnimator="@animator/scale_down_animator"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1"
                         tools:itemCount="10"
@@ -237,7 +237,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/padding_small"
+                        android:paddingVertical="@dimen/padding_small_8dp"
                         android:text="Cor do contorno"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -246,7 +246,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:stateListAnimator="@animator/list_animator"
+                        android:stateListAnimator="@animator/scale_down_animator"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1"
                         tools:itemCount="10"
@@ -255,7 +255,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/padding_small"
+                        android:paddingVertical="@dimen/padding_small_8dp"
                         android:text="Tamanho da sombra"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         android:textColor="?android:textColorPrimary" />
@@ -271,13 +271,13 @@
                         app:haloRadius="2dp"
                         app:thumbColor="@color/colorAccent"
                         app:thumbElevation="0dp"
-                        app:thumbRadius="@dimen/radius_default"
+                        app:thumbRadius="@dimen/radius_default_10dp"
                         app:tickColor="?android:textColorPrimary"
                         app:tickColorInactive="?android:colorBackground"
                         app:tickVisible="false"
                         app:trackColorActive="?android:textColorPrimary"
                         app:trackColorInactive="?android:colorBackground"
-                        app:trackHeight="@dimen/radius_big" />
+                        app:trackHeight="@dimen/radius_big_20dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -287,7 +287,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingVertical="@dimen/padding_small"
+                            android:paddingVertical="@dimen/padding_small_8dp"
                             android:text="Posição da sombra"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                             android:textColor="?android:textColorPrimary" />
@@ -303,13 +303,13 @@
                             app:haloRadius="2dp"
                             app:thumbColor="@color/colorAccent"
                             app:thumbElevation="0dp"
-                            app:thumbRadius="@dimen/radius_default"
+                            app:thumbRadius="@dimen/radius_default_10dp"
                             app:tickColor="?android:textColorPrimary"
                             app:tickColorInactive="?android:colorBackground"
                             app:tickVisible="false"
                             app:trackColorActive="?android:textColorPrimary"
                             app:trackColorInactive="?android:colorBackground"
-                            app:trackHeight="@dimen/radius_big" />
+                            app:trackHeight="@dimen/radius_big_20dp" />
 
                     </LinearLayout>
 
@@ -319,7 +319,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/padding_small"
+                    android:paddingVertical="@dimen/padding_small_8dp"
                     android:text="Outros estilos"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 

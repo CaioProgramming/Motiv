@@ -11,6 +11,6 @@
         android:background="?android:colorBackground"
         app:tabIndicator="@color/transparent"
         app:tabMode="scrollable"
-        app:tabPadding="@dimen/padding_small"
+        app:tabPadding="@dimen/padding_small_8dp"
         tools:showIn="@layout/new_style_form" />
 </layout>

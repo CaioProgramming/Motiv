@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_default">
+        android:padding="@dimen/padding_default_16dp">
 
         <TextView
             android:id="@+id/titleTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default"
+            android:paddingVertical="@dimen/padding_default_16dp"
             android:text="Atenção"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
@@ -22,7 +22,7 @@
             android:id="@+id/messageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default"
+            android:paddingVertical="@dimen/padding_default_16dp"
             android:text="Gostou desse gif? Clique em confirmar para adicionar como um plano de fundo do app."
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
