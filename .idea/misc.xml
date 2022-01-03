@@ -40,6 +40,9 @@
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/drawable/ic_saturn_and_other_planets_primary.xml" value="0.21842105263157896" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/drawable/round_top.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/drawable/stroke_filled_top.xml" value="0.21578947368421053" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/activity_error.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/activity_splash.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/blur_layout.xml" value="0.2128623188405797" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/default_bottomsheet.xml" value="0.1092436974789916" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/default_dialog.xml" value="0.22056159420289856" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/horizontal_buttons_layout.xml" value="0.22056159420289856" />
@@ -47,14 +50,14 @@
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/list_dialog_layout.xml" value="0.11764705882352941" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/motiv_dots.xml" value="0.20482456140350877" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/motiv_toolbar.xml" value="0.10004284490145672" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/pics_layout.xml" value="0.11764705882352941" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/profile_quote_card.xml" value="0.20482456140350877" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/pics_layout.xml" value="0.1" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/profile_quote_card.xml" value="0.1" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/quote_advertise_layout.xml" value="0.20482456140350877" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/quotes_card.xml" value="0.25" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/quotes_card.xml" value="0.1" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/sample_extrude_text_view.xml" value="0.20482456140350877" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/style_layout_view.xml" value="0.2346014492753623" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/style_pager_layout.xml" value="0.29210526315789476" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/title_layout.xml" value="0.20482456140350877" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/style_layout_view.xml" value="0.1" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/style_pager_layout.xml" value="0.1" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/title_layout.xml" value="0.1" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/user_item.xml" value="0.48196114708603144" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/user_picview.xml" value="0.2346014492753623" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/user_quote_card_view.xml" value="0.23596014492753623" />
