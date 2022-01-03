@@ -19,8 +19,9 @@ data class User(var name: String = "",
 
         fun fromFirebase(firebaseUser: FirebaseUser): User {
             return User(
-                    uid = firebaseUser.uid,
-                    name = firebaseUser.displayName ?: "Desconhecido"
+                uid = firebaseUser.uid,
+                name = firebaseUser.displayName ?: "Desconhecido",
+                picurl = firebaseUser.photoUrl.toString()
             )
         }
     }

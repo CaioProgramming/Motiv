@@ -5,12 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
+import com.creat.motiv.home.QuoteDataListViewState
+import com.creat.motiv.home.QuoteListViewModel
 import com.creat.motiv.quote.EditQuoteActivity
-import com.creat.motiv.quote.view.binder.QuotesListBinder
 import com.creat.motiv.utilities.HOME_TUTORIAL
 import com.creat.motiv.utilities.MotivPreferences
 import com.creat.motiv.tutorial.HomeTutorialDialog
@@ -18,20 +18,24 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ilustris.motiv.base.beans.QuoteData
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.utils.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.silent.ilustriscore.core.model.ViewModelBaseState
+import com.silent.ilustriscore.core.utilities.showSnackBar
 
 
-const val HOME_FRAG_TAG = "HOME_FRAGMENT"
+private var homeBinding: FragmentHomeBinding? = null
+private val homeViewModel = QuoteListViewModel()
+
 class HomeFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_home, container, false).rootView
+        homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
+        return homeBinding!!.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -49,6 +53,31 @@ class HomeFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun observeViewModel() {
+        homeViewModel.quoteDataListViewState.observe(this, {
+            when (it) {
+                is QuoteDataListViewState.QuotesRetrieve -> {
+                    setupQuotes(it.quotedataList)
+                }
+            }
+        })
+        homeViewModel.viewModelState.observe(this, {
+            when (it) {
+                is ViewModelBaseState.ErrorState -> {
+                    view?.let {
+                        it.showSnackBar("Ocorreu um erro inesperado")
+                    }
+                }
+            }
+        })
+    }
+
+    fun setupQuotes(quotedatas: ArrayList<QuoteData>) {
+
+        showTutorial()
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.activity()?.run {
@@ -57,44 +86,40 @@ class HomeFragment : Fragment() {
             hideBackButton()
         }
         initializeHome()
+        observeViewModel()
     }
 
     private fun userLogged(): Boolean {
         val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         if (user == null) {
             val providers = listOf(
-                    AuthUI.IdpConfig.GoogleBuilder().build(),
-                    AuthUI.IdpConfig.EmailBuilder().build())
-            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.EmailBuilder().build()
+            )
+            startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
                     .setLogo(R.mipmap.ic_launcher)
                     .setAvailableProviders(providers)
                     .setTheme(R.style.Motiv_Theme)
-                    .build(), RC_SIGN_IN)
+                    .build(), RC_SIGN_IN
+            )
             return false
         } else {
             if (!user.isEmailVerified) {
                 DefaultAlert(
-                        context = requireContext(),
-                        title = "Email não verificado",
-                        message = "Seu email não foi verificado, se não for confirmado você não poderá fazer posts, clique em confirmar para reenviar o email.",
-                        icon = R.drawable.fui_ic_mail_white_24dp,
-                        okClick = { user.sendEmailVerification() }).buildDialog()
+                    context = requireContext(),
+                    title = "Email não verificado",
+                    message = "Seu email não foi verificado, se não for confirmado você não poderá fazer posts, clique em confirmar para reenviar o email.",
+                    icon = R.drawable.fui_ic_mail_white_24dp,
+                    okClick = { user.sendEmailVerification() }).buildDialog()
 
             }
             return true
         }
     }
 
-    fun initializeHome() {
-        GlobalScope.launch(Dispatchers.IO) {
-            delay(2000)
-            GlobalScope.launch(Dispatchers.Main) {
-                if (userLogged()) {
-                    quotesListBinder?.initView()
-                    showTutorial()
-                }
-            }
-        }
+    private fun initializeHome() {
+        homeViewModel.getQuotes()
     }
 
     private fun showTutorial() {
@@ -120,7 +145,7 @@ class HomeFragment : Fragment() {
             } else {
                 if (response != null) {
                     DefaultAlert(requireContext(), "Atenção", "Ocorreu um erro ao realizar o login",
-                            okClick = { userLogged() }).buildDialog()
+                        okClick = { userLogged() }).buildDialog()
 
                 }
 

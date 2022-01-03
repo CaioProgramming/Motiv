@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.creat.motiv.view.fragments.SettingsFragment"
+        android:name="com.creat.motiv.profile.view.SettingsFragment"
         android:label="Configurações"
         tools:layout="@layout/fragment_settings">
 

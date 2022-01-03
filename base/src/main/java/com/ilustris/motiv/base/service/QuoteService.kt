@@ -9,6 +9,8 @@ import com.silent.ilustriscore.core.model.BaseService
 class QuoteService : BaseService() {
     override val dataPath = "Quotes"
 
+    override var requireAuth = true
+
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): BaseBean {
         return dataSnapshot.toObject(Quote::class.java)!!.apply {
             this.id = dataSnapshot.id

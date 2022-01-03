@@ -13,15 +13,19 @@ const val SEARCH_QUOTE = "SEARCH_QUOTE"
 const val SPLASH_QUOTE = "SPLASH_QUOTE"
 const val ADMIN_QUOTE = "ADMIN_QUOTE"
 
+
+typealias quoteList = ArrayList<Quote>
+
 data class Quote(
-        var quote: String = "",
-        var author: String = "",
-        var style: String = DEFAULT_STYLE_ID,
-        val data: Date = Date(),
-        var userID: String = "",
-        var isReport: Boolean = false,
-        var likes: ArrayList<String> = ArrayList(),
-        override var id: String = "") : BaseBean(id) {
+    var quote: String = "",
+    var author: String = "",
+    var style: String = DEFAULT_STYLE_ID,
+    val data: Date = Date(),
+    var userID: String = "",
+    var isReport: Boolean = false,
+    var likes: ArrayList<String> = ArrayList(),
+    override var id: String = ""
+) : BaseBean(id) {
 
     fun isUserQuote(): Boolean {
         return id != AD_QUOTE && id != PROFILE_QUOTE && id != NO_RESULTS_QUOTE && id != FAVORITE_QUOTE && id != SEARCH_QUOTE && id != SPLASH_QUOTE && id != ADMIN_QUOTE

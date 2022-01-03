@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
@@ -15,7 +14,6 @@ import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
 import com.creat.motiv.databinding.UsersPageCardBinding
 import com.creat.motiv.profile.view.binders.ProfilePageBinder
 import com.creat.motiv.profile.view.binders.UserPageBinder
-import com.creat.motiv.quote.view.binder.QuoteCardBinder
 import com.ilustris.motiv.base.utils.AD_GIF
 import com.creat.motiv.utilities.AdvertiseHelper
 import com.google.android.gms.ads.formats.UnifiedNativeAd
@@ -32,7 +30,8 @@ private const val ADVERTISE_QUOTE = 1
 private const val USER_PROFILE_QUOTE = 2
 private const val VIEW_USERS_QUOTE = 3
 
-class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class QuoteRecyclerAdapter(val quoteList: ArrayList<QuoteData>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var viewList = quoteList.toList()
 
@@ -40,7 +39,12 @@ class QuoteRecyclerAdapter(val quoteList: ArrayList<Quote>) : RecyclerView.Adapt
         val context = parent.context
         return when (viewType) {
             QUOTE_VIEW -> {
-                val quotesCardBinding: QuotesCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotes_card, parent, false)
+                val quotesCardBinding: QuotesCardBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(context),
+                    R.layout.quotes_card,
+                    parent,
+                    false
+                )
                 QuoteViewHolder(quotesCardBinding)
             }
             USER_PROFILE_QUOTE -> {
