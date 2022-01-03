@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/dividerColor"
+    android:orientation="vertical">
 
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/viewUsersBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/dividerColor"
-        android:orientation="vertical">
+        android:scaleType="centerCrop" />
 
-        <ImageView
-            android:id="@+id/viewUsersBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/transparent"
+        android:fontFamily="@font/questrial"
+        android:gravity="center"
+        android:padding="@dimen/padding_default_16dp"
+        android:text="Usuários para acompanhar"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:background="@color/transparent"
-            android:padding="@dimen/padding_default_16dp"
-            android:fontFamily="@font/questrial"
-            android:gravity="center"
-            android:text="Usuários para acompanhar"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/usersRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/title"
-            android:hapticFeedbackEnabled="true"
-            android:orientation="horizontal"
-            android:transitionName="@string/card_transaction"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/user_card" />
-    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/usersRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:hapticFeedbackEnabled="true"
+        android:orientation="horizontal"
+        android:transitionName="@string/card_transaction"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/user_card" />
+</RelativeLayout>
 
 
-</layout>
 
 

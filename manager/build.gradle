@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 
 android {
     compileSdkVersion 31
@@ -50,13 +49,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.opensooq.supernova:gligar:1.1.0'
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
     implementation 'com.hmomeni.verticalslider:verticalslider:0.1.4'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
-    kapt 'com.android.databinding:compiler:3.1.4'
 }
 
 repositories {

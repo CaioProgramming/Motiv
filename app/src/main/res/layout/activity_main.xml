@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="?android:colorBackground">
 
-    <RelativeLayout
-        android:animateLayoutChanges="true"
-        android:background="?android:colorBackground"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainContainer"
-        android:layout_width="match_parent">
+        android:layout_above="@id/mainBottom"
+        android:animateLayoutChanges="true"
+        app:cardBackgroundColor="?android:colorBackground"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_above="@id/mainBottom"
-            app:cardBackgroundColor="?android:colorBackground"
+        <FrameLayout
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            app:cardCornerRadius="0dp"
-            android:layout_width="match_parent"
-            app:cardElevation="0dp">
-
-            <FrameLayout
-                android:id="@+id/nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/main_navigation" />
-        </com.google.android.material.card.MaterialCardView>
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/main_navigation" />
+    </com.google.android.material.card.MaterialCardView>
 
 
-        <LinearLayout
-            android:id="@+id/mainBottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/playerView"
-                layout="@layout/player_layout"
-                android:layout_width="match_parent"
-                android:layout_height="32dp" />
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/nav_view"
-                android:background="?android:colorBackground"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:elevation="0dp"
-                app:itemIconSize="20dp"
-                app:itemIconTint="@color/selected_navigation"
-                app:itemRippleColor="@color/colorAccent"
-                app:itemTextColor="@color/selected_navigation"
-                app:labelVisibilityMode="unlabeled"
-                app:menu="@menu/navigation_menu" />
-        </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/mainBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
         <include
-            android:id="@+id/motiv_top"
-            layout="@layout/motiv_toolbar" />
+            android:id="@+id/playerView"
+            layout="@layout/player_layout"
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:colorBackground"
+            app:elevation="0dp"
+            app:itemIconSize="20dp"
+            app:itemIconTint="@color/selected_navigation"
+            app:itemRippleColor="@color/colorAccent"
+            app:itemTextColor="@color/selected_navigation"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/navigation_menu" />
+    </LinearLayout>
 
 
-        <include layout="@layout/blur_layout"/>
+    <include
+        android:id="@+id/motiv_top"
+        layout="@layout/motiv_toolbar" />
 
-    </RelativeLayout>
+
+    <include layout="@layout/blur_layout" />
+
+</RelativeLayout>
 
 
-</layout>

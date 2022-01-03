@@ -1,143 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:orientation="vertical">
 
-    <data>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_black"
+        android:padding="@dimen/padding_default_16dp"
+        android:text="Compartilhar frase"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-        <variable
-            name="sharedQuote"
-            type="com.ilustris.motiv.base.beans.Quote" />
-    </data>
-
-    <LinearLayout
-        android:background="?android:colorBackground"
+    <RelativeLayout
+        android:id="@+id/shareView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/colorAccent"
+        android:padding="@dimen/padding_default_16dp">
 
-        <TextView
-            android:background="@color/md_black"
-            android:padding="@dimen/padding_default_16dp"
-            android:textAlignment="center"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/shareCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Compartilhar frase" />
+            android:layout_height="350dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/margin_small_4dp"
+            android:stateListAnimator="@animator/list_animator"
+            app:cardBackgroundColor="@color/transparent"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="3dp"
+            app:strokeColor="?android:textColorPrimary"
+            app:strokeWidth="2dp">
 
-        <RelativeLayout
-            android:id="@+id/shareView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/padding_default_16dp"
-            android:background="@color/colorAccent">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_centerInParent="true"
-                android:id="@+id/shareCard"
-                android:layout_height="350dp"
+            <RelativeLayout
+                android:id="@+id/quoteContent"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/margin_small_4dp"
-                android:stateListAnimator="@animator/list_animator"
-                app:cardBackgroundColor="@color/transparent"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="3dp"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="2dp">
+                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:id="@+id/quoteContent"
+                <ImageView
+                    android:id="@+id/quoteImage"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:scaleType="centerCrop" />
 
-                    <ImageView
-                        android:id="@+id/quoteImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorAccent"
-                        android:scaleType="centerCrop" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.2"
+                    android:background="@color/md_black" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0.2"
-                        android:background="@color/md_black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/padding_default_16dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.ilustris.motiv.base.components.MotivTextView
+                        android:id="@+id/quoteTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="200dp"
+                        android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                        android:autoSizeMinTextSize="@dimen/min_quote_size"
+                        android:autoSizeTextType="uniform"
+                        android:breakStrategy="high_quality"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_margin="@dimen/padding_default_16dp">
+                        android:stateListAnimator="@animator/text_animator"
+                        android:text="@{sharedQuote.quote}"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/big_quote_size"
+                        android:textStyle="bold"
+                        android:transitionName="@string/quote_transaction"
+                        android:typeface="normal"
+                        app:motivStrokeColor="@color/md_black"
+                        app:motivStrokeWidth="@dimen/default_stroke"
+                        tools:text="Still dont know what it means to be human"
+                        tools:textColor="@color/md_white"
+                        tools:visibility="visible" />
 
-                        <com.ilustris.motiv.base.components.MotivTextView
-                            android:id="@+id/quoteTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                            android:autoSizeMinTextSize="@dimen/min_quote_size"
-                            android:autoSizeTextType="uniform"
-                            android:breakStrategy="high_quality"
-                            android:gravity="center"
-                            android:textAlignment="center"
-                            app:motivStrokeColor="@color/md_black"
-                            android:stateListAnimator="@animator/text_animator"
-                            android:text="@{sharedQuote.quote}"
-                            app:motivStrokeWidth="@dimen/default_stroke"
-                            android:textSize="@dimen/big_quote_size"
-                            android:textStyle="bold"
-                            android:transitionName="@string/quote_transaction"
-                            android:typeface="normal"
-                            tools:text="Still dont know what it means to be human"
-                            tools:textColor="@color/md_white"
-                            tools:visibility="visible" />
+                    <com.ilustris.motiv.base.components.MotivTextView
+                        android:id="@+id/authorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/padding_small_8dp"
+                        android:autoSizeMaxTextSize="@dimen/low_quote_size"
+                        android:autoSizeMinTextSize="@dimen/min_quote_size"
+                        android:gravity="center"
+                        android:text="@{sharedQuote.author}"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/low_quote_size"
+                        android:textStyle="italic"
+                        app:motivStrokeColor="@color/md_black"
+                        app:motivStrokeWidth="@dimen/default_stroke"
+                        tools:text="Lana Del Rey"
+                        tools:textColor="@color/white" />
+                </LinearLayout>
 
-                        <com.ilustris.motiv.base.components.MotivTextView
-                            android:id="@+id/authorTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:autoSizeMaxTextSize="@dimen/low_quote_size"
-                            android:autoSizeMinTextSize="@dimen/min_quote_size"
-                            android:gravity="center"
-                            android:layout_marginVertical="@dimen/padding_small_8dp"
-                            android:text="@{sharedQuote.author}"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/low_quote_size"
-                            android:textStyle="italic"
-                            app:motivStrokeColor="@color/md_black"
-                            app:motivStrokeWidth="@dimen/default_stroke"
-                            tools:textColor="@color/white"
-                            tools:text="Lana Del Rey" />
-                    </LinearLayout>
+            </RelativeLayout>
 
-                </RelativeLayout>
+            <include
+                layout="@layout/motiv_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_default_16dp" />
 
-                <include
-                    layout="@layout/motiv_dots"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_default_16dp" />
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminateOnly="true"
+                app:indicatorColor="@color/white"
+                app:showDelay="500"
+                app:trackColor="@color/transparent"
+                app:trackCornerRadius="@dimen/radius_small_5dp"
+                app:trackThickness="1dp" />
 
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/progress_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:indeterminateOnly="true"
-                    app:indicatorColor="@color/white"
-                    app:showDelay="500"
-                    app:trackColor="@color/transparent"
-                    app:trackCornerRadius="@dimen/radius_small_5dp"
-                    app:trackThickness="1dp" />
+        </com.google.android.material.card.MaterialCardView>
 
-            </com.google.android.material.card.MaterialCardView>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
 
-    </LinearLayout>
+</LinearLayout>
 
-</layout>

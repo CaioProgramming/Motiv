@@ -1,73 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_default_16dp">
 
-    <data>
-
-    </data>
-
-    <LinearLayout
+    <View
+        android:id="@+id/topAnimation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_default_16dp">
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/motiv_gradient"
+        android:backgroundTint="?colorPrimaryDark" />
 
-        <View
-            android:id="@+id/topAnimation"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/motiv_gradient"
-            android:backgroundTint="?colorPrimaryDark" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_default_16dp"
+        android:text="Seu perfil de cara nova!"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="?android:textColorPrimary"
+        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_default_16dp"
-            android:text="Seu perfil de cara nova!"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_swipe_up"
+        android:paddingVertical="@dimen/padding_small_8dp"
+        android:text="Simples e prático como sempre! Arrasta para cima que para ver seus posts e claro seus favoritos também!"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_swipe_up"
-            android:paddingVertical="@dimen/padding_small_8dp"
-            android:text="Simples e prático como sempre! Arrasta para cima que para ver seus posts e claro seus favoritos também!"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_user_filled"
+        android:drawablePadding="@dimen/padding_small_8dp"
+        android:paddingVertical="@dimen/padding_small_8dp"
+        android:text="Como nos velhos tempos você ainda pode trocar sua foto de perfil por um de nossos ícones!"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_user_filled"
-            android:drawablePadding="@dimen/padding_small_8dp"
-            android:paddingVertical="@dimen/padding_small_8dp"
-            android:text="Como nos velhos tempos você ainda pode trocar sua foto de perfil por um de nossos ícones!"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_imagesearch_roller_24"
+        android:drawablePadding="@dimen/padding_small_8dp"
+        android:paddingVertical="@dimen/padding_small_8dp"
+        android:text="A grande novidade são as capas de perfil, começamos a introduzi-las agora, mas com certeza teremos muito mais com o tempo!"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_baseline_imagesearch_roller_24"
-            android:drawablePadding="@dimen/padding_small_8dp"
-            android:paddingVertical="@dimen/padding_small_8dp"
-            android:text="A grande novidade são as capas de perfil, começamos a introduzi-las agora, mas com certeza teremos muito mais com o tempo!"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_continue"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/padding_default_16dp"
+        android:stateListAnimator="@animator/list_animator"
+        android:text="continuar"
+        android:textAllCaps="false"
+        android:textColor="?android:textColorPrimary" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_continue"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_default_16dp"
-            android:stateListAnimator="@animator/list_animator"
-            android:text="continuar"
-            android:textAllCaps="false"
-            android:textColor="?android:textColorPrimary" />
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

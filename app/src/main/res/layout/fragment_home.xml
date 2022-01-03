@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.fragments.HomeFragment">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <include
+        android:id="@+id/quotesView"
+        layout="@layout/quote_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
+</LinearLayout>
 
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/quotesView"
-            layout="@layout/quote_recycler" />
-    </LinearLayout>
-
-</layout>
