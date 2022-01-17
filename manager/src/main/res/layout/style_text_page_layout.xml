@@ -6,7 +6,6 @@
 
     <TextView
         android:id="@+id/styleText"
-        tools:showIn="@layout/new_style_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

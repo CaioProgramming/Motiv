@@ -13,7 +13,7 @@ class StyleService : BaseService() {
     override val dataPath = "Styles"
 
     override suspend fun getSingleData(id: String): ServiceResult<DataException, BaseBean> {
-        return if (Style.isPreSavedStyle(id)) {
+        return if (!Style.isPreSavedStyle(id)) {
             val preSaveStyle = Style.getPreSaveStyle(id)
             if (preSaveStyle != null) {
                 ServiceResult.Success(preSaveStyle)
@@ -25,8 +25,8 @@ class StyleService : BaseService() {
         }
     }
 
-    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Style {
-        return dataSnapshot.toObject(Style::class.java)!!.apply {
+    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Style? {
+        return dataSnapshot.toObject(Style::class.java)?.apply {
             this.id = dataSnapshot.id
         }
     }

@@ -5,10 +5,19 @@
     app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.creat.motiv.view.fragments.HomeFragment"
-        android:label="Motiv"
-        tools:layout="@layout/fragment_manager_home">
+        android:name="com.creat.motiv.features.home.HomeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home">
 
+        <action
+            android:id="@+id/action_navigation_home_to_newQuoteFragment"
+            app:destination="@id/navigation_new_quote" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_search"
+            app:destination="@id/navigation_search" />
     </fragment>
 
     <fragment
@@ -17,12 +26,15 @@
         android:label="Perfil"
         tools:layout="@layout/fragment_profile">
 
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
     </fragment>
 
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.creat.motiv.view.fragments.SearchFragment"
+        android:name="com.creat.motiv.features.home.search.SearchFragment"
         android:label="Busca"
         tools:layout="@layout/fragment_search">
 
@@ -34,6 +46,11 @@
         tools:layout="@layout/fragment_settings">
 
     </fragment>
+    <fragment
+        android:id="@+id/navigation_new_quote"
+        android:name="com.creat.motiv.features.newquote.NewQuoteFragment"
+        android:label="Novo post"
+        tools:layout="@layout/new_quote_fragment" />
 
 
 </navigation>

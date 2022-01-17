@@ -29,7 +29,8 @@ data class Style(
     var fontStyle: FontStyle = FontStyle.REGULAR,
     var textColor: String = DEFAULT_TEXT_COLOR,
     var backgroundURL: String = DEFAULT_BACKGROUND_URL,
-    var shadowStyle: ShadowStyle = ShadowStyle()
+    var shadowStyle: ShadowStyle = ShadowStyle(),
+    var storedStyle: Boolean = false
 ) : BaseBean(id) {
 
 

@@ -2,17 +2,18 @@ package com.ilustris.motiv.base.dialog.listdialog
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.ListDialogItemLayoutBinding
 
-class ListDialogAdapter(val dialogItems: DialogItems, val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<ListDialogAdapter.ListItemViewHolder>() {
+class ListDialogAdapter(val dialogItems: DialogItems, val onItemClick: (Int) -> Unit) :
+    RecyclerView.Adapter<ListDialogAdapter.ListItemViewHolder>() {
 
-    inner class ListItemViewHolder(val listDialogItemLayoutBinding: ListDialogItemLayoutBinding) : RecyclerView.ViewHolder(listDialogItemLayoutBinding.root) {
+    inner class ListItemViewHolder(val listDialogItemLayoutBinding: ListDialogItemLayoutBinding) :
+        RecyclerView.ViewHolder(listDialogItemLayoutBinding.root) {
 
         fun bind() {
-            listDialogItemLayoutBinding.listItem = dialogItems[adapterPosition]
+            listDialogItemLayoutBinding.dialogItemView.text = dialogItems[adapterPosition].text
             listDialogItemLayoutBinding.dialogItemView.setOnClickListener {
                 onItemClick.invoke(adapterPosition)
             }
@@ -21,7 +22,11 @@ class ListDialogAdapter(val dialogItems: DialogItems, val onItemClick: (Int) -> 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
-        val dialogItemBind: ListDialogItemLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_dialog_item_layout, parent, false)
+        val dialogItemBind: ListDialogItemLayoutBinding = ListDialogItemLayoutBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ListItemViewHolder(dialogItemBind)
     }
 

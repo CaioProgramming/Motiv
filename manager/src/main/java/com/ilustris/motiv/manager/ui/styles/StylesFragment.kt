@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ilustris.motiv.base.utils.activity
-import com.ilustris.motiv.base.utils.setMotivTitle
 import com.ilustris.motiv.base.utils.showSupportActionBar
 import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.databinding.StylesRecyclerBinding
 
 class StylesFragment : Fragment() {
 
@@ -26,7 +24,5 @@ class StylesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.showSupportActionBar()
-        context?.activity()?.setMotivTitle("Estilos")
-
     }
 }

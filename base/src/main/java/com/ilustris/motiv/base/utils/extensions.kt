@@ -44,33 +44,11 @@ fun Context.hideBackButton() {
     }
 }
 
-fun Activity.getToolbar(): Toolbar? = findViewById(R.id.motiv_toolbar)
-
-fun Activity.setMotivTitle(title: String) {
-    try {
-        val titleTextView: TextView? = findViewById(R.id.motivTitle)
-        titleTextView?.text = title
-    } catch (e: Exception) {
-        Log.e("Motiv title", "setTitle: cannot change app title $e")
-    }
-}
-
-fun Activity.setMotivTitleColor(color: Int) {
-    try {
-        val titleTextView: TextView? = findViewById(R.id.motivTitle)
-        titleTextView?.setTextColor(color)
-    } catch (e: Exception) {
-        Log.e("Motiv title", "setTitle: cannot change app title $e")
-    }
-}
 
 fun Context.showSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.show()
-        activity.findViewById<RelativeLayout?>(R.id.titleView)?.run {
-            visible()
-        }
     }
 }
 
@@ -78,9 +56,6 @@ fun Context.hideSupportActionBar() {
     if (this is AppCompatActivity) {
         val activity: AppCompatActivity = this
         activity.supportActionBar?.hide()
-        activity.findViewById<RelativeLayout?>(R.id.titleView)?.run {
-            gone()
-        }
     }
 }
 
@@ -157,15 +132,4 @@ fun TextView.defineTextAlignment(textAlign: TextAlignment) {
             gravity = Gravity.END
         }
     }
-}
-
-fun delayedFunction(delayTime: Long = 1000, function: () -> Unit) {
-    GlobalScope.launch {
-        delay(delayTime)
-        GlobalScope.launch(Dispatchers.Main) {
-            function.invoke()
-        }
-
-    }
-
 }

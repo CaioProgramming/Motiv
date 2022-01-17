@@ -5,7 +5,7 @@
         <item name="font">@font/questrial</item>
         <item name="android:colorBackground">@color/md_black</item>
         <item name="dividerColor">@color/material_grey900</item>
-        <item name="navblurOverLayColor">@color/lblack</item>
+        <item name="dropShadowColor">@color/white</item>
         <item name="blurOverLayColor">#CC000000</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
@@ -15,15 +15,11 @@
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_up</item>
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:fitsSystemWindows">false</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:statusBarColor">?android:colorBackground</item>
     </style>
 
     <style name="Motiv.Manager.Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -31,7 +27,7 @@
         <item name="font">@font/questrial</item>
         <item name="android:colorBackground">@color/md_black</item>
         <item name="dividerColor">@color/material_grey900</item>
-        <item name="navblurOverLayColor">@color/lblack</item>
+        <item name="dropShadowColor">@color/lblack</item>
         <item name="blurOverLayColor">#CC000000</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>

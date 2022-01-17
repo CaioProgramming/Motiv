@@ -1,15 +1,10 @@
 package com.ilustris.motiv.manager.ui.styles
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.NewStyleFormBinding
 
@@ -18,7 +13,7 @@ class NewStyleActivity : AppCompatActivity(R.layout.new_style_form) {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        DataBindingUtil.setContentView<NewStyleFormBinding>(this, R.layout.new_style_form).run {
+        NewStyleFormBinding.inflate(layoutInflater).run {
             setSupportActionBar(findViewById(R.id.motiv_toolbar))
         }
     }

@@ -1,10 +1,8 @@
 package com.ilustris.motiv.manager.ui.styles
 
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.utils.FontUtils
@@ -55,9 +53,8 @@ class StyleFontsAdapter(val onFontSelect: (Int) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
-        val fontViewBinding = DataBindingUtil.inflate<TabFontViewBinding>(
+        val fontViewBinding = TabFontViewBinding.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.tab_font_view,
             parent,
             false
         )

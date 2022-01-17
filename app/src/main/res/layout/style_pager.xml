@@ -8,4 +8,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:showIn="@layout/newquotepopup" />
+    tools:showIn="@layout/new_quote_fragment" />

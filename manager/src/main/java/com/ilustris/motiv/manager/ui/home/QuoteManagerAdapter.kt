@@ -2,7 +2,6 @@ package com.ilustris.motiv.manager.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.beans.AD_QUOTE
 import com.ilustris.motiv.base.beans.Quote
@@ -17,7 +16,11 @@ class QuoteManagerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
-        val quotesCardBinding: QuotesCardBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quotes_card, parent, false)
+        val quotesCardBinding: QuotesCardBinding = QuotesCardBinding.inflate(
+            LayoutInflater.from(context),
+            parent,
+            false
+        )
         return QuoteViewHolder(quotesCardBinding)
     }
 
@@ -52,6 +55,7 @@ class QuoteManagerAdapter(var quoteList: ArrayList<Quote>) : RecyclerView.Adapte
 
     inner class QuoteViewHolder(private val quotescardBinding: QuotesCardBinding) : RecyclerView.ViewHolder(quotescardBinding.root) {
         fun bind(quote: Quote) {
+
         }
     }
 

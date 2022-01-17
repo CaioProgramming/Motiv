@@ -2,45 +2,47 @@ package com.creat.motiv.view.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
-import com.creat.motiv.developer.view.DeveloperBinder
+import com.creat.motiv.developer.view.RecyclerDeveloperAdapter
+import com.creat.motiv.features.about.data.AboutData
 import com.ilustris.animations.fadeIn
 
-class AboutAdapter(val context: Context) : RecyclerView.Adapter<AboutAdapter.MyViewHolder>() {
+class AboutAdapter(val aboutDataList: ArrayList<AboutData>) :
+    RecyclerView.Adapter<AboutAdapter.AboutViewHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val quoteHeaderViewBinding: QuoteHeaderViewBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.quote_header_view, parent, false)
-        return MyViewHolder(quoteHeaderViewBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutViewHolder {
+        return AboutViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.quote_header_view, parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AboutViewHolder, position: Int) {
+        holder.bind()
+    }
 
-        holder.quoteHeaderBinding.title.text = if (position == 0) "Desenvolvedores" else "Referências"
-        if (position == 0) {
-            holder.quoteHeaderBinding.title.text = "Desenvolvedores"
-            DeveloperBinder(holder.quoteHeaderBinding).initView()
-        } else {
-            holder.quoteHeaderBinding.recyclerView.run {
-                layoutManager = GridLayoutManager(context, 2, RecyclerView.HORIZONTAL, false)
-                adapter = RecyclerReferencesAdapter(context)
-                fadeIn()
+    override fun getItemCount() = aboutDataList.size
 
+
+    inner class AboutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind() {
+            QuoteHeaderViewBinding.bind(itemView).run {
+                val aboutData = aboutDataList[bindingAdapterPosition]
+
+                title.text = aboutData.header
+                recyclerView.run {
+                    aboutData.developers?.let { adapter = RecyclerDeveloperAdapter(it) }
+                    aboutData.references?.let { adapter = RecyclerReferencesAdapter(it) }
+                }
             }
         }
     }
-
-    override fun getItemCount(): Int {
-        return 2
-    }
-
-
-    class MyViewHolder(val quoteHeaderBinding: QuoteHeaderViewBinding) : RecyclerView.ViewHolder(quoteHeaderBinding.root)
 
 
 }

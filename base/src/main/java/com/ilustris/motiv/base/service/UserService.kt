@@ -8,8 +8,8 @@ import com.silent.ilustriscore.core.model.BaseService
 class UserService : BaseService() {
     override val dataPath = "Users"
 
-    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): User {
-        return dataSnapshot.toObject(User::class.java)!!.apply {
+    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): User? {
+        return dataSnapshot.toObject(User::class.java)?.apply {
             this.id = dataSnapshot.id
         }
     }

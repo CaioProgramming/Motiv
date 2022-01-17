@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".MotivApplication"
+        android:name="com.ilustris.motiv.base.MotivApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Motiv.Theme">
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".features.MainActivity"
             android:label="@string/app_name"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.AboutActivity" />
+        <activity android:name=".features.about.AboutFragment" />
         <activity
             android:name=".quote.EditQuoteActivity"
             android:label="Editar post"
@@ -37,7 +37,7 @@
             android:name=".profile.view.UserActivity"
             android:hardwareAccelerated="true" />
         <activity
-            android:name=".ErrorActivity"
+            android:name="com.ilustris.motiv.base.ErrorActivity"
             android:clearTaskOnLaunch="true"
             android:process=":report_process" />
         <activity
@@ -92,7 +92,7 @@
         </provider>
 
         <service
-            android:name=".utilities.Notifications"
+            android:name="com.ilustris.motiv.base.utils.Notifications"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

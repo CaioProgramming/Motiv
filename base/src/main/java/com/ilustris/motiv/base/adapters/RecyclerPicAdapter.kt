@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.beans.Icon
@@ -21,9 +20,8 @@ class RecyclerPicAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val context = parent.context
-        val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(
+        val picsBind: PicsLayoutBinding = PicsLayoutBinding.inflate(
             LayoutInflater.from(context),
-            R.layout.pics_layout,
             parent,
             false
         )
@@ -45,7 +43,7 @@ class RecyclerPicAdapter(
             val context = picsLayoutBinding.root.context
             picsLayoutBinding.run {
                 if (picture.id != NEW_PIC) {
-                    Glide.with(context).load(picture.uri).into(pic)
+                    Glide.with(context).load(picture.uri).into(image)
                     card.setOnClickListener {
                         onSelectPick.invoke(picture)
                     }
@@ -56,15 +54,25 @@ class RecyclerPicAdapter(
                         )
                     )
                 } else {
-                    pic.setImageDrawable(
+                    image.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
                             R.drawable.ic_baseline_arrow_upward_24
                         )
                     )
-                    card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.material_blue300))
-                    pic.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.material_white))
-                    pic.repeatFade()
+                    card.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.material_blue300
+                        )
+                    )
+                    image.imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.material_white
+                        )
+                    )
+                    image.repeatFade()
                     card.setOnClickListener {
                         requestNewPic?.invoke()
                     }

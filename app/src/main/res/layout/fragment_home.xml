@@ -1,17 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/motiv_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:theme="@style/AppToolbar"
+            app:title=" " />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/titleView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userpic"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_default_10dp"
+                android:src="?attr/dividerColor"
+                android:visibility="gone"
+                app:civ_border_color="?android:textColorPrimary"
+                app:civ_border_width="@dimen/default_stroke"
+                app:civ_circle_background_color="?android:textColorHint"
+                app:layout_constraintBottom_toBottomOf="@id/motiv_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/motiv_icon" />
+
+            <ImageView
+                android:id="@+id/motiv_icon"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_saturn_and_other_planets_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/writing_icon"
+                android:layout_width="48dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_margin="@dimen/margin_default_10dp"
+                app:layout_constraintBottom_toBottomOf="@id/motiv_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/motiv_icon"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="?android:textColorPrimary"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/writing"
+                app:lottie_repeatMode="reverse" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </RelativeLayout>
+
     <include
         android:id="@+id/quotesView"
         layout="@layout/quote_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/motiv_top" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 

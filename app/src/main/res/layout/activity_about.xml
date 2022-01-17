@@ -25,16 +25,16 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:itemCount="2"
-            tools:listitem="@layout/pics_layout" />
+            tools:listitem="@layout/developer_layout" />
 
         <LinearLayout
             android:id="@+id/bottom_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
+                android:visibility="gone"
                 android:id="@+id/support_devs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,10 +73,7 @@
                 android:id="@+id/followUsCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_small_8dp"
-                android:stateListAnimator="@animator/list_animator"
-                app:cardCornerRadius="@dimen/radius_default_10dp"
-                app:cardElevation="0dp">
+                style="@style/MotivCard">
 
                 <LinearLayout
                     android:layout_width="match_parent"

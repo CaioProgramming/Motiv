@@ -1,134 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/quoteCard"
+    style="@style/MotivCard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/motiv_gradient"
-    android:hapticFeedbackEnabled="true"
-    android:orientation="vertical"
-    android:transitionName="@string/card_transaction">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/userBackground"
+    <RelativeLayout
+        android:id="@+id/quoteCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:foreground="?selectableItemBackground"
-        android:scaleType="center"
-        android:tintMode="src_over"
-        app:tint="@color/lblack" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/oblack" />
-
-    <LinearLayout
-        android:id="@+id/profileContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:background="@drawable/motiv_gradient"
+        android:hapticFeedbackEnabled="true"
         android:orientation="vertical"
-        android:padding="@dimen/padding_default_16dp">
+        android:transitionName="@string/card_transaction">
 
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilepic"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:contentDescription="Profile picture"
-            android:fitsSystemWindows="true"
-            android:padding="@dimen/padding_default_16dp"
-            android:stateListAnimator="@animator/list_animator"
-            android:tooltipText="Alterar foto de perfil"
-            android:transitionName="@string/user_pic_transaction"
-            app:civ_border_color="?android:textColorPrimary"
-            app:civ_border_width="@dimen/default_stroke"
-            app:civ_circle_background_color="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_neptune" />
-
-        <TextView
-            android:id="@+id/username"
+        <ImageView
+            android:id="@+id/userBackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="@dimen/padding_default_16dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:text="Caio Alves Ferreira" />
+            android:layout_height="match_parent"
+            android:foreground="?selectableItemBackground"
+            android:scaleType="center"
+            android:tintMode="src_over"
+            app:tint="@color/lblack" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/oblack" />
 
         <LinearLayout
+            android:id="@+id/profileContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/padding_default_16dp"
-            app:layout_constraintTop_toBottomOf="@id/profilepic">
+            android:layout_centerInParent="true"
+
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default_16dp">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:contentDescription="Profile picture"
+                android:fitsSystemWindows="true"
+                android:padding="@dimen/padding_default_16dp"
+                android:stateListAnimator="@animator/list_animator"
+                android:tooltipText="Alterar foto de perfil"
+                android:transitionName="@string/user_pic_transaction"
+                app:civ_border_color="?android:textColorPrimary"
+                app:civ_border_width="@dimen/default_stroke"
+                app:civ_circle_background_color="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_neptune" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding_default_16dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="Caio Alves Ferreira" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/padding_default_16dp"
+                app:layout_constraintTop_toBottomOf="@id/profilepic">
+
+
+            </LinearLayout>
 
 
         </LinearLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/messageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:layout_toEndOf="@id/followButton"
+            android:drawableTint="@color/white"
+            android:padding="@dimen/padding_small_8dp"
+            android:text="@string/message_user"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:backgroundTint="?android:colorBackground"
+            app:cornerRadius="@dimen/radius_default_10dp"
+            app:icon="@drawable/ic_paper_plane"
+            app:iconGravity="textEnd"
+            app:iconTint="?android:textColorPrimary"
+            tools:visibility="visible" />
 
-    </LinearLayout>
+        <CheckBox
+            android:id="@+id/followButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:background="@drawable/follow_button_shape"
+            android:button="@color/transparent"
+            android:checked="true"
+            android:paddingHorizontal="@dimen/padding_big_24"
+            android:paddingVertical="@dimen/padding_default_16dp"
+            android:text="@string/follow_user"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/messageButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="@dimen/margin_default_10dp"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:layout_toEndOf="@id/followButton"
-        android:drawableTint="@color/white"
-        android:padding="@dimen/padding_small_8dp"
-        android:text="@string/message_user"
-        android:textColor="?android:textColorPrimary"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:backgroundTint="?android:colorBackground"
-        app:cornerRadius="@dimen/radius_default_10dp"
-        app:icon="@drawable/ic_paper_plane"
-        app:iconGravity="textEnd"
-        app:iconTint="?android:textColorPrimary"
-        tools:visibility="visible" />
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:alpha="0.7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/giphy_mark" />
 
-    <CheckBox
-        android:id="@+id/followButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="@dimen/margin_default_10dp"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:background="@drawable/follow_button_shape"
-        android:button="@color/transparent"
-        android:checked="true"
-        android:paddingHorizontal="@dimen/padding_big_24"
-        android:paddingVertical="@dimen/padding_default_16dp"
-        android:text="@string/follow_user"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:visibility="gone"
-        tools:visibility="visible" />
+    </RelativeLayout>
 
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:alpha="0.7"
-        android:scaleType="fitCenter"
-        android:src="@drawable/giphy_mark" />
 
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
 
 
 

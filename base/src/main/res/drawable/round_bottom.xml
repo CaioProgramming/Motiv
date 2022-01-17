@@ -6,18 +6,11 @@
         android:bottomLeftRadius="@dimen/radius_default_10dp"
         android:bottomRightRadius="@dimen/radius_default_10dp" />
 
-
-    <!-- below code for different radius for each corner. -->
-
-
-    <!-- <corners -->
-    <!-- android:bottomLeftRadius="7dp" -->
-    <!-- android:bottomRightRadius="10dp" -->
-    <!-- android:topLeftRadius="12dp" -->
-    <!-- android:topRightRadius="5dp" /> -->
-
-
-    <!-- Background color -->
+    <padding
+        android:bottom="@dimen/padding_small_8dp"
+        android:left="@dimen/padding_small_8dp"
+        android:right="@dimen/padding_small_8dp"
+        android:top="@dimen/padding_small_8dp" />
     <solid android:color="?android:colorBackground" />
 
 </shape>

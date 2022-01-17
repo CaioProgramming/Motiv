@@ -2,6 +2,6 @@
 <resources>
 
     <attr name="blurOverLayColor" format="color" />
-    <attr name="navblurOverLayColor" format="color" />
+    <attr name="dropShadowColor" format="color" />
     <attr name="dividerColor" format="color" />
 </resources>

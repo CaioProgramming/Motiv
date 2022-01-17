@@ -11,4 +11,4 @@
     android:foreground="?attr/selectableItemBackground"
     android:padding="@dimen/padding_default_16dp"
     android:text="@{listItem.text}"
-    tools:text="@string/app_name"></TextView>
+    tools:text="@string/app_name" />

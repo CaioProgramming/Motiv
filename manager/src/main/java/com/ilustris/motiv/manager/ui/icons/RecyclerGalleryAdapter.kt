@@ -1,9 +1,9 @@
 package com.ilustris.motiv.manager.ui.icons
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.utils.NEW_PIC
@@ -11,7 +11,10 @@ import com.ilustris.animations.slideInRight
 import com.ilustris.motiv.base.databinding.PicsLayoutBinding
 import com.ilustris.motiv.manager.R
 
-class RecyclerGalleryAdapter(pictureList: ArrayList<String>? = ArrayList(), private val openPicker: () -> Unit) : RecyclerView.Adapter<RecyclerGalleryAdapter.MyViewHolder>() {
+class RecyclerGalleryAdapter(
+    pictureList: ArrayList<String>? = ArrayList(),
+    private val openPicker: () -> Unit
+) : RecyclerView.Adapter<RecyclerGalleryAdapter.PictureViewHolder>() {
 
     var pictures = ArrayList<String>()
 
@@ -20,13 +23,13 @@ class RecyclerGalleryAdapter(pictureList: ArrayList<String>? = ArrayList(), priv
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val context = parent.context
-        val picsBind: PicsLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.pics_layout, parent, false)
-        return MyViewHolder(picsBind)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
+        return PictureViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.pics_layout, parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
         holder.bind(pictures[position])
     }
 
@@ -39,21 +42,28 @@ class RecyclerGalleryAdapter(pictureList: ArrayList<String>? = ArrayList(), priv
     }
 
 
-    inner class MyViewHolder(private val picsLayoutBinding: PicsLayoutBinding) : RecyclerView.ViewHolder(picsLayoutBinding.root) {
+    inner class PictureViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val picsLayoutBinding = PicsLayoutBinding.bind(itemView)
 
         fun bind(picture: String) {
             picsLayoutBinding.run {
                 val context = picsLayoutBinding.root.context
                 if (picture != NEW_PIC) {
-                    Glide.with(context).load(picture).into(pic)
+                    Glide.with(context).load(picture).into(image)
                     card.setOnLongClickListener {
                         pictures.remove(picture)
                         notifyDataSetChanged()
                         false
                     }
                 } else {
-                    pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_arrow_upward_24))
-                    pic.setOnClickListener {
+                    image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_baseline_arrow_upward_24
+                        )
+                    )
+                    image.setOnClickListener {
                         openPicker.invoke()
                     }
                 }

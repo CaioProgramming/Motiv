@@ -1,8 +1,6 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 31
@@ -16,14 +14,25 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string",  "feed_advertisement_id", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "video_advertisement_id", "ca-app-pub-3940256099942544/5224354917")
+
+        }
+
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string", "feed_advertisement_id", "ca-app-pub-8016530757684172/3873976887")
+            resValue("string", "video_advertisement_id", "ca-app-pub-8016530757684172/4401117155")
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -36,13 +45,12 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    api 'com.github.CaioProgramming.Ilustris:core:2.1.6.1'
-    api 'com.github.CaioProgramming.Ilustris:animations:2.1.6.1'
+    api 'com.github.CaioProgramming.Ilustris:core:2.1.10'
+    api 'com.github.CaioProgramming.Ilustris:animations:2.1.10'
+    api 'com.google.android.gms:play-services-ads:20.5.0'
     api 'de.hdodenhof:circleimageview:3.1.0'
     api 'com.github.mmin18:realtimeblurview:1.1.2'
     api 'com.android.support:multidex:1.0.3'
-    api 'androidx.legacy:legacy-support-v4:1.0.0'
-    api 'com.google.android.gms:play-services-ads:20.5.0'
     api 'com.facebook.android:facebook-android-sdk:8.1.0'
     api 'cat.ereza:customactivityoncrash:2.3.0'
 

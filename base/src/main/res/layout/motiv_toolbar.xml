@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/toolbarContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/motiv_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/statusBarHeight"
         android:gravity="center"
         android:theme="@style/AppToolbar"
-        app:title=" "
-        app:titleTextColor="@color/white" />
+        app:title="" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titleView"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/statusBarHeight">
+        android:layout_height="?attr/actionBarSize">
 
-        <TextView
-            android:id="@+id/motivTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userpic"
+            android:layout_width="32dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_default_10dp"
+            android:visibility="gone"
+            app:civ_border_color="?android:textColorPrimary"
+            app:civ_border_width="@dimen/default_stroke"
+            app:civ_circle_background_color="?android:textColorHint"
+            app:layout_constraintBottom_toBottomOf="@id/motiv_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/motiv_icon"
+            tools:src="@drawable/ic_neptune"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/motiv_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerInParent="true"
-            android:fontFamily="@font/jost"
-            android:gravity="center"
-            android:maxLength="50"
-            android:maxLines="1"
-            android:text="@string/app_name"
-            android:textAppearance="@style/ToolbarTitle"
-            android:textColor="@color/white"
-            tools:textColor="@color/md_black" />
-    </RelativeLayout>
+            android:src="@drawable/ic_saturn_and_other_planets_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

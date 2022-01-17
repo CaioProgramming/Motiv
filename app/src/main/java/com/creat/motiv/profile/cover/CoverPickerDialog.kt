@@ -1,23 +1,24 @@
 package com.creat.motiv.profile.cover
 
-import android.app.Activity
 import android.content.Context
+import android.view.View
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ProfilepicselectBinding
 import com.ilustris.animations.fadeIn
+import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Cover
-import com.ilustris.motiv.base.dialog.BaseAlert
-import com.ilustris.motiv.base.utils.DialogStyles
+import com.silent.ilustriscore.core.utilities.DialogStyles
+import com.silent.ilustriscore.core.view.BaseAlert
 
-class CoverPickerDialog(context: Context, private val onCoverPick: (Cover) -> Unit) : BaseAlert<ProfilepicselectBinding>(context, R.layout.profilepicselect_,
-        DialogStyles.BOTTOM_NO_BORDER) {
+class CoverPickerDialog(context: Context, private val onCoverPick: (Cover) -> Unit) : BaseAlert(
+    context, R.layout.profilepicselect_,
+    DialogStyles.BOTTOM_NO_BORDER
+) {
 
-    override fun ProfilepicselectBinding.configure() {
-        CoversBinder(this) {
-            onCoverPick.invoke(it)
-            dialog.dismiss()
-        }.run {
-            viewBind.coversGifMark.fadeIn()
+    override fun View.configure() {
+        ProfilepicselectBinding.bind(this).run {
+
+            coversGifMark.slideInBottom()
         }
     }
 

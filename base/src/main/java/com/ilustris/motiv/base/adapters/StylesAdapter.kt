@@ -2,8 +2,8 @@ package com.ilustris.motiv.base.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.beans.Style
@@ -13,18 +13,23 @@ import com.ilustris.motiv.base.databinding.StylePagerLayoutBinding
 class StylesAdapter(val styles: List<Style>) : RecyclerView.Adapter<StylesAdapter.StyleHolder>() {
 
 
-    inner class StyleHolder(val stylePagerLayoutBinding: StylePagerLayoutBinding) : RecyclerView.ViewHolder(stylePagerLayoutBinding.root) {
+    inner class StyleHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val context: Context by lazy { stylePagerLayoutBinding.root.context }
+        val context: Context by lazy { itemView.context }
 
         fun bind(quoteStyle: Style) {
-            Glide.with(context).asGif().load(quoteStyle.backgroundURL).centerCrop().into(stylePagerLayoutBinding.styleGif)
+            StylePagerLayoutBinding.bind(itemView).run {
+                Glide.with(context).asGif().load(quoteStyle.backgroundURL).centerCrop()
+                    .into(styleGif)
+            }
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StyleHolder {
-        return StyleHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.style_pager_layout, parent, false))
+        return StyleHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.style_pager_layout, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: StyleHolder, position: Int) {

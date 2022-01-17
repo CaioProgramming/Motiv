@@ -3,21 +3,15 @@ package com.creat.motiv.profile.view
 
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
 import com.ilustris.motiv.base.utils.hideBackButton
 import com.ilustris.motiv.base.utils.showSupportActionBar
-import com.creat.motiv.quote.view.binder.QuotesListBinder
-import com.creat.motiv.utilities.MotivPreferences
-import com.creat.motiv.tutorial.ProfileTutorialDialog
-import com.creat.motiv.utilities.PROFILE_TUTORIAL
 import com.creat.motiv.view.fragments.FAVORITES_FRAG_TAG
 import com.creat.motiv.view.fragments.FavoritesFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.motiv.base.utils.activity
-import com.ilustris.motiv.base.utils.setMotivTitle
 
 
 const val PROFILE_FRAG_TAG = "PROFILE_FRAGMENT"
@@ -26,7 +20,7 @@ class ProfileFragment : Fragment() {
     var fragmentbind: FragmentProfileBinding? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        fragmentbind = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.fragment_profile, null, false)
+        fragmentbind = FragmentProfileBinding.inflate(inflater)
         setHasOptionsMenu(true)
         return fragmentbind?.root
 
@@ -69,23 +63,16 @@ class ProfileFragment : Fragment() {
         context?.activity()?.let {
             val user = FirebaseAuth.getInstance().currentUser
             user?.let { user ->
-                it.setMotivTitle(user.displayName ?: "")
                 fragmentbind?.let { profileBind ->
-                    QuotesListBinder(profileBind.quotesView).getUserQuotes(user.uid)
+
+
                 }
             }
-            showTutorial()
             it.showSupportActionBar()
             it.hideBackButton()
         }
     }
 
-    private fun showTutorial() {
-        val motivPreferences = MotivPreferences(requireContext())
-        if (!motivPreferences.checkTutorial(PROFILE_TUTORIAL)) {
-            ProfileTutorialDialog(requireActivity()).buildDialog()
-        }
-    }
 
 
 }

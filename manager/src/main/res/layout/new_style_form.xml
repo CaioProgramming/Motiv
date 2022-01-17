@@ -22,16 +22,14 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_default_16dp">
 
-        <com.ilustris.motiv.base.components.MotivTextView
+        <TextView
             android:id="@+id/styleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/app_name"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:textColor="@color/white"
-            app:motivStrokeColor="@color/colorAccent"
-            app:motivStrokeWidth="@dimen/default_stroke" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/styleAuthor"

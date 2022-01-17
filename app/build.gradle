@@ -45,8 +45,6 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue("string",  "feed_advertisement_id", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "video_advertisement_id", "ca-app-pub-3940256099942544/5224354917")
             resValue("string","actual_version",vName + "(debug)")
 
         }
