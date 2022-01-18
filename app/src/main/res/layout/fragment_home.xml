@@ -51,8 +51,9 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/writing_icon"
-                android:layout_width="48dp"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:stateListAnimator="@animator/scale_down_animator"
                 android:layout_margin="@dimen/margin_default_10dp"
                 app:layout_constraintBottom_toBottomOf="@id/motiv_icon"
                 app:layout_constraintEnd_toEndOf="parent"

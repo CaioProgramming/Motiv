@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/styleCard"
-    style="@style/MotivCard"
+    style="@style/StyleCard"
+    android:layout_margin="@dimen/margin_default_10dp"
     android:layout_width="80dp"
     android:layout_height="80dp">
 

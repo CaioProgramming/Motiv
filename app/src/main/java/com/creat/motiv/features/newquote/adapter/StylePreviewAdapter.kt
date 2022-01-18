@@ -1,4 +1,4 @@
-package com.creat.motiv.quote.view.adapter
+package com.creat.motiv.features.newquote.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -14,12 +14,20 @@ import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 
-class StylePreviewAdapter(var styles: List<Style>,
-                          private var selectedStyle: String? = null,
-                          private val onSelectStyle: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StylePreviewAdapter(
+    var styles: ArrayList<Style>,
+    private var selectedStyle: String? = null,
+    private val onSelectStyle: (Int, Style) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    fun refreshStyle(style: Style) {
+        styles.add(style)
+        notifyItemInserted(itemCount)
+    }
 
     fun updateStyles(list: List<Style>) {
-        styles = list
+        styles.clear()
+        styles.addAll(styles)
         notifyDataSetChanged()
     }
 
@@ -32,7 +40,6 @@ class StylePreviewAdapter(var styles: List<Style>,
     inner class StylePreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(quoteStyle: Style) {
-
             StylePreviewCardBinding.bind(itemView).run {
                 val context: Context = root.context
                 styleImage.loadGif(quoteStyle.backgroundURL)
@@ -48,10 +55,7 @@ class StylePreviewAdapter(var styles: List<Style>,
                     styleCard.isSelected = quoteStyle.id == it
                 }
                 styleCard.setOnClickListener {
-                    onSelectStyle.invoke(adapterPosition)
-                }
-                if (styleCard.visibility == View.GONE) {
-                    styleCard.fadeIn()
+                    onSelectStyle.invoke(bindingAdapterPosition, quoteStyle)
                 }
             }
         }

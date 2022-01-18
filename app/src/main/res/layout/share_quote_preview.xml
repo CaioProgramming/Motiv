@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
+    android:paddingHorizontal="30dp"
+    android:paddingVertical="50dp"
     android:orientation="vertical">
 
 
@@ -15,10 +17,9 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/margin_big_16dp"
         android:layout_marginVertical="?attr/actionBarSize"
-        app:cardBackgroundColor="?android:colorBackground"
+        app:cardBackgroundColor="?android:textColorPrimary"
         app:cardCornerRadius="@dimen/radius_default_10dp"
         app:cardElevation="0dp"
-        app:cardForegroundColor="?android:textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,22 +28,17 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/shareCard"
         style="@style/MotivCard"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_default_10dp"
         android:layout_marginTop="@dimen/padding_big_24"
         android:layout_marginEnd="@dimen/margin_big_16dp"
         android:layout_marginBottom="@dimen/margin_default_10dp"
-        android:stateListAnimator="@animator/list_animator"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="@dimen/radius_default_10dp"
-        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@id/cardShadow"
         app:layout_constraintEnd_toEndOf="@id/cardShadow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="?android:textColorPrimary"
-        app:strokeWidth="2dp">
+        app:strokeColor="?android:textColorPrimary">
 
         <RelativeLayout
             android:id="@+id/quoteContent"
@@ -51,9 +47,10 @@
 
             <ImageView
                 android:id="@+id/quoteImage"
+                android:layout_margin="1dp"
+                android:background="@color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"
                 android:scaleType="centerCrop" />
 
             <View

@@ -9,7 +9,9 @@ import com.silent.ilustriscore.core.view.BaseAlert
 
 
 class ListDialog(
-    context: Context, private val dialogItems: DialogItems, private val onSelectItem: (Int) -> Unit,
+    context: Context,
+    private val dialogItems: dialogItems,
+    private val onSelectItem: (Int, DialogData) -> Unit,
     dialogStyle: DialogStyles
 ) : BaseAlert(context, R.layout.list_dialog_layout, dialogStyle) {
 
@@ -17,7 +19,7 @@ class ListDialog(
         ListDialogLayoutBinding.bind(this).run {
             listRecyclerView.run {
                 adapter = ListDialogAdapter(dialogItems) {
-                    onSelectItem.invoke(it)
+                    onSelectItem.invoke(it, dialogItems[it])
                     dialog.dismiss()
                 }
             }
