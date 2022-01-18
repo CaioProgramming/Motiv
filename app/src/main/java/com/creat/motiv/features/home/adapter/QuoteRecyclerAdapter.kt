@@ -1,10 +1,16 @@
 package com.creat.motiv.features.home.adapter
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Color
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
@@ -19,6 +25,8 @@ import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.*
 import com.silent.ilustriscore.core.utilities.delayedFunction
 import com.silent.ilustriscore.core.utilities.gone
+import com.silent.ilustriscore.core.utilities.showSnackBar
+import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
 
 private const val QUOTE_VIEW = 0
@@ -42,11 +50,14 @@ class QuoteRecyclerAdapter(
     }
 
     fun loadOnNextPage(quoteAdapterData: QuoteAdapterData, position: Int) {
-        quoteAdapterList.add(position + 1, quoteAdapterData)
-        notifyItemInserted(position + 1)
+        if (position <= itemCount) {
+            val nextItem = quoteAdapterList[position + 1]
+            if (nextItem.quote.id != quoteAdapterData.quote.id) {
+                quoteAdapterList.add(position + 1, quoteAdapterData)
+                notifyItemInserted(position + 1)
+            }
+        }
     }
-
-    fun getQuote(position: Int) = quoteAdapterList[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
@@ -93,11 +104,16 @@ class QuoteRecyclerAdapter(
     }
 
     override fun getItemCount(): Int = quoteAdapterList.size
+    fun clearAdapter() {
+        quoteAdapterList.clear()
+        notifyDataSetChanged()
+    }
 
     inner class QuoteViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind() {
             QuotesCardBinding.bind(view).run {
                 setupData()
+
             }
         }
 
@@ -121,42 +137,85 @@ class QuoteRecyclerAdapter(
                 style.shadowStyle.dy,
                 Color.parseColor(style.shadowStyle.shadowColor)
             )
+            authorTextView.setShadowLayer(
+                style.shadowStyle.radius,
+                style.shadowStyle.dx,
+                style.shadowStyle.dy,
+                Color.parseColor(style.shadowStyle.shadowColor)
+            )
 
             FontUtils.getTypeFace(context, style.font)?.let {
                 quoteTextView.setTypeface(it, style.fontStyle.getTypefaceStyle())
                 authorTextView.setTypeface(it, style.fontStyle.getTypefaceStyle())
-
             }
+            quoteTextView.bounce()
+            authorTextView.bounce()
         }
 
         private fun QuotesCardBinding.setupData() {
+            val context = root.context
             val quoteData = quoteAdapterList[bindingAdapterPosition]
             quoteTextView.text = quoteData.quote.quote
             authorTextView.text = quoteData.quote.author
+            quoteTextView.setOnLongClickListener {
+                copyToClipboard(context, quoteData.quote)
+                false
+            }
+
+            authorTextView.setOnLongClickListener {
+                copyToClipboard(context, quoteData.quote)
+                false
+            }
             like.isChecked = quoteData.quote.likes.contains(quoteData.currentUser?.uid)
             optionsButton.setOnClickListener {
                 onSelectQuote(quoteData, QuoteAction.OPTIONS)
             }
-            like.setOnCheckedChangeListener { buttonView, isChecked ->
+            like.setOnClickListener {
                 onSelectQuote(quoteData, QuoteAction.LIKE)
             }
             setupStyle(quoteData.style)
             setupUser(quoteData.user)
             quoteDate.text = TextUtils.data(quoteData.quote.data)
-            userTop.fadeIn()
-            quoteTextView.popIn()
-            authorTextView.popIn()
             userTop.setOnClickListener {
                 onSelectQuote(quoteData, QuoteAction.USER)
             }
             likersRecycler.adapter = quoteData.likers?.let {
+                likersRecycler.fadeIn()
                 LikersAdapter(it) {
                     onSelectQuote(quoteData, QuoteAction.USER)
                 }
             }
             if (!quoteData.quote.isUserQuote()) {
                 userTop.gone()
+            } else {
+                userTop.visible()
             }
+        }
+
+        private fun QuotesCardBinding.copyToClipboard(
+            context: Context,
+            quote: Quote
+        ) {
+            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (vibrator.hasVibrator()) {
+                val mVibratePattern = longArrayOf(60, 60)
+                vibrator.vibrate(mVibratePattern, -1)
+            }
+            val clipboard: ClipboardManager? =
+                context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val clip = ClipData.newPlainText(
+                "Motiv",
+                "${quote.quote}\uD83E\uDE90\n - ${quote.author} \n\n#${
+                    context.getString(
+                        R.string.app_name
+                    ).lowercase(Locale.getDefault())
+                } #${quote.author.replace(" ", "").lowercase(Locale.getDefault())}"
+            )
+            clipboard?.setPrimaryClip(clip)
+            root.showSnackBar(
+                "Copiado para área de transferência",
+                backColor = ContextCompat.getColor(context, R.color.colorAccent)
+            )
         }
     }
 
@@ -221,7 +280,7 @@ class QuoteRecyclerAdapter(
             appRating.isEnabled = false
             appRating.numStars = ad.starRating.toInt()
             adHeadline.text = ad.headline
-            adView.slideInBottom()
+            adView.fadeIn()
             loading.fadeOut()
             if (ad.images.isNotEmpty()) {
                 if (ad.images.size > 1) {

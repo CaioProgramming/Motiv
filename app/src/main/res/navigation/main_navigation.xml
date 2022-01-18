@@ -50,7 +50,12 @@
         android:id="@+id/navigation_new_quote"
         android:name="com.creat.motiv.features.newquote.NewQuoteFragment"
         android:label="Novo post"
-        tools:layout="@layout/new_quote_fragment" />
+        tools:layout="@layout/new_quote_fragment">
+        <argument
+            android:name="quote"
+            app:argType="com.ilustris.motiv.base.beans.Quote"
+            app:nullable="true" />
+    </fragment>
 
 
 </navigation>

@@ -5,9 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -18,25 +21,29 @@ import com.creat.motiv.databinding.FragmentHomeBinding
 import com.creat.motiv.features.home.adapter.PagerStackTransformer
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
+import com.creat.motiv.features.share.QuoteShareDialog
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
-import com.ilustris.animations.popOut
+import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.QuoteAdapterData
-import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
+import com.ilustris.motiv.base.dialog.listdialog.ListDialog
+import com.ilustris.motiv.base.dialog.listdialog.dialogItems
 import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.base.utils.RC_SIGN_IN
+import com.ilustris.motiv.base.utils.hideBackButton
+import com.ilustris.motiv.base.utils.showSupportActionBar
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.LoginHelper
-import com.silent.ilustriscore.core.utilities.delayedFunction
-import com.silent.ilustriscore.core.utilities.showSnackBar
+import com.silent.ilustriscore.core.utilities.*
 
 
 class HomeFragment : Fragment() {
@@ -61,7 +68,7 @@ class HomeFragment : Fragment() {
             }
             (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
             writingIcon.setOnClickListener {
-                findNavController().navigate(R.id.action_navigation_home_to_newQuoteFragment)
+                navigateToNewQuote()
             }
         }
         homeViewModel.getHomeQuotes()
@@ -80,14 +87,40 @@ class HomeFragment : Fragment() {
                 }
                 is HomeViewState.UsersRetrieved -> {
                     homeBinding?.quotesView?.quotesrecyclerview?.run {
-                        quoteRecyclerAdapter.loadOnNextPage(
-                            QuoteAdapterData(
-                                Quote.usersQuote(),
-                                users = it.users
-                            ), currentItem
-                        )
-
+                        if (childCount > 15) {
+                            quoteRecyclerAdapter.loadOnNextPage(
+                                QuoteAdapterData(
+                                    Quote.usersQuote(),
+                                    users = it.users
+                                ), currentItem
+                            )
+                        }
                     }
+                }
+                is HomeViewState.QuoteOptionsRetrieve -> {
+                    openOptions(it.dialogItems)
+                }
+                is HomeViewState.RequestDelete -> {
+                    BottomSheetAlert(
+                        requireContext(),
+                        "Remover Post?",
+                        "Você está prestes a deletar, seu post", {
+                            homeViewModel.deleteData(it.quote.id)
+                        }
+                    ).buildDialog()
+                }
+                is HomeViewState.RequestEdit -> {
+                    navigateToNewQuote(it.quote)
+                }
+                is HomeViewState.RequestReport -> {
+                    DefaultAlert(
+                        requireContext(),
+                        "Denúnciar publicação",
+                        "Você deseja denúnciar essa publicação? Vamos analisá-la e tomar as ações necessárias!"
+                    ).buildDialog()
+                }
+                is HomeViewState.RequestShare -> {
+                    QuoteShareDialog(requireContext(), it.quoteShareData).buildDialog()
                 }
             }
         })
@@ -98,11 +131,25 @@ class HomeFragment : Fragment() {
                     handleError(it.dataException)
                 }
                 ViewModelBaseState.LoadingState -> {
-                    homeBinding?.quotesView?.loading?.fadeIn()
                     togglePager(false)
                 }
+                ViewModelBaseState.DataDeletedState -> {
+                    quoteRecyclerAdapter.clearAdapter()
+                    homeViewModel.getHomeQuotes()
+                }
+
+                is ViewModelBaseState.DataUpdateState -> {
+                    quoteRecyclerAdapter.clearAdapter()
+                    homeViewModel.getHomeQuotes()
+                }
+
             }
         })
+    }
+
+    private fun navigateToNewQuote(quote: Quote? = null) {
+        val bundle = bundleOf("quote" to quote)
+        findNavController().navigate(R.id.navigation_new_quote, bundle)
     }
 
     private fun setupUser(user: User) {
@@ -111,6 +158,9 @@ class HomeFragment : Fragment() {
             if (user.admin) borderColor =
                 ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             fadeIn()
+            setOnClickListener {
+                navigateToProfile(user.uid)
+            }
         }
 
     }
@@ -135,8 +185,8 @@ class HomeFragment : Fragment() {
 
     private fun selectQuote(quoteAdapterData: QuoteAdapterData, quoteAction: QuoteAction) {
         when (quoteAction) {
-            QuoteAction.OPTIONS -> openOptions()
-            QuoteAction.LIKE -> likeQuote()
+            QuoteAction.OPTIONS -> homeViewModel.fetchQuoteOptions(quoteAdapterData)
+            QuoteAction.LIKE -> likeQuote(quoteAdapterData.quote)
             QuoteAction.USER -> {
                 navigateToProfile(quoteAdapterData.user.uid)
             }
@@ -144,42 +194,37 @@ class HomeFragment : Fragment() {
     }
 
     private fun selectUser(user: User) {
-
+        navigateToProfile(user.uid)
     }
 
     private fun setupQuotes(quotedata: QuoteAdapterData) {
-        quoteRecyclerAdapter.refreshData(quotedata)
-        homeBinding?.quotesView?.loading?.run {
-            if (isVisible) {
-                fadeOut()
-            }
-        }
-        homeBinding?.quotesView?.quotesrecyclerview?.run {
-            if (quoteRecyclerAdapter.itemCount > 1 && currentItem == 0) {
-                delayedFunction(5000) {
-                    setCurrentItem(1, true)
-                }
-            }
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    if (position % 10 == 0 && !loadingAd) {
-                        loadingAd = true
-                        AdvertiseHelper(requireContext()).loadAd({
-                            quoteRecyclerAdapter.loadOnNextPage(
-                                QuoteAdapterData(
-                                    Quote.advertiseQuote(),
-                                    advertise = it
-                                ), position
-                            )
-                            loadingAd = false
-                        }, {
-                            loadingAd = false
-                            Log.e("Home", "Ad error: Erro ao carregar anúncio")
-                        })
+        homeBinding?.run {
+            quoteRecyclerAdapter.refreshData(quotedata)
+            quotesView.loading.gone()
+            quotesView.quotesrecyclerview.visible()
+            quotesView.quotesrecyclerview.run {
+                visible()
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageScrollStateChanged(state: Int) {
+                        super.onPageScrollStateChanged(state)
+                        if (currentItem >= 10 && currentItem % 10 == 0 && state == ViewPager.SCROLL_STATE_IDLE && !loadingAd) {
+                            loadingAd = true
+                            AdvertiseHelper(requireContext()).loadAd({
+                                quoteRecyclerAdapter.loadOnNextPage(
+                                    QuoteAdapterData(
+                                        Quote.advertiseQuote(),
+                                        advertise = it
+                                    ), currentItem
+                                )
+                                loadingAd = false
+                            }, {
+                                loadingAd = false
+                                Log.e("Home", "Ad error: Erro ao carregar anúncio")
+                            })
+                        }
                     }
-                }
-            })
+                })
+            }
         }
 
     }
@@ -188,12 +233,17 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun openOptions() {
-
+    private fun openOptions(dialogItems: dialogItems) {
+        ListDialog(
+            requireContext(), dialogItems,
+            { index, dialogItem ->
+                dialogItem.action.invoke()
+            }, DialogStyles.BOTTOM_NO_BORDER
+        ).buildDialog()
     }
 
-    private fun likeQuote() {
-
+    private fun likeQuote(quote: Quote) {
+        homeViewModel.favoriteQuote(quote)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -234,8 +284,6 @@ class HomeFragment : Fragment() {
             return true
         }
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

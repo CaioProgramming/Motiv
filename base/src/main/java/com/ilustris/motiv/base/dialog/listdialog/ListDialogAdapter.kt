@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.ListDialogItemLayoutBinding
 
-class ListDialogAdapter(val dialogItems: DialogItems, val onItemClick: (Int) -> Unit) :
+class ListDialogAdapter(val dialogItems: dialogItems, val onItemClick: (Int) -> Unit) :
     RecyclerView.Adapter<ListDialogAdapter.ListItemViewHolder>() {
 
     inner class ListItemViewHolder(val listDialogItemLayoutBinding: ListDialogItemLayoutBinding) :

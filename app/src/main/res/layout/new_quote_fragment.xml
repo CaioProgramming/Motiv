@@ -1,123 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/dividerColor">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/motiv_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:theme="@style/AppToolbar"
+            app:title=" " />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/titleView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_default_16dp"
+                android:stateListAnimator="@animator/list_animator"
+                android:text="@string/cancel_button"
+                android:textColor="?android:textColorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_quote_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_default_16dp"
+                android:elevation="0dp"
+                android:enabled="false"
+                android:text="@string/save_quote_button"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="@color/colorPrimaryDark"
+                app:cornerRadius="@dimen/radius_big_20dp"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/editloading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorColor="?android:textColorPrimary"
+                app:indicatorDirectionCircular="clockwise"
+                app:layout_constraintBottom_toBottomOf="@id/save_quote_button"
+                app:layout_constraintEnd_toEndOf="@id/save_quote_button"
+                app:layout_constraintStart_toStartOf="@id/save_quote_button"
+                app:layout_constraintTop_toTopOf="@id/save_quote_button"
+                app:trackThickness="1dp"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
 
 
-    <include
-        android:id="@+id/stylesPager"
-        layout="@layout/style_pager" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_default_10dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@id/styles_container"
+        app:layout_constraintTop_toBottomOf="@id/motiv_top">
 
-    <LinearLayout
+        <View
+            android:id="@+id/cardShadow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_big_16dp"
+            android:background="@drawable/round"
+            android:backgroundTint="?attr/dropShadowColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/quoteCard"
+            style="@style/MotivCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_small_4dp"
+            android:layout_marginTop="@dimen/margin_default_10dp"
+            android:layout_marginBottom="@dimen/padding_small_8dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="@id/cardShadow"
+            app:layout_constraintEnd_toEndOf="@id/cardShadow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/dividerColor"
+                android:hapticFeedbackEnabled="true"
+                android:orientation="vertical"
+                android:transitionName="@string/card_transaction">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/stylesPager"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:showIn="@layout/new_quote_fragment" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:alpha="0.3"
+                    android:background="@color/md_black"
+                    app:layout_constraintBottom_toBottomOf="@id/stylesPager"
+                    app:layout_constraintEnd_toEndOf="@id/stylesPager"
+                    app:layout_constraintStart_toStartOf="@id/stylesPager"
+                    app:layout_constraintTop_toTopOf="@id/stylesPager" />
+
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/quoteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_above="@id/author_text_view"
+                    android:layout_marginVertical="@dimen/padding_default_16dp"
+                    android:autoSizeMaxTextSize="@dimen/big_quote_size"
+                    android:autoSizeMinTextSize="@dimen/low_quote_size"
+                    android:autoSizeTextType="uniform"
+                    android:background="@color/transparent"
+                    android:breakStrategy="high_quality"
+                    android:gravity="center"
+                    android:hint="Diga o que sente."
+                    android:maxLength="100"
+                    android:padding="@dimen/padding_default_16dp"
+                    android:stateListAnimator="@animator/text_animator"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/default_quote_size"
+                    android:textStyle="bold"
+                    android:transitionName="@string/quote_transaction"
+                    android:typeface="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:textColor="@color/md_white"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/author_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:autoSizeMaxTextSize="@dimen/default_quote_size"
+                    android:autoSizeMinTextSize="@dimen/min_quote_size"
+                    android:autoSizeTextType="uniform"
+                    android:backgroundTint="@color/transparent"
+                    android:breakStrategy="high_quality"
+                    android:gravity="center"
+                    android:hint="apenas você"
+                    android:maxLength="20"
+                    android:padding="@dimen/padding_small_8dp"
+                    android:textAlignment="center"
+                    android:textStyle="italic"
+                    android:transitionName="@string/author_transaction"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/quoteTextView"
+                    app:motivStrokeColor="@color/md_black"
+                    app:motivStrokeWidth="@dimen/default_stroke"
+                    tools:textColor="@color/md_white"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/round_bottom"
+                    android:backgroundTint="?android:colorBackground"
+                    android:src="@drawable/giphy_mark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?android:textColorPrimary" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/styles_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/save_quote_button"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/topBlurSize"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_default_16dp"
-        android:transitionName="@string/quote_transaction">
+        android:background="@drawable/top_line"
+        android:backgroundTint="?attr/dividerColor"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <EditText
-            android:id="@+id/quoteTextView"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/available_styles"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:autoSizeMaxTextSize="@dimen/big_quote_size"
-            android:autoSizeMinTextSize="@dimen/min_quote_size"
-            android:autoSizeTextType="uniform"
-            android:background="@color/transparent"
-            android:breakStrategy="high_quality"
-            android:gravity="center"
-            android:hint="@string/quote"
-            android:maxHeight="400dp"
-            android:maxLength="200"
-            android:textAlignment="center"
-            android:textSize="@dimen/big_quote_size"
+            android:layout_above="@id/stylePreviewRecycler"
+            android:padding="@dimen/padding_default_16dp"
+            android:text="Estilos disponíveis"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textStyle="bold"
-            android:transitionName="@string/quote_transaction"
-            android:typeface="normal"
-            android:visibility="gone"
-            tools:textColor="@color/md_white"
-            tools:visibility="visible" />
+            app:layout_constraintBottom_toTopOf="@id/stylePreviewRecycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/author_text_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stylePreviewRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/transparent"
-            android:backgroundTint="@color/transparent"
-            android:gravity="center"
-            android:hint="@string/author"
-            android:maxLength="40"
-            android:paddingVertical="@dimen/padding_default_16dp"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="italic"
-            android:transitionName="@string/author_transaction"
-            android:visibility="gone"
-            tools:text="Lana Del Rey"
-            tools:textColor="@color/md_white"
-            tools:visibility="visible" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:spanCount="1"
+            tools:listitem="@layout/style_preview_card" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <TextView
-        android:id="@+id/available_styles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/stylePreviewRecycler"
-        android:layout_marginHorizontal="@dimen/margin_default_10dp"
-        android:text="Estilos disponíveis"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textStyle="bold" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stylePreviewRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/save_quote_button"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="1"
-        tools:listitem="@layout/style_preview_card" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_quote_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="@dimen/margin_default_10dp"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:padding="@dimen/padding_default_16dp"
-        android:stateListAnimator="@animator/list_animator"
-        android:text="@string/save_quote_button"
-        android:textColor="?android:textColorPrimary"
-        android:textStyle="bold"
-        app:backgroundTint="@color/colorAccent"
-        app:strokeColor="?android:textColorPrimary"
-        app:strokeWidth="@dimen/default_stroke" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/editloading"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:elevation="8dp"
-        android:indeterminate="true"
-        android:visibility="gone"
-        app:indicatorColor="?android:textColorPrimary"
-        app:indicatorDirectionCircular="clockwise"
-        app:trackThickness="1dp"
-        tools:visibility="visible" />
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

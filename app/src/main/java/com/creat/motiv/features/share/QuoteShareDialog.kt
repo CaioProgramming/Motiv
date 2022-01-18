@@ -6,47 +6,48 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.fragment.app.DialogFragment
 import com.creat.motiv.BuildConfig
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ShareQuotePreviewBinding
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.utils.*
+import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.*
 import com.silent.ilustriscore.core.view.BaseAlert
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style) :
+class QuoteShareDialog(context: Context, val quoteShareData: QuoteShareData) :
     BaseAlert(context, R.layout.share_quote_preview, style = DialogStyles.FULL_SCREEN) {
 
 
     override fun View.configure() {
         ShareQuotePreviewBinding.bind(this).run {
-
-
-            quoteStyle.run {
-
+            quoteTextView.text = quoteShareData.quote.quote
+            authorTextView.text = quoteShareData.quote.author
+            quoteShareData.style.run {
                 quoteImage.loadGif(backgroundURL) {
                     progressBar.fadeOut()
                     quoteContent.fadeIn()
                 }
-                FontUtils.getTypeFace(context, quoteStyle.font)?.let {
-                    quoteTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
-                    authorTextView.setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
+                FontUtils.getTypeFace(context, font)?.let {
+                    quoteTextView.setTypeface(it, fontStyle.getTypefaceStyle())
+                    authorTextView.setTypeface(it, fontStyle.getTypefaceStyle())
                 }
-
                 quoteTextView.setTextColor(Color.parseColor(textColor))
                 authorTextView.setTextColor(Color.parseColor(textColor))
-
-                quoteTextView.defineTextAlignment(quoteStyle.textAlignment)
-                authorTextView.defineTextAlignment(quoteStyle.textAlignment)
+                quoteTextView.defineTextAlignment(textAlignment)
+                authorTextView.defineTextAlignment(textAlignment)
                 shadowStyle.run {
                     quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                     authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
@@ -70,7 +71,10 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
                                 Intent.EXTRA_SUBJECT,
                                 context.resources.getString(R.string.app_name)
                             )
-                            putExtra(Intent.EXTRA_TEXT, "${quote.quote}\n - ${quote.author}")
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                "${quoteShareData.quote.quote}\n - ${quoteShareData.quote.author}"
+                            )
                             putExtra(Intent.EXTRA_STREAM, uri)
                         }
                         context.startActivity(
@@ -80,6 +84,7 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
                             )
                         )
                         delayedFunction {
+                            getScreenshot().delete()
                             dialog.dismiss()
                         }
                     }
@@ -89,15 +94,21 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
 
     }
 
+    private fun getScreenshot(): File {
+        val cachePath = context.cacheDir.path + "/shared_quotes/"
+        return File(cachePath + "quote_${quoteShareData.quote.id}.png")
+    }
+
     private fun copyToClipboard() {
         val clipboard: ClipboardManager? =
             context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
         val clip = ClipData.newPlainText(
-            "Motiv", "${quote.quote}\uD83E\uDE90\n - ${quote.author} \nVeja mais em: @motivbr\n#${
+            "Motiv",
+            "${quoteShareData.quote.quote}\uD83E\uDE90\n - ${quoteShareData.quote.author} \nVeja mais em: @motivbr\n#${
                 context.getString(R.string.app_name)
                     .lowercase(Locale.getDefault())
             } #${
-                quote.author.replace(" ", "")
+                quoteShareData.quote.author.replace(" ", "")
                     .lowercase(Locale.getDefault())
             }"
         )
@@ -113,10 +124,10 @@ class QuoteShareDialog(context: Context, val quote: Quote, val quoteStyle: Style
                 val cachePath = context.cacheDir.path + "/shared_quotes/"
                 val cacheDir = File(cachePath)
                 if (!cacheDir.exists()) cacheDir.mkdirs()
-                val stream = FileOutputStream(cachePath + "quote_${quote.id}.png")
+                val stream = FileOutputStream(cachePath + "quote_${quoteShareData.quote.id}.jpeg")
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 stream.close()
-                val file = File(cachePath + "quote_${quote.id}.png")
+                val file = File(cachePath + "quote_${quoteShareData.quote.id}.jpeg")
                 Log.i(javaClass.simpleName, "generateCardImage: file saved ${file.absolutePath}")
                 onFileSave.invoke(file)
             }
