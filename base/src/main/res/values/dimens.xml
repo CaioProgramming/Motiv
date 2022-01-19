@@ -8,5 +8,5 @@
     <dimen name="min_quote_size">12sp</dimen>
     <dimen name="topBlurSize">80dp</dimen>
     <dimen name="statusBarHeight">25dp</dimen>
-    <dimen name="default_stroke">1dp</dimen>
+    <dimen name="default_stroke">2dp</dimen>
 </resources>

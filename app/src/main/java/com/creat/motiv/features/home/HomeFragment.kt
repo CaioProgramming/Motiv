@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
+import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.features.home.adapter.PagerStackTransformer
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
@@ -79,7 +80,7 @@ class HomeFragment : Fragment() {
         homeViewModel.homeViewState.observe(this, {
             when (it) {
                 is HomeViewState.QuoteDataRetrieve -> {
-                    setupQuotes(it.quotedata)
+                    homeBinding?.quotesView?.setupQuotes(it.quotedata)
                 }
 
                 is HomeViewState.UserRetrieved -> {
@@ -116,7 +117,10 @@ class HomeFragment : Fragment() {
                     DefaultAlert(
                         requireContext(),
                         "Denúnciar publicação",
-                        "Você deseja denúnciar essa publicação? Vamos analisá-la e tomar as ações necessárias!"
+                        "Você deseja denúnciar essa publicação? Vamos analisá-la e tomar as ações necessárias!",
+                        okClick = {
+                            view?.showSnackBar("Denúncia enviada com sucesso!")
+                        }
                     ).buildDialog()
                 }
                 is HomeViewState.RequestShare -> {
@@ -197,22 +201,21 @@ class HomeFragment : Fragment() {
         navigateToProfile(user.uid)
     }
 
-    private fun setupQuotes(quotedata: QuoteAdapterData) {
-        homeBinding?.run {
-            quoteRecyclerAdapter.refreshData(quotedata)
-            quotesView.loading.gone()
-            quotesView.quotesrecyclerview.visible()
-            quotesView.quotesrecyclerview.run {
-                visible()
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        if (currentItem >= 10 && currentItem % 10 == 0 && state == ViewPager.SCROLL_STATE_IDLE && !loadingAd) {
-                            loadingAd = true
-                            AdvertiseHelper(requireContext()).loadAd({
-                                quoteRecyclerAdapter.loadOnNextPage(
-                                    QuoteAdapterData(
-                                        Quote.advertiseQuote(),
+    private fun QuoteRecyclerBinding.setupQuotes(quotedata: QuoteAdapterData) {
+        quoteRecyclerAdapter.refreshData(quotedata)
+        loading.gone()
+        quotesrecyclerview.visible()
+        quotesrecyclerview.run {
+            visible()
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(state: Int) {
+                    super.onPageScrollStateChanged(state)
+                    if (currentItem >= 10 && currentItem % 10 == 0 && state == ViewPager.SCROLL_STATE_IDLE && !loadingAd) {
+                        loadingAd = true
+                        AdvertiseHelper(requireContext()).loadAd({
+                            quoteRecyclerAdapter.loadOnNextPage(
+                                QuoteAdapterData(
+                                    Quote.advertiseQuote(),
                                         advertise = it
                                     ), currentItem
                                 )
@@ -225,12 +228,11 @@ class HomeFragment : Fragment() {
                     }
                 })
             }
-        }
-
     }
 
     private fun navigateToProfile(uid: String) {
-
+        val bundle = bundleOf("uid" to uid)
+        findNavController().navigate(R.id.action_navigation_home_to_navigation_profile, bundle)
     }
 
     private fun openOptions(dialogItems: dialogItems) {

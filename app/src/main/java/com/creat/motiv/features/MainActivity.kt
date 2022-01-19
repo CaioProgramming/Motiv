@@ -30,7 +30,7 @@ open class MainActivity : AppCompatActivity() {
 
     private fun ActivityMainBinding.setupView() {
         val navController = findNavController(R.id.nav_host_fragment)
-        navView.setupWithNavController(navController)
+        //navView.setupWithNavController(navController)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,

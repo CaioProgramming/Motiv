@@ -22,9 +22,14 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.creat.motiv.profile.view.ProfileFragment"
+        android:name="com.creat.motiv.features.profile.ProfileFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_profile">
+
+        <argument
+            android:name="uid"
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_navigation_profile_to_navigation_settings"
