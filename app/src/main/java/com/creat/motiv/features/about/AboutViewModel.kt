@@ -27,7 +27,7 @@ class AboutViewModel : BaseViewModel<Developer>() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val aboutData = ArrayList<AboutData>()
-                val developers = service.getAllData() as ArrayList<Developer>
+                val developers = service.getAllData().success.data as ArrayList<Developer>
                 aboutData.add(AboutData("Desenvolvedores", developers = developers))
                 aboutData.add(AboutData("Referências", references = Reference.references))
                 aboutViewState.postValue(AboutViewState.AboutDataRetrieved(aboutData))

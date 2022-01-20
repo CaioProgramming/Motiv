@@ -1,43 +1,55 @@
 package com.creat.motiv.features.profile.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.creat.motiv.features.home.QuoteListViewState
 import com.creat.motiv.features.share.QuoteShareData
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.ilustris.motiv.base.beans.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
-import com.ilustris.motiv.base.service.QuoteService
-import com.ilustris.motiv.base.service.StyleService
-import com.ilustris.motiv.base.service.UserService
+import com.ilustris.motiv.base.service.*
 import com.silent.ilustriscore.core.model.BaseViewModel
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.ArrayList
 
-class UserViewModel : BaseViewModel<User>() {
+class ProfileViewModel : BaseViewModel<User>() {
 
     override val service = UserService()
     private val quoteService = QuoteService()
     private val styleService = StyleService()
-    val userViewState = MutableLiveData<ProfileViewState>()
+    private val iconsService = IconsService()
+    private val coversService = CoverService()
+    val profileViewState = MutableLiveData<ProfileViewState>()
+    val quoteListViewState = MutableLiveData<QuoteListViewState>()
 
     fun fetchUserPage(uid: String? = currentUser?.uid) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userRequest = service.getSingleData(uid!!)
+                if (userRequest.isError) {
+                    viewModelState.postValue(ViewModelBaseState.ErrorState(userRequest.error.errorException))
+                }
                 val user = userRequest.success.data as User
                 val postsRequest = quoteService.query(uid, "userID")
+                if (postsRequest.isError) {
+                    viewModelState.postValue(ViewModelBaseState.ErrorState(postsRequest.error.errorException))
+                }
                 val posts = postsRequest.success.data as quoteList
                 val favoritesRequest = quoteService.findOnArray("likes", uid)
                 val favoritePosts = favoritesRequest.success.data as quoteList
-                userViewState.postValue(
+                profileViewState.postValue(
                     ProfileViewState.ProfilePageRetrieve(
                         ProfileData(
                             user = user,
-                            favoritePosts,
-                            posts = posts
+                            ArrayList(favoritePosts.sortedByDescending { it.data }),
+                            posts = ArrayList(posts.sortedByDescending { it.data }),
+                            user.uid == currentUser?.uid
                         )
                     )
                 )
@@ -72,8 +84,8 @@ class UserViewModel : BaseViewModel<User>() {
                     }
 
                 }
-                userViewState.postValue(
-                    ProfileViewState.RetrieveQuote(
+                quoteListViewState.postValue(
+                    QuoteListViewState.QuoteDataRetrieve(
                         QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
                     )
                 )
@@ -97,26 +109,67 @@ class UserViewModel : BaseViewModel<User>() {
         val quote = quoteAdapterData.quote
         if (quote.userID == currentUser?.uid) {
             dialogItems.add(DialogData("Excluir") {
-                userViewState.value = ProfileViewState.RequestDelete(quote)
+                quoteListViewState.value = QuoteListViewState.RequestDelete(quote)
             })
             dialogItems.add(DialogData("Editar") {
-                userViewState.value = ProfileViewState.RequestEdit(quote)
+                quoteListViewState.value = QuoteListViewState.RequestEdit(quote)
             })
         }
         dialogItems.add(DialogData("Compartilhar") {
-            userViewState.value =
-                ProfileViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
+            quoteListViewState.value =
+                QuoteListViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
         })
         dialogItems.add(DialogData("Denúnciar") {
-            userViewState.value = ProfileViewState.RequestReport(quote)
+            quoteListViewState.value = QuoteListViewState.RequestReport(quote)
         })
 
-        userViewState.postValue(ProfileViewState.QuoteOptionsRetrieve(dialogItems.toList()))
+        quoteListViewState.postValue(QuoteListViewState.QuoteOptionsRetrieve(dialogItems.toList()))
     }
 
     fun deleteQuote(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             quoteService.deleteData(id)
+        }
+    }
+
+    fun requestIcons(requiredUser: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val icons = iconsService.getAllData().success.data as ArrayList<Icon>
+            profileViewState.postValue(ProfileViewState.IconsRetrieved(icons, requiredUser))
+        }
+    }
+
+    fun requestCovers(requiredUser: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val covers = coversService.getAllData().success.data as ArrayList<Cover>
+            profileViewState.postValue(ProfileViewState.CoversRetrieved(covers, requiredUser))
+        }
+    }
+
+    fun updateUserPic(user: User, uri: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val profileChangeRequest =
+                    UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(uri)).build()
+                val request = currentUser?.updateProfile(profileChangeRequest)?.await()
+                val editFieldRequest = service.editField(uri, user.id, "picurl")
+                viewModelState.postValue(ViewModelBaseState.DataUpdateState(user.apply {
+                    picurl = uri
+                }))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.UNKNOWN))
+            }
+        }
+
+    }
+
+    fun updateUserCover(user: User, uri: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val editFieldRequest = service.editField(uri, user.id, "cover")
+            viewModelState.postValue(ViewModelBaseState.DataUpdateState(user.apply {
+                cover = uri
+            }))
         }
     }
 

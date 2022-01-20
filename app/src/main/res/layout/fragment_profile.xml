@@ -8,6 +8,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/profileTop"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_line"
@@ -17,11 +19,45 @@
 
         <ImageView
             android:id="@+id/usercover"
+            android:layout_height="150dp"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@drawable/dribble_gradient" />
+
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top"
+            android:layout_margin="@dimen/margin_default_10dp"
+            android:background="@drawable/round_circle"
+            android:backgroundTint="?attr/blurOverLayColor"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/optionsButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="@dimen/margin_default_10dp"
+            android:background="@drawable/round_circle"
+            android:backgroundTint="?attr/blurOverLayColor"
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@id/username"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/username"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="?android:textColorPrimary"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/options"
+            app:lottie_repeatMode="reverse"
+            tools:src="@drawable/ic_menu" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,8 +69,9 @@
                 android:id="@+id/profilepic"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:civ_border_color="?attr/dropShadowColor"
-                app:civ_border_width="@dimen/default_stroke"
+                android:stateListAnimator="@animator/scale_down_animator"
+                app:civ_border_color="?android:colorBackground"
+                app:civ_border_width="@dimen/radius_small_5dp"
                 app:civ_circle_background_color="?attr/dividerColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +103,7 @@
                 app:layout_constraintTop_toBottomOf="@id/username" />
 
             <View
-                android:layout_width="@dimen/default_stroke"
+                android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/margin_default_10dp"
                 android:background="?attr/dividerColor"
@@ -85,20 +122,6 @@
                 app:layout_constraintStart_toEndOf="@id/posts_count"
                 app:layout_constraintTop_toBottomOf="@id/username" />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/optionsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default_10dp"
-                android:background="@color/transparent"
-                android:tint="?android:textColorPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/username"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/username"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/options"
-                app:lottie_repeatMode="reverse" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,11 +129,11 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/quotesView"
         layout="@layout/quote_recycler"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profileTop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

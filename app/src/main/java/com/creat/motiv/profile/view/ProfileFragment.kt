@@ -34,12 +34,7 @@ class ProfileFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_settings -> {
-                activity?.supportFragmentManager?.run {
-                    beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out)
-                            .replace(R.id.nav_host_fragment, SettingsFragment(), SETTINGS_FRAG_TAG)
-                            .commit()
-                }
+
                 return false
             }
             R.id.navigation_favorites -> {

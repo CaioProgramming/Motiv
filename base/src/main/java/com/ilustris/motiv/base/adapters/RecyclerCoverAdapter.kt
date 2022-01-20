@@ -1,21 +1,21 @@
 package com.ilustris.motiv.base.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.beans.Cover
-import com.ilustris.motiv.base.databinding.PicsLayoutBinding
+import com.ilustris.motiv.base.databinding.CoverLayoutBinding
 
 class RecyclerCoverAdapter(private var covers: List<Cover>,
                            private val onSelectCover: (Cover) -> Unit) : RecyclerView.Adapter<RecyclerCoverAdapter.CoverHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoverHolder {
         return CoverHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.pics_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.cover_layout, parent, false)
         )
     }
 
@@ -31,11 +31,12 @@ class RecyclerCoverAdapter(private var covers: List<Cover>,
     inner class CoverHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(cover: Cover) {
-            PicsLayoutBinding.bind(itemView).run {
+            CoverLayoutBinding.bind(itemView).run {
                 Glide.with(itemView.context).load(cover.url).into(image)
                 card.setOnClickListener {
                     onSelectCover.invoke(cover)
                 }
+                root.fadeIn()
             }
 
 

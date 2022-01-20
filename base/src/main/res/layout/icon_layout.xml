@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<de.hdodenhof.circleimageview.CircleImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/icon_imageview"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/margin_default_10dp"
+    app:civ_border_color="?android:textColorPrimary"
+    app:civ_border_width="@dimen/default_stroke"
+    app:civ_circle_background_color="?attr/dividerColor"
+    tools:src="@drawable/ic_up_arrow" />
+

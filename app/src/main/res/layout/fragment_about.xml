@@ -14,7 +14,15 @@
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <include layout="@layout/motiv_toolbar" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/colorPrimaryDark"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/saturn"
+            app:lottie_repeatMode="reverse"
+            tools:src="@drawable/ic_saturn_and_other_planets_primary" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/aboutRecycler"
@@ -35,6 +43,8 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:visibility="gone"
+                style="@style/MotivCard"
+                tools:visibility="visible"
                 android:id="@+id/support_devs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,6 +81,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/followUsCard"
+                android:layout_margin="@dimen/margin_default_10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/MotivCard">

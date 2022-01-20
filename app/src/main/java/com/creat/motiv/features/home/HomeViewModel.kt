@@ -24,27 +24,28 @@ class HomeViewModel : BaseViewModel<Quote>() {
     private val userService = UserService()
 
     val homeViewState = MutableLiveData<HomeViewState>()
+    val quoteListViewState = MutableLiveData<QuoteListViewState>()
 
     fun fetchQuoteOptions(quoteAdapterData: QuoteAdapterData) {
         val dialogItems = ArrayList<DialogData>()
         val quote = quoteAdapterData.quote
         if (quote.userID == currentUser?.uid) {
             dialogItems.add(DialogData("Excluir") {
-                homeViewState.value = HomeViewState.RequestDelete(quote)
+                quoteListViewState.value = QuoteListViewState.RequestDelete(quote)
             })
             dialogItems.add(DialogData("Editar") {
-                homeViewState.value = HomeViewState.RequestEdit(quote)
+                quoteListViewState.value = QuoteListViewState.RequestEdit(quote)
             })
         }
         dialogItems.add(DialogData("Compartilhar") {
-            homeViewState.value =
-                HomeViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
+            quoteListViewState.value =
+                QuoteListViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
         })
         dialogItems.add(DialogData("Denúnciar") {
-            homeViewState.value = HomeViewState.RequestReport(quote)
+            quoteListViewState.value = QuoteListViewState.RequestReport(quote)
         })
 
-        homeViewState.postValue(HomeViewState.QuoteOptionsRetrieve(dialogItems.toList()))
+        quoteListViewState.postValue(QuoteListViewState.QuoteOptionsRetrieve(dialogItems.toList()))
     }
 
     fun fetchUser() {
@@ -63,23 +64,13 @@ class HomeViewModel : BaseViewModel<Quote>() {
                         }
                         userService.editData(User.fromFirebase(currentUser!!))
                     } else {
-                        throw Exception("Unknow error fetching the user")
+                        viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.NOTFOUND))
                     }
                 } else {
                     homeViewState.postValue(HomeViewState.UserRetrieved(userRequest.success.data as User))
                 }
             }
         }
-    }
-
-    fun getUsers() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val users = userService.getAllData().success
-        }
-    }
-
-    fun requestDelete() {
-
     }
 
     fun getHomeQuotes() {
@@ -91,15 +82,14 @@ class HomeViewModel : BaseViewModel<Quote>() {
                     viewModelState.postValue(ViewModelBaseState.ErrorState(quoteRequest.error.errorException))
                     return@launch
                 }
-                val quotes =
-                    (quoteRequest.success.data as quoteList).sortedByDescending { it.data }
+                val quotes = (quoteRequest.success.data as quoteList).sortedByDescending { it.data }
                 val splashQuote = Quote.splashQuote()
                 splashQuote.author = "Mais de ${quotes.size - 1} publicações"
                 splashQuote.data = SimpleDateFormat("dd/MM/yyyy").parse("19/12/2018")
                 val adapterSplash = QuoteAdapterData(splashQuote, Style.splashStyle)
                 adapterSplash.user = User.splashUser
-                homeViewState.postValue(
-                    HomeViewState.QuoteDataRetrieve(
+                quoteListViewState.postValue(
+                    QuoteListViewState.QuoteDataRetrieve(
                         adapterSplash
                     )
                 )
@@ -108,8 +98,8 @@ class HomeViewModel : BaseViewModel<Quote>() {
                         val usersRequest = userService.getAllData()
                         if (usersRequest.isSuccess) {
                             val users = usersRequest.success.data as ArrayList<User>
-                            homeViewState.postValue(
-                                HomeViewState.QuoteDataRetrieve(
+                            quoteListViewState.postValue(
+                                QuoteListViewState.QuoteDataRetrieve(
                                     QuoteAdapterData(Quote.usersQuote(), users = users)
                                 )
                             )
@@ -134,8 +124,8 @@ class HomeViewModel : BaseViewModel<Quote>() {
                         }
 
                     }
-                    homeViewState.postValue(
-                        HomeViewState.QuoteDataRetrieve(
+                    quoteListViewState.postValue(
+                        QuoteListViewState.QuoteDataRetrieve(
                             QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
                         )
                     )
@@ -143,74 +133,6 @@ class HomeViewModel : BaseViewModel<Quote>() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.UNKNOWN))
-            }
-        }
-
-    }
-
-    fun getSearchQuotes() {
-        viewModelScope.launch {
-            val quotes = service.getAllData() as quoteList
-            val quoteDatas = ArrayList<QuoteAdapterData>()
-            quoteDatas.add(QuoteAdapterData(Quote.searchQuote(), Style.searchStyle))
-            quotes.forEach {
-                val style = styleService.getSingleData(it.style).success.data as Style
-                val quoteUser = if (it.userID == currentUser?.uid) {
-                    User.fromFirebase(currentUser!!)
-                } else {
-                    userService.getSingleData(it.userID).success.data as User
-                }
-                quoteDatas.add(QuoteAdapterData(it, style, quoteUser))
-                homeViewState.postValue(
-                    HomeViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(it, style, quoteUser)
-                    )
-                )
-
-            }
-        }
-
-    }
-
-    fun getProfileQuotes() {
-        viewModelScope.launch {
-            val quotes = service.getAllData() as quoteList
-            val quoteDatas = ArrayList<QuoteAdapterData>()
-            quoteDatas.add(QuoteAdapterData(Quote.profileQuote(), Style.splashStyle))
-            quotes.forEach {
-                val style = styleService.getSingleData(it.style).success.data as Style
-                val quoteUser = if (it.userID == currentUser?.uid) {
-                    User.fromFirebase(currentUser!!)
-                } else {
-                    userService.getSingleData(it.userID).success.data as User
-                }
-                homeViewState.postValue(
-                    HomeViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(it, style, quoteUser)
-                    )
-                )
-            }
-        }
-
-    }
-
-    fun getFavoriteQuotes() {
-        viewModelScope.launch {
-            val quotes = service.getAllData() as quoteList
-            val quoteDatas = ArrayList<QuoteAdapterData>()
-            quoteDatas.add(QuoteAdapterData(Quote.splashQuote(), Style.splashStyle))
-            quotes.forEach {
-                val style = styleService.getSingleData(it.style).success.data as Style
-                val quoteUser = if (it.userID == currentUser?.uid) {
-                    User.fromFirebase(currentUser!!)
-                } else {
-                    userService.getSingleData(it.userID).success.data as User
-                }
-                homeViewState.postValue(
-                    HomeViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(it, style, quoteUser)
-                    )
-                )
             }
         }
 

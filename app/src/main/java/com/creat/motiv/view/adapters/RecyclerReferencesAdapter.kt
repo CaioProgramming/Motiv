@@ -37,6 +37,8 @@ class RecyclerReferencesAdapter(private val references: List<Reference>) :
             ReferencesLayoutBinding.bind(itemView).run {
                 val context = itemView.context
                 val reference = references[bindingAdapterPosition]
+                name.text = reference.name
+                referenceDescription.text = reference.description
                 referenceBackground.setBackgroundResource(reference.background)
                 referenceCard.setOnClickListener {
                     val uri = Uri.parse("$WEB_URL${reference.url}")

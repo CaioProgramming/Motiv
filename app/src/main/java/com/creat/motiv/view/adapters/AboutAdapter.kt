@@ -37,7 +37,11 @@ class AboutAdapter(val aboutDataList: ArrayList<AboutData>) :
 
                 title.text = aboutData.header
                 recyclerView.run {
-                    aboutData.developers?.let { adapter = RecyclerDeveloperAdapter(it) }
+                    aboutData.developers?.let {
+                        layoutManager =
+                            GridLayoutManager(itemView.context, 1, RecyclerView.HORIZONTAL, false)
+                        adapter = RecyclerDeveloperAdapter(it)
+                    }
                     aboutData.references?.let { adapter = RecyclerReferencesAdapter(it) }
                 }
             }

@@ -87,7 +87,9 @@ class NewQuoteFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                 }
-                is ViewModelBaseState.ErrorState -> TODO()
+                is ViewModelBaseState.ErrorState -> {
+                    view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
+                }
             }
         })
     }

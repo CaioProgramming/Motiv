@@ -24,32 +24,29 @@
             <ImageView
                 android:id="@+id/userBackground"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="300dp"
+                android:foreground="?attr/selectableItemBackground" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/topBlurSize"
-                android:gravity="center"
-                android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/userpic"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    app:civ_border_width="0dp"
-                    app:civ_circle_background_color="@color/colorAccent"
-                    tools:src="@drawable/ic_neptune" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userpic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:foreground="?attr/selectableItemBackground"
+                app:civ_border_width="0dp"
+                app:civ_circle_background_color="@color/colorAccent"
+                tools:src="@drawable/ic_neptune" />
 
-            </LinearLayout>
         </RelativeLayout>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:colorBackground">
+            android:background="@drawable/bottom_line"
+            android:backgroundTint="?attr/dividerColor">
 
             <TextView
                 android:id="@+id/nameTitle"
@@ -89,37 +86,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:text="Salvar"
-                android:textAllCaps="false"
-                android:textColor="@color/md_blue500"
-                android:textStyle="bold"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:text="Salvar" />
 
 
         </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/provider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/dividerColor"
-            android:drawableStart="@drawable/ic_outline_mail_outline_24"
-            android:drawablePadding="@dimen/padding_default_16dp"
-            android:enabled="false"
-            android:maxLines="1"
-            android:padding="@dimen/padding_default_16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textStyle="bold"
-            tools:text="motiv@gmail.com" />
-
 
         <RelativeLayout
             android:id="@+id/adminView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/dropShadowColor"
+            android:background="?attr/dividerColor"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -145,6 +121,8 @@
         </RelativeLayout>
 
         <TextView
+            android:background="@drawable/bottom_line"
+            android:backgroundTint="?attr/dividerColor"
             android:id="@+id/aboutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -162,6 +140,8 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_default_16dp"
             android:text="Desconectar"
+            android:background="@drawable/bottom_line"
+            android:backgroundTint="?attr/dividerColor"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/material_red500"
             android:textStyle="bold" />

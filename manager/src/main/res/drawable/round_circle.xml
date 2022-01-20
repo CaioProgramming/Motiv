@@ -12,7 +12,11 @@
     <!-- android:topLeftRadius="12dp" -->
     <!-- android:topRightRadius="5dp" /> -->
 
-
+    <padding
+        android:bottom="@dimen/padding_small_8dp"
+        android:left="@dimen/padding_small_8dp"
+        android:right="@dimen/padding_small_8dp"
+        android:top="@dimen/padding_small_8dp" />
     <!-- Background color -->
     <solid android:color="@color/white" />
 

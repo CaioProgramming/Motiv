@@ -1,6 +1,7 @@
 package com.creat.motiv.features.profile
 
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,26 +14,29 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.databinding.ProfileTabBinding
 import com.creat.motiv.databinding.QuoteRecyclerBinding
+import com.creat.motiv.features.home.QuoteListViewState
 import com.creat.motiv.features.home.adapter.PagerStackTransformer
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
 import com.creat.motiv.features.profile.viewmodel.ProfileData
-import com.creat.motiv.features.profile.viewmodel.UserViewModel
+import com.creat.motiv.features.profile.viewmodel.ProfileViewModel
 import com.creat.motiv.features.profile.viewmodel.ProfileViewState
 import com.creat.motiv.features.share.QuoteShareDialog
-import com.google.android.material.tabs.TabLayout
+import com.creat.motiv.profile.cover.CoverPickerDialog
+import com.creat.motiv.profile.icon.view.IconPickerDialog
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.QuoteAdapterData
+import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.dialogItems
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
+import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
@@ -44,7 +48,7 @@ class ProfileFragment : Fragment() {
     private val args: ProfileFragmentArgs? by navArgs()
     private var quoteRecyclerAdapter = QuoteRecyclerAdapter(ArrayList(), ::selectQuote)
     var fragmentProfileBinding: FragmentProfileBinding? = null
-    val userViewModel = UserViewModel()
+    val profileViewModel = ProfileViewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,12 +61,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        userViewModel.fetchUserPage(args?.uid)
+        profileViewModel.fetchUserPage(args?.uid)
     }
 
     private fun selectQuote(quoteAdapterData: QuoteAdapterData, quoteAction: QuoteAction) {
         when (quoteAction) {
-            QuoteAction.OPTIONS -> userViewModel.getQuoteOptions(quoteAdapterData)
+            QuoteAction.OPTIONS -> profileViewModel.getQuoteOptions(quoteAdapterData)
             QuoteAction.LIKE -> likeQuote(quoteAdapterData.quote)
             QuoteAction.USER -> {
                 navigateToProfile(quoteAdapterData.user.uid)
@@ -70,9 +74,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     private fun likeQuote(quote: Quote) {
-        userViewModel.likeQuote(quote)
+        profileViewModel.likeQuote(quote)
     }
 
     private fun navigateToProfile(uid: String) {
@@ -106,14 +109,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun FragmentProfileBinding.setupProfile(profileData: ProfileData) {
-        profilepic.loadImage(profileData.user.picurl)
+        if (profileData.user.admin) profilepic.borderColor =
+            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
         username.text = profileData.user.name
+        profilepic.loadImage(profileData.user.picurl)
+        usercover.loadGif(profileData.user.cover)
         postsCount.run {
             tabTitle.text = "Posts"
             root.setOnClickListener {
                 quotesView.loading.fadeIn()
                 quoteRecyclerAdapter.clearAdapter()
-                userViewModel.fetchPosts(profileData.posts)
+                profileViewModel.fetchPosts(profileData.posts)
                 itemCount.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -130,7 +136,7 @@ class ProfileFragment : Fragment() {
             root.setOnClickListener {
                 quotesView.loading.fadeIn()
                 quoteRecyclerAdapter.clearAdapter()
-                userViewModel.fetchPosts(profileData.posts)
+                profileViewModel.fetchPosts(profileData.posts)
                 itemCount.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -142,9 +148,30 @@ class ProfileFragment : Fragment() {
             itemCount.counterAnimation(profileData.likes.size)
 
         }
-        usercover.loadGif(profileData.user.cover)
+        backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        optionsButton.setOnClickListener {
+            val bundle = bundleOf("user" to profileData.user)
+            findNavController().navigate(
+                R.id.action_navigation_profile_to_navigation_settings,
+                bundle
+            )
+        }
         profileTop.fadeIn()
         postsCount.root.callOnClick()
+        if (profileData.isOwner) {
+            profilepic.setOnClickListener {
+                profileViewModel.requestIcons(profileData.user)
+            }
+            usercover.setOnClickListener {
+                profileViewModel.requestCovers(profileData.user)
+            }
+            optionsButton.visible()
+        } else {
+            optionsButton.gone()
+        }
+
     }
 
     private fun TextView.counterAnimation(count: Int) {
@@ -160,26 +187,23 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        userViewModel.userViewState.observe(this, {
+        profileViewModel.quoteListViewState.observe(this, {
             when (it) {
-                is ProfileViewState.ProfilePageRetrieve -> {
-                    fragmentProfileBinding?.setupProfile(it.profileData)
+                is QuoteListViewState.QuoteDataRetrieve -> {
+                    fragmentProfileBinding?.quotesView?.setupQuotes(it.quotedata)
                 }
-                is ProfileViewState.RetrieveQuote -> {
-                    fragmentProfileBinding?.quotesView?.setupQuotes(it.quoteAdapterData)
-                }
-                is ProfileViewState.QuoteOptionsRetrieve -> openOptions(it.dialogItems)
-                is ProfileViewState.RequestDelete -> {
+                is QuoteListViewState.QuoteOptionsRetrieve -> openOptions(it.dialogItems)
+                is QuoteListViewState.RequestDelete -> {
                     BottomSheetAlert(
                         requireContext(),
                         "Remover Post?",
                         "Você está prestes a deletar, seu post", {
-                            userViewModel.deleteQuote(it.quote.id)
+                            profileViewModel.deleteQuote(it.quote.id)
                         }
                     ).buildDialog()
                 }
-                is ProfileViewState.RequestEdit -> navigateToNewQuote(it.quote)
-                is ProfileViewState.RequestReport -> {
+                is QuoteListViewState.RequestEdit -> navigateToNewQuote(it.quote)
+                is QuoteListViewState.RequestReport -> {
                     DefaultAlert(
                         requireContext(),
                         "Denúnciar publicação",
@@ -189,8 +213,37 @@ class ProfileFragment : Fragment() {
                         }
                     ).buildDialog()
                 }
-                is ProfileViewState.RequestShare -> {
+                is QuoteListViewState.RequestShare -> {
                     QuoteShareDialog(requireContext(), it.quoteShareData).buildDialog()
+                }
+            }
+
+        })
+        profileViewModel.profileViewState.observe(this, {
+            when (it) {
+                is ProfileViewState.ProfilePageRetrieve -> {
+                    fragmentProfileBinding?.setupProfile(it.profileData)
+                }
+                is ProfileViewState.CoversRetrieved -> {
+                    CoverPickerDialog(requireContext(), it.covers) { cover ->
+                        profileViewModel.updateUserCover(it.requiredUser, cover.url)
+                    }.buildDialog()
+                }
+                is ProfileViewState.IconsRetrieved -> {
+                    IconPickerDialog(requireContext(), it.icons) { icon ->
+                        profileViewModel.updateUserPic(it.requiredUser, icon.uri)
+                    }.buildDialog()
+                }
+            }
+        })
+        profileViewModel.viewModelState.observe(this, {
+            when (it) {
+                is ViewModelBaseState.DataUpdateState -> {
+                    val user = it.data as User
+                    profileViewModel.fetchUserPage(user.uid)
+                }
+                is ViewModelBaseState.ErrorState -> {
+                    view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
         })

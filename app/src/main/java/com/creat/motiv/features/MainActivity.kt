@@ -40,6 +40,11 @@ open class MainActivity : AppCompatActivity() {
                 R.id.navigation_new_quote
             )
         )
+        mainActBind?.run {
+            //mainToolbar.setupWithNavController(navController, appBarConfiguration)
+            //setSupportActionBar(mainToolbar)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
