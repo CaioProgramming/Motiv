@@ -5,6 +5,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.giphy.sdk.ui.Giphy
 import com.google.android.material.navigation.NavigationView
 import com.ilustris.motiv.base.utils.GIPHY_KEY
@@ -27,20 +31,10 @@ class ManagerActivity : AppCompatActivity(R.layout.activity_manager) {
 
     private fun ActivityManagerBinding.setupView() {
         setSupportActionBar(findViewById(R.id.motiv_toolbar))
-        val toggle = ActionBarDrawerToggle(
-            this@ManagerActivity,
-            drawer,
-            findViewById(R.id.motiv_toolbar),
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-
-        drawer.addDrawerListener(toggle)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toggle.syncState()
-        navView.setupNavigation()
-        navView.setCheckedItem(R.id.navigation_home)
-        changeFragment(HomeFragment())
+        val navHost = navHostFragment as NavHostFragment
+        val navController = navHost.navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     private fun NavigationView.setupNavigation() {

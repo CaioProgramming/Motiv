@@ -127,4 +127,9 @@ class SettingsFragment : Fragment() {
         userID.text = user.uid
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        settingsBinding = null
+    }
+
 }

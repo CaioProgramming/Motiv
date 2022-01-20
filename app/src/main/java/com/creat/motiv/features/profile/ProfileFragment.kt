@@ -253,4 +253,9 @@ class ProfileFragment : Fragment() {
         val bundle = bundleOf("quote" to quote)
         findNavController().navigate(R.id.navigation_new_quote, bundle)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentProfileBinding = null
+    }
 }

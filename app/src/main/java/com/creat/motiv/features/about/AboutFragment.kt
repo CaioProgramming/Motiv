@@ -112,6 +112,10 @@ class AboutFragment : Fragment() {
         requestAd()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        aboutBinding = null
+    }
 
 }
 

@@ -7,10 +7,16 @@
     android:layout_width="match_parent"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/main_content"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_height="match_parent"
+        android:layout_above="@id/nav_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_below="@id/motiv_top"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/manager_navigation" />
 
 
     <com.google.android.material.navigation.NavigationView
@@ -18,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/stroke_filled"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/bottom_nav_menu" />
 
