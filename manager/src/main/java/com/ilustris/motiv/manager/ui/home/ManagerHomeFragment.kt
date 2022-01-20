@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
 import com.ilustris.motiv.base.beans.quote.QuoteListViewState
+import com.ilustris.motiv.base.databinding.QuoteRecyclerBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
@@ -19,11 +21,12 @@ import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.FragmentManagerHomeBinding
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.DialogStyles
+import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class ManagerHomeFragment : Fragment() {
 
-    private var managerHomeBinding: FragmentManagerHomeBinding? = null
+    private var managerHomeBinding: QuoteRecyclerBinding? = null
     private val managerViewModel = ManagerViewModel()
     var managerAdapter = QuoteManagerAdapter(ArrayList(), ::selectQuote)
     override fun onCreateView(
@@ -31,7 +34,7 @@ class ManagerHomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        managerHomeBinding = FragmentManagerHomeBinding.inflate(inflater)
+        managerHomeBinding = QuoteRecyclerBinding.inflate(inflater)
         return managerHomeBinding?.root
     }
 
@@ -42,7 +45,7 @@ class ManagerHomeFragment : Fragment() {
         managerViewModel.getQuotes()
     }
 
-    private fun FragmentManagerHomeBinding.setupView() {
+    private fun QuoteRecyclerBinding.setupView() {
         quotesrecyclerview.run {
             adapter = managerAdapter
             offscreenPageLimit = 3
@@ -69,6 +72,9 @@ class ManagerHomeFragment : Fragment() {
         managerViewModel.quoteListViewState.observe(this, {
             when (it) {
                 is QuoteListViewState.QuoteDataRetrieve -> {
+                    managerHomeBinding?.run {
+                        if (loading.isVisible) loading.gone()
+                    }
                     managerAdapter.refreshData(it.quotedata)
                 }
                 is QuoteListViewState.QuoteOptionsRetrieve -> {

@@ -18,7 +18,6 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
-import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
 import com.creat.motiv.features.share.QuoteShareDialog
@@ -31,6 +30,7 @@ import com.ilustris.motiv.base.beans.quote.Quote
 import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.QuoteListViewState
+import com.ilustris.motiv.base.databinding.QuoteRecyclerBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
