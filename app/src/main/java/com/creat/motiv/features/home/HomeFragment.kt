@@ -28,9 +28,10 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.animations.fadeIn
-import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.beans.QuoteAdapterData
+import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.beans.quote.QuoteListViewState
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog

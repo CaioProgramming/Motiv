@@ -1,5 +1,6 @@
-package com.ilustris.motiv.base.beans
+package com.ilustris.motiv.base.beans.quote
 
+import com.ilustris.motiv.base.beans.*
 import com.silent.ilustriscore.core.bean.BaseBean
 import java.util.*
 import kotlin.collections.ArrayList
