@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_manager_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_icons"
         android:name="com.ilustris.motiv.manager.ui.icons.IconsFragment"
         android:label="Ícones"
         tools:layout="@layout/fragment_icons" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_covers"
         android:name="com.ilustris.motiv.manager.ui.covers.CoversFragment"
         android:label="Planos de fundo"
         tools:layout="@layout/fragment_covers" />

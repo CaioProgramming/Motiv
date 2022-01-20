@@ -214,7 +214,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/auto_fix_normal/baseline_auto_fix_normal_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/favorite_border/baseline_favorite_border_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -225,7 +225,7 @@
                         <option name="values">
                           <map>
                             <entry key="autoMirrored" value="true" />
-                            <entry key="outputName" value="ic_baseline_auto_fix_normal_24" />
+                            <entry key="outputName" value="ic_baseline_favorite_border_24" />
                             <entry key="sourceFile" value="C:\Users\cacai\Downloads\menu.svg" />
                           </map>
                         </option>
