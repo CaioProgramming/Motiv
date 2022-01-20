@@ -10,14 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/nav_view"
-        android:layout_below="@id/motiv_top"
+        android:layout_below="@id/motiv_toolbar"
         app:defaultNavHost="true"
         app:navGraph="@navigation/manager_navigation" />
 
     <include layout="@layout/blur_layout" />
 
-    <include
-        android:id="@+id/motiv_top"
-        layout="@layout/motiv_manager_toolbar" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/motiv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title=" " />
 
 </RelativeLayout>

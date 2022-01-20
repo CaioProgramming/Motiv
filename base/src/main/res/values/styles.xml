@@ -23,7 +23,6 @@
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="elevation">0dp</item>
         <item name="homeAsUpIndicator">@drawable/ic_baseline_arrow_back_ios_24</item>
-        <item name="titleTextAppearance">@style/MotivToolbarTitle</item>
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
@@ -126,14 +125,13 @@
         <item name="android:checkable">true</item>
     </style>
 
-    <style name="MotivToolbarTitle" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="MotivToolbarTitle" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:fontFamily">@font/jost</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:maxLength">50</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textAppearance">@style/ToolbarTitle</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 </resources>
