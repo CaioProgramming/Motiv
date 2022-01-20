@@ -3,7 +3,7 @@ package com.ilustris.motiv.manager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.giphy.sdk.ui.Giphy
@@ -16,20 +16,21 @@ import com.ilustris.motiv.manager.ui.icons.IconsFragment
 import com.ilustris.motiv.manager.ui.styles.StylesFragment
 
 
-class ManagerActivity : AppCompatActivity(R.layout.activity_manager) {
+class ManagerActivity : AppCompatActivity() {
 
+    private var managerBinding: ActivityManagerBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Giphy.configure(this, GIPHY_KEY)
         //window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        ActivityManagerBinding.inflate(layoutInflater).setupView()
-
+        managerBinding = ActivityManagerBinding.inflate(layoutInflater)
+        setContentView(managerBinding!!.root)
+        managerBinding?.setupView()
     }
 
     private fun ActivityManagerBinding.setupView() {
-        setSupportActionBar(findViewById(R.id.motiv_toolbar))
-        val navHost = navHostFragment as NavHostFragment
-        val navController = navHost.navController
+        setSupportActionBar(mainContent.motivTop.motivToolbar)
+        val navController = findNavController(R.id.manager_nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
@@ -62,7 +63,7 @@ class ManagerActivity : AppCompatActivity(R.layout.activity_manager) {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.slide_in_right, R.anim.fui_slide_out_left)
-            .replace(R.id.nav_host_fragment, fragment)
+            .replace(R.id.manager_nav_host_fragment, fragment)
             .commit()
     }
 

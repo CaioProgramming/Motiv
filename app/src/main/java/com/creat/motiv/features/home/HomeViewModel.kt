@@ -149,4 +149,9 @@ class HomeViewModel : BaseViewModel<Quote>() {
         }
     }
 
+    fun reportQuote(quote: Quote) {
+        quote.isReport = true
+        editData(quote)
+    }
+
 }

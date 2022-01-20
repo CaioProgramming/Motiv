@@ -138,9 +138,7 @@ class QuoteManagerAdapter(
             optionsButton.setOnClickListener {
                 onSelectQuote(quoteData, QuoteAction.OPTIONS)
             }
-            like.setOnClickListener {
-                onSelectQuote(quoteData, QuoteAction.LIKE)
-            }
+            like.isEnabled = false
             setupStyle(quoteData.style)
             setupUser(quoteData.user)
             quoteDate.text = TextUtils.data(quoteData.quote.data)

@@ -1,4 +1,4 @@
-package com.creat.motiv.features.home.adapter
+package com.ilustris.motiv.base.utils
 
 import android.view.View
 import androidx.core.view.ViewCompat
