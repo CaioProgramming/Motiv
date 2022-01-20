@@ -34,10 +34,10 @@ class ManagerViewModel : BaseViewModel<Quote>() {
                 }
                 val quotes =
                     (quoteRequest.success.data as quoteList).sortedByDescending { it.isReport }
-                val splashQuote = Quote.splashQuote()
-                splashQuote.author = "Mais de ${quotes.size - 1} publicações"
+                val splashQuote = Quote.adminQuote()
+                splashQuote.author = "${quotes.size} publicações disponíveis"
                 splashQuote.data = SimpleDateFormat("dd/MM/yyyy").parse("19/12/2018")
-                val adapterSplash = QuoteAdapterData(splashQuote, Style.splashStyle)
+                val adapterSplash = QuoteAdapterData(splashQuote, Style.adminStyle)
                 adapterSplash.user = User.splashUser
                 quoteListViewState.postValue(
                     QuoteListViewState.QuoteDataRetrieve(
@@ -45,18 +45,6 @@ class ManagerViewModel : BaseViewModel<Quote>() {
                     )
                 )
                 quotes.forEachIndexed { index, quote ->
-                    if (index >= 20 && index % 20 == 0) {
-                        val usersRequest = userService.getAllData()
-                        if (usersRequest.isSuccess) {
-                            val users = usersRequest.success.data as ArrayList<User>
-                            quoteListViewState.postValue(
-                                QuoteListViewState.QuoteDataRetrieve(
-                                    QuoteAdapterData(Quote.usersQuote(), users = users)
-                                )
-                            )
-                        }
-
-                    }
                     val styleRequest = styleService.getSingleData(quote.style)
                     val style =
                         if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style
@@ -95,10 +83,12 @@ class ManagerViewModel : BaseViewModel<Quote>() {
         dialogItems.add(DialogData("Excluir") {
             quoteListViewState.value = QuoteListViewState.RequestDelete(quote)
         })
-        dialogItems.add(DialogData("Compartilhar") {
-            quoteListViewState.value =
-                QuoteListViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
-        })
+        if (quote.isReport) {
+            dialogItems.add(DialogData("Remover denúncia") {
+                quoteListViewState.value =
+                    QuoteListViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
+            })
+        }
         quoteListViewState.postValue(QuoteListViewState.QuoteOptionsRetrieve(dialogItems.toList()))
     }
 

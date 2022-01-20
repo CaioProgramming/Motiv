@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.giphy.sdk.ui.Giphy
 import com.google.android.material.navigation.NavigationView
 import com.ilustris.motiv.base.utils.GIPHY_KEY
@@ -32,6 +33,7 @@ class ManagerActivity : AppCompatActivity() {
         setSupportActionBar(mainContent.motivTop.motivToolbar)
         val navController = findNavController(R.id.manager_nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
+        navView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 

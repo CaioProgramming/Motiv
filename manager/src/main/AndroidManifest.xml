@@ -6,17 +6,14 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application android:name="com.ilustris.motiv.base.MotivApplication">
+    <application
+        android:name="com.ilustris.motiv.base.MotivApplication"
+        android:theme="Motiv.Theme">
         <activity
             android:name=".ui.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Motiv.Manager.Theme" />
-        <activity
-            android:name=".ui.styles.NewStyleActivity"
-            android:theme="@style/Motiv.Manager.Theme" />
-        <activity
-            android:name=".ManagerActivity"
-            android:theme="@style/Motiv.Manager.Theme" />
+            android:label="@string/title_activity_home" />
+        <activity android:name=".ui.styles.NewStyleActivity" />
+        <activity android:name=".ManagerActivity" />
     </application>
 
 </manifest>

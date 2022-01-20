@@ -3,6 +3,7 @@ package com.ilustris.motiv.manager.ui.home
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Vibrator
 import android.view.LayoutInflater
@@ -134,7 +135,6 @@ class QuoteManagerAdapter(
                 false
             }
             like.isChecked = quoteData.quote.likes.contains(quoteData.currentUser?.uid)
-            like.text = quoteData.quote.likes.size.toString()
             optionsButton.setOnClickListener {
                 onSelectQuote(quoteData, QuoteAction.OPTIONS)
             }
@@ -145,11 +145,14 @@ class QuoteManagerAdapter(
             userTop.setOnClickListener {
                 onSelectQuote(quoteData, QuoteAction.USER)
             }
-
             if (!quoteData.quote.isUserQuote()) {
                 userTop.gone()
             } else {
                 userTop.visible()
+            }
+            if (quoteData.quote.isReport) {
+                cardShadow.backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.material_red800))
             }
         }
 

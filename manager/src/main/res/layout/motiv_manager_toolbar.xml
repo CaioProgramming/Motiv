@@ -13,26 +13,20 @@
         android:id="@+id/motiv_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:gravity="center"
         android:theme="@style/AppToolbar"
         app:title=" " />
 
-    <RelativeLayout
-        android:id="@+id/titleView"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:lottie_autoPlay="true"
-            app:lottie_colorFilter="@color/colorPrimaryDark"
-            app:lottie_loop="true"
-            android:layout_centerInParent="true"
-            app:lottie_rawRes="@raw/planet_manager"
-            app:lottie_repeatMode="reverse"
-            tools:src="@drawable/ic_saturn_and_other_planets_primary" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/planet_manager"
+        app:lottie_repeatMode="reverse"
+        tools:src="@drawable/ic_saturn_and_other_planets_primary" />
 
-    </RelativeLayout>
 
 </RelativeLayout>
