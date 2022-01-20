@@ -3,6 +3,7 @@ package com.creat.motiv.features.home
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,13 +12,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
+import com.creat.motiv.databinding.QuoteRecyclerBinding
 import com.creat.motiv.features.home.adapter.PagerStackTransformer
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
@@ -27,8 +28,6 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.animations.fadeIn
-import com.ilustris.animations.fadeOut
-import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.QuoteAdapterData
 import com.ilustris.motiv.base.beans.User
@@ -78,13 +77,7 @@ class HomeFragment : Fragment() {
     private fun observeViewModel() {
         homeViewModel.homeViewState.observe(this, {
             when (it) {
-                is HomeViewState.QuoteDataRetrieve -> {
-                    setupQuotes(it.quotedata)
-                }
-
-                is HomeViewState.UserRetrieved -> {
-                    setupUser(it.user)
-                }
+                is HomeViewState.UserRetrieved -> setupUser(it.user)
                 is HomeViewState.UsersRetrieved -> {
                     homeBinding?.quotesView?.quotesrecyclerview?.run {
                         if (childCount > 15) {
@@ -97,10 +90,17 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
-                is HomeViewState.QuoteOptionsRetrieve -> {
+            }
+        })
+        homeViewModel.quoteListViewState.observe(this, {
+            when (it) {
+                is QuoteListViewState.QuoteDataRetrieve -> {
+                    homeBinding?.quotesView?.setupQuotes(it.quotedata)
+                }
+                is QuoteListViewState.QuoteOptionsRetrieve -> {
                     openOptions(it.dialogItems)
                 }
-                is HomeViewState.RequestDelete -> {
+                is QuoteListViewState.RequestDelete -> {
                     BottomSheetAlert(
                         requireContext(),
                         "Remover Post?",
@@ -109,17 +109,20 @@ class HomeFragment : Fragment() {
                         }
                     ).buildDialog()
                 }
-                is HomeViewState.RequestEdit -> {
+                is QuoteListViewState.RequestEdit -> {
                     navigateToNewQuote(it.quote)
                 }
-                is HomeViewState.RequestReport -> {
+                is QuoteListViewState.RequestReport -> {
                     DefaultAlert(
                         requireContext(),
                         "Denúnciar publicação",
-                        "Você deseja denúnciar essa publicação? Vamos analisá-la e tomar as ações necessárias!"
+                        "Você deseja denúnciar essa publicação? Vamos analisá-la e tomar as ações necessárias!",
+                        okClick = {
+                            view?.showSnackBar("Denúncia enviada com sucesso!")
+                        }
                     ).buildDialog()
                 }
-                is HomeViewState.RequestShare -> {
+                is QuoteListViewState.RequestShare -> {
                     QuoteShareDialog(requireContext(), it.quoteShareData).buildDialog()
                 }
             }
@@ -127,8 +130,7 @@ class HomeFragment : Fragment() {
         homeViewModel.viewModelState.observe(this, {
             when (it) {
                 is ViewModelBaseState.ErrorState -> {
-                    view?.showSnackBar("Ocorreu um erro inesperado")
-                    handleError(it.dataException)
+                    view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
                 ViewModelBaseState.LoadingState -> {
                     togglePager(false)
@@ -197,22 +199,21 @@ class HomeFragment : Fragment() {
         navigateToProfile(user.uid)
     }
 
-    private fun setupQuotes(quotedata: QuoteAdapterData) {
-        homeBinding?.run {
-            quoteRecyclerAdapter.refreshData(quotedata)
-            quotesView.loading.gone()
-            quotesView.quotesrecyclerview.visible()
-            quotesView.quotesrecyclerview.run {
-                visible()
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        if (currentItem >= 10 && currentItem % 10 == 0 && state == ViewPager.SCROLL_STATE_IDLE && !loadingAd) {
-                            loadingAd = true
-                            AdvertiseHelper(requireContext()).loadAd({
-                                quoteRecyclerAdapter.loadOnNextPage(
-                                    QuoteAdapterData(
-                                        Quote.advertiseQuote(),
+    private fun QuoteRecyclerBinding.setupQuotes(quotedata: QuoteAdapterData) {
+        quoteRecyclerAdapter.refreshData(quotedata)
+        loading.gone()
+        quotesrecyclerview.visible()
+        quotesrecyclerview.run {
+            visible()
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(state: Int) {
+                    super.onPageScrollStateChanged(state)
+                    if (currentItem >= 10 && currentItem % 10 == 0 && state == ViewPager.SCROLL_STATE_IDLE && !loadingAd) {
+                        loadingAd = true
+                        AdvertiseHelper(requireContext()).loadAd({
+                            quoteRecyclerAdapter.loadOnNextPage(
+                                QuoteAdapterData(
+                                    Quote.advertiseQuote(),
                                         advertise = it
                                     ), currentItem
                                 )
@@ -225,12 +226,11 @@ class HomeFragment : Fragment() {
                     }
                 })
             }
-        }
-
     }
 
     private fun navigateToProfile(uid: String) {
-
+        val bundle = bundleOf("uid" to uid)
+        findNavController().navigate(R.id.action_navigation_home_to_navigation_profile, bundle)
     }
 
     private fun openOptions(dialogItems: dialogItems) {

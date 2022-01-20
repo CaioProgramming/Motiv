@@ -126,12 +126,14 @@
         <item name="android:checkable">true</item>
     </style>
 
-    <style name="MotivToolbarTitle" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="MotivToolbarTitle" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:fontFamily">@font/jost</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLength">50</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textAppearance">@style/ToolbarTitle</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 </resources>

@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -19,20 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userpic"
-            android:layout_width="32dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_default_10dp"
-            android:visibility="gone"
-            app:civ_border_color="?android:textColorPrimary"
-            app:civ_border_width="@dimen/default_stroke"
-            app:civ_circle_background_color="?android:textColorHint"
-            app:layout_constraintBottom_toBottomOf="@id/motiv_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/motiv_icon"
-            tools:src="@drawable/ic_neptune"
-            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/motiv_icon"

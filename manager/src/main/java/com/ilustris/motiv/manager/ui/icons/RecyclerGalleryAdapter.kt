@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.animations.slideInRight
-import com.ilustris.motiv.base.databinding.PicsLayoutBinding
+import com.ilustris.motiv.base.databinding.CoverLayoutBinding
+import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.motiv.manager.R
 
 class RecyclerGalleryAdapter(
@@ -25,7 +25,7 @@ class RecyclerGalleryAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
         return PictureViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.pics_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.cover_layout, parent, false)
         )
     }
 
@@ -44,7 +44,7 @@ class RecyclerGalleryAdapter(
 
     inner class PictureViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val picsLayoutBinding = PicsLayoutBinding.bind(itemView)
+        private val picsLayoutBinding = CoverLayoutBinding.bind(itemView)
 
         fun bind(picture: String) {
             picsLayoutBinding.run {

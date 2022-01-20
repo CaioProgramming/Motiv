@@ -8,18 +8,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/stroke_filled"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_default_16dp">
+    android:orientation="vertical">
 
     <include
         layout="@layout/motiv_dots"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/padding_default_16dp" />
+        android:layout_margin="@dimen/margin_default_10dp" />
 
     <ImageView
         android:id="@+id/covers_gif_mark"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_marginVertical="@dimen/margin_small_4dp"
@@ -47,8 +47,9 @@
         android:foregroundGravity="center"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:listitem="@layout/pics_layout" />
+        app:spanCount="3"
+        tools:itemCount="10"
+        tools:listitem="@layout/cover_layout" />
 
     <include
         android:id="@+id/not_found_include"

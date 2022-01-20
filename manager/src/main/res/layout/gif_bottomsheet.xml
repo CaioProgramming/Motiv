@@ -28,7 +28,7 @@
 
     <include
         android:id="@+id/picView"
-        layout="@layout/pics_layout" />
+        layout="@layout/cover_layout" />
 
     <LinearLayout
         android:layout_width="match_parent"

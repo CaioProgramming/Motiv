@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
-import com.creat.motiv.databinding.ActivityAboutBinding
+import com.creat.motiv.databinding.FragmentAboutBinding
 import com.creat.motiv.features.about.data.AboutData
 import com.creat.motiv.view.adapters.AboutAdapter
 import com.google.android.gms.ads.AdRequest
@@ -19,13 +19,14 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideInBottom
+import com.ilustris.animations.slideInRight
 import com.ilustris.motiv.base.utils.*
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import java.util.ArrayList
 
 class AboutFragment : Fragment() {
-    var aboutBinding: ActivityAboutBinding? = null
+    var aboutBinding: FragmentAboutBinding? = null
     private var rewardedAd: RewardedAd? = null
     private val aboutViewModel = AboutViewModel()
 
@@ -34,13 +35,14 @@ class AboutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        aboutBinding = ActivityAboutBinding.inflate(inflater, container, false)
+        aboutBinding = FragmentAboutBinding.inflate(inflater, container, false)
         return aboutBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         aboutBinding?.setupView()
+        observeViewModel()
         aboutViewModel.getAboutScreen()
     }
 
@@ -79,12 +81,12 @@ class AboutFragment : Fragment() {
                 override fun onAdLoaded(rAd: RewardedAd) {
                     super.onAdLoaded(rewardedAd)
                     rewardedAd = rAd
-                    aboutBinding?.supportDevs?.fadeIn()
+                    aboutBinding?.supportDevs?.slideInRight()
                 }
             })
     }
 
-    private fun ActivityAboutBinding.setupView() {
+    private fun FragmentAboutBinding.setupView() {
         companyText.setOnClickListener {
             val uri = Uri.parse("https://play.google.com/store/apps/dev?id=8106172357045720296")
             val intent = Intent(Intent.ACTION_VIEW, uri)

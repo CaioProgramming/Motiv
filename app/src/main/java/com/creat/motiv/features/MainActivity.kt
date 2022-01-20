@@ -30,7 +30,7 @@ open class MainActivity : AppCompatActivity() {
 
     private fun ActivityMainBinding.setupView() {
         val navController = findNavController(R.id.nav_host_fragment)
-        navView.setupWithNavController(navController)
+        //navView.setupWithNavController(navController)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
@@ -40,6 +40,11 @@ open class MainActivity : AppCompatActivity() {
                 R.id.navigation_new_quote
             )
         )
+        mainActBind?.run {
+            //mainToolbar.setupWithNavController(navController, appBarConfiguration)
+            //setSupportActionBar(mainToolbar)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
