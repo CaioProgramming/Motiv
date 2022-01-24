@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.home
+package com.ilustris.motiv.manager.features.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,11 +14,9 @@ import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.dialogItems
 import com.ilustris.motiv.base.utils.PagerStackTransformer
-import com.ilustris.motiv.base.utils.activity
-import com.ilustris.motiv.base.utils.hideSupportActionBar
-import com.ilustris.motiv.base.utils.showSupportActionBar
-import com.ilustris.motiv.manager.R
-import com.ilustris.motiv.manager.databinding.FragmentManagerHomeBinding
+import com.ilustris.motiv.manager.features.home.viewmodel.ManagerViewModel
+import com.ilustris.motiv.manager.ui.home.QuoteAction
+import com.ilustris.motiv.manager.ui.home.QuoteManagerAdapter
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.utilities.gone

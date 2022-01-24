@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.styles
+package com.ilustris.motiv.manager.features.style.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -15,10 +15,12 @@ import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.databinding.StyleCardBinding
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
 
-class StylePreviewAdapter(var styles: List<Style>,
-                          private val isPreview: Boolean = false,
-                          private var selectedStyle: String? = null,
-                          val onRequestDelete: (Int) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StylePreviewAdapter(
+    var styles: List<Style>,
+    private val isPreview: Boolean = false,
+    private var selectedStyle: String? = null,
+    val onSelectStyle: (Style) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun updateStyles(list: List<Style>) {
         styles = list
@@ -50,7 +52,7 @@ class StylePreviewAdapter(var styles: List<Style>,
                     styleCard.isSelected = quoteStyle.id == it
                 }
                 styleCard.setOnClickListener {
-                    onRequestDelete.invoke(adapterPosition)
+                    onSelectStyle.invoke(quoteStyle)
                 }
                 styleCard.fadeIn()
             }
@@ -74,7 +76,7 @@ class StylePreviewAdapter(var styles: List<Style>,
                 }
 
                 styleCard.setOnClickListener {
-                    onRequestDelete.invoke(adapterPosition)
+                    onSelectStyle.invoke(quoteStyle)
                 }
                 if (quoteStyle.id == NEW_STYLE_ID) {
                     styleText.text = "Criar novo estilo"

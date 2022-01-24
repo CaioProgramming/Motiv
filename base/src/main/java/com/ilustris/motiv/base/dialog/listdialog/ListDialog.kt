@@ -1,9 +1,12 @@
 package com.ilustris.motiv.base.dialog.listdialog
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.View
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.ListDialogLayoutBinding
+import com.ilustris.motiv.base.utils.blurView
+import com.ilustris.motiv.base.utils.unBlurView
 import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.view.BaseAlert
 
@@ -25,6 +28,14 @@ class ListDialog(
             }
         }
 
+    }
+
+    override fun onShow(p0: DialogInterface?) {
+        blurView(context)
+    }
+
+    override fun onDismiss(p0: DialogInterface?) {
+        unBlurView(context)
     }
 
 }

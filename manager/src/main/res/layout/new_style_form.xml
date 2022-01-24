@@ -17,7 +17,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbarContainer"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/padding_default_16dp">
@@ -44,65 +43,106 @@
     </LinearLayout>
 
     <com.google.android.material.appbar.AppBarLayout
+        android:background="@drawable/bottom_line"
+        android:backgroundTint="?attr/dividerColor"
+        app:elevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/toolbarContainer"
+            android:id="@+id/motiv_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="?android:colorBackground">
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/motiv_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="center"
-                android:theme="@style/Motiv.Theme"
-                app:menu="@menu/new_style_menu"
-                app:title=" "
-                app:titleTextColor="@color/white" />
+                android:theme="@style/AppToolbar"
+                app:title=" " />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/titleView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@drawable/bottom_line">
+                android:layout_height="?attr/actionBarSize">
 
-                <TextView
-                    android:id="@+id/motivTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/jost"
-                    android:gravity="center"
-                    android:maxLength="50"
-                    android:maxLines="1"
-                    android:text="Novo estilo"
-                    android:textAppearance="@style/ToolbarTitle"
-                    android:textColor="?android:textColorPrimary" />
-            </RelativeLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/padding_default_16dp"
+                    android:stateListAnimator="@animator/scale_down_animator"
+                    android:text="@string/cancel_button"
+                    android:textColor="?android:textColorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/save_style_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/padding_default_16dp"
+                    android:elevation="0dp"
+                    android:enabled="false"
+                    android:text="Salvar"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/colorPrimaryDark"
+                    app:cornerRadius="@dimen/radius_big_20dp"
+                    app:elevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/editloading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:indicatorColor="?android:textColorPrimary"
+                    app:indicatorDirectionCircular="clockwise"
+                    app:layout_constraintBottom_toBottomOf="@id/save_quote_button"
+                    app:layout_constraintEnd_toEndOf="@id/save_quote_button"
+                    app:layout_constraintStart_toStartOf="@id/save_quote_button"
+                    app:layout_constraintTop_toTopOf="@id/save_quote_button"
+                    app:trackThickness="1dp"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </RelativeLayout>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/stylesSettings"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        app:behavior_peekHeight="300dp"
+        app:behavior_peekHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/stylesSettings"
+            app:layout_constraintTop_toTopOf="@id/stylesSettings"
+            app:realtimeBlurRadius="@dimen/radius_default_10dp" />
+
         <LinearLayout
+            android:id="@+id/stylesSettings"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/blurOverLayColor"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/padding_default_16dp"
-            android:paddingBottom="?attr/actionBarSize">
+            android:paddingHorizontal="@dimen/padding_default_16dp">
 
             <include
                 android:id="@+id/dotslayout"
@@ -210,106 +250,8 @@
                     tools:itemCount="10"
                     tools:listitem="@layout/color_card" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_small_8dp"
-                    android:text="Cor da sombra"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/styleShadowColorGallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:stateListAnimator="@animator/scale_down_animator"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="1"
-                    tools:itemCount="10"
-                    tools:listitem="@layout/color_card" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/padding_small_8dp"
-                    android:text="Cor do contorno"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/styleStrokeColorGallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:stateListAnimator="@animator/scale_down_animator"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="1"
-                    tools:itemCount="10"
-                    tools:listitem="@layout/color_card" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/padding_small_8dp"
-                    android:text="Tamanho da sombra"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="?android:textColorPrimary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/extrudeShadowSize"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:value="0"
-                    android:valueFrom="0"
-                    android:valueTo="10"
-                    app:haloColor="?android:textColorPrimary"
-                    app:haloRadius="2dp"
-                    app:thumbColor="@color/colorAccent"
-                    app:thumbElevation="0dp"
-                    app:thumbRadius="@dimen/radius_default_10dp"
-                    app:tickColor="?android:textColorPrimary"
-                    app:tickColorInactive="?android:colorBackground"
-                    app:tickVisible="false"
-                    app:trackColorActive="?android:textColorPrimary"
-                    app:trackColorInactive="?android:colorBackground"
-                    app:trackHeight="@dimen/radius_big_20dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/padding_small_8dp"
-                        android:text="Posição da sombra"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:textColor="?android:textColorPrimary" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/extrudeDxPosition"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:value="1"
-                        android:valueFrom="-25"
-                        android:valueTo="25"
-                        app:haloColor="?android:textColorPrimary"
-                        app:haloRadius="2dp"
-                        app:thumbColor="@color/colorAccent"
-                        app:thumbElevation="0dp"
-                        app:thumbRadius="@dimen/radius_default_10dp"
-                        app:tickColor="?android:textColorPrimary"
-                        app:tickColorInactive="?android:colorBackground"
-                        app:tickVisible="false"
-                        app:trackColorActive="?android:textColorPrimary"
-                        app:trackColorInactive="?android:colorBackground"
-                        app:trackHeight="@dimen/radius_big_20dp" />
-
-                </LinearLayout>
 
             </LinearLayout>
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -323,10 +265,10 @@
                 layout="@layout/styles_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

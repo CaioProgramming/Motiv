@@ -1,21 +1,16 @@
-package com.ilustris.motiv.manager
+package com.ilustris.motiv.manager.features
 
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.giphy.sdk.ui.Giphy
-import com.google.android.material.navigation.NavigationView
 import com.ilustris.motiv.base.utils.GIPHY_KEY
+import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ActivityManagerBinding
-import com.ilustris.motiv.manager.ui.covers.CoversFragment
-import com.ilustris.motiv.manager.ui.home.ManagerHomeFragment
-import com.ilustris.motiv.manager.ui.icons.IconsFragment
-import com.ilustris.motiv.manager.ui.styles.StylesFragment
 
 
 class ManagerActivity : AppCompatActivity() {

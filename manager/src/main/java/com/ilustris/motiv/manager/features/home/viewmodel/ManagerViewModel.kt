@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.home
+package com.ilustris.motiv.manager.features.home.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

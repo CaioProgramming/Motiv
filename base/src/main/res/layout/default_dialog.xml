@@ -15,6 +15,7 @@
         android:orientation="vertical"
         app:cardCornerRadius="@dimen/radius_small_5dp"
         app:cardElevation="4dp"
+        app:cardBackgroundColor="?android:colorBackground"
         app:strokeColor="?android:textColorPrimary"
         app:strokeWidth="2dp">
 
@@ -39,10 +40,11 @@
 
             <TextView
                 android:id="@+id/titleTextView"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/padding_default_16dp"
+                android:textStyle="bold"
                 tools:text="Parece que você está desconectado, conecte-se a internet e tente novamente" />
 
             <TextView
@@ -63,7 +65,7 @@
                     android:id="@+id/confirm_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorAccent"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:elevation="0dp"
                     android:paddingVertical="@dimen/padding_small_8dp"
                     android:text="confirmar"
@@ -80,9 +82,7 @@
                     android:padding="@dimen/padding_small_8dp"
                     android:text="Cancelar"
                     android:textColor="?android:textColorHint"
-                    android:textStyle="bold"
-                    app:strokeColor="?android:textColorHint"
-                    app:strokeWidth="2dp" />
+                    android:textStyle="bold" />
 
 
             </LinearLayout>

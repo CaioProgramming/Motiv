@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.icons
+package com.ilustris.motiv.manager.features.icon.dialog
 
 import android.Manifest
 import android.os.Bundle

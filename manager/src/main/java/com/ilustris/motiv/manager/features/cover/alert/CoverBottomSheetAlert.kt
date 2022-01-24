@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.covers
+package com.ilustris.motiv.manager.features.cover.alert
 
 import android.content.Context
 import android.view.*

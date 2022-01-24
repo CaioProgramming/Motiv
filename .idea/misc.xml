@@ -48,8 +48,10 @@
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/drawable/top_line.xml" value="0.3057017543859649" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/activity_error.xml" value="0.2128623188405797" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/activity_splash.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/add_icon_layout.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/blur_layout.xml" value="0.2128623188405797" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/default_bottomsheet.xml" value="0.1092436974789916" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/cover_layout.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/default_bottomsheet.xml" value="0.17" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/default_dialog.xml" value="0.22056159420289856" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/horizontal_buttons_layout.xml" value="0.25" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/base/src/main/res/layout/icon_layout.xml" value="0.14267352185089974" />
@@ -71,6 +73,7 @@
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/drawable/follow_button_shape.xml" value="0.21578947368421053" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/drawable/round_circle.xml" value="0.21578947368421053" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/drawable/round_select.xml" value="0.21578947368421053" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/activity_add_icons.xml" value="0.19519927536231885" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/activity_manager.xml" value="0.22056159420289856" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/color_card.xml" value="0.21829710144927536" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/fragment_icons.xml" value="0.20482456140350877" />
@@ -137,7 +140,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

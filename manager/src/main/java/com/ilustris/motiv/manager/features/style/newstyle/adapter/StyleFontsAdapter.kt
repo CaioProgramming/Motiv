@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.styles
+package com.ilustris.motiv.manager.features.style.newstyle.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

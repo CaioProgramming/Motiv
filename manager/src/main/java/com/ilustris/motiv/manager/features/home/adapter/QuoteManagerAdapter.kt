@@ -9,26 +9,21 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.ilustris.animations.bounce
 import com.ilustris.animations.fadeIn
-import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.User
-import com.ilustris.motiv.base.beans.quote.*
+import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.*
 import com.ilustris.motiv.manager.R
-import com.silent.ilustriscore.core.utilities.delayedFunction
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 enum class QuoteAction {

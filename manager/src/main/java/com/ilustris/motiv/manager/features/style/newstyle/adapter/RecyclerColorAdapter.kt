@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.ui.styles
+package com.ilustris.motiv.manager.features.style.newstyle.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.utils.ColorUtils
-import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ColorCardBinding
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.visible
-import java.util.*
 
 
 class RecyclerColorAdapter(

@@ -7,27 +7,40 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.ilustris.motiv.manager.ui.home.ManagerHomeFragment"
+        android:name="com.ilustris.motiv.manager.features.home.ManagerHomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_manager_home" />
 
     <fragment
         android:id="@+id/navigation_icons"
-        android:name="com.ilustris.motiv.manager.ui.icons.IconsFragment"
+        android:name="com.ilustris.motiv.manager.features.icon.IconsFragment"
         android:label="Ícones"
         tools:layout="@layout/fragment_icons" />
 
     <fragment
         android:id="@+id/navigation_covers"
-        android:name="com.ilustris.motiv.manager.ui.covers.CoversFragment"
+        android:name="com.ilustris.motiv.manager.features.cover.CoversFragment"
         android:label="Planos de fundo"
         tools:layout="@layout/fragment_covers" />
 
     <fragment
         android:id="@+id/navigation_styles"
-        android:name="com.ilustris.motiv.manager.ui.styles.StylesFragment"
+        android:name="com.ilustris.motiv.manager.features.style.StylesFragment"
         android:label="Estilos"
-        tools:layout="@layout/styles_recycler"
-        />
+        tools:layout="@layout/styles_recycler">
+        <action
+            android:id="@+id/action_navigation_styles_to_newStyleFragment"
+            app:destination="@id/newStyleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newStyleFragment"
+        android:name="com.ilustris.motiv.manager.features.style.newstyle.NewStyleFragment"
+        android:label="NewStyleFragment"
+        tools:layout="@layout/new_style_form">
+        <argument
+            android:name="style"
+            app:argType="com.ilustris.motiv.base.beans.Style"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>
