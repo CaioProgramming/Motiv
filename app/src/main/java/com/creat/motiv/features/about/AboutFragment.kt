@@ -10,20 +10,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentAboutBinding
+import com.creat.motiv.features.about.adapters.AboutAdapter
 import com.creat.motiv.features.about.data.AboutData
-import com.creat.motiv.view.adapters.AboutAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideInBottom
 import com.ilustris.animations.slideInRight
-import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.base.utils.FontUtils
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.showSnackBar
-import java.util.ArrayList
+import java.util.*
 
 class AboutFragment : Fragment() {
     var aboutBinding: FragmentAboutBinding? = null

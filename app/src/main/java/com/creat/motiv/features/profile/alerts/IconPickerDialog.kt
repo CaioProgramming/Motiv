@@ -1,4 +1,4 @@
-package com.creat.motiv.profile.icon.view
+package com.creat.motiv.features.profile.alerts
 
 import android.content.Context
 import android.content.DialogInterface

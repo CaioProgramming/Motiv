@@ -1,6 +1,5 @@
-package com.creat.motiv.view.adapters
+package com.creat.motiv.features.about.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
 import com.creat.motiv.developer.view.RecyclerDeveloperAdapter
 import com.creat.motiv.features.about.data.AboutData
-import com.ilustris.animations.fadeIn
 
 class AboutAdapter(val aboutDataList: ArrayList<AboutData>) :
     RecyclerView.Adapter<AboutAdapter.AboutViewHolder>() {

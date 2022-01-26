@@ -1,4 +1,4 @@
-package com.creat.motiv.view.adapters
+package com.creat.motiv.features.about.adapters
 
 import android.content.Intent
 import android.net.Uri
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ReferencesLayoutBinding
 import com.creat.motiv.features.about.data.Reference
-import com.ilustris.motiv.base.utils.WEB_URL
 import com.ilustris.animations.slideInBottom
+import com.ilustris.motiv.base.utils.WEB_URL
 
 
 class RecyclerReferencesAdapter(private val references: List<Reference>) :

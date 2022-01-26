@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
-import com.creat.motiv.profile.cover.CoverPickerDialog
-import com.creat.motiv.profile.icon.view.IconPickerDialog
+import com.creat.motiv.features.profile.alerts.CoverPickerDialog
+import com.creat.motiv.features.profile.alerts.IconPickerDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.Style.Companion.adminStyle
