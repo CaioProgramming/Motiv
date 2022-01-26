@@ -108,4 +108,8 @@ class ManagerHomeFragment : Fragment() {
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        managerHomeBinding = null
+    }
 }

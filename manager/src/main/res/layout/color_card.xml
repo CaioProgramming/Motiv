@@ -11,7 +11,7 @@
     app:cardCornerRadius="@dimen/radius_default_10dp"
     app:cardElevation="0dp"
     app:strokeColor="@color/selected_style"
-    app:strokeWidth="2dp">
+    app:strokeWidth="@dimen/default_stroke">
 
     <ImageView
         android:id="@+id/currentColor"
@@ -20,7 +20,7 @@
         android:layout_gravity="start"
         android:background="@color/transparent"
         android:padding="@dimen/margin_small_4dp"
-        app:tint="?android:textColorPrimary"
+        app:tint="@color/selected_style"
         tools:src="@drawable/ic_outline_draw_24" />
 
 

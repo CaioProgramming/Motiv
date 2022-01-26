@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/styleCard"
     style="@style/StyleCard"
-    android:layout_margin="@dimen/margin_default_10dp"
-    android:layout_width="80dp"
-    android:layout_height="80dp">
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:layout_margin="@dimen/margin_small_4dp"
+    android:visibility="gone"
+    tools:visibility="visible">
 
     <ImageView
         android:id="@+id/styleImage"

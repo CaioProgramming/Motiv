@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.NEW_STYLE_ID
@@ -54,7 +55,9 @@ class StylePreviewAdapter(
                 styleCard.setOnClickListener {
                     onSelectStyle.invoke(quoteStyle)
                 }
-                styleCard.fadeIn()
+                if (!styleCard.isVisible) {
+                    styleCard.fadeIn()
+                }
             }
         }
 

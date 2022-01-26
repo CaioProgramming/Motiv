@@ -30,22 +30,12 @@ class StyleFontsAdapter(val onFontSelect: (Int) -> Unit) :
                 fontText.typeface = FontUtils.getTypeFace(context, adapterPosition)
                 if (adapterPosition == selectedFont) {
                     fontText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-                    background.setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.colorAccent
-                        )
-                    )
+
                 } else {
                     fontText.setTextColor(ContextCompat.getColor(context, R.color.material_grey800))
-                    background.setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.material_grey500
-                        )
-                    )
+
                 }
-                background.setOnClickListener {
+                itemView.setOnClickListener {
                     onFontSelect.invoke(adapterPosition)
                 }
             }

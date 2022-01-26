@@ -14,6 +14,7 @@ import com.ilustris.motiv.base.beans.Icon
 import com.ilustris.motiv.base.utils.NEW_PIC
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ActivityAddIconsBinding
+import com.ilustris.motiv.manager.features.icon.adapter.RecyclerGalleryAdapter
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import gun0912.tedbottompicker.TedBottomPicker
 

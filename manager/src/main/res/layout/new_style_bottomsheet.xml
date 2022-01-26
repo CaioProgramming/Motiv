@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_peekHeight="100dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:realtimeBlurRadius="@dimen/radius_default_10dp" />
+
+
+    <HorizontalScrollView
+        android:id="@+id/buttons_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_default_16dp">
+
+            <TextView
+                style="@style/newStyleSheetButtons"
+                android:drawableTop="@drawable/ic_baseline_text_fields_24"
+                android:text="Texto" />
+
+            <TextView
+                style="@style/newStyleSheetButtons"
+                android:drawableTop="@drawable/ic_baseline_water_drop_24"
+                android:text="Cores" />
+
+            <TextView
+                style="@style/newStyleSheetButtons"
+                android:drawableTop="@drawable/ic_contrast"
+                android:text="Sombras" />
+
+            <TextView
+                style="@style/newStyleSheetButtons"
+                android:drawableTop="@drawable/ic_baseline_architecture_24"
+                android:text="Estilos" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+
+    <include
+        android:id="@+id/style_preview_layout"
+        layout="@layout/styles_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/buttons_scroll" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/shadowAdjustsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/buttons_scroll">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/shadowSize"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:value="0"
+            android:valueFrom="0"
+            android:valueTo="10"
+            app:haloColor="?android:textColorPrimary"
+            app:haloRadius="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:thumbColor="@color/colorAccent"
+            app:thumbElevation="0dp"
+            app:thumbRadius="@dimen/radius_default_10dp"
+            app:tickColor="?android:textColorPrimary"
+            app:tickColorInactive="?android:colorBackground"
+            app:tickVisible="false"
+            app:trackColorActive="?android:textColorPrimary"
+            app:trackColorInactive="?android:colorBackground"
+            app:trackHeight="@dimen/radius_big_20dp" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/shadowPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:value="0"
+            android:valueFrom="0"
+            android:valueTo="10"
+            app:haloColor="?android:textColorPrimary"
+            app:haloRadius="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:thumbColor="@color/colorAccent"
+            app:thumbElevation="0dp"
+            app:thumbRadius="@dimen/radius_default_10dp"
+            app:tickColor="?android:textColorPrimary"
+            app:tickColorInactive="?android:colorBackground"
+            app:tickVisible="false"
+            app:trackColorActive="?android:textColorPrimary"
+            app:trackColorInactive="?android:colorBackground"
+            app:trackHeight="@dimen/radius_big_20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

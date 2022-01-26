@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.beans.NEW_STYLE_ID
@@ -13,6 +15,7 @@ import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
+import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StylesRecyclerBinding
 import com.ilustris.motiv.manager.features.style.adapter.StylePreviewAdapter
 import com.ilustris.motiv.manager.features.style.viewmodel.StylesViewModel
@@ -63,7 +66,7 @@ class StylesFragment : Fragment() {
 
             if (it.id != NEW_STYLE_ID) {
                 ListDialog(requireContext(), listOf(DialogData("Editar") {
-                    editStyle(it)
+                    goToStyle(it)
                 }, DialogData("Excluir") {
                     DefaultAlert(
                         requireContext(),
@@ -77,7 +80,7 @@ class StylesFragment : Fragment() {
                     data.action.invoke()
                 }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
             } else {
-                goToNewStyle()
+                goToStyle()
             }
 
 
@@ -86,11 +89,10 @@ class StylesFragment : Fragment() {
             GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
     }
 
-    private fun goToNewStyle() {
 
-    }
-
-    private fun editStyle(it: Style) {
+    private fun goToStyle(style: Style? = null) {
+        val bundle = bundleOf("style" to style)
+        findNavController().navigate(R.id.action_navigation_styles_to_newStyleFragment, bundle)
 
     }
 }

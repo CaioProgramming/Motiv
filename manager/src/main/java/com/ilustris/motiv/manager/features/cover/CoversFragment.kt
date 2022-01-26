@@ -124,4 +124,9 @@ class CoversFragment : SearchView.OnQueryTextListener, Fragment() {
         return false
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        coversBinding = null
+    }
+
 }

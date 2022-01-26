@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/newStyleFragment"
         android:name="com.ilustris.motiv.manager.features.style.newstyle.NewStyleFragment"
-        android:label="NewStyleFragment"
+        android:label="Novo estilo"
         tools:layout="@layout/new_style_form">
         <argument
             android:name="style"

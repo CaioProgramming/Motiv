@@ -3,6 +3,7 @@ package com.ilustris.motiv.manager.features.style.newstyle
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -13,7 +14,7 @@ import com.giphy.sdk.ui.GPHSettings
 import com.giphy.sdk.ui.themes.GPHTheme
 import com.giphy.sdk.ui.themes.GridType
 import com.giphy.sdk.ui.views.GiphyDialogFragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.navigation.NavigationBarView
 import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.TextAlignment
@@ -28,16 +29,19 @@ import com.ilustris.motiv.manager.features.style.newstyle.adapter.RecyclerColorA
 import com.ilustris.motiv.manager.features.style.newstyle.adapter.StyleFontsAdapter
 import com.ilustris.motiv.manager.features.style.newstyle.viewmodel.NewStyleViewModel
 import com.silent.ilustriscore.core.model.ViewModelBaseState
+import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
+import com.silent.ilustriscore.core.utilities.visible
 
-class NewStyleFragment : Fragment() {
+class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
     private val args: NewStyleFragmentArgs? by navArgs()
     private val newStyleViewModel = NewStyleViewModel()
     private var newStyleFormBinding: NewStyleFormBinding? = null
-    private var style = Style.defaultStyle
+    private var style = Style()
     private var previewAdapter: StylePreviewAdapter? = null
     private var colorAdapter: RecyclerColorAdapter? = null
+    private var shadowColorAdapter: RecyclerColorAdapter? = null
     private var fontAdapter: StyleFontsAdapter? = null
 
     override fun onCreateView(
@@ -85,12 +89,11 @@ class NewStyleFragment : Fragment() {
             selectStyle(it)
             previewAdapter?.setSelectedStyle(it.id)
         }
-        newStyleFormBinding?.stylePreviewLayout?.stylesRecycler?.adapter = previewAdapter
-
     }
 
     private fun selectStyle(it: Style) {
         style = it
+        newStyleFormBinding?.styleBackground?.loadGif(it.backgroundURL)
         updateStyle()
     }
 
@@ -110,15 +113,10 @@ class NewStyleFragment : Fragment() {
             updateStyle()
         }
         initButtons()
-        getColorGallery()
     }
 
     private fun NewStyleFormBinding.initButtons() {
-        dotslayout.motivDots.setOnClickListener {
-            val bottomSheetBehavior = BottomSheetBehavior.from(stylesSettings)
-            bottomSheetBehavior.state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
-        }
+        styleBottomNav.setOnItemSelectedListener(this@NewStyleFragment)
         styleAlign.setOnClickListener {
             style.textAlignment = when (style.textAlignment) {
                 TextAlignment.CENTER -> TextAlignment.END
@@ -144,8 +142,27 @@ class NewStyleFragment : Fragment() {
             }
             updateStyle()
         }
+        if (style.id.isNotEmpty()) {
+            saveStyleButton.text = "Atualizar"
+        }
         saveStyleButton.setOnClickListener {
-            newStyleViewModel.saveData(style)
+            if (style.id.isEmpty()) {
+                newStyleViewModel.saveData(style)
+            } else {
+                newStyleViewModel.saveData(style)
+            }
+        }
+        styleBottomNav.selectedItemId = R.id.style_text
+        slider.addOnChangeListener { slider, value, fromUser ->
+            if (fromUser) {
+                if (styleBottomNav.selectedItemId != R.id.style_shadow_size) {
+                    style.shadowStyle.radius = value
+                } else {
+                    style.shadowStyle.dx = value
+                    style.shadowStyle.dy = value
+                }
+                updateStyle()
+            }
         }
     }
 
@@ -216,6 +233,8 @@ class NewStyleFragment : Fragment() {
                 }
             }
             updateColors()
+            colorAdapter?.updateSelectedColor(style.textColor)
+            shadowColorAdapter?.updateSelectedColor(style.textColor)
             fontAdapter?.updateFont(style.font, style.fontStyle)
         }
     }
@@ -224,20 +243,97 @@ class NewStyleFragment : Fragment() {
         colorAdapter?.updateSelectedColor(style.textColor)
     }
 
-    private fun NewStyleFormBinding.getColorGallery() {
-        stylecolorGallery.run {
-            colorAdapter = RecyclerColorAdapter(
-                context,
-                R.drawable.ic_baseline_text_fields_24
-            ) {
-                style.textColor = it
-                updateStyle()
-            }.apply {
-                updateSelectedColor(style.textColor)
+    override fun onDestroy() {
+        super.onDestroy()
+        newStyleFormBinding = null
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.style_text -> {
+                setupTextOptions()
+                return true
             }
-            adapter = colorAdapter
+            R.id.style_color -> {
+                fetchColors()
+                return true
+            }
+            R.id.style_shadow -> {
+                setupShadows()
+                return true
+            }
+            R.id.style_shadow_size -> {
+                setupShadowSize()
+                return true
+            }
+            R.id.style_relative_styles -> {
+                showStyles()
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun showStyles() {
+        if (previewAdapter == null) {
+            newStyleViewModel.getAllData()
+        }
+        newStyleFormBinding?.run {
+            styleRecyclerOptions.adapter = previewAdapter
+            styleRecyclerOptions.visible()
+            slider.gone()
+        }
+
+    }
+
+    private fun setupShadowSize() {
+        newStyleFormBinding?.run {
+            slider.value = style.shadowStyle.radius
+            styleRecyclerOptions.gone()
+            slider.visible()
         }
     }
 
+    private fun setupShadows() {
+        if (shadowColorAdapter == null) shadowColorAdapter =
+            RecyclerColorAdapter(requireContext(), R.drawable.ic_contrast) {
+                style.shadowStyle.shadowColor = it
+                updateStyle()
+            }
+        newStyleFormBinding?.run {
+            slider.value = style.shadowStyle.dx
+            styleRecyclerOptions.adapter = shadowColorAdapter
+            styleRecyclerOptions.visible()
+            slider.visible()
+        }
+    }
+
+    private fun fetchColors() {
+        if (colorAdapter == null) {
+            colorAdapter =
+                RecyclerColorAdapter(requireContext(), R.drawable.ic_baseline_text_fields_24) {
+                    style.textColor = it
+                    updateStyle()
+                }
+        }
+        newStyleFormBinding?.run {
+            styleRecyclerOptions.adapter = colorAdapter
+            styleRecyclerOptions.visible()
+            slider.gone()
+        }
+    }
+
+    private fun setupTextOptions() {
+        if (fontAdapter == null) StyleFontsAdapter {
+            style.font = it
+            updateStyle()
+        }
+        newStyleFormBinding?.run {
+
+            styleRecyclerOptions.adapter = fontAdapter
+            styleRecyclerOptions.visible()
+            slider.gone()
+        }
+    }
 
 }

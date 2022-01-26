@@ -82,7 +82,8 @@
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/main_content.xml" value="0.14" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/motiv_manager_toolbar.xml" value="0.20482456140350877" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/nav_header_main.xml" value="0.20482456140350877" />
-        <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/new_style_form.xml" value="0.21829710144927536" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/new_style_bottomsheet.xml" value="0.33" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/new_style_form.xml" value="0.25" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/style_card.xml" value="0.20153985507246377" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/style_preview_card.xml" value="0.21829710144927536" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/style_tabs_layout.xml" value="0.20482456140350877" />
@@ -91,6 +92,7 @@
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/layout/tab_font_view.xml" value="0.20482456140350877" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/menu/bottom_nav_menu.xml" value="0.2883116883116883" />
         <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/menu/manager_nav_menu.xml" value="0.2883116883116883" />
+        <entry key="..\:/Users/cacai/StudioProjects/Motiv/manager/src/main/res/menu/new_style_menu.xml" value="0.29210526315789476" />
       </map>
     </option>
   </component>
