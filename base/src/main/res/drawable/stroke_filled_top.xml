@@ -12,6 +12,9 @@
         android:left="-3dp"
         android:right="-3dp">
         <shape>
+            <corners
+                android:topLeftRadius="@dimen/radius_default_10dp"
+                android:topRightRadius="@dimen/radius_default_10dp" />
             <solid android:color="?android:colorBackground" />
             <stroke
                 android:width="2dp"

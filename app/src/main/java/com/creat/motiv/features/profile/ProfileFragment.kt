@@ -14,26 +14,26 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentProfileBinding
-import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.features.home.QuoteListViewState
-import com.creat.motiv.features.home.adapter.PagerStackTransformer
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
+import com.creat.motiv.features.profile.alerts.CoverPickerDialog
+import com.creat.motiv.features.profile.alerts.IconPickerDialog
 import com.creat.motiv.features.profile.viewmodel.ProfileData
 import com.creat.motiv.features.profile.viewmodel.ProfileViewModel
 import com.creat.motiv.features.profile.viewmodel.ProfileViewState
 import com.creat.motiv.features.share.QuoteShareDialog
-import com.creat.motiv.profile.cover.CoverPickerDialog
-import com.creat.motiv.profile.icon.view.IconPickerDialog
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
-import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.beans.QuoteAdapterData
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
+import com.ilustris.motiv.base.beans.quote.QuoteListViewState
+import com.ilustris.motiv.base.databinding.QuoteRecyclerBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.dialogItems
+import com.ilustris.motiv.base.utils.PagerStackTransformer
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
 import com.silent.ilustriscore.core.model.ViewModelBaseState
@@ -117,7 +117,7 @@ class ProfileFragment : Fragment() {
         postsCount.run {
             tabTitle.text = "Posts"
             root.setOnClickListener {
-                quotesView.loading.fadeIn()
+                //quotesView.loading.fadeIn()
                 quoteRecyclerAdapter.clearAdapter()
                 profileViewModel.fetchPosts(profileData.posts)
                 itemCount.setTextColor(
@@ -134,7 +134,7 @@ class ProfileFragment : Fragment() {
         likesCount.run {
             tabTitle.text = "Favoritos"
             root.setOnClickListener {
-                quotesView.loading.fadeIn()
+                //quotesView.loading.fadeIn()
                 quoteRecyclerAdapter.clearAdapter()
                 profileViewModel.fetchPosts(profileData.posts)
                 itemCount.setTextColor(
@@ -252,5 +252,10 @@ class ProfileFragment : Fragment() {
     private fun navigateToNewQuote(quote: Quote? = null) {
         val bundle = bundleOf("quote" to quote)
         findNavController().navigate(R.id.navigation_new_quote, bundle)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fragmentProfileBinding = null
     }
 }

@@ -3,19 +3,17 @@
     package="com.ilustris.motiv.manager">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application android:name="com.ilustris.motiv.base.MotivApplication">
+    <application
+        android:name="com.ilustris.motiv.base.MotivApplication"
+        android:theme="@style/Motiv.Theme">
         <activity
             android:name=".ui.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Motiv.Manager.Theme" />
-        <activity
-            android:name=".ui.styles.NewStyleActivity"
-            android:theme="@style/Motiv.Manager.Theme" />
-        <activity
-            android:name=".ManagerActivity"
-            android:theme="@style/Motiv.Manager.Theme" />
+            android:label="@string/title_activity_home" />
+        <activity android:name=".features.style.newstyle.NewStyleFragment" />
+        <activity android:name=".features.ManagerActivity" />
     </application>
 
 </manifest>

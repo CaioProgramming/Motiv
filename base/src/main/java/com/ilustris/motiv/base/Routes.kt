@@ -1,12 +1,10 @@
 package com.ilustris.motiv.base
 
 import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
-import com.ilustris.motiv.base.beans.Quote
 import com.ilustris.motiv.base.beans.User
 
 const val USER_ACTIVITY = "com.creat.motiv.profile.view.UserActivity"

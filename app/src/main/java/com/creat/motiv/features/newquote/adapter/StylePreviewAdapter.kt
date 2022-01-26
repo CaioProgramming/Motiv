@@ -5,8 +5,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.animations.fadeIn
+import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
@@ -56,6 +57,9 @@ class StylePreviewAdapter(
                 }
                 styleCard.setOnClickListener {
                     onSelectStyle.invoke(bindingAdapterPosition, quoteStyle)
+                }
+                if (!styleCard.isVisible) {
+                    styleCard.slideInBottom()
                 }
             }
         }

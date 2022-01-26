@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 31
@@ -35,8 +36,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':base')
-    implementation 'com.giphy.sdk:ui:2.0.9'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'com.giphy.sdk:ui:2.1.14'
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
     implementation 'com.hmomeni.verticalslider:verticalslider:0.1.4'

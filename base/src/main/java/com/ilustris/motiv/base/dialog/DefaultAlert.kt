@@ -1,10 +1,13 @@
 package com.ilustris.motiv.base.dialog
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.View
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.DefaultDialogBinding
+import com.ilustris.motiv.base.utils.blurView
+import com.ilustris.motiv.base.utils.unBlurView
 import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.view.BaseAlert
 
@@ -38,4 +41,11 @@ class DefaultAlert(
 
     }
 
+    override fun onShow(p0: DialogInterface?) {
+        blurView(context)
+    }
+
+    override fun onDismiss(p0: DialogInterface?) {
+        unBlurView(context)
+    }
 }

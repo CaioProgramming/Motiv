@@ -19,7 +19,6 @@ import com.ilustris.motiv.base.dialog.DefaultAlert
 
 open class MainActivity : AppCompatActivity() {
 
-    var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     var mainActBind: ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,40 +44,6 @@ open class MainActivity : AppCompatActivity() {
             //setSupportActionBar(mainToolbar)
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
-                user = FirebaseAuth.getInstance().currentUser
-            } else {
-                if (response != null) {
-                    DefaultAlert(this, "Atenção", "Ocorreu um erro ao realizar o login",
-                        okClick = {
-                            signIn()
-                        }).buildDialog()
-
-                }
-
-            }
-
-        }
-    }
-
-    private fun signIn() {
-        val providers = listOf(
-            AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.EmailBuilder().build()
-        )
-        startActivityForResult(
-            AuthUI.getInstance().createSignInIntentBuilder()
-                .setLogo(R.mipmap.ic_launcher)
-                .setAvailableProviders(providers)
-                .setTheme(R.style.Motiv_Theme)
-                .build(), RC_SIGN_IN
-        )
     }
 
 }

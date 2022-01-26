@@ -4,10 +4,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.creat.motiv.features.home.QuoteListViewState
-import com.creat.motiv.features.share.QuoteShareData
+import com.ilustris.motiv.base.beans.quote.QuoteShareData
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.ilustris.motiv.base.beans.*
+import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
+import com.ilustris.motiv.base.beans.quote.QuoteListViewState
+import com.ilustris.motiv.base.beans.quote.quoteList
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
 import com.ilustris.motiv.base.service.*
 import com.silent.ilustriscore.core.model.BaseViewModel

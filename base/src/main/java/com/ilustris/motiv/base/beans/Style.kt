@@ -23,7 +23,7 @@ enum class FontStyle {
 }
 
 data class Style(
-    override var id: String = DEFAULT_STYLE_ID,
+    override var id: String = "",
     var font: Int = 0,
     var textAlignment: TextAlignment = TextAlignment.CENTER,
     var fontStyle: FontStyle = FontStyle.REGULAR,
@@ -50,7 +50,9 @@ data class Style(
             }
         }
 
-        val defaultStyle = Style()
+        val defaultStyle = Style(
+            id = DEFAULT_STYLE_ID
+        )
         val favoriteStyle = Style(
             id = FAVORITES_STYLE_ID,
             font = 4,

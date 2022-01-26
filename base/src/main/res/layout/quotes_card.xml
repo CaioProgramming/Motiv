@@ -109,6 +109,7 @@
                 tools:visibility="visible" />
 
             <ImageView
+                android:id="@+id/giphyLogo"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:background="@drawable/round_bottom"

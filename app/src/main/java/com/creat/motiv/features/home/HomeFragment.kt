@@ -18,8 +18,6 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
-import com.creat.motiv.databinding.QuoteRecyclerBinding
-import com.creat.motiv.features.home.adapter.PagerStackTransformer
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
 import com.creat.motiv.features.share.QuoteShareDialog
@@ -28,17 +26,23 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.animations.fadeIn
-import com.ilustris.motiv.base.beans.Quote
-import com.ilustris.motiv.base.beans.QuoteAdapterData
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
+import com.ilustris.motiv.base.beans.quote.QuoteListViewState
+import com.ilustris.motiv.base.databinding.QuoteRecyclerBinding
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.dialogItems
-import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.base.utils.AdvertiseHelper
+import com.ilustris.motiv.base.utils.PagerStackTransformer
 import com.ilustris.motiv.base.utils.RC_SIGN_IN
+import com.ilustris.motiv.base.utils.activity
 import com.ilustris.motiv.base.utils.hideBackButton
+import com.ilustris.motiv.base.utils.loadImage
 import com.ilustris.motiv.base.utils.showSupportActionBar
+import com.ilustris.motiv.manager.features.ManagerActivity
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
@@ -118,6 +122,7 @@ class HomeFragment : Fragment() {
                         "Denúnciar publicação",
                         "Você deseja denúnciar essa publicação? Vamos analisá-la e tomar as ações necessárias!",
                         okClick = {
+                            homeViewModel.reportQuote(it.quote)
                             view?.showSnackBar("Denúncia enviada com sucesso!")
                         }
                     ).buildDialog()
@@ -130,7 +135,7 @@ class HomeFragment : Fragment() {
         homeViewModel.viewModelState.observe(this, {
             when (it) {
                 is ViewModelBaseState.ErrorState -> {
-                    view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
+                    handleError(it.dataException)
                 }
                 ViewModelBaseState.LoadingState -> {
                     togglePager(false)
@@ -163,6 +168,15 @@ class HomeFragment : Fragment() {
             setOnClickListener {
                 navigateToProfile(user.uid)
             }
+            if (user.admin) {
+                setOnLongClickListener {
+                    val i = Intent(context, ManagerActivity::class.java).apply {
+                        putExtra("User", data)
+                    }
+                    requireContext().startActivity(i)
+                    false
+                }
+            }
         }
 
     }
@@ -182,6 +196,8 @@ class HomeFragment : Fragment() {
                 R.style.Motiv_Theme,
                 R.mipmap.ic_launcher
             )
+        } else {
+            view?.showSnackBar(dataException.code.message, backColor = Color.RED)
         }
     }
 

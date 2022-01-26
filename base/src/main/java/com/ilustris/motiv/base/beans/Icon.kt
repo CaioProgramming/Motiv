@@ -6,6 +6,6 @@ import com.silent.ilustriscore.core.bean.BaseBean
 data class Icon(var uri: String = "", override var id: String = "") : BaseBean(id) {
 
     companion object {
-        fun addPic(): Icon = Icon(id = NEW_PIC)
+        val newPic: Icon = Icon(id = NEW_PIC)
     }
 }

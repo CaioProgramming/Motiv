@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
@@ -21,6 +20,7 @@ import com.creat.motiv.features.profile.users.UserListRecyclerAdapter
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.ilustris.animations.*
 import com.ilustris.motiv.base.beans.*
+import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.*
 import com.silent.ilustriscore.core.utilities.delayedFunction

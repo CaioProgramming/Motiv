@@ -71,7 +71,7 @@
         tools:layout="@layout/new_quote_fragment">
         <argument
             android:name="quote"
-            app:argType="com.ilustris.motiv.base.beans.Quote"
+            app:argType="com.ilustris.motiv.base.beans.quote.Quote"
             app:nullable="true" />
     </fragment>
     <fragment

@@ -7,7 +7,7 @@
         <item name="android:colorBackground">@color/md_white</item>
         <item name="dividerColor">@color/material_grey100</item>
         <item name="dropShadowColor">@color/md_black</item>
-        <item name="blurOverLayColor">#80FFFFFF</item>
+        <item name="blurOverLayColor">#B3FFFFFF</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="colorAccent">@color/material_purpleA100</item>
@@ -34,7 +34,7 @@
         <item name="android:colorBackground">@color/md_white</item>
         <item name="dividerColor">@color/material_grey100</item>
         <item name="dropShadowColor">@color/lwhite</item>
-        <item name="blurOverLayColor">#CCFFFFFF</item>
+        <item name="blurOverLayColor">#B3000000</item>
         <item name="colorPrimary">@color/material_purple400</item>
         <item name="colorPrimaryDark">@color/material_purple800</item>
         <item name="colorAccent">@color/material_purpleA100</item>
