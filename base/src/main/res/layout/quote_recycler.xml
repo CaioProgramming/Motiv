@@ -25,7 +25,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/planet"
+        app:lottie_colorFilter="@color/colorPrimaryDark"
+        app:lottie_rawRes="@raw/saturn"
         app:lottie_repeatMode="reverse"
 
         />
