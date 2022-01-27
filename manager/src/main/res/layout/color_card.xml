@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/colorcard"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="@dimen/margin_small"
-        app:cardCornerRadius="@dimen/radius_default"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:strokeColor="@color/selected_style"
-        android:stateListAnimator="@animator/list_animator"
-        app:strokeWidth="2dp"
-        app:cardElevation="0dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/colorcard"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_margin="@dimen/margin_small_4dp"
+    android:stateListAnimator="@animator/scale_down_animator"
+    app:cardBackgroundColor="@color/colorAccent"
+    app:cardCornerRadius="@dimen/radius_default_10dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/selected_style"
+    app:strokeWidth="@dimen/default_stroke">
 
-        <ImageView
-            android:id="@+id/currentColor"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="start"
-            android:background="@color/transparent"
-            android:padding="@dimen/margin_small"
-            app:tint="?android:textColorPrimary"
-            tools:src="@drawable/ic_outline_draw_24" />
+    <ImageView
+        android:id="@+id/currentColor"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="start"
+        android:background="@color/transparent"
+        android:padding="@dimen/margin_small_4dp"
+        app:tint="@color/selected_style"
+        tools:src="@drawable/ic_outline_draw_24" />
 
 
-    </com.google.android.material.card.MaterialCardView>
-</layout>
+</com.google.android.material.card.MaterialCardView>

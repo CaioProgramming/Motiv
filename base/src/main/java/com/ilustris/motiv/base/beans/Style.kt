@@ -23,19 +23,36 @@ enum class FontStyle {
 }
 
 data class Style(
-    override var id: String = DEFAULT_STYLE_ID,
+    override var id: String = "",
     var font: Int = 0,
     var textAlignment: TextAlignment = TextAlignment.CENTER,
     var fontStyle: FontStyle = FontStyle.REGULAR,
     var textColor: String = DEFAULT_TEXT_COLOR,
     var backgroundURL: String = DEFAULT_BACKGROUND_URL,
-    var shadowStyle: ShadowStyle = ShadowStyle()
+    var shadowStyle: ShadowStyle = ShadowStyle(),
+    var storedStyle: Boolean = false
 ) : BaseBean(id) {
 
-    fun isStoredStyle(): Boolean = id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
 
     companion object {
-        val defaultStyle = Style()
+        fun isPreSavedStyle(id: String): Boolean =
+            id != DEFAULT_STYLE_ID && id != VIEW_USERS_STYLE && id != SPLASH_STYLE_ID && id != ADMIN_STYLE_ID && id != EMPTY_STYLE_ID && id != FAVORITES_STYLE_ID && id != NEW_STYLE_ID
+
+        fun getPreSaveStyle(key: String): Style? {
+            return when (key) {
+                DEFAULT_STYLE_ID -> defaultStyle
+                SPLASH_STYLE_ID -> splashStyle
+                EMPTY_STYLE_ID -> emptyStyle
+                FAVORITES_STYLE_ID -> favoriteStyle
+                SEARCH_STYLE_ID -> searchStyle
+                ADMIN_STYLE_ID -> adminStyle
+                else -> null
+            }
+        }
+
+        val defaultStyle = Style(
+            id = DEFAULT_STYLE_ID
+        )
         val favoriteStyle = Style(
             id = FAVORITES_STYLE_ID,
             font = 4,

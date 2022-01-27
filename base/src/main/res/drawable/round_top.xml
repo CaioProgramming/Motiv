@@ -3,8 +3,8 @@
     android:shape="rectangle">
 
     <corners
-        android:topLeftRadius="@dimen/radius_default"
-        android:topRightRadius="@dimen/radius_default" />
+        android:topLeftRadius="@dimen/radius_default_10dp"
+        android:topRightRadius="@dimen/radius_default_10dp" />
 
 
     <!-- below code for different radius for each corner. -->

@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/styleCard"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    style="@style/MotivCard"
+    android:layout_margin="@dimen/margin_small_4dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:stateListAnimator="@animator/scale_down_animator">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/styleCard"
-        android:layout_height="250dp"
-        app:cardBackgroundColor="?attr/dividerColor"
-        android:layout_margin="@dimen/margin_default"
-        app:cardCornerRadius="@dimen/radius_small"
-        app:cardElevation="0dp"
-        app:strokeColor="?android:textColorPrimary"
-        android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@animator/list_animator"
+    <ImageView
+        android:id="@+id/styleImage"
         android:layout_width="match_parent"
-        app:strokeWidth="2dp">
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:scaleType="center" />
 
-        <ImageView
-            android:id="@+id/styleImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:scaleType="center" />
+    <TextView
+        android:id="@+id/styleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_default_10dp"
+        android:autoSizeMaxTextSize="@dimen/big_quote_size"
+        android:autoSizeMinTextSize="@dimen/min_quote_size"
+        android:autoSizeTextType="uniform"
+        android:breakStrategy="high_quality"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:transitionName="@string/style_text_transtition"
+        app:motivStrokeWidth="@dimen/default_stroke" />
+</com.google.android.material.card.MaterialCardView>
 
-        <com.ilustris.motiv.base.components.MotivTextView
-            android:id="@+id/styleText"
-            android:layout_margin="@dimen/margin_default"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:motivStrokeWidth="@dimen/default_stroke"
-            android:textAlignment="center"
-            android:transitionName="@string/style_text_transtition"
-            android:autoSizeMaxTextSize="@dimen/big_quote_size"
-            android:layout_width="match_parent"
-            android:autoSizeMinTextSize="@dimen/min_quote_size"
-            android:autoSizeTextType="uniform"
-            android:breakStrategy="high_quality"
-            android:text="@string/app_name" />
-    </com.google.android.material.card.MaterialCardView>
-
-</layout>

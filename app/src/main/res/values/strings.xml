@@ -8,14 +8,14 @@
     <string name="titleone">A sua rede social para os amantes da poesia, você é livre para expressar-se com suas palavras!</string>
     <string name="developed_by">by Ilustris since 2018</string>
     <string name="icon_info">user icon</string>
-    <string name="default_notification_channel_id">motivchannel</string>
-    <string name="fcm_message">🌠 Motiv</string>
+
     <string name="dribble_description">Dribbble is where designers gain inspiration, feedback, community, and jobs and is your best resource to discover and connect with designers worldwide.</string>
     <string name="support_devs_label">Quer demonstrar seu apoio ao projeto?</string>
     <string name="support_devs">Veja um anúncio em vídeo para nos apoiar 🚀</string>
     <string name="follow_us">Siga-nos no</string>
 
-    <string name="save_quote_button">Salvar Frase</string>
+    <string name="save_quote_button">Publicar</string>
+
     <string name="fatal_error_message">Por favor nos perdoe, cometemos um erro fatal e já estamos trabalhando nisso, não vá reclamar da gente pros amigos.</string>
     <string name="fatal_error_title">Alguma coisa deu errado :(</string>
     <string name="query_hint">Pesquisar frases...</string>

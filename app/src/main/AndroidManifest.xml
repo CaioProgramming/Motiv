@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".MotivApplication"
+        android:name="com.ilustris.motiv.base.MotivApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,29 +16,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Motiv.Theme">
-        <activity android:name=".profile.view.SettingsFragment" />
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.AboutActivity" />
+        <activity android:name=".features.about.AboutFragment" />
+        Z
         <activity
-            android:name=".quote.EditQuoteActivity"
-            android:label="Editar post"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".profile.view.UserActivity"
-            android:hardwareAccelerated="true" />
-        <activity
-            android:name=".ErrorActivity"
+            android:name="com.ilustris.motiv.base.ErrorActivity"
             android:clearTaskOnLaunch="true"
             android:process=":report_process" />
         <activity
@@ -58,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ilustris.motiv.manager.ManagerActivity"
+            android:name="com.ilustris.motiv.manager.features.ManagerActivity"
             android:label="Motiv+" />
 
         <meta-data
@@ -93,7 +85,7 @@
         </provider>
 
         <service
-            android:name=".utilities.Notifications"
+            android:name="com.ilustris.motiv.base.utils.Notifications"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

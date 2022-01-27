@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.activities.Splash">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/quoteCard"
-            layout="@layout/quotes_card" />
+    <include
+        android:id="@+id/quoteCard"
+        layout="@layout/quotes_card" />
 
-    </RelativeLayout>
-</layout>
+</RelativeLayout>

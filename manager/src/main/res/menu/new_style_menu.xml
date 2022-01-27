@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-
-        android:id="@+id/save_style"
-        android:title="salvar"
-        app:showAsAction="always" />
+        android:id="@+id/style_text"
+        android:icon="@drawable/ic_baseline_text_fields_24"
+        android:title="Texto" />
+    <item
+        android:id="@+id/style_color"
+        android:icon="@drawable/ic_baseline_water_drop_24"
+        android:title="Cor" />
+    <item
+        android:id="@+id/style_shadow"
+        android:icon="@drawable/ic_contrast"
+        android:title="Sombra" />
+    <item
+        android:id="@+id/style_shadow_size"
+        android:icon="@drawable/ic_shadow_radius"
+        android:title="Tamanho da sombra" />
+    <item
+        android:id="@+id/style_relative_styles"
+        android:icon="@drawable/ic_baseline_architecture_24"
+        android:title="Outros estilos" />
 </menu>

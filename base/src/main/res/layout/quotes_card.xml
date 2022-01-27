@@ -1,198 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
 
-    xmlns:tools="http://schemas.android.com/tools">
-
-
-    <RelativeLayout
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:id="@+id/quoteCard"
+    <View
+        android:id="@+id/cardShadow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/dividerColor"
-        android:hapticFeedbackEnabled="true"
-        android:orientation="vertical"
-        android:transitionName="@string/card_transaction">
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_default_10dp"
+        android:background="@drawable/round"
+        android:backgroundTint="?attr/dropShadowColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/quoteCard"
+        style="@style/MotivCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/margin_small_4dp"
+        android:layout_marginBottom="@dimen/margin_small_4dp"
+        android:stateListAnimator="@animator/text_animator"
+        app:cardBackgroundColor="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/cardShadow"
+        app:layout_constraintEnd_toEndOf="@id/cardShadow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-        <include
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/styleView"
-            layout="@layout/style_layout_view" />
-
-        <View
-            android:alpha="0.03"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/md_black" />
-
-        <RelativeLayout
-            android:layout_marginTop="@dimen/topBlurSize"
-            android:padding="@dimen/padding_default"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/quoteInfo"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:gravity="center"
+            android:background="?attr/dividerColor"
+            android:hapticFeedbackEnabled="true"
             android:orientation="vertical"
-            android:transitionName="@string/quote_transaction">
+            android:transitionName="@string/card_transaction">
 
-            <com.ilustris.motiv.base.components.MotivTextView
-                android:stateListAnimator="@animator/text_animator"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/padding_default"
+            <ImageView
+                android:id="@+id/quoteBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="center"
+                tools:src="@drawable/motiv_gradient" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/lblack"
+                app:layout_constraintBottom_toBottomOf="@id/quoteBack"
+                app:layout_constraintEnd_toEndOf="@id/quoteBack"
+                app:layout_constraintStart_toStartOf="@id/quoteBack"
+                app:layout_constraintTop_toTopOf="@id/quoteBack" />
+
+
+            <TextView
                 android:id="@+id/quoteTextView"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_above="@id/author_text_view"
-                android:gravity="center"
-                android:autoSizeTextType="uniform"
+                android:layout_marginVertical="@dimen/padding_default_16dp"
                 android:autoSizeMaxTextSize="@dimen/big_quote_size"
-                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                android:autoSizeMinTextSize="@dimen/low_quote_size"
+                android:autoSizeTextType="uniform"
                 android:breakStrategy="high_quality"
+                android:gravity="center"
+                android:padding="@dimen/padding_default_16dp"
+                android:stateListAnimator="@animator/text_animator"
                 android:textAlignment="center"
                 android:textSize="@dimen/big_quote_size"
                 android:textStyle="bold"
                 android:transitionName="@string/quote_transaction"
                 android:typeface="normal"
-                app:motivStrokeColor="@color/md_black"
-                app:motivStrokeWidth="@dimen/default_stroke"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userTop"
                 tools:text="Everything I do \nI tell you all the time"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />
 
-            <com.ilustris.motiv.base.components.MotivTextView
-                android:layout_alignParentBottom="true"
+            <TextView
                 android:id="@+id/author_text_view"
-                android:gravity="center"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:autoSizeMaxTextSize="@dimen/default_quote_size"
+                android:autoSizeMinTextSize="@dimen/min_quote_size"
+                android:autoSizeTextType="uniform"
                 android:backgroundTint="@color/transparent"
-                android:layout_marginVertical="@dimen/padding_small"
+                android:breakStrategy="high_quality"
+                android:gravity="center"
+                android:padding="@dimen/padding_small_8dp"
+                android:textSize="@dimen/default_quote_size"
                 android:textAlignment="center"
-                android:textSize="24sp"
                 android:textStyle="italic"
                 android:transitionName="@string/author_transaction"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quoteTextView"
                 app:motivStrokeColor="@color/md_black"
                 app:motivStrokeWidth="@dimen/default_stroke"
                 tools:text="Lana Del Rey"
                 tools:textColor="@color/md_white"
                 tools:visibility="visible" />
-        </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/quoteInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/giphyLogo"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:background="@drawable/round_bottom"
+                android:backgroundTint="?android:colorBackground"
+                android:src="@drawable/giphy_mark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userTop"
+                app:tint="?android:textColorPrimary" />
 
-            <include
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/userTop"
-                android:layout_marginHorizontal="@dimen/margin_default"
-                layout="@layout/user_quote_card_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:id="@+id/quoteOptions"
-                android:layout_marginHorizontal="@dimen/margin_default"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent">
+                android:background="?android:colorBackground"
+                android:padding="@dimen/padding_default_16dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
-                <LinearLayout
-                    android:paddingVertical="@dimen/padding_small"
-                    android:id="@+id/quotebuttons"
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userpic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/scale_down_animator"
+                    android:transitionName="profilepic"
+                    app:civ_border_color="?android:textColorPrimary"
+                    app:civ_border_width="@dimen/default_stroke"
+                    app:civ_circle_background_color="@color/colorPrimaryDark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_neptune" />
 
-                    <CheckBox
-                        android:id="@+id/like"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_default"
-                        android:background="@drawable/favoritecheck"
-                        android:button="@color/transparent"
-                        android:stateListAnimator="@animator/text_animator" />
+                <TextView
+                    android:id="@+id/username"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/margin_default_10dp"
+                    android:maxLength="40"
+                    android:maxLines="1"
+                    android:text="@{userData.name}"
+                    android:textColor="?android:textColorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/like"
+                    app:layout_constraintStart_toEndOf="@+id/userpic"
+                    app:layout_constraintTop_toTopOf="@id/userpic"
+                    tools:text="Caio Alves Ferreira" />
 
-
-                    <ImageButton
-                        android:id="@+id/editButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_small"
-                        android:background="@color/transparent"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_baseline_edit_24"
-                        android:stateListAnimator="@animator/text_animator"
-                        android:tint="@color/white" />
-
-                    <ImageButton
-                        android:id="@+id/optionsButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginHorizontal="@dimen/margin_default"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:tint="@color/white"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_menu"
-                        android:background="@color/transparent"
-                        android:stateListAnimator="@animator/text_animator" />
-
-                </LinearLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/likers"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="match_parent"
-                    android:layout_toEndOf="@id/quotebuttons"
+                <TextView
+                    android:id="@+id/quoteDate"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:reverseLayout="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/user_picview" />
-            </RelativeLayout>
+                    android:textColor="?android:textColorPrimary"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/userpic"
+                    app:layout_constraintEnd_toEndOf="@id/username"
+                    app:layout_constraintStart_toEndOf="@+id/userpic"
+                    app:layout_constraintStart_toStartOf="@id/username"
+                    app:layout_constraintTop_toBottomOf="@id/username"
+                    tools:text="10 de Outubro de 2019" />
 
-            <TextView
-                android:id="@+id/shareButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/stroke_filled_top"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="@dimen/padding_small"
-                android:text="compartilhar"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:cornerRadius="0dp"
-                app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_ios_24"
-                app:drawableTint="@color/colorPrimaryDark"
-                app:elevation="0dp"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="2dp"
-                tools:visibility="visible" />
+                <ImageButton
+                    android:id="@+id/optionsButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@color/transparent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_menu"
+                    android:stateListAnimator="@animator/text_animator"
+                    app:layout_constraintBottom_toBottomOf="@id/userpic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/userpic" />
+
+                <CheckBox
+                    android:id="@+id/like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_default_10dp"
+                    android:background="@drawable/favoritecheck"
+                    android:button="@color/transparent"
+                    android:stateListAnimator="@animator/text_animator"
+                    app:layout_constraintBottom_toBottomOf="@id/optionsButton"
+                    app:layout_constraintEnd_toStartOf="@id/optionsButton"
+                    app:layout_constraintTop_toTopOf="@id/optionsButton" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/likers_recycler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default_10dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@id/quoteCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/user_picview" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </LinearLayout>
 
-    </RelativeLayout>
-</layout>
+
+
 
 

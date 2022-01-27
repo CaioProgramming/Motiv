@@ -16,11 +16,17 @@ data class User(var name: String = "",
 
     companion object {
 
+        val splashUser = User(
+            name = "Ilustris",
+            admin = true,
+            picurl = "https://play-lh.googleusercontent.com/vhYXxYYP10iWVV5dUvS8gX3g1iG6N5kCAtCHD1UveJwYjfXAHLpzkVNMBS5FnfRVVQ=w144-h144-n-rw"
+        )
 
         fun fromFirebase(firebaseUser: FirebaseUser): User {
             return User(
-                    uid = firebaseUser.uid,
-                    name = firebaseUser.displayName ?: "Desconhecido"
+                uid = firebaseUser.uid,
+                name = firebaseUser.displayName ?: "Desconhecido",
+                picurl = firebaseUser.photoUrl.toString()
             )
         }
     }

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<com.google.android.material.tabs.TabLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/style_preview_layout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?android:colorBackground"
-        app:tabIndicator="@color/transparent"
-        app:tabMode="scrollable"
-        app:tabPadding="@dimen/padding_small"
-        tools:showIn="@layout/new_style_form" />
-</layout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/style_preview_layout"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?android:colorBackground"
+    app:tabIndicator="@color/transparent"
+    app:tabMode="scrollable"
+    app:tabPadding="@dimen/padding_small_8dp"
+    tools:showIn="@layout/new_style_form" />
