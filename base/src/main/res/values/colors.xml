@@ -7,8 +7,9 @@
     <color name="white">#FFFFFF</color>
     <color name="oblack">#1A000000</color>
     <color name="transparent">#00ffffff</color>
-    <color name="lblack">#1A000000</color>
-    <color name="nblack">#B3000000</color>
+    <color name="lblack">#4D000000</color>
+    <color name="nblack">#80000000</color>
+    <color name="nwhite">#80FFFFFF</color>
     <color name="adminBorder">#6200EA</color>
     <color name="light_blue_400">#FF29B6F6</color>
     <color name="light_blue_600">#FF039BE5</color>

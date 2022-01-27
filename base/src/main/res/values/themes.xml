@@ -17,11 +17,9 @@
         <item name="searchViewStyle">@style/Searchtheme</item>
         <item name="snackbarStyle">@style/AppSnackbar</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
-        <item name="android:windowFullscreen">false</item>
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_up</item>
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:isLightTheme">true</item>
         <item name="android:statusBarColor">?android:colorBackground</item>

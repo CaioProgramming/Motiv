@@ -125,7 +125,7 @@
         <item name="android:checkable">true</item>
     </style>
 
-    <style name="MotivToolbarTitle" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="MotivToolbarTitle" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:fontFamily">@font/jost</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical</item>
