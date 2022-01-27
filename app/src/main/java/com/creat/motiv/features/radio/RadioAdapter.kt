@@ -56,7 +56,6 @@ class RadioAdapter(
                         playAnimation.visible()
                         playAnimation.playAnimation()
                     } else {
-                        playAnimation.gone()
                         playAnimation.pauseAnimation()
                     }
                     radioName.setTextColor(ContextCompat.getColor(context, R.color.white))

@@ -12,8 +12,10 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.features.radio.RadioAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Radio
+import com.ilustris.motiv.base.utils.loadGif
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
 import com.silent.ilustriscore.core.utilities.gone
@@ -84,14 +86,14 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun playRadio(radio: Radio) {
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-            radioAdapter?.updatePlaying(false)
-        }
+
 
         radioAdapter?.let {
-            it.updatePlaying(mediaPlayer.isPlaying)
-            if (it.currentRadio != radio) {
+            if (it.currentRadio?.id != radio.id) {
+                if (mediaPlayer.isPlaying) {
+                    mediaPlayer.stop()
+                    it.updatePlaying(false)
+                }
                 mediaPlayer.run {
                     reset()
                     val uri = Uri.parse(radio.url)
@@ -103,6 +105,7 @@ open class MainActivity : AppCompatActivity() {
                         radioAdapter?.updateCurrentRadio(radio)
                         radioAdapter?.updatePlaying(mediaPlayer.isPlaying)
                         radioAdapter?.updateEnabled(true)
+                        updateVisualizer(radio.visualizer)
                     }
                     setOnErrorListener { mp, what, extra ->
                         if (mp.isPlaying) {
@@ -119,7 +122,14 @@ open class MainActivity : AppCompatActivity() {
                 } else {
                     mediaPlayer.start()
                 }
+                radioAdapter?.updatePlaying(mediaPlayer.isPlaying)
             }
+        }
+    }
+
+    private fun updateVisualizer(visualizer: String) {
+        mainActBind?.playerView?.visualizerBack?.loadGif(visualizer) {
+            mainActBind?.playerView?.visualizerBack?.fadeIn()
         }
     }
 
