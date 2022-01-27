@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Motiv.Theme">
         <activity
-            android:name=".features.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:exported="true"
             android:screenOrientation="portrait"

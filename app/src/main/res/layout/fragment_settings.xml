@@ -126,7 +126,7 @@
             android:id="@+id/aboutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_uranus"
+            android:drawableStart="@drawable/ic_saturn_and_other_planets_primary"
             android:drawablePadding="@dimen/padding_default_16dp"
             android:foreground="?selectableItemBackground"
             android:padding="@dimen/padding_default_16dp"

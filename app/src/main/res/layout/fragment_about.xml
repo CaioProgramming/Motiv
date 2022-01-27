@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/padding_small_8dp"
-                android:stateListAnimator="@animator/list_animator"
+                android:stateListAnimator="@animator/scale_down_animator"
                 app:cardBackgroundColor="@color/colorPrimary"
                 app:cardCornerRadius="@dimen/radius_default_10dp"
                 app:cardElevation="0dp">

@@ -1,4 +1,4 @@
-package com.creat.motiv.profile.view
+package com.creat.motiv.features.profile.alerts
 
 import android.app.Activity
 import android.view.View

@@ -1,4 +1,4 @@
-package com.creat.motiv.features
+package com.creat.motiv
 
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -8,7 +8,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.creat.motiv.R
 import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.features.radio.RadioAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -140,7 +139,6 @@ open class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_profile,
-                R.id.navigation_search,
                 R.id.navigation_settings,
                 R.id.navigation_new_quote
             )

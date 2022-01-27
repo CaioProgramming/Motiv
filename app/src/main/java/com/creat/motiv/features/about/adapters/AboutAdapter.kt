@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.QuoteHeaderViewBinding
-import com.creat.motiv.developer.view.RecyclerDeveloperAdapter
 import com.creat.motiv.features.about.data.AboutData
 
 class AboutAdapter(val aboutDataList: ArrayList<AboutData>) :

@@ -28,13 +28,10 @@
         tools:visibility="visible" />
 
 
-    <com.github.mmin18.widget.RealtimeBlurView
-        android:id="@+id/rootblur"
+    <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:realtimeBlurRadius="25dp"
-        app:realtimeOverlayColor="@color/transparent" />
+        layout="@layout/blur_layout" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

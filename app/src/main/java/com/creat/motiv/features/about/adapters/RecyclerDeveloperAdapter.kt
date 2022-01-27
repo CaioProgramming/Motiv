@@ -1,6 +1,5 @@
-package com.creat.motiv.developer.view
+package com.creat.motiv.features.about.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
 import com.creat.motiv.databinding.DeveloperLayoutBinding
-import com.ilustris.motiv.base.beans.Developer
 import com.ilustris.animations.popIn
+import com.ilustris.motiv.base.beans.Developer
 
 class RecyclerDeveloperAdapter(
     private var developerList: List<Developer> = emptyList(),

@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creat.motiv.R
-import com.creat.motiv.databinding.ProfileQuoteCardBinding
 import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
 import com.creat.motiv.databinding.UsersPageCardBinding
 import com.creat.motiv.features.profile.users.UserListRecyclerAdapter
@@ -73,11 +72,6 @@ class QuoteRecyclerAdapter(
                     LayoutInflater.from(context).inflate(R.layout.quotes_card, parent, false)
                 )
             }
-            USER_PROFILE_QUOTE -> {
-                ProfileViewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.profile_quote_card, parent, false)
-                )
-            }
             VIEW_USERS_QUOTE -> {
                 ViewUsersHolder(
                     LayoutInflater.from(context).inflate(R.layout.users_page_card, parent, false)
@@ -102,7 +96,6 @@ class QuoteRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is QuoteViewHolder -> holder.bind()
-            is ProfileViewHolder -> holder.bind()
             is ViewUsersHolder -> holder.bind()
             is AdViewHolder -> holder.setupAd()
 
@@ -248,18 +241,6 @@ class QuoteRecyclerAdapter(
                 "Copiado para área de transferência",
                 backColor = ContextCompat.getColor(context, R.color.colorAccent)
             )
-        }
-    }
-
-
-    inner class ProfileViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind() {
-            ProfileQuoteCardBinding.bind(itemView).run {
-                val quoteAdapterData = adapterList[bindingAdapterPosition]
-                userBackground.loadGif(quoteAdapterData.user.cover)
-                username.text = quoteAdapterData.user.name
-                profilepic.loadImage(quoteAdapterData.user.picurl)
-            }
         }
     }
 

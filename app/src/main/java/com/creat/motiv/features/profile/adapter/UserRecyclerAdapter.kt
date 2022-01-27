@@ -1,4 +1,4 @@
-package com.creat.motiv.profile.view.adapters
+package com.creat.motiv.features.profile.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater

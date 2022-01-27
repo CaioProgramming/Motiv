@@ -3,9 +3,8 @@ package com.ilustris.motiv.base.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.animations.slideInBottom
+import com.ilustris.animations.popIn
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.beans.Icon
 import com.ilustris.motiv.base.databinding.IconLayoutBinding
@@ -48,20 +47,11 @@ class RecyclerIconAdapter(
             IconLayoutBinding.bind(itemView).run {
                 val context = itemView.context
                 val icon = pictureList[bindingAdapterPosition]
-                if (icon.id != NEW_PIC) {
-                    iconImageview.loadImage(icon.uri)
-                } else {
-                    iconImageview.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            context,
-                            R.drawable.ic_baseline_arrow_upward_24
-                        )
-                    )
-                }
+                iconImageview.loadImage(icon.uri)
                 iconImageview.setOnClickListener {
                     onSelectIcon(icon)
                 }
-                root.slideInBottom()
+                root.popIn()
             }
         }
     }

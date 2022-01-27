@@ -20,11 +20,11 @@
     <ImageView
         android:id="@+id/covers_gif_mark"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="12dp"
         android:layout_gravity="center"
         android:layout_marginVertical="@dimen/margin_small_4dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/giphy_color"
+        android:src="@drawable/giphy_mark"
         android:visibility="gone"
         app:tint="?android:textColorPrimary"
         tools:visibility="visible" />
