@@ -18,8 +18,11 @@ import com.creat.motiv.databinding.QuoteAdvertiseLayoutBinding
 import com.creat.motiv.databinding.UsersPageCardBinding
 import com.creat.motiv.features.profile.users.UserListRecyclerAdapter
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.ilustris.animations.*
-import com.ilustris.motiv.base.beans.*
+import com.ilustris.animations.bounce
+import com.ilustris.animations.fadeIn
+import com.ilustris.animations.fadeOut
+import com.ilustris.motiv.base.beans.Style
+import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.*
@@ -28,6 +31,7 @@ import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
+import kotlin.collections.ArrayList
 
 private const val QUOTE_VIEW = 0
 private const val ADVERTISE_QUOTE = 1
@@ -41,17 +45,19 @@ enum class QuoteAction {
 class QuoteRecyclerAdapter(
     private val quoteAdapterList: ArrayList<QuoteAdapterData>,
     private val onSelectQuote: (QuoteAdapterData, QuoteAction) -> Unit
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var adapterList = quoteAdapterList
 
     fun refreshData(quoteAdapterData: QuoteAdapterData) {
         quoteAdapterList.add(quoteAdapterData)
+        adapterList = quoteAdapterList
         notifyItemInserted(itemCount)
     }
 
     fun loadOnNextPage(quoteAdapterData: QuoteAdapterData, position: Int) {
         if (position <= itemCount) {
-            val nextItem = quoteAdapterList[position + 1]
+            val nextItem = adapterList[position + 1]
             if (nextItem.quote.id != quoteAdapterData.quote.id) {
                 quoteAdapterList.add(position + 1, quoteAdapterData)
                 notifyItemInserted(position + 1)
@@ -103,10 +109,36 @@ class QuoteRecyclerAdapter(
         }
     }
 
-    override fun getItemCount(): Int = quoteAdapterList.size
+    override fun getItemCount(): Int = adapterList.size
     fun clearAdapter() {
         quoteAdapterList.clear()
+        adapterList = quoteAdapterList
         notifyDataSetChanged()
+    }
+
+    fun filter(query: String?) {
+        if (query.isNullOrEmpty()) {
+            if (adapterList.size != quoteAdapterList.size) {
+                adapterList = quoteAdapterList
+                notifyDataSetChanged()
+            }
+        } else {
+            adapterList = ArrayList(quoteAdapterList.filter {
+                it.quote.quote == query || it.quote.author == query || it.user.name == query || findUsers(
+                    it.users,
+                    query
+                )
+            })
+            notifyDataSetChanged()
+        }
+
+    }
+
+    private fun findUsers(users: List<User>?, query: String): Boolean {
+        if (users == null) return false
+        return users.any {
+            it.name == query
+        }
     }
 
     inner class QuoteViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -154,7 +186,7 @@ class QuoteRecyclerAdapter(
 
         private fun QuotesCardBinding.setupData() {
             val context = root.context
-            val quoteData = quoteAdapterList[bindingAdapterPosition]
+            val quoteData = adapterList[bindingAdapterPosition]
             quoteTextView.text = quoteData.quote.quote
             authorTextView.text = quoteData.quote.author
             quoteTextView.setOnLongClickListener {
@@ -223,7 +255,7 @@ class QuoteRecyclerAdapter(
     inner class ProfileViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind() {
             ProfileQuoteCardBinding.bind(itemView).run {
-                val quoteAdapterData = quoteAdapterList[bindingAdapterPosition]
+                val quoteAdapterData = adapterList[bindingAdapterPosition]
                 userBackground.loadGif(quoteAdapterData.user.cover)
                 username.text = quoteAdapterData.user.name
                 profilepic.loadImage(quoteAdapterData.user.picurl)
@@ -234,7 +266,7 @@ class QuoteRecyclerAdapter(
     inner class ViewUsersHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind() {
             UsersPageCardBinding.bind(itemView).run {
-                val quoteAdapterData = quoteAdapterList[bindingAdapterPosition]
+                val quoteAdapterData = adapterList[bindingAdapterPosition]
                 usersRecycler.adapter = quoteAdapterData.users?.let {
                     UserListRecyclerAdapter(it) { selectedUser ->
                         quoteAdapterData.user = selectedUser
@@ -250,7 +282,7 @@ class QuoteRecyclerAdapter(
 
         fun setupAd() {
             QuoteAdvertiseLayoutBinding.bind(itemView).run {
-                val quoteAdapterData = quoteAdapterList[bindingAdapterPosition]
+                val quoteAdapterData = adapterList[bindingAdapterPosition]
                 advertiseImage.loadGif(AD_GIF)
                 delayedFunction(3000) {
                     quoteAdapterData.advertise?.let { setupAd(it) }
@@ -278,7 +310,9 @@ class QuoteRecyclerAdapter(
                 setImageScaleType(ImageView.ScaleType.CENTER_CROP)
             }
             appRating.isEnabled = false
-            appRating.numStars = ad.starRating.toInt()
+            ad.starRating.let {
+                appRating.numStars = it.toInt()
+            }
             adHeadline.text = ad.headline
             adView.fadeIn()
             loading.fadeOut()

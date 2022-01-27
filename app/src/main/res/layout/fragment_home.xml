@@ -71,12 +71,25 @@
 
     </RelativeLayout>
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_default_10dp"
+        android:layout_marginTop="@dimen/margin_default_10dp"
+        android:background="@drawable/round_stroke_filled"
+        android:focusedByDefault="true"
+        android:visibility="gone"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toBottomOf="@id/motiv_top"
+        app:queryHint="@string/query_hint" />
+
     <include
         android:id="@+id/quotesView"
         layout="@layout/quote_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/motiv_top" />
+        app:layout_constraintTop_toBottomOf="@+id/searchview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

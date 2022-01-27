@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -73,6 +74,18 @@ class HomeFragment : Fragment() {
             writingIcon.setOnClickListener {
                 navigateToNewQuote()
             }
+            searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    quoteRecyclerAdapter.filter(query)
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+
+
+            })
         }
         homeViewModel.getHomeQuotes()
         homeViewModel.fetchUser()
@@ -93,6 +106,9 @@ class HomeFragment : Fragment() {
                             )
                         }
                     }
+                }
+                HomeViewState.EnableSearch -> {
+                    homeBinding?.searchview?.fadeIn()
                 }
             }
         })
@@ -230,18 +246,18 @@ class HomeFragment : Fragment() {
                             quoteRecyclerAdapter.loadOnNextPage(
                                 QuoteAdapterData(
                                     Quote.advertiseQuote(),
-                                        advertise = it
-                                    ), currentItem
-                                )
-                                loadingAd = false
-                            }, {
-                                loadingAd = false
-                                Log.e("Home", "Ad error: Erro ao carregar anúncio")
-                            })
-                        }
+                                    advertise = it
+                                ), currentItem
+                            )
+                            loadingAd = false
+                        }, {
+                            loadingAd = false
+                            Log.e("Home", "Ad error: Erro ao carregar anúncio")
+                        })
                     }
-                })
-            }
+                }
+            })
+        }
     }
 
     private fun navigateToProfile(uid: String) {

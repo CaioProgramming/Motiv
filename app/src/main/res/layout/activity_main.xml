@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:layout_width="match_parent"
-        app:behavior_peekHeight="80dp"
+        app:behavior_peekHeight="?attr/actionBarSize"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:visibility="visible" />
 

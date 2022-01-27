@@ -26,7 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:realtimeBlurRadius="@dimen/radius_big_20dp"
+        app:realtimeBlurRadius="@dimen/topBlurSize"
         app:realtimeOverlayColor="@color/transparent" />
 
     <TextView
@@ -42,12 +42,10 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_default_10dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

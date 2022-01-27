@@ -16,9 +16,7 @@
 
 
     <!-- Background color -->
-    <stroke
-        android:width="2dp"
-        android:color="?android:textColorPrimary" />
-    <solid android:color="?android:colorBackground" />
+
+    <solid android:color="?attr/dividerColor" />
 
 </shape>

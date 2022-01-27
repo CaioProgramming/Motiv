@@ -3,12 +3,8 @@ package com.creat.motiv.features.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ilustris.motiv.base.beans.quote.QuoteShareData
 import com.ilustris.motiv.base.beans.*
-import com.ilustris.motiv.base.beans.quote.Quote
-import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
-import com.ilustris.motiv.base.beans.quote.QuoteListViewState
-import com.ilustris.motiv.base.beans.quote.quoteList
+import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
@@ -133,6 +129,9 @@ class HomeViewModel : BaseViewModel<Quote>() {
                             QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
                         )
                     )
+                    if (index == quotes.lastIndex) {
+                        homeViewState.postValue(HomeViewState.EnableSearch)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
