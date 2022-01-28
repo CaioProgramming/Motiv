@@ -4,13 +4,12 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ilustris.motiv.base.beans.quote.QuoteShareData
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.ilustris.motiv.base.beans.*
-import com.ilustris.motiv.base.beans.quote.Quote
-import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
-import com.ilustris.motiv.base.beans.quote.QuoteListViewState
-import com.ilustris.motiv.base.beans.quote.quoteList
+import com.ilustris.motiv.base.beans.Cover
+import com.ilustris.motiv.base.beans.Icon
+import com.ilustris.motiv.base.beans.Style
+import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
 import com.ilustris.motiv.base.service.*
 import com.silent.ilustriscore.core.model.BaseViewModel
@@ -19,7 +18,7 @@ import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.ArrayList
+import java.util.*
 
 class ProfileViewModel : BaseViewModel<User>() {
 
@@ -40,12 +39,15 @@ class ProfileViewModel : BaseViewModel<User>() {
                 }
                 val user = userRequest.success.data as User
                 val postsRequest = quoteService.query(uid, "userID")
-                if (postsRequest.isError) {
-                    viewModelState.postValue(ViewModelBaseState.ErrorState(postsRequest.error.errorException))
+                val posts = ArrayList<Quote>()
+                val favoritePosts = ArrayList<Quote>()
+                if (postsRequest.isSuccess) {
+                    posts.addAll(postsRequest.success.data as quoteList)
                 }
-                val posts = postsRequest.success.data as quoteList
                 val favoritesRequest = quoteService.findOnArray("likes", uid)
-                val favoritePosts = favoritesRequest.success.data as quoteList
+                if (favoritesRequest.isSuccess) {
+                    favoritePosts.addAll(favoritesRequest.success.data as quoteList)
+                }
                 profileViewState.postValue(
                     ProfileViewState.ProfilePageRetrieve(
                         ProfileData(

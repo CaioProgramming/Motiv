@@ -36,6 +36,8 @@ import com.ilustris.motiv.base.dialog.listdialog.dialogItems
 import com.ilustris.motiv.base.utils.PagerStackTransformer
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
+import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.utilities.gone
@@ -243,10 +245,20 @@ class ProfileFragment : Fragment() {
                     profileViewModel.fetchUserPage(user.uid)
                 }
                 is ViewModelBaseState.ErrorState -> {
+                    handleError(it.dataException)
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
         })
+    }
+
+    private fun handleError(dataException: DataException) {
+        when (dataException.code) {
+            ErrorType.NOT_FOUND -> {
+
+            }
+
+        }
     }
 
     private fun navigateToNewQuote(quote: Quote? = null) {

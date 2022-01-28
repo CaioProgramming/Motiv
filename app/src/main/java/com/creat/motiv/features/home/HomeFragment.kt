@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -171,8 +172,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToNewQuote(quote: Quote? = null) {
-        val bundle = bundleOf("quote" to quote)
-        findNavController().navigate(R.id.navigation_new_quote, bundle)
+        lifecycleScope.launchWhenResumed {
+            val bundle = bundleOf("quote" to quote)
+            findNavController().navigate(R.id.navigation_new_quote, bundle)
+        }
     }
 
     private fun setupUser(user: User) {
