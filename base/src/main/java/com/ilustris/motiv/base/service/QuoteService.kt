@@ -12,7 +12,6 @@ import kotlinx.coroutines.tasks.await
 
 class QuoteService : BaseService() {
     override val dataPath = "Quotes"
-
     override var requireAuth = true
 
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): BaseBean {

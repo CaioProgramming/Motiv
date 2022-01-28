@@ -10,6 +10,7 @@ import com.silent.ilustriscore.core.model.ServiceResult
 
 class StyleService : BaseService() {
     override val dataPath = "Styles"
+    override var requireAuth = true
 
     override suspend fun getSingleData(id: String): ServiceResult<DataException, BaseBean> {
         return if (!Style.isPreSavedStyle(id)) {

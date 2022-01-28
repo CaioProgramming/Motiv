@@ -6,5 +6,5 @@ const val WEB_URL = "https://www."
 const val AD_GIF = "https://media.giphy.com/media/nwHqjGXnV5xhm/giphy.gif"
 const val NEW_PIC = "NEW_PIC"
 const val GIPHY_KEY = "spg4bqTWAgxiLjsh4VEnQ1Embqpg3dmk"
-const val INITIALACT = "com.creat.motiv.features.MainActivity"
+const val INITIALACT = "com.creat.motiv.MainActivity"
 
