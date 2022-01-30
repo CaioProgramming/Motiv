@@ -38,7 +38,7 @@ class IconsFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        iconsViewModel.viewModelState.observe(this, {
+        iconsViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.DataListRetrievedState -> {
                     val iconList = it.dataList as ArrayList<Icon>
@@ -68,7 +68,7 @@ class IconsFragment : Fragment() {
                     iconsViewModel.getAllData()
                 }
             }
-        })
+        }
         iconsViewModel.iconsViewState.observe(this, {
             when (it) {
                 IconsViewState.IconsUploaded -> iconsViewModel.getAllData()

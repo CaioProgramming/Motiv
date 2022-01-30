@@ -1,4 +1,4 @@
-package com.ilustris.motiv.manager.features
+package com.ilustris.motiv.manager
 
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -9,7 +9,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.giphy.sdk.ui.Giphy
 import com.ilustris.motiv.base.utils.GIPHY_KEY
-import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.ActivityManagerBinding
 
 

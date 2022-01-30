@@ -44,7 +44,7 @@ class StylesFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        stylesViewModel.viewModelState.observe(this, {
+        stylesViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewModelBaseState.DataDeletedState -> {
                     stylesViewModel.getAllData()
@@ -58,7 +58,7 @@ class StylesFragment : Fragment() {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
-        })
+        }
     }
 
     private fun StylesRecyclerBinding.setupRecycler(styles: ArrayList<Style>) {

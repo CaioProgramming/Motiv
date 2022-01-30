@@ -189,7 +189,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        profileViewModel.quoteListViewState.observe(this, {
+        profileViewModel.quoteListViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is QuoteListViewState.QuoteDataRetrieve -> {
                     fragmentProfileBinding?.quotesView?.setupQuotes(it.quotedata)
@@ -201,6 +201,7 @@ class ProfileFragment : Fragment() {
                         "Remover Post?",
                         "Você está prestes a deletar, seu post", {
                             profileViewModel.deleteQuote(it.quote.id)
+                            profileViewModel.fetchUserPage(args?.uid)
                         }
                     ).buildDialog()
                 }
@@ -220,8 +221,8 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-        })
-        profileViewModel.profileViewState.observe(this, {
+        }
+        profileViewModel.profileViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is ProfileViewState.ProfilePageRetrieve -> {
                     fragmentProfileBinding?.setupProfile(it.profileData)
@@ -237,8 +238,8 @@ class ProfileFragment : Fragment() {
                     }.buildDialog()
                 }
             }
-        })
-        profileViewModel.viewModelState.observe(this, {
+        }
+        profileViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.DataUpdateState -> {
                     val user = it.data as User
@@ -249,7 +250,7 @@ class ProfileFragment : Fragment() {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
-        })
+        }
     }
 
     private fun handleError(dataException: DataException) {

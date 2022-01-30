@@ -31,7 +31,7 @@ class QuoteService : BaseService() {
         value: String
     ): ServiceResult<DataException, ArrayList<BaseBean>> {
         Log.i(javaClass.simpleName, "query: Buscando por $value em $field na collection $dataPath")
-        if (requireAuth && currentUser == null) return ServiceResult.Error(DataException.AUTH)
+        if (requireAuth && currentUser() == null) return ServiceResult.Error(DataException.AUTH)
         val query = reference.whereArrayContains(field, value).get().await().documents
         return if (query.isNotEmpty()) {
             ServiceResult.Success(getDataList(query))

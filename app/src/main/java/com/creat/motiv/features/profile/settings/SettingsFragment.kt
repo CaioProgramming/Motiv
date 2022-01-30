@@ -17,14 +17,15 @@ import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentSettingsBinding
 import com.creat.motiv.features.profile.alerts.CoverPickerDialog
 import com.creat.motiv.features.profile.alerts.IconPickerDialog
-import com.google.firebase.auth.FirebaseAuth
+import com.firebase.ui.auth.AuthUI
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.Style.Companion.adminStyle
 import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
-import com.ilustris.motiv.manager.features.ManagerActivity
+import com.ilustris.motiv.manager.ManagerActivity
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.showSnackBar
 
@@ -49,7 +50,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        settingsViewModel.settingsViewState.observe(this, {
+        settingsViewModel.settingsViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is SettingsViewState.CoversRetrieved -> {
                     CoverPickerDialog(requireContext(), it.covers) { cover ->
@@ -62,8 +63,8 @@ class SettingsFragment : Fragment() {
                     }.buildDialog()
                 }
             }
-        })
-        settingsViewModel.viewModelState.observe(this, {
+        }
+        settingsViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.DataUpdateState -> {
                     settingsBinding?.setupUser(it.data as User)
@@ -72,7 +73,7 @@ class SettingsFragment : Fragment() {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
-        })
+        }
     }
 
     private fun FragmentSettingsBinding.setupUser(user: User) {
@@ -120,8 +121,20 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_settings_to_aboutFragment)
         }
         singOutButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            requireActivity().finishAffinity()
+            AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener {
+                requireActivity().finishAffinity()
+            }
+        }
+        deleteAccountButton.setOnClickListener {
+            DefaultAlert(
+                requireContext(),
+                "Tem certeza?",
+                "Você está prestes a deletar sua conta, essa ação não pode ser revertida",
+                okClick = {
+                    AuthUI.getInstance().delete(requireContext()).addOnCompleteListener {
+                        requireActivity().finishAffinity()
+                    }
+                }).buildDialog()
         }
         userID.text = user.uid
     }

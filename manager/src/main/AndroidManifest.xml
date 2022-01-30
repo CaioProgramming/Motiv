@@ -13,7 +13,7 @@
             android:name=".ui.HomeActivity"
             android:label="@string/title_activity_home" />
         <activity android:name=".features.style.newstyle.NewStyleFragment" />
-        <activity android:name=".features.ManagerActivity" />
+        <activity android:name=".ManagerActivity" />
     </application>
 
 </manifest>

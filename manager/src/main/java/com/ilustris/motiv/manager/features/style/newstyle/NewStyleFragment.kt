@@ -55,7 +55,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
 
     private fun observeViewModel() {
-        newStyleViewModel.viewModelState.observe(this, {
+        newStyleViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.DataListRetrievedState -> {
                     setupPreview(it.dataList as ArrayList<Style>)
@@ -81,7 +81,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
                 }
             }
-        })
+        }
     }
 
     private fun setupPreview(styles: ArrayList<Style>) {

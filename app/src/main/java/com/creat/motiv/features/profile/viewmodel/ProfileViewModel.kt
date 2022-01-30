@@ -18,7 +18,6 @@ import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.*
 
 class ProfileViewModel : BaseViewModel<User>() {
 
@@ -30,7 +29,7 @@ class ProfileViewModel : BaseViewModel<User>() {
     val profileViewState = MutableLiveData<ProfileViewState>()
     val quoteListViewState = MutableLiveData<QuoteListViewState>()
 
-    fun fetchUserPage(uid: String? = currentUser?.uid) {
+    fun fetchUserPage(uid: String? = getUser()?.uid) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userRequest = service.getSingleData(uid!!)
@@ -54,7 +53,7 @@ class ProfileViewModel : BaseViewModel<User>() {
                             user = user,
                             ArrayList(favoritePosts.sortedByDescending { it.data }),
                             posts = ArrayList(posts.sortedByDescending { it.data }),
-                            user.uid == currentUser?.uid
+                            user.uid == getUser()?.uid
                         )
                     )
                 )
@@ -74,8 +73,8 @@ class ProfileViewModel : BaseViewModel<User>() {
                 val styleRequest = styleService.getSingleData(quote.style)
                 val style =
                     if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style
-                val quoteUser = if (quote.userID == currentUser?.uid) {
-                    User.fromFirebase(currentUser!!)
+                val quoteUser = if (quote.userID == getUser()?.uid) {
+                    User.fromFirebase(getUser()!!)
                 } else {
                     service.getSingleData(quote.userID).success.data as User
                 }
@@ -91,7 +90,7 @@ class ProfileViewModel : BaseViewModel<User>() {
                 }
                 quoteListViewState.postValue(
                     QuoteListViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
+                        QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
                     )
                 )
             }
@@ -101,7 +100,7 @@ class ProfileViewModel : BaseViewModel<User>() {
 
     fun likeQuote(quote: Quote) {
         viewModelScope.launch(Dispatchers.IO) {
-            currentUser?.let {
+            getUser()?.let {
                 if (quote.likes.contains(it.uid)) quote.likes.remove(it.uid) else quote.likes.add(it.uid)
                 quoteService.editData(quote)
             }
@@ -112,7 +111,7 @@ class ProfileViewModel : BaseViewModel<User>() {
     fun getQuoteOptions(quoteAdapterData: QuoteAdapterData) {
         val dialogItems = ArrayList<DialogData>()
         val quote = quoteAdapterData.quote
-        if (quote.userID == currentUser?.uid) {
+        if (quote.userID == getUser()?.uid) {
             dialogItems.add(DialogData("Excluir") {
                 quoteListViewState.value = QuoteListViewState.RequestDelete(quote)
             })
@@ -156,7 +155,7 @@ class ProfileViewModel : BaseViewModel<User>() {
             try {
                 val profileChangeRequest =
                     UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(uri)).build()
-                val request = currentUser?.updateProfile(profileChangeRequest)?.await()
+                val request = getUser()?.updateProfile(profileChangeRequest)?.await()
                 val editFieldRequest = service.editField(uri, user.id, "picurl")
                 viewModelState.postValue(ViewModelBaseState.DataUpdateState(user.apply {
                     picurl = uri

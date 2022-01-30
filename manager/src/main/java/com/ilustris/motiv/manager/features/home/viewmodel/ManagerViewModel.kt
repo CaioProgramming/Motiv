@@ -48,8 +48,8 @@ class ManagerViewModel : BaseViewModel<Quote>() {
                     val styleRequest = styleService.getSingleData(quote.style)
                     val style =
                         if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style
-                    val quoteUser = if (quote.userID == currentUser?.uid) {
-                        User.fromFirebase(currentUser!!)
+                    val quoteUser = if (quote.userID == getUser()?.uid) {
+                        User.fromFirebase(getUser()!!)
                     } else {
                         userService.getSingleData(quote.userID).success.data as User
                     }
@@ -65,7 +65,7 @@ class ManagerViewModel : BaseViewModel<Quote>() {
                     }
                     quoteListViewState.postValue(
                         QuoteListViewState.QuoteDataRetrieve(
-                            QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
+                            QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
                         )
                     )
                 }

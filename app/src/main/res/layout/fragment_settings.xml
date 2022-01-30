@@ -135,16 +135,16 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/singOutButton"
+            android:id="@+id/deleteAccountButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_default_16dp"
-            android:text="Desconectar"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Remover conta"
             android:background="@drawable/bottom_line"
             android:backgroundTint="?attr/dividerColor"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="@color/material_red500"
-            android:textStyle="bold" />
+            android:textColor="@color/material_red500" />
 
         <TextView
             android:id="@+id/userID"
@@ -156,5 +156,20 @@
             android:padding="@dimen/padding_default_16dp"
             android:textStyle="bold"
             tools:text="caioferre.ira@gmail.com" />
+
+
+        <TextView
+            android:id="@+id/singOutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line"
+            android:backgroundTint="?attr/dividerColor"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/padding_default_16dp"
+            android:text="Desconectar"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/material_red500"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

@@ -67,7 +67,7 @@ class ManagerHomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        managerViewModel.quoteListViewState.observe(this, {
+        managerViewModel.quoteListViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is QuoteListViewState.QuoteDataRetrieve -> {
                     managerHomeBinding?.run {
@@ -99,7 +99,7 @@ class ManagerHomeFragment : Fragment() {
                     ).buildDialog()
                 }
             }
-        })
+        }
 
         managerViewModel.viewModelState.observe(this, {
             when (it) {

@@ -3,7 +3,6 @@ package com.creat.motiv.features.profile.settings
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.creat.motiv.features.profile.viewmodel.ProfileViewState
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.ilustris.motiv.base.beans.Cover
 import com.ilustris.motiv.base.beans.Icon
@@ -17,7 +16,6 @@ import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.ArrayList
 
 class SettingsViewModel : BaseViewModel<User>() {
 
@@ -28,8 +26,8 @@ class SettingsViewModel : BaseViewModel<User>() {
             try {
                 val profileChangeRequest =
                     UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(uri)).build()
-                currentUser?.updateProfile(profileChangeRequest)?.await()
-                service.editField(currentUser!!.photoUrl.toString(), user.id, "picurl").success
+                getUser()?.updateProfile(profileChangeRequest)?.await()
+                service.editField(getUser()!!.photoUrl.toString(), user.id, "picurl").success
                 viewModelState.postValue(ViewModelBaseState.DataUpdateState(user.apply {
                     picurl = uri
                 }))
