@@ -4,13 +4,12 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ilustris.motiv.base.beans.quote.QuoteShareData
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.ilustris.motiv.base.beans.*
-import com.ilustris.motiv.base.beans.quote.Quote
-import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
-import com.ilustris.motiv.base.beans.quote.QuoteListViewState
-import com.ilustris.motiv.base.beans.quote.quoteList
+import com.ilustris.motiv.base.beans.Cover
+import com.ilustris.motiv.base.beans.Icon
+import com.ilustris.motiv.base.beans.Style
+import com.ilustris.motiv.base.beans.User
+import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
 import com.ilustris.motiv.base.service.*
 import com.silent.ilustriscore.core.model.BaseViewModel
@@ -19,7 +18,6 @@ import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.ArrayList
 
 class ProfileViewModel : BaseViewModel<User>() {
 
@@ -31,7 +29,7 @@ class ProfileViewModel : BaseViewModel<User>() {
     val profileViewState = MutableLiveData<ProfileViewState>()
     val quoteListViewState = MutableLiveData<QuoteListViewState>()
 
-    fun fetchUserPage(uid: String? = currentUser?.uid) {
+    fun fetchUserPage(uid: String? = getUser()?.uid) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val userRequest = service.getSingleData(uid!!)
@@ -40,19 +38,22 @@ class ProfileViewModel : BaseViewModel<User>() {
                 }
                 val user = userRequest.success.data as User
                 val postsRequest = quoteService.query(uid, "userID")
-                if (postsRequest.isError) {
-                    viewModelState.postValue(ViewModelBaseState.ErrorState(postsRequest.error.errorException))
+                val posts = ArrayList<Quote>()
+                val favoritePosts = ArrayList<Quote>()
+                if (postsRequest.isSuccess) {
+                    posts.addAll(postsRequest.success.data as quoteList)
                 }
-                val posts = postsRequest.success.data as quoteList
                 val favoritesRequest = quoteService.findOnArray("likes", uid)
-                val favoritePosts = favoritesRequest.success.data as quoteList
+                if (favoritesRequest.isSuccess) {
+                    favoritePosts.addAll(favoritesRequest.success.data as quoteList)
+                }
                 profileViewState.postValue(
                     ProfileViewState.ProfilePageRetrieve(
                         ProfileData(
                             user = user,
                             ArrayList(favoritePosts.sortedByDescending { it.data }),
                             posts = ArrayList(posts.sortedByDescending { it.data }),
-                            user.uid == currentUser?.uid
+                            user.uid == getUser()?.uid
                         )
                     )
                 )
@@ -72,8 +73,8 @@ class ProfileViewModel : BaseViewModel<User>() {
                 val styleRequest = styleService.getSingleData(quote.style)
                 val style =
                     if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style
-                val quoteUser = if (quote.userID == currentUser?.uid) {
-                    User.fromFirebase(currentUser!!)
+                val quoteUser = if (quote.userID == getUser()?.uid) {
+                    User.fromFirebase(getUser()!!)
                 } else {
                     service.getSingleData(quote.userID).success.data as User
                 }
@@ -89,7 +90,7 @@ class ProfileViewModel : BaseViewModel<User>() {
                 }
                 quoteListViewState.postValue(
                     QuoteListViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
+                        QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
                     )
                 )
             }
@@ -99,7 +100,7 @@ class ProfileViewModel : BaseViewModel<User>() {
 
     fun likeQuote(quote: Quote) {
         viewModelScope.launch(Dispatchers.IO) {
-            currentUser?.let {
+            getUser()?.let {
                 if (quote.likes.contains(it.uid)) quote.likes.remove(it.uid) else quote.likes.add(it.uid)
                 quoteService.editData(quote)
             }
@@ -110,7 +111,7 @@ class ProfileViewModel : BaseViewModel<User>() {
     fun getQuoteOptions(quoteAdapterData: QuoteAdapterData) {
         val dialogItems = ArrayList<DialogData>()
         val quote = quoteAdapterData.quote
-        if (quote.userID == currentUser?.uid) {
+        if (quote.userID == getUser()?.uid) {
             dialogItems.add(DialogData("Excluir") {
                 quoteListViewState.value = QuoteListViewState.RequestDelete(quote)
             })
@@ -154,7 +155,7 @@ class ProfileViewModel : BaseViewModel<User>() {
             try {
                 val profileChangeRequest =
                     UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(uri)).build()
-                val request = currentUser?.updateProfile(profileChangeRequest)?.await()
+                val request = getUser()?.updateProfile(profileChangeRequest)?.await()
                 val editFieldRequest = service.editField(uri, user.id, "picurl")
                 viewModelState.postValue(ViewModelBaseState.DataUpdateState(user.apply {
                     picurl = uri

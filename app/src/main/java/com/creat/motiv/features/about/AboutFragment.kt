@@ -22,7 +22,6 @@ import com.ilustris.animations.slideInRight
 import com.ilustris.motiv.base.utils.FontUtils
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.showSnackBar
-import java.util.*
 
 class AboutFragment : Fragment() {
     var aboutBinding: FragmentAboutBinding? = null
@@ -46,19 +45,19 @@ class AboutFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        aboutViewModel.aboutViewState.observe(this, {
+        aboutViewModel.aboutViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is AboutViewModel.AboutViewState.AboutDataRetrieved -> setupAbout(it.aboutData)
             }
-        })
-        aboutViewModel.viewModelState.observe(this, {
+        }
+        aboutViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewModelBaseState.LoadingState -> TODO()
                 is ViewModelBaseState.ErrorState -> {
                     view?.showSnackBar("Ocorreu um erro inesperado ao carregar")
                 }
             }
-        })
+        }
     }
 
     private fun setupAbout(aboutData: ArrayList<AboutData>) {

@@ -48,7 +48,7 @@ class CoversFragment : SearchView.OnQueryTextListener, Fragment() {
     }
 
     private fun observeViewModel() {
-        coversViewModel.viewModelState.observe(this, {
+        coversViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewModelBaseState.DataDeletedState -> {
                     coversViewModel.getAllData()
@@ -65,7 +65,7 @@ class CoversFragment : SearchView.OnQueryTextListener, Fragment() {
                     view?.showSnackBar(it.dataException.code.message)
                 }
             }
-        })
+        }
     }
 
     private fun setupRecycler(covers: ArrayList<Cover>) {

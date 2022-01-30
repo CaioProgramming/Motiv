@@ -2,7 +2,7 @@
 .gradle
 /app/build
 /app/release
-.idea
+/.idea
 /local.properties
 /.idea/libraries
 /.idea/modules.xml

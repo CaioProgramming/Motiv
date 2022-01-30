@@ -36,6 +36,8 @@ import com.ilustris.motiv.base.dialog.listdialog.dialogItems
 import com.ilustris.motiv.base.utils.PagerStackTransformer
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
+import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.utilities.gone
@@ -187,7 +189,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        profileViewModel.quoteListViewState.observe(this, {
+        profileViewModel.quoteListViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is QuoteListViewState.QuoteDataRetrieve -> {
                     fragmentProfileBinding?.quotesView?.setupQuotes(it.quotedata)
@@ -199,6 +201,7 @@ class ProfileFragment : Fragment() {
                         "Remover Post?",
                         "Você está prestes a deletar, seu post", {
                             profileViewModel.deleteQuote(it.quote.id)
+                            profileViewModel.fetchUserPage(args?.uid)
                         }
                     ).buildDialog()
                 }
@@ -218,8 +221,8 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-        })
-        profileViewModel.profileViewState.observe(this, {
+        }
+        profileViewModel.profileViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is ProfileViewState.ProfilePageRetrieve -> {
                     fragmentProfileBinding?.setupProfile(it.profileData)
@@ -235,18 +238,28 @@ class ProfileFragment : Fragment() {
                     }.buildDialog()
                 }
             }
-        })
-        profileViewModel.viewModelState.observe(this, {
+        }
+        profileViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.DataUpdateState -> {
                     val user = it.data as User
                     profileViewModel.fetchUserPage(user.uid)
                 }
                 is ViewModelBaseState.ErrorState -> {
+                    handleError(it.dataException)
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
-        })
+        }
+    }
+
+    private fun handleError(dataException: DataException) {
+        when (dataException.code) {
+            ErrorType.NOT_FOUND -> {
+
+            }
+
+        }
     }
 
     private fun navigateToNewQuote(quote: Quote? = null) {

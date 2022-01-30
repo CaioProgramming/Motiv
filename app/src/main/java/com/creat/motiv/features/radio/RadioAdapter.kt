@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.creat.motiv.R
 import com.creat.motiv.databinding.RadioPageCollapsedLayoutBinding
+import com.ilustris.animations.fadeIn
+import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Radio
 import com.ilustris.motiv.base.utils.loadGif
@@ -53,13 +55,17 @@ class RadioAdapter(
                     playAnimation.gone()
                 } else {
                     if (isPlaying) {
+                        visualizerBack.fadeIn()
                         playAnimation.visible()
                         playAnimation.playAnimation()
                     } else {
+                        visualizerBack.fadeOut()
+                        playAnimation.gone()
                         playAnimation.pauseAnimation()
                     }
                     radioName.setTextColor(ContextCompat.getColor(context, R.color.white))
                 }
+                visualizerBack.loadGif(radio.visualizer)
                 visualizer.loadGif(radio.visualizer) {
                     if (!visualizerCard.isVisible) {
                         visualizerCard.slideInBottom()

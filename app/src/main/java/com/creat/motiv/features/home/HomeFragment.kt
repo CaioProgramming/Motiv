@@ -1,7 +1,6 @@
 package com.creat.motiv.features.home
 
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -14,6 +13,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -22,10 +22,6 @@ import com.creat.motiv.databinding.FragmentHomeBinding
 import com.creat.motiv.features.home.adapter.QuoteAction
 import com.creat.motiv.features.home.adapter.QuoteRecyclerAdapter
 import com.creat.motiv.features.share.QuoteShareDialog
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.Quote
@@ -36,18 +32,15 @@ import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.dialogItems
-import com.ilustris.motiv.base.utils.AdvertiseHelper
-import com.ilustris.motiv.base.utils.PagerStackTransformer
-import com.ilustris.motiv.base.utils.RC_SIGN_IN
-import com.ilustris.motiv.base.utils.activity
-import com.ilustris.motiv.base.utils.hideBackButton
-import com.ilustris.motiv.base.utils.loadImage
-import com.ilustris.motiv.base.utils.showSupportActionBar
-import com.ilustris.motiv.manager.features.ManagerActivity
+import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.manager.ManagerActivity
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.*
+import com.silent.ilustriscore.core.utilities.DialogStyles
+import com.silent.ilustriscore.core.utilities.gone
+import com.silent.ilustriscore.core.utilities.showSnackBar
+import com.silent.ilustriscore.core.utilities.visible
 
 
 class HomeFragment : Fragment() {
@@ -55,6 +48,8 @@ class HomeFragment : Fragment() {
     private var homeBinding: FragmentHomeBinding? = null
     private val homeViewModel = HomeViewModel()
     private var quoteRecyclerAdapter = QuoteRecyclerAdapter(ArrayList(), ::selectQuote)
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,7 +87,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        homeViewModel.homeViewState.observe(this, {
+        homeViewModel.homeViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is HomeViewState.UserRetrieved -> setupUser(it.user)
                 is HomeViewState.UsersRetrieved -> {
@@ -111,8 +106,8 @@ class HomeFragment : Fragment() {
                     homeBinding?.searchview?.fadeIn()
                 }
             }
-        })
-        homeViewModel.quoteListViewState.observe(this, {
+        }
+        homeViewModel.quoteListViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is QuoteListViewState.QuoteDataRetrieve -> {
                     homeBinding?.quotesView?.setupQuotes(it.quotedata)
@@ -147,8 +142,8 @@ class HomeFragment : Fragment() {
                     QuoteShareDialog(requireContext(), it.quoteShareData).buildDialog()
                 }
             }
-        })
-        homeViewModel.viewModelState.observe(this, {
+        }
+        homeViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.ErrorState -> {
                     handleError(it.dataException)
@@ -167,12 +162,14 @@ class HomeFragment : Fragment() {
                 }
 
             }
-        })
+        }
     }
 
     private fun navigateToNewQuote(quote: Quote? = null) {
-        val bundle = bundleOf("quote" to quote)
-        findNavController().navigate(R.id.navigation_new_quote, bundle)
+        lifecycleScope.launchWhenResumed {
+            val bundle = bundleOf("quote" to quote)
+            findNavController().navigate(R.id.navigation_new_quote, bundle)
+        }
     }
 
     private fun setupUser(user: User) {
@@ -203,17 +200,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleError(dataException: DataException) {
+        view?.showSnackBar(dataException.code.message, backColor = Color.RED)
+
         if (dataException.code == ErrorType.AUTH) {
-            LoginHelper.signIn(
-                requireActivity() as AppCompatActivity, listOf(
-                    AuthUI.IdpConfig.GoogleBuilder().build(),
-                    AuthUI.IdpConfig.EmailBuilder().build()
-                ),
-                R.style.Motiv_Theme,
-                R.mipmap.ic_launcher
-            )
+
         } else {
-            view?.showSnackBar(dataException.code.message, backColor = Color.RED)
         }
     }
 
@@ -288,48 +279,5 @@ class HomeFragment : Fragment() {
         observeViewModel()
     }
 
-    private fun userLogged(): Boolean {
-        val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-        if (user == null) {
-            val providers = listOf(
-                AuthUI.IdpConfig.GoogleBuilder().build(),
-                AuthUI.IdpConfig.EmailBuilder().build()
-            )
-            startActivityForResult(
-                AuthUI.getInstance().createSignInIntentBuilder()
-                    .setLogo(R.mipmap.ic_launcher)
-                    .setAvailableProviders(providers)
-                    .setTheme(R.style.Motiv_Theme)
-                    .build(), RC_SIGN_IN
-            )
-            return false
-        } else {
-            if (!user.isEmailVerified) {
-                DefaultAlert(
-                    context = requireContext(),
-                    title = "Email não verificado",
-                    message = "Seu email não foi verificado, se não for confirmado você não poderá fazer posts, clique em confirmar para reenviar o email.",
-                    icon = R.drawable.fui_ic_mail_white_24dp,
-                    okClick = { user.sendEmailVerification() }).buildDialog()
 
-            }
-            return true
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
-                initializeHome()
-            } else {
-                if (response != null) {
-                    DefaultAlert(requireContext(), "Atenção", "Ocorreu um erro ao realizar o login",
-                        okClick = { userLogged() }).buildDialog()
-
-                }
-            }
-        }
-    }
 }

@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ilustris.motiv.manager.features.ManagerActivity"
+            android:name="com.ilustris.motiv.manager.ManagerActivity"
             android:label="Motiv+" />
 
         <meta-data

@@ -1,5 +1,6 @@
 package com.creat.motiv
 
+import android.app.Activity
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -10,11 +11,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.creat.motiv.databinding.ActivityMainBinding
 import com.creat.motiv.features.radio.RadioAdapter
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.ilustris.animations.fadeIn
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Radio
-import com.ilustris.motiv.base.utils.loadGif
+import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
 import com.silent.ilustriscore.core.utilities.gone
@@ -30,6 +33,35 @@ open class MainActivity : AppCompatActivity() {
     var radioAdapter: RadioAdapter? = null
     var mediaPlayer = MediaPlayer()
 
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { res ->
+        this.onSignInResult(res)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            recreate()
+        } else {
+            mainActBind?.root?.showSnackBar("Ocorreu um erro ao fazer login")
+            login()
+        }
+    }
+
+
+    private fun login() {
+        val providers = listOf(
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+            AuthUI.IdpConfig.EmailBuilder().build()
+        )
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActBind = ActivityMainBinding.inflate(layoutInflater)
@@ -40,16 +72,22 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        mainViewModel.viewModelState.observe(this, {
+        mainViewModel.viewModelState.observe(this) {
             when (it) {
+                ViewModelBaseState.RequireAuth -> {
+                    login()
+                }
                 is ViewModelBaseState.DataListRetrievedState -> {
                     setupRadios(it.dataList as ArrayList<Radio>)
                 }
                 is ViewModelBaseState.ErrorState -> {
+                    if (it.dataException.code == ErrorType.AUTH) {
+                        login()
+                    }
                     mainActBind?.root?.showSnackBar(it.dataException.code.message)
                 }
             }
-        })
+        }
     }
 
     private fun setupRadios(radios: ArrayList<Radio>) {
@@ -104,7 +142,6 @@ open class MainActivity : AppCompatActivity() {
                         radioAdapter?.updateCurrentRadio(radio)
                         radioAdapter?.updatePlaying(mediaPlayer.isPlaying)
                         radioAdapter?.updateEnabled(true)
-                        updateVisualizer(radio.visualizer)
                     }
                     setOnErrorListener { mp, what, extra ->
                         if (mp.isPlaying) {
@@ -123,12 +160,6 @@ open class MainActivity : AppCompatActivity() {
                 }
                 radioAdapter?.updatePlaying(mediaPlayer.isPlaying)
             }
-        }
-    }
-
-    private fun updateVisualizer(visualizer: String) {
-        mainActBind?.playerView?.visualizerBack?.loadGif(visualizer) {
-            mainActBind?.playerView?.visualizerBack?.fadeIn()
         }
     }
 

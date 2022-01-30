@@ -19,8 +19,8 @@ import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.adapters.StylesAdapter
 import com.ilustris.motiv.base.beans.DEFAULT_STYLE_ID
-import com.ilustris.motiv.base.beans.quote.Quote
 import com.ilustris.motiv.base.beans.Style
+import com.ilustris.motiv.base.beans.quote.Quote
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
@@ -28,7 +28,6 @@ import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 
@@ -59,13 +58,13 @@ class NewQuoteFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        newQuoteViewModel.newQuoteViewState.observe(this, {
+        newQuoteViewModel.newQuoteViewState.observe(viewLifecycleOwner) {
             when (it) {
                 is NewQuoteViewState.StylesRetrieved -> setupStyles(it.styles)
                 NewQuoteViewState -> view?.showSnackBar(Tools.emptyQuote(), backColor = Color.RED)
             }
-        })
-        newQuoteViewModel.viewModelState.observe(this, {
+        }
+        newQuoteViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.DataSavedState -> {
                     requireView().showSnackBar(
@@ -91,7 +90,7 @@ class NewQuoteFragment : Fragment() {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
             }
-        })
+        }
     }
 
     private fun selectStyle(position: Int, style: Style) {

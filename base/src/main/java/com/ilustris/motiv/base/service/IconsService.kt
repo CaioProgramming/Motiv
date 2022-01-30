@@ -7,6 +7,7 @@ import com.silent.ilustriscore.core.model.BaseService
 
 class IconsService : BaseService() {
     override val dataPath = "Icons"
+    override var requireAuth = true
 
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Icon {
         return dataSnapshot.toObject(Icon::class.java)!!.apply {

@@ -7,6 +7,7 @@ import com.silent.ilustriscore.core.model.BaseService
 
 class UserService : BaseService() {
     override val dataPath = "Users"
+    override var requireAuth = true
 
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): User? {
         return dataSnapshot.toObject(User::class.java)?.apply {

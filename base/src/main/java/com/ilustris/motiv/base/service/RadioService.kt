@@ -7,6 +7,7 @@ import com.silent.ilustriscore.core.model.BaseService
 
 class RadioService : BaseService() {
     override val dataPath = "Radios"
+    override var requireAuth = true
 
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): Radio {
         return dataSnapshot.toObject(Radio::class.java)!!.apply {

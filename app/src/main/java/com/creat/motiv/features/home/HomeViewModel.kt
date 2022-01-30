@@ -3,7 +3,8 @@ package com.creat.motiv.features.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ilustris.motiv.base.beans.*
+import com.ilustris.motiv.base.beans.Style
+import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
 import com.ilustris.motiv.base.service.QuoteService
@@ -29,7 +30,7 @@ class HomeViewModel : BaseViewModel<Quote>() {
     fun fetchQuoteOptions(quoteAdapterData: QuoteAdapterData) {
         val dialogItems = ArrayList<DialogData>()
         val quote = quoteAdapterData.quote
-        if (quote.userID == currentUser?.uid) {
+        if (quote.userID == getUser()?.uid) {
             dialogItems.add(DialogData("Excluir") {
                 quoteListViewState.value = QuoteListViewState.RequestDelete(quote)
             })
@@ -50,19 +51,19 @@ class HomeViewModel : BaseViewModel<Quote>() {
 
     fun fetchUser() {
         viewModelScope.launch {
-            if (currentUser == null) {
+            if (getUser() == null) {
                 viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.AUTH))
             } else {
-                val userRequest = userService.getSingleData(currentUser!!.uid)
+                val userRequest = userService.getSingleData(getUser()!!.uid)
                 if (userRequest.isError) {
                     if (userRequest.error.errorException.code == ErrorType.NOT_FOUND) {
-                        val tokenRequest = currentUser!!.getIdToken(false).await()
-                        val user = User.fromFirebase(currentUser!!).apply {
+                        val tokenRequest = getUser()!!.getIdToken(false).await()
+                        val user = User.fromFirebase(getUser()!!).apply {
                             tokenRequest.token?.let {
                                 token = it
                             }
                         }
-                        userService.editData(User.fromFirebase(currentUser!!))
+                        userService.editData(User.fromFirebase(getUser()!!))
                     } else {
                         viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.NOTFOUND))
                     }
@@ -109,8 +110,8 @@ class HomeViewModel : BaseViewModel<Quote>() {
                     val styleRequest = styleService.getSingleData(quote.style)
                     val style =
                         if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style
-                    val quoteUser = if (quote.userID == currentUser?.uid) {
-                        User.fromFirebase(currentUser!!)
+                    val quoteUser = if (quote.userID == getUser()?.uid) {
+                        User.fromFirebase(getUser()!!)
                     } else {
                         userService.getSingleData(quote.userID).success.data as User
                     }
@@ -126,7 +127,7 @@ class HomeViewModel : BaseViewModel<Quote>() {
                     }
                     quoteListViewState.postValue(
                         QuoteListViewState.QuoteDataRetrieve(
-                            QuoteAdapterData(quote, style, quoteUser, currentUser, likeList)
+                            QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
                         )
                     )
                     if (index == quotes.lastIndex) {
@@ -142,7 +143,7 @@ class HomeViewModel : BaseViewModel<Quote>() {
     }
 
     fun favoriteQuote(quote: Quote) {
-        currentUser?.let {
+        getUser()?.let {
             if (quote.likes.contains(it.uid)) quote.likes.remove(it.uid) else quote.likes.add(it.uid)
             editData(quote)
         }

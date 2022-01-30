@@ -2,8 +2,8 @@ package com.creat.motiv.features.newquote
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ilustris.motiv.base.beans.quote.Quote
 import com.ilustris.motiv.base.beans.Style
+import com.ilustris.motiv.base.beans.quote.Quote
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
 import com.silent.ilustriscore.core.model.BaseViewModel
@@ -30,7 +30,7 @@ class NewQuoteViewModel : BaseViewModel<Quote>() {
 
     override fun saveData(data: Quote) {
         data.apply {
-            userID = currentUser!!.uid
+            userID = getUser()!!.uid
             if (author.isEmpty()) author = "Autor desconhecido"
 
         }
