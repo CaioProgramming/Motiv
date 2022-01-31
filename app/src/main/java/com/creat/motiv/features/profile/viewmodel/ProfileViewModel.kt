@@ -22,6 +22,7 @@ import kotlinx.coroutines.tasks.await
 
 class ProfileViewModel(application: Application) : BaseViewModel<User>(application) {
 
+    private val fontsService = FontsService(application.applicationContext)
     override val service = UserService()
     private val quoteService = QuoteService()
     private val styleService = StyleService()
@@ -89,13 +90,33 @@ class ProfileViewModel(application: Application) : BaseViewModel<User>(applicati
                     }
 
                 }
-                quoteListViewState.postValue(
-                    QuoteListViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
+                requestFontToRetrieveQuote(
+                    QuoteAdapterData(
+                        quote,
+                        style,
+                        quoteUser,
+                        getUser(),
+                        likeList
                     )
                 )
             }
+        }
+    }
 
+    private fun requestFontToRetrieveQuote(
+        quoteAdapterData: QuoteAdapterData,
+
+        ) {
+        fontsService.requestDownload(
+            fontsService.getFamilyName(quoteAdapterData.style.font)
+        ) { tpface, s ->
+            Log.i(javaClass.simpleName, "requestFontToRetrieveQuote: $s")
+            quoteAdapterData.style.typeface = tpface
+            quoteListViewState.postValue(
+                QuoteListViewState.QuoteDataRetrieve(
+                    quoteAdapterData
+                )
+            )
         }
     }
 

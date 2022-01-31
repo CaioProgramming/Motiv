@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,14 +15,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewQuoteFragmentBinding
 import com.creat.motiv.features.newquote.adapter.StylePreviewAdapter
-import com.ilustris.animations.bounce
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.adapters.StylesAdapter
 import com.ilustris.motiv.base.beans.DEFAULT_STYLE_ID
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.quote.Quote
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.silent.ilustriscore.core.model.ViewModelBaseState
@@ -60,8 +59,11 @@ class NewQuoteFragment : Fragment() {
     private fun observeViewModel() {
         newQuoteViewModel.newQuoteViewState.observe(viewLifecycleOwner) {
             when (it) {
-                is NewQuoteViewState.StylesRetrieved -> setupStyles(it.styles)
+                is NewQuoteViewState.StylesRetrieved -> setupStyles(ArrayList(it.styles))
                 NewQuoteViewState -> view?.showSnackBar(Tools.emptyQuote(), backColor = Color.RED)
+                is NewQuoteViewState.StyleTypeFaceRetrieved -> {
+                    stylePreviewAdapter.updateStyle(it.index, it.typeface)
+                }
             }
         }
         newQuoteViewModel.viewModelState.observe(viewLifecycleOwner) {
@@ -106,24 +108,24 @@ class NewQuoteFragment : Fragment() {
 
     private fun NewQuoteFragmentBinding.setupStyle(style: Style) {
         quoteTextView.setTypeface(
-            FontUtils.getTypeFace(requireContext(), style.font),
+            style.typeface,
             style.fontStyle.getTypefaceStyle()
         )
         authorTextView.setTypeface(
-            FontUtils.getTypeFace(requireContext(), style.font),
+            style.typeface,
             style.fontStyle.getTypefaceStyle()
         )
         val textColor = Color.parseColor(style.textColor)
         quoteTextView.setHintTextColor(
-            androidx.core.graphics.ColorUtils.setAlphaComponent(
+            ColorUtils.setAlphaComponent(
                 textColor,
-                60
+                70
             )
         )
         authorTextView.setHintTextColor(
-            androidx.core.graphics.ColorUtils.setAlphaComponent(
+            ColorUtils.setAlphaComponent(
                 textColor,
-                60
+                70
             )
         )
         quoteTextView.defineTextAlignment(style.textAlignment)
@@ -134,11 +136,9 @@ class NewQuoteFragment : Fragment() {
             quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
         }
-        quoteTextView.bounce()
-        authorTextView.bounce()
     }
 
-    private fun setupStyles(styles: List<Style>) {
+    private fun setupStyles(styles: ArrayList<Style>) {
         stylePreviewAdapter = StylePreviewAdapter(ArrayList(styles), quote.style, ::selectStyle)
         newQuoteFragmentBinding?.run {
             stylePreviewRecycler.adapter = stylePreviewAdapter

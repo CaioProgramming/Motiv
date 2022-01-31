@@ -1,5 +1,6 @@
 package com.ilustris.motiv.base.beans
 
+import android.graphics.Typeface
 import com.silent.ilustriscore.core.bean.BaseBean
 
 private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/RJy4FQlLbxDz4kJ6GF/giphy.gif"
@@ -33,6 +34,7 @@ data class Style(
     var storedStyle: Boolean = false
 ) : BaseBean(id) {
 
+    var typeface: Typeface? = null
 
     companion object {
         fun isPreSavedStyle(id: String): Boolean =

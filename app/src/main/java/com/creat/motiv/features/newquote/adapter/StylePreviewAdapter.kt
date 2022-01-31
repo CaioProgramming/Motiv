@@ -1,16 +1,16 @@
 package com.creat.motiv.features.newquote.adapter
 
-import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.animations.slideInBottom
+import com.ilustris.animations.popIn
 import com.ilustris.motiv.base.beans.Style
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
+import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StylePreviewCardBinding
@@ -26,26 +26,23 @@ class StylePreviewAdapter(
         notifyItemInserted(itemCount)
     }
 
-    fun updateStyles(list: List<Style>) {
-        styles.clear()
-        styles.addAll(styles)
-        notifyDataSetChanged()
+    fun updateStyle(index: Int, typeface: Typeface?) {
+        styles[index].typeface = typeface
+        notifyItemChanged(index)
     }
 
     fun setSelectedStyle(style: String) {
         selectedStyle = style
         notifyDataSetChanged()
-
     }
 
     inner class StylePreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(quoteStyle: Style) {
             StylePreviewCardBinding.bind(itemView).run {
-                val context: Context = root.context
                 styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
-                    typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+                    setTypeface(quoteStyle.typeface, quoteStyle.fontStyle.getTypefaceStyle())
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                     quoteStyle.shadowStyle.run {
@@ -59,7 +56,7 @@ class StylePreviewAdapter(
                     onSelectStyle.invoke(bindingAdapterPosition, quoteStyle)
                 }
                 if (!styleCard.isVisible) {
-                    styleCard.slideInBottom()
+                    styleCard.popIn()
                 }
             }
         }

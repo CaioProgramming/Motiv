@@ -26,7 +26,7 @@
         android:layout_marginEnd="@dimen/margin_small_4dp"
         android:layout_marginBottom="@dimen/margin_small_4dp"
         android:stateListAnimator="@animator/text_animator"
-        app:cardBackgroundColor="@color/transparent"
+        app:cardBackgroundColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="@id/cardShadow"
         app:layout_constraintEnd_toEndOf="@id/cardShadow"
         app:layout_constraintStart_toStartOf="parent"

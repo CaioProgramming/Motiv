@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.service.FontsService
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
 import com.silent.ilustriscore.core.model.BaseViewModel
@@ -14,14 +15,22 @@ import kotlinx.coroutines.launch
 
 class NewQuoteViewModel(application: Application) : BaseViewModel<Quote>(application) {
 
+    private val fontsService = FontsService(application)
     override val service = QuoteService()
     private val styleService = StyleService()
     val newQuoteViewState = MutableLiveData<NewQuoteViewState>()
     fun getStyles() {
         viewModelScope.launch {
             try {
-                val styles = styleService.getAllData().success.data
-                newQuoteViewState.postValue(NewQuoteViewState.StylesRetrieved(styles = styles as ArrayList<Style>))
+                val styles = styleService.getAllData().success.data as ArrayList<Style>
+                styles.forEachIndexed { index, style ->
+                    fontsService.requestDownload(fontsService.getFamilyName(style.font)) { tp, s ->
+                        style.typeface = tp
+                        if (index == styles.lastIndex) {
+                            newQuoteViewState.postValue(NewQuoteViewState.StylesRetrieved(styles = styles))
+                        }
+                    }
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.UNKNOWN))

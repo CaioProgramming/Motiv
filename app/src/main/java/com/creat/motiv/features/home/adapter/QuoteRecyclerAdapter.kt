@@ -30,7 +30,6 @@ import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
-import kotlin.collections.ArrayList
 
 private const val QUOTE_VIEW = 0
 private const val ADVERTISE_QUOTE = 1
@@ -138,7 +137,6 @@ class QuoteRecyclerAdapter(
         fun bind() {
             QuotesCardBinding.bind(view).run {
                 setupData()
-
             }
         }
 
@@ -148,10 +146,11 @@ class QuoteRecyclerAdapter(
         }
 
         private fun QuotesCardBinding.setupStyle(style: Style) {
-            val context = root.context
             quoteBack.loadGif(style.backgroundURL) {
                 quoteBack.fadeIn()
             }
+            quoteTextView.setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
+            authorTextView.setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
             quoteTextView.defineTextAlignment(style.textAlignment)
             authorTextView.defineTextAlignment(style.textAlignment)
             quoteTextView.setTextColor(Color.parseColor(style.textColor))
@@ -168,11 +167,6 @@ class QuoteRecyclerAdapter(
                 style.shadowStyle.dy,
                 Color.parseColor(style.shadowStyle.shadowColor)
             )
-
-            FontUtils.getTypeFace(context, style.font)?.let {
-                quoteTextView.setTypeface(it, style.fontStyle.getTypefaceStyle())
-                authorTextView.setTypeface(it, style.fontStyle.getTypefaceStyle())
-            }
             quoteTextView.bounce()
             authorTextView.bounce()
         }
@@ -182,6 +176,8 @@ class QuoteRecyclerAdapter(
             val quoteData = adapterList[bindingAdapterPosition]
             quoteTextView.text = quoteData.quote.quote
             authorTextView.text = quoteData.quote.author
+
+
             quoteTextView.setOnLongClickListener {
                 copyToClipboard(context, quoteData.quote)
                 false

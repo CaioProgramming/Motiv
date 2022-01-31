@@ -36,7 +36,7 @@ import com.silent.ilustriscore.core.utilities.visible
 class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
     private val args: NewStyleFragmentArgs? by navArgs()
-    private val newStyleViewModel = NewStyleViewModel()
+    private val newStyleViewModel by lazy { NewStyleViewModel(requireActivity().application) }
     private var newStyleFormBinding: NewStyleFormBinding? = null
     private var style = Style()
     private var previewAdapter: StylePreviewAdapter? = null

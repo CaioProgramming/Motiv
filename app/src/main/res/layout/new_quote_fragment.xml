@@ -112,7 +112,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/dividerColor"
+                android:background="?android:colorBackground"
                 android:hapticFeedbackEnabled="true"
                 android:orientation="vertical"
                 android:transitionName="@string/card_transaction">
@@ -121,7 +121,7 @@
                     android:id="@+id/stylesPager"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/colorAccent"
+                    android:background="?android:colorBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -214,6 +214,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/top_line"
         android:backgroundTint="?attr/dividerColor"
+        android:paddingBottom="@dimen/padding_default_16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
