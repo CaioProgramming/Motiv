@@ -25,7 +25,7 @@ import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class StylesFragment : Fragment() {
 
-    val stylesViewModel = StylesViewModel()
+    private val stylesViewModel by lazy { StylesViewModel(requireActivity().application) }
     var stylesRecyclerBinding: StylesRecyclerBinding? = null
 
     override fun onCreateView(

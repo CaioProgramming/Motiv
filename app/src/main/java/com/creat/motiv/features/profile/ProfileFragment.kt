@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
     private val args: ProfileFragmentArgs? by navArgs()
     private var quoteRecyclerAdapter = QuoteRecyclerAdapter(ArrayList(), ::selectQuote)
     var fragmentProfileBinding: FragmentProfileBinding? = null
-    val profileViewModel = ProfileViewModel()
+    val profileViewModel by lazy { ProfileViewModel(requireActivity().application) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

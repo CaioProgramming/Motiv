@@ -28,7 +28,7 @@ import kotlin.random.Random
 
 open class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel = MainViewModel()
+    private val mainViewModel by lazy { MainViewModel(application) }
     var mainActBind: ActivityMainBinding? = null
     var radioAdapter: RadioAdapter? = null
     var mediaPlayer = MediaPlayer()

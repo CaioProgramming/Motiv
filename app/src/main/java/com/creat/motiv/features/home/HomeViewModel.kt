@@ -1,5 +1,6 @@
 package com.creat.motiv.features.home
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
+import com.ilustris.motiv.base.service.FontsService
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
 import com.ilustris.motiv.base.service.UserService
@@ -19,7 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 
-class HomeViewModel : BaseViewModel<Quote>() {
+class HomeViewModel(application: Application) : BaseViewModel<Quote>(application) {
+    val fontsService = FontsService(application.applicationContext)
     override val service = QuoteService()
     private val styleService = StyleService()
     private val userService = UserService()
@@ -125,11 +128,23 @@ class HomeViewModel : BaseViewModel<Quote>() {
                         }
 
                     }
-                    quoteListViewState.postValue(
-                        QuoteListViewState.QuoteDataRetrieve(
-                            QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
-                        )
-                    )
+                    fontsService.requestDownload(
+                        fontsService.getFamilyName(style.font),
+                        { tpface, s ->
+                            quoteListViewState.postValue(
+                                QuoteListViewState.QuoteDataRetrieve(
+                                    QuoteAdapterData(
+                                        quote,
+                                        style,
+                                        quoteUser,
+                                        getUser(),
+                                        likeList,
+                                        typeface = tpface
+                                    )
+                                )
+                            )
+                        })
+
                     if (index == quotes.lastIndex) {
                         homeViewState.postValue(HomeViewState.EnableSearch)
                     }

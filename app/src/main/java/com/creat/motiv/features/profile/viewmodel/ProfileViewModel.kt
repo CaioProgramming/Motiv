@@ -1,5 +1,6 @@
 package com.creat.motiv.features.profile.viewmodel
 
+import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -19,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class ProfileViewModel : BaseViewModel<User>() {
+class ProfileViewModel(application: Application) : BaseViewModel<User>(application) {
 
     override val service = UserService()
     private val quoteService = QuoteService()

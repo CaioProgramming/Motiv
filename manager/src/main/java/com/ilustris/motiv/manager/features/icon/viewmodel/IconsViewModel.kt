@@ -1,5 +1,6 @@
 package com.ilustris.motiv.manager.features.icon.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ilustris.motiv.base.beans.Icon
@@ -8,9 +9,8 @@ import com.silent.ilustriscore.core.model.BaseViewModel
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.launch
-import java.util.*
 
-class IconsViewModel : BaseViewModel<Icon>() {
+class IconsViewModel(application: Application) : BaseViewModel<Icon>(application) {
 
     override val service = IconsService()
     val iconsViewState = MutableLiveData<IconsViewState>()

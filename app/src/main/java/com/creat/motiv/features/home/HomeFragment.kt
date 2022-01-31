@@ -46,7 +46,7 @@ import com.silent.ilustriscore.core.utilities.visible
 class HomeFragment : Fragment() {
     private var loadingAd = false
     private var homeBinding: FragmentHomeBinding? = null
-    private val homeViewModel = HomeViewModel()
+    private val homeViewModel by lazy { HomeViewModel(requireActivity().application) }
     private var quoteRecyclerAdapter = QuoteRecyclerAdapter(ArrayList(), ::selectQuote)
 
 

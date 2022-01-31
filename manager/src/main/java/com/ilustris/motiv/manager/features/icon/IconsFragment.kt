@@ -20,7 +20,7 @@ import com.silent.ilustriscore.core.utilities.showSnackBar
 class IconsFragment : Fragment() {
 
     var fragmentIconsBinding: FragmentIconsBinding? = null
-    private val iconsViewModel = IconsViewModel()
+    private val iconsViewModel by lazy { IconsViewModel(requireActivity().application) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

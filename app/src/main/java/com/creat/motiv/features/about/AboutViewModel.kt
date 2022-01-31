@@ -1,12 +1,12 @@
 package com.creat.motiv.features.about
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.creat.motiv.features.about.data.AboutData
 import com.creat.motiv.features.about.data.Reference
 import com.ilustris.motiv.base.beans.Developer
 import com.ilustris.motiv.base.service.DeveloperService
-import com.silent.ilustriscore.core.model.BaseService
 import com.silent.ilustriscore.core.model.BaseViewModel
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class AboutViewModel : BaseViewModel<Developer>() {
+class AboutViewModel(application: Application) : BaseViewModel<Developer>(application) {
     override val service = DeveloperService()
     val aboutViewState = MutableLiveData<AboutViewState>()
 

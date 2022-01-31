@@ -1,5 +1,6 @@
 package com.creat.motiv.features.profile.settings
 
+import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class SettingsViewModel : BaseViewModel<User>() {
+class SettingsViewModel(application: Application) : BaseViewModel<User>(application) {
 
     val settingsViewState = MutableLiveData<SettingsViewState>()
 

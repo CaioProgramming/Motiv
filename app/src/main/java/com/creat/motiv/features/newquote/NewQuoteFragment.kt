@@ -35,7 +35,7 @@ class NewQuoteFragment : Fragment() {
     private val args: NewQuoteFragmentArgs? by navArgs()
     private var quote = Quote()
     private var newQuoteFragmentBinding: NewQuoteFragmentBinding? = null
-    private var newQuoteViewModel = NewQuoteViewModel()
+    private val newQuoteViewModel by lazy { NewQuoteViewModel(requireActivity().application) }
     private var stylePreviewAdapter = StylePreviewAdapter(ArrayList(), quote.style, ::selectStyle)
 
     override fun onCreateView(

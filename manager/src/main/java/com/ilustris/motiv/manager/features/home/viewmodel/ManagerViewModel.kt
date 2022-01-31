@@ -1,5 +1,6 @@
 package com.ilustris.motiv.manager.features.home.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 
-class ManagerViewModel : BaseViewModel<Quote>() {
+class ManagerViewModel(application: Application) : BaseViewModel<Quote>(application) {
     override val service = QuoteService()
     private val userService = UserService()
     private val styleService = StyleService()

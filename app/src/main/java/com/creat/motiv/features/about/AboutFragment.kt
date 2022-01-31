@@ -26,7 +26,7 @@ import com.silent.ilustriscore.core.utilities.showSnackBar
 class AboutFragment : Fragment() {
     var aboutBinding: FragmentAboutBinding? = null
     private var rewardedAd: RewardedAd? = null
-    private val aboutViewModel = AboutViewModel()
+    private val aboutViewModel by lazy { AboutViewModel(requireActivity().application) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

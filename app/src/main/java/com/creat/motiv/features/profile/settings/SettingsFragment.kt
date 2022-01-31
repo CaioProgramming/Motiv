@@ -32,7 +32,7 @@ import com.silent.ilustriscore.core.utilities.showSnackBar
 class SettingsFragment : Fragment() {
 
     private val args: SettingsFragmentArgs by navArgs()
-    private val settingsViewModel = SettingsViewModel()
+    private val settingsViewModel by lazy { SettingsViewModel(requireActivity().application) }
     var settingsBinding: FragmentSettingsBinding? = null
     override fun onCreateView(
         inflater: LayoutInflater,

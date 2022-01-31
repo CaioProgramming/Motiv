@@ -1,5 +1,6 @@
 package com.creat.motiv.features.newquote
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ilustris.motiv.base.beans.Style
@@ -11,7 +12,7 @@ import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.launch
 
-class NewQuoteViewModel : BaseViewModel<Quote>() {
+class NewQuoteViewModel(application: Application) : BaseViewModel<Quote>(application) {
 
     override val service = QuoteService()
     private val styleService = StyleService()
