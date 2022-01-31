@@ -145,10 +145,11 @@ class HomeViewModel(application: Application) : BaseViewModel<Quote>(application
 
     }
 
-    private fun requestFontToRetrieveQuote(
+    private suspend fun requestFontToRetrieveQuote(
         quoteAdapterData: QuoteAdapterData,
 
         ) {
+
         fontsService.requestDownload(
             fontsService.getFamilyName(quoteAdapterData.style.font)
         ) { tpface, s ->

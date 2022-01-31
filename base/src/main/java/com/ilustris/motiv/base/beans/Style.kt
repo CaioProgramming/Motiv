@@ -1,6 +1,8 @@
 package com.ilustris.motiv.base.beans
 
 import android.graphics.Typeface
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.IgnoreExtraProperties
 import com.silent.ilustriscore.core.bean.BaseBean
 
 private const val DEFAULT_BACKGROUND_URL = "https://media.giphy.com/media/RJy4FQlLbxDz4kJ6GF/giphy.gif"
@@ -23,6 +25,7 @@ enum class FontStyle {
     REGULAR, BOLD, ITALIC
 }
 
+@IgnoreExtraProperties
 data class Style(
     override var id: String = "",
     var font: Int = 0,
@@ -31,9 +34,11 @@ data class Style(
     var textColor: String = DEFAULT_TEXT_COLOR,
     var backgroundURL: String = DEFAULT_BACKGROUND_URL,
     var shadowStyle: ShadowStyle = ShadowStyle(),
+    @get:Exclude
     var storedStyle: Boolean = false
 ) : BaseBean(id) {
 
+    @get:Exclude
     var typeface: Typeface? = null
 
     companion object {

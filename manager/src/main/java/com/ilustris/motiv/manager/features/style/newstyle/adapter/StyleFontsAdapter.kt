@@ -1,23 +1,21 @@
 package com.ilustris.motiv.manager.features.style.newstyle.adapter
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.TabFontViewBinding
 
-class StyleFontsAdapter(val onFontSelect: (Int) -> Unit) :
+class StyleFontsAdapter(val typefaces: List<Typeface>, val onFontSelect: (Int) -> Unit) :
     RecyclerView.Adapter<StyleFontsAdapter.FontViewHolder>() {
 
     var selectedFont = 0
-    var fontStyle = FontStyle.REGULAR
 
-    fun updateFont(font: Int, newFontStyle: FontStyle) {
+    fun updateFont(font: Int) {
         selectedFont = font
-        fontStyle = newFontStyle
         notifyDataSetChanged()
     }
 
@@ -36,7 +34,7 @@ class StyleFontsAdapter(val onFontSelect: (Int) -> Unit) :
 
                 }
                 itemView.setOnClickListener {
-                    onFontSelect.invoke(adapterPosition)
+                    onFontSelect.invoke(bindingAdapterPosition)
                 }
             }
         }

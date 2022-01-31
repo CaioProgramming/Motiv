@@ -106,11 +106,8 @@ class QuoteManagerAdapter(
                 style.shadowStyle.dy,
                 Color.parseColor(style.shadowStyle.shadowColor)
             )
-
-            FontUtils.getTypeFace(context, style.font)?.let {
-                quoteTextView.setTypeface(it, style.fontStyle.getTypefaceStyle())
-                authorTextView.setTypeface(it, style.fontStyle.getTypefaceStyle())
-            }
+            quoteTextView.setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
+            authorTextView.setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
             quoteTextView.bounce()
             authorTextView.bounce()
         }

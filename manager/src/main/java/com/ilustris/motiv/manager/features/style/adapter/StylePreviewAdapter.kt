@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.NEW_STYLE_ID
 import com.ilustris.motiv.base.beans.Style
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.base.utils.loadGif
@@ -42,7 +41,7 @@ class StylePreviewAdapter(
                 val context: Context = root.context
                 styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
-                    typeface = FontUtils.getTypeFace(context, quoteStyle.font)
+                    setTypeface(quoteStyle.typeface, quoteStyle.fontStyle.getTypefaceStyle())
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                     quoteStyle.shadowStyle.run {
@@ -68,12 +67,9 @@ class StylePreviewAdapter(
         fun bind(quoteStyle: Style) {
 
             stylePreviewCardBinding.run {
-                val context: Context = root.context
                 styleImage.loadGif(quoteStyle.backgroundURL)
                 styleText.run {
-                    FontUtils.getTypeFace(context, quoteStyle.font)?.let {
-                        setTypeface(it, quoteStyle.fontStyle.getTypefaceStyle())
-                    }
+                    setTypeface(quoteStyle.typeface, quoteStyle.fontStyle.getTypefaceStyle())
                     defineTextAlignment(quoteStyle.textAlignment)
                     setTextColor(Color.parseColor(quoteStyle.textColor))
                 }

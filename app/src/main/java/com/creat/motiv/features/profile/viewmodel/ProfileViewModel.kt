@@ -103,7 +103,7 @@ class ProfileViewModel(application: Application) : BaseViewModel<User>(applicati
         }
     }
 
-    private fun requestFontToRetrieveQuote(
+    private suspend fun requestFontToRetrieveQuote(
         quoteAdapterData: QuoteAdapterData,
 
         ) {

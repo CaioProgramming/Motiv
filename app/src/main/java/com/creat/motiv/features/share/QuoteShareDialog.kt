@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -15,8 +16,12 @@ import com.creat.motiv.databinding.ShareQuotePreviewBinding
 import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.beans.quote.QuoteShareData
-import com.ilustris.motiv.base.utils.*
-import com.silent.ilustriscore.core.utilities.*
+import com.ilustris.motiv.base.utils.defineTextAlignment
+import com.ilustris.motiv.base.utils.getTypefaceStyle
+import com.ilustris.motiv.base.utils.loadGif
+import com.silent.ilustriscore.core.utilities.DialogStyles
+import com.silent.ilustriscore.core.utilities.delayedFunction
+import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.view.BaseAlert
 import java.io.File
 import java.io.FileOutputStream
@@ -35,10 +40,8 @@ class QuoteShareDialog(context: Context, val quoteShareData: QuoteShareData) :
                     progressBar.fadeOut()
                     quoteContent.fadeIn()
                 }
-                FontUtils.getTypeFace(context, font)?.let {
-                    quoteTextView.setTypeface(it, fontStyle.getTypefaceStyle())
-                    authorTextView.setTypeface(it, fontStyle.getTypefaceStyle())
-                }
+                quoteTextView.setTypeface(typeface, fontStyle.getTypefaceStyle())
+                authorTextView.setTypeface(typeface, fontStyle.getTypefaceStyle())
                 quoteTextView.setTextColor(Color.parseColor(textColor))
                 authorTextView.setTextColor(Color.parseColor(textColor))
                 quoteTextView.defineTextAlignment(textAlignment)
@@ -113,9 +116,9 @@ class QuoteShareDialog(context: Context, val quoteShareData: QuoteShareData) :
     private fun ShareQuotePreviewBinding.generateCardImage(onFileSave: (File) -> Unit) {
         try {
             shareView.run {
-                isDrawingCacheEnabled = true
-                val bitmap = Bitmap.createBitmap(drawingCache)
-                isDrawingCacheEnabled = false
+                val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                draw(canvas)
                 val cachePath = context.cacheDir.path + "/shared_quotes/"
                 val cacheDir = File(cachePath)
                 if (!cacheDir.exists()) cacheDir.mkdirs()

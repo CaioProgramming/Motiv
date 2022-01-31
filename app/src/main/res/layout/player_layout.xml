@@ -17,7 +17,7 @@
         android:text="Radios"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/white"
+        android:textColor="?android:textColorPrimary"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />

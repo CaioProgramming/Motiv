@@ -8,6 +8,7 @@ import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
+import com.ilustris.motiv.base.service.FontsService
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
 import com.ilustris.motiv.base.service.UserService
@@ -16,12 +17,14 @@ import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 
 class ManagerViewModel(application: Application) : BaseViewModel<Quote>(application) {
     override val service = QuoteService()
     private val userService = UserService()
     private val styleService = StyleService()
+    private val fontsService = FontsService(application.applicationContext)
     val quoteListViewState = MutableLiveData<QuoteListViewState>()
 
     fun getQuotes() {
@@ -64,9 +67,13 @@ class ManagerViewModel(application: Application) : BaseViewModel<Quote>(applicat
                         }
 
                     }
-                    quoteListViewState.postValue(
-                        QuoteListViewState.QuoteDataRetrieve(
-                            QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
+                    requestFontToRetrieveQuote(
+                        QuoteAdapterData(
+                            quote,
+                            style,
+                            quoteUser,
+                            getUser(),
+                            likeList
                         )
                     )
                 }
@@ -76,6 +83,23 @@ class ManagerViewModel(application: Application) : BaseViewModel<Quote>(applicat
             }
         }
 
+    }
+
+    private suspend fun requestFontToRetrieveQuote(
+        quoteAdapterData: QuoteAdapterData,
+
+        ) {
+        fontsService.requestDownload(
+            fontsService.getFamilyName(quoteAdapterData.style.font)
+        ) { tpface, s ->
+            Timber.i(javaClass.simpleName, "requestFontToRetrieveQuote: $s")
+            quoteAdapterData.style.typeface = tpface
+            quoteListViewState.postValue(
+                QuoteListViewState.QuoteDataRetrieve(
+                    quoteAdapterData
+                )
+            )
+        }
     }
 
     fun fetchQuoteOptions(quoteAdapterData: QuoteAdapterData) {

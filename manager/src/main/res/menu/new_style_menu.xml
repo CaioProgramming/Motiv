@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/style_text"
-        android:icon="@drawable/ic_baseline_text_fields_24"
-        android:title="Texto" />
-    <item
         android:id="@+id/style_color"
         android:icon="@drawable/ic_baseline_water_drop_24"
         android:title="Cor" />

@@ -138,6 +138,7 @@ open class MainActivity : AppCompatActivity() {
                     setDataSource(this@MainActivity, uri)
                     prepareAsync()
                     setOnPreparedListener {
+                        setVolume(0.5f, 0.5f)
                         start()
                         radioAdapter?.updateCurrentRadio(radio)
                         radioAdapter?.updatePlaying(mediaPlayer.isPlaying)

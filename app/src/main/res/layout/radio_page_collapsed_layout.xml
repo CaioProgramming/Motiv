@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="@dimen/padding_default_16dp"
     android:layout_marginVertical="@dimen/margin_small_4dp"
     android:fitsSystemWindows="true"
@@ -14,14 +15,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/visualizer_back"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
+            android:scaleType="center"
             android:visibility="gone"
+            tools:src="@drawable/dribble_gradient"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +58,6 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/playAnimation"
             android:layout_width="32dp"
-
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/radioName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,9 +69,11 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/visualizer_card"
-            android:layout_width="35dp"
+            android:layout_width="50dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_default_10dp"
+            android:layout_margin="@dimen/margin_small_4dp"
+            app:cardCornerRadius="@dimen/radius_default_10dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
