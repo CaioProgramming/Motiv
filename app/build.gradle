@@ -141,6 +141,8 @@ task updateVersion {
         versionProps["VERSION_BUILD"] = versionBuild.toString()
 
         versionPropsFile.withWriter { versionProps.store(it, null) }
+
+        println "New version $versionNumber -> $versionMajor.$versionMinor.$versionPatch.$versionBuild"
     }
 
 }
