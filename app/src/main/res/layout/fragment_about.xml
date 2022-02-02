@@ -106,6 +106,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/padding_small_8dp"
                         android:text="Instagram"
+                        android:textStyle="bold"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                         android:textColor="@color/white" />
                 </LinearLayout>

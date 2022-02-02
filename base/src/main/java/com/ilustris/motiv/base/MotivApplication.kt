@@ -13,6 +13,7 @@ import com.silent.ilustriscore.core.utilities.delayedFunction
 
 class MotivApplication : MultiDexApplication() {
 
+
     override fun onCreate() {
         super.onCreate()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -29,8 +30,14 @@ class MotivApplication : MultiDexApplication() {
         delayedFunction(3000) {
             handleCache()
         }
+        globalContext = applicationContext
         // Thread.setDefaultUncaughtExceptionHandler { thread, e -> handleUncaughtException(e) }
 
+    }
+
+    companion object {
+        var globalContext: Context? = null
+        fun getAppContext() = globalContext
     }
 
     override fun onTerminate() {

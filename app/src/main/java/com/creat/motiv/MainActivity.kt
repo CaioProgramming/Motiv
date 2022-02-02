@@ -28,7 +28,7 @@ import kotlin.random.Random
 
 open class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel = MainViewModel()
+    private val mainViewModel by lazy { MainViewModel(application) }
     var mainActBind: ActivityMainBinding? = null
     var radioAdapter: RadioAdapter? = null
     var mediaPlayer = MediaPlayer()
@@ -123,8 +123,6 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun playRadio(radio: Radio) {
-
-
         radioAdapter?.let {
             if (it.currentRadio?.id != radio.id) {
                 if (mediaPlayer.isPlaying) {
@@ -138,6 +136,7 @@ open class MainActivity : AppCompatActivity() {
                     setDataSource(this@MainActivity, uri)
                     prepareAsync()
                     setOnPreparedListener {
+                        setVolume(0.3f, 0.3f)
                         start()
                         radioAdapter?.updateCurrentRadio(radio)
                         radioAdapter?.updatePlaying(mediaPlayer.isPlaying)
@@ -161,6 +160,11 @@ open class MainActivity : AppCompatActivity() {
                 radioAdapter?.updatePlaying(mediaPlayer.isPlaying)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
     }
 
     private fun ActivityMainBinding.setupView() {

@@ -19,14 +19,13 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideInBottom
 import com.ilustris.animations.slideInRight
-import com.ilustris.motiv.base.utils.FontUtils
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class AboutFragment : Fragment() {
     var aboutBinding: FragmentAboutBinding? = null
     private var rewardedAd: RewardedAd? = null
-    private val aboutViewModel = AboutViewModel()
+    private val aboutViewModel by lazy { AboutViewModel(requireActivity().application) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,7 +90,6 @@ class AboutFragment : Fragment() {
             startActivity(intent)
         }
         instagramText.apply {
-            typeface = FontUtils.getTypeFace(requireContext(), 16)
             followUsCard.setOnClickListener {
                 val uri = Uri.parse("https://www.instagram.com/motivbr/")
                 val intent = Intent(Intent.ACTION_VIEW, uri)

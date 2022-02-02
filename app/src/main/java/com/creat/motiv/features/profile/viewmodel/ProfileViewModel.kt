@@ -1,5 +1,6 @@
 package com.creat.motiv.features.profile.viewmodel
 
+import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -19,8 +20,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class ProfileViewModel : BaseViewModel<User>() {
+class ProfileViewModel(application: Application) : BaseViewModel<User>(application) {
 
+    private val fontsService = FontsService(application.applicationContext)
     override val service = UserService()
     private val quoteService = QuoteService()
     private val styleService = StyleService()
@@ -88,13 +90,33 @@ class ProfileViewModel : BaseViewModel<User>() {
                     }
 
                 }
-                quoteListViewState.postValue(
-                    QuoteListViewState.QuoteDataRetrieve(
-                        QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
+                requestFontToRetrieveQuote(
+                    QuoteAdapterData(
+                        quote,
+                        style,
+                        quoteUser,
+                        getUser(),
+                        likeList
                     )
                 )
             }
+        }
+    }
 
+    private suspend fun requestFontToRetrieveQuote(
+        quoteAdapterData: QuoteAdapterData,
+
+        ) {
+        fontsService.requestDownload(
+            fontsService.getFamilyName(quoteAdapterData.style.font)
+        ) { tpface, s ->
+            Log.i(javaClass.simpleName, "requestFontToRetrieveQuote: $s")
+            quoteAdapterData.style.typeface = tpface
+            quoteListViewState.postValue(
+                QuoteListViewState.QuoteDataRetrieve(
+                    quoteAdapterData
+                )
+            )
         }
     }
 

@@ -49,6 +49,20 @@
             app:tint="?android:textColorPrimary" />
 
         <ImageButton
+            android:id="@+id/fontButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/margin_default_10dp"
+            android:background="@drawable/round_circle"
+            android:backgroundTint="?android:colorBackground"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/padding_small_8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_iconmonstr_text_1"
+            app:tint="?android:textColorPrimary" />
+
+        <ImageButton
             android:id="@+id/fontStyle"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -60,6 +74,7 @@
             android:padding="@dimen/padding_small_8dp"
             android:src="@drawable/ic_baseline_format_clear_24"
             app:tint="?android:textColorPrimary" />
+
 
     </LinearLayout>
 

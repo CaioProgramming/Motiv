@@ -18,7 +18,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.TextAlignment
-import com.ilustris.motiv.base.utils.FontUtils
+import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.base.utils.loadGif
@@ -27,8 +27,10 @@ import com.ilustris.motiv.manager.databinding.NewStyleFormBinding
 import com.ilustris.motiv.manager.features.style.adapter.StylePreviewAdapter
 import com.ilustris.motiv.manager.features.style.newstyle.adapter.RecyclerColorAdapter
 import com.ilustris.motiv.manager.features.style.newstyle.adapter.StyleFontsAdapter
+import com.ilustris.motiv.manager.features.style.newstyle.viewmodel.NewStyleState
 import com.ilustris.motiv.manager.features.style.newstyle.viewmodel.NewStyleViewModel
 import com.silent.ilustriscore.core.model.ViewModelBaseState
+import com.silent.ilustriscore.core.utilities.DialogStyles
 import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
 import com.silent.ilustriscore.core.utilities.visible
@@ -36,7 +38,7 @@ import com.silent.ilustriscore.core.utilities.visible
 class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
     private val args: NewStyleFragmentArgs? by navArgs()
-    private val newStyleViewModel = NewStyleViewModel()
+    private val newStyleViewModel by lazy { NewStyleViewModel(requireActivity().application) }
     private var newStyleFormBinding: NewStyleFormBinding? = null
     private var style = Style()
     private var previewAdapter: StylePreviewAdapter? = null
@@ -82,12 +84,26 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
                 }
             }
         }
+        newStyleViewModel.newStyleState.observe(viewLifecycleOwner) {
+            when (it) {
+                is NewStyleState.FontOptionsRetrieved -> {
+                    ListDialog(requireContext(), it.items, { i, dialogData ->
+                        dialogData.action.invoke()
+                    }, DialogStyles.BOTTOM_NO_BORDER).buildDialog()
+                }
+                is NewStyleState.SelectFont -> {
+                    style.font = it.index
+                    style.typeface = it.typeface
+                    updateStyle()
+                }
+            }
+        }
     }
 
     private fun setupPreview(styles: ArrayList<Style>) {
-        previewAdapter = StylePreviewAdapter(styles, true, style.id) {
-            selectStyle(it)
-            previewAdapter?.setSelectedStyle(it.id)
+        previewAdapter = StylePreviewAdapter(styles, true, style.id) { style, index ->
+            selectStyle(style)
+            previewAdapter?.setSelectedStyle(style.id)
         }
     }
 
@@ -108,10 +124,6 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
     }
 
     private fun NewStyleFormBinding.initView() {
-        fontAdapter = StyleFontsAdapter {
-            style.font = it
-            updateStyle()
-        }
         initButtons()
     }
 
@@ -142,6 +154,9 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
             }
             updateStyle()
         }
+        fontButton.setOnClickListener {
+            newStyleViewModel.getFontOptions()
+        }
         if (style.id.isNotEmpty()) {
             saveStyleButton.text = "Atualizar"
         }
@@ -149,10 +164,10 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
             if (style.id.isEmpty()) {
                 newStyleViewModel.saveData(style)
             } else {
-                newStyleViewModel.saveData(style)
+                newStyleViewModel.editData(style)
             }
         }
-        styleBottomNav.selectedItemId = R.id.style_text
+        styleBottomNav.selectedItemId = R.id.style_color
         slider.addOnChangeListener { slider, value, fromUser ->
             if (fromUser) {
                 if (styleBottomNav.selectedItemId != R.id.style_shadow_size) {
@@ -215,9 +230,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
             styleText.run {
                 defineTextAlignment(style.textAlignment)
                 setTextColor(Color.parseColor(style.textColor))
-                FontUtils.getTypeFace(context, style.font)?.let {
-                    setTypeface(it, style.fontStyle.getTypefaceStyle())
-                }
+                setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
                 style.shadowStyle.run {
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }
@@ -225,9 +238,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
             styleAuthor.run {
                 defineTextAlignment(style.textAlignment)
                 setTextColor(Color.parseColor(style.textColor))
-                FontUtils.getTypeFace(context, style.font)?.let {
-                    setTypeface(it, style.fontStyle.getTypefaceStyle())
-                }
+                setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
                 style.shadowStyle.run {
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }
@@ -235,7 +246,10 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
             updateColors()
             colorAdapter?.updateSelectedColor(style.textColor)
             shadowColorAdapter?.updateSelectedColor(style.textColor)
-            fontAdapter?.updateFont(style.font, style.fontStyle)
+            fontAdapter?.updateFont(style.font)
+            if (style.id.isNotEmpty()) {
+                saveStyleButton.text = "Atualizar"
+            }
         }
     }
 
@@ -250,10 +264,6 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.style_text -> {
-                setupTextOptions()
-                return true
-            }
             R.id.style_color -> {
                 fetchColors()
                 return true
@@ -324,12 +334,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
     }
 
     private fun setupTextOptions() {
-        if (fontAdapter == null) StyleFontsAdapter {
-            style.font = it
-            updateStyle()
-        }
         newStyleFormBinding?.run {
-
             styleRecyclerOptions.adapter = fontAdapter
             styleRecyclerOptions.visible()
             slider.gone()

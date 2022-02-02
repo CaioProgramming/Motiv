@@ -25,7 +25,7 @@ import com.silent.ilustriscore.core.utilities.showSnackBar
 class ManagerHomeFragment : Fragment() {
 
     private var managerHomeBinding: QuoteRecyclerBinding? = null
-    private val managerViewModel = ManagerViewModel()
+    private val managerViewModel by lazy { ManagerViewModel(requireActivity().application) }
     var managerAdapter = QuoteManagerAdapter(ArrayList(), ::selectQuote)
     override fun onCreateView(
         inflater: LayoutInflater,

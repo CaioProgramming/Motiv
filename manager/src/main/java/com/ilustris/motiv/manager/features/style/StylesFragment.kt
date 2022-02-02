@@ -25,7 +25,7 @@ import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class StylesFragment : Fragment() {
 
-    val stylesViewModel = StylesViewModel()
+    private val stylesViewModel by lazy { StylesViewModel(requireActivity().application) }
     var stylesRecyclerBinding: StylesRecyclerBinding? = null
 
     override fun onCreateView(
@@ -62,18 +62,19 @@ class StylesFragment : Fragment() {
     }
 
     private fun StylesRecyclerBinding.setupRecycler(styles: ArrayList<Style>) {
-        stylesRecycler.adapter = StylePreviewAdapter(styles, false, null) {
+        stylesRecycler.adapter = StylePreviewAdapter(styles, false, null)
+        { style, index ->
 
-            if (it.id != NEW_STYLE_ID) {
+            if (style.id != NEW_STYLE_ID) {
                 ListDialog(requireContext(), listOf(DialogData("Editar") {
-                    goToStyle(it)
+                    goToStyle(style)
                 }, DialogData("Excluir") {
                     DefaultAlert(
                         requireContext(),
                         "Você tem certeza",
                         "Clique no botão para confirmar que quer deletar o estilo",
                         okClick = {
-                            stylesViewModel.deleteData(it.id)
+                            stylesViewModel.deleteData(style.id)
                         }
                     ).buildDialog()
                 }), { index, data ->

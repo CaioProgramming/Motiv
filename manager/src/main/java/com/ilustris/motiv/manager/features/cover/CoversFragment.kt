@@ -26,7 +26,7 @@ import timber.log.Timber
 class CoversFragment : SearchView.OnQueryTextListener, Fragment() {
 
     var coversBinding: FragmentCoversBinding? = null
-    val coversViewModel = CoversViewModel()
+    val coversViewModel by lazy { CoversViewModel(requireActivity().application) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/styleCard"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    style="@style/MotivCard"
+    style="@style/StyleCard"
+    android:visibility="gone"
+    tools:visibility="visible"
     android:layout_margin="@dimen/margin_small_4dp"
     android:foreground="?attr/selectableItemBackground"
     android:stateListAnimator="@animator/scale_down_animator">
@@ -19,9 +22,10 @@
     <TextView
         android:id="@+id/styleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_default_10dp"
+        android:textSize="@dimen/big_quote_size"
         android:autoSizeMaxTextSize="@dimen/big_quote_size"
         android:autoSizeMinTextSize="@dimen/min_quote_size"
         android:autoSizeTextType="uniform"

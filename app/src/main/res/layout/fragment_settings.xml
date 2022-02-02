@@ -113,10 +113,11 @@
                 android:layout_centerInParent="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/padding_default_16dp"
+                android:fontFamily="@font/jost"
                 android:text="Motiv +"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textStyle="bold" />
+                android:textStyle="italic" />
 
         </RelativeLayout>
 

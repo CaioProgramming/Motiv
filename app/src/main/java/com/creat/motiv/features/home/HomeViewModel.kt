@@ -1,5 +1,6 @@
 package com.creat.motiv.features.home
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -7,9 +8,11 @@ import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.dialog.listdialog.DialogData
+import com.ilustris.motiv.base.service.FontsService
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
 import com.ilustris.motiv.base.service.UserService
+import com.ilustris.motiv.base.utils.AdvertiseHelper
 import com.silent.ilustriscore.core.model.BaseViewModel
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
@@ -19,7 +22,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 
-class HomeViewModel : BaseViewModel<Quote>() {
+class HomeViewModel(application: Application) : BaseViewModel<Quote>(application) {
+    private val fontsService = FontsService(application.applicationContext)
     override val service = QuoteService()
     private val styleService = StyleService()
     private val userService = UserService()
@@ -39,6 +43,7 @@ class HomeViewModel : BaseViewModel<Quote>() {
             })
         }
         dialogItems.add(DialogData("Compartilhar") {
+
             quoteListViewState.value =
                 QuoteListViewState.RequestShare(QuoteShareData(quote, quoteAdapterData.style))
         })
@@ -89,11 +94,7 @@ class HomeViewModel : BaseViewModel<Quote>() {
                 splashQuote.data = SimpleDateFormat("dd/MM/yyyy").parse("19/12/2018")
                 val adapterSplash = QuoteAdapterData(splashQuote, Style.splashStyle)
                 adapterSplash.user = User.splashUser
-                quoteListViewState.postValue(
-                    QuoteListViewState.QuoteDataRetrieve(
-                        adapterSplash
-                    )
-                )
+                requestFontToRetrieveQuote(adapterSplash)
                 quotes.forEachIndexed { index, quote ->
                     if (index >= 20 && index % 20 == 0) {
                         val usersRequest = userService.getAllData()
@@ -107,6 +108,21 @@ class HomeViewModel : BaseViewModel<Quote>() {
                         }
 
                     }
+                    if (index >= 10 && index % 10 == 0) {
+                        AdvertiseHelper(getApplication()).loadAd({
+                            val advertise = QuoteAdapterData(
+                                Quote.advertiseQuote(),
+                                advertise = it
+                            )
+                            quoteListViewState.postValue(
+                                QuoteListViewState.QuoteDataRetrieve(
+                                    advertise
+                                )
+                            )
+                        }, {
+                        })
+                    }
+
                     val styleRequest = styleService.getSingleData(quote.style)
                     val style =
                         if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style
@@ -125,11 +141,14 @@ class HomeViewModel : BaseViewModel<Quote>() {
                         }
 
                     }
-                    quoteListViewState.postValue(
-                        QuoteListViewState.QuoteDataRetrieve(
-                            QuoteAdapterData(quote, style, quoteUser, getUser(), likeList)
-                        )
+                    val adapterDate = QuoteAdapterData(
+                        quote,
+                        style,
+                        quoteUser,
+                        getUser(),
+                        likeList
                     )
+                    requestFontToRetrieveQuote(adapterDate)
                     if (index == quotes.lastIndex) {
                         homeViewState.postValue(HomeViewState.EnableSearch)
                     }
@@ -141,6 +160,25 @@ class HomeViewModel : BaseViewModel<Quote>() {
         }
 
     }
+
+    private suspend fun requestFontToRetrieveQuote(
+        quoteAdapterData: QuoteAdapterData,
+
+        ) {
+
+        fontsService.requestDownload(
+            fontsService.getFamilyName(quoteAdapterData.style.font)
+        ) { tpface, s ->
+            Log.i(javaClass.simpleName, "requestFontToRetrieveQuote: $s")
+            quoteAdapterData.style.typeface = tpface
+            quoteListViewState.postValue(
+                QuoteListViewState.QuoteDataRetrieve(
+                    quoteAdapterData
+                )
+            )
+        }
+    }
+
 
     fun favoriteQuote(quote: Quote) {
         getUser()?.let {

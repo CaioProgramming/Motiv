@@ -5,28 +5,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.NewQuoteFragmentBinding
-import com.creat.motiv.features.newquote.adapter.StylePreviewAdapter
-import com.ilustris.animations.bounce
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.Tools
 import com.ilustris.motiv.base.adapters.StylesAdapter
 import com.ilustris.motiv.base.beans.DEFAULT_STYLE_ID
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.quote.Quote
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
+import com.ilustris.motiv.manager.features.style.adapter.StylePreviewAdapter
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
+import com.silent.ilustriscore.core.utilities.gone
 import com.silent.ilustriscore.core.utilities.showSnackBar
+import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
 import kotlin.random.Random
 
@@ -35,8 +39,10 @@ class NewQuoteFragment : Fragment() {
     private val args: NewQuoteFragmentArgs? by navArgs()
     private var quote = Quote()
     private var newQuoteFragmentBinding: NewQuoteFragmentBinding? = null
-    private var newQuoteViewModel = NewQuoteViewModel()
-    private var stylePreviewAdapter = StylePreviewAdapter(ArrayList(), quote.style, ::selectStyle)
+    private val newQuoteViewModel by lazy { NewQuoteViewModel(requireActivity().application) }
+    private var stylePreviewAdapter =
+        StylePreviewAdapter(ArrayList(), true, quote.style, ::selectStyle)
+    private var styleAdapter = StylePreviewAdapter(ArrayList(), false, quote.style, ::selectStyle)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,8 +66,9 @@ class NewQuoteFragment : Fragment() {
     private fun observeViewModel() {
         newQuoteViewModel.newQuoteViewState.observe(viewLifecycleOwner) {
             when (it) {
-                is NewQuoteViewState.StylesRetrieved -> setupStyles(it.styles)
+                is NewQuoteViewState.StylesRetrieved -> setupStyles(ArrayList(it.styles))
                 NewQuoteViewState -> view?.showSnackBar(Tools.emptyQuote(), backColor = Color.RED)
+
             }
         }
         newQuoteViewModel.viewModelState.observe(viewLifecycleOwner) {
@@ -93,37 +100,40 @@ class NewQuoteFragment : Fragment() {
         }
     }
 
-    private fun selectStyle(position: Int, style: Style) {
+    private fun selectStyle(style: Style, position: Int) {
         quote.style = style.id
         stylePreviewAdapter.setSelectedStyle(style.id)
+        styleAdapter.setSelectedStyle(style.id)
         newQuoteFragmentBinding?.run {
             stylesPager.setCurrentItem(position, true)
-            stylePreviewRecycler.smoothScrollToPosition(position)
             setupStyle(style)
+            BottomSheetBehavior.from(stylesContainer).state = BottomSheetBehavior.STATE_COLLAPSED
+            stylePreviewRecycler.smoothScrollToPosition(position)
         }
+
 
     }
 
     private fun NewQuoteFragmentBinding.setupStyle(style: Style) {
         quoteTextView.setTypeface(
-            FontUtils.getTypeFace(requireContext(), style.font),
+            style.typeface,
             style.fontStyle.getTypefaceStyle()
         )
         authorTextView.setTypeface(
-            FontUtils.getTypeFace(requireContext(), style.font),
+            style.typeface,
             style.fontStyle.getTypefaceStyle()
         )
         val textColor = Color.parseColor(style.textColor)
         quoteTextView.setHintTextColor(
-            androidx.core.graphics.ColorUtils.setAlphaComponent(
+            ColorUtils.setAlphaComponent(
                 textColor,
-                60
+                70
             )
         )
         authorTextView.setHintTextColor(
-            androidx.core.graphics.ColorUtils.setAlphaComponent(
+            ColorUtils.setAlphaComponent(
                 textColor,
-                60
+                70
             )
         )
         quoteTextView.defineTextAlignment(style.textAlignment)
@@ -134,12 +144,12 @@ class NewQuoteFragment : Fragment() {
             quoteTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
             authorTextView.setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
         }
-        quoteTextView.bounce()
-        authorTextView.bounce()
     }
 
-    private fun setupStyles(styles: List<Style>) {
-        stylePreviewAdapter = StylePreviewAdapter(ArrayList(styles), quote.style, ::selectStyle)
+    private fun setupStyles(styles: ArrayList<Style>) {
+        stylePreviewAdapter =
+            StylePreviewAdapter(ArrayList(styles), true, quote.style, ::selectStyle)
+        styleAdapter = StylePreviewAdapter(ArrayList(styles), false, quote.style, ::selectStyle)
         newQuoteFragmentBinding?.run {
             stylePreviewRecycler.adapter = stylePreviewAdapter
             stylesPager.adapter = StylesAdapter(styles)
@@ -147,7 +157,7 @@ class NewQuoteFragment : Fragment() {
                 override fun onPageScrollStateChanged(state: Int) {
                     super.onPageScrollStateChanged(state)
                     if (state == ViewPager.SCROLL_STATE_IDLE) {
-                        selectStyle(stylesPager.currentItem, styles[stylesPager.currentItem])
+                        selectStyle(styles[stylesPager.currentItem], stylesPager.currentItem)
                     }
                 }
             })
@@ -156,13 +166,15 @@ class NewQuoteFragment : Fragment() {
         }
         if (quote.style != DEFAULT_STYLE_ID) {
             val currentStyle = styles.indexOfFirst { it.id == quote.style }
-            selectStyle(currentStyle, styles[currentStyle])
+            selectStyle(styles[currentStyle], currentStyle)
         } else {
             delayedFunction(3000) {
-                newQuoteFragmentBinding?.stylesPager?.setCurrentItem(
-                    Random.nextInt(styles.size),
-                    true
-                )
+                if (quote.style == Style.defaultStyle.id) {
+                    newQuoteFragmentBinding?.stylesPager?.setCurrentItem(
+                        Random.nextInt(styles.size),
+                        true
+                    )
+                }
             }
         }
 
@@ -186,6 +198,37 @@ class NewQuoteFragment : Fragment() {
         }
         quoteTextView.setText(quote.quote)
         authorTextView.setText(quote.author)
+        val bottomSheetBehavior = BottomSheetBehavior.from(stylesContainer)
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    availableStyles.gone()
+                    stylePreviewRecycler.adapter = stylePreviewAdapter
+                    stylePreviewRecycler.layoutManager =
+                        GridLayoutManager(requireContext(), 1, RecyclerView.HORIZONTAL, false)
+                    if (quote.style != Style.defaultStyle.id) {
+                        stylePreviewRecycler.smoothScrollToPosition(styleAdapter.styles.indexOfFirst { it.id == quote.style })
+                    }
+                } else if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                    availableStyles.visible()
+                    stylePreviewRecycler.visible()
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    stylePreviewRecycler.adapter = styleAdapter
+                    stylePreviewRecycler.layoutManager =
+                        GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+                    if (quote.style != Style.defaultStyle.id) {
+                        stylePreviewRecycler.smoothScrollToPosition(styleAdapter.styles.indexOfFirst { it.id == quote.style })
+                    }
+
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                availableStyles.scaleX = slideOffset
+                availableStyles.scaleY = slideOffset
+            }
+        })
     }
 
     private fun NewQuoteFragmentBinding.getQuote(): Quote {

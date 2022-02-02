@@ -1,7 +1,5 @@
 package com.ilustris.motiv.base.utils
 
-import android.content.Context
-import android.graphics.Typeface
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +31,4 @@ object TextUtils {
             }
         }
     }
-
-
 }

@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.R
+import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.databinding.StylePagerLayoutBinding
 
-class StylesAdapter(val styles: List<Style>) : RecyclerView.Adapter<StylesAdapter.StyleHolder>() {
+class StylesAdapter(val styles: ArrayList<Style>) :
+    RecyclerView.Adapter<StylesAdapter.StyleHolder>() {
 
 
     inner class StyleHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -23,7 +24,11 @@ class StylesAdapter(val styles: List<Style>) : RecyclerView.Adapter<StylesAdapte
                     .into(styleGif)
             }
         }
+    }
 
+    fun refreshStyle(style: Style) {
+        styles.add(style)
+        notifyItemInserted(itemCount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StyleHolder {
