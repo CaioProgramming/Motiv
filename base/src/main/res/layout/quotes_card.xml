@@ -10,7 +10,8 @@
         android:id="@+id/cardShadow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_default_10dp"
+        android:layout_marginStart="@dimen/margin_big_16dp"
+        android:layout_marginTop="@dimen/margin_big_16dp"
         android:background="@drawable/round"
         android:backgroundTint="?attr/dropShadowColor"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,8 +24,8 @@
         style="@style/MotivCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/margin_small_4dp"
-        android:layout_marginBottom="@dimen/margin_small_4dp"
+        android:layout_marginEnd="@dimen/margin_big_16dp"
+        android:layout_marginBottom="@dimen/margin_big_16dp"
         android:stateListAnimator="@animator/text_animator"
         app:cardBackgroundColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="@id/cardShadow"
@@ -36,7 +37,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/dividerColor"
+            android:background="?android:colorBackground"
             android:hapticFeedbackEnabled="true"
             android:orientation="vertical"
             android:transitionName="@string/card_transaction">
@@ -45,7 +46,6 @@
                 android:id="@+id/quoteBack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
                 android:scaleType="center"
                 tools:src="@drawable/motiv_gradient" />
 

@@ -14,13 +14,13 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardShadow"
         android:layout_width="0dp"
-        android:layout_marginStart="@dimen/margin_default_10dp"
+        android:layout_marginStart="@dimen/padding_big_24"
         android:layout_height="0dp"
         app:cardBackgroundColor="?android:textColorPrimary"
-        android:layout_marginEnd="@dimen/margin_big_16dp"
         app:cardElevation="0dp"
-        android:layout_marginBottom="@dimen/margin_default_10dp"
-        app:cardCornerRadius="@dimen/radius_small_5dp"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:cardCornerRadius="0dp"
+        app:strokeColor="?android:colorBackground"
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,12 +30,12 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/shareCard"
         style="@style/MotivCard"
-        android:layout_marginTop="@dimen/margin_default_10dp"
+        android:layout_marginTop="@dimen/padding_big_24"
+        android:layout_marginEnd="@dimen/padding_default_16dp"
+        app:cardBackgroundColor="?android:colorBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_default_10dp"
-        android:layout_marginEnd="@dimen/padding_big_24"
-        android:layout_marginBottom="@dimen/padding_big_24"
+        app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,12 +46,13 @@
 
         <RelativeLayout
             android:id="@+id/quoteContent"
+            android:background="?android:colorBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/quoteImage"
-                android:background="@color/transparent"
+                android:background="?android:colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />

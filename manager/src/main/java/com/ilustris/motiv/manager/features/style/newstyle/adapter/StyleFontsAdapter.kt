@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.TabFontViewBinding
 
@@ -25,8 +24,8 @@ class StyleFontsAdapter(val typefaces: List<Typeface>, val onFontSelect: (Int) -
         fun bind() {
             tabFontViewBinding.run {
                 val context = tabFontViewBinding.root.context
-                fontText.typeface = FontUtils.getTypeFace(context, adapterPosition)
-                if (adapterPosition == selectedFont) {
+                fontText.typeface = typefaces[bindingAdapterPosition]
+                if (bindingAdapterPosition == selectedFont) {
                     fontText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
 
                 } else {
@@ -53,6 +52,6 @@ class StyleFontsAdapter(val typefaces: List<Typeface>, val onFontSelect: (Int) -
         holder.bind()
     }
 
-    override fun getItemCount(): Int = FontUtils.fonts.size
+    override fun getItemCount(): Int = typefaces.size
 
 }

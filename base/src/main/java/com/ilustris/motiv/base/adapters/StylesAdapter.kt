@@ -24,7 +24,6 @@ class StylesAdapter(val styles: ArrayList<Style>) :
                     .into(styleGif)
             }
         }
-
     }
 
     fun refreshStyle(style: Style) {

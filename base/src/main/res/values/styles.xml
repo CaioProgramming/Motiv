@@ -118,7 +118,7 @@
         <item name="cardCornerRadius">@dimen/radius_small_5dp</item>
         <item name="cardElevation">0dp</item>
         <item name="cardBackgroundColor">?android:colorBackground</item>
-        <item name="strokeColor">?attr/dropShadowColor</item>
+        <item name="strokeColor">?attr/dividerColor</item>
         <item name="strokeWidth">@dimen/default_stroke</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:stateListAnimator">@animator/scale_down_animator</item>

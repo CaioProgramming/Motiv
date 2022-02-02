@@ -12,6 +12,7 @@ import com.ilustris.motiv.base.service.FontsService
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.StyleService
 import com.ilustris.motiv.base.service.UserService
+import com.ilustris.motiv.base.utils.AdvertiseHelper
 import com.silent.ilustriscore.core.model.BaseViewModel
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
@@ -107,6 +108,21 @@ class HomeViewModel(application: Application) : BaseViewModel<Quote>(application
                         }
 
                     }
+                    if (index >= 10 && index % 10 == 0) {
+                        AdvertiseHelper(getApplication()).loadAd({
+                            val advertise = QuoteAdapterData(
+                                Quote.advertiseQuote(),
+                                advertise = it
+                            )
+                            quoteListViewState.postValue(
+                                QuoteListViewState.QuoteDataRetrieve(
+                                    advertise
+                                )
+                            )
+                        }, {
+                        })
+                    }
+
                     val styleRequest = styleService.getSingleData(quote.style)
                     val style =
                         if (styleRequest.isError) Style.defaultStyle else styleRequest.success.data as Style

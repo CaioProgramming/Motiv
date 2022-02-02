@@ -22,7 +22,6 @@ import com.ilustris.animations.fadeIn
 import com.ilustris.motiv.base.beans.Style.Companion.adminStyle
 import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.dialog.DefaultAlert
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
 import com.ilustris.motiv.manager.ManagerActivity
@@ -99,7 +98,6 @@ class SettingsFragment : Fragment() {
         }
         adminBackground.loadGif(adminStyle.backgroundURL)
         if (user.admin) {
-            adminText.typeface = FontUtils.getTypeFace(requireContext(), adminStyle.font)
             adminView.setOnClickListener {
                 val i = Intent(context, ManagerActivity::class.java).apply {
                     putExtra("User", data)

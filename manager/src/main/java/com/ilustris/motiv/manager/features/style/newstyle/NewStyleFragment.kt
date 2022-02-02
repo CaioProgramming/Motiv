@@ -19,7 +19,6 @@ import com.ilustris.motiv.base.beans.FontStyle
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.TextAlignment
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
-import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.base.utils.loadGif
@@ -102,9 +101,9 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
     }
 
     private fun setupPreview(styles: ArrayList<Style>) {
-        previewAdapter = StylePreviewAdapter(styles, true, style.id) {
-            selectStyle(it)
-            previewAdapter?.setSelectedStyle(it.id)
+        previewAdapter = StylePreviewAdapter(styles, true, style.id) { style, index ->
+            selectStyle(style)
+            previewAdapter?.setSelectedStyle(style.id)
         }
     }
 
@@ -239,9 +238,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
             styleAuthor.run {
                 defineTextAlignment(style.textAlignment)
                 setTextColor(Color.parseColor(style.textColor))
-                FontUtils.getTypeFace(context, style.font)?.let {
-                    setTypeface(it, style.fontStyle.getTypefaceStyle())
-                }
+                setTypeface(style.typeface, style.fontStyle.getTypefaceStyle())
                 style.shadowStyle.run {
                     setShadowLayer(radius, dx, dy, Color.parseColor(shadowColor))
                 }

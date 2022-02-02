@@ -4,7 +4,6 @@ package com.creat.motiv.features.home
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.creat.motiv.R
 import com.creat.motiv.databinding.FragmentHomeBinding
 import com.creat.motiv.features.home.adapter.QuoteAction
@@ -228,26 +225,6 @@ class HomeFragment : Fragment() {
         quotesrecyclerview.visible()
         quotesrecyclerview.run {
             visible()
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrollStateChanged(state: Int) {
-                    super.onPageScrollStateChanged(state)
-                    if (currentItem >= 10 && currentItem % 10 == 0 && state == ViewPager.SCROLL_STATE_IDLE && !loadingAd) {
-                        loadingAd = true
-                        AdvertiseHelper(requireContext()).loadAd({
-                            quoteRecyclerAdapter.loadOnNextPage(
-                                QuoteAdapterData(
-                                    Quote.advertiseQuote(),
-                                    advertise = it
-                                ), currentItem
-                            )
-                            loadingAd = false
-                        }, {
-                            loadingAd = false
-                            Log.e("Home", "Ad error: Erro ao carregar anúncio")
-                        })
-                    }
-                }
-            })
         }
     }
 
