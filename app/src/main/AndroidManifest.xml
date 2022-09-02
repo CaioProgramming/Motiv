@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".features.about.AboutFragment" />
-        Z
         <activity
             android:name="com.ilustris.motiv.base.ErrorActivity"
             android:clearTaskOnLaunch="true"
