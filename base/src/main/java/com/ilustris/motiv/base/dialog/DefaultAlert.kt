@@ -8,8 +8,8 @@ import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.DefaultDialogBinding
 import com.ilustris.motiv.base.utils.blurView
 import com.ilustris.motiv.base.utils.unBlurView
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.view.BaseAlert
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
 
 class DefaultAlert(
     context: Context, var title: String? = null, var message: String? = null, var icon: Int? = null,

@@ -20,9 +20,9 @@ import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.*
 import com.ilustris.motiv.manager.R
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import java.util.*
 
 
@@ -31,7 +31,7 @@ enum class QuoteAction {
 }
 
 class QuoteManagerAdapter(
-    private val quoteAdapterList: java.util.ArrayList<QuoteAdapterData>,
+    private val quoteAdapterList: ArrayList<QuoteAdapterData>,
     private val onSelectQuote: (QuoteAdapterData, QuoteAction) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

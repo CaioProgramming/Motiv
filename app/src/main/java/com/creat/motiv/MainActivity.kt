@@ -17,12 +17,12 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Radio
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 import kotlin.random.Random
 
 
@@ -86,6 +86,7 @@ open class MainActivity : AppCompatActivity() {
                     }
                     mainActBind?.root?.showSnackBar(it.dataException.code.message)
                 }
+                else -> {}
             }
         }
     }

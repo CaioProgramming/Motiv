@@ -12,8 +12,8 @@ import com.ilustris.motiv.base.adapters.RecyclerCoverAdapter
 import com.ilustris.motiv.base.beans.Cover
 import com.ilustris.motiv.base.utils.blurView
 import com.ilustris.motiv.base.utils.unBlurView
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.view.BaseAlert
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
 
 class CoverPickerDialog(
     context: Context,

@@ -29,11 +29,11 @@ import com.ilustris.motiv.manager.features.style.newstyle.adapter.RecyclerColorA
 import com.ilustris.motiv.manager.features.style.newstyle.adapter.StyleFontsAdapter
 import com.ilustris.motiv.manager.features.style.newstyle.viewmodel.NewStyleState
 import com.ilustris.motiv.manager.features.style.newstyle.viewmodel.NewStyleViewModel
+import com.ilustris.ui.alert.DialogStyles
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 
 class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
 
@@ -82,6 +82,7 @@ class NewStyleFragment : Fragment(), NavigationBarView.OnItemSelectedListener {
                     )
 
                 }
+                else -> {}
             }
         }
         newStyleViewModel.newStyleState.observe(viewLifecycleOwner) {

@@ -25,10 +25,10 @@ import com.ilustris.motiv.base.beans.User
 import com.ilustris.motiv.base.beans.quote.*
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
 import com.ilustris.motiv.base.utils.*
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.utilities.delayedFunction
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 import java.util.*
 
 private const val QUOTE_VIEW = 0

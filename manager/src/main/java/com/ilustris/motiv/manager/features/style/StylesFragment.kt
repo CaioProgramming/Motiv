@@ -19,9 +19,9 @@ import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.StylesRecyclerBinding
 import com.ilustris.motiv.manager.features.style.adapter.StylePreviewAdapter
 import com.ilustris.motiv.manager.features.style.viewmodel.StylesViewModel
+import com.ilustris.ui.alert.DialogStyles
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class StylesFragment : Fragment() {
 
@@ -57,6 +57,7 @@ class StylesFragment : Fragment() {
                 is ViewModelBaseState.ErrorState -> {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
+                else -> {}
             }
         }
     }

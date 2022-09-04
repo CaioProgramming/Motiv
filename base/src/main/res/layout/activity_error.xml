@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -11,6 +9,12 @@
         android:id="@+id/errorBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/oblack" />
 
     <TextView
         android:id="@+id/title"
@@ -38,9 +42,5 @@
         android:text="@string/fatal_error_message"
         android:textAlignment="center" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/oblack" />
 
 </RelativeLayout>

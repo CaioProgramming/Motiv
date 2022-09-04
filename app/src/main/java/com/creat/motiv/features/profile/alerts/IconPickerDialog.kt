@@ -9,8 +9,8 @@ import com.ilustris.motiv.base.adapters.RecyclerIconAdapter
 import com.ilustris.motiv.base.beans.Icon
 import com.ilustris.motiv.base.utils.blurView
 import com.ilustris.motiv.base.utils.unBlurView
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.view.BaseAlert
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
 
 class IconPickerDialog(
     context: Context,

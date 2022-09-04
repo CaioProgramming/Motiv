@@ -14,8 +14,8 @@ import com.ilustris.motiv.manager.databinding.FragmentIconsBinding
 import com.ilustris.motiv.manager.features.icon.dialog.AddIconsDialog
 import com.ilustris.motiv.manager.features.icon.viewmodel.IconsViewModel
 import com.ilustris.motiv.manager.features.icon.viewmodel.IconsViewState
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class IconsFragment : Fragment() {
 
@@ -67,13 +67,14 @@ class IconsFragment : Fragment() {
                 ViewModelBaseState.DataDeletedState -> {
                     iconsViewModel.getAllData()
                 }
+                else -> {}
             }
         }
-        iconsViewModel.iconsViewState.observe(this, {
+        iconsViewModel.iconsViewState.observe(viewLifecycleOwner) {
             when (it) {
                 IconsViewState.IconsUploaded -> iconsViewModel.getAllData()
             }
-        })
+        }
     }
 
     override fun onDestroy() {

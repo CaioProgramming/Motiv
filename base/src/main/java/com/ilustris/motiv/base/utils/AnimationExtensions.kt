@@ -1,14 +1,11 @@
 package com.ilustris.motiv.base.utils
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.widget.TextView
 import com.github.mmin18.widget.RealtimeBlurView
-import com.ilustris.animations.*
+import com.ilustris.animations.fadeIn
+import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.R
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.visible
 
 
 fun blurView(context: Context) {
