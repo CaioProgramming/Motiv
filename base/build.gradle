@@ -1,6 +1,10 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-parcelize'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
+
 
 android {
     compileSdkVersion 33
@@ -18,7 +22,7 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue("string",  "feed_advertisement_id", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "feed_advertisement_id", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "video_advertisement_id", "ca-app-pub-3940256099942544/5224354917")
 
         }
@@ -43,41 +47,51 @@ dependencies {
     api "com.github.CaioProgramming.Ilustris:core:$ilustris_version"
     api "com.github.CaioProgramming.Ilustris:ui:$ilustris_version"
     api "com.github.CaioProgramming.Ilustris:animations:$ilustris_version"
-    api 'androidx.navigation:navigation-fragment-ktx:2.5.1'
-    api 'androidx.navigation:navigation-ui-ktx:2.5.1'
-    api 'com.android.support:multidex:1.0.3'
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
-    api "io.insert-koin:koin-core:$koin_version"
-    api "io.insert-koin:koin-android:$koin_version"
-    api "io.insert-koin:koin-androidx-workmanager:$koin_version"
-    api "io.insert-koin:koin-androidx-navigation:$koin_version"
+    api 'androidx.core:core-ktx:1.10.1'
+    api 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
-    api 'com.google.android.gms:play-services-ads:21.1.0'
-    api 'de.hdodenhof:circleimageview:3.1.0'
-    api 'com.github.mmin18:realtimeblurview:1.1.2'
-    api 'com.facebook.android:facebook-android-sdk:8.1.0'
+    api 'androidx.activity:activity-compose:1.7.2'
+    api "androidx.compose.ui:ui:$compose_version"
+    api "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    api "androidx.compose.animation:animation:1.4.3"
+    api 'androidx.compose.runtime:runtime-livedata:1.5.0-beta02'
+    api 'androidx.compose.material3:material3:1.2.0-alpha02'
+    api "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    implementation "androidx.navigation:navigation-compose:2.7.0-beta01"
+    implementation "androidx.compose.material:material:1.4.3"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.29.1-alpha"
+
+
+    api 'com.google.android.gms:play-services-ads:22.1.0'
     api 'cat.ereza:customactivityoncrash:2.3.0'
 
-    api platform('com.google.firebase:firebase-bom:25.12.0')
-    api 'com.google.firebase:firebase-core:21.1.1'
-    api 'com.google.firebase:firebase-firestore-ktx'
-    api 'com.google.firebase:firebase-auth:21.0.8'
-    api 'com.firebaseui:firebase-ui-auth:8.0.1'
-    api 'com.google.firebase:firebase-database-ktx'
-    api 'com.google.firebase:firebase-storage-ktx'
-    api 'com.google.firebase:firebase-appindexing:20.0.0'
-    api 'com.firebaseui:firebase-ui-database:8.0.0'
-    api 'com.google.firebase:firebase-storage:20.0.2'
-    api 'com.google.firebase:firebase-messaging:23.0.8'
-    api 'com.google.firebase:firebase-crashlytics-ktx'
-    api 'com.google.firebase:firebase-analytics-ktx'
-    api 'com.airbnb.android:lottie:3.6.0'
-    api 'com.github.bumptech.glide:glide:4.12.0'
-    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-auth:22.0.0'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-appindexing:20.0.0'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.0'
+    implementation 'com.google.firebase:firebase-storage:20.2.0'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    api 'com.airbnb.android:lottie:5.2.0'
+    api 'com.github.bumptech.glide:glide:4.15.1'
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 }

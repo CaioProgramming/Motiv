@@ -1,0 +1,48 @@
+task updateVersion {
+    doLast {
+        println "Updating version"
+
+        def versionPropsFile = file("version.properties")
+        Properties versionProps = new Properties()
+        if (versionPropsFile.canRead()) {
+            versionProps.load(new FileInputStream(versionPropsFile))
+        } else {
+
+            throw new GradleException("Could not read version.properties!")
+        }
+
+        def versionMajor = versionProps["VERSION_MAJOR"].toInteger()
+        def versionMinor = versionProps["VERSION_MINOR"].toInteger()
+        def versionPatch = versionProps["VERSION_PATCH"].toInteger()
+        def versionBuild = versionProps["VERSION_BUILD"].toInteger()
+        def versionNumber = versionProps["VERSION_NUMBER"].toInteger() + 1
+
+        if (versionBuild < 20) {
+            versionBuild++
+        } else {
+            versionBuild = 0
+            if (versionPatch < 10) {
+                versionPatch++
+            } else {
+                versionPatch = 0
+                if (versionMinor < 15) {
+                    versionMinor++
+                } else {
+                    versionMinor = 0
+                    versionMajor++
+                }
+            }
+        }
+
+        versionProps["VERSION_NUMBER"] = versionNumber.toString()
+        versionProps["VERSION_MAJOR"] = versionMajor.toString()
+        versionProps["VERSION_MINOR"] = versionMinor.toString()
+        versionProps["VERSION_PATCH"] = versionPatch.toString()
+        versionProps["VERSION_BUILD"] = versionBuild.toString()
+
+        versionPropsFile.withWriter { versionProps.store(it, null) }
+
+        println "New version $versionNumber -> $versionMajor.$versionMinor.$versionPatch.$versionBuild"
+    }
+
+}
