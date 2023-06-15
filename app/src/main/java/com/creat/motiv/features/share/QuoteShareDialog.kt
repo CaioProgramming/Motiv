@@ -19,13 +19,13 @@ import com.ilustris.motiv.base.beans.quote.QuoteShareData
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.base.utils.loadGif
-import com.silent.ilustriscore.core.utilities.DialogStyles
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.utilities.delayedFunction
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.view.BaseAlert
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
+import java.util.Locale
 
 class QuoteShareDialog(context: Context, val quoteShareData: QuoteShareData) :
     BaseAlert(context, R.layout.share_quote_preview, style = DialogStyles.FULL_SCREEN) {

@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ilustris.motiv.base.utils.ColorUtils
 import com.ilustris.motiv.manager.databinding.ColorCardBinding
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.visible
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.visible
 
 
 class RecyclerColorAdapter(

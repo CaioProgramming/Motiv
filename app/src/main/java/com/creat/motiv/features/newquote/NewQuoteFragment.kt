@@ -26,12 +26,12 @@ import com.ilustris.motiv.base.beans.quote.Quote
 import com.ilustris.motiv.base.utils.defineTextAlignment
 import com.ilustris.motiv.base.utils.getTypefaceStyle
 import com.ilustris.motiv.manager.features.style.adapter.StylePreviewAdapter
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
-import java.util.*
+import java.util.Calendar
 import kotlin.random.Random
 
 
@@ -68,7 +68,7 @@ class NewQuoteFragment : Fragment() {
             when (it) {
                 is NewQuoteViewState.StylesRetrieved -> setupStyles(ArrayList(it.styles))
                 NewQuoteViewState -> view?.showSnackBar(Tools.emptyQuote(), backColor = Color.RED)
-
+                else -> {}
             }
         }
         newQuoteViewModel.viewModelState.observe(viewLifecycleOwner) {
@@ -93,9 +93,12 @@ class NewQuoteFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                 }
+
                 is ViewModelBaseState.ErrorState -> {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
+
+                else -> {}
             }
         }
     }

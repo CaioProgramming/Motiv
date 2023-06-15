@@ -25,8 +25,8 @@ import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
 import com.ilustris.motiv.manager.ManagerActivity
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class SettingsFragment : Fragment() {
 
@@ -68,9 +68,12 @@ class SettingsFragment : Fragment() {
                 is ViewModelBaseState.DataUpdateState -> {
                     settingsBinding?.setupUser(it.data as User)
                 }
+
                 is ViewModelBaseState.ErrorState -> {
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
+
+                else -> {}
             }
         }
     }

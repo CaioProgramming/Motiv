@@ -1,13 +1,13 @@
 package com.ilustris.motiv.manager.features.cover.alert
 
 import android.content.Context
-import android.view.*
+import android.view.View
 import com.bumptech.glide.Glide
 import com.ilustris.motiv.base.utils.unBlurView
 import com.ilustris.motiv.manager.R
 import com.ilustris.motiv.manager.databinding.GifBottomsheetBinding
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.view.BaseAlert
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
 
 class CoverBottomSheetAlert(
     context: Context,

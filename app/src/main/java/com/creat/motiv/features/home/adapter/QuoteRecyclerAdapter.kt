@@ -22,14 +22,24 @@ import com.ilustris.animations.fadeIn
 import com.ilustris.animations.fadeOut
 import com.ilustris.motiv.base.beans.Style
 import com.ilustris.motiv.base.beans.User
-import com.ilustris.motiv.base.beans.quote.*
+import com.ilustris.motiv.base.beans.quote.AD_QUOTE
+import com.ilustris.motiv.base.beans.quote.PROFILE_QUOTE
+import com.ilustris.motiv.base.beans.quote.Quote
+import com.ilustris.motiv.base.beans.quote.QuoteAdapterData
+import com.ilustris.motiv.base.beans.quote.USERS_QUOTE
 import com.ilustris.motiv.base.databinding.QuotesCardBinding
-import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.base.utils.AD_GIF
+import com.ilustris.motiv.base.utils.TextUtils
+import com.ilustris.motiv.base.utils.defineTextAlignment
+import com.ilustris.motiv.base.utils.getTypefaceStyle
+import com.ilustris.motiv.base.utils.loadGif
+import com.ilustris.motiv.base.utils.loadImage
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.utilities.delayedFunction
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
-import java.util.*
+import java.util.Locale
+import java.util.Random
 
 private const val QUOTE_VIEW = 0
 private const val ADVERTISE_QUOTE = 1

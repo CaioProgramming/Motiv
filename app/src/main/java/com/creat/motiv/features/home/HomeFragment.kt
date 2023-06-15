@@ -29,15 +29,19 @@ import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.base.dialog.DefaultAlert
 import com.ilustris.motiv.base.dialog.listdialog.ListDialog
 import com.ilustris.motiv.base.dialog.listdialog.dialogItems
-import com.ilustris.motiv.base.utils.*
+import com.ilustris.motiv.base.utils.PagerStackTransformer
+import com.ilustris.motiv.base.utils.activity
+import com.ilustris.motiv.base.utils.hideBackButton
+import com.ilustris.motiv.base.utils.loadImage
+import com.ilustris.motiv.base.utils.showSupportActionBar
 import com.ilustris.motiv.manager.ManagerActivity
+import com.ilustris.ui.alert.DialogStyles
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 
 
 class HomeFragment : Fragment() {
@@ -157,6 +161,8 @@ class HomeFragment : Fragment() {
                     quoteRecyclerAdapter.clearAdapter()
                     homeViewModel.getHomeQuotes()
                 }
+
+                else -> {}
 
             }
         }

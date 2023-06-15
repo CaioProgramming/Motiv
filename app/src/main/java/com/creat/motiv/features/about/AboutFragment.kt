@@ -19,8 +19,8 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideInBottom
 import com.ilustris.animations.slideInRight
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class AboutFragment : Fragment() {
     var aboutBinding: FragmentAboutBinding? = null
@@ -51,10 +51,11 @@ class AboutFragment : Fragment() {
         }
         aboutViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
-                ViewModelBaseState.LoadingState -> TODO()
                 is ViewModelBaseState.ErrorState -> {
                     view?.showSnackBar("Ocorreu um erro inesperado ao carregar")
                 }
+
+                else -> {}
             }
         }
     }
@@ -76,7 +77,7 @@ class AboutFragment : Fragment() {
                 }
 
                 override fun onAdLoaded(rAd: RewardedAd) {
-                    super.onAdLoaded(rewardedAd)
+                    rewardedAd?.let { super.onAdLoaded(it) }
                     rewardedAd = rAd
                     aboutBinding?.supportDevs?.slideInRight()
                 }

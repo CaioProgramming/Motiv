@@ -18,9 +18,9 @@ import com.ilustris.motiv.base.beans.Cover
 import com.ilustris.motiv.base.dialog.BottomSheetAlert
 import com.ilustris.motiv.manager.databinding.FragmentCoversBinding
 import com.ilustris.motiv.manager.features.cover.alert.CoverBottomSheetAlert
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
 import timber.log.Timber
 
 class CoversFragment : SearchView.OnQueryTextListener, Fragment() {
@@ -64,6 +64,8 @@ class CoversFragment : SearchView.OnQueryTextListener, Fragment() {
                 is ViewModelBaseState.ErrorState -> {
                     view?.showSnackBar(it.dataException.code.message)
                 }
+
+                else -> {}
             }
         }
     }

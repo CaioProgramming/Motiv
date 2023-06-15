@@ -7,8 +7,8 @@ import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.databinding.ListDialogLayoutBinding
 import com.ilustris.motiv.base.utils.blurView
 import com.ilustris.motiv.base.utils.unBlurView
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.view.BaseAlert
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
 
 
 class ListDialog(

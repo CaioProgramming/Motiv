@@ -4,37 +4,22 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.github.mmin18.widget.RealtimeBlurView
-import com.ilustris.motiv.base.beans.TextAlignment
-import com.google.android.material.snackbar.Snackbar
 import com.ilustris.animations.fadeIn
-import com.ilustris.animations.fadeOut
-import com.ilustris.animations.slideDown
-import com.ilustris.animations.slideUp
 import com.ilustris.motiv.base.R
 import com.ilustris.motiv.base.beans.FontStyle
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.visible
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.ilustris.motiv.base.beans.TextAlignment
+import com.ilustris.ui.extensions.visible
 
 
 fun Context.hideBackButton() {

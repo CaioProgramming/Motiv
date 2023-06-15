@@ -4,8 +4,8 @@ import android.app.Activity
 import android.view.View
 import com.creat.motiv.R
 import com.creat.motiv.databinding.ProfilepicselectBinding
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.view.BaseAlert
+import com.ilustris.ui.alert.BaseAlert
+import com.ilustris.ui.alert.DialogStyles
 
 class LikesDialog(context: Activity, private val likeList: List<String>) :
     BaseAlert(

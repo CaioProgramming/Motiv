@@ -36,13 +36,13 @@ import com.ilustris.motiv.base.dialog.listdialog.dialogItems
 import com.ilustris.motiv.base.utils.PagerStackTransformer
 import com.ilustris.motiv.base.utils.loadGif
 import com.ilustris.motiv.base.utils.loadImage
+import com.ilustris.ui.alert.DialogStyles
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
+import com.ilustris.ui.extensions.visible
 import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ErrorType
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
-import com.silent.ilustriscore.core.utilities.visible
 import java.text.NumberFormat
 
 class ProfileFragment : Fragment() {
@@ -96,9 +96,6 @@ class ProfileFragment : Fragment() {
         loading.fadeOut()
         quoteRecyclerAdapter.refreshData(quotedata)
         quotesrecyclerview.visible()
-        quotesrecyclerview.run {
-            visible()
-        }
     }
 
     private fun openOptions(dialogItems: dialogItems) {
@@ -245,10 +242,13 @@ class ProfileFragment : Fragment() {
                     val user = it.data as User
                     profileViewModel.fetchUserPage(user.uid)
                 }
+
                 is ViewModelBaseState.ErrorState -> {
                     handleError(it.dataException)
                     view?.showSnackBar(it.dataException.code.message, backColor = Color.RED)
                 }
+
+                else -> {}
             }
         }
     }
@@ -258,6 +258,8 @@ class ProfileFragment : Fragment() {
             ErrorType.NOT_FOUND -> {
 
             }
+
+            else -> {}
 
         }
     }

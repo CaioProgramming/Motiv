@@ -17,10 +17,10 @@ import com.ilustris.motiv.base.utils.PagerStackTransformer
 import com.ilustris.motiv.manager.features.home.viewmodel.ManagerViewModel
 import com.ilustris.motiv.manager.ui.home.QuoteAction
 import com.ilustris.motiv.manager.ui.home.QuoteManagerAdapter
+import com.ilustris.ui.alert.DialogStyles
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.showSnackBar
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.silent.ilustriscore.core.utilities.DialogStyles
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.showSnackBar
 
 class ManagerHomeFragment : Fragment() {
 
@@ -54,6 +54,7 @@ class ManagerHomeFragment : Fragment() {
     private fun selectQuote(quoteAdapterData: QuoteAdapterData, quoteAction: QuoteAction) {
         when (quoteAction) {
             QuoteAction.OPTIONS -> managerViewModel.fetchQuoteOptions(quoteAdapterData)
+            else -> {}
         }
     }
 
@@ -98,14 +99,18 @@ class ManagerHomeFragment : Fragment() {
                         }
                     ).buildDialog()
                 }
+
+                else -> {}
+
             }
         }
 
-        managerViewModel.viewModelState.observe(this, {
+        managerViewModel.viewModelState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewModelBaseState.ErrorState -> view?.showSnackBar(it.dataException.code.message)
+                else -> {}
             }
-        })
+        }
     }
 
     override fun onDestroy() {

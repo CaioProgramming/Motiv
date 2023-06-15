@@ -13,8 +13,8 @@ import com.ilustris.animations.fadeOut
 import com.ilustris.animations.slideInBottom
 import com.ilustris.motiv.base.beans.Radio
 import com.ilustris.motiv.base.utils.loadGif
-import com.silent.ilustriscore.core.utilities.gone
-import com.silent.ilustriscore.core.utilities.visible
+import com.ilustris.ui.extensions.gone
+import com.ilustris.ui.extensions.visible
 
 class RadioAdapter(
     val radioList: ArrayList<Radio>,
