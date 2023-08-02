@@ -10,6 +10,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +62,7 @@ fun CardBackground(
         )
         GlideImage(
             imageModel = { image },
+
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.Center,
@@ -73,6 +76,7 @@ fun CardBackground(
             },
             glideRequestType = if (loadAsGif) GlideRequestType.GIF else GlideRequestType.DRAWABLE,
             modifier = modifier
+                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.3f))
                 .alpha(imageAlpha)
                 .blur(imageBlur),
             onImageStateChanged = {

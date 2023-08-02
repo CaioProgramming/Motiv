@@ -9,6 +9,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
@@ -290,6 +291,7 @@ fun Modifier.gradientOverlay(brush: Brush) =
         }
 
 
+@Composable
 fun Modifier.radioIconModifier(
     rotationValue: Float,
     sizeValue: Dp,
@@ -302,6 +304,7 @@ fun Modifier.radioIconModifier(
         CircleShape
     )
         .padding(4.dp)
+        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.6f), CircleShape)
         .clip(CircleShape)
         .size(sizeValue)
         .rotate(rotationValue)

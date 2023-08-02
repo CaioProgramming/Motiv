@@ -17,7 +17,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -74,6 +73,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -203,6 +203,7 @@ fun SettingsView(navController: NavController) {
                 .background(coverBackColor.value.copy(alpha = 0.7f))
         ) {
             LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.wrapContentSize()
             ) {
 
@@ -554,7 +555,7 @@ fun SettingsView(navController: NavController) {
                         contentDescription = "Powered By Giphy",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp)
+                            .height(32.dp)
                             .gradientFill(textColorGradient()),
                         contentScale = ContentScale.Inside
                     )
@@ -563,55 +564,48 @@ fun SettingsView(navController: NavController) {
 
                 item {
 
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    ) {
-                        val context = LocalContext.current
+                    val context = LocalContext.current
 
-                        fun openPlayStorePage() {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://play.google.com/store/apps/dev?id=8106172357045720296")
-                            )
-                            context.startActivity(intent)
-                        }
-
-                        val ilustrisBrush = listOf(
-                            MaterialColor.BlueA200,
-                            MaterialColor.Blue800,
-                            MaterialColor.BlueA700,
+                    fun openPlayStorePage() {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/dev?id=8106172357045720296")
                         )
-
-                        val gradientAnimation = gradientAnimation(ilustrisBrush)
-
-                        Icon(
-                            Icons.Rounded.Star,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(32.dp)
-                                .graphicsLayer(alpha = 0.99f)
-                                .drawWithCache {
-                                    onDrawWithContent {
-                                        drawContent()
-                                        drawRect(
-                                            brush = gradientAnimation,
-                                            blendMode = BlendMode.SrcAtop
-                                        )
-                                    }
-                                }
-                                .clip(CircleShape)
-                                .clickable {
-                                    openPlayStorePage()
-                                }
-                        )
+                        context.startActivity(intent)
                     }
+
+                    val ilustrisBrush = listOf(
+                        MaterialColor.BlueA200,
+                        MaterialColor.Blue800,
+                        MaterialColor.BlueA700,
+                    )
+
+                    val gradientAnimation = gradientAnimation(ilustrisBrush)
+
+                    Icon(
+                        Icons.Rounded.Star,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .graphicsLayer(alpha = 0.99f)
+                            .drawWithCache {
+                                onDrawWithContent {
+                                    drawContent()
+                                    drawRect(
+                                        brush = gradientAnimation,
+                                        blendMode = BlendMode.SrcAtop
+                                    )
+                                }
+                            }
+                            .clip(CircleShape)
+                            .clickable {
+                                openPlayStorePage()
+                            }
+                    )
                     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
                     Text(
-                        text = "Desenvolvido por ilustris em 2018 - $currentYear",
+                        text = "By ilustris 2018 - $currentYear",
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 4.dp)
                             .fillMaxWidth(),
@@ -620,6 +614,16 @@ fun SettingsView(navController: NavController) {
                             fontStyle = FontStyle.Italic,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                         )
+                    )
+
+                    Text(
+                        text = stringResource(id = R.string.actual_version),
+                        style = MaterialTheme.typography.labelSmall,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .graphicsLayer(alpha = 0.3f)
                     )
                 }
             }
