@@ -27,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.about.AboutFragment" />
         <activity
             android:name="com.ilustris.motiv.base.ErrorActivity"
             android:clearTaskOnLaunch="true"
