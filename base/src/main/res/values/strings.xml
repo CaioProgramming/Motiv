@@ -16,4 +16,5 @@
     <string name="default_notification_channel_id">motivchannel</string>
     <string name="fcm_message">🌠 Motiv</string>
     <string name="cancel_button">Cancelar</string>
+    <string name="fatal_error_button">voltar</string>
 </resources>

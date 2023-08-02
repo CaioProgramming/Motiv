@@ -7,7 +7,7 @@ import android.os.HandlerThread
 import android.util.Log
 import androidx.core.provider.FontRequest
 import androidx.core.provider.FontsContractCompat
-import com.ilustris.motiv.base.R
+import com.creat.motiv.base.R
 import kotlinx.coroutines.coroutineScope
 
 class FontsService(val context: Context) {

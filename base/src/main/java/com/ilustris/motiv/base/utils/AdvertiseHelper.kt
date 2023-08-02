@@ -2,13 +2,13 @@ package com.ilustris.motiv.base.utils
 
 import android.content.Context
 import android.util.Log
+import com.creat.motiv.base.R
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.ilustris.motiv.base.R
 
 class AdvertiseHelper(private val context: Context) {
 

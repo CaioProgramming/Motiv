@@ -1,6 +1,0 @@
-<resources>
-    <declare-styleable name="MotivTextView">
-        <attr name="motivStrokeWidth" format="dimension" />
-        <attr name="motivStrokeColor" format="reference|color" />
-    </declare-styleable>
-</resources>

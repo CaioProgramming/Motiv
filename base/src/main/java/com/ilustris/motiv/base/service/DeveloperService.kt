@@ -2,7 +2,7 @@ package com.ilustris.motiv.base.service
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.ilustris.motiv.base.beans.Developer
+import com.ilustris.motiv.base.data.model.Developer
 import com.silent.ilustriscore.core.model.BaseService
 
 class DeveloperService : BaseService() {

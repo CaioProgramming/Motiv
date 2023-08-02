@@ -1,20 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Motiv +</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="icon_info">user icon</string>
-    <string name="style_text_transtition">styleText</string>
-    <string name="style_delete_message">Se quiser remover esse estilo e deixar os usuários tristes é só clicar em confirmar</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="delete_icon_message">Você deseja excluir este icone? Esta ação não pode ser desfeita. Usuários que já utilizam este icone não poderam visualiza-lo.</string>
+    <string name="save_cover_message">Você deseja salvar este gif para usuários utilizarem, como capa de seus perfis?</string>
+    <string name="delete_cover_message">Você deseja excluir essa capa? Usuários que já utilizam esta capa não poderam visualiza-la.</string>
+    <string name="delete_style_message">Tem certeza que deseja excluir esse estilo? Publicações que o utilizam seram afetadas.</string>
 </resources>
