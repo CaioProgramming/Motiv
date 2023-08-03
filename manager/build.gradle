@@ -1,47 +1,66 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-parcelize'
-apply plugin: "androidx.navigation.safeargs"
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
-    compileSdkVersion 31
+    namespace 'com.creat.motiv.manager'
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 31
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue("string", "giphy_api", "spg4bqTWAgxiLjsh4VEnQ1Embqpg3dmk")
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue("string", "giphy_api", "spg4bqTWAgxiLjsh4VEnQ1Embqpg3dmk")
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
 
+    kapt {
+        correctErrorTypes true
+    }
+
     buildFeatures {
-        viewBinding = true
+        compose true
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':base')
-    implementation 'com.giphy.sdk:ui:2.1.14'
-    implementation 'gun0912.ted:tedbottompicker:2.0.1'
-    implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
-    implementation 'com.hmomeni.verticalslider:verticalslider:0.1.4'
-}
+    implementation project(':base')
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.giphy.sdk:ui:2.3.8'
 
-repositories {
-    mavenCentral()
+    implementation('androidx.palette:palette:1.0.0')
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

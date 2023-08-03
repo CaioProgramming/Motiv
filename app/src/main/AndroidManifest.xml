@@ -8,17 +8,16 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name="com.ilustris.motiv.base.MotivApplication"
+        android:name=".MotivApplication"
+        android:supportsRtl="true"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Motiv.Theme">
+        android:theme="@style/Theme.Motiv">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
@@ -27,37 +26,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.about.AboutFragment" />
         <activity
             android:name="com.ilustris.motiv.base.ErrorActivity"
             android:clearTaskOnLaunch="true"
             android:process=":report_process" />
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.facebook.CustomTabActivity"
+
+        <receiver
+            android:name="com.ilustris.widgets.service.MotivWidgetReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.ilustris.motiv.manager.ManagerActivity"
-            android:label="Motiv+" />
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/motiv_widget_info" />
+        </receiver>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_notification" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimaryDark" />
+            android:resource="@color/material_deeppurpleA100" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8016530757684172~1819154029" />
@@ -80,11 +70,11 @@
                 android:resource="@drawable/ic_notification" />
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/colorPrimaryDark" />
+                android:resource="@color/material_deeppurpleA200" />
         </provider>
 
         <service
-            android:name="com.ilustris.motiv.base.utils.Notifications"
+            android:name="com.ilustris.motiv.base.service.NotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
