@@ -1,4 +1,4 @@
-package com.ilustris.motiv.foundation.utils
+package com.ilustris.motiv.base.utils
 
 import android.content.Context
 import android.util.Log
@@ -37,6 +37,7 @@ object FontUtils {
 
     fun getFamily(context: Context, index: Int): String {
         val array = context.resources.getStringArray(R.array.family_names)
+        Log.i(javaClass.simpleName, "getFamily: querying font $index")
         return try {
             array[index]
         } catch (e: Exception) {

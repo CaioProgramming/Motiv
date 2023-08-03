@@ -1,8 +1,8 @@
 package com.ilustris.motiv.base.service.helper
 
 import android.content.Context
+import android.util.Log
 import java.io.File
-import java.net.URI
 import javax.inject.Inject
 
 
@@ -25,9 +25,10 @@ class RadioHelper @Inject constructor(private val context: Context) {
 
     fun getRadioFile(url: String?): File? {
         return try {
-            File(URI.create(url))
+            File(url)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.e(javaClass.simpleName, "getRadioFile: Error finding file for $url")
             null
         }
     }

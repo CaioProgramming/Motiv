@@ -5,6 +5,9 @@ buildscript {
         hiltVersion = '2.44'
         kotlinVersion = '1.7.0'
         applicationName = 'Cuccina'
+        compileSdkVersion = 34
+        targetSdkVersion = 34
+        minSdkVersion = 26
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'

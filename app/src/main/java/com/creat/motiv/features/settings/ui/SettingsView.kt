@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
@@ -81,6 +82,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.creat.motiv.MainActivity
 import com.creat.motiv.R
 import com.creat.motiv.features.settings.presentation.SettingsViewModel
@@ -94,6 +100,7 @@ import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 import com.ilustris.motiv.foundation.ui.theme.gradientAnimation
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
 import com.ilustris.motiv.foundation.ui.theme.grayGradients
+import com.ilustris.motiv.foundation.ui.theme.motivGradient
 import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
 import com.ilustris.motiv.foundation.ui.theme.radioIconModifier
 import com.ilustris.motiv.foundation.ui.theme.textColorGradient
@@ -114,6 +121,10 @@ fun SettingsView(navController: NavController) {
     val viewModelState = viewModel.viewModelState.observeAsState()
     val user = viewModel.user.observeAsState()
     val userMetadata = viewModel.userMetadata.observeAsState()
+    val rewardAd = viewModel.adAvailable.observeAsState().value
+    var thankYouMessage by remember {
+        mutableStateOf<String?>(null)
+    }
     var profileBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)
     }
@@ -141,7 +152,7 @@ fun SettingsView(navController: NavController) {
     val coverBackColor = animateColorAsState(
         animationSpec = tween(1000),
         targetValue = coverBitmap?.asAndroidBitmap()?.paletteFromBitMap()?.colorsFromPalette()
-            ?.first() ?: MaterialTheme.colorScheme.surface
+            ?.first() ?: MaterialTheme.colorScheme.surface, label = ""
     )
 
     val context = LocalContext.current
@@ -501,10 +512,66 @@ fun SettingsView(navController: NavController) {
 
                 }
 
+
+
+                if (rewardAd != null) {
+
+                    fun showReward() {
+                        rewardAd.show(context as AppCompatActivity) {
+                            thankYouMessage = "Obrigado por apoiar o Motiv!"
+                        }
+                    }
+
+                    item {
+                        Button(
+                            onClick = {
+                                showReward()
+                            },
+                            shape = RoundedCornerShape(defaultRadius),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.background.copy(
+                                    alpha = 0.4f
+                                ),
+                                contentColor = MaterialColor.White
+                            ),
+                            modifier = Modifier.padding(rowPadding)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                                    .gradientFill(motivGradient()),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+
+                                Column {
+                                    Text(
+                                        text = "Apoio",
+                                        style = MaterialTheme.typography.headlineSmall.copy(
+                                            fontWeight = FontWeight.SemiBold,
+                                        ),
+                                        textAlign = TextAlign.Start,
+                                        modifier = Modifier.padding(horizontal = textPadding)
+                                    )
+
+                                    Text(
+                                        text = "Quer ajudar o projeto? Veja apenas um anúncio e nos ajude a crescer.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        textAlign = TextAlign.Start,
+                                        modifier = Modifier.padding(horizontal = textPadding)
+                                    )
+                                }
+
+                            }
+                        }
+                    }
+                }
+
                 item {
-                    Button(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                         shape = RoundedCornerShape(defaultRadius),
                         colors = ButtonDefaults.buttonColors(
                             contentColor = MaterialTheme.colorScheme.onSurface,
@@ -526,6 +593,8 @@ fun SettingsView(navController: NavController) {
                         )
                     }
                 }
+
+
                 item {
 
                     Button(
@@ -628,63 +697,17 @@ fun SettingsView(navController: NavController) {
                 }
             }
 
-            AnimatedVisibility(
-                visible = dialogState.value,
-                enter = fadeIn(),
-                exit = scaleOut()
-            ) {
-                AlertDialog(modifier = Modifier
-                    .wrapContentSize()
-                    .padding(16.dp)
-                    .background(
-                        MaterialTheme.colorScheme.surface, RoundedCornerShape(
-                            defaultRadius
-                        )
-                    ),
-                    shape = RoundedCornerShape(defaultRadius),
-                    title = {
-                        Text(text = "Tem certeza?")
-                    },
-                    text = {
-                        Text(text = "Você não poderá recuperar sua conta depois de excluí-la.")
-                    },
-                    dismissButton = {
-                        Text(text = "Cancelar", textAlign = TextAlign.Center, modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                dialogState.value = false
-                            }
-                            .clip(RoundedCornerShape(defaultRadius))
-                            .padding(8.dp))
-                    },
-                    confirmButton = {
-                        Button(
-                            onClick = {
-                                viewModel.deleteAccount()
-                                dialogState.value = false
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(defaultRadius),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialColor.Red500,
-                                contentColor = MaterialColor.White
-                            )
-                        ) {
-                            Text(
-                                text = "Excluir", textAlign = TextAlign.Center, modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                            )
-                        }
-                    },
-                    properties = DialogProperties(
-                        dismissOnBackPress = true,
-                        dismissOnClickOutside = true
-                    ),
-                    onDismissRequest = {
-                        dialogState.value = false
-                    })
+            DeleteAccountDialog(visible = dialogState.value, dismiss = {
+                dialogState.value = false
+            }, confirmDelete = {
+                viewModel.deleteAccount()
+                dialogState.value = false
+            })
+
+            ThanksDialog(visible = thankYouMessage != null) {
+                thankYouMessage = null
             }
+
         }
 
 
@@ -707,5 +730,139 @@ fun SettingsView(navController: NavController) {
             context.startActivity(Intent(context, MainActivity::class.java))
             activity?.finish()
         }
+    }
+}
+
+@Composable
+fun DeleteAccountDialog(visible: Boolean, dismiss: () -> Unit, confirmDelete: () -> Unit) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(),
+        exit = scaleOut()
+    ) {
+        AlertDialog(modifier = Modifier
+            .wrapContentSize()
+            .padding(16.dp)
+            .background(
+                MaterialTheme.colorScheme.surface, RoundedCornerShape(
+                    defaultRadius
+                )
+            ),
+            shape = RoundedCornerShape(defaultRadius),
+            title = {
+                Text(text = "Tem certeza?")
+            },
+            text = {
+                Text(text = "Você não poderá recuperar sua conta depois de excluí-la.")
+            },
+            dismissButton = {
+                Text(text = "Cancelar", textAlign = TextAlign.Center, modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        dismiss()
+                    }
+                    .clip(RoundedCornerShape(defaultRadius))
+                    .padding(8.dp))
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        confirmDelete()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(defaultRadius),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialColor.Red500,
+                        contentColor = MaterialColor.White
+                    )
+                ) {
+                    Text(
+                        text = "Excluir", textAlign = TextAlign.Center, modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    )
+                }
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            ),
+            onDismissRequest = {
+                dismiss()
+            })
+    }
+}
+
+@Composable
+fun ThanksDialog(visible: Boolean, requestDismiss: () -> Unit) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(),
+        exit = scaleOut()
+    ) {
+        AlertDialog(modifier = Modifier
+            .wrapContentSize()
+            .padding(16.dp)
+            .background(
+                MaterialTheme.colorScheme.surface, RoundedCornerShape(
+                    defaultRadius
+                )
+            ),
+            shape = RoundedCornerShape(defaultRadius),
+            title = {
+                Text(
+                    text = "Muito obrigado!",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    val waveAnimation by rememberLottieComposition(
+                        LottieCompositionSpec.RawRes(R.raw.astronaut)
+                    )
+
+                    val waveProgress by animateLottieCompositionAsState(
+                        waveAnimation,
+                        isPlaying = true,
+                        iterations = LottieConstants.IterateForever
+                    )
+
+                    LottieAnimation(
+                        waveAnimation,
+                        waveProgress,
+                        modifier = Modifier
+                            .size(200.dp)
+                    )
+                    Text(text = "Seu aopio é muito importante para nós. Agradecemos de coração! ❤💜")
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        requestDismiss()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(defaultRadius),
+                    colors = ButtonDefaults.outlinedButtonColors()
+                ) {
+                    Text(
+                        text = "Voltar", textAlign = TextAlign.Center, modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    )
+                }
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            ),
+            onDismissRequest = {
+                requestDismiss()
+            })
     }
 }

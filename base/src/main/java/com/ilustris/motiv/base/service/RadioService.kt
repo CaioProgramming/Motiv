@@ -1,6 +1,7 @@
 package com.ilustris.motiv.base.service
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
@@ -22,27 +23,41 @@ class RadioService @Inject constructor(
     override var requireAuth = true
     private fun storageInstance() = FirebaseStorage.getInstance()
     private fun storageReference() = FirebaseStorage.getInstance().reference.child(dataPath)
-
     private fun getRadioLocalFile(radioId: String) =
         radioHelper.getRadioFile(preferencesService.getStringValue(radioId))
 
-
     override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): BaseBean? =
         dataSnapshot.toObject(Radio::class.java)?.apply {
-            preferencesService.getStringValue(dataSnapshot.id)?.let {
-                url = it
-            } ?: kotlin.run {
-            }
             id = dataSnapshot.id
+            val localRadioFile = getRadioLocalFile(dataSnapshot.id)
+            if (localRadioFile == null) {
+                saveRadioFile(this)
+            } else {
+                url = localRadioFile.absolutePath
+            }
         }
+
+    private fun saveRadioFile(radio: Radio) {
+        val radioFile = radioHelper.createRadioFile(radio.name)
+        val downloadReference = storageInstance().getReferenceFromUrl(radio.url)
+        downloadReference.getFile(radioFile).addOnCompleteListener {
+            if (it.isSuccessful) {
+                preferencesService.editPreference(radio.id, radioFile.path).run {
+                    Log.i(javaClass.simpleName, "saveRadioFile: $this")
+                }
+            }
+        }
+    }
 
     override fun deserializeDataSnapshot(dataSnapshot: QueryDocumentSnapshot): BaseBean =
         dataSnapshot.toObject(Radio::class.java).apply {
-            preferencesService.getStringValue(dataSnapshot.id)?.let {
-                url = it
-            } ?: kotlin.run {
-            }
             id = dataSnapshot.id
+            val localRadioFile = getRadioLocalFile(dataSnapshot.id)
+            if (localRadioFile == null) {
+                saveRadioFile(this)
+            } else {
+                url = localRadioFile.absolutePath
+            }
         }
 
 

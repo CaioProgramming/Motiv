@@ -9,10 +9,6 @@ plugins {
 
 
 android {
-
-    namespace 'com.creat.motiv'
-    compileSdk 33
-
     def versionPropsFile = file('version.properties')
     Properties versionProps = new Properties()
 
@@ -30,11 +26,14 @@ android {
     def vName = "Motiv.${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
 
 
+    namespace 'com.creat.motiv'
+    compileSdk 34
+
     defaultConfig {
         renderscriptSupportModeEnabled true
         applicationId "com.creat.motiv"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode versionNumber
         versionName vName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -71,6 +70,10 @@ android {
         compose true
     }
 
+    kapt {
+        correctErrorTypes true
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion '1.3.2'
     }
@@ -88,6 +91,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':base')
     implementation project(':manager')
+    implementation project(':widgets')
+
     implementation('androidx.palette:palette-ktx:1.0.0')
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"

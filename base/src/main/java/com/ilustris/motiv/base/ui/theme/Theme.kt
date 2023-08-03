@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.palette.graphics.Palette
 import com.creat.motiv.base.R
-import com.ilustris.motiv.foundation.utils.FontUtils
+import com.ilustris.motiv.base.utils.FontUtils
 
 private val DarkColorScheme = darkColorScheme(
     primary = MaterialColor.Purple500,

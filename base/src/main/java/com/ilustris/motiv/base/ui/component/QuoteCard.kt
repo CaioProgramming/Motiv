@@ -370,43 +370,47 @@ fun QuoteCard(
         }
 
 
-        Row(
-            modifier = Modifier
-                .padding(8.dp)
-                .graphicsLayer(alpha = imageAlpha)
-        ) {
-
-
-            IconButton(
-                onClick = { quoteActions?.onLike(quoteDataModel) },
-                modifier = Modifier.padding(4.dp)
+        quoteActions?.let {
+            Row(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .graphicsLayer(alpha = imageAlpha)
             ) {
-                val isFavorite = quoteDataModel.isFavorite
-                val color =
-                    if (isFavorite) MaterialColor.Red500 else MaterialTheme.colorScheme.onBackground
-                val icon = if (isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder
-                Icon(
-                    icon,
-                    contentDescription = "Curtir",
-                    tint = color,
-                )
-            }
 
-            IconButton(
-                onClick = {
-                    sharing = true
-                    captureController.capture()
-                }, modifier = Modifier.padding(4.dp)
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.share),
-                    contentDescription = "Compartilhar",
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
 
+                IconButton(
+                    onClick = { quoteActions.onLike(quoteDataModel) },
+                    modifier = Modifier.padding(4.dp)
+                ) {
+                    val isFavorite = quoteDataModel.isFavorite
+                    val color =
+                        if (isFavorite) MaterialColor.Red500 else MaterialTheme.colorScheme.onBackground
+                    val icon =
+                        if (isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder
+                    Icon(
+                        icon,
+                        contentDescription = "Curtir",
+                        tint = color,
+                    )
+                }
+
+                IconButton(
+                    onClick = {
+                        sharing = true
+                        captureController.capture()
+                    }, modifier = Modifier.padding(4.dp)
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.share),
+                        contentDescription = "Compartilhar",
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+            }
         }
+
 
     }
 

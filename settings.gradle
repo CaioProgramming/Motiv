@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 include ':app'
 include ':base'
 include ':manager'
+include ':widgets'

@@ -75,6 +75,7 @@ import com.ilustris.motiv.base.data.model.TextProperties
 import com.ilustris.motiv.base.data.model.Window
 import com.ilustris.motiv.base.ui.component.AnimatedText
 import com.ilustris.motiv.base.utils.CustomWindow
+import com.ilustris.motiv.base.utils.FontUtils
 import com.ilustris.motiv.base.utils.borderForWindow
 import com.ilustris.motiv.base.utils.buildFont
 import com.ilustris.motiv.base.utils.buildStyleShadow
@@ -90,7 +91,6 @@ import com.ilustris.motiv.foundation.ui.theme.managerGradient
 import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
 import com.ilustris.motiv.foundation.ui.theme.textColorGradient
 import com.ilustris.motiv.foundation.utils.ColorUtils
-import com.ilustris.motiv.foundation.utils.FontUtils
 import com.ilustris.motiv.manager.giphy.GiphySelectDialog
 import com.ilustris.motiv.manager.styles.ui.form.presentation.NewStyleViewModel
 import com.ilustris.motiv.manager.styles.utils.StyleUtils

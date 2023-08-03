@@ -10,7 +10,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.ilustris.motiv.base.data.model.DEFAULT_FONT_FAMILY
 import com.ilustris.motiv.base.data.model.Style
-import com.ilustris.motiv.foundation.utils.FontUtils
 import com.ilustris.motiv.foundation.utils.getFontStyle
 import com.ilustris.motiv.foundation.utils.getFontWeight
 import com.ilustris.motiv.foundation.utils.getTextAlign
@@ -43,6 +42,14 @@ fun String?.buildTextColor() = if (this == null) {
     Color(android.graphics.Color.parseColor(this))
 }
 
+@Composable
+fun String?.buildBackColor() = if (this == null) {
+    MaterialTheme.colorScheme.surface
+} else {
+    Color(android.graphics.Color.parseColor(this))
+}
+
+
 fun Style?.buildFont(context: Context): FontFamily {
     return if (this == null) FontUtils.getFontFamily(DEFAULT_FONT_FAMILY) else {
         if (textProperties != null) {
@@ -55,6 +62,7 @@ fun Style?.buildFont(context: Context): FontFamily {
         }
     }
 }
+
 
 fun Style?.getFontStyle() = if (this == null) androidx.compose.ui.text.font.FontStyle.Normal else {
     textProperties?.let { it.fontStyle.getFontStyle() } ?: fontStyle.getFontStyle()

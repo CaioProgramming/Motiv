@@ -1,4 +1,4 @@
-package com.ilustris.motiv.base.utils
+package com.ilustris.motiv.base.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,9 +11,10 @@ import androidx.core.app.NotificationCompat
 import com.creat.motiv.base.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ilustris.motiv.base.utils.INITIALACT
 import java.util.Objects
 
-class Notifications : FirebaseMessagingService() {
+class NotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         notification(remoteMessage)

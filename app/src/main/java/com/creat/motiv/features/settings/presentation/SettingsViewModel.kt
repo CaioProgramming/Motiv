@@ -5,11 +5,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.creat.motiv.features.settings.data.UserMetaData
+import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ilustris.motiv.base.data.model.Cover
 import com.ilustris.motiv.base.data.model.Icon
 import com.ilustris.motiv.base.data.model.User
+import com.ilustris.motiv.base.service.AdService
 import com.ilustris.motiv.base.service.UserService
 import com.silent.ilustriscore.core.model.BaseViewModel
 import com.silent.ilustriscore.core.model.DataException
@@ -23,12 +25,22 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     application: Application,
-    override val service: UserService
+    override val service: UserService,
+    val adService: AdService
 ) : BaseViewModel<User>(application) {
 
 
     val user = MutableLiveData<User>(null)
     val userMetadata = MutableLiveData<UserMetaData?>(null)
+    val adAvailable = MutableLiveData<RewardedAd?>(null)
+
+    private fun fetchAdAvailability() {
+        adService.getRewardedAd {
+            if (it.isSuccess) {
+                adAvailable.postValue(it.success.data)
+            }
+        }
+    }
 
     fun fetchUser() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,6 +58,7 @@ class SettingsViewModel @Inject constructor(
                 user.postValue(null)
             }
         }
+        fetchAdAvailability()
     }
 
     fun FirebaseUser.buildMetadaData(admin: Boolean) {

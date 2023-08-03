@@ -40,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -99,20 +98,7 @@ fun RadioSheet(
         }
     }
 
-    var speed by remember {
-        mutableFloatStateOf(0.5f)
-    }
-    val wavesAnimation by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.waves)
-    )
 
-    val waveProgress by animateLottieCompositionAsState(
-        wavesAnimation,
-        speed = speed * 0.5f,
-        isPlaying = true,
-        restartOnPlay = false,
-        iterations = LottieConstants.IterateForever
-    )
 
 
 
@@ -169,9 +155,9 @@ fun RadioSheet(
                 )
 
                 var collapsedAlphaAnimation =
-                    animateFloatAsState(targetValue = if (!expanded) 1f else 0f, tween(1000))
+                    animateFloatAsState(targetValue = if (!expanded) 1f else 0f, tween(500))
                 var expandedAlphaAnimation =
-                    animateFloatAsState(targetValue = if (expanded) 1f else 0f, tween(1000))
+                    animateFloatAsState(targetValue = if (expanded) 1f else 0f, tween(500))
 
 
                 WaveAnimation(
@@ -213,7 +199,7 @@ fun RadioSheet(
                         horizontalArrangement = Arrangement.Center
                     ) {
 
-                        val iconSize = 64.dp
+                        val iconSize = 48.dp
 
                         IconButton(onClick = {
                             visualizerBitmap = null

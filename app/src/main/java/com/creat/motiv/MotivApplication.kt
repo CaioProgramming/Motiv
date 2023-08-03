@@ -9,6 +9,6 @@ class MotivApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        setupResources(this)
+        setupResources()
     }
 }

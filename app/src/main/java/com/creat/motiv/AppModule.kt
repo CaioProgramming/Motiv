@@ -2,6 +2,7 @@ package com.creat.motiv
 
 import android.content.Context
 import com.firebase.ui.auth.AuthUI
+import com.ilustris.motiv.base.service.AdService
 import com.ilustris.motiv.base.service.CoverService
 import com.ilustris.motiv.base.service.IconService
 import com.ilustris.motiv.base.service.PreferencesService
@@ -27,6 +28,9 @@ object AppModule {
     @Provides
     fun providesPreferencesService(@ApplicationContext context: Context) =
         PreferencesService(context)
+
+    @Provides
+    fun providesAdService(@ApplicationContext context: Context) = AdService(context)
 
     @Provides
     fun providesRadioHelper(

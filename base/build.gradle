@@ -8,11 +8,11 @@ plugins {
 
 android {
     namespace 'com.creat.motiv.base'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        minSdkVersion 26
-        targetSdkVersion 33
+        minSdk 26
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,21 +56,21 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     implementation 'androidx.compose.ui:ui-text-google-fonts:1.4.3'
-    implementation('androidx.palette:palette:1.0.0')
+    implementation('androidx.palette:palette-ktx:1.0.0')
     implementation "dev.shreyaspatil:capturable:1.0.3"
 
 
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    api 'com.google.firebase:firebase-auth:22.0.0'
+    api 'com.google.firebase:firebase-auth:22.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.firebaseui:firebase-ui-database:8.0.0'
     implementation 'com.google.firebase:firebase-storage:20.2.1'
-    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.firebase:firebase-messaging:23.2.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
@@ -91,8 +91,9 @@ dependencies {
     api 'androidx.compose.ui:ui-tooling:1.4.3'
     api 'androidx.compose.material3:material3'
     api 'androidx.compose.runtime:runtime-livedata:1.5.0-beta02'
+
     api 'com.github.mcginty:material-colors:1.1.0'
-    api 'com.google.android.gms:play-services-ads:21.1.0'
+    api 'com.google.android.gms:play-services-ads:22.2.0'
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
 
 

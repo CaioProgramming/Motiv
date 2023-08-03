@@ -1,6 +1,9 @@
 package com.ilustris.motiv.base.utils
 
-import android.content.Context
+import android.app.Application
+import android.app.Application.getProcessName
+import android.os.Build
+import android.webkit.WebView
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.creat.motiv.base.R
 import com.google.android.gms.ads.MobileAds
@@ -15,14 +18,18 @@ const val NEW_PIC = "NEW_PIC"
 const val GIPHY_KEY = "spg4bqTWAgxiLjsh4VEnQ1Embqpg3dmk"
 const val INITIALACT = "com.creat.motiv.MainActivity"
 
-fun setupResources(context: Context) {
+fun Application.setupResources() {
 
-    MobileAds.initialize(context)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val process = getProcessName()
+        if (packageName != process) WebView.setDataDirectorySuffix(process)
+    }
+    MobileAds.initialize(this)
     CaocConfig.Builder.create()
         .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
         .trackActivities(true)
         .errorActivity(ErrorActivity::class.java).apply()
-    val testDevices = context.resources.getStringArray(R.array.devices)
+    val testDevices = applicationContext.resources.getStringArray(R.array.devices)
     RequestConfiguration.Builder().setTestDeviceIds(testDevices.toList()).build().apply {
         MobileAds.setRequestConfiguration(this)
     }
