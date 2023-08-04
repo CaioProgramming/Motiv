@@ -25,11 +25,13 @@ class NewStyleViewModel @Inject constructor(
     }
 
     fun updateStyleBackColor(colorItem: String) {
+
+
         newStyle.postValue(
             newStyle.value?.copy(
                 styleProperties = newStyle.value?.styleProperties?.copy(
                     backgroundColor = colorItem
-                )
+                ) ?: StyleProperties(backgroundColor = colorItem)
             )
         )
     }

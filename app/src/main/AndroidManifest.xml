@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.Motiv">
+        android:theme="@style/Theme.Motiv.Splash">
         <activity
             android:name=".MainActivity"
             android:exported="true"

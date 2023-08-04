@@ -1,9 +1,7 @@
 package com.ilustris.motiv.base.utils
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,6 +45,7 @@ import com.skydoves.landscapist.glide.GlideImage
 fun Window.CustomWindow(
     modifier: Modifier,
     brush: Brush,
+    author: String? = null,
     user: User? = null
 ) {
     val arrangement = Arrangement.SpaceBetween
@@ -87,7 +85,7 @@ fun Window.CustomWindow(
                     }
                     val fontFamily = FontUtils.getFontFamily("Lato")
 
-                    val title = "${user?.name ?: stringResource(id = R.string.app_name)}.app"
+                    val title = "${author ?: stringResource(id = R.string.app_name)}.app"
                     Text(
                         text = title,
                         modifier = Modifier
@@ -121,7 +119,7 @@ fun Window.CustomWindow(
 
                 Window.CLASSIC -> {
                     val fontFamily = FontUtils.getFontFamily("VT323")
-                    val title = "${user?.name ?: stringResource(id = R.string.app_name)}.exe"
+                    val title = "${author ?: stringResource(id = R.string.app_name)}.exe"
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -182,21 +180,7 @@ fun PreviewWindow() {
 
 }
 
-@Composable
-fun Window.dividerForWindow() {
 
-    val targetColor = when (this) {
-        Window.CLASSIC -> MaterialTheme.colorScheme.onBackground
-        Window.MODERN -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-    }
-    val targetThickness = when (this) {
-        Window.CLASSIC -> 2.dp
-        Window.MODERN -> 1.dp
-    }
-    val borderThick = animateDpAsState(targetValue = targetThickness, tween(1000, easing = EaseIn))
-    val color = animateColorAsState(targetValue = targetColor, tween(1000, easing = EaseIn))
-    Divider(modifier = Modifier.fillMaxWidth(), color = color.value, thickness = borderThick.value)
-}
 
 fun Modifier.borderForWindow(window: Window?, brush: Brush): Modifier = composed {
 
@@ -212,12 +196,12 @@ fun Modifier.borderForWindow(window: Window?, brush: Brush): Modifier = composed
         Window.MODERN, null -> background(
             MaterialTheme.colorScheme.surface,
             shape = shapeForWindows
+        ).border(
+            width = 1.dp,
+            brush = brush,
+            shape = shapeForWindows
         )
-            .border(
-                width = 1.dp,
-                brush = brush,
-                shape = shapeForWindows
-            )
+
     }
 }
 

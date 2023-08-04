@@ -76,11 +76,13 @@ import com.ilustris.motiv.base.ui.component.QuoteCard
 import com.ilustris.motiv.foundation.ui.component.CardBackground
 import com.ilustris.motiv.foundation.ui.component.ReportDialog
 import com.ilustris.motiv.foundation.ui.presentation.QuoteActions
+import com.ilustris.motiv.foundation.ui.theme.brushsFromPalette
 import com.ilustris.motiv.foundation.ui.theme.colorFill
 import com.ilustris.motiv.foundation.ui.theme.colorsFromPalette
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 import com.ilustris.motiv.foundation.ui.theme.gradientAnimation
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
+import com.ilustris.motiv.foundation.ui.theme.grayGradients
 import com.ilustris.motiv.foundation.ui.theme.motivBrushes
 import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
 import com.ilustris.motiv.foundation.ui.theme.quoteCardModifier
@@ -156,7 +158,7 @@ fun ProfileView(userID: String? = null, navController: NavController) {
     val favoriteCount = viewModel.favoriteCount.value ?: 0
     val coverAlpha = animateFloatAsState(
         targetValue = if (canShowData()) 1f else 0f,
-        tween(2000, delayMillis = 1000, easing = FastOutSlowInEasing)
+        tween(2000, delayMillis = 1500, easing = EaseIn)
     )
     val coverBackColor = animateColorAsState(
         animationSpec = tween(1000),
@@ -217,18 +219,30 @@ fun ProfileView(userID: String? = null, navController: NavController) {
         )
     }
 
-    Box {
-        val avatarSize = 150.dp
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .gradientFill(
+                coverBitmap
+                    ?.asAndroidBitmap()
+                    ?.paletteFromBitMap()
+                    ?.brushsFromPalette() ?: grayGradients()
+            )
+            .blur(10.dp, BlurredEdgeTreatment.Unbounded)
+            .colorFill(MaterialTheme.colorScheme.background.copy(alpha = 0.4f))
+            .alpha(coverAlpha.value)
+    ) {
         CardBackground(
             loadAsGif = false,
             modifier = Modifier
                 .fillMaxSize()
                 .blur(50.dp, BlurredEdgeTreatment.Unbounded)
-                .alpha(coverAlpha.value)
-                .colorFill(coverBackColor.value),
+                .alpha(coverAlpha.value),
             backgroundImage = user?.cover
         ) {
-            coverBitmap = it
+            if (coverBitmap == null) {
+                coverBitmap = it
+            }
         }
     }
     LazyColumn(

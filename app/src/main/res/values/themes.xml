@@ -2,4 +2,11 @@
 <resources>
 
     <style name="Theme.Motiv" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="Theme.Motiv.Splash" parent="Theme.SplashScreen">
+        <item name="android:animatedImageDrawable">@drawable/ic_saturn_and_other_planets_primary
+        </item>
+        <item name="windowSplashScreenBackground">@color/material_deeppurpleA400</item>
+        <item name="postSplashScreenTheme">@style/Theme.Motiv</item>
+    </style>
 </resources>

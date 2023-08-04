@@ -3,5 +3,7 @@
     android:initialLayout="@layout/glance_default_loading_layout"
     android:minWidth="300dp"
     android:minHeight="70dp"
+    android:description="@string/app_name"
+    android:resizeMode="none"
     android:updatePeriodMillis="180000"
-    android:widgetCategory="home_screen"></appwidget-provider>
+    android:widgetCategory="home_screen" />

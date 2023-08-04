@@ -92,6 +92,7 @@ dependencies {
     implementation project(':base')
     implementation project(':manager')
     implementation project(':widgets')
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 
     implementation('androidx.palette:palette-ktx:1.0.0')
     implementation "com.google.dagger:hilt-android:$hiltVersion"
@@ -107,7 +108,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
 
-task updateVersion {
+tasks.register('updateVersion') {
     doLast {
         println "Updating version"
 
@@ -115,8 +116,7 @@ task updateVersion {
         Properties versionProps = new Properties()
         if (versionPropsFile.canRead()) {
             versionProps.load(new FileInputStream(versionPropsFile))
-        }
-        else {
+        } else {
 
             throw new GradleException("Could not read version.properties!")
         }
