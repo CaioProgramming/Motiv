@@ -169,8 +169,8 @@ class MainActivity : AppCompatActivity() {
 
                 AnimatedVisibility(
                     visible = currentUser != null,
-                    enter = fadeIn(tween(1500)),
-                    exit = fadeOut()
+                    enter = fadeIn(tween(1500, delayMillis = 500)),
+                    exit = fadeOut(tween(2000, easing = EaseIn))
                 ) {
                     fun isScaffoldExpanded() = scaffoldState.bottomSheetState.isExpanded
 

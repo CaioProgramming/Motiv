@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Motiv" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <style name="Theme.Motiv.Splash" parent="Theme.SplashScreen">
-        <item name="android:animatedImageDrawable">@drawable/ic_saturn_and_other_planets_primary
+        <item name="android:animatedImageDrawable" tools:targetApi="r">
+            @drawable/ic_saturn_and_other_planets_primary
         </item>
         <item name="windowSplashScreenBackground">@color/material_deeppurpleA400</item>
         <item name="postSplashScreenTheme">@style/Theme.Motiv</item>

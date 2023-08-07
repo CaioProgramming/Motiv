@@ -2,6 +2,7 @@
 
 package com.ilustris.motivcompose.features.profile.ui
 
+import ai.atick.material.MaterialColor
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -52,9 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -148,9 +147,6 @@ fun ProfileView(userID: String? = null, navController: NavController) {
     var coverBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)
     }
-    val currentSheet = remember {
-        mutableStateOf<ProfileSheet?>(null)
-    }
 
     fun canShowData() = userQuotes.isNotEmpty()
 
@@ -222,29 +218,15 @@ fun ProfileView(userID: String? = null, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .gradientFill(
+            .background(
                 coverBitmap
                     ?.asAndroidBitmap()
                     ?.paletteFromBitMap()
                     ?.brushsFromPalette() ?: grayGradients()
             )
-            .blur(10.dp, BlurredEdgeTreatment.Unbounded)
-            .colorFill(MaterialTheme.colorScheme.background.copy(alpha = 0.4f))
+            .colorFill(MaterialColor.Black.copy(alpha = 0.8f))
             .alpha(coverAlpha.value)
-    ) {
-        CardBackground(
-            loadAsGif = false,
-            modifier = Modifier
-                .fillMaxSize()
-                .blur(50.dp, BlurredEdgeTreatment.Unbounded)
-                .alpha(coverAlpha.value),
-            backgroundImage = user?.cover
-        ) {
-            if (coverBitmap == null) {
-                coverBitmap = it
-            }
-        }
-    }
+    )
     LazyColumn(
         state = listState,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -264,7 +246,9 @@ fun ProfileView(userID: String? = null, navController: NavController) {
                             .alpha(coverAlpha.value),
                         backgroundImage = user.cover
                     ) {
-                        coverBitmap = it
+                        if (coverBitmap == null) {
+                            coverBitmap = it
+                        }
                     }
 
                     Column(

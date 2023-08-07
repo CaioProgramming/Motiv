@@ -33,6 +33,7 @@
 
         <receiver
             android:name="com.ilustris.widgets.service.MotivWidgetReceiver"
+            android:label="Random quotes"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

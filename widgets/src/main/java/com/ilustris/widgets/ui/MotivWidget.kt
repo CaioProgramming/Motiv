@@ -13,6 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Column
 import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.service.QuoteService
@@ -26,17 +28,13 @@ class MotivWidget(private val quoteService: QuoteService, private val quoteHelpe
     GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
+
+
             var randomQuote by remember {
                 mutableStateOf<QuoteDataModel?>(null)
             }
             val coroutineScope = rememberCoroutineScope()
 
-
-            if (randomQuote == null) {
-                MotivWidgetLoader()
-            } else {
-                QuoteCardWidget(quoteDataModel = randomQuote!!)
-            }
 
             suspend fun mapQuote(quote: Quote) {
                 coroutineScope.launch {
@@ -61,7 +59,16 @@ class MotivWidget(private val quoteService: QuoteService, private val quoteHelpe
                 }
             }
 
-
+            Column(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalAlignment = Alignment.End
+            ) {
+                if (randomQuote == null) {
+                    MotivWidgetLoader()
+                } else {
+                    QuoteCardWidget(quoteDataModel = randomQuote!!)
+                }
+            }
 
             LaunchedEffect(Unit) {
                 if (randomQuote == null) {

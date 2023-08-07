@@ -311,6 +311,7 @@ fun QuoteCard(
                         .fillMaxWidth()
                         .graphicsLayer(alpha = imageAlpha),
                     brush = brush,
+                    author = quoteDataModel.quoteBean.author,
                     user = quoteDataModel.user
                 )
                 Box {

@@ -90,6 +90,11 @@ fun MotivTheme(
             val window = (view.context as Activity).window
             window.statusBarColor =
                 if (darkTheme) MaterialColor.Black.toArgb() else MaterialColor.White.toArgb()
+            window.navigationBarColor =
+                if (darkTheme) MaterialColor.Black.toArgb() else MaterialColor.White.toArgb()
+
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !darkTheme
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
@@ -273,7 +278,7 @@ fun Modifier.gradientFill(brush: Brush) =
         }
 
 fun Modifier.colorFill(color: Color) =
-    graphicsLayer(alpha = 0.90f)
+    graphicsLayer(alpha = 0.95f)
         .drawWithCache {
             onDrawWithContent {
                 drawContent()
