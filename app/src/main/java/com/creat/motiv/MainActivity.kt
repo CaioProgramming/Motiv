@@ -194,12 +194,13 @@ class MainActivity : AppCompatActivity() {
                     val coroutineScope = rememberCoroutineScope()
                     var playing by remember { mutableStateOf(false) }
 
-                    fun requestPausePlay(playing: Boolean) {
-                        if (playing) {
+                    fun requestPausePlay(continuePlay: Boolean) {
+                        if (!continuePlay) {
                             mediaPlayer.pause()
                         } else {
                             mediaPlayer.start()
                         }
+                        playing = continuePlay
                     }
 
 

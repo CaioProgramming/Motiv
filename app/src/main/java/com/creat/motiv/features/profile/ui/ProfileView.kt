@@ -55,6 +55,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -72,19 +73,16 @@ import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.navigation.AppNavigation
 import com.ilustris.motiv.base.ui.component.QuoteCard
+import com.ilustris.motiv.base.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.component.CardBackground
 import com.ilustris.motiv.foundation.ui.component.ReportDialog
-import com.ilustris.motiv.foundation.ui.presentation.QuoteActions
-import com.ilustris.motiv.foundation.ui.theme.brushsFromPalette
 import com.ilustris.motiv.foundation.ui.theme.colorFill
 import com.ilustris.motiv.foundation.ui.theme.colorsFromPalette
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 import com.ilustris.motiv.foundation.ui.theme.gradientAnimation
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
-import com.ilustris.motiv.foundation.ui.theme.grayGradients
 import com.ilustris.motiv.foundation.ui.theme.motivBrushes
 import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
-import com.ilustris.motiv.foundation.ui.theme.quoteCardModifier
 import com.ilustris.motiv.foundation.ui.theme.radioIconModifier
 import com.skydoves.landscapist.glide.GlideImage
 import com.skydoves.landscapist.glide.GlideImageState
@@ -174,6 +172,12 @@ fun ProfileView(userID: String? = null, navController: NavController) {
         label = "tabBackColors"
     )
 
+    val bitmapColor =
+        coverBitmap?.asAndroidBitmap()?.paletteFromBitMap()?.colorsFromPalette()?.first()
+            ?: MaterialTheme.colorScheme.primary
+    val backColor =
+        Brush.verticalGradient(listOf(bitmapColor, MaterialTheme.colorScheme.background))
+
 
     LaunchedEffect(userQuotes) {
         Log.i("Profile view", "ProfileView: showing ${userQuotes.size} quotes")
@@ -218,12 +222,7 @@ fun ProfileView(userID: String? = null, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                coverBitmap
-                    ?.asAndroidBitmap()
-                    ?.paletteFromBitMap()
-                    ?.brushsFromPalette() ?: grayGradients()
-            )
+            .background(backColor)
             .colorFill(MaterialColor.Black.copy(alpha = 0.8f))
             .alpha(coverAlpha.value)
     )
@@ -407,9 +406,8 @@ fun ProfileView(userID: String? = null, navController: NavController) {
                     animationEnabled = false,
                     quoteDataModel = userQuotes[it],
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                        .wrapContentSize()
-                        .quoteCardModifier(),
+                        .fillMaxWidth()
+                        .height(400.dp),
                     quoteActions = quoteActions
                 )
             }

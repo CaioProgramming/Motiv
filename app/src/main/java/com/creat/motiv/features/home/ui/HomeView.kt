@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -72,11 +71,10 @@ import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.navigation.AppNavigation
 import com.ilustris.motiv.base.ui.component.QuoteCard
+import com.ilustris.motiv.base.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.component.ReportDialog
-import com.ilustris.motiv.foundation.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.theme.MotivTitle
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
-import com.ilustris.motiv.foundation.ui.theme.quoteCardModifier
 
 @Composable
 fun HomeView(navController: NavController) {
@@ -235,19 +233,17 @@ fun HomeView(navController: NavController) {
             if (it) {
                 VerticalPager(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
                         .fillMaxSize()
                         .animateContentSize(tween(1500, easing = LinearOutSlowInEasing)),
                     state = pagerState,
-                    pageSpacing = 8.dp,
+                    pageSpacing = 4.dp,
                     userScrollEnabled = true,
                     pageContent = { index ->
                         Box(modifier = Modifier.fillMaxSize()) {
                             QuoteCard(
                                 quotes[index],
                                 modifier = Modifier
-                                    .wrapContentSize()
-                                    .quoteCardModifier()
+                                    .fillMaxSize()
                                     .align(Alignment.Center),
                                 quoteActions = quoteActions,
                             )

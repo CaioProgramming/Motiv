@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +51,6 @@ fun Window.CustomWindow(
     Column(
         modifier
             .fillMaxWidth()
-            .background(brush, RoundedCornerShape(topEnd = defaultRadius, topStart = defaultRadius))
             .animateContentSize(tween(1000, easing = EaseIn))
     ) {
         Row(
@@ -90,7 +88,7 @@ fun Window.CustomWindow(
                         text = title,
                         modifier = Modifier
                             .padding()
-                            .graphicsLayer(alpha = 0.6f),
+                            .gradientFill(brush),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Light,
                         fontFamily = fontFamily,
@@ -133,7 +131,7 @@ fun Window.CustomWindow(
                                     alignment = Alignment.Center,
                                 ),
                                 modifier = Modifier
-                                    .size(24.dp)
+                                    .size(32.dp)
                                     .clip(CircleShape)
                                     .border(
                                         1.dp,
@@ -145,19 +143,43 @@ fun Window.CustomWindow(
                         }
                         Text(
                             text = title,
-                            modifier = Modifier.padding(start = 8.dp),
-                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .gradientFill(brush),
+                            style = MaterialTheme.typography.bodyLarge,
                             fontFamily = fontFamily,
                         )
                     }
 
 
-                    Icon(
-                        Icons.Rounded.Close,
-                        contentDescription = stringResource(id = R.string.app_name),
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(24.dp)
-                    )
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier
+                            .graphicsLayer(alpha = 0.6f)
+                            .gradientFill(brush)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_pixel_heart),
+                            contentDescription = stringResource(id = R.string.app_name),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_half_pixel_heart),
+                            contentDescription = stringResource(id = R.string.app_name),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_pixel_outline_heart),
+                            contentDescription = stringResource(id = R.string.app_name),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+
+
                 }
             }
 
@@ -172,7 +194,10 @@ fun PreviewWindow() {
     Column {
         Window.values().forEach {
             it.CustomWindow(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(defaultRadius)),
                 motivGradient(),
             )
         }
@@ -187,16 +212,13 @@ fun Modifier.borderForWindow(window: Window?, brush: Brush): Modifier = composed
     val shapeForWindows = RoundedCornerShape(defaultRadius)
 
     when (window) {
-        Window.CLASSIC -> background(MaterialTheme.colorScheme.background, shapeForWindows).border(
+        Window.CLASSIC -> border(
             width = 2.dp,
             brush = brush,
             shape = shapeForWindows
         )
 
-        Window.MODERN, null -> background(
-            MaterialTheme.colorScheme.surface,
-            shape = shapeForWindows
-        ).border(
+        Window.MODERN, null -> border(
             width = 1.dp,
             brush = brush,
             shape = shapeForWindows
