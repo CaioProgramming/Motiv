@@ -1,13 +1,17 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 
 package com.ilustris.manager.feature.styles.ui.form.ui
 
 import ai.atick.material.MaterialColor
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,11 +20,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,18 +49,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.creat.motiv.manager.R
@@ -68,36 +64,26 @@ import com.ilustris.motiv.base.data.model.AnimationProperties
 import com.ilustris.motiv.base.data.model.AnimationTransition
 import com.ilustris.motiv.base.data.model.BlendMode
 import com.ilustris.motiv.base.data.model.FontStyle
+import com.ilustris.motiv.base.data.model.Quote
+import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.data.model.ShadowStyle
+import com.ilustris.motiv.base.data.model.Style
 import com.ilustris.motiv.base.data.model.StyleProperties
 import com.ilustris.motiv.base.data.model.TextAlignment
 import com.ilustris.motiv.base.data.model.TextProperties
 import com.ilustris.motiv.base.data.model.Window
-import com.ilustris.motiv.base.ui.component.AnimatedText
-import com.ilustris.motiv.base.utils.CustomWindow
+import com.ilustris.motiv.base.utils.BuildQuoteWindow
 import com.ilustris.motiv.base.utils.FontUtils
-import com.ilustris.motiv.base.utils.borderForWindow
-import com.ilustris.motiv.base.utils.buildFont
-import com.ilustris.motiv.base.utils.buildStyleShadow
-import com.ilustris.motiv.base.utils.getFontStyle
-import com.ilustris.motiv.base.utils.getFontWeight
-import com.ilustris.motiv.base.utils.getTextAlign
-import com.ilustris.motiv.base.utils.getTextColor
-import com.ilustris.motiv.foundation.ui.theme.brushsFromPalette
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
 import com.ilustris.motiv.foundation.ui.theme.grayGradients
 import com.ilustris.motiv.foundation.ui.theme.managerGradient
-import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
 import com.ilustris.motiv.foundation.ui.theme.textColorGradient
 import com.ilustris.motiv.foundation.utils.ColorUtils
 import com.ilustris.motiv.manager.giphy.GiphySelectDialog
 import com.ilustris.motiv.manager.styles.ui.form.presentation.NewStyleViewModel
 import com.ilustris.motiv.manager.styles.utils.StyleUtils
 import com.silent.ilustriscore.core.model.ViewModelBaseState
-import com.skydoves.landscapist.glide.GlideImage
-import com.skydoves.landscapist.glide.GlideImageState
-import com.skydoves.landscapist.glide.GlideRequestType
 
 @Composable
 fun NewStyleScreen(navController: NavController) {
@@ -112,20 +98,11 @@ fun NewStyleScreen(navController: NavController) {
         mutableStateOf(FormOptions.values().first())
     }
 
-    val brush =
-        gifBitmap?.asAndroidBitmap()?.paletteFromBitMap()?.brushsFromPalette() ?: managerGradient()
     val context = LocalContext.current
-    var exampleText by remember {
-        mutableStateOf(StyleUtils.getExampleQuote())
-    }
-    var textyStyle = MaterialTheme.typography.headlineLarge.copy(
-        color = style.getTextColor(),
-        shadow = style.buildStyleShadow(),
-        textAlign = style.getTextAlign(),
-        fontFamily = style.buildFont(context),
-        fontStyle = style.getFontStyle(),
-        fontWeight = style.getFontWeight()
-    )
+
+
+    fun isAnimationEnabled() = currentOption == FormOptions.STYLE
+
 
     fun showGifDialog() {
         GiphySelectDialog(context) {
@@ -171,169 +148,107 @@ fun NewStyleScreen(navController: NavController) {
         }
     }
 
-    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        val (topBar, card, actions, sheetMenu) = createRefs()
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .constrainAs(topBar) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-                .background(MaterialTheme.colorScheme.background)
-                .fillMaxWidth()
-        ) {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    Icons.Rounded.KeyboardArrowLeft,
-                    contentDescription = "Voltar",
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
-
-            Text(
-                text = "Novo estilo",
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold
-            )
-
-            Button(
-                onClick = { style?.let { viewModel.saveData(it) } },
-                colors = ButtonDefaults.textButtonColors(contentColor = MaterialColor.Blue500)
-            ) {
-                Text(text = "Salvar", style = MaterialTheme.typography.bodyMedium)
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .constrainAs(card) {
-                    top.linkTo(topBar.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(actions.top)
-                    height = Dimension.fillToConstraints
-                }
-                .padding(16.dp)
-                .fillMaxWidth()
-                .borderForWindow(style?.styleProperties?.customWindow, brush = brush)
-                .animateContentSize(tween(1000, easing = LinearEasing))
-        ) {
-            style?.styleProperties?.customWindow?.CustomWindow(
-                modifier = Modifier.fillMaxWidth(),
-                brush = brush
-            )
-            Box(
+    LazyColumn {
+        item {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
                     .fillMaxWidth()
-                    .fillMaxHeight(),
-                contentAlignment = Alignment.Center
             ) {
-                GlideImage(
-                    imageModel = { style?.backgroundURL },
-                    glideRequestType = GlideRequestType.GIF,
-                    onImageStateChanged = {
-                        if (it is GlideImageState.Success && gifBitmap == null) {
-                            gifBitmap = it.imageBitmap
-                        }
-                    },
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable {
-                            showGifDialog()
-                        }
-                        .clip(
-                            RoundedCornerShape(
-                                bottomEnd = defaultRadius,
-                                bottomStart = defaultRadius
-                            )
-                        )
-                        .border(
-                            brush = brush,
-                            width = 2.dp,
-                            shape = RoundedCornerShape(
-                                bottomEnd = defaultRadius,
-                                bottomStart = defaultRadius
-                            )
-                        )
-                )
-
-
-                AnimatedText(
-                    text = exampleText,
-                    animationEnabled = currentOption == FormOptions.STYLE,
-                    animation = style?.animationProperties?.animation ?: AnimationOptions.TYPE,
-                    transitionMethod = style?.animationProperties?.transition
-                        ?: AnimationTransition.LETTERS,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
-                        .animateContentSize(tween(1500, easing = EaseIn))
-                        .graphicsLayer(alpha = 0.99f),
-                    textStyle = textyStyle
-                )
-            }
-        }
-
-
-        LazyColumn(modifier = Modifier
-            .constrainAs(actions) {
-                bottom.linkTo(sheetMenu.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-            .heightIn(min = 0.dp, max = 300.dp)
-            .animateContentSize(tween(1500, easing = EaseIn))
-            .fillMaxWidth()) {
-            item {
-                getOptionsView()
-            }
-        }
-
-        LazyRow(modifier = Modifier
-            .constrainAs(sheetMenu) {
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-            .padding(16.dp)
-            .fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            items(FormOptions.values().size) {
-                val option = FormOptions.values()[it]
-                val isSelected = option == currentOption
-
-                IconButton(
-                    onClick = {
-                        currentOption = option
-                    }, modifier = Modifier
-                        .padding(8.dp)
-                        .background(
-                            brush = if (isSelected) managerGradient() else grayGradients(),
-                            shape = CircleShape
-                        )
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            shape = CircleShape
-                        )
-                ) {
-                    val itemColor =
-                        animateColorAsState(targetValue = if (isSelected) MaterialColor.White else MaterialTheme.colorScheme.onBackground)
+                IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
-                        painter = painterResource(id = option.icon),
-                        contentDescription = null,
-                        tint = itemColor.value
+                        Icons.Rounded.KeyboardArrowLeft,
+                        contentDescription = "Voltar",
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+
+                Text(
+                    text = "Novo estilo",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Button(
+                    onClick = { style?.let { viewModel.saveData(it) } },
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialColor.Blue500)
+                ) {
+                    Text(text = "Salvar", style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
+
+        item {
+            Column(
+                modifier = Modifier
+                    .clickable {
+                        showGifDialog()
+                    }
+                    .fillMaxWidth()
+                    .height(500.dp)
+                    .padding(16.dp)
+            ) {
+                AnimatedContent(targetState = style, transitionSpec = {
+                    fadeIn() togetherWith fadeOut()
+                }, label = "Style animation") {
+                    val quoteDataModel = QuoteDataModel(
+                        quoteBean = Quote(
+                            author = "Sunny",
+                            quote = StyleUtils.getExampleQuote()
+                        ),
+                        user = null,
+                        style = it ?: Style.fallbackStyle
+                    )
+                    BuildQuoteWindow(
+                        quoteDataModel = quoteDataModel,
+                        animationEnabled = isAnimationEnabled()
                     )
                 }
             }
         }
-    }
 
-    LaunchedEffect(style?.animationProperties) {
-        exampleText = StyleUtils.getExampleQuote(exampleText)
+        stickyHeader {
+            LazyRow(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                    .fillMaxWidth(), horizontalArrangement = Arrangement.Center
+            ) {
+                items(FormOptions.values().size) {
+                    val option = FormOptions.values()[it]
+                    val isSelected = option == currentOption
+
+                    IconButton(
+                        onClick = {
+                            currentOption = option
+                        }, modifier = Modifier
+                            .padding(8.dp)
+                            .background(
+                                brush = if (isSelected) managerGradient() else grayGradients(),
+                                shape = CircleShape
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                shape = CircleShape
+                            )
+                    ) {
+                        val itemColor =
+                            animateColorAsState(targetValue = if (isSelected) MaterialColor.White else MaterialTheme.colorScheme.onBackground)
+                        Icon(
+                            painter = painterResource(id = option.icon),
+                            contentDescription = null,
+                            tint = itemColor.value
+                        )
+                    }
+                }
+            }
+        }
+
+        item {
+            getOptionsView()
+        }
     }
 
     LaunchedEffect(state) {
@@ -867,6 +782,7 @@ fun Window.getIconForWindow(): Int {
     return when (this) {
         Window.CLASSIC -> R.drawable.ic_retro
         Window.MODERN -> R.drawable.ic_modern
+        else -> com.creat.motiv.base.R.drawable.ic_saturn_and_other_planets_primary
     }
 }
 

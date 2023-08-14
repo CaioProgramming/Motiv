@@ -29,13 +29,16 @@ fun AnimatedText(
     modifier: Modifier,
     textStyle: TextStyle,
     animationEnabled: Boolean = true,
-    animation: AnimationOptions = AnimationOptions.TYPE,
-    transitionMethod: AnimationTransition = AnimationTransition.LETTERS,
+    animationOption: AnimationOptions? = null,
+    transitionMethod: AnimationTransition? = null,
     onCompleteType: (() -> Unit)? = null
 ) {
 
+    val animation = animationOption ?: AnimationOptions.TYPE
+    val transition = transitionMethod ?: AnimationTransition.LETTERS
+
     fun indexMultiplier(): List<Int> {
-        return when (transitionMethod) {
+        return when (transition) {
             AnimationTransition.LETTERS -> {
                 text.toCharArray().mapIndexed { index, c -> index }
             }
@@ -54,7 +57,7 @@ fun AnimatedText(
     var style by remember { mutableStateOf(textStyle) }
 
     var textIndex by remember { mutableIntStateOf(0) }
-    var listIndex by remember { mutableStateOf(0) }
+    var listIndex by remember { mutableIntStateOf(0) }
     val indexList = indexMultiplier()
 
     val textPart = try {

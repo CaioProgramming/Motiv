@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.GoogleFont
@@ -106,7 +107,7 @@ fun MotivTheme(
     )
 }
 
-val defaultRadius = 15.dp
+val defaultRadius = 10.dp
 val radioRadius = 30.dp
 
 val fontProvider = GoogleFont.Provider(
@@ -162,6 +163,9 @@ fun getDeviceWidth() = LocalConfiguration.current.screenWidthDp
 
 @Composable
 fun getDeviceHeight() = LocalConfiguration.current.screenHeightDp
+
+@Composable
+fun isPreviewMode() = LocalInspectionMode.current
 
 @Composable
 fun Bitmap.paletteFromBitMap() = Palette.from(this).generate()

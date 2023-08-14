@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseUser
 import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.Style
 import com.ilustris.motiv.base.service.QuoteService
@@ -24,25 +25,34 @@ class NewQuoteViewModel @Inject constructor(
     var newQuote = MutableLiveData(Quote())
     var currentStyle = MutableLiveData<Style?>(null)
     var styles = MutableLiveData<List<Style>>()
-
+    var user = MutableLiveData<FirebaseUser>()
 
     fun updateQuoteText(text: String) {
-        this.newQuote.postValue(newQuote.value?.copy(quote = text))
+        this.newQuote.postValue(newQuote.value?.copy(quote = text) ?: Quote(quote = text))
     }
 
     fun updateQuoteAuthor(authorText: String) {
-        this.newQuote.postValue(newQuote.value?.copy(author = authorText))
+        this.newQuote.postValue(
+            newQuote.value?.copy(author = authorText) ?: Quote(author = authorText)
+        )
+    }
+
+    fun updateQuoteStyle(styleId: String) {
+        this.newQuote.postValue(newQuote.value?.copy(style = styleId) ?: Quote(style = styleId))
     }
 
     fun updateStyle(styleId: String) {
         this.newQuote.postValue(newQuote.value?.copy(style = styleId))
         styles.value?.let {
-            currentStyle.postValue(it.find { style -> style.id == styleId })
+            val selectedStyle = it.find { style -> style.id == styleId }
+            currentStyle.postValue(selectedStyle)
+            updateQuoteStyle(styleId)
         }
     }
 
     fun getStyles(isPosted: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
+            user.postValue(getUser())
             styleService.getAllData(orderBy = "font").run {
                 if (isSuccess) {
                     styles.postValue(success.data as List<Style>)

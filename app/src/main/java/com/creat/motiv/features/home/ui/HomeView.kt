@@ -1,7 +1,7 @@
 @file:OptIn(
     ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class
+    ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class
 )
 
 package com.creat.motiv.features.home.ui
@@ -22,7 +22,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -80,7 +79,7 @@ import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 fun HomeView(navController: NavController) {
 
     val homeViewModel = hiltViewModel<HomeViewModel>()
-    val quotes = homeViewModel.quotes
+    val quotes = homeViewModel.quotes.observeAsState(emptyList()).value
     var query by remember {
         mutableStateOf("")
     }
@@ -239,17 +238,12 @@ fun HomeView(navController: NavController) {
                     pageSpacing = 4.dp,
                     userScrollEnabled = true,
                     pageContent = { index ->
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            QuoteCard(
-                                quotes[index],
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .align(Alignment.Center),
-                                quoteActions = quoteActions,
-                            )
-                        }
-
-
+                        QuoteCard(
+                            quotes[index],
+                            loadAsGif = true,
+                            modifier = Modifier.fillMaxSize(),
+                            quoteActions = quoteActions,
+                        )
                     }
                 )
             }
