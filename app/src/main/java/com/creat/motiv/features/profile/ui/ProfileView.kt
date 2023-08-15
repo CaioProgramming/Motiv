@@ -2,6 +2,7 @@
 
 package com.ilustris.motivcompose.features.profile.ui
 
+import ai.atick.material.MaterialColor
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -52,10 +53,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -73,9 +73,9 @@ import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.navigation.AppNavigation
 import com.ilustris.motiv.base.ui.component.QuoteCard
+import com.ilustris.motiv.base.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.component.CardBackground
 import com.ilustris.motiv.foundation.ui.component.ReportDialog
-import com.ilustris.motiv.foundation.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.theme.colorFill
 import com.ilustris.motiv.foundation.ui.theme.colorsFromPalette
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
@@ -83,7 +83,6 @@ import com.ilustris.motiv.foundation.ui.theme.gradientAnimation
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
 import com.ilustris.motiv.foundation.ui.theme.motivBrushes
 import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
-import com.ilustris.motiv.foundation.ui.theme.quoteCardModifier
 import com.ilustris.motiv.foundation.ui.theme.radioIconModifier
 import com.skydoves.landscapist.glide.GlideImage
 import com.skydoves.landscapist.glide.GlideImageState
@@ -146,9 +145,6 @@ fun ProfileView(userID: String? = null, navController: NavController) {
     var coverBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)
     }
-    val currentSheet = remember {
-        mutableStateOf<ProfileSheet?>(null)
-    }
 
     fun canShowData() = userQuotes.isNotEmpty()
 
@@ -156,7 +152,7 @@ fun ProfileView(userID: String? = null, navController: NavController) {
     val favoriteCount = viewModel.favoriteCount.value ?: 0
     val coverAlpha = animateFloatAsState(
         targetValue = if (canShowData()) 1f else 0f,
-        tween(2000, delayMillis = 1000, easing = FastOutSlowInEasing)
+        tween(2000, delayMillis = 1500, easing = EaseIn)
     )
     val coverBackColor = animateColorAsState(
         animationSpec = tween(1000),
@@ -175,6 +171,12 @@ fun ProfileView(userID: String? = null, navController: NavController) {
         tween(1000, easing = EaseIn, delayMillis = 100),
         label = "tabBackColors"
     )
+
+    val bitmapColor =
+        coverBitmap?.asAndroidBitmap()?.paletteFromBitMap()?.colorsFromPalette()?.first()
+            ?: MaterialTheme.colorScheme.primary
+    val backColor =
+        Brush.verticalGradient(listOf(bitmapColor, MaterialTheme.colorScheme.background))
 
 
     LaunchedEffect(userQuotes) {
@@ -217,20 +219,13 @@ fun ProfileView(userID: String? = null, navController: NavController) {
         )
     }
 
-    Box {
-        val avatarSize = 150.dp
-        CardBackground(
-            loadAsGif = false,
-            modifier = Modifier
-                .fillMaxSize()
-                .blur(50.dp, BlurredEdgeTreatment.Unbounded)
-                .alpha(coverAlpha.value)
-                .colorFill(coverBackColor.value),
-            backgroundImage = user?.cover
-        ) {
-            coverBitmap = it
-        }
-    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backColor)
+            .colorFill(MaterialColor.Black.copy(alpha = 0.8f))
+            .alpha(coverAlpha.value)
+    )
     LazyColumn(
         state = listState,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -250,7 +245,9 @@ fun ProfileView(userID: String? = null, navController: NavController) {
                             .alpha(coverAlpha.value),
                         backgroundImage = user.cover
                     ) {
-                        coverBitmap = it
+                        if (coverBitmap == null) {
+                            coverBitmap = it
+                        }
                     }
 
                     Column(
@@ -409,9 +406,8 @@ fun ProfileView(userID: String? = null, navController: NavController) {
                     animationEnabled = false,
                     quoteDataModel = userQuotes[it],
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                        .wrapContentSize()
-                        .quoteCardModifier(),
+                        .fillMaxWidth()
+                        .height(400.dp),
                     quoteActions = quoteActions
                 )
             }

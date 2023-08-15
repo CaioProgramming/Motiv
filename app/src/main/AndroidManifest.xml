@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.Motiv">
+        android:theme="@style/Theme.Motiv.Splash">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -28,11 +28,13 @@
         </activity>
         <activity
             android:name="com.ilustris.motiv.base.ErrorActivity"
+            android:theme="@style/Theme.Motiv"
             android:clearTaskOnLaunch="true"
             android:process=":report_process" />
 
         <receiver
             android:name="com.ilustris.widgets.service.MotivWidgetReceiver"
+            android:label="Random quotes"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -49,7 +49,7 @@ fun MotivNavigationGraph(
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = AppNavigation.HOME.route,
+        startDestination = AppNavigation.SETTINGS.route,
     ) {
         AppNavigation.values().forEach { item ->
             val args = item.arguments.map { navArgument(it) { type = NavType.StringType } }

@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.ui.component.MotivLoader
 import com.ilustris.motiv.base.ui.component.QuoteCard
-import com.ilustris.motiv.foundation.ui.presentation.QuoteActions
+import com.ilustris.motiv.base.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 import com.ilustris.motiv.foundation.ui.theme.quoteCardModifier
 import com.ilustris.motiv.manager.home.presentation.ManagerViewModel

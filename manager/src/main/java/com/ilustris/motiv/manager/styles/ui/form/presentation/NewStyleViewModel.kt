@@ -18,18 +18,27 @@ class NewStyleViewModel @Inject constructor(
     override val service: StyleService
 ) : BaseViewModel<Style>(application) {
 
-    val newStyle = MutableLiveData(Style())
+    val newStyle = MutableLiveData(
+        Style(
+            styleProperties = StyleProperties(),
+            animationProperties = AnimationProperties(),
+            shadowStyle = ShadowStyle(),
+            textProperties = TextProperties()
+        )
+    )
 
     fun updateStyleColor(colorItem: String) {
         newStyle.postValue(newStyle.value?.copy(textColor = colorItem))
     }
 
     fun updateStyleBackColor(colorItem: String) {
+
+
         newStyle.postValue(
             newStyle.value?.copy(
                 styleProperties = newStyle.value?.styleProperties?.copy(
                     backgroundColor = colorItem
-                )
+                ) ?: StyleProperties(backgroundColor = colorItem)
             )
         )
     }

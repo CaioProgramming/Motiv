@@ -1,7 +1,7 @@
 @file:OptIn(
     ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class
+    ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class
 )
 
 package com.creat.motiv.features.home.ui
@@ -28,7 +28,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -71,18 +71,18 @@ import com.creat.motiv.features.home.presentation.ShareState
 import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.navigation.AppNavigation
+import com.ilustris.motiv.base.ui.component.MotivLoader
 import com.ilustris.motiv.base.ui.component.QuoteCard
+import com.ilustris.motiv.base.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.component.ReportDialog
-import com.ilustris.motiv.foundation.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.theme.MotivTitle
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
-import com.ilustris.motiv.foundation.ui.theme.quoteCardModifier
 
 @Composable
 fun HomeView(navController: NavController) {
 
     val homeViewModel = hiltViewModel<HomeViewModel>()
-    val quotes = homeViewModel.quotes
+    val quotes = homeViewModel.quotes.observeAsState(emptyList()).value
     var query by remember {
         mutableStateOf("")
     }
@@ -235,29 +235,32 @@ fun HomeView(navController: NavController) {
             if (it) {
                 VerticalPager(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
                         .fillMaxSize()
                         .animateContentSize(tween(1500, easing = LinearOutSlowInEasing)),
                     state = pagerState,
-                    pageSpacing = 8.dp,
+                    pageSpacing = 4.dp,
                     userScrollEnabled = true,
                     pageContent = { index ->
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            QuoteCard(
-                                quotes[index],
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .quoteCardModifier()
-                                    .align(Alignment.Center),
-                                quoteActions = quoteActions,
-                            )
-                        }
-
-
+                        QuoteCard(
+                            quotes[index],
+                            loadAsGif = true,
+                            modifier = Modifier.fillMaxSize(),
+                            quoteActions = quoteActions,
+                        )
                     }
                 )
             }
+        }
 
+        AnimatedVisibility(
+            visible = quotes.isEmpty(),
+            label = "Loader",
+            enter = fadeIn(tween(1500)),
+            exit = fadeOut()
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                MotivLoader(modifier = Modifier.size(50.dp))
+            }
         }
 
         ReportDialog(visible = reportVisibility.value, reportFeedback = {

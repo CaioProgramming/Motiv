@@ -24,7 +24,36 @@ data class Style(
     var textProperties: TextProperties? = null,
     var shadowStyle: ShadowStyle? = null,
     var styleProperties: StyleProperties? = null,
-) : BaseBean(id)
+) : BaseBean(id) {
+
+
+    companion object {
+        val fallbackStyle = Style(
+            backgroundURL = "https://media.giphy.com/media/5vgHoMiknf5iJl8FH1/giphy.gif",
+            animationProperties = AnimationProperties(
+                animation = AnimationOptions.TYPE,
+                transition = AnimationTransition.LETTERS
+            ),
+            shadowStyle = ShadowStyle(
+                radius = 0f,
+                dx = 0f,
+                dy = 0f,
+                shadowColor = "#000000",
+            ),
+            textProperties = TextProperties(
+                textColor = "#ffffff",
+                textAlignment = TextAlignment.CENTER,
+                fontStyle = FontStyle.REGULAR,
+                fontFamily = "Roboto"
+            ),
+            styleProperties = StyleProperties(
+                backgroundColor = "#000000",
+                customWindow = Window.MODERN
+            )
+        )
+    }
+
+}
 
 enum class TextAlignment {
     CENTER, START, END, JUSTIFY
@@ -78,6 +107,10 @@ enum class AnimationTransition(val title: String) {
 }
 
 enum class Window {
-    CLASSIC, MODERN
+    CLASSIC, MODERN, FRAME
 }
+
+
+
+
 

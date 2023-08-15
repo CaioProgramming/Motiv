@@ -2,6 +2,7 @@
 
 package com.ilustris.motiv.foundation.ui.component
 
+import ai.atick.material.MaterialColor
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
@@ -11,6 +12,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.ilustris.motiv.base.ui.component.MotivLoader
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
+import com.ilustris.motiv.foundation.ui.theme.isPreviewMode
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.skydoves.landscapist.glide.GlideImageState
@@ -60,32 +64,42 @@ fun CardBackground(
             targetValue = if (imageLoaded) 1f else 0f,
             tween(1500)
         )
-        GlideImage(
-            imageModel = { image },
+        if (!isPreviewMode()) {
+            GlideImage(
+                imageModel = { image },
+                imageOptions = ImageOptions(
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center,
+                    colorFilter = ColorFilter.tint(
+                        colorFilter ?: Color.Transparent,
+                        blendMode = BlendMode.SrcAtop
+                    )
+                ),
+                loading = {
+                    MotivLoader(modifier = Modifier.align(Alignment.Center))
+                },
+                glideRequestType = if (loadAsGif) GlideRequestType.GIF else GlideRequestType.DRAWABLE,
+                modifier = modifier
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.3f))
+                    .alpha(imageAlpha)
+                    .blur(imageBlur),
+                onImageStateChanged = {
+                    imageLoaded = it is GlideImageState.Success
+                    if (it is GlideImageState.Success) {
+                        it.imageBitmap?.let(loadedBitmap)
+                    }
+                },
+            )
+        } else {
+            Box(
+                modifier
+                    .fillMaxSize()
+                    .background(MaterialColor.Gray300.copy(alpha = 0.4f))
+                    .alpha(imageAlpha)
+                    .blur(imageBlur)
+            )
+        }
 
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.Center,
-                colorFilter = ColorFilter.tint(
-                    colorFilter ?: Color.Transparent,
-                    blendMode = BlendMode.SrcAtop
-                )
-            ),
-            loading = {
-                MotivLoader(modifier = Modifier.align(Alignment.Center))
-            },
-            glideRequestType = if (loadAsGif) GlideRequestType.GIF else GlideRequestType.DRAWABLE,
-            modifier = modifier
-                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.3f))
-                .alpha(imageAlpha)
-                .blur(imageBlur),
-            onImageStateChanged = {
-                imageLoaded = it is GlideImageState.Success
-                if (it is GlideImageState.Success) {
-                    it.imageBitmap?.let(loadedBitmap)
-                }
-            },
-        )
     }
 
 }

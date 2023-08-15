@@ -1,4 +1,4 @@
-package com.ilustris.motiv.foundation.ui.presentation
+package com.ilustris.motiv.base.ui.presentation
 
 import android.graphics.Bitmap
 import com.ilustris.motiv.base.data.model.QuoteDataModel

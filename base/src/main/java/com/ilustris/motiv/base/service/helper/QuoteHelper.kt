@@ -5,19 +5,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.FileProvider
-import com.ilustris.motiv.base.data.model.AnimationOptions
-import com.ilustris.motiv.base.data.model.AnimationProperties
-import com.ilustris.motiv.base.data.model.AnimationTransition
-import com.ilustris.motiv.base.data.model.FontStyle
 import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
-import com.ilustris.motiv.base.data.model.ShadowStyle
 import com.ilustris.motiv.base.data.model.Style
-import com.ilustris.motiv.base.data.model.StyleProperties
-import com.ilustris.motiv.base.data.model.TextAlignment
-import com.ilustris.motiv.base.data.model.TextProperties
+import com.ilustris.motiv.base.data.model.Style.Companion.fallbackStyle
 import com.ilustris.motiv.base.data.model.User
-import com.ilustris.motiv.base.data.model.Window
 import com.ilustris.motiv.base.service.StyleService
 import com.ilustris.motiv.base.service.UserService
 import com.silent.ilustriscore.core.model.DataException
@@ -31,29 +23,6 @@ class QuoteHelper @Inject constructor(
     private val styleService: StyleService
 ) {
 
-    private val fallbackStyle = Style(
-        backgroundURL = "https://media.giphy.com/media/5vgHoMiknf5iJl8FH1/giphy.gif",
-        animationProperties = AnimationProperties(
-            animation = AnimationOptions.TYPE,
-            transition = AnimationTransition.LETTERS
-        ),
-        shadowStyle = ShadowStyle(
-            radius = 0f,
-            dx = 0f,
-            dy = 0f,
-            shadowColor = "#000000",
-        ),
-        textProperties = TextProperties(
-            textColor = "#ffffff",
-            textAlignment = TextAlignment.CENTER,
-            fontStyle = FontStyle.REGULAR,
-            fontFamily = "Roboto"
-        ),
-        styleProperties = StyleProperties(
-            backgroundColor = "#000000",
-            customWindow = Window.MODERN
-        )
-    )
 
     suspend fun mapQuoteToQuoteDataModel(
         quote: Quote,
@@ -91,15 +60,16 @@ class QuoteHelper @Inject constructor(
         }
     }
 
-    suspend fun List<Quote>.mapQuoteToQuoteDataModel(
+    suspend fun mapQuoteToQuoteDataModel(
+        quotes: List<Quote>,
         isManager: Boolean = false
     ): ServiceResult<DataException, List<QuoteDataModel>> {
 
         return try {
-            if (isEmpty()) {
+            if (quotes.isEmpty()) {
                 return ServiceResult.Error(DataException.NOTFOUND)
             }
-            val quoteModels = map { quote ->
+            val quoteModels = quotes.map { quote ->
                 val user = try {
                     userService.getSingleData(quote.userID).success.data as User
                 } catch (e: Exception) {
@@ -108,7 +78,7 @@ class QuoteHelper @Inject constructor(
                 val style = try {
                     styleService.getSingleData(quote.style).success.data as Style
                 } catch (e: Exception) {
-                    null
+                    fallbackStyle
                 }
                 QuoteDataModel(
                     quote,

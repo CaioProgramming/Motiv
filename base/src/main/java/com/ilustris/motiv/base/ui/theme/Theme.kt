@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.GoogleFont
@@ -90,6 +91,11 @@ fun MotivTheme(
             val window = (view.context as Activity).window
             window.statusBarColor =
                 if (darkTheme) MaterialColor.Black.toArgb() else MaterialColor.White.toArgb()
+            window.navigationBarColor =
+                if (darkTheme) MaterialColor.Black.toArgb() else MaterialColor.White.toArgb()
+
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !darkTheme
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
@@ -101,7 +107,7 @@ fun MotivTheme(
     )
 }
 
-val defaultRadius = 15.dp
+val defaultRadius = 10.dp
 val radioRadius = 30.dp
 
 val fontProvider = GoogleFont.Provider(
@@ -157,6 +163,9 @@ fun getDeviceWidth() = LocalConfiguration.current.screenWidthDp
 
 @Composable
 fun getDeviceHeight() = LocalConfiguration.current.screenHeightDp
+
+@Composable
+fun isPreviewMode() = LocalInspectionMode.current
 
 @Composable
 fun Bitmap.paletteFromBitMap() = Palette.from(this).generate()
@@ -273,7 +282,7 @@ fun Modifier.gradientFill(brush: Brush) =
         }
 
 fun Modifier.colorFill(color: Color) =
-    graphicsLayer(alpha = 0.90f)
+    graphicsLayer(alpha = 0.95f)
         .drawWithCache {
             onDrawWithContent {
                 drawContent()

@@ -14,6 +14,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -30,7 +31,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,8 +47,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.creat.motiv.features.radio.ui.RadioSheet
@@ -58,6 +59,7 @@ import com.ilustris.motiv.base.data.model.Radio
 import com.ilustris.motiv.base.navigation.AppNavigation
 import com.ilustris.motiv.base.ui.component.MotivLoader
 import com.ilustris.motiv.foundation.ui.theme.MotivTheme
+import com.ilustris.motiv.foundation.ui.theme.colorFill
 import com.ilustris.motiv.foundation.ui.theme.defaultRadius
 import com.ilustris.motiv.foundation.ui.theme.gradientAnimation
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
@@ -85,6 +87,7 @@ class MainActivity : AppCompatActivity() {
             }
             mediaPlayer.reset()
             mediaPlayer.setDataSource(this, Uri.parse(radio.url))
+            mediaPlayer.isLooping = true
             mediaPlayer.prepareAsync()
             mediaPlayer.setVolume(0.2f, 0.2f)
             mediaPlayer.setOnPreparedListener {
@@ -104,6 +107,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+        var loading = true
+        splashScreen.setKeepOnScreenCondition {
+            loading
+        }
+
+        delayedFunction(3500) {
+            loading = false
+        }
         super.onCreate(savedInstanceState)
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
@@ -157,31 +169,38 @@ class MainActivity : AppCompatActivity() {
 
                 AnimatedVisibility(
                     visible = currentUser != null,
-                    enter = fadeIn(tween(1500)),
-                    exit = fadeOut()
+                    enter = fadeIn(tween(1500, delayMillis = 500)),
+                    exit = fadeOut(tween(2000, easing = EaseIn))
                 ) {
-                    val context = LocalContext.current
-                    var viewBlur by remember { mutableStateOf(0.dp) }
+                    fun isScaffoldExpanded() = scaffoldState.bottomSheetState.isExpanded
+
                     val blurAnimation = animateDpAsState(
-                        targetValue = viewBlur, tween(1500, easing = EaseIn),
+                        targetValue = if (isScaffoldExpanded()) 10.dp else 0.dp,
+                        tween(1500, easing = EaseIn),
                         label = "mainBlurAnimation"
                     )
 
-                    fun isScaffoldExpanded() = scaffoldState.bottomSheetState.isExpanded
+                    val viewTintAnimation = animateColorAsState(
+                        targetValue = if (isScaffoldExpanded()) Color.Black.copy(0.6f) else Color.Transparent,
+                        tween(500),
+                        label = "mainViewTintAnimation"
+                    )
+
                     val sheetBackgroundAlpha = animateFloatAsState(
-                        targetValue = if (isScaffoldExpanded()) 0.75f else 0f,
-                        tween(1500),
+                        targetValue = if (isScaffoldExpanded()) 0.8f else 0f,
+                        tween(500),
                         label = "scaffoldBackgroundAlpha"
                     )
                     val coroutineScope = rememberCoroutineScope()
                     var playing by remember { mutableStateOf(false) }
 
-                    fun requestPausePlay(playing: Boolean) {
-                        if (playing) {
+                    fun requestPausePlay(continuePlay: Boolean) {
+                        if (!continuePlay) {
                             mediaPlayer.pause()
                         } else {
                             mediaPlayer.start()
                         }
+                        playing = continuePlay
                     }
 
 
@@ -229,13 +248,14 @@ class MainActivity : AppCompatActivity() {
                         sheetShape = RoundedCornerShape(defaultRadius),
                         sheetGesturesEnabled = true,
                         sheetPeekHeight = 24.dp,
-                        sheetBackgroundColor = MaterialTheme.colorScheme.background.copy(alpha = sheetBackgroundAlpha.value),
+                        sheetBackgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = sheetBackgroundAlpha.value),
                     ) {
                         Scaffold(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.background)
                                 .padding(bottom = 24.dp)
-                                .blur(radius = blurAnimation.value),
+                                .blur(radius = blurAnimation.value)
+                                .colorFill(viewTintAnimation.value),
                             bottomBar = {
                                 AnimatedVisibility(visible = showBottomNavigation.value) {
                                     MotivBottomNavigation(
@@ -251,20 +271,6 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     }
-
-                    LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
-                        viewBlur = when (scaffoldState.bottomSheetState.currentValue) {
-                            BottomSheetValue.Collapsed -> {
-                                0.dp
-                            }
-
-                            BottomSheetValue.Expanded -> {
-                                10.dp
-                            }
-                        }
-                    }
-
-
                 }
                 LaunchedEffect(Unit) {
                     viewModel.fetchUser()

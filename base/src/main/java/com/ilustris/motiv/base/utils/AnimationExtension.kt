@@ -27,7 +27,7 @@ fun AnimationOptions.getExitAnimation(): ExitTransition {
 
 fun AnimationOptions.getDelay(): Float {
     return when (this) {
-        AnimationOptions.TYPE -> 25f
+        AnimationOptions.TYPE -> 15f
         AnimationOptions.FADE -> 100f
         AnimationOptions.SCALE -> 300f
     }

@@ -3,7 +3,6 @@ package com.creat.motiv.features.home.presentation
 import android.app.Application
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
@@ -29,7 +28,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<Quote>(application) {
 
 
-    val quotes = mutableStateListOf<QuoteDataModel>()
+    val quotes = MutableLiveData<List<QuoteDataModel>>(emptyList())
     var dataQuotes: List<Quote> = emptyList()
     var shareState = MutableLiveData<ShareState>(null)
 
@@ -37,7 +36,6 @@ class HomeViewModel @Inject constructor(
     override fun getAllData() {
         viewModelScope.launch(Dispatchers.IO) {
             updateViewState(ViewModelBaseState.LoadingState)
-            quotes.clear()
             val result = service.getAllData(orderBy = "data")
             if (result.isSuccess) {
                 val list = result.success.data as List<Quote>
@@ -49,12 +47,11 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadQuoteListExtras(quotesDataList: List<Quote>) {
         try {
-            quotes.clear()
-            quotesDataList.forEach {
-                quoteHelper.mapQuoteToQuoteDataModel(it).run {
-                    if (isSuccess) {
-                        quotes.add(success.data)
-                    }
+            quoteHelper.mapQuoteToQuoteDataModel(quotesDataList).run {
+                if (this.isSuccess) {
+                    quotes.postValue(this.success.data)
+                } else {
+                    sendErrorState(this.error.errorException)
                 }
             }
         } catch (e: Exception) {
@@ -79,7 +76,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val result = service.deleteData(quoteDataModel.quoteBean.id)
             if (result.isSuccess) {
-                quotes.remove(quoteDataModel)
+                getAllData()
             } else {
                 sendErrorState(result.error.errorException)
             }
@@ -97,10 +94,7 @@ class HomeViewModel @Inject constructor(
                 }
                 val result = service.editData(quote)
                 if (result.isSuccess) {
-                    quotes[quotes.indexOf(quoteDataModel)] = quoteDataModel.copy(
-                        quoteBean = quote,
-                        isFavorite = quote.likes.contains(it.uid)
-                    )
+                    getAllData()
                 } else {
                     sendErrorState(result.error.errorException)
                 }
