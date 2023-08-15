@@ -127,7 +127,11 @@ fun ModernWindow(
                 .fillMaxWidth()
                 .gradientFill(brush), thickness = 1.dp
         )
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(cardShape)
+        ) {
             if (!isPreviewMode()) {
                 GlideImage(
                     imageModel = { style.backgroundURL },
@@ -136,7 +140,8 @@ fun ModernWindow(
                         .matchParentSize()
                         .alpha(imageAlpha)
                         .blur(imageBlur)
-                        .graphicsLayer(scaleY = 1.2f, scaleX = 1.2f),
+                        .graphicsLayer(scaleY = 1.2f, scaleX = 1.2f)
+                        .clip(cardShape),
                     onImageStateChanged = {
                         imageLoaded = it is GlideImageState.Success
                         if (it is GlideImageState.Success && backgroundBitmap == null) {

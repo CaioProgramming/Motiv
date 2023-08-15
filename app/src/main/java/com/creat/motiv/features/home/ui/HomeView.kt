@@ -22,11 +22,13 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -69,6 +71,7 @@ import com.creat.motiv.features.home.presentation.ShareState
 import com.ilustris.motiv.base.data.model.Quote
 import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.navigation.AppNavigation
+import com.ilustris.motiv.base.ui.component.MotivLoader
 import com.ilustris.motiv.base.ui.component.QuoteCard
 import com.ilustris.motiv.base.ui.presentation.QuoteActions
 import com.ilustris.motiv.foundation.ui.component.ReportDialog
@@ -247,7 +250,17 @@ fun HomeView(navController: NavController) {
                     }
                 )
             }
+        }
 
+        AnimatedVisibility(
+            visible = quotes.isEmpty(),
+            label = "Loader",
+            enter = fadeIn(tween(1500)),
+            exit = fadeOut()
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                MotivLoader(modifier = Modifier.size(50.dp))
+            }
         }
 
         ReportDialog(visible = reportVisibility.value, reportFeedback = {

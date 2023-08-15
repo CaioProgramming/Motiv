@@ -6,6 +6,7 @@
 package com.creat.motiv.features.post.ui
 
 import android.util.Log
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
@@ -14,6 +15,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -216,15 +218,21 @@ fun QuotePostScreen(quoteId: String? = null, navController: NavController) {
             val quoteDataModel = QuoteDataModel(
                 quoteBean = quote ?: Quote(),
                 style = currentStyle ?: Style.fallbackStyle,
-                user = User(user?.displayName ?: "", user?.photoUrl.toString()),
+                user = User(user?.displayName ?: "", user?.photoUrl?.path ?: "")
             )
 
-            BuildQuoteWindow(
-                quoteDataModel = quoteDataModel,
-                loadAsGif = true,
-                animationEnabled = false,
-                action = styleCardAction
-            )
+            AnimatedContent(targetState = currentStyle, transitionSpec = {
+                fadeIn(tween(1500)) togetherWith fadeOut(tween(500))
+            }, label = "") {
+                quoteDataModel.style = it ?: Style.fallbackStyle
+                BuildQuoteWindow(
+                    quoteDataModel = quoteDataModel,
+                    loadAsGif = true,
+                    animationEnabled = false,
+                    action = styleCardAction
+                )
+            }
+
 
         }
 

@@ -34,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -217,7 +216,6 @@ fun QuoteCard(
             modifier = Modifier
                 .padding(horizontal = 8.dp)
                 .fillMaxWidth()
-                .graphicsLayer(alpha = imageAlpha)
 
         ) {
             Column {

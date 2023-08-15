@@ -101,12 +101,13 @@ fun FrameWindow(
     }
     Column(
         modifier = Modifier
-            .background(backgroundColor.copy(alpha = 0.3f), shape)
             .border(
                 width = backgroundBorderSize,
                 brush = brush,
                 shape = shape
             )
+            .background(backgroundColor.copy(alpha = 0.3f), shape)
+            .padding(bottom = 32.dp)
             .clip(shape)
             .fillMaxWidth()
             .wrapContentHeight(),

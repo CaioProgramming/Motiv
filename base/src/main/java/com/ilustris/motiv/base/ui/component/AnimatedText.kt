@@ -80,7 +80,6 @@ fun AnimatedText(
     }
 
     LaunchedEffect(listIndex) {
-        Log.i("AnimatedText", "AnimatedText: current list index $listIndex from $indexList")
         textIndex = try {
             indexList[listIndex]
         } catch (e: Exception) {

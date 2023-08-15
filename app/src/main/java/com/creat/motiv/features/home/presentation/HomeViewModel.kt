@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     override fun getAllData() {
         viewModelScope.launch(Dispatchers.IO) {
             updateViewState(ViewModelBaseState.LoadingState)
-            val result = service.getAllData(orderBy = "data", limit = 20)
+            val result = service.getAllData(orderBy = "data")
             if (result.isSuccess) {
                 val list = result.success.data as List<Quote>
                 dataQuotes = list
