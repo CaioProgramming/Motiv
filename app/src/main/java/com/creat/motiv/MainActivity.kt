@@ -37,6 +37,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,7 @@ import com.creat.motiv.features.radio.ui.RadioSheet
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.ilustris.motiv.base.data.model.Radio
+import com.ilustris.motiv.base.data.model.User
 import com.ilustris.motiv.base.navigation.AppNavigation
 import com.ilustris.motiv.base.ui.component.MotivLoader
 import com.ilustris.motiv.foundation.ui.theme.MotivTheme
@@ -63,7 +65,7 @@ import com.ilustris.motiv.foundation.ui.theme.gradientAnimation
 import com.ilustris.motiv.foundation.ui.theme.gradientFill
 import com.ilustris.motivcompose.ui.navigation.MotivBottomNavigation
 import com.ilustris.motivcompose.ui.navigation.MotivNavigationGraph
-import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.contract.DataError
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
 import dagger.hilt.android.AndroidEntryPoint
@@ -112,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             MotivTheme {
                 val navController = rememberNavController()
                 val viewModel: MainViewModel = hiltViewModel()
-                val currentUser = viewModel.currentUser.observeAsState().value
+                val userState = viewModel.currentUser.observeAsState().value
                 val viewModelState = viewModel.viewModelState.observeAsState()
                 val playingRadio = viewModel.playingRadio.observeAsState().value
                 val scaffoldState = rememberBottomSheetScaffoldState()
@@ -122,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
                 var radioEnabled by remember { mutableStateOf(true) }
+
                 val signInLauncher = rememberLauncherForActivityResult(
                     FirebaseAuthUIActivityResultContract()
                 ) { result ->
@@ -156,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 AnimatedVisibility(
-                    visible = currentUser != null,
+                    visible = userState != null,
                     enter = fadeIn(tween(1500)),
                     exit = fadeOut()
                 ) {
@@ -238,9 +241,14 @@ class MainActivity : AppCompatActivity() {
                                 .blur(radius = blurAnimation.value),
                             bottomBar = {
                                 AnimatedVisibility(visible = showBottomNavigation.value) {
+                                    val userPic = try {
+                                        userState!!.picurl
+                                    } catch (e: Exception) {
+                                        null
+                                    }
                                     MotivBottomNavigation(
                                         navController = navController,
-                                        userProfilePic = currentUser?.picurl
+                                        userProfilePic = userPic
                                     )
                                 }
 
@@ -266,17 +274,20 @@ class MainActivity : AppCompatActivity() {
 
 
                 }
-                LaunchedEffect(Unit) {
-                    viewModel.fetchUser()
+
+
+                LaunchedEffect(userState) {
+                    when (userState) {
+                        null -> {
+                            signInLauncher.launch(signInIntent)
+                        }
+                    }
                 }
-
-
-
                 LaunchedEffect(viewModelState.value) {
                     if (viewModelState.value == ViewModelBaseState.RequireAuth) {
                         signInLauncher.launch(signInIntent)
                     } else if (viewModelState.value is ViewModelBaseState.ErrorState) {
-                        if ((viewModelState.value as ViewModelBaseState.ErrorState).dataException == DataException.AUTH) {
+                        if ((viewModelState.value as ViewModelBaseState.ErrorState).dataException == DataError.Auth) {
                             signInLauncher.launch(signInIntent)
                         }
                     }
@@ -285,13 +296,8 @@ class MainActivity : AppCompatActivity() {
                 LaunchedEffect(navController) {
                     viewModel.validateAuth()
                     navController.currentBackStackEntryFlow.collect { backStackEntry ->
-                        val previousRoute = navController.previousBackStackEntry?.destination?.route
                         val route = backStackEntry.destination.route
-                        showBottomNavigation.value =
-                            AppNavigation.values().find { it.route == route }?.showBottomBar ?: true
-                        if (previousRoute == AppNavigation.PROFILE.route) {
-                            viewModel.fetchUser()
-                        }
+                        showBottomNavigation.value = AppNavigation.values().find { it.route == route }?.showBottomBar ?: true
                     }
                 }
 

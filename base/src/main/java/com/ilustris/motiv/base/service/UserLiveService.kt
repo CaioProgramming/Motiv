@@ -7,24 +7,22 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.ilustris.motiv.base.data.model.User
 import com.silent.ilustriscore.core.bean.BaseBean
 import com.silent.ilustriscore.core.contract.DataError
-import com.silent.ilustriscore.core.contract.DataException
 import com.silent.ilustriscore.core.contract.ServiceResult
-import com.silent.ilustriscore.core.service.BaseService
+import com.silent.ilustriscore.core.service.BaseLiveService
 import kotlinx.coroutines.tasks.await
 
-class UserService : BaseService() {
+class UserLiveService : BaseLiveService() {
     override val dataPath: String = "Users"
-    override var requireAuth = true
+    override val offlineEnabled: Boolean = true
+    override val requireAuth: Boolean = true
 
-    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): User? =
-        dataSnapshot.toObject(
-            User::class.java
-        )
+    override fun deserializeDataSnapshot(dataSnapshot: DocumentSnapshot): User? =  dataSnapshot.toObject(
+        User::class.java
+    )
 
-    override fun deserializeDataSnapshot(dataSnapshot: QueryDocumentSnapshot): User =
-        dataSnapshot.toObject(
-            User::class.java
-        )
+    override fun deserializeDataSnapshot(dataSnapshot: QueryDocumentSnapshot): User =  dataSnapshot.toObject(
+        User::class.java
+    )
 
     suspend fun saveNewUser(icon: String): ServiceResult<DataError, BaseBean> {
         getCurrentUser()!!.run {

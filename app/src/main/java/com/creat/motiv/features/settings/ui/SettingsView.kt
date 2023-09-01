@@ -313,9 +313,10 @@ fun SettingsView(navController: NavController) {
                             textAlign = TextAlign.Center,
                             fontWeight = FontWeight.SemiBold
                         ),
-                        colors = TextFieldDefaults.textFieldColors(
-                            placeholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
-                            containerColor = Color.Transparent,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
                             cursorColor = MaterialTheme.colorScheme.onBackground,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,

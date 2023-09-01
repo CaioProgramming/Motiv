@@ -8,9 +8,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.ilustris.motiv.base.data.model.Radio
 import com.ilustris.motiv.base.service.helper.RadioHelper
 import com.silent.ilustriscore.core.bean.BaseBean
-import com.silent.ilustriscore.core.model.BaseService
-import com.silent.ilustriscore.core.model.DataException
-import com.silent.ilustriscore.core.model.ServiceResult
+import com.silent.ilustriscore.core.contract.DataError
+import com.silent.ilustriscore.core.contract.ServiceResult
+import com.silent.ilustriscore.core.service.BaseService
 import com.silent.ilustriscore.core.utilities.Ordering
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -65,11 +65,11 @@ class RadioService @Inject constructor(
         limit: Long,
         orderBy: String,
         ordering: Ordering
-    ): ServiceResult<DataException, ArrayList<BaseBean>> {
+    ): ServiceResult<DataError, ArrayList<BaseBean>> {
         return super.getAllData(100, "name", ordering)
     }
 
-    override suspend fun addData(data: BaseBean): ServiceResult<DataException, BaseBean> {
+    override suspend fun addData(data: BaseBean): ServiceResult<DataError, BaseBean> {
         return try {
             val radio = data as Radio
             val uploadMusic =
@@ -78,24 +78,23 @@ class RadioService @Inject constructor(
                 radio.url = uploadMusic.storage.downloadUrl.await().toString()
                 super.addData(radio)
             } else {
-                ServiceResult.Error(DataException.UPLOAD)
+                ServiceResult.Error(DataError.Upload)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            ServiceResult.Error(DataException.SAVE)
+            ServiceResult.Error(DataError.Unknown(e.message))
         }
 
     }
 
-    override suspend fun deleteData(id: String): ServiceResult<DataException, Boolean> {
+    override suspend fun deleteData(id: String): ServiceResult<DataError, Boolean> {
         return try {
             val data = getSingleData(id).success.data as Radio
             storageReference().child(data.name).delete().await()
-            return deleteData(id)
+            return super.deleteData(id)
         } catch (e: Exception) {
             e.printStackTrace()
-            ServiceResult.Error(DataException.DELETE)
+            ServiceResult.Error(DataError.Unknown(e.message))
         }
-        return super.deleteData(id)
     }
 }

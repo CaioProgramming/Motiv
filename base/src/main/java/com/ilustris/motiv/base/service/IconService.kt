@@ -7,9 +7,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.ilustris.motiv.base.data.model.Icon
 import com.silent.ilustriscore.core.bean.BaseBean
-import com.silent.ilustriscore.core.model.BaseService
-import com.silent.ilustriscore.core.model.DataException
-import com.silent.ilustriscore.core.model.ServiceResult
+import com.silent.ilustriscore.core.contract.DataError
+import com.silent.ilustriscore.core.contract.ServiceResult
+import com.silent.ilustriscore.core.service.BaseService
 import kotlinx.coroutines.tasks.await
 
 class IconService : BaseService() {
@@ -29,7 +29,7 @@ class IconService : BaseService() {
         }
 
 
-    override suspend fun addData(data: BaseBean): ServiceResult<DataException, BaseBean> {
+    override suspend fun addData(data: BaseBean): ServiceResult<DataError, BaseBean> {
         return try {
             val icon = data as Icon
             val uploadTask =
@@ -42,26 +42,26 @@ class IconService : BaseService() {
                     javaClass.simpleName,
                     "addData: Error uploading icon -> ${uploadTask.error?.message} ",
                 )
-                ServiceResult.Error(DataException.UPLOAD)
+                ServiceResult.Error(DataError.Upload)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            ServiceResult.Error(DataException.SAVE)
+            ServiceResult.Error(DataError.Save)
         }
     }
 
-    override suspend fun deleteData(id: String): ServiceResult<DataException, Boolean> {
+    override suspend fun deleteData(id: String): ServiceResult<DataError, Boolean> {
         return try {
             val data = getSingleData(id).success.data as Icon
             storageReference().child(data.id.trim()).delete().await()
             return deleteData(id)
         } catch (e: Exception) {
             e.printStackTrace()
-            ServiceResult.Error(DataException.DELETE)
+            ServiceResult.Error(DataError.Unknown(e.message))
         }
     }
 
-    override suspend fun editData(data: BaseBean): ServiceResult<DataException, BaseBean> {
+    override suspend fun editData(data: BaseBean): ServiceResult<DataError, BaseBean> {
         return try {
             val icon = data as Icon
             val uploadTask =
@@ -74,11 +74,11 @@ class IconService : BaseService() {
                     javaClass.simpleName,
                     "addData: Error uploading icon -> ${uploadTask.error?.message} ",
                 )
-                ServiceResult.Error(DataException.UPLOAD)
+                ServiceResult.Error(DataError.Upload)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            ServiceResult.Error(DataException.SAVE)
+            ServiceResult.Error(DataError.Unknown(e.message))
         }
     }
 }

@@ -74,7 +74,7 @@ fun StylesScreen(navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.Center),
-                        message = if (state is ViewModelBaseState.ErrorState) state.dataException.code.message else null
+                        message = if (state is ViewModelBaseState.ErrorState) state.dataException.message else null
                     )
                 }
             }

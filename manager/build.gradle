@@ -7,12 +7,11 @@ plugins {
 
 android {
     namespace 'com.creat.motiv.manager'
-    compileSdk 34
+    compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        minSdkVersion 26
-        targetSdkVersion 34
-
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -32,12 +31,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     kapt {
@@ -46,6 +44,10 @@ android {
 
     buildFeatures {
         compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion rootProject.ext.composeCompiler
     }
 }
 

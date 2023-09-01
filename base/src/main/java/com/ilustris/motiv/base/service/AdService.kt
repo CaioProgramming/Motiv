@@ -12,8 +12,8 @@ import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.silent.ilustriscore.core.model.DataException
-import com.silent.ilustriscore.core.model.ServiceResult
+import com.silent.ilustriscore.core.contract.DataError
+import com.silent.ilustriscore.core.contract.ServiceResult
 import javax.inject.Inject
 
 class AdService @Inject constructor(private val context: Context) {
@@ -32,7 +32,7 @@ class AdService @Inject constructor(private val context: Context) {
         loader.loadAd(adRequest)
     }
 
-    fun getRewardedAd(adCallBackResult: (ServiceResult<DataException, RewardedAd>) -> Unit) {
+    fun getRewardedAd(adCallBackResult: (ServiceResult<DataError, RewardedAd>) -> Unit) {
         val request = AdManagerAdRequest.Builder().build()
         RewardedAd.load(context, context.getString(R.string.video_advertisement_id), request,
             object : RewardedAdLoadCallback() {
@@ -44,7 +44,7 @@ class AdService @Inject constructor(private val context: Context) {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     super.onAdFailedToLoad(p0)
                     Log.e(javaClass.simpleName, "onAdFailedToLoad: Ad failed ${p0.message}")
-                    adCallBackResult(ServiceResult.Error(DataException.UNKNOWN))
+                    adCallBackResult(ServiceResult.Error(DataError.Unknown(p0.message)))
                 }
             })
     }

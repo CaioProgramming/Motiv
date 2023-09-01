@@ -127,7 +127,7 @@ fun ReportDialog(visible: Boolean, reportFeedback: (String) -> Unit, dismissRequ
                                 )
                             },
                             colors = TextFieldDefaults.textFieldColors(
-                                placeholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
                                 containerColor = Color.Transparent,
                                 cursorColor = MaterialTheme.colorScheme.onBackground,
                                 focusedIndicatorColor = Color.Transparent,

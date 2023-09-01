@@ -12,9 +12,12 @@ import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.data.model.Report
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.helper.QuoteHelper
+import com.silent.ilustriscore.core.bean.BaseBean
+import com.silent.ilustriscore.core.contract.DataError
+import com.silent.ilustriscore.core.contract.PagingResult
 import com.silent.ilustriscore.core.model.BaseViewModel
-import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
+import com.silent.ilustriscore.core.utilities.Ordering
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,36 +33,49 @@ class HomeViewModel @Inject constructor(
 
 
     val quotes = mutableStateListOf<QuoteDataModel>()
-    var dataQuotes: List<Quote> = emptyList()
     var shareState = MutableLiveData<ShareState>(null)
-
+    private var lastPage: PagingResult<BaseBean>? = null
 
     override fun getAllData() {
         viewModelScope.launch(Dispatchers.IO) {
             updateViewState(ViewModelBaseState.LoadingState)
-            quotes.clear()
-            val result = service.getAllData(orderBy = "data")
-            if (result.isSuccess) {
-                val list = result.success.data as List<Quote>
-                dataQuotes = list
-                loadQuoteListExtras(list)
-            } else sendErrorState(result.error.errorException)
+            service.getPagingData(20, lastPage?.lastDocument, null).run {
+                if (isSuccess) {
+                    lastPage = success.data
+                    val list = success.data.page as List<Quote>
+                    loadQuoteListExtras(list)
+                } else {
+                    sendErrorState(error.errorException)
+                }
+            }
+        }
+    }
+
+
+    fun getMorePages() {
+        viewModelScope.launch(Dispatchers.IO) {
+            service.getPagingData(20, lastDocument  = lastPage?.lastDocument, orderBy = null).run {
+                if (isSuccess) {
+                    lastPage = success.data
+                    val list = success.data.page as List<Quote>
+                    loadQuoteListExtras(list)
+                } else {
+                    sendErrorState(error.errorException)
+                }
+            }
         }
     }
 
     private suspend fun loadQuoteListExtras(quotesDataList: List<Quote>) {
         try {
-            quotes.clear()
-            quotesDataList.forEach {
-                quoteHelper.mapQuoteToQuoteDataModel(it).run {
-                    if (isSuccess) {
-                        quotes.add(success.data)
-                    }
+            quoteHelper.mapQuoteToQuoteDataModel(quotesDataList).run {
+                if (this.isSuccess) {
+                    quotes.addAll(this.success.data)
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            sendErrorState(DataException.UNKNOWN)
+            sendErrorState(DataError.Unknown(e.message))
         }
     }
 
@@ -67,10 +83,18 @@ class HomeViewModel @Inject constructor(
     fun searchQuote(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             if (query.isNotEmpty()) {
-                val queryQuotes = dataQuotes.filter {
-                    it.quote.contains(query, true) || it.author.contains(query, true)
+                updateViewState(ViewModelBaseState.LoadingState)
+                service.getAllData(orderBy = "data").run {
+                    if (isSuccess) {
+                        quotes.clear()
+                        val queryQuotes = (success.data as List<Quote>).filter {
+                            it.quote.contains(query, true) || it.author.contains(query, true)
+                        }
+                        loadQuoteListExtras(queryQuotes)
+                    } else {
+                        sendErrorState(error.errorException)
+                    }
                 }
-                loadQuoteListExtras(queryQuotes)
             }
         }
     }

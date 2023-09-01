@@ -42,15 +42,15 @@ class ProfileViewModel @Inject constructor(
     val shareState = MutableLiveData<ShareState>()
 
 
-    fun fetchUser(uid: String? = service.currentUser()?.uid) {
+    fun fetchUser(uid: String? = null) {
         viewModelState.postValue(ViewModelBaseState.LoadingState)
         viewModelScope.launch(Dispatchers.IO) {
-            val id = if (uid.isNullOrBlank()) service.currentUser()?.uid else uid
+            val id = if (uid.isNullOrBlank()) getUser()?.uid else uid
             id?.let {
                 val userRequest = service.getSingleData(it)
                 if (userRequest.isSuccess) {
                     user.postValue(userRequest.success.data as User)
-                    isOwnUser.postValue(it == service.currentUser()?.uid)
+                    isOwnUser.postValue(it == getUser()?.uid)
                 } else {
                     sendErrorState(userRequest.error.errorException)
                 }
@@ -76,6 +76,9 @@ class ProfileViewModel @Inject constructor(
 
     fun getUserFavorites(uid: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            quoteService.queryOnArray(uid, "likes").run {
+
+            }
             quoteService.getFavorites(uid).run {
                 if (isSuccess) {
                     val favoriteQuotes =

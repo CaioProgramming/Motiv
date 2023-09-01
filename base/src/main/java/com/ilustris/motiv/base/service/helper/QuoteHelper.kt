@@ -20,8 +20,8 @@ import com.ilustris.motiv.base.data.model.User
 import com.ilustris.motiv.base.data.model.Window
 import com.ilustris.motiv.base.service.StyleService
 import com.ilustris.motiv.base.service.UserService
-import com.silent.ilustriscore.core.model.DataException
-import com.silent.ilustriscore.core.model.ServiceResult
+import com.silent.ilustriscore.core.contract.DataError
+import com.silent.ilustriscore.core.contract.ServiceResult
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -58,9 +58,9 @@ class QuoteHelper @Inject constructor(
     suspend fun mapQuoteToQuoteDataModel(
         quote: Quote,
         isManager: Boolean = false
-    ): ServiceResult<DataException, QuoteDataModel> {
+    ): ServiceResult<DataError, QuoteDataModel> {
         return try {
-            val uid = userService.currentUser()?.uid
+            val uid = userService.getCurrentUser()?.uid
             val user = try {
                 userService.getSingleData(quote.userID).success.data as User
             } catch (e: Exception) {
@@ -86,20 +86,21 @@ class QuoteHelper @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
             ServiceResult.Error(
-                DataException.UNKNOWN
+                DataError.Unknown(e.message)
             )
         }
     }
 
-    suspend fun List<Quote>.mapQuoteToQuoteDataModel(
+    suspend fun mapQuoteToQuoteDataModel(
+        quotes: List<Quote>,
         isManager: Boolean = false
-    ): ServiceResult<DataException, List<QuoteDataModel>> {
+    ): ServiceResult<DataError, List<QuoteDataModel>> {
 
         return try {
-            if (isEmpty()) {
-                return ServiceResult.Error(DataException.NOTFOUND)
+            if (quotes.isEmpty()) {
+                return ServiceResult.Error(DataError.NotFound)
             }
-            val quoteModels = map { quote ->
+            val quoteModels = quotes.map { quote ->
                 val user = try {
                     userService.getSingleData(quote.userID).success.data as User
                 } catch (e: Exception) {
@@ -108,20 +109,20 @@ class QuoteHelper @Inject constructor(
                 val style = try {
                     styleService.getSingleData(quote.style).success.data as Style
                 } catch (e: Exception) {
-                    null
+                    fallbackStyle
                 }
                 QuoteDataModel(
                     quote,
                     user,
                     style,
                     isFavorite = quote.likes.contains(user?.uid),
-                    isUserQuote = quote.userID == userService.currentUser()?.uid || isManager
+                    isUserQuote = quote.userID == userService.getCurrentUser()?.uid || isManager
                 )
             }
             ServiceResult.Success(quoteModels)
         } catch (e: Exception) {
             e.printStackTrace()
-            ServiceResult.Error(DataException.UNKNOWN)
+            ServiceResult.Error(DataError.Unknown(e.message))
         }
     }
 
@@ -129,7 +130,7 @@ class QuoteHelper @Inject constructor(
         context: Context,
         quote: Quote,
         bitmap: Bitmap
-    ): ServiceResult<DataException, Uri> {
+    ): ServiceResult<DataError, Uri> {
         return try {
             val shareFile = generateBitmapFile(quote, bitmap, context)
             val uri = FileProvider.getUriForFile(
@@ -141,7 +142,7 @@ class QuoteHelper @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(javaClass.simpleName, "handleShare: Error generating file ${e.message}")
-            ServiceResult.Error(DataException.UNKNOWN)
+            ServiceResult.Error(DataError.Unknown(e.message))
         }
 
     }

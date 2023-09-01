@@ -3,7 +3,7 @@ package com.ilustris.motiv.base.service
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.ilustris.motiv.base.data.model.Icon
-import com.silent.ilustriscore.core.model.BaseService
+import com.silent.ilustriscore.core.service.BaseService
 
 class IconsService : BaseService() {
     override val dataPath = "Icons"

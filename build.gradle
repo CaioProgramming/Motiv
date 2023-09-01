@@ -1,24 +1,28 @@
 buildscript {
     ext {
-        compose_version = '1.3.3'
-        ilustris_version = '2.5.5'
-        hiltVersion = '2.44'
-        kotlinVersion = '1.7.0'
-        applicationName = 'Cuccina'
-        compileSdkVersion = 34
-        targetSdkVersion = 34
-        minSdkVersion = 26
+        ext.compileSdk = 34
+        ext.targetSdk = 34
+        ext.minSdk = 26
+        ext.applicationName = 'Motiv'
+        ext.composeCompiler = '1.5.2'
+        composeVersion = '1.3.3'
+        composeBom = '2023.08.00'
+        ilustris_version = '3.0.1'
+        jitpack_version = '2.7.3.1-alpha'
+        hiltVersion = '2.47'
+        kotlinVersion = '1.9.0'
+
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.7'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.8'
     }
 
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '8.0.1' apply false
-    id 'com.android.library' version '8.0.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
-    id 'com.google.dagger.hilt.android' version '2.44' apply false
+    id 'com.android.application' version '8.1.0' apply false
+    id 'com.android.library' version '8.1.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
+    id 'com.google.dagger.hilt.android' version '2.47' apply false
 
 }

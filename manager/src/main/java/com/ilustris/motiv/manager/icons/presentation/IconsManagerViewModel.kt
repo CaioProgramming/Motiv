@@ -5,8 +5,8 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.ilustris.motiv.base.data.model.Icon
 import com.ilustris.motiv.base.service.IconService
+import com.silent.ilustriscore.core.contract.DataError
 import com.silent.ilustriscore.core.model.BaseViewModel
-import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ class IconsManagerViewModel @Inject constructor(
                 editData(icon)
             } catch (e: Exception) {
                 e.printStackTrace()
-                viewModelState.postValue(ViewModelBaseState.ErrorState(DataException.SAVE))
+                viewModelState.postValue(ViewModelBaseState.ErrorState(DataError.Unknown(e.message)))
             }
         }
     }

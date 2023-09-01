@@ -13,8 +13,8 @@ import com.ilustris.motiv.base.data.model.Icon
 import com.ilustris.motiv.base.data.model.User
 import com.ilustris.motiv.base.service.AdService
 import com.ilustris.motiv.base.service.UserService
+import com.silent.ilustriscore.core.contract.DataError
 import com.silent.ilustriscore.core.model.BaseViewModel
-import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.delayedFunction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,17 +44,16 @@ class SettingsViewModel @Inject constructor(
 
     fun fetchUser() {
         viewModelScope.launch(Dispatchers.IO) {
-            val id = service.currentUser()?.uid
-            id?.let {
-                val userRequest = service.getSingleData(it)
+            getUser()?.let {
+                val userRequest = service.getSingleData(it.uid)
                 if (userRequest.isSuccess) {
                     user.postValue(userRequest.success.data as User)
-                    service.currentUser()?.buildMetadaData((userRequest.success.data as User).admin)
+                    it.buildMetadaData((userRequest.success.data as User).admin)
                 } else {
                     sendErrorState(userRequest.error.errorException)
                 }
             } ?: run {
-                sendErrorState(DataException.AUTH)
+                sendErrorState(DataError.Auth)
                 user.postValue(null)
             }
         }
@@ -80,16 +79,19 @@ class SettingsViewModel @Inject constructor(
     fun deleteAccount() {
         sendLoading()
         viewModelScope.launch(Dispatchers.IO) {
-            service.deleteData(service.currentUser()?.uid ?: "").run {
-                if (isSuccess) {
-                    delayedFunction(2000) {
-                        FirebaseAuth.getInstance().currentUser?.delete()
-                        viewModelState.postValue(ViewModelBaseState.DataDeletedState)
+            getUser()?.let {
+                service.deleteData(it.uid).run {
+                    if (isSuccess) {
+                        delayedFunction(2000) {
+                            FirebaseAuth.getInstance().currentUser?.delete()
+                            viewModelState.postValue(ViewModelBaseState.DataDeletedState)
+                        }
+                    } else {
+                        Log.e(javaClass.simpleName, "deleteAccount: Error  ${error.errorException}")
+                        sendErrorState(error.errorException)
                     }
-                } else {
-                    Log.e(javaClass.simpleName, "deleteAccount: Error  ${error.errorException}")
-                    sendErrorState(error.errorException)
                 }
+
             }
         }
     }
@@ -106,22 +108,28 @@ class SettingsViewModel @Inject constructor(
     fun updateUserName(newName: String) {
         sendLoading()
         viewModelScope.launch(Dispatchers.IO) {
-            service.editField(newName, service.currentUser()?.uid ?: "", "name").run {
-                user.value?.let {
-                    viewModelState.postValue(ViewModelBaseState.DataUpdateState(it.copy(name = newName)))
+            getUser()?.let {
+                service.editField(newName, it.uid, "name").run {
+                    user.value?.let {
+                        viewModelState.postValue(ViewModelBaseState.DataUpdateState(it.copy(name = newName)))
+                    }
                 }
             }
+
         }
     }
 
     fun updateUserIcon(icon: Icon) {
         viewModelState.postValue(ViewModelBaseState.LoadingState)
         viewModelScope.launch(Dispatchers.IO) {
-            service.editField(icon.uri, service.currentUser()?.uid ?: "", "picurl").run {
-                user.value?.let {
-                    viewModelState.postValue(ViewModelBaseState.DataUpdateState(it.copy(picurl = icon.uri)))
+            getUser()?.let {
+                service.editField(icon.uri, it.uid, "picurl").run {
+                    user.value?.let {
+                        viewModelState.postValue(ViewModelBaseState.DataUpdateState(it.copy(picurl = icon.uri)))
+                    }
                 }
             }
+
         }
     }
 
@@ -136,11 +144,14 @@ class SettingsViewModel @Inject constructor(
     fun updateUserCover(cover: Cover) {
         viewModelState.postValue(ViewModelBaseState.LoadingState)
         viewModelScope.launch(Dispatchers.IO) {
-            service.editField(cover.url, service.currentUser()?.uid ?: "", "cover").run {
-                user.value?.let {
-                    viewModelState.postValue(ViewModelBaseState.DataUpdateState(it.copy(cover = cover.url)))
+            getUser()?.let {
+                service.editField(cover.url, it.uid, "cover").run {
+                    user.value?.let { user ->
+                        viewModelState.postValue(ViewModelBaseState.DataUpdateState(user.copy(cover = cover.url)))
+                    }
                 }
             }
+
         }
     }
 

@@ -9,8 +9,8 @@ import com.ilustris.motiv.base.data.model.QuoteDataModel
 import com.ilustris.motiv.base.data.model.Report
 import com.ilustris.motiv.base.service.QuoteService
 import com.ilustris.motiv.base.service.helper.QuoteHelper
+import com.silent.ilustriscore.core.contract.DataError
 import com.silent.ilustriscore.core.model.BaseViewModel
-import com.silent.ilustriscore.core.model.DataException
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import com.silent.ilustriscore.core.utilities.Ordering
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,18 +54,13 @@ class ManagerViewModel @Inject constructor(
 
 
     private suspend fun loadQuoteListExtras(quotesDataList: List<Quote>) {
-        try {
-            quotes.clear()
-            quotesDataList.forEach {
-                quoteHelper.mapQuoteToQuoteDataModel(it, true).run {
-                    if (isSuccess) {
-                        quotes.add(success.data)
-                    }
+        quotes.clear()
+        quotesDataList.forEach {
+            quoteHelper.mapQuoteToQuoteDataModel(it, true).run {
+                if (isSuccess) {
+                    quotes.add(success.data)
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            sendErrorState(DataException.UNKNOWN)
         }
     }
 

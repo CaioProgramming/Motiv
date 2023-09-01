@@ -78,7 +78,7 @@ import com.ilustris.motiv.foundation.ui.theme.paletteFromBitMap
 import com.ilustris.motiv.foundation.ui.theme.radioIconModifier
 import com.ilustris.motiv.manager.giphy.GiphySelectDialog
 import com.ilustris.motiv.manager.radios.presentation.RadioManagerViewModel
-import com.silent.ilustriscore.core.model.DataException
+import com.silent.ilustriscore.core.contract.DataError
 import com.silent.ilustriscore.core.model.ViewModelBaseState
 import java.io.File
 
@@ -232,7 +232,7 @@ fun RadiosScreen() {
 
             if (state is ViewModelBaseState.ErrorState) {
                 MotivLoader(modifier = Modifier.size(100.dp))
-                val stateMessage = state.dataException.code.message
+                val stateMessage = state.dataException.message
 
                 Text(
                     text = stateMessage,
@@ -241,7 +241,7 @@ fun RadiosScreen() {
                     fontWeight = FontWeight.Light
                 )
 
-                if (state.dataException == DataException.NOTFOUND) {
+                if (state.dataException == DataError.NotFound) {
 
                     Button(
                         onClick = {

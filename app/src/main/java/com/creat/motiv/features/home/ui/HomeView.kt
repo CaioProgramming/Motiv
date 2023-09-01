@@ -139,6 +139,13 @@ fun HomeView(navController: NavController) {
             quotes.size
         }
 
+        LaunchedEffect(pagerState.currentPage) {
+            val currentPage = pagerState.currentPage
+            if (currentPage == quotes.size / 2) {
+                homeViewModel.getMorePages()
+            }
+        }
+
         AnimatedContent(targetState = expandedSearch, label = "titleContent", transitionSpec = {
             fadeIn() togetherWith fadeOut()
         }) {
@@ -257,7 +264,6 @@ fun HomeView(navController: NavController) {
                     }
                 )
             }
-
         }
 
         ReportDialog(visible = reportVisibility.value, reportFeedback = {
